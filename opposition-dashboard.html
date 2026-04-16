@@ -83,41 +83,79 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
   .charts { grid-template-columns:1fr }
   .chart-card.wide { grid-column:1 }
 }
+
+/* ── Accessibility pass ── */
+body { font-size:14px }
+h2   { font-size:16px }
+.page-header h1 { font-size:24px; font-weight:800; margin-bottom:6px }
+.page-header p  { font-size:13px; color:var(--muted); line-height:1.6; max-width:740px }
+.kpi b    { font-size:28px; font-weight:800 }
+.kpi span { font-size:13px; line-height:1.4 }
+.kpi      { padding:18px 16px }
+input, select { padding:9px 12px; font-size:13px }
+thead th  { font-size:12px; padding:12px 14px }
+tbody td  { padding:12px 14px; font-size:13px }
+.tbl-meta { font-size:13px; font-weight:500 }
+.tbl-meta b { color:var(--text) }
+.pagination button { padding:7px 14px; font-size:13px }
+.pagination { font-size:13px }
+.chart-card h2 { font-size:15px }
+/* Reset btn */
+.reset-btn { padding:8px 14px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--muted); font-size:13px; cursor:pointer; transition:all .18s }
+.reset-btn:hover  { border-color:var(--atlas); color:var(--text) }
+.reset-btn.active { border-color:#e67e22 !important; color:#e67e22 !important; background:#2a1a08 !important }
+/* Source tag tooltips */
+.src-tag { position:relative; cursor:help }
+.src-tag .src-tip { display:none; position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#1c2535; border:1px solid var(--border); border-radius:7px; padding:6px 10px; font-size:11px; color:var(--text); white-space:nowrap; z-index:99; pointer-events:none; font-weight:400 }
+.src-tag:hover .src-tip { display:block }
+/* Outcome legend strip */
+.outcome-strip { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:16px; padding:12px 16px; background:var(--panel); border:1px solid var(--border); border-radius:10px; font-size:13px; align-items:center }
+.outcome-strip b { font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted) }
+.os-item { display:flex; align-items:center; gap:6px }
+.os-dot  { width:10px; height:10px; border-radius:50%; flex-shrink:0 }
 </style>
 </head>
 <body>
 
 <div class="page-header">
-  <h1>Opposition Dashboard</h1>
-  <p>Merged master — datacentertracker.org (2014–2025) + Bryce tracker (2026) · Auto-updates from master_opposition.csv</p>
+  <h1>Community Opposition Tracker</h1>
+  <p>Tracking community resistance, legislation, and legal challenges to data center development across the US. Data sourced from DataCenterTracker.org (2014–2025) and ongoing monitoring. Charts update automatically.</p>
 </div>
 
 <!-- KPIs -->
 <div class="kpis" style="grid-template-columns:repeat(6,1fr)">
-  <div class="kpi k-total"><b id="kTotal">—</b><span>Total opposition actions</span></div>
+  <div class="kpi k-total"><b id="kTotal">—</b><span>Total incidents tracked</span></div>
   <div class="kpi k-states"><b id="kStates">—</b><span>States with opposition</span></div>
-  <div class="kpi k-win"><b id="kWin">—</b><span>Community wins</span></div>
-  <div class="kpi k-loss"><b id="kLoss">—</b><span>Community losses</span></div>
-  <div class="kpi k-pending"><b id="kPending">—</b><span>Pending / active</span></div>
-  <div class="kpi" style="--c:#f472b6"><b id="kMW" style="color:#f472b6">—</b><span>Total MW at stake</span></div>
+  <div class="kpi k-win"><b id="kWin">—</b><span>Community victories</span></div>
+  <div class="kpi k-loss"><b id="kLoss">—</b><span>Projects approved despite opposition</span></div>
+  <div class="kpi k-pending"><b id="kPending">—</b><span>Pending / active cases</span></div>
+  <div class="kpi" style="--c:#f472b6"><b id="kMW" style="color:#f472b6">—</b><span>Megawatts contested</span></div>
 </div>
 
+<!-- Outcome legend -->
+<div class="outcome-strip">
+  <b>What the colors mean:</b>
+  <div class="os-item"><span class="os-dot" style="background:#ffc15a"></span>Pending — decision not yet made</div>
+  <div class="os-item"><span class="os-dot" style="background:#7bd67f"></span>Win — community blocked or modified project</div>
+  <div class="os-item"><span class="os-dot" style="background:#ff8f84"></span>Loss — project approved despite opposition</div>
+  <div class="os-item"><span class="os-dot" style="background:#c89fff"></span>Mixed — partial concessions or ongoing</div>
+</div>
 <!-- Charts -->
 <div class="charts">
   <div class="chart-card wide">
-    <h2>Opposition Concentration by State (Top 25)</h2>
+    <h2>Which States Have the Most Opposition? (Top 25)</h2>
     <div class="chart-wrap" style="height:480px"><canvas id="cStateLarge"></canvas></div>
   </div>
   <div class="chart-card">
-    <h2>Opposition Type Breakdown</h2>
+    <h2>How Are Communities Pushing Back?</h2>
     <div class="chart-wrap tall"><canvas id="cTypes"></canvas></div>
   </div>
   <div class="chart-card">
-    <h2>Community Outcome</h2>
+    <h2>What Are the Results So Far?</h2>
     <div class="chart-wrap tall"><canvas id="cOutcomes"></canvas></div>
   </div>
   <div class="chart-card wide">
-    <h2>Top Issue Categories</h2>
+    <h2>What Are the Main Concerns?</h2>
     <div class="chart-wrap" style="height:260px"><canvas id="cIssues"></canvas></div>
   </div>
 </div>
@@ -126,13 +164,13 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
 <div class="table-controls">
   <div class="search-wrap">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input id="tq" type="text" placeholder="Search incident, entity, state…" oninput="tdebounce()"/>
+    <input id="tq" type="text" placeholder="Search by location, company, or issue…" oninput="tdebounce()"/>
   </div>
   <select id="tf-state"   onchange="trender()"><option value="">All states</option></select>
   <select id="tf-outcome" onchange="trender()"><option value="">All outcomes</option></select>
   <select id="tf-type"    onchange="trender()"><option value="">All types</option></select>
-  <select id="tf-source"  onchange="trender()"><option value="">Both sources</option><option value="datacentertracker.org">DCT</option><option value="bryce_tracker">Bryce</option></select>
-  <span class="tbl-meta" id="tMeta"></span>
+  <select id="tf-source"  onchange="trender()"><option value="">All sources</option><option value="datacentertracker.org">DataCenterTracker.org</option><option value="bryce_tracker">Bryce Tracker (2026)</option></select>
+  <button class="reset-btn" id="tResetBtn" onclick="tResetFilters()">Reset filters</button><span class="tbl-meta" id="tMeta"></span>
 </div>
 
 <!-- Table -->
@@ -143,9 +181,9 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
         <th onclick="tsort('Incident')">Incident</th>
         <th onclick="tsort('Date')">Date</th>
         <th onclick="tsort('State')">State</th>
-        <th onclick="tsort('Opposition Type')">Type</th>
-        <th onclick="tsort('Community Outcome')">Outcome</th>
-        <th onclick="tsort('Severity')">Sev</th>
+        <th onclick="tsort('Opposition Type')">Action Type</th>
+        <th onclick="tsort('Community Outcome')">Result</th>
+        <th onclick="tsort('Severity')" title="Severity: 1 (minor) to 5 (major)">Severity</th>
         <th onclick="tsort('Megawatts')">MW</th>
         <th>Summary</th>
         <th>Source</th>
@@ -164,8 +202,8 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
 const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(v||'—')}</span>`; };
 const srcTag = s => s==='bryce_tracker'
-  ? '<span class="src-tag src-bryce">Bryce</span>'
-  : '<span class="src-tag src-dct">DCT</span>';
+  ? '<span class="src-tag src-bryce">Bryce<span class="src-tip">Bryce Tracker — ongoing 2026 monitoring</span></span>'
+  : '<span class="src-tag src-dct">DCT<span class="src-tip">DataCenterTracker.org — public database 2014–2025</span></span>';
 
 const CHART_COLORS = ['#4f98a3','#e67e22','#4caf50','#e74c3c','#f39c12','#9b59b6','#5aa9e6','#2ecc71','#e91e63','#ff9800','#00bcd4','#8bc34a','#ff5722','#607d8b','#9c27b0'];
 const GRID = { color:'rgba(255,255,255,0.06)' };
@@ -268,6 +306,7 @@ function tsort(col) {
 }
 
 function trender() {
+  updateResetBtn();
   tFiltered = allRows.filter(tmatch);
   tFiltered.sort((a,b) => {
     let va=a[tSortCol]||'', vb=b[tSortCol]||'';
@@ -321,6 +360,18 @@ Papa.parse('./master_opposition.csv', {
     trender();
   }
 });
+
+function tResetFilters() {
+  document.getElementById('tq').value = '';
+  ['tf-state','tf-outcome','tf-type','tf-source'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+  tPage = 0; trender();
+}
+function updateResetBtn() {
+  const q = document.getElementById('tq')?.value || '';
+  const anyFilter = ['tf-state','tf-outcome','tf-type','tf-source'].some(id => document.getElementById(id)?.value);
+  const btn = document.getElementById('tResetBtn');
+  if(btn) btn.classList.toggle('active', !!(q || anyFilter));
+}
 </script>
 </body>
 </html>

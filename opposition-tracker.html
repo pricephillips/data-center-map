@@ -116,6 +116,42 @@ input:focus, select:focus { border-color:#5aa9e6 }
 
 .card-source { display:inline-block; margin-top:6px; font-size:11px; color:var(--bryce); text-decoration:none; border:1px solid var(--border); border-radius:6px; padding:3px 8px }
 .card-source:hover { border-color:var(--bryce); background:rgba(90,169,230,.08) }
+
+/* ── Map accessibility pass ── */
+.sidebar-title { padding:14px 16px 0 }
+.sidebar-title h1 { font-size:17px; font-weight:800; color:var(--text); margin-bottom:4px }
+.sidebar-title p  { font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border) }
+.card-count { font-size:12px; color:var(--muted); padding:6px 12px 2px; font-weight:500 }
+.card-count b { color:var(--text) }
+.tool-btn.show-map { background:color-mix(in srgb,var(--pending,#f39c12) 12%,transparent); border-color:var(--pending,#f39c12); color:var(--pending,#f39c12) }
+/* Source tooltips */
+.src-tag { position:relative; cursor:help }
+.src-tag .src-tip { display:none; position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#1c2535; border:1px solid var(--border); border-radius:7px; padding:6px 10px; font-size:11px; color:var(--text); white-space:nowrap; z-index:999; pointer-events:none; font-weight:400 }
+.src-tag:hover .src-tip { display:block }
+/* Outcome legend */
+.outcome-legend { margin:8px 12px 4px; padding:10px 12px; background:var(--panel2); border:1px solid var(--border); border-radius:8px }
+.outcome-legend-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); margin-bottom:7px }
+.ol-row { display:flex; align-items:center; gap:8px; margin-bottom:4px; font-size:11px; line-height:1.4 }
+.ol-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0 }
+.ol-desc { color:var(--muted) }
+/* Severity dots */
+.sev-wrap { display:inline-flex; gap:3px; align-items:center; cursor:help; margin-left:6px }
+/* Advanced filters toggle */
+.filter-adv-toggle { width:100%; text-align:left; padding:7px 0 4px; font-size:12px; font-weight:600; color:var(--muted); background:none; border:none; border-top:1px solid var(--border); cursor:pointer; display:flex; align-items:center; gap:6px; margin-top:4px; transition:color .15s }
+.filter-adv-toggle:hover { color:var(--text) }
+.filter-adv-toggle svg { transition:transform .2s }
+.advanced-filters { display:none }
+.advanced-filters.open { display:block }
+/* How-to-use */
+.htu-overlay { position:absolute; inset:0; z-index:599; background:rgba(0,0,0,.5); backdrop-filter:blur(2px) }
+.how-to-use  { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:600; background:#0f1722; border:1px solid var(--border); border-radius:14px; padding:24px 28px; max-width:340px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,.6) }
+.how-to-use h3 { font-size:16px; font-weight:800; margin-bottom:6px }
+.how-to-use p  { font-size:12px; color:var(--muted); margin-bottom:14px }
+.how-to-use ul { list-style:none; margin-bottom:18px }
+.how-to-use li { font-size:13px; padding:6px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:flex-start }
+.how-to-use li:last-child { border:none }
+.how-to-use li .ico { font-size:18px; line-height:1; flex-shrink:0 }
+.how-to-use .close-btn { width:100%; padding:10px; border-radius:8px; border:none; background:var(--win,#4caf50); color:#fff; font-size:14px; font-weight:700; cursor:pointer }
 </style>
 </head>
 <body>
@@ -133,27 +169,34 @@ input:focus, select:focus { border-color:#5aa9e6 }
       </div>
     </div>
 
-    <div class="filters">
+    <div class="sidebar-title"><h1>Community Opposition Tracker</h1><p>Tracking community resistance, legislation, and legal challenges to data center development. Click a state to zoom in, then click a pin for details.</p></div>
+<div class="filters">
       <div class="search-wrap">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <input id="q" type="text" placeholder="Incident, entity, state, group…" oninput="debounce()"/>
       </div>
       <div class="row2">
         <select id="fState"   onchange="render()"><option value="">All states</option></select>
-        <select id="fType"    onchange="render()"><option value="">All types</option></select>
+        <select id="fType"    onchange="render()"><option value="">All action types</option></select>
       </div>
       <div class="row2">
-        <select id="fOutcome" onchange="render()"><option value="">All outcomes</option></select>
-        <select id="fIssue"   onchange="render()"><option value="">All issues</option></select>
+        <select id="fOutcome" onchange="render()"><option value="">All results</option></select>
+        <select id="fIssue"   onchange="render()"><option value="">All concerns</option></select>
       </div>
-      <div class="row3">
-        <select id="fScope"     onchange="render()"><option value="">Any scope</option><option value="local">Local</option><option value="state">State</option><option value="federal">Federal</option></select>
-        <select id="fAuthority" onchange="render()"><option value="">Any authority</option></select>
-        <select id="fSource"    onchange="render()"><option value="">Both sources</option><option value="datacentertracker.org">datacentertracker.org</option><option value="bryce_tracker">Bryce tracker</option></select>
+      <button class="filter-adv-toggle" onclick="toggleAdvFilters(this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        More filters
+      </button>
+      <div class="advanced-filters" id="advFilters">
+        <div class="row3" style="margin-top:6px">
+          <select id="fScope"     onchange="render()"><option value="">Any geographic level</option><option value="local">Local</option><option value="state">State</option><option value="federal">Federal</option></select>
+          <select id="fAuthority" onchange="render()"><option value="">Any decision maker</option></select>
+          <select id="fSource"    onchange="render()"><option value="">All sources</option><option value="datacentertracker.org">DataCenterTracker.org</option><option value="bryce_tracker">Bryce Tracker (2026)</option></select>
+        </div>
       </div>
       <label class="chk"><input type="checkbox" id="activeOnly" onchange="render()"/> Active &amp; pending only</label>
       <div id="outcomeSummary"></div>
-      <div class="toolbar-row"><button class="tool-btn" onclick="resetFilters()">Reset filters</button><button class="tool-btn" onclick="zoomToResults()">Zoom to results</button></div>
+      <div class="toolbar-row"><button class="tool-btn" onclick="resetFilters()">Reset filters</button><button class="tool-btn" onclick="zoomToResults()" class="tool-btn show-map">Show on map →</button></div>
       <div class="stats">
         <div class="stat"><b id="cAll">—</b><span>Total</span></div>
         <div class="stat s-pending"><b id="cPending">—</b><span>Pending</span></div>
@@ -242,8 +285,8 @@ function buildPopup(r) {
   const inv = r['Investment Million USD'] ? '$'+Number(r['Investment Million USD']).toLocaleString()+'M' : '—';
   const sigs = r['Petition Signatures'] && +r['Petition Signatures']>0 ? Number(r['Petition Signatures']).toLocaleString()+' sigs' : '';
   return `
-    <div class="p-title">${esc(r['Incident'])} ${srcTag(r['data_source'])}</div>
-    ${badge(r['Community Outcome'])} ${sevDots(+r['Severity']||2)}
+    <div class="p-title">${esc(r['Incident'])} ${srcTagFull(r['data_source'])}</div>
+    ${badge(r['Community Outcome'])} ${sevDotsLabeled(+r['Severity']||2)}
     <div class="p-grid">
       <span class="p-label">Date</span>       <span class="p-val">${esc(r['Date'])}</span>
       <span class="p-label">Entity</span>     <span class="p-val">${esc(r['Entity'])}</span>
@@ -295,6 +338,7 @@ function render() {
   rows.forEach((r,i) => { if(match(r)) visible.push({r,i}); });
 
   renderOutcomeSummary(visible);
+  updateCardCount(visible.length, rows.length);
   let pending=0, win=0, loss=0;
   visible.forEach(({r,i}) => {
     clusterGroup.addLayer(leafletMarkers[i]);
@@ -307,14 +351,14 @@ function render() {
     card.className = 'card oc-' + ((r['Community Outcome']||'pending').toLowerCase());
     const srcUrl = r['Source URL']||r['Opposition Website']||'';
     card.innerHTML = `
-      <div class="card-title">${esc(r['Incident'])}${srcTag(r['data_source'])}</div>
+      <div class="card-title">${esc(r['Incident'])}${srcTagFull(r['data_source'])}</div>
       <div class="card-meta">
         <span>${esc(r['State'])}</span>
         <span>${esc(r['Date'])}</span>
         <span>${esc(r['Opposition Type'])}</span>
         ${r['Megawatts'] ? `<span>${r['Megawatts']} MW</span>` : ''}
       </div>
-      ${badge(r['Community Outcome'])}${sevDots(+r['Severity']||2)}
+      ${badge(r['Community Outcome'])}${sevDotsLabeled(+r['Severity']||2)}
       <div class="card-snippet">${esc(r['Summary']||r['Objective']).slice(0,155)}${(r['Summary']||r['Objective']||'').length>155?'…':''}</div>
       ${srcUrl ? `<a class="card-source" href="${esc(srcUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Source ↗</a>` : ''}
     `;
@@ -505,6 +549,50 @@ fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geo
 map.on('zoomend',()=>{updateChoroplethVisuals();updateMarkerVisibility();});
 map.whenReady(()=>{updateChoroplethVisuals();updateMarkerVisibility();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&currentZoomedState)choroZoomOut();});
+
+
+function toggleAdvFilters(btn) {
+  const el = document.getElementById('advFilters');
+  el.classList.toggle('open');
+  btn.querySelector('svg').style.transform = el.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+function updateCardCount(vis, tot) {
+  const el = document.getElementById('cardCount');
+  if (!el) return;
+  el.innerHTML = vis === tot ? `<b>${tot}</b> incidents` : `Showing <b>${vis}</b> of <b>${tot}</b> incidents`;
+}
+function srcTagFull(s) {
+  if (s === 'bryce_tracker')
+    return '<span class="src-tag src-bryce">Bryce<span class="src-tip">Bryce Tracker — ongoing 2026 monitoring</span></span>';
+  return '<span class="src-tag src-dct">DCT<span class="src-tip">DataCenterTracker.org — public database 2014–2025</span></span>';
+}
+function sevDotsLabeled(raw) {
+  const n = Math.min(5, Math.max(1, +raw || 1));
+  const dots = Array.from({length:5}, (_,i) =>
+    `<span style="width:7px;height:7px;border-radius:50%;display:inline-block;background:${i<n?'#e74c3c':'#2c3544'}"></span>`
+  ).join('');
+  return `<span class="sev-wrap" title="Severity: ${n} out of 5 — higher = stronger opposition">${dots}</span>`;
+}
+function showHowToUse() {
+  if (document.getElementById('htuWrap')) return;
+  const wrap = document.createElement('div');
+  wrap.id = 'htuWrap';
+  wrap.style.cssText = 'position:absolute;inset:0;z-index:598';
+  wrap.innerHTML = `
+    <div class="htu-overlay"></div>
+    <div class="how-to-use">
+      <h3>How to use this map</h3>
+      <p>Tracking community opposition to data center projects across the US.</p>
+      <ul>
+        <li><span class="ico">🗺️</span><div><b>Click any state</b> on the map to zoom in and see individual incidents.</div></li>
+        <li><span class="ico">📌</span><div><b>Click a pin</b> to see details about that specific opposition event.</div></li>
+        <li><span class="ico">🔍</span><div><b>Use the filters</b> on the left to narrow by state, result, type, or concern.</div></li>
+      </ul>
+      <button class="close-btn" onclick="document.getElementById('htuWrap').remove()">Got it →</button>
+    </div>`;
+  document.querySelector('.app').appendChild(wrap);
+}
+window.addEventListener('load', () => setTimeout(showHowToUse, 700));
 
 </script>
 </body>

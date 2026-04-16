@@ -80,35 +80,60 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
   .charts { grid-template-columns:1fr }
   .chart-card.wide { grid-column:1 }
 }
+
+/* ── Accessibility pass ── */
+body { font-size:14px }
+h2   { font-size:16px }
+.page-header h1 { font-size:24px; font-weight:800; margin-bottom:6px }
+.page-header p  { font-size:13px; color:var(--muted); line-height:1.6; max-width:740px }
+.kpi b    { font-size:28px; font-weight:800 }
+.kpi span { font-size:13px; line-height:1.4 }
+.kpi      { padding:18px 16px }
+input, select { padding:9px 12px; font-size:13px }
+thead th  { font-size:12px; padding:12px 14px }
+tbody td  { padding:12px 14px; font-size:13px }
+.tbl-meta { font-size:13px; font-weight:500 }
+.tbl-meta b { color:var(--text) }
+.pagination button { padding:7px 14px; font-size:13px }
+.pagination { font-size:13px }
+.chart-card h2 { font-size:15px }
+/* Reset btn */
+.reset-btn { padding:8px 14px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--muted); font-size:13px; cursor:pointer; transition:all .18s }
+.reset-btn:hover  { border-color:var(--atlas); color:var(--text) }
+.reset-btn.active { border-color:#e67e22 !important; color:#e67e22 !important; background:#2a1a08 !important }
+/* Source tag tooltips */
+.src-tag { position:relative; cursor:help }
+.src-tag .src-tip { display:none; position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#1c2535; border:1px solid var(--border); border-radius:7px; padding:6px 10px; font-size:11px; color:var(--text); white-space:nowrap; z-index:99; pointer-events:none; font-weight:400 }
+.src-tag:hover .src-tip { display:block }
 </style>
 </head>
 <body>
 
 <div class="page-header">
-  <h1>Developments Dashboard</h1>
-  <p>OSTI IM3 Open Source Atlas (1,479 facilities) + Epoch Frontier Data — Hyperscalers (29 sites)</p>
+  <h1>Data Center Development Tracker</h1>
+  <p>Tracking existing US data centers using the OSTI IM3 Open Source Atlas, plus major hyperscale AI sites. Use the charts and table below to explore facility concentration, ownership, and power capacity.</p>
 </div>
 
 <!-- Atlas KPIs -->
-<div class="section-label"><span class="dot dot-atlas"></span>OSTI IM3 Atlas — Existing Facilities</div>
+<div class="section-label"><span class="dot dot-atlas"></span>Existing Data Centers (OSTI IM3 Atlas)</div>
 <div class="kpis">
-  <div class="kpi k-atlas"><b id="aTotal">—</b><span>Total tracked facilities</span></div>
+  <div class="kpi k-atlas"><b id="aTotal">—</b><span>Facilities tracked</span></div>
   <div class="kpi k-atlas"><b id="aStates">—</b><span>States with facilities</span></div>
-  <div class="kpi k-atlas"><b id="aOperators">—</b><span>Unique operators</span></div>
-  <div class="kpi k-atlas"><b id="aSqft">—</b><span>Est. total sq ft</span></div>
+  <div class="kpi k-atlas"><b id="aOperators">—</b><span>Companies operating</span></div>
+  <div class="kpi k-atlas"><b id="aSqft">—</b><span>Est. total floor space</span></div>
 </div>
 
 <!-- AI KPIs -->
-<div class="section-label"><span class="dot dot-ai"></span>Epoch Frontier Data — Hyperscale AI Sites</div>
+<div class="section-label"><span class="dot dot-ai"></span>Major AI &amp; Hyperscale Sites</div>
 <div class="kpis">
-  <div class="kpi k-ai"><b id="aiTotal">—</b><span>Hyperscale sites tracked</span></div>
+  <div class="kpi k-ai"><b id="aiTotal">—</b><span>Major AI sites tracked</span></div>
   <div class="kpi k-ai"><b id="aiOwners">—</b><span>Distinct owners</span></div>
-  <div class="kpi k-ai"><b id="aiPower">—</b><span>Total power capacity (MW)</span></div>
-  <div class="kpi k-ai"><b id="aiCapex">—</b><span>Total capital invested</span></div>
+  <div class="kpi k-ai"><b id="aiPower">—</b><span>Combined power capacity</span></div>
+  <div class="kpi k-ai"><b id="aiCapex">—</b><span>Total investment</span></div>
 </div>
 
 <!-- Atlas Charts -->
-<div class="section-label" style="margin-top:24px"><span class="dot dot-atlas"></span>OSTI IM3 Atlas</div>
+<div class="section-label" style="margin-top:24px"><span class="dot dot-atlas"></span>Existing Facilities — Charts</div>
 <div class="charts">
   <div class="chart-card wide">
     <h2>Facility Concentration by State (Top 25)</h2>
@@ -125,7 +150,7 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
 </div>
 
 <!-- AI Charts -->
-<div class="section-label"><span class="dot dot-ai"></span>Epoch Frontier — Hyperscalers</div>
+<div class="section-label"><span class="dot dot-ai"></span>Hyperscale AI Sites — Charts</div>
 <div class="charts">
   <div class="chart-card">
     <h2>Power Capacity by Owner (MW)</h2>
@@ -142,17 +167,17 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
 </div>
 
 <!-- Table -->
-<div class="section-label">Full Dataset</div>
+<div class="section-label">Browse All Facilities</div>
 <div class="table-controls">
   <div class="search-wrap">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input id="tq" type="text" placeholder="Name, operator, state, owner…" oninput="tdebounce()"/>
+    <input id="tq" type="text" placeholder="Search by name, company, or state…" oninput="tdebounce()"/>
   </div>
   <select id="tf-layer"  onchange="trender()"><option value="">Both layers</option><option value="atlas">OSTI IM3</option><option value="ai">Epoch Frontier</option></select>
   <select id="tf-state"  onchange="trender()"><option value="">All states</option></select>
   <select id="tf-type"   onchange="trender()"><option value="">All types</option></select>
   <select id="tf-owner"  onchange="trender()"><option value="">All owners</option></select>
-  <span class="tbl-meta" id="tMeta"></span>
+  <button class="reset-btn" id="tResetBtn" onclick="tResetFilters()">Reset filters</button><span class="tbl-meta" id="tMeta"></span>
 </div>
 
 <div class="table-wrap">
@@ -362,6 +387,18 @@ function tryInit(){
 
 Papa.parse('./atlas.csv',      {download:true,header:true,skipEmptyLines:true,complete({data}){atlasLoaded=data;tryInit();}});
 Papa.parse('./ai_centers.csv', {download:true,header:true,skipEmptyLines:true,complete({data}){aiLoaded=data;tryInit();}});
+
+function tResetFilters() {
+  document.getElementById('tq').value = '';
+  ['tf-layer','tf-state','tf-type','tf-owner'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+  tPage = 0; trender();
+}
+function updateResetBtn() {
+  const q = document.getElementById('tq')?.value || '';
+  const anyFilter = ['tf-layer','tf-state','tf-type','tf-owner'].some(id => document.getElementById(id)?.value);
+  const btn = document.getElementById('tResetBtn');
+  if(btn) btn.classList.toggle('active', !!(q || anyFilter));
+}
 </script>
 </body>
 </html>
