@@ -87,10 +87,10 @@ input:focus, select:focus { border-color:var(--atlas) }
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
         <h1>Data Center Map</h1>
       </div>
-      <div class="sub">IM3 Open Source Atlas (1,479 facilities) + AI hyperscale sites (29)</div>
+      <div class="sub">OSTI IM3 Open Source Atlas (1,479 facilities) + Epoch Frontier Data (Hyperscalers) (29)</div>
       <div class="source-pills">
-        <span class="pill pill-atlas">IM3 Atlas</span>
-        <span class="pill pill-ai">AI Centers</span>
+        <span class="pill pill-atlas">OSTI IM3 Data</span>
+        <span class="pill pill-ai">Epoch Frontier Data (Hyperscalers)</span>
       </div>
     </div>
 
@@ -101,17 +101,17 @@ input:focus, select:focus { border-color:var(--atlas) }
       </div>
       <div class="row2">
         <select id="fState"  onchange="render()"><option value="">All states</option></select>
-        <select id="fSource" onchange="render()"><option value="">Both layers</option><option value="atlas">IM3 Atlas</option><option value="ai">AI Centers</option></select>
+        <select id="fSource" onchange="render()"><option value="">Both layers</option><option value="atlas">OSTI IM3 Data</option><option value="ai">Epoch Frontier Data (Hyperscalers)</option></select>
       </div>
       <div class="row2">
         <select id="fOwner" onchange="render()"><option value="">All owners</option></select>
         <select id="fType"  onchange="render()"><option value="">All types</option></select>
       </div>
-      <label class="chk"><input type="checkbox" id="aiOnly" onchange="render()"/> AI hyperscale only</label>
+      <label class="chk"><input type="checkbox" id="aiOnly" onchange="render()"/> Epoch Frontier Data (Hyperscalers) only</label>
       <div class="stats">
         <div class="stat"><b id="cAll">—</b><span>Visible</span></div>
         <div class="stat s-atlas"><b id="cAtlas">—</b><span>Atlas</span></div>
-        <div class="stat s-ai"><b id="cAI">—</b><span>AI sites</span></div>
+        <div class="stat s-ai"><b id="cAI">—</b><span>AI Centers</span></div>
       </div>
     </div>
 
@@ -122,9 +122,9 @@ input:focus, select:focus { border-color:var(--atlas) }
     <div id="map"></div>
     <div class="legend">
       <b>Layer</b>
-      <div class="legend-row"><span class="lsw" style="background:var(--atlas)"></span>IM3 Atlas facility</div>
-      <div class="legend-row"><span class="lsw" style="background:var(--ai)"></span>AI hyperscale site</div>
-      <div class="note">Atlas pins cluster at low zoom. AI sites always visible. Click any pin for details.</div>
+      <div class="legend-row"><span class="lsw" style="background:var(--atlas)"></span>Source: OSTI IM3 Data</div>
+      <div class="legend-row"><span class="lsw" style="background:var(--ai)"></span>Epoch Frontier Data (Hyperscalers)</div>
+      <div class="note">OSTI IM3 pins cluster at low zoom. AI Centers always visible. Click any pin for details.</div>
     </div>
   </div>
 </div>
@@ -153,7 +153,7 @@ const aiLayer = L.layerGroup().addTo(map);
 const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const fmt = (v, suffix='') => (v && !isNaN(+v)) ? Number(v).toLocaleString()+suffix : (v||'—');
 const srcTag = s => s==='ai'
-  ? '<span class="src-tag src-ai">AI</span>'
+  ? '<span class="src-tag src-ai">IM3 AI</span>'
   : '<span class="src-tag src-atlas">Atlas</span>';
 
 let rows=[], leafletMarkers=[], markerLayers=[];
@@ -257,7 +257,7 @@ function render() {
   if (listCount >= 200) {
     const note = document.createElement('div');
     note.style.cssText = 'padding:10px;text-align:center;font-size:11px;color:#8a96a4';
-    note.textContent = `+ more Atlas facilities on map. Use search or filters to narrow down.`;
+    note.textContent = `+ more OSTI IM3 facilities on map. Use search or filters to narrow down.`;
     list.appendChild(note);
   }
 
