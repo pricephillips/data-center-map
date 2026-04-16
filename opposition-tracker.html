@@ -207,6 +207,7 @@ const clusterGroup = L.markerClusterGroup({
   }
 });
 map.addLayer(clusterGroup);
+clusterGroup.on('click', e => { if(e.originalEvent) L.DomEvent.stopPropagation(e); });
 
 const OUTCOME_COLORS = { win:'#4caf50', loss:'#e74c3c', pending:'#f39c12', mixed:'#9b59b6' };
 const SOURCE_COLORS  = { 'bryce_tracker':'#5aa9e6', 'datacentertracker.org':'#e67e22' };
@@ -345,7 +346,10 @@ Papa.parse('./master_opposition.csv', {
       if (isNaN(_mlat) || isNaN(_mlon) || _mlat === 0 && _mlon === 0) { leafletMarkers.push(null); return; }
       const m = L.marker([_mlat, _mlon], { icon: iconFor(r) }).bindPopup(buildPopup(r)).bindTooltip(`<b>${(r['Incident']||'').slice(0,50)}</b><br>${r['State']||''} · ${r['Community Outcome']||'Pending'}`, {direction:'top',className:'pin-tooltip'});
       const _idx = leafletMarkers.length;
-      m.on('click', () => highlightCard(_idx));
+      m.on('click', (e) => {
+        L.DomEvent.stopPropagation(e);
+        highlightCard(_idx);
+      });
       leafletMarkers.push(m);
     });
 
