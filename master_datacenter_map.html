@@ -77,6 +77,11 @@ input:focus, select:focus { border-color:var(--atlas) }
   .sidebar { height:45vh }
   #map { height:55vh }
 }
+
+/* Choropleth */
+.choro-back { position:absolute; top:12px; left:12px; z-index:500; background:rgba(15,18,24,.93); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:8px; padding:6px 12px; font-size:11px; font-weight:600; cursor:pointer; color:var(--text); display:none }
+.choro-back:hover { border-color:var(--atlas) }
+.map-hint { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:500; background:rgba(15,18,24,.88); backdrop-filter:blur(6px); border:1px solid var(--border); border-radius:20px; padding:5px 14px; font-size:11px; color:var(--muted); pointer-events:none; white-space:nowrap }
 </style>
 </head>
 <body>
@@ -120,11 +125,21 @@ input:focus, select:focus { border-color:var(--atlas) }
 
   <div class="mapwrap">
     <div id="map"></div>
+    <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
+    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal facility pins</div>
     <div class="legend">
       <b>Layer</b>
       <div class="legend-row"><span class="lsw" style="background:var(--atlas)"></span>Source: OSTI IM3 Data</div>
       <div class="legend-row"><span class="lsw" style="background:var(--ai)"></span>Epoch Frontier Data (Hyperscalers)</div>
       <div class="note">OSTI IM3 pins cluster at low zoom. AI Centers always visible. Click any pin for details.</div>
+      <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
+        <b style="font-size:11px;color:var(--muted);font-weight:600">Density (OSTI IM3)</b>
+        <div class="legend-row"><span class="lsw" style="background:#0e3349;border-radius:2px"></span>1–10</div>
+        <div class="legend-row"><span class="lsw" style="background:#1a5068;border-radius:2px"></span>11–50</div>
+        <div class="legend-row"><span class="lsw" style="background:#276b80;border-radius:2px"></span>51–100</div>
+        <div class="legend-row"><span class="lsw" style="background:#348a9a;border-radius:2px"></span>101–200</div>
+        <div class="legend-row"><span class="lsw" style="background:#4f98a3;border-radius:2px"></span>200+</div>
+      </div>
     </div>
   </div>
 </div>
@@ -312,6 +327,103 @@ Papa.parse('./atlas.csv', { download:true, header:true, skipEmptyLines:true,
 
 Papa.parse('./ai_centers.csv', { download:true, header:true, skipEmptyLines:true,
   complete({data}) { aiLoaded=data; tryInit(); }});
+
+// ─── CHOROPLETH ──────────────────────────────────────────────────────────────
+let choroplethLayer = null;
+let currentZoomedState = null;
+
+const DENSITY_STEPS = [
+  {min:0,   max:0,   color:'#0d1b2a', opacity:0.45},
+  {min:1,   max:10,  color:'#0e3349', opacity:0.75},
+  {min:11,  max:50,  color:'#1a5068', opacity:0.80},
+  {min:51,  max:100, color:'#276b80', opacity:0.82},
+  {min:101, max:200, color:'#348a9a', opacity:0.84},
+  {min:201, max:9999,color:'#4f98a3', opacity:0.86},
+];
+function densityColor(n){ return DENSITY_STEPS.find(s=>n>=s.min&&n<=s.max)||DENSITY_STEPS[0]; }
+
+const ABBREV_TO_NAME = {
+  AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',
+  CT:'Connecticut',DE:'Delaware',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',
+  IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',
+  ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',
+  MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',
+  NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',
+  NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',
+  PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',
+  TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',
+  WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming',DC:'District of Columbia'
+};
+
+function buildChoropleth(atlasData, geoJson) {
+  const counts = {};
+  atlasData.forEach(r => {
+    const s = (r.state_abb || r.state || '').trim().toUpperCase();
+    if (s) counts[s] = (counts[s]||0) + 1;
+  });
+  const countsByName = {};
+  Object.entries(counts).forEach(([abbr, cnt]) => {
+    const name = ABBREV_TO_NAME[abbr] || abbr;
+    countsByName[name] = (countsByName[name]||0) + cnt;
+  });
+
+  choroplethLayer = L.geoJSON(geoJson, {
+    style: feat => {
+      const name = feat.properties.NAME || feat.properties.name || '';
+      const cnt = countsByName[name] || 0;
+      const s = densityColor(cnt);
+      return { fillColor:s.color, fillOpacity:s.opacity, color:'#2c3544', weight:1, opacity:0.9 };
+    },
+    onEachFeature: (feat, layer) => {
+      const name = feat.properties.NAME || feat.properties.name || '';
+      const cnt = countsByName[name] || 0;
+      layer.on({
+        mouseover: e => {
+          if (currentZoomedState !== name) e.target.setStyle({weight:2, color:'#4f98a3', fillOpacity:1});
+          document.getElementById('mapHint').textContent =
+            cnt > 0 ? `${name}: ${cnt} facilit${cnt===1?'y':'ies'} — click to zoom in`
+                    : `${name}: no facilities — click to zoom`;
+        },
+        mouseout: e => {
+          if (currentZoomedState !== name) choroplethLayer.resetStyle(e.target);
+          document.getElementById('mapHint').textContent = 'Click any state to zoom in and reveal facility pins';
+        },
+        click: () => choroZoomIn(feat, layer, name, cnt)
+      });
+    }
+  });
+  choroplethLayer.addTo(map);
+  choroplethLayer.bringToBack();
+}
+
+function choroZoomIn(feat, layer, stateName, cnt) {
+  currentZoomedState = stateName;
+  choroplethLayer.eachLayer(l => choroplethLayer.resetStyle(l));
+  layer.setStyle({weight:2, color:'#4f98a3', fillOpacity:1});
+  map.flyToBounds(layer.getBounds(), {padding:[30,30], maxZoom:9, duration:0.85});
+  document.getElementById('choroBack').style.display = 'block';
+  document.getElementById('mapHint').textContent =
+    cnt > 0 ? `${stateName}: ${cnt} facilit${cnt===1?'y':'ies'} — click any pin for details`
+            : `${stateName}: no facilities in dataset`;
+}
+
+function choroZoomOut() {
+  currentZoomedState = null;
+  if (choroplethLayer) choroplethLayer.eachLayer(l => choroplethLayer.resetStyle(l));
+  map.flyTo([39.5,-98.35], 4, {duration:0.8});
+  document.getElementById('choroBack').style.display = 'none';
+  document.getElementById('mapHint').textContent = 'Click any state to zoom in and reveal facility pins';
+}
+
+fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
+  .then(r => r.json())
+  .then(geo => {
+    const poll = setInterval(() => {
+      if (atlasLoaded) { clearInterval(poll); buildChoropleth(atlasLoaded, geo); }
+    }, 100);
+  })
+  .catch(e => console.warn('GeoJSON load failed', e));
+
 </script>
 </body>
 </html>
