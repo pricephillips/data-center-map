@@ -164,7 +164,7 @@ function atlasIcon() {
 
 function aiIcon(r) {
   const mw = +r['Current power (MW)'] || 0;
-  const sz = mw > 800 ? 22 : mw > 400 ? 17 : 13;
+  const sz = mw > 800 ? 13 : mw > 400 ? 10 : 8;
   return L.divIcon({ className:'', iconSize:[sz,sz], iconAnchor:[sz/2,sz/2],
     html:`<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}"><polygon points="${sz/2},1 ${sz-1},${sz*0.8} 1,${sz*0.8}" fill="#e67e22" fill-opacity="0.9" stroke="#ffa040" stroke-width="1.5"/></svg>`
   });
