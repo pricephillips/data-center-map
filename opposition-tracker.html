@@ -316,7 +316,13 @@ function render() {
       ${srcUrl ? `<a class="card-source" href="${esc(srcUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Source ↗</a>` : ''}
     `;
     const _lat = parseFloat(r.lat), _lon = parseFloat(r.lon);
-    card.onclick = () => { if(!isNaN(_lat)&&!isNaN(_lon)) map.setView([_lat,_lon], 7); highlightCard(i); leafletMarkers[i].openPopup(); };
+    const _marker = leafletMarkers[i];
+    card.onclick = () => {
+      highlightCard(i);
+      if(!isNaN(_lat)&&!isNaN(_lon)) {
+        clusterGroup.zoomToShowLayer(_marker, () => { _marker.openPopup(); });
+      }
+    };
     cardRefs[i] = card;
     list.appendChild(card);
   });
