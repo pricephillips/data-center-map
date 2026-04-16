@@ -111,6 +111,9 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .summary-seg { height:100% }
 .summary-meta { display:flex; gap:10px; flex-wrap:wrap; font-size:10px; color:var(--muted); margin-top:4px }
 .pin-tooltip { background:#0f1722; color:#eef2f7; border:1px solid var(--border); border-radius:8px; box-shadow:0 6px 20px rgba(0,0,0,.35) }
+
+.card-source { display:inline-block; margin-top:6px; font-size:11px; color:var(--bryce); text-decoration:none; border:1px solid var(--border); border-radius:6px; padding:3px 8px }
+.card-source:hover { border-color:var(--bryce); background:rgba(90,169,230,.08) }
 </style>
 </head>
 <body>
@@ -299,6 +302,7 @@ function render() {
 
     const card = document.createElement('div');
     card.className = 'card oc-' + ((r['Community Outcome']||'pending').toLowerCase());
+    const srcUrl = r['Source URL']||r['Opposition Website']||'';
     card.innerHTML = `
       <div class="card-title">${esc(r['Incident'])}${srcTag(r['data_source'])}</div>
       <div class="card-meta">
@@ -309,8 +313,10 @@ function render() {
       </div>
       ${badge(r['Community Outcome'])}${sevDots(+r['Severity']||2)}
       <div class="card-snippet">${esc(r['Summary']||r['Objective']).slice(0,155)}${(r['Summary']||r['Objective']||'').length>155?'…':''}</div>
+      ${srcUrl ? `<a class="card-source" href="${esc(srcUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Source ↗</a>` : ''}
     `;
-    card.onclick = () => { map.setView([+r.lat,+r.lon], 7); highlightCard(i); leafletMarkers[i].openPopup(); };
+    const _lat = parseFloat(r.lat), _lon = parseFloat(r.lon);
+    card.onclick = () => { if(!isNaN(_lat)&&!isNaN(_lon)) map.setView([_lat,_lon], 7); highlightCard(i); leafletMarkers[i].openPopup(); };
     cardRefs[i] = card;
     list.appendChild(card);
   });
