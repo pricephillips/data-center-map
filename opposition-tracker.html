@@ -319,7 +319,7 @@ function render() {
     const _marker = leafletMarkers[i];
     card.onclick = () => {
       highlightCard(i);
-      if(!isNaN(_lat)&&!isNaN(_lon)) {
+      if(_marker && !isNaN(_lat) && !isNaN(_lon)) {
         clusterGroup.zoomToShowLayer(_marker, () => { _marker.openPopup(); });
       }
     };
@@ -341,8 +341,11 @@ Papa.parse('./master_opposition.csv', {
   complete({ data }) {
     rows = data;
     rows.forEach(r => {
-      const m = L.marker([+r.lat, +r.lon], { icon: iconFor(r) }).bindPopup(buildPopup(r)).bindTooltip(`<b>${(r['Incident']||'').slice(0,50)}</b><br>${r['State']||''} · ${r['Community Outcome']||'Pending'}`, {direction:'top',className:'pin-tooltip'});
-      m.on('click', () => highlightCard(leafletMarkers.indexOf(m)));
+      const _mlat = +r.lat, _mlon = +r.lon;
+      if (isNaN(_mlat) || isNaN(_mlon) || _mlat === 0 && _mlon === 0) { leafletMarkers.push(null); return; }
+      const m = L.marker([_mlat, _mlon], { icon: iconFor(r) }).bindPopup(buildPopup(r)).bindTooltip(`<b>${(r['Incident']||'').slice(0,50)}</b><br>${r['State']||''} · ${r['Community Outcome']||'Pending'}`, {direction:'top',className:'pin-tooltip'});
+      const _idx = leafletMarkers.length;
+      m.on('click', () => highlightCard(_idx));
       leafletMarkers.push(m);
     });
 
@@ -418,6 +421,7 @@ function renderOutcomeSummary(visible){
   if(el) el.innerHTML=`<div class="summary-bar"><div class="summary-seg" style="width:${pct(p)};background:var(--pending)"></div><div class="summary-seg" style="width:${pct(w)};background:var(--win)"></div><div class="summary-seg" style="width:${pct(l)};background:var(--loss)"></div><div class="summary-seg" style="width:${pct(mx)};background:var(--mixed)"></div></div><div class="summary-meta"><span>Pending ${p}</span><span>Wins ${w}</span><span>Losses ${l}</span><span>Mixed ${mx}</span></div>`;
 }
 function highlightCard(idx){
+  if(idx < 0 || idx == null) return;
   cardRefs.forEach(c=>c&&c.classList.remove('active'));
   if(cardRefs[idx]){cardRefs[idx].classList.add('active');cardRefs[idx].scrollIntoView({block:'nearest',behavior:'smooth'});}
 }
