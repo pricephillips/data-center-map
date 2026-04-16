@@ -93,23 +93,20 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
 </div>
 
 <!-- KPIs -->
-<div class="kpis">
-  <div class="kpi k-total"><b id="kTotal">—</b><span>Total actions</span></div>
-  <div class="kpi k-pending"><b id="kPending">—</b><span>Active / pending</span></div>
+<div class="kpis" style="grid-template-columns:repeat(6,1fr)">
+  <div class="kpi k-total"><b id="kTotal">—</b><span>Total opposition actions</span></div>
+  <div class="kpi k-states"><b id="kStates">—</b><span>States with opposition</span></div>
   <div class="kpi k-win"><b id="kWin">—</b><span>Community wins</span></div>
   <div class="kpi k-loss"><b id="kLoss">—</b><span>Community losses</span></div>
-  <div class="kpi k-states"><b id="kStates">—</b><span>States affected</span></div>
+  <div class="kpi k-pending"><b id="kPending">—</b><span>Pending / active</span></div>
+  <div class="kpi" style="--c:#f472b6"><b id="kMW" style="color:#f472b6">—</b><span>Total MW at stake</span></div>
 </div>
 
 <!-- Charts -->
 <div class="charts">
   <div class="chart-card wide">
-    <h2>Highest Concentration of Opposition (Top 25 States)</h2>
-    <div class="chart-wrap tall"><canvas id="cStateLarge"></canvas></div>
-  </div>
-  <div class="chart-card">
-    <h2>Top 15 States by Actions</h2>
-    <div class="chart-wrap tall"><canvas id="cStates"></canvas></div>
+    <h2>Opposition Concentration by State (Top 25)</h2>
+    <div class="chart-wrap" style="height:480px"><canvas id="cStateLarge"></canvas></div>
   </div>
   <div class="chart-card">
     <h2>Opposition Type Breakdown</h2>
@@ -117,11 +114,11 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
   </div>
   <div class="chart-card">
     <h2>Community Outcome</h2>
-    <div class="chart-wrap"><canvas id="cOutcomes"></canvas></div>
+    <div class="chart-wrap tall"><canvas id="cOutcomes"></canvas></div>
   </div>
-  <div class="chart-card">
+  <div class="chart-card wide">
     <h2>Top Issue Categories</h2>
-    <div class="chart-wrap"><canvas id="cIssues"></canvas></div>
+    <div class="chart-wrap" style="height:260px"><canvas id="cIssues"></canvas></div>
   </div>
 </div>
 
@@ -185,24 +182,14 @@ const PAGE_SIZE = 50;
 // ── Charts ─────────────────────────────────────────────────────────────────
 function buildCharts(rows) {
 
-  // Highest concentration of opposition — top 25 states
+  // Opposition concentration — top 25 states, horizontal bar
   const stateLarge = {};
   rows.forEach(r => { if(r['State']) stateLarge[r['State']] = (stateLarge[r['State']]||0)+1; });
   const stateLargeSorted = Object.entries(stateLarge).sort((a,b)=>b[1]-a[1]).slice(0,25);
   new Chart(document.getElementById('cStateLarge'), {
     type:'bar',
-    data:{ labels:stateLargeSorted.map(x=>x[0]), datasets:[{ label:'Actions', data:stateLargeSorted.map(x=>x[1]), backgroundColor:CHART_COLORS, borderRadius:4 }] },
-    options:{ ...chartDefaults, scales:{ x:{ ticks:{...TICK, maxRotation:45, minRotation:45}, grid:{display:false} }, y:{ ticks:TICK, grid:GRID, beginAtZero:true } }, plugins:{...chartDefaults.plugins, legend:{display:false}} }
-  });
-
-  // Top 15 states
-  const byState = {};
-  rows.forEach(r => { if(r['State']) byState[r['State']] = (byState[r['State']]||0)+1; });
-  const statesSorted = Object.entries(byState).sort((a,b)=>b[1]-a[1]).slice(0,15);
-  new Chart(document.getElementById('cStates'), {
-    type:'bar',
-    data:{ labels:statesSorted.map(x=>x[0]), datasets:[{ data:statesSorted.map(x=>x[1]), backgroundColor:CHART_COLORS, borderRadius:4 }] },
-    options:{ ...chartDefaults, indexAxis:'y', scales:{ x:{ ticks:TICK, grid:GRID }, y:{ ticks:TICK, grid:{display:false} } }, plugins:{...chartDefaults.plugins, legend:{display:false}} }
+    data:{ labels:stateLargeSorted.map(x=>x[0]), datasets:[{ label:'Actions', data:stateLargeSorted.map(x=>x[1]), backgroundColor:stateLargeSorted.map((_,i)=>CHART_COLORS[i%CHART_COLORS.length]), borderRadius:4 }] },
+    options:{ ...chartDefaults, indexAxis:'y', scales:{ x:{ ticks:TICK, grid:GRID, beginAtZero:true }, y:{ ticks:{...TICK, font:{size:12}}, grid:{display:false} } }, plugins:{...chartDefaults.plugins, legend:{display:false}} }
   });
 
   // Opposition types
@@ -245,11 +232,13 @@ function buildKPIs(rows) {
   const win     = rows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='win').length;
   const loss    = rows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='loss').length;
   const states  = new Set(rows.map(r=>r['State']).filter(Boolean)).size;
+  const mw = rows.reduce((s,r)=>s+(+r['Megawatts']||0),0);
   document.getElementById('kTotal').textContent   = rows.length.toLocaleString();
-  document.getElementById('kPending').textContent = pending.toLocaleString();
+  document.getElementById('kStates').textContent  = states.toLocaleString();
   document.getElementById('kWin').textContent     = win.toLocaleString();
   document.getElementById('kLoss').textContent    = loss.toLocaleString();
-  document.getElementById('kStates').textContent  = states.toLocaleString();
+  document.getElementById('kPending').textContent = pending.toLocaleString();
+  document.getElementById('kMW').textContent      = mw>0 ? Math.round(mw).toLocaleString()+' MW' : '—';
 }
 
 // ── Table ──────────────────────────────────────────────────────────────────
@@ -335,3 +324,4 @@ Papa.parse('./master_opposition.csv', {
 </script>
 </body>
 </html>
+
