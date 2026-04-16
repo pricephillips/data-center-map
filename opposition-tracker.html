@@ -89,6 +89,11 @@ input:focus, select:focus { border-color:#5aa9e6 }
   .sidebar { height:45vh }
   #map { height:55vh }
 }
+
+/* Choropleth */
+.choro-back { position:absolute; top:12px; left:12px; z-index:500; background:rgba(15,18,24,.93); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:8px; padding:6px 12px; font-size:11px; font-weight:600; cursor:pointer; color:var(--text); display:none }
+.choro-back:hover { border-color:#e74c3c }
+.map-hint { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:500; background:rgba(15,18,24,.88); backdrop-filter:blur(6px); border:1px solid var(--border); border-radius:20px; padding:5px 14px; font-size:11px; color:var(--muted); pointer-events:none; white-space:nowrap }
 </style>
 </head>
 <body>
@@ -138,6 +143,8 @@ input:focus, select:focus { border-color:#5aa9e6 }
 
   <div class="mapwrap">
     <div id="map"></div>
+    <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
+    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal opposition incidents</div>
     <div class="legend">
       <b>Outcome</b>
       <div class="legend-row"><span class="lsw" style="background:var(--pending)"></span>Pending / Active</div>
@@ -148,6 +155,14 @@ input:focus, select:focus { border-color:#5aa9e6 }
       <div class="legend-row"><span class="lsw" style="background:var(--dct)"></span>datacentertracker.org</div>
       <div class="legend-row"><span class="lsw" style="background:var(--bryce)"></span>Bryce tracker</div>
       <div class="note">Size = severity (1–5). Pins jittered at county level.</div>
+      <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
+        <b style="font-size:11px;color:var(--muted);font-weight:600">Opposition Activity</b>
+        <div class="legend-row"><span class="lsw" style="background:#1a0a08;border-radius:2px"></span>1–2</div>
+        <div class="legend-row"><span class="lsw" style="background:#4a1a0e;border-radius:2px"></span>3–7</div>
+        <div class="legend-row"><span class="lsw" style="background:#7a2a14;border-radius:2px"></span>8–15</div>
+        <div class="legend-row"><span class="lsw" style="background:#b03a1a;border-radius:2px"></span>16–30</div>
+        <div class="legend-row"><span class="lsw" style="background:#e74c3c;border-radius:2px"></span>31+</div>
+      </div>
     </div>
   </div>
 </div>
@@ -312,6 +327,86 @@ Papa.parse('./master_opposition.csv', {
     render();
   }
 });
+
+// ─── CHOROPLETH ──────────────────────────────────────────────────────────────
+let choroplethLayer = null;
+let currentZoomedState = null;
+
+const DENSITY_STEPS = [
+  {min:0,  max:0,  color:'#0d0a09', opacity:0.35},
+  {min:1,  max:2,  color:'#1a0a08', opacity:0.70},
+  {min:3,  max:7,  color:'#4a1a0e', opacity:0.76},
+  {min:8,  max:15, color:'#7a2a14', opacity:0.80},
+  {min:16, max:30, color:'#b03a1a', opacity:0.84},
+  {min:31, max:9999,color:'#e74c3c',opacity:0.88},
+];
+function densityColor(n){ return DENSITY_STEPS.find(s=>n>=s.min&&n<=s.max)||DENSITY_STEPS[0]; }
+
+// opposition data uses full state names already
+function buildChoropleth(data, geoJson) {
+  const counts = {};
+  data.forEach(r => {
+    const s = (r['State']||'').trim();
+    if (s) counts[s] = (counts[s]||0) + 1;
+  });
+
+  choroplethLayer = L.geoJSON(geoJson, {
+    style: feat => {
+      const name = feat.properties.NAME || feat.properties.name || '';
+      const cnt = counts[name] || 0;
+      const s = densityColor(cnt);
+      return { fillColor:s.color, fillOpacity:s.opacity, color:'#3a2020', weight:1, opacity:0.9 };
+    },
+    onEachFeature: (feat, layer) => {
+      const name = feat.properties.NAME || feat.properties.name || '';
+      const cnt = counts[name] || 0;
+      layer.on({
+        mouseover: e => {
+          if (currentZoomedState !== name) e.target.setStyle({weight:2, color:'#e74c3c', fillOpacity:1});
+          document.getElementById('mapHint').textContent =
+            cnt > 0 ? `${name}: ${cnt} opposition incident${cnt===1?'':'s'} — click to zoom in`
+                    : `${name}: no recorded opposition — click to zoom`;
+        },
+        mouseout: e => {
+          if (currentZoomedState !== name) choroplethLayer.resetStyle(e.target);
+          document.getElementById('mapHint').textContent = 'Click any state to zoom in and reveal opposition incidents';
+        },
+        click: () => choroZoomIn(feat, layer, name, cnt)
+      });
+    }
+  });
+  choroplethLayer.addTo(map);
+  choroplethLayer.bringToBack();
+}
+
+function choroZoomIn(feat, layer, stateName, cnt) {
+  currentZoomedState = stateName;
+  choroplethLayer.eachLayer(l => choroplethLayer.resetStyle(l));
+  layer.setStyle({weight:2, color:'#e74c3c', fillOpacity:1});
+  map.flyToBounds(layer.getBounds(), {padding:[30,30], maxZoom:9, duration:0.85});
+  document.getElementById('choroBack').style.display = 'block';
+  document.getElementById('mapHint').textContent =
+    cnt > 0 ? `${stateName}: ${cnt} incident${cnt===1?'':'s'} — click any pin for details`
+            : `${stateName}: no recorded opposition`;
+}
+
+function choroZoomOut() {
+  currentZoomedState = null;
+  if (choroplethLayer) choroplethLayer.eachLayer(l => choroplethLayer.resetStyle(l));
+  map.flyTo([39.5,-98.35], 4, {duration:0.8});
+  document.getElementById('choroBack').style.display = 'none';
+  document.getElementById('mapHint').textContent = 'Click any state to zoom in and reveal opposition incidents';
+}
+
+fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
+  .then(r => r.json())
+  .then(geo => {
+    const poll = setInterval(() => {
+      if (rows.length > 0) { clearInterval(poll); buildChoropleth(rows, geo); }
+    }, 100);
+  })
+  .catch(e => console.warn('GeoJSON load failed', e));
+
 </script>
 </body>
 </html>
