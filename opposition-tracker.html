@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Center Opposition Tracker</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+<style>
+:root {
+  --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
+  --muted:#8a96a4; --border:#2c3544;
+  --win:#4caf50; --loss:#e74c3c; --pending:#f39c12; --mixed:#9b59b6;
+  --bryce:#5aa9e6; --dct:#e67e22;
+}
+* { box-sizing:border-box; margin:0; padding:0 }
+body { font-family: Inter,system-ui,sans-serif; background:var(--bg); color:var(--text); height:100dvh; overflow:hidden }
+.app { display:grid; grid-template-columns:400px 1fr; height:100vh }
+.sidebar { background:var(--panel); border-right:1px solid var(--border); display:flex; flex-direction:column; min-width:0 }
+.header { padding:14px 16px 12px; border-bottom:1px solid var(--border) }
+.logo { display:flex; align-items:center; gap:8px; margin-bottom:4px }
+.logo svg { color:#5aa9e6; flex-shrink:0 }
+h1 { font-size:17px; font-weight:700 }
+.sub { font-size:11px; color:var(--muted); line-height:1.45 }
+.source-pills { display:flex; gap:6px; margin-top:6px }
+.pill { font-size:10px; padding:2px 8px; border-radius:999px; font-weight:600 }
+.pill-bryce { background:#1a2e42; color:var(--bryce) }
+.pill-dct   { background:#3b2208; color:var(--dct) }
+.filters { padding:10px 12px; border-bottom:1px solid var(--border); background:var(--panel2); display:flex; flex-direction:column; gap:7px }
+.search-wrap { position:relative }
+.search-wrap svg { position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none }
+.search-wrap input { padding-left:32px }
+input, select { width:100%; padding:7px 10px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--text); font-size:12px; outline:none }
+input:focus, select:focus { border-color:#5aa9e6 }
+.row2 { display:grid; grid-template-columns:1fr 1fr; gap:7px }
+.row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px }
+.chk { display:flex; align-items:center; gap:7px; font-size:11px; color:var(--muted); cursor:pointer }
+.chk input[type=checkbox] { width:auto; accent-color:#5aa9e6 }
+.stats { display:grid; grid-template-columns:repeat(4,1fr); gap:5px }
+.stat { padding:8px 6px; border:1px solid var(--border); border-radius:8px; background:#0c1018; text-align:center }
+.stat b { display:block; font-size:16px; font-weight:700 }
+.stat span { font-size:10px; color:var(--muted) }
+.stat.s-pending b { color:var(--pending) }
+.stat.s-win b { color:var(--win) }
+.stat.s-loss b { color:var(--loss) }
+.list { overflow-y:auto; flex:1; padding:8px }
+.card { padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:#0c1018; margin-bottom:7px; cursor:pointer; transition:border-color 0.15s }
+.card:hover { border-color:#4a5a72 }
+.card-title { font-size:13px; font-weight:600; line-height:1.3; margin-bottom:4px }
+.card-meta { font-size:11px; color:var(--muted); display:flex; gap:0; flex-wrap:wrap; margin-bottom:4px }
+.card-meta span { margin-right:10px }
+.badge { display:inline-block; padding:2px 7px; border-radius:999px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.3px }
+.badge-pending { background:#4b3408; color:#ffc15a }
+.badge-win     { background:#15351a; color:#7bd67f }
+.badge-loss    { background:#421713; color:#ff8f84}
+.badge-mixed   { background:#2f1d46; color:#c89fff }
+.badge-        { background:#1a2535; color:#8ab4d4 }
+.src-tag { display:inline-block; padding:1px 6px; border-radius:4px; font-size:9px; font-weight:700; margin-left:5px; vertical-align:middle }
+.src-bryce { background:#1a2e42; color:var(--bryce) }
+.src-dct   { background:#3b2208; color:var(--dct) }
+.sev { display:inline-flex; gap:2px; margin-left:5px; vertical-align:middle }
+.sev-dot { width:6px; height:6px; border-radius:50%; background:var(--border) }
+.sev-dot.on { background:#f39c12 }
+.card-snippet { font-size:11px; color:var(--muted); line-height:1.45; margin-top:4px }
+.mapwrap { position:relative; flex:1 }
+#map { height:100vh }
+.legend { position:absolute; top:12px; right:12px; z-index:500; background:rgba(15,18,24,.93); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:11px; padding:10px 13px; font-size:12px }
+.legend b { color:var(--text); display:block; margin-bottom:5px }
+.legend-row { display:flex; align-items:center; gap:7px; margin:4px 0; color:var(--muted) }
+.lsw { width:10px; height:10px; border-radius:2px; flex-shrink:0 }
+.note { font-size:10px; color:#505d6e; margin-top:7px; max-width:190px; line-height:1.4 }
+.leaflet-popup-content-wrapper { background:#1a2030; border:1px solid var(--border); border-radius:10px; box-shadow:0 6px 24px rgba(0,0,0,.5); color:var(--text) }
+.leaflet-popup-tip { background:#1a2030 }
+.leaflet-popup-content { margin:12px 14px; min-width:240px; max-width:360px }
+.p-title { font-size:14px; font-weight:700; margin-bottom:6px; line-height:1.3 }
+.p-grid { display:grid; grid-template-columns:auto 1fr; gap:4px 11px; font-size:12px; margin:7px 0 }
+.p-label { color:#8a96a4 }
+.p-val { color:#d8e0ea; word-break:break-word }
+.p-summary { font-size:11px; color:#9aabb7; border-top:1px solid #2c3544; padding-top:7px; margin-top:3px; line-height:1.5; max-height:90px; overflow-y:auto }
+.p-links { margin-top:7px; display:flex; gap:9px; flex-wrap:wrap }
+.p-link { font-size:11px; color:#5aa9e6; text-decoration:none }
+.p-link:hover { text-decoration:underline }
+@media (max-width:860px) {
+  .app { grid-template-columns:1fr; grid-template-rows:45vh 55vh }
+  .sidebar { height:45vh }
+  #map { height:55vh }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="header">
+      <div class="logo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M9 9h6v6H9z"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+        <h1>Opposition Tracker</h1>
+      </div>
+      <div class="sub">Merged master — datacentertracker.org (2014–2025) + Bryce tracker (2026)</div>
+      <div class="source-pills">
+        <span class="pill pill-dct">datacentertracker.org</span>
+        <span class="pill pill-bryce">Bryce tracker</span>
+      </div>
+    </div>
+
+    <div class="filters">
+      <div class="search-wrap">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="q" type="text" placeholder="Incident, entity, state, group…" oninput="debounce()"/>
+      </div>
+      <div class="row2">
+        <select id="fState"   onchange="render()"><option value="">All states</option></select>
+        <select id="fType"    onchange="render()"><option value="">All types</option></select>
+      </div>
+      <div class="row2">
+        <select id="fOutcome" onchange="render()"><option value="">All outcomes</option></select>
+        <select id="fIssue"   onchange="render()"><option value="">All issues</option></select>
+      </div>
+      <div class="row3">
+        <select id="fScope"     onchange="render()"><option value="">Any scope</option><option value="local">Local</option><option value="state">State</option><option value="federal">Federal</option></select>
+        <select id="fAuthority" onchange="render()"><option value="">Any authority</option></select>
+        <select id="fSource"    onchange="render()"><option value="">Both sources</option><option value="datacentertracker.org">datacentertracker.org</option><option value="bryce_tracker">Bryce tracker</option></select>
+      </div>
+      <label class="chk"><input type="checkbox" id="activeOnly" checked onchange="render()"/> Active &amp; pending only</label>
+      <div class="stats">
+        <div class="stat"><b id="cAll">—</b><span>Total</span></div>
+        <div class="stat s-pending"><b id="cPending">—</b><span>Pending</span></div>
+        <div class="stat s-win"><b id="cWin">—</b><span>Wins</span></div>
+        <div class="stat s-loss"><b id="cLoss">—</b><span>Losses</span></div>
+      </div>
+    </div>
+
+    <div id="list" class="list"></div>
+  </aside>
+
+  <div class="mapwrap">
+    <div id="map"></div>
+    <div class="legend">
+      <b>Outcome</b>
+      <div class="legend-row"><span class="lsw" style="background:var(--pending)"></span>Pending / Active</div>
+      <div class="legend-row"><span class="lsw" style="background:var(--win)"></span>Community win</div>
+      <div class="legend-row"><span class="lsw" style="background:var(--loss)"></span>Community loss</div>
+      <div class="legend-row"><span class="lsw" style="background:var(--mixed)"></span>Mixed</div>
+      <b style="margin-top:8px;display:block">Source</b>
+      <div class="legend-row"><span class="lsw" style="background:var(--dct)"></span>datacentertracker.org</div>
+      <div class="legend-row"><span class="lsw" style="background:var(--bryce)"></span>Bryce tracker</div>
+      <div class="note">Size = severity (1–5). Pins jittered at county level.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true });
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  subdomains:'abcd', maxZoom:19, attribution:'© OpenStreetMap contributors © CARTO'
+}).addTo(map);
+
+const clusterGroup = L.markerClusterGroup({
+  maxClusterRadius:50,
+  iconCreateFunction(c) {
+    const n=c.getChildCount(), sz=n>200?46:n>50?38:30;
+    return L.divIcon({ className:'', iconSize:[sz,sz],
+      html:`<div style="width:${sz}px;height:${sz}px;border-radius:4px;background:#7d2e0e;border:2px solid #e67e22;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff">${n}</div>`
+    });
+  }
+});
+map.addLayer(clusterGroup);
+
+const OUTCOME_COLORS = { win:'#4caf50', loss:'#e74c3c', pending:'#f39c12', mixed:'#9b59b6' };
+const SOURCE_COLORS  = { 'bryce_tracker':'#5aa9e6', 'datacentertracker.org':'#e67e22' };
+const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(v||'—')}</span>`; };
+const sevDots = n => { let h='<span class="sev">'; for(let i=1;i<=5;i++) h+=`<span class="sev-dot${i<=n?' on':''}"></span>`; return h+'</span>'; };
+const srcTag = s => s==='bryce_tracker' ? '<span class="src-tag src-bryce">Bryce</span>' : '<span class="src-tag src-dct">DCT</span>';
+
+let rows=[], leafletMarkers=[];
+
+function iconFor(r) {
+  const o = (r['Community Outcome']||'').toLowerCase();
+  const fillColor = OUTCOME_COLORS[o] || '#f39c12';
+  const strokeColor = SOURCE_COLORS[r['data_source']] || '#5aa9e6';
+  const n = Number(r['Severity']||2);
+  const s = 11 + n*3;
+  return L.divIcon({ className:'', iconSize:[s,s], iconAnchor:[s/2,s/2],
+    html:`<svg width="${s}" height="${s}" viewBox="0 0 ${s} ${s}"><rect x="1.5" y="1.5" width="${s-3}" height="${s-3}" rx="2" fill="${fillColor}" fill-opacity="0.88" stroke="${strokeColor}" stroke-width="2"/></svg>`
+  });
+}
+
+function buildPopup(r) {
+  const links = [
+    r['Source URL']          ? `<a class="p-link" href="${esc(r['Source URL'])}"          target="_blank" rel="noopener">Source ↗</a>` : '',
+    r['Opposition Website']  ? `<a class="p-link" href="${esc(r['Opposition Website'])}"  target="_blank" rel="noopener">Org ↗</a>` : '',
+    r['Petition URL']        ? `<a class="p-link" href="${esc(r['Petition URL'])}"        target="_blank" rel="noopener">Petition ↗</a>` : '',
+    r['Opposition Facebook'] ? `<a class="p-link" href="${esc(r['Opposition Facebook'])}" target="_blank" rel="noopener">Facebook ↗</a>` : '',
+  ].filter(Boolean).join('');
+  const mw  = r['Megawatts'] ? r['Megawatts']+' MW' : '—';
+  const inv = r['Investment Million USD'] ? '$'+Number(r['Investment Million USD']).toLocaleString()+'M' : '—';
+  const sigs = r['Petition Signatures'] && +r['Petition Signatures']>0 ? Number(r['Petition Signatures']).toLocaleString()+' sigs' : '';
+  return `
+    <div class="p-title">${esc(r['Incident'])} ${srcTag(r['data_source'])}</div>
+    ${badge(r['Community Outcome'])} ${sevDots(+r['Severity']||2)}
+    <div class="p-grid">
+      <span class="p-label">Date</span>       <span class="p-val">${esc(r['Date'])}</span>
+      <span class="p-label">Entity</span>     <span class="p-val">${esc(r['Entity'])}</span>
+      <span class="p-label">Type</span>       <span class="p-val">${esc(r['Opposition Type'])}</span>
+      <span class="p-label">Status</span>     <span class="p-val">${esc(r['Status'])}</span>
+      <span class="p-label">Location</span>   <span class="p-val">${esc(r['County'] ? r['County']+', ' : '')}${esc(r['State'])}</span>
+      ${r['Issue Category'] ? `<span class="p-label">Issue</span><span class="p-val">${esc(r['Issue Category'])}</span>` : ''}
+      ${r['Authority Level'] ? `<span class="p-label">Authority</span><span class="p-val">${esc(r['Authority Level'])}</span>` : ''}
+      ${mw!=='—' ? `<span class="p-label">Power</span><span class="p-val">${mw}</span>` : ''}
+      ${inv!=='—' ? `<span class="p-label">Investment</span><span class="p-val">${inv}</span>` : ''}
+      ${sigs ? `<span class="p-label">Petition</span><span class="p-val">${sigs}</span>` : ''}
+      ${r['Opposition Groups'] ? `<span class="p-label">Groups</span><span class="p-val">${esc(r['Opposition Groups'])}</span>` : ''}
+    </div>
+    ${r['Summary'] ? `<div class="p-summary">${esc(r['Summary']).slice(0,500)}${r['Summary'].length>500?'…':''}</div>` : ''}
+    ${links ? `<div class="p-links">${links}</div>` : ''}
+  `;
+}
+
+function match(r) {
+  const q   = document.getElementById('q').value.trim().toLowerCase();
+  const fSt = document.getElementById('fState').value;
+  const fTy = document.getElementById('fType').value;
+  const fOc = document.getElementById('fOutcome').value;
+  const fIs = document.getElementById('fIssue').value;
+  const fSc = document.getElementById('fScope').value;
+  const fAu = document.getElementById('fAuthority').value;
+  const fSr = document.getElementById('fSource').value;
+  const act = document.getElementById('activeOnly').checked;
+
+  if (fSt && r['State'] !== fSt) return false;
+  if (fTy && r['Opposition Type'] !== fTy) return false;
+  if (fOc && r['Community Outcome'] !== fOc) return false;
+  if (fIs && !r['Issue Category'].includes(fIs)) return false;
+  if (fSc && r['Scope'] !== fSc) return false;
+  if (fAu && r['Authority Level'] !== fAu) return false;
+  if (fSr && r['data_source'] !== fSr) return false;
+  if (act && !['active','pending'].includes((r['Status']||'').toLowerCase())) return false;
+  if (!q) return true;
+  const hay = [r['Incident'],r['Entity'],r['State'],r['County'],r['Opposition Groups'],r['Opposition Type'],r['Objective'],r['Company'],r['Hyperscaler'],r['City']].join(' ').toLowerCase();
+  return hay.includes(q);
+}
+
+function render() {
+  clusterGroup.clearLayers();
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+  const visible = [];
+  rows.forEach((r,i) => { if(match(r)) visible.push({r,i}); });
+
+  let pending=0, win=0, loss=0;
+  visible.forEach(({r,i}) => {
+    clusterGroup.addLayer(leafletMarkers[i]);
+    const o=(r['Community Outcome']||'').toLowerCase();
+    if(o==='pending'||o==='') pending++;
+    if(o==='win') win++;
+    if(o==='loss') loss++;
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-title">${esc(r['Incident'])}${srcTag(r['data_source'])}</div>
+      <div class="card-meta">
+        <span>${esc(r['State'])}</span>
+        <span>${esc(r['Date'])}</span>
+        <span>${esc(r['Opposition Type'])}</span>
+        ${r['Megawatts'] ? `<span>${r['Megawatts']} MW</span>` : ''}
+      </div>
+      ${badge(r['Community Outcome'])}${sevDots(+r['Severity']||2)}
+      <div class="card-snippet">${esc(r['Summary']||r['Objective']).slice(0,155)}${(r['Summary']||r['Objective']||'').length>155?'…':''}</div>
+    `;
+    card.onclick = () => { map.setView([+r.lat,+r.lon], 7); leafletMarkers[i].openPopup(); };
+    list.appendChild(card);
+  });
+
+  document.getElementById('cAll').textContent     = visible.length.toLocaleString();
+  document.getElementById('cPending').textContent = pending.toLocaleString();
+  document.getElementById('cWin').textContent     = win.toLocaleString();
+  document.getElementById('cLoss').textContent    = loss.toLocaleString();
+}
+
+let dt;
+function debounce() { clearTimeout(dt); dt = setTimeout(render, 280); }
+
+Papa.parse('./master_opposition.csv', {
+  download:true, header:true, skipEmptyLines:true,
+  complete({ data }) {
+    rows = data;
+    rows.forEach(r => {
+      const m = L.marker([+r.lat, +r.lon], { icon: iconFor(r) }).bindPopup(buildPopup(r));
+      leafletMarkers.push(m);
+    });
+
+    const pop = (id, vals) => {
+      const el = document.getElementById(id);
+      [...new Set(vals.filter(Boolean))].sort().forEach(v =>
+        el.insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)}</option>`)
+      );
+    };
+    pop('fState',     rows.map(r => r['State']));
+    pop('fType',      rows.map(r => r['Opposition Type']));
+    pop('fOutcome',   rows.map(r => r['Community Outcome']));
+    pop('fAuthority', rows.map(r => r['Authority Level']));
+
+    const issues = [...new Set(rows.flatMap(r => (r['Issue Category']||'').split(/;\s*/).map(x=>x.trim())).filter(Boolean))].sort();
+    const fIs = document.getElementById('fIssue');
+    issues.forEach(v => fIs.insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)}</option>`));
+
+    render();
+  }
+});
+</script>
+</body>
+</html>
