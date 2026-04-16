@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Developments Dashboard</title>
+<script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
+  --muted:#8a96a4; --border:#2c3544;
+  --atlas:#4f98a3; --ai:#e67e22;
+}
+* { box-sizing:border-box; margin:0; padding:0 }
+body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(--text); padding:20px; min-height:100vh }
+h2 { font-size:15px; font-weight:700; margin-bottom:14px }
+
+.page-header { margin-bottom:20px }
+.page-header h1 { font-size:20px; font-weight:700; margin-bottom:4px }
+.page-header p  { font-size:12px; color:var(--muted) }
+
+/* Section labels */
+.section-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin:20px 0 10px; display:flex; align-items:center; gap:8px }
+.section-label::after { content:''; flex:1; height:1px; background:var(--border) }
+.dot { width:9px; height:9px; border-radius:50%; display:inline-block; flex-shrink:0 }
+.dot-atlas { background:var(--atlas) }
+.dot-ai    { background:var(--ai) }
+
+/* KPIs */
+.kpis { display:grid; gap:10px; margin-bottom:4px }
+.kpis-atlas { grid-template-columns:repeat(4,1fr) }
+.kpis-ai    { grid-template-columns:repeat(4,1fr) }
+.kpi { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:14px 12px }
+.kpi b    { display:block; font-size:22px; font-weight:800; margin-bottom:3px }
+.kpi span { font-size:11px; color:var(--muted) }
+.kpi.k-atlas b { color:var(--atlas) }
+.kpi.k-ai    b { color:var(--ai) }
+
+/* Charts */
+.charts { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px }
+.chart-card { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:16px }
+.chart-card.wide { grid-column:1/-1 }
+.chart-wrap { position:relative; height:220px }
+.chart-wrap.tall { height:280px }
+
+/* Controls + table */
+.table-controls { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px; margin-bottom:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center }
+.search-wrap { position:relative; flex:1; min-width:200px }
+.search-wrap svg { position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none }
+.search-wrap input { padding-left:32px; width:100% }
+input, select { padding:7px 10px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--text); font-size:12px; outline:none }
+input:focus, select:focus { border-color:var(--atlas) }
+.tbl-meta { font-size:11px; color:var(--muted); margin-left:auto }
+
+.table-wrap { background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:20px }
+table { width:100%; border-collapse:collapse; font-size:12px }
+thead th { background:var(--panel2); padding:10px 12px; text-align:left; font-weight:600; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.4px; white-space:nowrap; cursor:pointer; user-select:none }
+thead th:hover { color:var(--text) }
+thead th.sorted-asc::after  { content:' ↑' }
+thead th.sorted-desc::after { content:' ↓' }
+tbody tr { border-top:1px solid var(--border) }
+tbody tr:hover { background:#131a23 }
+tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
+.src-tag { display:inline-block; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700; margin-left:4px }
+.src-atlas { background:#1a3040; color:var(--atlas) }
+.src-ai    { background:#3b2208; color:var(--ai) }
+.td-name { font-weight:600; max-width:200px }
+.td-notes { max-width:240px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.td-link a { color:var(--atlas); text-decoration:none; font-size:11px }
+.td-link a:hover { text-decoration:underline }
+
+.pagination { display:flex; align-items:center; gap:8px; padding:12px 14px; border-top:1px solid var(--border); font-size:12px; color:var(--muted) }
+.pagination button { padding:5px 10px; border-radius:7px; border:1px solid var(--border); background:#0c1018; color:var(--text); cursor:pointer; font-size:12px }
+.pagination button:hover { border-color:var(--atlas) }
+.pagination button:disabled { opacity:.35; cursor:default }
+.page-info { margin:0 auto }
+
+/* Tabs */
+.tabs { display:flex; gap:6px; margin-bottom:14px }
+.tab { padding:6px 14px; border-radius:7px; border:1px solid var(--border); background:transparent; color:var(--muted); font-size:12px; cursor:pointer; transition:all .15s }
+.tab.active { background:var(--panel2); border-color:var(--atlas); color:var(--text) }
+
+@media (max-width:700px) {
+  .kpis-atlas,.kpis-ai { grid-template-columns:repeat(2,1fr) }
+  .charts { grid-template-columns:1fr }
+  .chart-card.wide { grid-column:1 }
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Developments Dashboard</h1>
+  <p>OSTI IM3 Open Source Atlas (1,479 facilities) + Epoch Frontier Data — Hyperscalers (29 sites)</p>
+</div>
+
+<!-- Atlas KPIs -->
+<div class="section-label"><span class="dot dot-atlas"></span>OSTI IM3 Data</div>
+<div class="kpis kpis-atlas">
+  <div class="kpi k-atlas"><b id="aTotal">—</b><span>Total facilities</span></div>
+  <div class="kpi k-atlas"><b id="aStates">—</b><span>States</span></div>
+  <div class="kpi k-atlas"><b id="aOperators">—</b><span>Unique operators</span></div>
+  <div class="kpi k-atlas"><b id="aSqft">—</b><span>Total sq ft (est.)</span></div>
+</div>
+
+<!-- AI KPIs -->
+<div class="section-label"><span class="dot dot-ai"></span>Epoch Frontier Data (Hyperscalers)</div>
+<div class="kpis kpis-ai">
+  <div class="kpi k-ai"><b id="aiTotal">—</b><span>Hyperscale sites</span></div>
+  <div class="kpi k-ai"><b id="aiPower">—</b><span>Total power (MW)</span></div>
+  <div class="kpi k-ai"><b id="aiCapex">—</b><span>Total capex</span></div>
+  <div class="kpi k-ai"><b id="aiH100">—</b><span>H100 equivalents</span></div>
+</div>
+
+<!-- Charts -->
+<div class="section-label" style="margin-top:24px"><span class="dot dot-atlas"></span>OSTI IM3 Atlas — Charts</div>
+<div class="charts">
+  <div class="chart-card wide">
+    <h2>Facilities by State (Top 20)</h2>
+    <div class="chart-wrap"><canvas id="cAtlasStates"></canvas></div>
+  </div>
+  <div class="chart-card">
+    <h2>Facility Type Breakdown</h2>
+    <div class="chart-wrap"><canvas id="cAtlasTypes"></canvas></div>
+  </div>
+  <div class="chart-card">
+    <h2>Top 10 Operators</h2>
+    <div class="chart-wrap"><canvas id="cAtlasOps"></canvas></div>
+  </div>
+</div>
+
+<div class="section-label"><span class="dot dot-ai"></span>Epoch Frontier Data — Charts</div>
+<div class="charts">
+  <div class="chart-card">
+    <h2>Power by Owner (MW)</h2>
+    <div class="chart-wrap"><canvas id="cAIPower"></canvas></div>
+  </div>
+  <div class="chart-card">
+    <h2>Capital Cost by Owner ($B)</h2>
+    <div class="chart-wrap"><canvas id="cAICapex"></canvas></div>
+  </div>
+  <div class="chart-card wide">
+    <h2>Top Sites by Power (MW)</h2>
+    <div class="chart-wrap"><canvas id="cAISites"></canvas></div>
+  </div>
+</div>
+
+<!-- Table -->
+<div class="section-label">Full Dataset</div>
+<div class="table-controls">
+  <div class="search-wrap">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input id="tq" type="text" placeholder="Name, operator, state, owner, user…" oninput="tdebounce()"/>
+  </div>
+  <select id="tf-layer"  onchange="trender()"><option value="">Both layers</option><option value="atlas">OSTI IM3</option><option value="ai">Epoch Frontier</option></select>
+  <select id="tf-state"  onchange="trender()"><option value="">All states</option></select>
+  <select id="tf-type"   onchange="trender()"><option value="">All types</option></select>
+  <select id="tf-owner"  onchange="trender()"><option value="">All owners</option></select>
+  <span class="tbl-meta" id="tMeta"></span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th onclick="tsort('name')">Name</th>
+        <th onclick="tsort('layer')">Layer</th>
+        <th onclick="tsort('state')">State / Country</th>
+        <th onclick="tsort('operator')">Operator / Owner</th>
+        <th onclick="tsort('type')">Type</th>
+        <th onclick="tsort('sqft')">Sq ft</th>
+        <th onclick="tsort('power')">MW</th>
+        <th onclick="tsort('capex')">Capex ($B)</th>
+        <th>Notes</th>
+        <th>Src</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div class="pagination">
+    <button id="btnPrev" onclick="tpage(-1)">← Prev</button>
+    <span class="page-info" id="pageInfo"></span>
+    <button id="btnNext" onclick="tpage(1)">Next →</button>
+  </div>
+</div>
+
+<script>
+const esc = s => String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const fmtNum = (v,d=0) => v&&!isNaN(+v) ? Number(v).toLocaleString(undefined,{maximumFractionDigits:d}) : '—';
+const COLORS = ['#4f98a3','#e67e22','#4caf50','#e74c3c','#f39c12','#9b59b6','#5aa9e6','#2ecc71','#e91e63','#ff9800','#00bcd4','#8bc34a','#ff5722','#607d8b','#9c27b0'];
+const GRID = {color:'rgba(255,255,255,0.06)'};
+const TICK = {color:'#8a96a4',font:{size:11}};
+
+let tRows=[], tSortCol='name', tSortDir=1, tPage=0;
+const PAGE=50;
+
+function stripConf(s){ return (s||'').replace(/#\w+/g,'').trim(); }
+
+function buildAtlasKPIs(atlas){
+  const totalSqft = atlas.reduce((s,r)=>s+(+r.sqft||0),0);
+  const operators = new Set(atlas.map(r=>r.operator).filter(Boolean)).size;
+  document.getElementById('aTotal').textContent     = atlas.length.toLocaleString();
+  document.getElementById('aStates').textContent    = new Set(atlas.map(r=>r.state).filter(Boolean)).size;
+  document.getElementById('aOperators').textContent = operators.toLocaleString();
+  document.getElementById('aSqft').textContent      = totalSqft>1e9 ? (totalSqft/1e9).toFixed(1)+'B' : (totalSqft/1e6).toFixed(1)+'M';
+}
+
+function buildAIKPIs(ai){
+  const power = ai.reduce((s,r)=>s+(+r['Current power (MW)']||0),0);
+  const capex  = ai.reduce((s,r)=>s+(+r['Current total capital cost (2025 USD billions)']||0),0);
+  const h100   = ai.reduce((s,r)=>s+(+r['Current H100 equivalents']||0),0);
+  document.getElementById('aiTotal').textContent = ai.length;
+  document.getElementById('aiPower').textContent = fmtNum(power)+' MW';
+  document.getElementById('aiCapex').textContent = '$'+capex.toFixed(0)+'B';
+  document.getElementById('aiH100').textContent  = (h100/1e6).toFixed(2)+'M';
+}
+
+function buildCharts(atlas, ai){
+  // Atlas: states
+  const byState={};
+  atlas.forEach(r=>{ if(r.state) byState[r.state]=(byState[r.state]||0)+1; });
+  const states=Object.entries(byState).sort((a,b)=>b[1]-a[1]).slice(0,20);
+  new Chart(document.getElementById('cAtlasStates'),{
+    type:'bar',
+    data:{labels:states.map(x=>x[0]),datasets:[{data:states.map(x=>x[1]),backgroundColor:COLORS,borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',scales:{x:{ticks:TICK,grid:GRID},y:{ticks:{...TICK,font:{size:10}},grid:{display:false}}},plugins:{legend:{display:false}}}
+  });
+
+  // Atlas: types
+  const byType={};
+  atlas.forEach(r=>{ const t=r.type||'unknown'; byType[t]=(byType[t]||0)+1; });
+  const types=Object.entries(byType).sort((a,b)=>b[1]-a[1]);
+  new Chart(document.getElementById('cAtlasTypes'),{
+    type:'doughnut',
+    data:{labels:types.map(x=>x[0]),datasets:[{data:types.map(x=>x[1]),backgroundColor:COLORS,borderWidth:0,hoverOffset:6}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'right',labels:{color:'#8a96a4',font:{size:11},padding:8}}}}
+  });
+
+  // Atlas: operators
+  const byOp={};
+  atlas.forEach(r=>{ if(r.operator) byOp[r.operator]=(byOp[r.operator]||0)+1; });
+  const ops=Object.entries(byOp).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  new Chart(document.getElementById('cAtlasOps'),{
+    type:'bar',
+    data:{labels:ops.map(x=>x[0]),datasets:[{data:ops.map(x=>x[1]),backgroundColor:COLORS,borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',scales:{x:{ticks:TICK,grid:GRID},y:{ticks:{...TICK,font:{size:10}},grid:{display:false}}},plugins:{legend:{display:false}}}
+  });
+
+  // AI: power by owner
+  const aiOwnerPower={};
+  ai.forEach(r=>{ const o=stripConf(r.Owner)||'Unknown'; aiOwnerPower[o]=(aiOwnerPower[o]||0)+(+r['Current power (MW)']||0); });
+  const ownerP=Object.entries(aiOwnerPower).sort((a,b)=>b[1]-a[1]);
+  new Chart(document.getElementById('cAIPower'),{
+    type:'bar',
+    data:{labels:ownerP.map(x=>x[0]),datasets:[{data:ownerP.map(x=>x[1]),backgroundColor:COLORS,borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',scales:{x:{ticks:TICK,grid:GRID},y:{ticks:TICK,grid:{display:false}}},plugins:{legend:{display:false}}}
+  });
+
+  // AI: capex by owner
+  const aiOwnerCapex={};
+  ai.forEach(r=>{ const o=stripConf(r.Owner)||'Unknown'; aiOwnerCapex[o]=(aiOwnerCapex[o]||0)+(+r['Current total capital cost (2025 USD billions)']||0); });
+  const ownerC=Object.entries(aiOwnerCapex).sort((a,b)=>b[1]-a[1]);
+  new Chart(document.getElementById('cAICapex'),{
+    type:'bar',
+    data:{labels:ownerC.map(x=>x[0]),datasets:[{data:ownerC.map(x=>x[1].toFixed(1)),backgroundColor:COLORS,borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',scales:{x:{ticks:TICK,grid:GRID},y:{ticks:TICK,grid:{display:false}}},plugins:{legend:{display:false}}}
+  });
+
+  // AI: top sites by power
+  const sites=[...ai].sort((a,b)=>(+b['Current power (MW)']||0)-(+a['Current power (MW)']||0)).slice(0,15);
+  new Chart(document.getElementById('cAISites'),{
+    type:'bar',
+    data:{labels:sites.map(r=>r.Name),datasets:[{data:sites.map(r=>+r['Current power (MW)']||0),backgroundColor:COLORS,borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,scales:{x:{ticks:{...TICK,font:{size:10}},grid:{display:false}},y:{ticks:TICK,grid:GRID}},plugins:{legend:{display:false}}}
+  });
+}
+
+function tmatch(r){
+  const q  = document.getElementById('tq').value.trim().toLowerCase();
+  const fl = document.getElementById('tf-layer').value;
+  const fs = document.getElementById('tf-state').value;
+  const ft = document.getElementById('tf-type').value;
+  const fo = document.getElementById('tf-owner').value;
+  if(fl && r.layer!==fl) return false;
+  if(fs && r.state!==fs) return false;
+  if(ft && r.type!==ft) return false;
+  if(fo && r.operator!==fo) return false;
+  if(!q) return true;
+  return r._search.includes(q);
+}
+
+function tsort(col){
+  document.querySelectorAll('thead th').forEach(th=>th.className='');
+  if(tSortCol===col) tSortDir*=-1; else{tSortCol=col;tSortDir=1;}
+  tPage=0; trender();
+}
+
+function trender(){
+  const filtered=tRows.filter(tmatch);
+  filtered.sort((a,b)=>{
+    let va=a[tSortCol]||'', vb=b[tSortCol]||'';
+    if(['sqft','power','capex'].includes(tSortCol)){va=+va||0;vb=+vb||0;}
+    if(va<vb) return -tSortDir; if(va>vb) return tSortDir; return 0;
+  });
+  const start=tPage*PAGE, end=start+PAGE;
+  document.getElementById('tbody').innerHTML = filtered.slice(start,end).map(r=>`
+    <tr>
+      <td class="td-name">${esc(r.name||'—')}<span class="src-tag ${r.layer==='ai'?'src-ai':'src-atlas'}">${r.layer==='ai'?'EFD':'IM3'}</span></td>
+      <td>${r.layer==='ai'?'Epoch Frontier':'OSTI IM3'}</td>
+      <td>${esc(r.state||r.country||'—')}</td>
+      <td>${esc(r.operator||'—')}</td>
+      <td>${esc(r.type||'—')}</td>
+      <td style="text-align:right">${r.sqft?fmtNum(r.sqft):''}</td>
+      <td style="text-align:right">${r.power?fmtNum(r.power,0):''}</td>
+      <td style="text-align:right">${r.capex?'$'+Number(r.capex).toFixed(1)+'B':''}</td>
+      <td class="td-notes">${esc((r.notes||'').slice(0,100))}</td>
+      <td class="td-link">${r.link?`<a href="${esc(r.link)}" target="_blank" rel="noopener">↗</a>`:''}</td>
+    </tr>`).join('');
+
+  document.getElementById('tMeta').textContent = `${filtered.length.toLocaleString()} rows · page ${tPage+1} of ${Math.ceil(filtered.length/PAGE)||1}`;
+  document.getElementById('btnPrev').disabled = tPage===0;
+  document.getElementById('btnNext').disabled = end>=filtered.length;
+  document.getElementById('pageInfo').textContent = `${start+1}–${Math.min(end,filtered.length)} of ${filtered.length.toLocaleString()}`;
+}
+function tpage(dir){tPage+=dir;trender();}
+let tdt; function tdebounce(){clearTimeout(tdt);tdt=setTimeout(()=>{tPage=0;trender();},260);}
+
+function pop(id,vals){
+  const el=document.getElementById(id);
+  [...new Set(vals.filter(Boolean))].sort().forEach(v=>el.insertAdjacentHTML('beforeend',`<option value="${esc(v)}">${esc(v)}</option>`));
+}
+
+let atlasLoaded=null, aiLoaded=null;
+function tryInit(){
+  if(!atlasLoaded||!aiLoaded) return;
+  buildAtlasKPIs(atlasLoaded);
+  buildAIKPIs(aiLoaded);
+  buildCharts(atlasLoaded, aiLoaded);
+
+  // Build unified table rows
+  atlasLoaded.forEach(r=>{
+    tRows.push({layer:'atlas',name:r.name,state:r.state,country:'United States',operator:r.operator||'',type:r.type||'',sqft:r.sqft||'',power:'',capex:'',notes:'',link:'',_search:[r.name,r.operator,r.state,r.county].join(' ').toLowerCase()});
+  });
+  aiLoaded.forEach(r=>{
+    const owner=stripConf(r.Owner);
+    tRows.push({layer:'ai',name:r.Name,state:'',country:r.Country||'',operator:owner,type:'hyperscale',sqft:'',power:r['Current power (MW)']||'',capex:r['Current total capital cost (2025 USD billions)']||'',notes:(r.Notes||'').replace(/\n/g,' '),link:r['Calculations sheet']||'',_search:[r.Name,owner,r.Users,r.Project,r.Address,r.Country].join(' ').toLowerCase()});
+  });
+
+  pop('tf-state', atlasLoaded.map(r=>r.state));
+  pop('tf-type',  [...atlasLoaded.map(r=>r.type),'hyperscale']);
+  pop('tf-owner', [...new Set([...atlasLoaded.map(r=>r.operator),...aiLoaded.map(r=>stripConf(r.Owner))].filter(Boolean))].sort());
+
+  trender();
+}
+
+Papa.parse('./atlas.csv',       {download:true,header:true,skipEmptyLines:true,complete({data}){atlasLoaded=data;tryInit();}});
+Papa.parse('./ai_centers.csv',  {download:true,header:true,skipEmptyLines:true,complete({data}){aiLoaded=data;tryInit();}});
+</script>
+</body>
+</html>
