@@ -14,7 +14,7 @@
 }
 * { box-sizing:border-box; margin:0; padding:0 }
 body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(--text); padding:20px; min-height:100vh }
-h2 { font-size:15px; font-weight:700; margin-bottom:14px }
+h2 { font-size:14px; font-weight:700; margin-bottom:14px }
 
 .page-header { margin-bottom:20px }
 .page-header h1 { font-size:20px; font-weight:700; margin-bottom:4px }
@@ -28,9 +28,7 @@ h2 { font-size:15px; font-weight:700; margin-bottom:14px }
 .dot-ai    { background:var(--ai) }
 
 /* KPIs */
-.kpis { display:grid; gap:10px; margin-bottom:4px }
-.kpis-atlas { grid-template-columns:repeat(4,1fr) }
-.kpis-ai    { grid-template-columns:repeat(4,1fr) }
+.kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:4px }
 .kpi { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:14px 12px }
 .kpi b    { display:block; font-size:22px; font-weight:800; margin-bottom:3px }
 .kpi span { font-size:11px; color:var(--muted) }
@@ -42,7 +40,8 @@ h2 { font-size:15px; font-weight:700; margin-bottom:14px }
 .chart-card { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:16px }
 .chart-card.wide { grid-column:1/-1 }
 .chart-wrap { position:relative; height:220px }
-.chart-wrap.tall { height:280px }
+.chart-wrap.h480 { height:480px }
+.chart-wrap.h300 { height:300px }
 
 /* Controls + table */
 .table-controls { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px; margin-bottom:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center }
@@ -76,13 +75,8 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
 .pagination button:disabled { opacity:.35; cursor:default }
 .page-info { margin:0 auto }
 
-/* Tabs */
-.tabs { display:flex; gap:6px; margin-bottom:14px }
-.tab { padding:6px 14px; border-radius:7px; border:1px solid var(--border); background:transparent; color:var(--muted); font-size:12px; cursor:pointer; transition:all .15s }
-.tab.active { background:var(--panel2); border-color:var(--atlas); color:var(--text) }
-
 @media (max-width:700px) {
-  .kpis-atlas,.kpis-ai { grid-template-columns:repeat(2,1fr) }
+  .kpis { grid-template-columns:repeat(2,1fr) }
   .charts { grid-template-columns:1fr }
   .chart-card.wide { grid-column:1 }
 }
@@ -96,53 +90,54 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
 </div>
 
 <!-- Atlas KPIs -->
-<div class="section-label"><span class="dot dot-atlas"></span>OSTI IM3 Data</div>
-<div class="kpis kpis-atlas">
-  <div class="kpi k-atlas"><b id="aTotal">—</b><span>Total facilities</span></div>
-  <div class="kpi k-atlas"><b id="aStates">—</b><span>States</span></div>
+<div class="section-label"><span class="dot dot-atlas"></span>OSTI IM3 Atlas — Existing Facilities</div>
+<div class="kpis">
+  <div class="kpi k-atlas"><b id="aTotal">—</b><span>Total tracked facilities</span></div>
+  <div class="kpi k-atlas"><b id="aStates">—</b><span>States with facilities</span></div>
   <div class="kpi k-atlas"><b id="aOperators">—</b><span>Unique operators</span></div>
-  <div class="kpi k-atlas"><b id="aSqft">—</b><span>Total sq ft (est.)</span></div>
+  <div class="kpi k-atlas"><b id="aSqft">—</b><span>Est. total sq ft</span></div>
 </div>
 
 <!-- AI KPIs -->
-<div class="section-label"><span class="dot dot-ai"></span>Epoch Frontier Data (Hyperscalers)</div>
-<div class="kpis kpis-ai">
-  <div class="kpi k-ai"><b id="aiTotal">—</b><span>Hyperscale sites</span></div>
-  <div class="kpi k-ai"><b id="aiPower">—</b><span>Total power (MW)</span></div>
-  <div class="kpi k-ai"><b id="aiCapex">—</b><span>Total capex</span></div>
-  <div class="kpi k-ai"><b id="aiH100">—</b><span>H100 equivalents</span></div>
+<div class="section-label"><span class="dot dot-ai"></span>Epoch Frontier Data — Hyperscale AI Sites</div>
+<div class="kpis">
+  <div class="kpi k-ai"><b id="aiTotal">—</b><span>Hyperscale sites tracked</span></div>
+  <div class="kpi k-ai"><b id="aiOwners">—</b><span>Distinct owners</span></div>
+  <div class="kpi k-ai"><b id="aiPower">—</b><span>Total power capacity (MW)</span></div>
+  <div class="kpi k-ai"><b id="aiCapex">—</b><span>Total capital invested</span></div>
 </div>
 
-<!-- Charts -->
-<div class="section-label" style="margin-top:24px"><span class="dot dot-atlas"></span>OSTI IM3 Atlas — Charts</div>
+<!-- Atlas Charts -->
+<div class="section-label" style="margin-top:24px"><span class="dot dot-atlas"></span>OSTI IM3 Atlas</div>
 <div class="charts">
   <div class="chart-card wide">
-    <h2>Facilities by State (Top 20)</h2>
-    <div class="chart-wrap"><canvas id="cAtlasStates"></canvas></div>
+    <h2>Facility Concentration by State (Top 25)</h2>
+    <div class="chart-wrap h480"><canvas id="cAtlasStates"></canvas></div>
   </div>
   <div class="chart-card">
-    <h2>Facility Type Breakdown</h2>
+    <h2>Facility Type</h2>
     <div class="chart-wrap"><canvas id="cAtlasTypes"></canvas></div>
   </div>
   <div class="chart-card">
-    <h2>Top 10 Operators</h2>
+    <h2>Top 10 Operators by Facility Count</h2>
     <div class="chart-wrap"><canvas id="cAtlasOps"></canvas></div>
   </div>
 </div>
 
-<div class="section-label"><span class="dot dot-ai"></span>Epoch Frontier Data — Charts</div>
+<!-- AI Charts -->
+<div class="section-label"><span class="dot dot-ai"></span>Epoch Frontier — Hyperscalers</div>
 <div class="charts">
   <div class="chart-card">
-    <h2>Power by Owner (MW)</h2>
+    <h2>Power Capacity by Owner (MW)</h2>
     <div class="chart-wrap"><canvas id="cAIPower"></canvas></div>
   </div>
   <div class="chart-card">
-    <h2>Capital Cost by Owner ($B)</h2>
+    <h2>Capital Investment by Owner ($B)</h2>
     <div class="chart-wrap"><canvas id="cAICapex"></canvas></div>
   </div>
   <div class="chart-card wide">
-    <h2>Top Sites by Power (MW)</h2>
-    <div class="chart-wrap"><canvas id="cAISites"></canvas></div>
+    <h2>All Sites — Power Capacity (MW)</h2>
+    <div class="chart-wrap h300"><canvas id="cAISites"></canvas></div>
   </div>
 </div>
 
@@ -151,7 +146,7 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
 <div class="table-controls">
   <div class="search-wrap">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input id="tq" type="text" placeholder="Name, operator, state, owner, user…" oninput="tdebounce()"/>
+    <input id="tq" type="text" placeholder="Name, operator, state, owner…" oninput="tdebounce()"/>
   </div>
   <select id="tf-layer"  onchange="trender()"><option value="">Both layers</option><option value="atlas">OSTI IM3</option><option value="ai">Epoch Frontier</option></select>
   <select id="tf-state"  onchange="trender()"><option value="">All states</option></select>
@@ -191,6 +186,7 @@ const fmtNum = (v,d=0) => v&&!isNaN(+v) ? Number(v).toLocaleString(undefined,{ma
 const COLORS = ['#4f98a3','#e67e22','#4caf50','#e74c3c','#f39c12','#9b59b6','#5aa9e6','#2ecc71','#e91e63','#ff9800','#00bcd4','#8bc34a','#ff5722','#607d8b','#9c27b0'];
 const GRID = {color:'rgba(255,255,255,0.06)'};
 const TICK = {color:'#8a96a4',font:{size:11}};
+const TICK_MD = {color:'#8a96a4',font:{size:12}};
 
 let tRows=[], tSortCol='name', tSortDir=1, tPage=0;
 const PAGE=50;
@@ -199,80 +195,90 @@ function stripConf(s){ return (s||'').replace(/#\w+/g,'').trim(); }
 
 function buildAtlasKPIs(atlas){
   const totalSqft = atlas.reduce((s,r)=>s+(+r.sqft||0),0);
-  const operators = new Set(atlas.map(r=>r.operator).filter(Boolean)).size;
   document.getElementById('aTotal').textContent     = atlas.length.toLocaleString();
   document.getElementById('aStates').textContent    = new Set(atlas.map(r=>r.state).filter(Boolean)).size;
-  document.getElementById('aOperators').textContent = operators.toLocaleString();
-  document.getElementById('aSqft').textContent      = totalSqft>1e9 ? (totalSqft/1e9).toFixed(1)+'B' : (totalSqft/1e6).toFixed(1)+'M';
+  document.getElementById('aOperators').textContent = new Set(atlas.map(r=>r.operator).filter(Boolean)).size.toLocaleString();
+  document.getElementById('aSqft').textContent      = (totalSqft/1e6).toFixed(0)+'M sq ft';
 }
 
 function buildAIKPIs(ai){
-  const power = ai.reduce((s,r)=>s+(+r['Current power (MW)']||0),0);
+  const power  = ai.reduce((s,r)=>s+(+r['Current power (MW)']||0),0);
   const capex  = ai.reduce((s,r)=>s+(+r['Current total capital cost (2025 USD billions)']||0),0);
-  const h100   = ai.reduce((s,r)=>s+(+r['Current H100 equivalents']||0),0);
-  document.getElementById('aiTotal').textContent = ai.length;
-  document.getElementById('aiPower').textContent = fmtNum(power)+' MW';
-  document.getElementById('aiCapex').textContent = '$'+capex.toFixed(0)+'B';
-  document.getElementById('aiH100').textContent  = (h100/1e6).toFixed(2)+'M';
+  const owners = new Set(ai.map(r=>stripConf(r.Owner)).filter(Boolean)).size;
+  document.getElementById('aiTotal').textContent  = ai.length;
+  document.getElementById('aiOwners').textContent = owners;
+  document.getElementById('aiPower').textContent  = Math.round(power).toLocaleString()+' MW';
+  document.getElementById('aiCapex').textContent  = '$'+capex.toFixed(0)+'B';
 }
 
 function buildCharts(atlas, ai){
-  // Atlas: states
+  // Atlas: top 25 states — horizontal bar
   const byState={};
   atlas.forEach(r=>{ if(r.state) byState[r.state]=(byState[r.state]||0)+1; });
-  const states=Object.entries(byState).sort((a,b)=>b[1]-a[1]).slice(0,20);
+  const states=Object.entries(byState).sort((a,b)=>b[1]-a[1]).slice(0,25);
   new Chart(document.getElementById('cAtlasStates'),{
     type:'bar',
-    data:{labels:states.map(x=>x[0]),datasets:[{data:states.map(x=>x[1]),backgroundColor:COLORS,borderRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',scales:{x:{ticks:TICK,grid:GRID},y:{ticks:{...TICK,font:{size:10}},grid:{display:false}}},plugins:{legend:{display:false}}}
+    data:{labels:states.map(x=>x[0]),datasets:[{data:states.map(x=>x[1]),backgroundColor:states.map((_,i)=>COLORS[i%COLORS.length]),borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      scales:{x:{ticks:TICK,grid:GRID,beginAtZero:true},y:{ticks:{...TICK_MD},grid:{display:false}}},
+      plugins:{legend:{display:false}}}
   });
 
-  // Atlas: types
+  // Atlas: types donut
   const byType={};
   atlas.forEach(r=>{ const t=r.type||'unknown'; byType[t]=(byType[t]||0)+1; });
   const types=Object.entries(byType).sort((a,b)=>b[1]-a[1]);
   new Chart(document.getElementById('cAtlasTypes'),{
     type:'doughnut',
     data:{labels:types.map(x=>x[0]),datasets:[{data:types.map(x=>x[1]),backgroundColor:COLORS,borderWidth:0,hoverOffset:6}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'right',labels:{color:'#8a96a4',font:{size:11},padding:8}}}}
+    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',
+      plugins:{legend:{position:'right',labels:{color:'#8a96a4',font:{size:12},padding:10}}}}
   });
 
-  // Atlas: operators
+  // Atlas: top 10 operators — horizontal bar
   const byOp={};
   atlas.forEach(r=>{ if(r.operator) byOp[r.operator]=(byOp[r.operator]||0)+1; });
   const ops=Object.entries(byOp).sort((a,b)=>b[1]-a[1]).slice(0,10);
   new Chart(document.getElementById('cAtlasOps'),{
     type:'bar',
-    data:{labels:ops.map(x=>x[0]),datasets:[{data:ops.map(x=>x[1]),backgroundColor:COLORS,borderRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',scales:{x:{ticks:TICK,grid:GRID},y:{ticks:{...TICK,font:{size:10}},grid:{display:false}}},plugins:{legend:{display:false}}}
+    data:{labels:ops.map(x=>x[0]),datasets:[{data:ops.map(x=>x[1]),backgroundColor:COLORS,borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      scales:{x:{ticks:TICK,grid:GRID},y:{ticks:{...TICK_MD},grid:{display:false}}},
+      plugins:{legend:{display:false}}}
   });
 
-  // AI: power by owner
+  // AI: power by owner — horizontal bar
   const aiOwnerPower={};
   ai.forEach(r=>{ const o=stripConf(r.Owner)||'Unknown'; aiOwnerPower[o]=(aiOwnerPower[o]||0)+(+r['Current power (MW)']||0); });
-  const ownerP=Object.entries(aiOwnerPower).sort((a,b)=>b[1]-a[1]);
+  const ownerP=Object.entries(aiOwnerPower).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);
   new Chart(document.getElementById('cAIPower'),{
     type:'bar',
-    data:{labels:ownerP.map(x=>x[0]),datasets:[{data:ownerP.map(x=>x[1]),backgroundColor:COLORS,borderRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',scales:{x:{ticks:TICK,grid:GRID},y:{ticks:TICK,grid:{display:false}}},plugins:{legend:{display:false}}}
+    data:{labels:ownerP.map(x=>x[0]),datasets:[{data:ownerP.map(x=>x[1]),backgroundColor:COLORS,borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      scales:{x:{ticks:TICK,grid:GRID},y:{ticks:{...TICK_MD},grid:{display:false}}},
+      plugins:{legend:{display:false}}}
   });
 
-  // AI: capex by owner
+  // AI: capex by owner — horizontal bar
   const aiOwnerCapex={};
   ai.forEach(r=>{ const o=stripConf(r.Owner)||'Unknown'; aiOwnerCapex[o]=(aiOwnerCapex[o]||0)+(+r['Current total capital cost (2025 USD billions)']||0); });
-  const ownerC=Object.entries(aiOwnerCapex).sort((a,b)=>b[1]-a[1]);
+  const ownerC=Object.entries(aiOwnerCapex).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);
   new Chart(document.getElementById('cAICapex'),{
     type:'bar',
-    data:{labels:ownerC.map(x=>x[0]),datasets:[{data:ownerC.map(x=>x[1].toFixed(1)),backgroundColor:COLORS,borderRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',scales:{x:{ticks:TICK,grid:GRID},y:{ticks:TICK,grid:{display:false}}},plugins:{legend:{display:false}}}
+    data:{labels:ownerC.map(x=>x[0]),datasets:[{data:ownerC.map(x=>+x[1].toFixed(1)),backgroundColor:COLORS,borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      scales:{x:{ticks:TICK,grid:GRID},y:{ticks:{...TICK_MD},grid:{display:false}}},
+      plugins:{legend:{display:false}}}
   });
 
-  // AI: top sites by power
-  const sites=[...ai].sort((a,b)=>(+b['Current power (MW)']||0)-(+a['Current power (MW)']||0)).slice(0,15);
+  // AI: all sites by power — vertical bar sorted desc
+  const sites=[...ai].filter(r=>+r['Current power (MW)']>0).sort((a,b)=>(+b['Current power (MW)']||0)-(+a['Current power (MW)']||0));
   new Chart(document.getElementById('cAISites'),{
     type:'bar',
-    data:{labels:sites.map(r=>r.Name),datasets:[{data:sites.map(r=>+r['Current power (MW)']||0),backgroundColor:COLORS,borderRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,scales:{x:{ticks:{...TICK,font:{size:10}},grid:{display:false}},y:{ticks:TICK,grid:GRID}},plugins:{legend:{display:false}}}
+    data:{labels:sites.map(r=>r.Name),datasets:[{data:sites.map(r=>+r['Current power (MW)']||0),backgroundColor:COLORS,borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      scales:{x:{ticks:{...TICK,maxRotation:45,minRotation:45,font:{size:10}},grid:{display:false}},y:{ticks:TICK,grid:GRID}},
+      plugins:{legend:{display:false}}}
   });
 }
 
@@ -299,8 +305,9 @@ function tsort(col){
 function trender(){
   const filtered=tRows.filter(tmatch);
   filtered.sort((a,b)=>{
-    let va=a[tSortCol]||'', vb=b[tSortCol]||'';
-    if(['sqft','power','capex'].includes(tSortCol)){va=+va||0;vb=+vb||0;}
+    const col=tSortCol;
+    let va=a[col]||'', vb=b[col]||'';
+    if(['sqft','power','capex'].includes(col)){va=+va||0;vb=+vb||0;}
     if(va<vb) return -tSortDir; if(va>vb) return tSortDir; return 0;
   });
   const start=tPage*PAGE, end=start+PAGE;
@@ -338,7 +345,6 @@ function tryInit(){
   buildAIKPIs(aiLoaded);
   buildCharts(atlasLoaded, aiLoaded);
 
-  // Build unified table rows
   atlasLoaded.forEach(r=>{
     tRows.push({layer:'atlas',name:r.name,state:r.state,country:'United States',operator:r.operator||'',type:r.type||'',sqft:r.sqft||'',power:'',capex:'',notes:'',link:'',_search:[r.name,r.operator,r.state,r.county].join(' ').toLowerCase()});
   });
@@ -354,8 +360,8 @@ function tryInit(){
   trender();
 }
 
-Papa.parse('./atlas.csv',       {download:true,header:true,skipEmptyLines:true,complete({data}){atlasLoaded=data;tryInit();}});
-Papa.parse('./ai_centers.csv',  {download:true,header:true,skipEmptyLines:true,complete({data}){aiLoaded=data;tryInit();}});
+Papa.parse('./atlas.csv',      {download:true,header:true,skipEmptyLines:true,complete({data}){atlasLoaded=data;tryInit();}});
+Papa.parse('./ai_centers.csv', {download:true,header:true,skipEmptyLines:true,complete({data}){aiLoaded=data;tryInit();}});
 </script>
 </body>
 </html>
