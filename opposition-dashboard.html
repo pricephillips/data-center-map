@@ -104,8 +104,8 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
 <!-- Charts -->
 <div class="charts">
   <div class="chart-card wide">
-    <h2>Actions Over Time</h2>
-    <div class="chart-wrap"><canvas id="cTimeline"></canvas></div>
+    <h2>Highest Concentration of Opposition (Top 25 States)</h2>
+    <div class="chart-wrap tall"><canvas id="cStateLarge"></canvas></div>
   </div>
   <div class="chart-card">
     <h2>Top 15 States by Actions</h2>
@@ -184,17 +184,15 @@ const PAGE_SIZE = 50;
 
 // ── Charts ─────────────────────────────────────────────────────────────────
 function buildCharts(rows) {
-  // Timeline — group by year-month
-  const byMonth = {};
-  rows.forEach(r => {
-    const d = r['Date'] ? String(r['Date']).slice(0,7) : null;
-    if (d && d.length === 7) byMonth[d] = (byMonth[d]||0)+1;
-  });
-  const months = Object.keys(byMonth).sort();
-  new Chart(document.getElementById('cTimeline'), {
-    type:'line',
-    data:{ labels:months, datasets:[{ label:'Actions', data:months.map(m=>byMonth[m]), borderColor:'#4f98a3', backgroundColor:'rgba(79,152,163,0.12)', fill:true, tension:0.3, pointRadius:2 }] },
-    options:{ ...chartDefaults, scales:{ x:{ ticks:{...TICK, maxTicksLimit:14}, grid:GRID }, y:{ ticks:TICK, grid:GRID, beginAtZero:true } }, plugins:{...chartDefaults.plugins, legend:{display:false}} }
+
+  // Highest concentration of opposition — top 25 states
+  const stateLarge = {};
+  rows.forEach(r => { if(r['State']) stateLarge[r['State']] = (stateLarge[r['State']]||0)+1; });
+  const stateLargeSorted = Object.entries(stateLarge).sort((a,b)=>b[1]-a[1]).slice(0,25);
+  new Chart(document.getElementById('cStateLarge'), {
+    type:'bar',
+    data:{ labels:stateLargeSorted.map(x=>x[0]), datasets:[{ label:'Actions', data:stateLargeSorted.map(x=>x[1]), backgroundColor:CHART_COLORS, borderRadius:4 }] },
+    options:{ ...chartDefaults, scales:{ x:{ ticks:{...TICK, maxRotation:45, minRotation:45}, grid:{display:false} }, y:{ ticks:TICK, grid:GRID, beginAtZero:true } }, plugins:{...chartDefaults.plugins, legend:{display:false}} }
   });
 
   // Top 15 states
