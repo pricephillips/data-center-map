@@ -95,21 +95,22 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .choro-back:hover { border-color:#e74c3c }
 .map-hint { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:500; background:rgba(15,18,24,.88); backdrop-filter:blur(6px); border:1px solid var(--border); border-radius:20px; padding:5px 14px; font-size:11px; color:var(--muted); pointer-events:none; white-space:nowrap }
 
-.map-faded-marker { opacity:0; pointer-events:none; transition:opacity .18s ease; }
-
-.toolbar-row { display:flex; gap:7px; flex-wrap:wrap }
-.tool-btn { padding:7px 10px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--text); font-size:11px; cursor:pointer }
+.choro-back { position:absolute; top:12px; left:12px; z-index:500; background:rgba(15,18,24,.93); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:8px; padding:6px 12px; font-size:11px; font-weight:600; cursor:pointer; color:var(--text); display:none }
+.choro-back:hover { border-color:#e74c3c }
+.map-hint { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:500; background:rgba(15,18,24,.88); backdrop-filter:blur(6px); border:1px solid var(--border); border-radius:20px; padding:5px 14px; font-size:11px; color:var(--muted); pointer-events:none; white-space:nowrap }
+.map-faded-marker { opacity:0.12; pointer-events:none; transition:opacity .25s ease }
+.toolbar-row { display:flex; gap:7px; flex-wrap:wrap; margin-top:6px }
+.tool-btn { padding:6px 10px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--text); font-size:11px; cursor:pointer }
 .tool-btn:hover { border-color:#e74c3c }
-.card.active { border-color:#ff8f84; box-shadow:0 0 0 1px rgba(255,143,132,.24) inset }
+.card.active { border-color:#ff8f84; box-shadow:0 0 0 1px rgba(255,143,132,.22) inset }
 .card.oc-pending { border-left:3px solid var(--pending) }
 .card.oc-win { border-left:3px solid var(--win) }
 .card.oc-loss { border-left:3px solid var(--loss) }
 .card.oc-mixed { border-left:3px solid var(--mixed) }
-.summary-bar { display:flex; height:10px; border-radius:999px; overflow:hidden; background:#111827; border:1px solid var(--border) }
+.summary-bar { display:flex; height:9px; border-radius:999px; overflow:hidden; background:#111827; border:1px solid var(--border); margin-top:4px }
 .summary-seg { height:100% }
-.summary-meta { display:flex; gap:10px; flex-wrap:wrap; font-size:10px; color:var(--muted); margin-top:5px }
+.summary-meta { display:flex; gap:10px; flex-wrap:wrap; font-size:10px; color:var(--muted); margin-top:4px }
 .pin-tooltip { background:#0f1722; color:#eef2f7; border:1px solid var(--border); border-radius:8px; box-shadow:0 6px 20px rgba(0,0,0,.35) }
-
 </style>
 </head>
 <body>
@@ -147,10 +148,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
       </div>
       <label class="chk"><input type="checkbox" id="activeOnly" onchange="render()"/> Active &amp; pending only</label>
       <div id="outcomeSummary"></div>
-      <div class="toolbar-row">
-        <button class="tool-btn" onclick="resetFilters()">Reset filters</button>
-        <button class="tool-btn" onclick="zoomToResults()">Zoom to results</button>
-      </div>
+      <div class="toolbar-row"><button class="tool-btn" onclick="resetFilters()">Reset filters</button><button class="tool-btn" onclick="zoomToResults()">Zoom to results</button></div>
       <div class="stats">
         <div class="stat"><b id="cAll">—</b><span>Total</span></div>
         <div class="stat s-pending"><b id="cPending">—</b><span>Pending</span></div>
@@ -164,6 +162,8 @@ input:focus, select:focus { border-color:#5aa9e6 }
 
   <div class="mapwrap">
     <div id="map"></div>
+    <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
+    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal opposition incidents</div>
     <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
     <div class="map-hint" id="mapHint">Click any state to zoom in and reveal opposition incidents</div>
     <div class="legend">
@@ -198,9 +198,8 @@ const clusterGroup = L.markerClusterGroup({
   maxClusterRadius:50,
   iconCreateFunction(c) {
     const n=c.getChildCount(), sz=n>200?46:n>50?38:30;
-    const hidden = map.getZoom() < 6 ? ' map-faded-marker' : '';
     return L.divIcon({ className:'', iconSize:[sz,sz],
-      html:`<div class="${hidden.trim()}" style="width:${sz}px;height:${sz}px;border-radius:4px;background:#7d2e0e;border:2px solid #ff9a5c;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;box-shadow:0 0 0 1px rgba(231,76,60,.18)">${n}</div>`
+      html:`<div style="width:${sz}px;height:${sz}px;border-radius:4px;background:#7d2e0e;border:2px solid #e67e22;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff">${n}</div>`
     });
   }
 });
@@ -213,9 +212,7 @@ const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge b
 const sevDots = n => { let h='<span class="sev">'; for(let i=1;i<=5;i++) h+=`<span class="sev-dot${i<=n?' on':''}"></span>`; return h+'</span>'; };
 const srcTag = s => s==='bryce_tracker' ? '<span class="src-tag src-bryce">Bryce</span>' : '<span class="src-tag src-dct">DCT</span>';
 
-let rows=[], leafletMarkers=[];
-let cardRefs=[];
-let suppressHashChange = false;
+let rows=[], leafletMarkers=[], cardRefs=[];
 
 function iconFor(r) {
   const o = (r['Community Outcome']||'').toLowerCase();
@@ -283,85 +280,6 @@ function match(r) {
   return hay.includes(q);
 }
 
-
-function resetFilters(){
-  document.getElementById('q').value = '';
-  document.getElementById('fState').value = '';
-  document.getElementById('fType').value = '';
-  document.getElementById('fOutcome').value = '';
-  document.getElementById('fIssue').value = '';
-  document.getElementById('fScope').value = '';
-  document.getElementById('fAuthority').value = '';
-  document.getElementById('fSource').value = '';
-  document.getElementById('activeOnly').checked = false;
-  render();
-}
-
-function getVisibleRows(){
-  return rows.map((r,i)=>({r,i})).filter(({r})=>match(r));
-}
-
-function zoomToResults(){
-  const visible = getVisibleRows();
-  if (!visible.length) return;
-  const bounds = [];
-  visible.forEach(({r}) => {
-    const lat = +r.lat, lon = +r.lon;
-    if (!isNaN(lat) && !isNaN(lon)) bounds.push([lat, lon]);
-  });
-  if (bounds.length) map.flyToBounds(bounds, {padding:[30,30], maxZoom:8, duration:0.8});
-}
-
-function highlightCard(idx){
-  cardRefs.forEach(c => c && c.classList.remove('active'));
-  if (cardRefs[idx]) {
-    cardRefs[idx].classList.add('active');
-    cardRefs[idx].scrollIntoView({block:'nearest', behavior:'smooth'});
-  }
-}
-
-function renderOutcomeSummary(visible){
-  let pending=0, win=0, loss=0, mixed=0;
-  visible.forEach(({r}) => {
-    const o = (r['Community Outcome']||'').toLowerCase();
-    if (o === 'win') win++;
-    else if (o === 'loss') loss++;
-    else if (o === 'mixed') mixed++;
-    else pending++;
-  });
-  const total = Math.max(1, visible.length);
-  const pct = n => (n/total*100).toFixed(1) + '%';
-  document.getElementById('outcomeSummary').innerHTML = `
-    <div class="summary-bar">
-      <div class="summary-seg" style="width:${pct(pending)};background:var(--pending)"></div>
-      <div class="summary-seg" style="width:${pct(win)};background:var(--win)"></div>
-      <div class="summary-seg" style="width:${pct(loss)};background:var(--loss)"></div>
-      <div class="summary-seg" style="width:${pct(mixed)};background:var(--mixed)"></div>
-    </div>
-    <div class="summary-meta">
-      <span>Pending ${pending}</span><span>Wins ${win}</span><span>Losses ${loss}</span><span>Mixed ${mixed}</span>
-    </div>`;
-}
-
-function updateHashForState(stateName){
-  if (suppressHashChange) return;
-  if (!stateName) { history.replaceState(null, '', location.pathname + location.search); return; }
-  history.replaceState(null, '', '#' + encodeURIComponent(stateName.toLowerCase().replace(/\s+/g,'-')));
-}
-
-function restoreStateFromHash(){
-  const raw = decodeURIComponent((location.hash || '').replace(/^#/, '')).trim();
-  if (!raw || !choroplethLayer) return;
-  const wanted = raw.replace(/-/g, ' ').toLowerCase();
-  choroplethLayer.eachLayer(layer => {
-    const name = (layer.feature?.properties?.NAME || layer.feature?.properties?.name || '').toLowerCase();
-    if (name === wanted) {
-      suppressHashChange = true;
-      setTimeout(() => { choroZoomIn(layer.feature, layer, layer.feature.properties.NAME || layer.feature.properties.name, layer.feature.properties._count || 0); suppressHashChange = false; }, 100);
-    }
-  });
-}
-
 function render() {
   clusterGroup.clearLayers();
   const list = document.getElementById('list');
@@ -370,8 +288,8 @@ function render() {
   const visible = [];
   rows.forEach((r,i) => { if(match(r)) visible.push({r,i}); });
 
-  let pending=0, win=0, loss=0;
   renderOutcomeSummary(visible);
+  let pending=0, win=0, loss=0;
   visible.forEach(({r,i}) => {
     clusterGroup.addLayer(leafletMarkers[i]);
     const o=(r['Community Outcome']||'').toLowerCase();
@@ -380,7 +298,7 @@ function render() {
     if(o==='loss') loss++;
 
     const card = document.createElement('div');
-    card.className = 'card oc-' + ((r['Community Outcome']||'pending').toLowerCase() || 'pending');
+    card.className = 'card oc-' + ((r['Community Outcome']||'pending').toLowerCase());
     card.innerHTML = `
       <div class="card-title">${esc(r['Incident'])}${srcTag(r['data_source'])}</div>
       <div class="card-meta">
@@ -411,7 +329,8 @@ Papa.parse('./master_opposition.csv', {
   complete({ data }) {
     rows = data;
     rows.forEach(r => {
-      const m = L.marker([+r.lat, +r.lon], { icon: iconFor(r) }).bindPopup(buildPopup(r)).bindTooltip(`<div>${esc(r['Incident']||'')}</div><div style='color:#8a96a4'>${esc(r['State']||'')} · ${esc(r['Community Outcome']||'Pending')}</div>`, {direction:'top', className:'pin-tooltip'}); m.on('click', () => highlightCard(leafletMarkers.indexOf(m))); 
+      const m = L.marker([+r.lat, +r.lon], { icon: iconFor(r) }).bindPopup(buildPopup(r)).bindTooltip(`<b>${(r['Incident']||'').slice(0,50)}</b><br>${r['State']||''} · ${r['Community Outcome']||'Pending'}`, {direction:'top',className:'pin-tooltip'});
+      m.on('click', () => highlightCard(leafletMarkers.indexOf(m)));
       leafletMarkers.push(m);
     });
 
@@ -434,111 +353,98 @@ Papa.parse('./master_opposition.csv', {
   }
 });
 
-// ─── CHOROPLETH ──────────────────────────────────────────────────────────────
-let choroplethLayer = null;
-let currentZoomedState = null;
+// ─── CHOROPLETH + QoL ────────────────────────────────────────────────────────
+let choroplethLayer = null, currentZoomedState = null;
 
-const DENSITY_STEPS = [
-  {min:0,  max:0,  color:'#0d0a09', opacity:0.35},
-  {min:1,  max:2,  color:'#1a0a08', opacity:0.70},
-  {min:3,  max:7,  color:'#4a1a0e', opacity:0.76},
-  {min:8,  max:15, color:'#7a2a14', opacity:0.80},
-  {min:16, max:30, color:'#b03a1a', opacity:0.84},
-  {min:31, max:9999,color:'#e74c3c',opacity:0.88},
+const OPP_STEPS = [
+  {min:0,   max:0,   color:'#150a08', opacity:0.60},
+  {min:1,   max:2,   color:'#2e1008', opacity:0.78},
+  {min:3,   max:7,   color:'#5a1e10', opacity:0.84},
+  {min:8,   max:15,  color:'#8a2c18', opacity:0.89},
+  {min:16,  max:30,  color:'#c04020', opacity:0.93},
+  {min:31,  max:9999,color:'#e74c3c', opacity:0.96},
 ];
-function densityColor(n){ return DENSITY_STEPS.find(s=>n>=s.min&&n<=s.max)||DENSITY_STEPS[0]; }
+function densityColor(n){ return OPP_STEPS.find(s=>n>=s.min&&n<=s.max)||OPP_STEPS[0]; }
 
-// opposition data uses full state names already
-
-function stateOpacityForZoom(baseOpacity){
-  const z = map.getZoom();
-  if (z <= 4) return Math.min(0.97, baseOpacity + 0.28);
-  if (z <= 5) return Math.min(0.90, baseOpacity + 0.18);
-  if (z <= 6) return Math.min(0.78, baseOpacity + 0.08);
-  if (z <= 7) return Math.max(0.28, baseOpacity - 0.16);
-  return Math.max(0.12, baseOpacity - 0.32);
+function zoomedOpacity(base){
+  const z=map.getZoom();
+  if(z<=4) return Math.min(0.97, base+0.04);
+  if(z<=5) return base;
+  if(z<=6) return Math.max(0.30, base-0.25);
+  if(z<=7) return Math.max(0.18, base-0.40);
+  return Math.max(0.10, base-0.55);
 }
-
-function stateWeightForZoom(){
-  const z = map.getZoom();
-  if (z <= 4) return 2.5;
-  if (z <= 5) return 1.9;
-  if (z <= 6) return 1.5;
-  return 1;
+function zoomedWeight(){
+  const z=map.getZoom(); return z<=4?2.2:z<=5?1.8:z<=6?1.4:1.0;
 }
-
 function updateChoroplethVisuals(){
-  if (!choroplethLayer) return;
-  choroplethLayer.eachLayer(layer => {
-    const cnt = layer.feature?.properties?._count || 0;
-    const step = densityColor(cnt);
-    layer.setStyle({
-      fillColor: step.color,
-      fillOpacity: currentZoomedState ? Math.max(0.08, stateOpacityForZoom(step.opacity) - 0.22) : stateOpacityForZoom(step.opacity),
-      color: currentZoomedState ? '#6a3934' : '#a34c42',
-      weight: stateWeightForZoom(),
-      opacity: 1
-    });
+  if(!choroplethLayer) return;
+  choroplethLayer.eachLayer(layer=>{
+    const cnt=layer.feature?.properties?._count||0;
+    const s=densityColor(cnt);
+    layer.setStyle({fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#7a3028',weight:zoomedWeight(),opacity:1});
   });
 }
-
 function updateMarkerVisibility(){
-  const showPins = map.getZoom() >= 6;
-  const list = document.getElementById('list');
-  if (list) {
-    const noteId = 'zoomNotice';
-    let existing = document.getElementById(noteId);
-    if (!showPins && !existing) {
-      const div = document.createElement('div');
-      div.id = noteId;
-      div.style.cssText = 'margin:0 0 8px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:#0c1018;font-size:11px;color:var(--muted)';
-      div.textContent = 'Zoom in to emphasize municipal incidents; state shading is prioritized at national view.';
-      list.prepend(div);
-    }
-    if (showPins && existing) existing.remove();
-  }
+  const show=map.getZoom()>=6;
   clusterGroup.refreshClusters();
-  clusterGroup.eachLayer(layer => {
-    const el = layer.getElement && layer.getElement();
-    if (el && !el.textContent.trim().match(/^\d+$/)) {
-      el.style.opacity = showPins ? '1' : '0.18';
-      el.style.pointerEvents = showPins ? 'auto' : 'none';
-      el.style.transition = 'opacity .18s ease';
-    }
+  clusterGroup.eachLayer(m=>{
+    const el=m.getElement&&m.getElement();
+    if(el){el.style.opacity=show?'1':'0.15';el.style.pointerEvents=show?'auto':'none';el.style.transition='opacity .2s';}
   });
 }
 
-function buildChoropleth(data, geoJson) {
-  const counts = {};
-  data.forEach(r => {
-    const s = (r['State']||'').trim();
-    if (s) counts[s] = (counts[s]||0) + 1;
+function renderOutcomeSummary(visible){
+  let p=0,w=0,l=0,mx=0;
+  visible.forEach(({r})=>{
+    const o=(r['Community Outcome']||'').toLowerCase();
+    if(o==='win')w++;else if(o==='loss')l++;else if(o==='mixed')mx++;else p++;
   });
+  const tot=Math.max(1,visible.length);
+  const pct=n=>(n/tot*100).toFixed(1)+'%';
+  const el=document.getElementById('outcomeSummary');
+  if(el) el.innerHTML=`<div class="summary-bar"><div class="summary-seg" style="width:${pct(p)};background:var(--pending)"></div><div class="summary-seg" style="width:${pct(w)};background:var(--win)"></div><div class="summary-seg" style="width:${pct(l)};background:var(--loss)"></div><div class="summary-seg" style="width:${pct(mx)};background:var(--mixed)"></div></div><div class="summary-meta"><span>Pending ${p}</span><span>Wins ${w}</span><span>Losses ${l}</span><span>Mixed ${mx}</span></div>`;
+}
+function highlightCard(idx){
+  cardRefs.forEach(c=>c&&c.classList.remove('active'));
+  if(cardRefs[idx]){cardRefs[idx].classList.add('active');cardRefs[idx].scrollIntoView({block:'nearest',behavior:'smooth'});}
+}
+function resetFilters(){
+  document.getElementById('q').value='';
+  ['fState','fType','fOutcome','fIssue','fScope','fAuthority','fSource'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('activeOnly').checked=false;
+  render();
+}
+function zoomToResults(){
+  const pts=[];
+  rows.forEach(r=>{if(!match(r))return;const lat=+r.lat,lon=+r.lon;if(!isNaN(lat)&&!isNaN(lon))pts.push([lat,lon]);});
+  if(pts.length) map.flyToBounds(pts,{padding:[30,30],maxZoom:8,duration:0.8});
+}
 
-  choroplethLayer = L.geoJSON(geoJson, {
-    style: feat => {
-      const name = feat.properties.NAME || feat.properties.name || '';
-      const cnt = counts[name] || 0;
-      const s = densityColor(cnt);
-      feat.properties._count = cnt;
-      return { fillColor:s.color, fillOpacity:stateOpacityForZoom(s.opacity), color:'#a34c42', weight:stateWeightForZoom(), opacity:1 };
+function buildChoropleth(data, geoJson){
+  const counts={};
+  data.forEach(r=>{const s=(r['State']||'').trim();if(s)counts[s]=(counts[s]||0)+1;});
+  choroplethLayer=L.geoJSON(geoJson,{
+    style: feat=>{
+      const name=feat.properties.NAME||feat.properties.name||'';
+      const cnt=counts[name]||0;
+      feat.properties._count=cnt;
+      const s=densityColor(cnt);
+      return {fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#7a3028',weight:zoomedWeight(),opacity:1};
     },
-    onEachFeature: (feat, layer) => {
-      const name = feat.properties.NAME || feat.properties.name || '';
-      const cnt = counts[name] || 0;
+    onEachFeature:(feat,layer)=>{
+      const name=feat.properties.NAME||feat.properties.name||'';
+      const cnt=counts[name]||0;
       layer.on({
-        mouseover: e => {
-          if (currentZoomedState !== name) e.target.setStyle({weight:3, color:'#ff8f84', fillOpacity:0.98});
-          document.getElementById('mapHint').textContent =
-            cnt > 0 ? `${name}: ${cnt} opposition incident${cnt===1?'':'s'} — click to zoom in`
-                    : `${name}: no recorded opposition — click to zoom`;
+        mouseover: e=>{
+          if(currentZoomedState!==name) e.target.setStyle({weight:2.5,color:'#ff8f84',fillOpacity:Math.min(0.99,zoomedOpacity(densityColor(cnt).opacity)+0.08)});
+          document.getElementById('mapHint').textContent=cnt>0?`${name}: ${cnt} incident${cnt===1?'':'s'} — click to zoom`:`${name}: no recorded opposition`;
         },
-        mouseout: e => {
-          if (currentZoomedState !== name) choroplethLayer.resetStyle(e.target);
-          document.getElementById('mapHint').textContent = 'Click any state to zoom in and reveal opposition incidents';
-  setTimeout(() => { updateChoroplethVisuals(); updateMarkerVisibility(); }, 120);
+        mouseout: e=>{
+          if(currentZoomedState!==name) choroplethLayer.resetStyle(e.target);
+          document.getElementById('mapHint').textContent='Click any state to zoom in and reveal opposition incidents';
         },
-        click: () => choroZoomIn(feat, layer, name, cnt)
+        click:()=>choroZoomIn(feat,layer,name,cnt)
       });
     }
   });
@@ -547,40 +453,36 @@ function buildChoropleth(data, geoJson) {
   updateChoroplethVisuals();
 }
 
-function choroZoomIn(feat, layer, stateName, cnt) {
-  updateHashForState(stateName);
-  currentZoomedState = stateName;
-  choroplethLayer.eachLayer(l => choroplethLayer.resetStyle(l));
-  layer.setStyle({weight:3, color:'#ffb3ad', fillOpacity:0.18});
-  map.flyToBounds(layer.getBounds(), {padding:[30,30], maxZoom:9, duration:0.85});
-  document.getElementById('choroBack').style.display = 'block';
-  document.getElementById('mapHint').textContent =
-    cnt > 0 ? `${stateName}: ${cnt} incident${cnt===1?'':'s'} — click any pin for details`
-            : `${stateName}: no recorded opposition`;
-  setTimeout(() => { updateChoroplethVisuals(); updateMarkerVisibility(); }, 120);
+function choroZoomIn(feat,layer,stateName,cnt){
+  currentZoomedState=stateName;
+  choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
+  layer.setStyle({weight:2.5,color:'#ffb3ad',fillOpacity:0.18});
+  map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:0.85});
+  document.getElementById('choroBack').style.display='block';
+  document.getElementById('mapHint').textContent=cnt>0?`${stateName}: ${cnt} incident${cnt===1?'':'s'} — click pins for details`:`${stateName}: no recorded opposition`;
+  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();},120);
+  history.replaceState(null,'','#'+encodeURIComponent(stateName.toLowerCase().replace(/ /g,'-')));
 }
-
-function choroZoomOut() {
-  updateHashForState('');
-  currentZoomedState = null;
-  if (choroplethLayer) choroplethLayer.eachLayer(l => choroplethLayer.resetStyle(l));
-  map.flyTo([39.5,-98.35], 4, {duration:0.8});
-  document.getElementById('choroBack').style.display = 'none';
-  document.getElementById('mapHint').textContent = 'Click any state to zoom in and reveal opposition incidents';
+function choroZoomOut(){
+  currentZoomedState=null;
+  if(choroplethLayer) choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
+  map.flyTo([39.5,-98.35],4,{duration:0.8});
+  document.getElementById('choroBack').style.display='none';
+  document.getElementById('mapHint').textContent='Click any state to zoom in and reveal opposition incidents';
+  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();},120);
+  history.replaceState(null,'',location.pathname+location.search);
 }
 
 fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
-  .then(r => r.json())
-  .then(geo => {
-    const poll = setInterval(() => {
-      if (rows.length > 0) { clearInterval(poll); buildChoropleth(rows, geo); }
-    }, 100);
+  .then(r=>r.json())
+  .then(geo=>{
+    const poll=setInterval(()=>{ if(rows.length>0){clearInterval(poll);buildChoropleth(rows,geo);} },100);
   })
-  .catch(e => console.warn('GeoJSON load failed', e));
+  .catch(e=>console.warn('GeoJSON failed',e));
 
-map.on('zoomend', () => { updateChoroplethVisuals(); updateMarkerVisibility(); });
-map.whenReady(() => { updateChoroplethVisuals(); updateMarkerVisibility(); setTimeout(restoreStateFromHash, 150); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && currentZoomedState) choroZoomOut(); });
+map.on('zoomend',()=>{updateChoroplethVisuals();updateMarkerVisibility();});
+map.whenReady(()=>{updateChoroplethVisuals();updateMarkerVisibility();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&currentZoomedState)choroZoomOut();});
 
 </script>
 </body>

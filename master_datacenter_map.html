@@ -78,15 +78,16 @@ input:focus, select:focus { border-color:var(--atlas) }
   #map { height:55vh }
 }
 
-.map-faded-marker { opacity:0; pointer-events:none; transition:opacity .18s ease; }
-
-.toolbar-row { display:flex; gap:7px; flex-wrap:wrap }
-.tool-btn { padding:7px 10px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--text); font-size:11px; cursor:pointer }
+/* Choropleth + QoL */
+.choro-back { position:absolute; top:12px; left:12px; z-index:500; background:rgba(15,18,24,.93); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:8px; padding:6px 12px; font-size:11px; font-weight:600; cursor:pointer; color:var(--text); display:none }
+.choro-back:hover { border-color:var(--atlas) }
+.map-hint { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:500; background:rgba(15,18,24,.88); backdrop-filter:blur(6px); border:1px solid var(--border); border-radius:20px; padding:5px 14px; font-size:11px; color:var(--muted); pointer-events:none; white-space:nowrap }
+.map-faded-marker { opacity:0.12; pointer-events:none; transition:opacity .25s ease }
+.toolbar-row { display:flex; gap:7px; flex-wrap:wrap; margin-top:6px }
+.tool-btn { padding:6px 10px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--text); font-size:11px; cursor:pointer }
 .tool-btn:hover { border-color:var(--atlas) }
-.card.active { border-color:#7ecfda; box-shadow:0 0 0 1px rgba(126,207,218,.25) inset }
+.card.active { border-color:#7ecfda; box-shadow:0 0 0 1px rgba(126,207,218,.22) inset }
 .pin-tooltip { background:#0f1722; color:#eef2f7; border:1px solid var(--border); border-radius:8px; box-shadow:0 6px 20px rgba(0,0,0,.35) }
-.ai-label { color:#ffd4a6; font-size:10px; font-weight:700; text-shadow:0 1px 3px rgba(0,0,0,.85); white-space:nowrap; pointer-events:none }
-
 </style>
 </head>
 <body>
@@ -118,10 +119,7 @@ input:focus, select:focus { border-color:var(--atlas) }
         <select id="fType"  onchange="render()"><option value="">All types</option></select>
       </div>
       <label class="chk"><input type="checkbox" id="aiOnly" onchange="render()"/> Epoch Frontier Data (Hyperscalers) only</label>
-      <div class="toolbar-row">
-        <button class="tool-btn" onclick="resetFilters()">Reset filters</button>
-        <button class="tool-btn" onclick="zoomToResults()">Zoom to results</button>
-      </div>
+      <div class="toolbar-row"><button class="tool-btn" onclick="resetFilters()">Reset filters</button><button class="tool-btn" onclick="zoomToResults()">Zoom to results</button></div>
       <div class="stats">
         <div class="stat"><b id="cAll">—</b><span>Visible</span></div>
         <div class="stat s-atlas"><b id="cAtlas">—</b><span>Atlas</span></div>
@@ -134,11 +132,19 @@ input:focus, select:focus { border-color:var(--atlas) }
 
   <div class="mapwrap">
     <div id="map"></div>
+    <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
+    <div class="map-hint" id="mapHint">Click any state to zoom in and see facilities</div>
     <div class="legend">
       <b>Layer</b>
       <div class="legend-row"><span class="lsw" style="background:var(--atlas)"></span>Source: OSTI IM3 Data</div>
       <div class="legend-row"><span class="lsw" style="background:var(--ai)"></span>Epoch Frontier Data (Hyperscalers)</div>
       <div class="note">OSTI IM3 pins cluster at low zoom. AI Centers always visible. Click any pin for details.</div>
+      <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px"><b style="font-size:11px;color:var(--muted);font-weight:600">Facility Density</b>
+        <div class="legend-row"><span class="lsw" style="background:#0e3349;border-radius:2px"></span>1–10</div>
+        <div class="legend-row"><span class="lsw" style="background:#1a5068;border-radius:2px"></span>11–50</div>
+        <div class="legend-row"><span class="lsw" style="background:#276b80;border-radius:2px"></span>51–100</div>
+        <div class="legend-row"><span class="lsw" style="background:#348a9a;border-radius:2px"></span>101–200</div>
+        <div class="legend-row"><span class="lsw" style="background:#4f98a3;border-radius:2px"></span>200+</div></div>
     </div>
   </div>
 </div>
@@ -154,9 +160,8 @@ const atlasCluster = L.markerClusterGroup({
   maxClusterRadius:40,
   iconCreateFunction(c) {
     const n=c.getChildCount(), sz=n>500?46:n>100?38:30;
-    const hidden = map.getZoom() < 6 ? ' map-faded-marker' : '';
     return L.divIcon({ className:'', iconSize:[sz,sz],
-      html:`<div class="${hidden.trim()}" style="width:${sz}px;height:${sz}px;border-radius:50%;background:#1a3a42;border:2px solid #7ecfda;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#c7f5ff;box-shadow:0 0 0 1px rgba(79,152,163,.18)">${n}</div>`
+      html:`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:#1a3a42;border:2px solid #4f98a3;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#7ecfda">${n}</div>`
     });
   }
 });
@@ -171,10 +176,7 @@ const srcTag = s => s==='ai'
   ? '<span class="src-tag src-ai">IM3 AI</span>'
   : '<span class="src-tag src-atlas">Atlas</span>';
 
-let rows=[], leafletMarkers=[], markerLayers=[];
-let cardRefs=[];
-let aiLabelsLayer = L.layerGroup().addTo(map);
-let suppressHashChange = false;
+let rows=[], leafletMarkers=[], markerLayers=[], cardRefs=[];
 
 function atlasIcon() {
   return L.circleMarker([0,0], { radius:4, fillColor:'#4f98a3', fillOpacity:0.8, color:'#7ecfda', weight:1 });
@@ -236,74 +238,6 @@ function match(r) {
   return r._search.includes(q);
 }
 
-
-function resetFilters(){
-  document.getElementById('q').value = '';
-  document.getElementById('fState').value = '';
-  document.getElementById('fSource').value = '';
-  document.getElementById('fOwner').value = '';
-  document.getElementById('fType').value = '';
-  document.getElementById('aiOnly').checked = false;
-  render();
-}
-
-function getVisibleRows(){
-  return rows.map((r,i)=>({r,i})).filter(({r})=>match(r));
-}
-
-function zoomToResults(){
-  const visible = getVisibleRows();
-  if (!visible.length) return;
-  const bounds = [];
-  visible.forEach(({r}) => {
-    const lat = +r._raw.lat || +r._raw.latitude;
-    const lon = +r._raw.lon || +r._raw.lng || +r._raw.longitude;
-    if (!isNaN(lat) && !isNaN(lon)) bounds.push([lat, lon]);
-  });
-  if (bounds.length) map.flyToBounds(bounds, {padding:[30,30], maxZoom:8, duration:0.8});
-}
-
-function highlightCard(idx){
-  cardRefs.forEach(c => c && c.classList.remove('active'));
-  if (cardRefs[idx]) {
-    cardRefs[idx].classList.add('active');
-    cardRefs[idx].scrollIntoView({block:'nearest', behavior:'smooth'});
-  }
-}
-
-function updateHashForState(stateName){
-  if (suppressHashChange) return;
-  if (!stateName) { history.replaceState(null, '', location.pathname + location.search); return; }
-  history.replaceState(null, '', '#' + encodeURIComponent(stateName.toLowerCase().replace(/\s+/g,'-')));
-}
-
-function restoreStateFromHash(){
-  const raw = decodeURIComponent((location.hash || '').replace(/^#/, '')).trim();
-  if (!raw || !choroplethLayer) return;
-  const wanted = raw.replace(/-/g, ' ').toLowerCase();
-  choroplethLayer.eachLayer(layer => {
-    const name = (layer.feature?.properties?.NAME || layer.feature?.properties?.name || '').toLowerCase();
-    if (name === wanted) {
-      suppressHashChange = true; setTimeout(() => { choroZoomIn(layer.feature, layer, layer.feature.properties.NAME || layer.feature.properties.name, layer.feature.properties._count || 0); suppressHashChange = false; }, 100);
-    }
-  });
-}
-
-function updateAILabels(){
-  aiLabelsLayer.clearLayers();
-  if (map.getZoom() < 8) return;
-  getVisibleRows().forEach(({r,i}) => {
-    if (r._src !== 'ai') return;
-    const lat = +r._raw.lat || +r._raw.latitude;
-    const lon = +r._raw.lon || +r._raw.lng || +r._raw.longitude;
-    if (isNaN(lat) || isNaN(lon)) return;
-    const owner = String(r._raw.Owner || '').split('#')[0].trim();
-    if (!owner) return;
-    const icon = L.divIcon({className:'', html:`<div class="ai-label">${owner}</div>`});
-    aiLabelsLayer.addLayer(L.marker([lat, lon + 0.18], {icon, interactive:false}));
-  });
-}
-
 function render() {
   atlasCluster.clearLayers();
   aiLayer.clearLayers();
@@ -336,8 +270,8 @@ function render() {
           <div class="card-meta"><span>${esc(dr.state)}</span><span>${esc(dr.county)}</span>${dr.sqft?`<span>${fmt(dr.sqft)} sqft</span>`:''}</div>
           ${dr.operator?`<div class="card-snippet">${esc(dr.operator)}</div>`:''}`;
       }
-      card.onclick = () => { const lat = +r._raw.lat || +r._raw.latitude; const lon = +r._raw.lon || +r._raw.lng || +r._raw.longitude; if(!isNaN(lat)&&!isNaN(lon)) map.setView([lat, lon], 10); highlightCard(i); m.openPopup(); };
       cardRefs[i] = card;
+      card.onclick = () => { map.setView([+r._raw.lat||+r._raw.lat, +r._raw.lon||+r._raw.lon], 10); m.openPopup(); };
       list.appendChild(card);
     }
   });
@@ -363,8 +297,7 @@ function initRows(atlasData, aiData) {
     if (!r.lat || !r.lon || isNaN(+r.lat) || isNaN(+r.lon)) return;
     const m = L.circleMarker([+r.lat, +r.lon], {
       radius:4, fillColor:'#4f98a3', fillOpacity:0.8, color:'#7ecfda', weight:1
-    }).bindPopup(buildAtlasPopup(r)).bindTooltip(`<div>${esc(r.name||'Unnamed')}</div><div style='color:#8a96a4'>${esc(r.state||'')} · ${esc(r.operator||'')}</div>`, {direction:'top', className:'pin-tooltip'});
-    m.on('click', () => highlightCard(leafletMarkers.indexOf(m)));
+    }).bindPopup(buildAtlasPopup(r)).bindTooltip(`<b>${r.name||'Unnamed'}</b><br>${r.state||''} · ${r.operator||''}`, {direction:'top',className:'pin-tooltip'});
     rows.push({ _src:'atlas', _state:r.state_abb||r.state||'', _owner:r.operator||'', _type:r.type||'', _search:[r.name,r.operator,r.state,r.county].join(' ').toLowerCase(), _raw:r });
     leafletMarkers.push(m);
   });
@@ -372,7 +305,7 @@ function initRows(atlasData, aiData) {
   // AI rows
   aiData.forEach(r => {
     if (!r.lat || !r.lon || isNaN(+r.lat) || isNaN(+r.lon)) return;
-    const m = L.marker([+r.lat, +r.lon], { icon: aiIcon(r), zIndexOffset:1000 }).bindPopup(buildAIPopup(r)).bindTooltip(`<div>${esc(r.Name||'')}</div><div style='color:#8a96a4'>${esc(r.Owner||'')} · ${fmt(r['Current power (MW)'],' MW')}</div>`, {direction:'top', className:'pin-tooltip'}); m.on('click', () => highlightCard(leafletMarkers.indexOf(m))); 
+    const m = L.marker([+r.lat, +r.lon], { icon: aiIcon(r), zIndexOffset:1000 }).bindPopup(buildAIPopup(r)).bindTooltip(`<b>${r.Name||''}</b><br>${r.Owner||''}`, {direction:'top',className:'pin-tooltip'});
     rows.push({ _src:'ai', _state:'', _owner:r.Owner||'', _type:'', _search:[r.Name,r.Owner,r.Users,r.Project,r.Address].join(' ').toLowerCase(), _raw:r });
     leafletMarkers.push(m);
   });
@@ -401,6 +334,133 @@ Papa.parse('./atlas.csv', { download:true, header:true, skipEmptyLines:true,
 
 Papa.parse('./ai_centers.csv', { download:true, header:true, skipEmptyLines:true,
   complete({data}) { aiLoaded=data; tryInit(); }});
+
+// ─── CHOROPLETH ──────────────────────────────────────────────────────────────
+let choroplethLayer = null, currentZoomedState = null;
+
+const ABBREV_TO_NAME = {AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',CT:'Connecticut',DE:'Delaware',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming',DC:'District of Columbia'};
+
+const DC_STEPS = [
+  {min:0,   max:0,   color:'#0a1520', opacity:0.60},
+  {min:1,   max:10,  color:'#0e3349', opacity:0.80},
+  {min:11,  max:50,  color:'#1a5068', opacity:0.86},
+  {min:51,  max:100, color:'#276b80', opacity:0.90},
+  {min:101, max:200, color:'#348a9a', opacity:0.93},
+  {min:201, max:9999,color:'#4f98a3', opacity:0.96},
+];
+function densityColor(n){ return DC_STEPS.find(s=>n>=s.min&&n<=s.max)||DC_STEPS[0]; }
+
+function zoomedOpacity(base){
+  const z=map.getZoom();
+  if(z<=4) return Math.min(0.97, base+0.04);
+  if(z<=5) return base;
+  if(z<=6) return Math.max(0.30, base-0.25);
+  if(z<=7) return Math.max(0.18, base-0.40);
+  return Math.max(0.10, base-0.55);
+}
+function zoomedWeight(){
+  const z=map.getZoom(); return z<=4?2.2:z<=5?1.8:z<=6?1.4:1.0;
+}
+function updateChoroplethVisuals(){
+  if(!choroplethLayer) return;
+  choroplethLayer.eachLayer(layer=>{
+    const cnt=layer.feature?.properties?._count||0;
+    const s=densityColor(cnt);
+    layer.setStyle({fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#3d6070',weight:zoomedWeight(),opacity:1});
+  });
+}
+function updateClusterVisibility(){
+  const show=map.getZoom()>=6;
+  if(atlasCluster) atlasCluster.refreshClusters();
+  aiLayer.eachLayer(m=>{
+    const el=m.getElement&&m.getElement();
+    if(el){el.style.opacity=show?'1':'0.15';el.style.pointerEvents=show?'auto':'none';el.style.transition='opacity .2s';}
+  });
+}
+
+function resetFilters(){
+  document.getElementById('q').value='';
+  ['fState','fSource','fOwner','fType'].forEach(id=>{document.getElementById(id).value='';});
+  document.getElementById('aiOnly').checked=false;
+  render();
+}
+function zoomToResults(){
+  const pts=[];
+  rows.forEach(r=>{if(!match(r))return;const lat=+r._raw?.lat||+r._raw?.latitude||+r.lat;const lon=+r._raw?.lon||+r._raw?.lng||+r._raw?.longitude||+r.lon;if(!isNaN(lat)&&!isNaN(lon))pts.push([lat,lon]);});
+  if(pts.length) map.flyToBounds(pts,{padding:[30,30],maxZoom:8,duration:0.8});
+}
+function highlightCard(idx){
+  cardRefs.forEach(c=>c&&c.classList.remove('active'));
+  if(cardRefs[idx]){cardRefs[idx].classList.add('active');cardRefs[idx].scrollIntoView({block:'nearest',behavior:'smooth'});}
+}
+
+function buildChoropleth(atlasData, geoJson){
+  const counts={};
+  atlasData.forEach(r=>{
+    const abbr=(r.state_abb||r.state||'').trim().toUpperCase();
+    const name=ABBREV_TO_NAME[abbr]||abbr;
+    if(name) counts[name]=(counts[name]||0)+1;
+  });
+  choroplethLayer=L.geoJSON(geoJson,{
+    style: feat=>{
+      const name=feat.properties.NAME||feat.properties.name||'';
+      const cnt=counts[name]||0;
+      feat.properties._count=cnt;
+      const s=densityColor(cnt);
+      return {fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#3d6070',weight:zoomedWeight(),opacity:1};
+    },
+    onEachFeature:(feat,layer)=>{
+      const name=feat.properties.NAME||feat.properties.name||'';
+      const cnt=counts[name]||0;
+      layer.on({
+        mouseover: e=>{
+          if(currentZoomedState!==name) e.target.setStyle({weight:2.5,color:'#8fd7e2',fillOpacity:Math.min(0.99,zoomedOpacity(densityColor(cnt).opacity)+0.08)});
+          document.getElementById('mapHint').textContent=cnt>0?`${name}: ${cnt} facilit${cnt===1?'y':'ies'} — click to zoom`:`${name}: no facilities`;
+        },
+        mouseout: e=>{
+          if(currentZoomedState!==name) choroplethLayer.resetStyle(e.target);
+          document.getElementById('mapHint').textContent='Click any state to zoom in and see facilities';
+        },
+        click:()=>choroZoomIn(feat,layer,name,cnt)
+      });
+    }
+  });
+  choroplethLayer.addTo(map);
+  choroplethLayer.bringToBack();
+  updateChoroplethVisuals();
+}
+
+function choroZoomIn(feat,layer,stateName,cnt){
+  currentZoomedState=stateName;
+  choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
+  layer.setStyle({weight:2.5,color:'#b7f1fb',fillOpacity:0.18});
+  map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:0.85});
+  document.getElementById('choroBack').style.display='block';
+  document.getElementById('mapHint').textContent=cnt>0?`${stateName}: ${cnt} facilit${cnt===1?'y':'ies'} — click pins for details`:`${stateName}: no facilities in dataset`;
+  setTimeout(()=>{updateChoroplethVisuals();updateClusterVisibility();},120);
+  history.replaceState(null,'','#'+encodeURIComponent(stateName.toLowerCase().replace(/ /g,'-')));
+}
+function choroZoomOut(){
+  currentZoomedState=null;
+  if(choroplethLayer) choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
+  map.flyTo([39.5,-98.35],4,{duration:0.8});
+  document.getElementById('choroBack').style.display='none';
+  document.getElementById('mapHint').textContent='Click any state to zoom in and see facilities';
+  setTimeout(()=>{updateChoroplethVisuals();updateClusterVisibility();},120);
+  history.replaceState(null,'',location.pathname+location.search);
+}
+
+fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
+  .then(r=>r.json())
+  .then(geo=>{
+    const poll=setInterval(()=>{ if(atlasLoaded){clearInterval(poll);buildChoropleth(atlasLoaded,geo);} },100);
+  })
+  .catch(e=>console.warn('GeoJSON failed',e));
+
+map.on('zoomend',()=>{updateChoroplethVisuals();updateClusterVisibility();});
+map.whenReady(()=>{updateChoroplethVisuals();updateClusterVisibility();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&currentZoomedState)choroZoomOut();});
+
 </script>
 </body>
 </html>
