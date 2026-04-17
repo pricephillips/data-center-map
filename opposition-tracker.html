@@ -425,12 +425,12 @@ Papa.parse('./master_opposition.csv', {
 let choroplethLayer = null, currentZoomedState = null;
 
 const OPP_STEPS = [
-  {min:0,   max:0,   color:'#150a08', opacity:0.60},
-  {min:1,   max:2,   color:'#2e1008', opacity:0.78},
-  {min:3,   max:7,   color:'#5a1e10', opacity:0.84},
-  {min:8,   max:15,  color:'#8a2c18', opacity:0.89},
-  {min:16,  max:30,  color:'#c04020', opacity:0.93},
-  {min:31,  max:9999,color:'#e74c3c', opacity:0.96},
+  {min:0,   max:0,   color:'#0f1218', opacity:0.55},
+  {min:1,   max:2,   color:'#321408', opacity:0.78},
+  {min:3,   max:7,   color:'#6a2210', opacity:0.84},
+  {min:8,   max:15,  color:'#9e3018', opacity:0.89},
+  {min:16,  max:30,  color:'#cc4422', opacity:0.93},
+  {min:31,  max:9999,color:'#e8543a', opacity:0.96},
 ];
 function densityColor(n){ return OPP_STEPS.find(s=>n>=s.min&&n<=s.max)||OPP_STEPS[0]; }
 
@@ -450,7 +450,7 @@ function updateChoroplethVisuals(){
   choroplethLayer.eachLayer(layer=>{
     const cnt=layer.feature?.properties?._count||0;
     const s=densityColor(cnt);
-    layer.setStyle({fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#7a3028',weight:zoomedWeight(),opacity:1});
+    layer.setStyle({fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#8a3a20',weight:zoomedWeight(),opacity:1});
   });
 }
 function updateMarkerVisibility(){
@@ -499,7 +499,7 @@ function buildChoropleth(data, geoJson){
       const cnt=counts[name]||0;
       feat.properties._count=cnt;
       const s=densityColor(cnt);
-      return {fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#7a3028',weight:zoomedWeight(),opacity:1};
+      return {fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#8a3a20',weight:zoomedWeight(),opacity:1};
     },
     onEachFeature:(feat,layer)=>{
       const name=feat.properties.NAME||feat.properties.name||'';
