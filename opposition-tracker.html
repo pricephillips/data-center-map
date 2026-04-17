@@ -424,6 +424,19 @@ Papa.parse('./master_opposition.csv', {
 // ─── CHOROPLETH + QoL ────────────────────────────────────────────────────────
 let choroplethLayer = null, currentZoomedState = null;
 
+const ABBREV_TO_NAME = {
+  AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',
+  CT:'Connecticut',DE:'Delaware',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',
+  IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',
+  ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',
+  MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',
+  NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',
+  NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',
+  PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',
+  TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',
+  WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming',DC:'District of Columbia'
+};
+
 const OPP_STEPS = [
   {min:0,   max:0,   color:'#0f1218', opacity:0.55},
   {min:1,   max:2,   color:'#321408', opacity:0.78},
@@ -492,7 +505,12 @@ function zoomToResults(){
 
 function buildChoropleth(data, geoJson){
   const counts={};
-  data.forEach(r=>{const s=(r['State']||'').trim();if(s)counts[s]=(counts[s]||0)+1;});
+  const FULL_NAMES=new Set(Object.values(ABBREV_TO_NAME));
+  data.forEach(r=>{
+    const raw=(r['State']||'').trim();
+    const name=FULL_NAMES.has(raw)?raw:(ABBREV_TO_NAME[raw.toUpperCase()]||raw);
+    if(name) counts[name]=(counts[name]||0)+1;
+  });
   choroplethLayer=L.geoJSON(geoJson,{
     style: feat=>{
       const name=feat.properties.NAME||feat.properties.name||'';
