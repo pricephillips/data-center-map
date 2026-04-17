@@ -11,14 +11,16 @@
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
 <style>
+html, body { height:100% }
+
 :root {
   --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
   --muted:#8a96a4; --border:#2c3544;
   --atlas:#4f98a3; --ai:#e67e22;
 }
 * { box-sizing:border-box; margin:0; padding:0 }
-body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(--text); height:100dvh; overflow:hidden }
-.app { display:grid; grid-template-columns:380px 1fr; height:100vh; overflow:hidden }
+body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(--text); overflow:hidden }
+.app { display:grid; grid-template-columns:380px 1fr; grid-template-rows:100vh; height:100vh; overflow:hidden }
 .sidebar { background:var(--panel); border-right:1px solid var(--border); display:flex; flex-direction:column }
 .header { padding:14px 16px 12px; border-bottom:1px solid var(--border) }
 .logo { display:flex; align-items:center; gap:8px; margin-bottom:4px }
@@ -54,8 +56,8 @@ input:focus, select:focus { border-color:var(--atlas) }
 .src-atlas { background:#1a3040; color:var(--atlas) }
 .src-ai    { background:#3b2208; color:var(--ai) }
 .card-snippet { font-size:11px; color:var(--muted); line-height:1.45; margin-top:4px }
-.mapwrap { position:relative; flex:1 }
-#map { height:100%; min-height:0 }
+.mapwrap { position:relative; display:flex; flex-direction:column; overflow:hidden }
+#map { flex:1; min-height:0; height:100% }
 .legend { position:absolute; top:12px; right:12px; z-index:500; background:rgba(15,18,24,.93); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:11px; padding:10px 13px; font-size:12px }
 .legend b { color:var(--text); display:block; margin-bottom:5px }
 .legend-row { display:flex; align-items:center; gap:7px; margin:4px 0; color:var(--muted) }
@@ -75,7 +77,7 @@ input:focus, select:focus { border-color:var(--atlas) }
 @media (max-width:600px) {
   .app { grid-template-columns:1fr; grid-template-rows:45vh 55vh }
   .sidebar { height:45vh }
-  #map { height:100%; min-height:0 }
+  #map { flex:1; min-height:0; height:100% }
 }
 
 /* Choropleth + QoL */
@@ -191,7 +193,12 @@ input:focus, select:focus { border-color:var(--atlas) }
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function(){
+
 const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true });
+setTimeout(() => map.invalidateSize(), 100);
+setTimeout(() => map.invalidateSize(), 500);
+window.addEventListener('resize', () => map.invalidateSize());
 setTimeout(() => map.invalidateSize(), 300);
 window.addEventListener('resize', () => map.invalidateSize());
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
@@ -565,6 +572,8 @@ function showHowToUse() {
   document.querySelector('.app').appendChild(wrap);
 }
 window.addEventListener('load', () => setTimeout(showHowToUse, 700));
+
+});
 </script>
 
 <script>
