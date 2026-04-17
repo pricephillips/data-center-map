@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Center Map</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+
+<style>
+html, body { height:100%; margin:0; background:#0f1218; }
+#map { height:100%; width:100%; }
+</style>
+</head>
+
+<body>
+<div id="map"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const map = L.map('map', {
+    center:[39.5,-98.35],
+    zoom:4,
+    preferCanvas:true
+  });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    subdomains:'abcd',
+    maxZoom:19
+  }).addTo(map);
+
+  const atlasCluster = L.markerClusterGroup();
+  const aiLayer = L.layerGroup().addTo(map);
+  map.addLayer(atlasCluster);
+
+  let atlasLoaded = null;
+  let aiLoaded = null;
+
+  function safeInit() {
+    if (!atlasLoaded || !aiLoaded) return;
+
+    console.log("Initializing map with data...");
+    try {
+      initMap(atlasLoaded, aiLoaded);
+    } catch (e) {
+      console.error("Init failure:", e);
+    }
+  }
+
+  function initMap(atlas, ai) {
+
+    atlas.forEach(r => {
+      if (!r.lat || !r.lon) return;
+
+      const m = L.circleMarker([+r.lat, +r.lon], {
+        radius:4,
+        color:'#7ecfda',
+        fillColor:'#4f98a3',
+        fillOpacity:0.8
+      }).bindPopup(`<b>${r.name || "Unnamed"}</b><br>${r.state || ""}`);
+
+      atlasCluster.addLayer(m);
+    });
+
+    ai.forEach(r => {
+      if (!r.lat || !r.lon) return;
+
+      const m = L.marker([+r.lat, +r.lon]).bindPopup(`
+        <b>${r.Name || ""}</b><br>
+        ${r.Owner || ""}
+      `);
+
+      aiLayer.addLayer(m);
+    });
+
+    console.log("Map fully rendered");
+  }
+
+  function loadCSV(path, label, cb) {
+    console.log("Loading:", path);
+
+    Papa.parse(path, {
+      download:true,
+      header:true,
+      skipEmptyLines:true,
+      complete: res => {
+        console.log(label, "loaded:", res.data.length);
+        cb(res.data);
+      },
+      error: err => {
+        console.error(label, "FAILED:", err);
+      }
+    });
+  }
+
+  setTimeout(() => {
+
+    loadCSV('./atlas.csv', 'atlas', data => {
+      atlasLoaded = data;
+      safeInit();
+    });
+
+    loadCSV('./ai_centers.csv', 'ai', data => {
+      aiLoaded = data;
+      safeInit();
+    });
+
+  }, 150);
+
+});
+</script>
+</body>
+</html>
