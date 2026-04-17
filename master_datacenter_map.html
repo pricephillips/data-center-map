@@ -56,8 +56,8 @@ input:focus, select:focus { border-color:var(--atlas) }
 .src-atlas { background:#1a3040; color:var(--atlas) }
 .src-ai    { background:#3b2208; color:var(--ai) }
 .card-snippet { font-size:11px; color:var(--muted); line-height:1.45; margin-top:4px }
-.mapwrap { position:relative; overflow:hidden; height:100%; min-height:0 }
-#map { position:absolute; inset:0 }
+.mapwrap { position:relative; display:flex; flex-direction:column; overflow:hidden }
+#map { flex:1; min-height:0; height:100% }
 .legend { position:absolute; top:12px; right:12px; z-index:500; background:rgba(15,18,24,.93); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:11px; padding:10px 13px; font-size:12px }
 .legend b { color:var(--text); display:block; margin-bottom:5px }
 .legend-row { display:flex; align-items:center; gap:7px; margin:4px 0; color:var(--muted) }
@@ -77,7 +77,7 @@ input:focus, select:focus { border-color:var(--atlas) }
 @media (max-width:600px) {
   .app { grid-template-columns:1fr; grid-template-rows:45vh 55vh }
   .sidebar { height:45vh }
-  #map { position:absolute; inset:0 }
+  #map { flex:1; min-height:0; height:100% }
 }
 
 /* Choropleth + QoL */
