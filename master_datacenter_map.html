@@ -291,7 +291,6 @@ function render() {
   cardRefs = [];
   const _visCount = rows.filter(r => match(r)).length;
   updateCardCount(_visCount, rows.length);
-  updateCardCount(filtered.length, rows.length);
   let cAtlas=0, cAI=0, listCount=0;
 
   rows.forEach((r,i) => {
