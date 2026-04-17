@@ -110,6 +110,21 @@ input:focus, select:focus { border-color:var(--atlas) }
 .how-to-use li:last-child { border:none }
 .how-to-use li .ico { font-size:18px; line-height:1; flex-shrink:0 }
 .how-to-use .close-btn { width:100%; padding:10px; border-radius:8px; border:none; background:var(--atlas); color:#fff; font-size:14px; font-weight:700; cursor:pointer }
+.sidebar-title { padding:14px 16px 0 }
+.sidebar-title h1 { font-size:17px; font-weight:800; color:var(--text); margin-bottom:4px }
+.sidebar-title p  { font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border) }
+.card-count { font-size:12px; color:var(--muted); padding:6px 12px 2px; font-weight:500 }
+.card-count b { color:var(--text) }
+.tool-btn.show-map { background:color-mix(in srgb,var(--atlas) 12%,transparent); border-color:var(--atlas); color:var(--atlas) }
+.htu-overlay { position:absolute; inset:0; z-index:599; background:rgba(0,0,0,.5); backdrop-filter:blur(2px) }
+.how-to-use  { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:600; background:#0f1722; border:1px solid var(--border); border-radius:14px; padding:24px 28px; max-width:340px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,.6) }
+.how-to-use h3 { font-size:16px; font-weight:800; margin-bottom:6px }
+.how-to-use p  { font-size:12px; color:var(--muted); margin-bottom:14px }
+.how-to-use ul { list-style:none; margin-bottom:18px }
+.how-to-use li { font-size:13px; padding:6px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:flex-start }
+.how-to-use li:last-child { border:none }
+.how-to-use li .ico { font-size:18px; line-height:1; flex-shrink:0 }
+.how-to-use .close-btn { width:100%; padding:10px; border-radius:8px; border:none; background:var(--atlas); color:#fff; font-size:14px; font-weight:700; cursor:pointer }
 </style>
 </head>
 <body>
@@ -151,6 +166,7 @@ input:focus, select:focus { border-color:var(--atlas) }
     </div>
 
     <div class="card-count" id="cardCount"></div>
+<div class="card-count" id="cardCount"></div>
 <div id="list" class="list"></div>
   </aside>
 
@@ -158,7 +174,8 @@ input:focus, select:focus { border-color:var(--atlas) }
     <div id="map"></div>
     <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
     <div class="map-hint" id="mapHint">Click any state to zoom in and see facilities</div>
-    <div class="legend">
+    <div class="sidebar-title"><h1>US Data Center Map</h1><p>Explore data center locations nationwide. Click any state to zoom in, then click a pin to see facility details.</p></div>
+<div class="legend">
       <b>Layer</b>
       <div class="legend-row"><span class="lsw" style="background:var(--atlas)"></span>Source: OSTI IM3 Data</div>
       <div class="legend-row"><span class="lsw" style="background:var(--ai)"></span>Epoch Frontier Data (Hyperscalers)</div>
@@ -175,6 +192,8 @@ input:focus, select:focus { border-color:var(--atlas) }
 
 <script>
 const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true });
+setTimeout(() => map.invalidateSize(), 300);
+window.addEventListener('resize', () => map.invalidateSize());
 setTimeout(() => map.invalidateSize(), 300);
 window.addEventListener('resize', () => map.invalidateSize());
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
@@ -270,6 +289,8 @@ function render() {
   const list = document.getElementById('list');
   list.innerHTML = '';
   cardRefs = [];
+  const _visCount = rows.filter(r => match(r)).length;
+  updateCardCount(_visCount, rows.length);
   updateCardCount(filtered.length, rows.length);
   let cAtlas=0, cAI=0, listCount=0;
 
@@ -515,6 +536,35 @@ function showHowToUse() {
 }
 window.addEventListener('load', () => setTimeout(showHowToUse, 700));
 
+
+function updateCardCount(vis, tot) {
+  const el = document.getElementById('cardCount');
+  if (!el) return;
+  el.innerHTML = vis === tot
+    ? `<b>${tot}</b> facilities`
+    : `Showing <b>${vis}</b> of <b>${tot}</b> facilities`;
+}
+
+function showHowToUse() {
+  if (document.getElementById('htuWrap')) return;
+  const wrap = document.createElement('div');
+  wrap.id = 'htuWrap';
+  wrap.style.cssText = 'position:absolute;inset:0;z-index:598';
+  wrap.innerHTML = `
+    <div class="htu-overlay"></div>
+    <div class="how-to-use">
+      <h3>How to use this map</h3>
+      <p>Explore data center locations across the United States.</p>
+      <ul>
+        <li><span class="ico">🗺️</span><div><b>Click any state</b> to zoom in and see individual facilities.</div></li>
+        <li><span class="ico">📌</span><div><b>Click a pin</b> to see details — size, operator, and facility type.</div></li>
+        <li><span class="ico">🔍</span><div><b>Use the filters</b> on the left to narrow by state, type, or source.</div></li>
+      </ul>
+      <button class="close-btn" onclick="document.getElementById('htuWrap').remove()">Got it →</button>
+    </div>`;
+  document.querySelector('.app').appendChild(wrap);
+}
+window.addEventListener('load', () => setTimeout(showHowToUse, 700));
 </script>
 </body>
 </html>
