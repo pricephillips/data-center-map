@@ -194,8 +194,6 @@ input:focus, select:focus { border-color:var(--atlas) }
 const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true });
 setTimeout(() => map.invalidateSize(), 300);
 window.addEventListener('resize', () => map.invalidateSize());
-setTimeout(() => map.invalidateSize(), 300);
-window.addEventListener('resize', () => map.invalidateSize());
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
   subdomains:'abcd', maxZoom:19, attribution:'© OpenStreetMap contributors © CARTO'
 }).addTo(map);
@@ -289,6 +287,8 @@ function render() {
   const list = document.getElementById('list');
   list.innerHTML = '';
   cardRefs = [];
+  const _visCount = rows.filter(r => match(r)).length;
+  updateCardCount(_visCount, rows.length);
   const _visCount = rows.filter(r => match(r)).length;
   updateCardCount(_visCount, rows.length);
   let cAtlas=0, cAI=0, listCount=0;
@@ -443,9 +443,10 @@ function highlightCard(idx){
 
 function buildChoropleth(atlasData, geoJson){
   const counts={};
+  const FULL_NAMES=new Set(Object.values(ABBREV_TO_NAME));
   atlasData.forEach(r=>{
-    const abbr=(r.state_abb||r.state||'').trim().toUpperCase();
-    const name=ABBREV_TO_NAME[abbr]||abbr;
+    const raw=(r.state_abb||r.state||'').trim();
+    const name=FULL_NAMES.has(raw)?raw:(ABBREV_TO_NAME[raw.toUpperCase()]||raw);
     if(name) counts[name]=(counts[name]||0)+1;
   });
   choroplethLayer=L.geoJSON(geoJson,{
@@ -557,6 +558,36 @@ function showHowToUse() {
       <ul>
         <li><span class="ico">🗺️</span><div><b>Click any state</b> to zoom in and see individual facilities.</div></li>
         <li><span class="ico">📌</span><div><b>Click a pin</b> to see details — size, operator, and facility type.</div></li>
+        <li><span class="ico">🔍</span><div><b>Use the filters</b> on the left to narrow by state, type, or source.</div></li>
+      </ul>
+      <button class="close-btn" onclick="document.getElementById('htuWrap').remove()">Got it →</button>
+    </div>`;
+  document.querySelector('.app').appendChild(wrap);
+}
+window.addEventListener('load', () => setTimeout(showHowToUse, 700));
+</script>
+
+<script>
+function updateCardCount(vis, tot) {
+  const el = document.getElementById('cardCount');
+  if (!el) return;
+  el.innerHTML = vis === tot
+    ? `<b>${tot}</b> facilities`
+    : `Showing <b>${vis}</b> of <b>${tot}</b> facilities`;
+}
+function showHowToUse() {
+  if (document.getElementById('htuWrap')) return;
+  const wrap = document.createElement('div');
+  wrap.id = 'htuWrap';
+  wrap.style.cssText = 'position:absolute;inset:0;z-index:598';
+  wrap.innerHTML = `
+    <div class="htu-overlay"></div>
+    <div class="how-to-use">
+      <h3>How to use this map</h3>
+      <p>Explore data center locations across the United States.</p>
+      <ul>
+        <li><span class="ico">🗺️</span><div><b>Click any state</b> to zoom in and see individual facilities.</div></li>
+        <li><span class="ico">📌</span><div><b>Click a pin</b> to see details — size, operator, and type.</div></li>
         <li><span class="ico">🔍</span><div><b>Use the filters</b> on the left to narrow by state, type, or source.</div></li>
       </ul>
       <button class="close-btn" onclick="document.getElementById('htuWrap').remove()">Got it →</button>
