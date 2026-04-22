@@ -536,16 +536,20 @@ function getFeatureLabelLatLng(layer){
   const featureName = layer.feature?.properties?.NAME || layer.feature?.properties?.name || '';
 
   const overrides = {
-    'Michigan': L.latLng(44.7, -85.4),
-    'Florida': L.latLng(28.2, -82.0),
-    'Louisiana': L.latLng(31.0, -91.9),
-    'California': L.latLng(36.5, -119.5),
-    'Texas': L.latLng(31.0, -99.0),
-    'Maryland': L.latLng(39.05, -76.7),
-    'Delaware': L.latLng(39.05, -75.5),
-    'New Jersey': L.latLng(40.1, -74.7),
-    'Rhode Island': L.latLng(41.7, -71.55),
-    'District of Columbia': L.latLng(38.9072, -77.0369)
+    'California': L.latLng(37.15, -119.45),
+    'Texas': L.latLng(31.15, -99.35),
+    'Florida': L.latLng(28.15, -82.15),
+    'Michigan': L.latLng(44.85, -85.55),
+    'Louisiana': L.latLng(31.05, -91.85),
+    'Maryland': L.latLng(39.15, -76.75),
+    'Delaware': L.latLng(39.12, -75.48),
+    'New Jersey': L.latLng(40.15, -74.70),
+    'Rhode Island': L.latLng(41.68, -71.56),
+    'Connecticut': L.latLng(41.62, -72.72),
+    'Massachusetts': L.latLng(42.25, -71.85),
+    'District of Columbia': L.latLng(38.9072, -77.0369),
+    'Hawaii': L.latLng(20.95, -157.50),
+    'Alaska': L.latLng(64.20, -152.00)
   };
 
   return overrides[featureName] || centroid || center;
