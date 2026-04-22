@@ -423,7 +423,6 @@ Papa.parse('./master_opposition.csv', {
 
 // ─── CHOROPLETH + QoL ────────────────────────────────────────────────────────
 let choroplethLayer = null, currentZoomedState = null;
-let stateLabelLayer = null;
 
 const ABBREV_TO_NAME = {
   AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',
@@ -466,7 +465,6 @@ function updateChoroplethVisuals(){
     const s=densityColor(cnt);
     layer.setStyle({fill:true,fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#8a3a20',weight:zoomedWeight(),opacity:1});
   });
-  if(stateLabelLayer) stateLabelLayer.bringToFront();
 }
 function updateMarkerVisibility(){
   const show=map.getZoom()>=6;
@@ -506,75 +504,6 @@ function zoomToResults(){
 }
 
 
-function labelClassForCount(n){
-  if(n >= 31) return 'count-xl';
-  if(n >= 16) return 'count-lg';
-  if(n >= 8) return 'count-md';
-  if(n >= 3) return 'count-sm';
-  return 'count-xs';
-}
-
-function polygonCentroid(latlngs){
-  const pts = Array.isArray(latlngs[0]) && Array.isArray(latlngs[0][0]) ? latlngs[0] : latlngs;
-  let area = 0, cx = 0, cy = 0;
-  for(let i = 0, j = pts.length - 1; i < pts.length; j = i++){
-    const x1 = pts[j].lng, y1 = pts[j].lat;
-    const x2 = pts[i].lng, y2 = pts[i].lat;
-    const f = x1 * y2 - x2 * y1;
-    area += f;
-    cx += (x1 + x2) * f;
-    cy += (y1 + y2) * f;
-  }
-  area *= 0.5;
-  if(!area) return null;
-  return L.latLng(cy / (6 * area), cx / (6 * area));
-}
-
-function getFeatureLabelLatLng(layer){
-  const center = layer.getBounds().getCenter();
-  const centroid = polygonCentroid(layer.getLatLngs());
-  const featureName = layer.feature?.properties?.NAME || layer.feature?.properties?.name || '';
-
-  const overrides = {
-    'California': L.latLng(37.15, -119.45),
-    'Texas': L.latLng(31.15, -99.35),
-    'Florida': L.latLng(28.15, -82.15),
-    'Michigan': L.latLng(44.85, -85.55),
-    'Louisiana': L.latLng(31.05, -91.85),
-    'Maryland': L.latLng(39.15, -76.75),
-    'Delaware': L.latLng(39.12, -75.48),
-    'New Jersey': L.latLng(40.15, -74.70),
-    'Rhode Island': L.latLng(41.68, -71.56),
-    'Connecticut': L.latLng(41.62, -72.72),
-    'Massachusetts': L.latLng(42.25, -71.85),
-    'District of Columbia': L.latLng(38.9072, -77.0369),
-    'Hawaii': L.latLng(20.95, -157.50),
-    'Alaska': L.latLng(64.20, -152.00)
-  };
-
-  return overrides[featureName] || centroid || center;
-}
-
-function renderStateLabels(featureLayers){
-  if(stateLabelLayer) map.removeLayer(stateLabelLayer);
-  stateLabelLayer = L.layerGroup();
-
-  featureLayers.forEach(({name, count, layer, feature}) => {
-    if(!count) return;
-    const latlng = getFeatureLabelLatLng(layer);
-    if(!latlng) return;
-
-    const html = `<div class="state-count-badge ${labelClassForCount(count)}">${count}</div>`;
-    const icon = L.divIcon({ className: 'state-count-icon', html, iconSize: null });
-    const marker = L.marker(latlng, { icon, interactive: true, keyboard: false, zIndexOffset: 1000 });
-    marker.on('click', () => choroZoomIn(feature, layer, name, count));
-    stateLabelLayer.addLayer(marker);
-  });
-
-  stateLabelLayer.addTo(map);
-  stateLabelLayer.bringToFront();
-}
-
 function buildChoropleth(data, geoJson){
   const counts={};
   const FULL_NAMES=new Set(Object.values(ABBREV_TO_NAME));
@@ -611,7 +540,6 @@ function buildChoropleth(data, geoJson){
   });
   choroplethLayer.addTo(map);
   choroplethLayer.bringToBack();
-  renderStateLabels(featureLayers);
   updateChoroplethVisuals();
 }
 
