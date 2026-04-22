@@ -425,68 +425,6 @@ Papa.parse('./master_opposition.csv', {
 let choroplethLayer = null, currentZoomedState = null;
 let stateLabelLayer = null;
 
-const STATE_LABEL_COORDS = {
-  AL:[32.806671,-86.791130], AK:[61.370716,-152.404419], AZ:[33.729759,-111.431221], AR:[34.969704,-92.373123],
-  CA:[36.116203,-119.681564], CO:[39.059811,-105.311104], CT:[41.597782,-72.755371], DE:[39.318523,-75.507141],
-  FL:[27.766279,-81.686783], GA:[33.040619,-83.643074], HI:[21.094318,-157.498337], ID:[44.240459,-114.478828],
-  IL:[40.349457,-88.986137], IN:[39.849426,-86.258278], IA:[42.011539,-93.210526], KS:[38.526600,-96.726486],
-  KY:[37.668140,-84.670067], LA:[31.169546,-91.867805], ME:[44.693947,-69.381927], MD:[39.063946,-76.802101],
-  MA:[42.230171,-71.530106], MI:[43.326618,-84.536095], MN:[45.694454,-93.900192], MS:[32.741646,-89.678696],
-  MO:[38.456085,-92.288368], MT:[46.921925,-110.454353], NE:[41.125370,-98.268082], NV:[38.313515,-117.055374],
-  NH:[43.452492,-71.563896], NJ:[40.298904,-74.521011], NM:[34.840515,-106.248482], NY:[42.165726,-74.948051],
-  NC:[35.630066,-79.806419], ND:[47.528912,-99.784012], OH:[40.388783,-82.764915], OK:[35.565342,-96.928917],
-  OR:[44.572021,-122.070938], PA:[40.590752,-77.209755], RI:[41.680893,-71.511780], SC:[33.856892,-80.945007],
-  SD:[44.299782,-99.438828], TN:[35.747845,-86.692345], TX:[31.054487,-97.563461], UT:[40.150032,-111.862434],
-  VT:[44.045876,-72.710686], VA:[37.769337,-78.169968], WA:[47.400902,-121.490494], WV:[38.491226,-80.954453],
-  WI:[44.268543,-89.616508], WY:[42.755966,-107.302490], DC:[38.9072,-77.0369]
-};
-
-const NAME_TO_ABBREV = Object.fromEntries(Object.entries(ABBREV_TO_NAME).map(([abbr, name]) => [name, abbr]));
-
-function labelClassForCount(n){
-  if(n >= 31) return 'count-xl';
-  if(n >= 16) return 'count-lg';
-  if(n >= 8) return 'count-md';
-  if(n >= 3) return 'count-sm';
-  return 'count-xs';
-}
-
-function renderStateLabels(counts){
-  if(stateLabelLayer){
-    map.removeLayer(stateLabelLayer);
-  }
-  stateLabelLayer = L.layerGroup();
-
-  Object.entries(counts).forEach(([stateName, count]) => {
-    if(!count) return;
-    const abbr = NAME_TO_ABBREV[stateName] || stateName;
-    const coords = STATE_LABEL_COORDS[abbr];
-    if(!coords) return;
-
-    const html = `<div class="state-count-badge ${labelClassForCount(count)}">${count}</div>`;
-    const icon = L.divIcon({
-      className: 'state-count-icon',
-      html,
-      iconSize: null
-    });
-
-    const marker = L.marker(coords, { icon, interactive: true, keyboard: false });
-    marker.on('click', () => {
-      if(!choroplethLayer) return;
-      choroplethLayer.eachLayer(layer => {
-        const layerName = layer.feature?.properties?.NAME || layer.feature?.properties?.name || '';
-        if(layerName === stateName){
-          choroZoomIn(layer.feature, layer, stateName, count);
-        }
-      });
-    });
-    stateLabelLayer.addLayer(marker);
-  });
-
-  stateLabelLayer.addTo(map);
-}
-
-
 const ABBREV_TO_NAME = {
   AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',
   CT:'Connecticut',DE:'Delaware',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',
@@ -526,7 +464,7 @@ function updateChoroplethVisuals(){
   choroplethLayer.eachLayer(layer=>{
     const cnt=layer.feature?.properties?._count||0;
     const s=densityColor(cnt);
-    layer.setStyle({fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#8a3a20',weight:zoomedWeight(),opacity:1,fill:true});
+    layer.setStyle({fill:true,fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#8a3a20',weight:zoomedWeight(),opacity:1});
   });
   if(stateLabelLayer) stateLabelLayer.bringToFront();
 }
@@ -567,26 +505,93 @@ function zoomToResults(){
   if(pts.length) map.flyToBounds(pts,{padding:[30,30],maxZoom:8,duration:0.8});
 }
 
+
+function labelClassForCount(n){
+  if(n >= 31) return 'count-xl';
+  if(n >= 16) return 'count-lg';
+  if(n >= 8) return 'count-md';
+  if(n >= 3) return 'count-sm';
+  return 'count-xs';
+}
+
+function polygonCentroid(latlngs){
+  const pts = Array.isArray(latlngs[0]) && Array.isArray(latlngs[0][0]) ? latlngs[0] : latlngs;
+  let area = 0, cx = 0, cy = 0;
+  for(let i = 0, j = pts.length - 1; i < pts.length; j = i++){
+    const x1 = pts[j].lng, y1 = pts[j].lat;
+    const x2 = pts[i].lng, y2 = pts[i].lat;
+    const f = x1 * y2 - x2 * y1;
+    area += f;
+    cx += (x1 + x2) * f;
+    cy += (y1 + y2) * f;
+  }
+  area *= 0.5;
+  if(!area) return null;
+  return L.latLng(cy / (6 * area), cx / (6 * area));
+}
+
+function getFeatureLabelLatLng(layer){
+  const center = layer.getBounds().getCenter();
+  const centroid = polygonCentroid(layer.getLatLngs());
+  const featureName = layer.feature?.properties?.NAME || layer.feature?.properties?.name || '';
+
+  const overrides = {
+    'Michigan': L.latLng(44.7, -85.4),
+    'Florida': L.latLng(28.2, -82.0),
+    'Louisiana': L.latLng(31.0, -91.9),
+    'California': L.latLng(36.5, -119.5),
+    'Texas': L.latLng(31.0, -99.0),
+    'Maryland': L.latLng(39.05, -76.7),
+    'Delaware': L.latLng(39.05, -75.5),
+    'New Jersey': L.latLng(40.1, -74.7),
+    'Rhode Island': L.latLng(41.7, -71.55),
+    'District of Columbia': L.latLng(38.9072, -77.0369)
+  };
+
+  return overrides[featureName] || centroid || center;
+}
+
+function renderStateLabels(featureLayers){
+  if(stateLabelLayer) map.removeLayer(stateLabelLayer);
+  stateLabelLayer = L.layerGroup();
+
+  featureLayers.forEach(({name, count, layer, feature}) => {
+    if(!count) return;
+    const latlng = getFeatureLabelLatLng(layer);
+    if(!latlng) return;
+
+    const html = `<div class="state-count-badge ${labelClassForCount(count)}">${count}</div>`;
+    const icon = L.divIcon({ className: 'state-count-icon', html, iconSize: null });
+    const marker = L.marker(latlng, { icon, interactive: true, keyboard: false, zIndexOffset: 1000 });
+    marker.on('click', () => choroZoomIn(feature, layer, name, count));
+    stateLabelLayer.addLayer(marker);
+  });
+
+  stateLabelLayer.addTo(map);
+  stateLabelLayer.bringToFront();
+}
+
 function buildChoropleth(data, geoJson){
   const counts={};
   const FULL_NAMES=new Set(Object.values(ABBREV_TO_NAME));
+  const featureLayers=[];
   data.forEach(r=>{
     const raw=(r['State']||'').trim();
     const name=FULL_NAMES.has(raw)?raw:(ABBREV_TO_NAME[raw.toUpperCase()]||raw);
     if(name) counts[name]=(counts[name]||0)+1;
   });
-  renderStateLabels(counts);
   choroplethLayer=L.geoJSON(geoJson,{
     style: feat=>{
       const name=feat.properties.NAME||feat.properties.name||'';
       const cnt=counts[name]||0;
       feat.properties._count=cnt;
       const s=densityColor(cnt);
-      return {fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#8a3a20',weight:zoomedWeight(),opacity:1};
+      return {fill:true, fillColor:s.color, fillOpacity:zoomedOpacity(s.opacity), color:'#8a3a20', weight:zoomedWeight(), opacity:1};
     },
     onEachFeature:(feat,layer)=>{
       const name=feat.properties.NAME||feat.properties.name||'';
       const cnt=counts[name]||0;
+      featureLayers.push({name, count: cnt, layer, feature: feat});
       layer.on({
         mouseover: e=>{
           if(currentZoomedState!==name) e.target.setStyle({weight:2.5,color:'#ff8f84',fillOpacity:Math.min(0.99,zoomedOpacity(densityColor(cnt).opacity)+0.08)});
@@ -602,10 +607,9 @@ function buildChoropleth(data, geoJson){
   });
   choroplethLayer.addTo(map);
   choroplethLayer.bringToBack();
-  if(stateLabelLayer) stateLabelLayer.bringToFront();
+  renderStateLabels(featureLayers);
   updateChoroplethVisuals();
 }
-
 
 function choroZoomIn(feat,layer,stateName,cnt){
   currentZoomedState=stateName;
