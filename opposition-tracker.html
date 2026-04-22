@@ -526,8 +526,9 @@ function updateChoroplethVisuals(){
   choroplethLayer.eachLayer(layer=>{
     const cnt=layer.feature?.properties?._count||0;
     const s=densityColor(cnt);
-    layer.setStyle({fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#8a3a20',weight:zoomedWeight(),opacity:1});
+    layer.setStyle({fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#8a3a20',weight:zoomedWeight(),opacity:1,fill:true});
   });
+  if(stateLabelLayer) stateLabelLayer.bringToFront();
 }
 function updateMarkerVisibility(){
   const show=map.getZoom()>=6;
@@ -601,8 +602,10 @@ function buildChoropleth(data, geoJson){
   });
   choroplethLayer.addTo(map);
   choroplethLayer.bringToBack();
+  if(stateLabelLayer) stateLabelLayer.bringToFront();
   updateChoroplethVisuals();
 }
+
 
 function choroZoomIn(feat,layer,stateName,cnt){
   currentZoomedState=stateName;
