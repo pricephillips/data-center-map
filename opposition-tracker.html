@@ -117,6 +117,17 @@ input:focus, select:focus { border-color:#5aa9e6 }
   .map-hint { bottom:72px; }
 }
 
+
+.state-count-badge {
+  min-width:28px; height:24px; padding:0 7px; border-radius:7px;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:rgba(125,46,14,.96); border:2px solid #e67e22; color:#fff;
+  font-size:11px; font-weight:700; line-height:1; box-shadow:0 4px 12px rgba(0,0,0,.28);
+}
+@media (max-width:600px) {
+  .state-count-badge { min-width:24px; height:21px; padding:0 6px; font-size:10px; }
+}
+
 .leaflet-popup-content-wrapper { background:#1a2030; border:1px solid var(--border); border-radius:10px; box-shadow:0 6px 24px rgba(0,0,0,.5); color:var(--text) }
 .leaflet-popup-tip { background:#1a2030 }
 .leaflet-popup-content { margin:12px 14px; min-width:240px; max-width:360px }
@@ -301,6 +312,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
 
 <script>
 const MARKER_REVEAL_ZOOM = 7;
+const STATE_BADGE_REVEAL_ZOOM = 5.5;
 const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true, zoomSnap:0.5, zoomDelta:0.5, wheelPxPerZoomLevel:140 });
 setTimeout(() => map.invalidateSize(), 300);
 window.addEventListener('resize', () => { syncMobileUi(); map.invalidateSize(); });
@@ -618,7 +630,7 @@ map.whenReady(() => { syncMobileUi(); updateMarkerVisibility(); });
 
 function renderOutcomeSummary(visible){
   let p=0,w=0,l=0,mx=0;
-  visible.forEach(r=>{
+  visible.forEach(({ r })=>{
     const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
     if(outcome === 'win') w++;
     else if(outcome === 'loss') l++;
@@ -632,10 +644,10 @@ function renderOutcomeSummary(visible){
 
   if(el) el.innerHTML = `
     <div class="summary-bar">
-      <div class="summary-seg" title="Pending / Active: ${p}" style="width:${pct(p)}%;background:var(--pending)"></div>
-      <div class="summary-seg" title="Wins: ${w}" style="width:${pct(w)}%;background:var(--win)"></div>
-      <div class="summary-seg" title="Losses: ${l}" style="width:${pct(l)}%;background:var(--loss)"></div>
-      <div class="summary-seg" title="Mixed: ${mx}" style="width:${pct(mx)}%;background:var(--mixed)"></div>
+      ${p ? `<div class="summary-seg" title="Pending / Active: ${p}" style="width:${pct(p)}%;background:var(--pending)"></div>` : ''}
+      ${w ? `<div class="summary-seg" title="Wins: ${w}" style="width:${pct(w)}%;background:var(--win)"></div>` : ''}
+      ${l ? `<div class="summary-seg" title="Losses: ${l}" style="width:${pct(l)}%;background:var(--loss)"></div>` : ''}
+      ${mx ? `<div class="summary-seg" title="Mixed: ${mx}" style="width:${pct(mx)}%;background:var(--mixed)"></div>` : ''}
     </div>
     <div class="summary-meta">
       <span>Pending ${p}</span>
@@ -662,6 +674,48 @@ function zoomToResults(){
   if(pts.length) map.flyToBounds(pts,{padding:[30,30],maxZoom:8,duration:0.8});
 }
 
+
+function getFeatureCenter(feat, layer){
+  const center = layer.getBounds().getCenter();
+  const n = (feat && feat.properties && (feat.properties.NAME || feat.properties.name)) || '';
+  const overrides = {
+    Michigan:[44.7,-85.4], Louisiana:[31.0,-92.0], Florida:[28.3,-82.1], California:[37.1,-119.7],
+    Maryland:[39.0,-76.7], Hawaii:[20.8,-157.5], Alaska:[64.2,-152.0]
+  };
+  return overrides[n] || [center.lat, center.lng];
+}
+
+function buildStateCountLayer(featureLayers){
+  if (stateCountLayer) stateCountLayer.remove();
+  stateCountLayer = L.layerGroup();
+  featureLayers.forEach(({name, count, layer, feature}) => {
+    if (!count) return;
+    const center = getFeatureCenter(feature, layer);
+    const digits = String(count).length;
+    const w = digits >= 3 ? 34 : digits === 2 ? 30 : 26;
+    const icon = L.divIcon({
+      className:'', iconSize:[w,24], iconAnchor:[w/2,12],
+      html:`<div class="state-count-badge">${count}</div>`
+    });
+    const marker = L.marker(center, { icon, keyboard:false, interactive:false, zIndexOffset:150 });
+    if (!isMobileViewport()) marker.bindTooltip(`${name}: ${count} incident${count===1?'':'s'}`, { direction:'top', opacity:0.9, className:'pin-tooltip' });
+    stateCountLayer.addLayer(marker);
+  });
+  stateCountLayer.addTo(map);
+  updateStateCountVisibility();
+}
+
+function updateStateCountVisibility(){
+  if(!stateCountLayer) return;
+  const show = map.getZoom() >= STATE_BADGE_REVEAL_ZOOM && map.getZoom() < MARKER_REVEAL_ZOOM;
+  stateCountLayer.eachLayer(marker => {
+    const el = marker.getElement && marker.getElement();
+    if (!el) return;
+    el.style.opacity = show ? '1' : '0';
+    el.style.pointerEvents = 'none';
+    el.style.transition = 'opacity .18s ease';
+  });
+}
 
 function buildChoropleth(data, geoJson){
   const counts={};
@@ -699,6 +753,7 @@ function buildChoropleth(data, geoJson){
   });
   choroplethLayer.addTo(map);
   choroplethLayer.bringToBack();
+  buildStateCountLayer(featureLayers);
   updateChoroplethVisuals();
 }
 
