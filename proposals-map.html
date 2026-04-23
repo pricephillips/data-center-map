@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Center Proposals Map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+<style>
+html, body { height:100% }
+
+:root {
+  --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
+  --muted:#8a96a4; --border:#2c3544;
+  --accent:#4f98a3;
+}
+* { box-sizing:border-box; margin:0; padding:0 }
+body {
+  font-family:Inter,system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow:hidden;
+}
+.app {
+  display:grid;
+  grid-template-columns:380px 1fr;
+  grid-template-rows:100vh;
+  height:100vh;
+  overflow:hidden;
+}
+.sidebar {
+  background:var(--panel);
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+}
+.header {
+  padding:14px 16px 12px;
+  border-bottom:1px solid var(--border);
+}
+.logo {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:4px;
+}
+.logo svg { color:var(--accent) }
+h1 { font-size:17px; font-weight:700 }
+.sub { font-size:11px; color:var(--muted); line-height:1.45 }
+.filters {
+  padding:10px 12px;
+  border-bottom:1px solid var(--border);
+  background:var(--panel2);
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+.search-wrap { position:relative }
+.search-wrap svg {
+  position:absolute; left:10px; top:50%; transform:translateY(-50%);
+  color:var(--muted); pointer-events:none;
+}
+.search-wrap input { padding-left:32px }
+input, select {
+  width:100%; padding:7px 10px;
+  border-radius:8px; border:1px solid var(--border);
+  background:#0c1018; color:var(--text);
+  font-size:12px; outline:none;
+}
+input:focus, select:focus { border-color:var(--accent) }
+.row2 { display:grid; grid-template-columns:1fr 1fr; gap:7px }
+.stats {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-top:4px;
+}
+.stat {
+  padding:8px 6px; border:1px solid var(--border);
+  border-radius:8px; background:#0c1018; text-align:center;
+}
+.stat b { display:block; font-size:16px; font-weight:700 }
+.stat span { font-size:10px; color:var(--muted) }
+.stat.s-proposals b { color:var(--accent) }
+.list { overflow-y:auto; flex:1; padding:8px }
+.card {
+  padding:10px 12px; border:1px solid var(--border);
+  border-radius:10px; background:#0c1018;
+  margin-bottom:7px; cursor:pointer;
+  transition:border-color .15s;
+}
+.card:hover { border-color:#4a5a72 }
+.card-title { font-size:13px; font-weight:600; line-height:1.3; margin-bottom:4px }
+.card-meta {
+  font-size:11px; color:var(--muted);
+  display:flex; flex-wrap:wrap; margin-bottom:4px;
+}
+.card-meta span { margin-right:10px }
+.card-snippet { font-size:11px; color:var(--muted); line-height:1.45; margin-top:4px }
+
+.mapwrap {
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+#map { flex:1; min-height:0; height:100% }
+
+.legend {
+  position:absolute; top:12px; right:12px; z-index:500;
+  background:rgba(15,18,24,.93);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:10px 13px;
+  font-size:12px;
+}
+.legend b { color:var(--text); display:block; margin-bottom:5px }
+.legend-row {
+  display:flex; align-items:center; gap:7px;
+  margin:4px 0; color:var(--muted);
+}
+.lsw { width:10px; height:10px; border-radius:2px; flex-shrink:0 }
+.note {
+  font-size:10px; color:#505d6e;
+  margin-top:7px; max-width:190px; line-height:1.4;
+}
+
+.map-hint {
+  position:absolute; bottom:24px; left:50%;
+  transform:translateX(-50%);
+  z-index:500;
+  background:rgba(15,18,24,.88);
+  backdrop-filter:blur(6px);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:5px 14px;
+  font-size:11px; color:var(--muted);
+  pointer-events:none; white-space:nowrap;
+}
+
+/* Choropleth */
+.choro-back {
+  position:absolute; top:12px; left:12px; z-index:500;
+  background:rgba(15,18,24,.93);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:6px 12px;
+  font-size:11px; font-weight:600;
+  cursor:pointer; color:var(--text);
+  display:none;
+}
+.choro-back:hover { border-color:var(--accent) }
+
+.leaflet-popup-content-wrapper {
+  background:#1a2030;
+  border:1px solid var(--border);
+  border-radius:10px;
+  box-shadow:0 6px 24px rgba(0,0,0,.5);
+  color:var(--text);
+}
+.leaflet-popup-tip { background:#1a2030 }
+.leaflet-popup-content {
+  margin:12px 14px;
+  min-width:220px; max-width:340px;
+}
+.p-title { font-size:14px; font-weight:700; margin-bottom:6px; line-height:1.3 }
+.p-grid {
+  display:grid; grid-template-columns:auto 1fr;
+  gap:4px 11px; font-size:12px; margin:7px 0;
+}
+.p-label { color:#8a96a4 }
+.p-val {
+  color:#d8e0ea;
+  word-break:break-word;
+}
+@media (max-width:600px) {
+  .app { grid-template-columns:1fr; grid-template-rows:45vh 55vh }
+  .sidebar { height:45vh }
+  #map { flex:1; min-height:0; height:100% }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="header">
+      <div class="logo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <path d="M8 21h8M12 17v4"/>
+        </svg>
+        <h1>Data Center Proposals Map</h1>
+      </div>
+      <div class="sub">Proposed data centers from <code>data/proposals.csv</code>. Click a state to see proposal density; click pins for details.</div>
+    </div>
+
+    <div class="filters">
+      <div class="search-wrap">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input id="q" type="text" placeholder="Filter by name, state, company…" oninput="debounceRender()"/>
+      </div>
+      <div class="row2">
+        <select id="fState" onchange="renderListAndMarkers()">
+          <option value="">All states</option>
+        </select>
+        <select id="fPhase" onchange="renderListAndMarkers()">
+          <option value="">All phases</option>
+        </select>
+      </div>
+      <div class="stats">
+        <div class="stat s-proposals">
+          <b id="statTotal">—</b>
+          <span>Total proposals</span>
+        </div>
+        <div class="stat">
+          <b id="statVisible">—</b>
+          <span>Visible</span>
+        </div>
+        <div class="stat">
+          <b id="statStates">—</b>
+          <span>States</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-count" id="cardCount" style="font-size:12px;color:var(--muted);padding:6px 12px 2px;font-weight:500"></div>
+    <div id="list" class="list"></div>
+  </aside>
+
+  <div class="mapwrap">
+    <div id="map"></div>
+    <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
+    <div class="map-hint" id="mapHint">Click any state to see proposal density</div>
+    <div class="legend">
+      <b>Proposal density</b>
+      <div class="legend-row"><span class="lsw" style="background:#0e3349"></span>1–5 proposals</div>
+      <div class="legend-row"><span class="lsw" style="background:#1a5068"></span>6–15</div>
+      <div class="legend-row"><span class="lsw" style="background:#276b80"></span>16–30</div>
+      <div class="legend-row"><span class="lsw" style="background:#348a9a"></span>31–60</div>
+      <div class="legend-row"><span class="lsw" style="background:#4f98a3"></span>61+</div>
+      <div class="note">Choropleth colors show the count of proposed projects per state. Pins show individual sites.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+  const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true });
+  setTimeout(() => map.invalidateSize(), 200);
+  window.addEventListener('resize', () => map.invalidateSize());
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    subdomains:'abcd', maxZoom:19,
+    attribution:'© OpenStreetMap contributors © CARTO'
+  }).addTo(map);
+
+  const cluster = L.markerClusterGroup({
+    maxClusterRadius:40,
+    iconCreateFunction(c) {
+      const n = c.getChildCount();
+      const sz = n > 100 ? 38 : n > 30 ? 32 : 26;
+      return L.divIcon({
+        className:'',
+        iconSize:[sz,sz],
+        html:`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:#1a3a42;border:2px solid #4f98a3;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#7ecfda">${n}</div>`
+      });
+    }
+  });
+  map.addLayer(cluster);
+
+  const ABBREV_TO_NAME = {
+    AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',
+    CT:'Connecticut',DE:'Delaware',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',
+    IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',
+    ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',
+    MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',
+    NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',
+    NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',
+    PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',
+    TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',
+    WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming',DC:'District of Columbia'
+  };
+
+  const DENSITY_STEPS = [
+    {min:0,  max:0,  color:'#0a1520', opacity:0.55},
+    {min:1,  max:5,  color:'#0e3349', opacity:0.80},
+    {min:6,  max:15, color:'#1a5068', opacity:0.86},
+    {min:16, max:30, color:'#276b80', opacity:0.90},
+    {min:31, max:60, color:'#348a9a', opacity:0.93},
+    {min:61, max:9999, color:'#4f98a3', opacity:0.96}
+  ];
+  function densityColor(n) {
+    return DENSITY_STEPS.find(s => n >= s.min && n <= s.max) || DENSITY_STEPS[0];
+  }
+  function zoomedOpacity(base) {
+    const z = map.getZoom();
+    if (z <= 4) return Math.min(0.97, base + 0.04);
+    if (z <= 5) return base;
+    if (z <= 6) return Math.max(0.30, base - 0.25);
+    if (z <= 7) return Math.max(0.18, base - 0.40);
+    return Math.max(0.10, base - 0.55);
+  }
+  function zoomedWeight() {
+    const z = map.getZoom();
+    return z <= 4 ? 2.2 : z <= 5 ? 1.8 : z <= 6 ? 1.4 : 1.0;
+  }
+
+  let choroplethLayer = null;
+  let currentZoomedState = null;
+
+  const esc = s => String(s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const fmtInt = v => Number(v||0).toLocaleString('en-US');
+
+  let allRows = [];
+  let filteredRows = [];
+  let markers = [];
+  let cardRefs = [];
+
+  function buildPopup(p) {
+    return `
+      <div class="p-title">${esc(p.name || 'Unnamed proposal')}</div>
+      <div class="p-grid">
+        <span class="p-label">State</span><span class="p-val">${esc(p.state || '')}</span>
+        <span class="p-label">County</span><span class="p-val">${esc(p.counties || '')}</span>
+        <span class="p-label">Phase</span><span class="p-val">${esc(p.phase || '')}</span>
+        <span class="p-label">Capacity</span><span class="p-val">${p.capacity_mw ? fmtInt(p.capacity_mw) + ' MW' : '—'}</span>
+        <span class="p-label">Jobs</span><span class="p-val">${p.jobsTotal ? fmtInt(p.jobsTotal) : '—'}</span>
+        <span class="p-label">Company</span><span class="p-val">${esc(p.companies || '')}</span>
+        <span class="p-label">Date</span><span class="p-val">${esc(p.date || '')}</span>
+      </div>
+    `;
+  }
+
+  function matchesFilters(r) {
+    const q = document.getElementById('q').value.trim().toLowerCase();
+    const fSt = document.getElementById('fState').value;
+    const fPh = document.getElementById('fPhase').value;
+    if (fSt && r.state !== fSt) return false;
+    if (fPh && r.phase !== fPh) return false;
+    if (!q) return true;
+    const hay = (r.name || '') + ' ' + (r.state || '') + ' ' + (r.companies || '') + ' ' + (r.counties || '');
+    return hay.toLowerCase().includes(q);
+  }
+
+  function renderListAndMarkers() {
+    cluster.clearLayers();
+    const listEl = document.getElementById('list');
+    listEl.innerHTML = '';
+    cardRefs = [];
+
+    filteredRows = allRows.filter(matchesFilters);
+    const stateSet = new Set(filteredRows.map(r => r.state).filter(Boolean));
+
+    document.getElementById('statTotal').textContent   = fmtInt(allRows.length);
+    document.getElementById('statVisible').textContent = fmtInt(filteredRows.length);
+    document.getElementById('statStates').textContent  = fmtInt(stateSet.size);
+
+    const listLimit = 200;
+    let listCount = 0;
+
+    filteredRows.forEach((r, i) => {
+      const m = markers[i];
+      if (m) cluster.addLayer(m);
+
+      if (listCount < listLimit) {
+        listCount++;
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-title">${esc(r.name || 'Unnamed proposal')}</div>
+          <div class="card-meta">
+            <span>${esc(r.state || '')}</span>
+            ${r.phase ? `<span>${esc(r.phase)}</span>` : ''}
+            ${r.capacity_mw ? `<span>${fmtInt(r.capacity_mw)} MW</span>` : ''}
+          </div>
+          <div class="card-snippet">${esc((r.companies || '').slice(0,80))}</div>
+        `;
+        card.onclick = () => {
+          if (!isNaN(r.lat) && !isNaN(r.lon)) {
+            map.setView([r.lat, r.lon], 9);
+            m.openPopup();
+          }
+        };
+        cardRefs.push(card);
+        listEl.appendChild(card);
+      }
+    });
+
+    if (filteredRows.length > listLimit) {
+      const note = document.createElement('div');
+      note.style.cssText = 'padding:10px;text-align:center;font-size:11px;color:#8a96a4';
+      note.textContent = `+ more proposals on map. Use search or filters to narrow down.`;
+      listEl.appendChild(note);
+    }
+
+    const cardCountEl = document.getElementById('cardCount');
+    if (filteredRows.length === allRows.length) {
+      cardCountEl.innerHTML = `<b>${fmtInt(allRows.length)}</b> proposals`;
+    } else {
+      cardCountEl.innerHTML =
+        `Showing <b>${fmtInt(filteredRows.length)}</b> of <b>${fmtInt(allRows.length)}</b> proposals`;
+    }
+  }
+
+  let renderTimer = null;
+  function debounceRender() {
+    clearTimeout(renderTimer);
+    renderTimer = setTimeout(renderListAndMarkers, 250);
+  }
+  window.debounceRender = debounceRender;
+  window.renderListAndMarkers = renderListAndMarkers;
+
+  function buildChoropleth(counts, geoJson) {
+    choroplethLayer = L.geoJSON(geoJson, {
+      style: feature => {
+        const name = feature.properties.NAME || feature.properties.name || '';
+        const cnt = counts[name] || 0;
+        feature.properties._count = cnt;
+        const step = densityColor(cnt);
+        return {
+          fillColor: step.color,
+          fillOpacity: zoomedOpacity(step.opacity),
+          color: '#3d6070',
+          weight: zoomedWeight(),
+          opacity: 1
+        };
+      },
+      onEachFeature: (feature, layer) => {
+        const name = feature.properties.NAME || feature.properties.name || '';
+        const cnt = feature.properties._count || 0;
+        layer.on({
+          mouseover: e => {
+            if (currentZoomedState !== name) {
+              e.target.setStyle({
+                weight: 2.5,
+                color: '#8fd7e2',
+                fillOpacity: Math.min(0.99, zoomedOpacity(densityColor(cnt).opacity) + 0.08)
+              });
+            }
+            document.getElementById('mapHint').textContent =
+              cnt > 0
+                ? `${name}: ${cnt} proposal${cnt === 1 ? '' : 's'} — click to zoom`
+                : `${name}: no proposals in dataset`;
+          },
+          mouseout: e => {
+            if (currentZoomedState !== name) choroplethLayer.resetStyle(e.target);
+            document.getElementById('mapHint').textContent =
+              'Click any state to see proposal density';
+          },
+          click: () => choroZoomIn(feature, layer, name, cnt)
+        });
+      }
+    });
+    choroplethLayer.addTo(map);
+    choroplethLayer.bringToBack();
+    updateChoroplethVisuals();
+  }
+
+  function updateChoroplethVisuals() {
+    if (!choroplethLayer) return;
+    choroplethLayer.eachLayer(layer => {
+      const cnt = layer.feature?.properties?._count || 0;
+      const step = densityColor(cnt);
+      layer.setStyle({
+        fillColor: step.color,
+        fillOpacity: zoomedOpacity(step.opacity),
+        color: '#3d6070',
+        weight: zoomedWeight(),
+        opacity: 1
+      });
+    });
+  }
+
+  function choroZoomIn(feature, layer, stateName, cnt) {
+    currentZoomedState = stateName;
+    choroplethLayer.eachLayer(l => choroplethLayer.resetStyle(l));
+    layer.setStyle({ weight: 2.5, color: '#b7f1fb', fillOpacity: 0.18 });
+    map.flyToBounds(layer.getBounds(), { padding:[30,30], maxZoom:7, duration:0.85 });
+    document.getElementById('choroBack').style.display = 'block';
+    document.getElementById('mapHint').textContent =
+      cnt > 0
+        ? `${stateName}: ${cnt} proposal${cnt === 1 ? '' : 's'} — zoom and click pins for details`
+        : `${stateName}: no proposals in dataset`;
+    setTimeout(updateChoroplethVisuals, 120);
+  }
+
+  function choroZoomOut() {
+    currentZoomedState = null;
+    if (choroplethLayer) choroplethLayer.eachLayer(l => choroplethLayer.resetStyle(l));
+    map.flyTo([39.5,-98.35], 4, { duration:0.8 });
+    document.getElementById('choroBack').style.display = 'none';
+    document.getElementById('mapHint').textContent = 'Click any state to see proposal density';
+    setTimeout(updateChoroplethVisuals, 120);
+  }
+  window.choroZoomOut = choroZoomOut;
+
+  map.on('zoomend', updateChoroplethVisuals);
+  map.whenReady(updateChoroplethVisuals);
+
+  function loadProposalsAndGeo() {
+    Papa.parse('data/proposals.csv', {
+      download: true,
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true,
+      complete: results => {
+        const data = results.data || [];
+        allRows = data.map(r => {
+          const lat = parseFloat(r.lat ?? r.latitude);
+          const lon = parseFloat(r.lon ?? r.longitude ?? r.lng);
+          return {
+            ...r,
+            lat, lon,
+            state: r.state || r.state_abb || ''
+          };
+        }).filter(r => !isNaN(r.lat) && !isNaN(r.lon));
+
+        // Build markers array aligned with allRows
+        markers = allRows.map(r => {
+          const marker = L.marker([r.lat, r.lon], {
+            title: r.name || ''
+          });
+          marker.bindPopup(buildPopup(r));
+          return marker;
+        });
+
+        // Populate filters
+        const states = [...new Set(allRows.map(r => r.state).filter(Boolean))].sort();
+        const phases = [...new Set(allRows.map(r => r.phase).filter(Boolean))].sort();
+        const fState = document.getElementById('fState');
+        const fPhase = document.getElementById('fPhase');
+        states.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s; opt.textContent = s;
+          fState.appendChild(opt);
+        });
+        phases.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p; opt.textContent = p;
+          fPhase.appendChild(opt);
+        });
+
+        renderListAndMarkers();
+
+        // Build state counts for choropleth
+        const counts = {};
+        const FULL_NAMES = new Set(Object.values(ABBREV_TO_NAME));
+        allRows.forEach(r => {
+          const raw = (r.state || '').trim();
+          if (!raw) return;
+          const name = FULL_NAMES.has(raw)
+            ? raw
+            : (ABBREV_TO_NAME[raw.toUpperCase()] || raw);
+          counts[name] = (counts[name] || 0) + 1;
+        });
+
+        // Load GeoJSON and build choropleth
+        fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
+          .then(resp => resp.json())
+          .then(geo => buildChoropleth(counts, geo))
+          .catch(e => console.warn('GeoJSON failed', e));
+      },
+      error: err => {
+        console.error('Error loading proposals.csv for map', err);
+        document.getElementById('mapHint').textContent = 'Error loading proposals.csv for map';
+      }
+    });
+  }
+
+  loadProposalsAndGeo();
+});
+</script>
+</body>
+</html>
