@@ -70,6 +70,9 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .card-snippet { font-size:11px; color:var(--muted); line-height:1.45; margin-top:4px }
 .mapwrap { position:relative; overflow:hidden; min-height:0; }
 #map { position:absolute; inset:0; }
+/* Smooth tile zoom animation */
+.leaflet-zoom-animated { transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important; }
+.leaflet-tile { transition: opacity 0.18s ease !important; }
 .legend { position:absolute; top:12px; right:12px; z-index:500; background:rgba(15,18,24,.93); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:11px; padding:10px 13px; font-size:12px }
 .legend b { color:var(--text); display:block; margin-bottom:5px }
 .legend-row { display:flex; align-items:center; gap:7px; margin:4px 0; color:var(--muted) }
@@ -90,6 +93,13 @@ input:focus, select:focus { border-color:#5aa9e6 }
   font-weight: 700;
   line-height: 1;
   box-shadow: 0 4px 12px rgba(0,0,0,0.28);
+  /* Smooth fade in/out */
+  transition: opacity 0.25s ease;
+  /* Prevent badge from affecting pointer events when hidden */
+  pointer-events: none;
+  /* Critical: ensure text doesn't cause layout shift that breaks centering */
+  white-space: nowrap;
+  user-select: none;
 }
 
 .leaflet-popup-content-wrapper { background:#1a2030; border:1px solid var(--border); border-radius:10px; box-shadow:0 6px 24px rgba(0,0,0,.5); color:var(--text) }
@@ -259,7 +269,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
 </div>
 
 <script>
-const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true });
+const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true, zoomSnap:0.25, zoomDelta:0.5, wheelPxPerZoomLevel:120 });
 setTimeout(() => map.invalidateSize(), 300);
 window.addEventListener('resize', () => map.invalidateSize());
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
@@ -476,7 +486,8 @@ Papa.parse('./master_opposition.csv', {
 // ─── CHOROPLETH + QoL ────────────────────────────────────────────────────────
 let choroplethLayer = null, stateCountLayer = null, currentZoomedState = null;
 
-const STATE_BADGE_REVEAL_ZOOM = 6;
+const STATE_BADGE_REVEAL_ZOOM = 5;  // badges appear at this zoom
+const MARKER_REVEAL_ZOOM      = 7;  // individual pins appear at this zoom
 const STATE_BADGE_CENTERS = {
   Alabama:[32.8,-86.8], Alaska:[64.2,-149.5], Arizona:[34.05,-111.09], Arkansas:[35.2,-91.83],
   California:[36.5,-119.5], Colorado:[39.05,-105.55], Connecticut:[41.62,-72.73], Delaware:[39.05,-75.5],
@@ -543,17 +554,15 @@ function updateChoroplethVisuals(){
 }
 function updateMarkerVisibility(){
   const z = map.getZoom();
-  const show = z >= 7;
+  const show = z >= MARKER_REVEAL_ZOOM;
 
-  clusterGroup.refreshClusters();
-  clusterGroup.eachLayer(m => {
-    const el = m.getElement && m.getElement();
-    if (!el) return;
-
-    el.style.transition = 'opacity .2s ease';
-    el.style.pointerEvents = show ? 'auto' : 'none';
-    el.style.opacity = show ? '1' : '0';
-  });
+  // Add/remove the entire cluster group so hidden pins are truly gone —
+  // no invisible click targets, no DOM overhead
+  if (show && !map.hasLayer(clusterGroup)) {
+    map.addLayer(clusterGroup);
+  } else if (!show && map.hasLayer(clusterGroup)) {
+    map.removeLayer(clusterGroup);
+  }
 }
 
 
@@ -646,29 +655,43 @@ function buildChoropleth(data, geoJson){
 
 function buildStateCountLayer(featureLayers){
   if (stateCountLayer) stateCountLayer.remove();
+
+  // Use a dedicated pane so badges sit above choropleth but below popups
+  if (!map.getPane('stateBadgePane')) {
+    const pane = map.createPane('stateBadgePane');
+    pane.style.zIndex = 450;
+    pane.style.pointerEvents = 'none';
+  }
+
   stateCountLayer = L.layerGroup();
 
   featureLayers.forEach(({name, count, layer}) => {
     if (!count) return;
     const center = getStateBadgeCenter(name, layer);
     const digits = String(count).length;
-    const w = digits >= 3 ? 34 : digits === 2 ? 30 : 26;
+    // Badge width grows with digit count; height is fixed at 22px
+    const w = digits >= 3 ? 36 : digits === 2 ? 30 : 26;
+    const h = 22;
 
     const icon = L.divIcon({
       className: '',
-      iconSize: [w, 22],
-      iconAnchor: [w / 2, 11],
-      html: `<div class="state-count-badge">${count}</div>`
+      // iconSize tells Leaflet the element's pixel dimensions
+      iconSize: [w, h],
+      // iconAnchor is [halfWidth, halfHeight] so the CENTER of the badge
+      // is precisely over the geographic coordinate — stays pinned on zoom
+      iconAnchor: [w / 2, h / 2],
+      html: `<div class="state-count-badge" style="width:${w}px;height:${h}px">${count}</div>`
     });
 
-    stateCountLayer.addLayer(
-      L.marker(center, {
-        icon,
-        keyboard: false,
-        interactive: false,
-        zIndexOffset: 10
-      })
-    );
+    const marker = L.marker(center, {
+      icon,
+      pane: 'stateBadgePane',
+      keyboard: false,
+      interactive: false,
+      zIndexOffset: 0
+    });
+
+    stateCountLayer.addLayer(marker);
   });
 
   stateCountLayer.addTo(map);
@@ -678,13 +701,16 @@ function buildStateCountLayer(featureLayers){
 function updateStateCountVisibility(){
   if (!stateCountLayer) return;
   const z = map.getZoom();
+  // Show badges from zoom 5 up until individual pins appear at zoom 7
   const show = !currentZoomedState && z >= STATE_BADGE_REVEAL_ZOOM && z < MARKER_REVEAL_ZOOM;
 
   stateCountLayer.eachLayer(marker => {
     const el = marker.getElement && marker.getElement();
     if (!el) return;
+    // Smoothly fade the marker element; CSS transition on .state-count-badge handles the animation
     el.style.opacity = show ? '1' : '0';
     el.style.pointerEvents = 'none';
+    el.style.transition = 'opacity 0.25s ease';
   });
 }
 
