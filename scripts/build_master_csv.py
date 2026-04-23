@@ -3,7 +3,7 @@ import json
 import urllib.request
 
 SOURCE_URL = "https://datacentertracker.org/data/fights.json"
-OUTPUT_CSV = "master_opposition-2.csv"
+OUTPUT_CSV = "master_opposition.csv"
 
 def join_list(value):
     if not value:
