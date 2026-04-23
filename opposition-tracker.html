@@ -343,8 +343,8 @@ function render() {
   renderOutcomeSummary(visible);
   updateCardCount(visible.length, rows.length);
   let pending=0, win=0, loss=0;
-  visible.forEach((r,i)=>{
-    clusterGroup.addLayer(leafletMarkers[i]);
+  visible.forEach(({ r, i })=>{
+    if (leafletMarkers[i]) clusterGroup.addLayer(leafletMarkers[i]);
 
     const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
     if(outcome === 'win') win++;
