@@ -403,7 +403,6 @@ Papa.parse('./master_opposition.csv', {
     rows.forEach(r=>{
       const mlat = r.lat, mlon = r.lon;
       if (isNaN(mlat) || isNaN(mlon) || mlat === 0 || mlon === 0) { leafletMarkers.push(null); return; }
-      ...
 
     const pop = (id, vals) => {
       const el = document.getElementById(id);
