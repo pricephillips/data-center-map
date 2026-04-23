@@ -343,39 +343,39 @@ function render() {
   renderOutcomeSummary(visible);
   updateCardCount(visible.length, rows.length);
   let pending=0, win=0, loss=0;
-visible.forEach(({ r, i })=>{
-  const marker = leafletMarkers[i];
-  if (marker) clusterGroup.addLayer(marker);
+  visible.forEach(({ r, i })=>{
+    const marker = leafletMarkers[i];
+    if (marker) clusterGroup.addLayer(marker);
 
-  const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
-  if(outcome === 'win') win++;
-  else if(outcome === 'loss') loss++;
-  else pending++;
+    const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
+    if(outcome === 'win') win++;
+    else if(outcome === 'loss') loss++;
+    else pending++;
 
-  const card = document.createElement('div');
-  card.className = 'card oc-' + ((r['Community Outcome']||'pending').toLowerCase());
-  const srcUrl = r['Source URL']||r['Opposition Website']||'';
-  card.innerHTML = `
-    <div class="card-title">${esc(r['Incident'])}${srcTagFull(r['data_source'])}</div>
-    <div class="card-meta">
-      <span>${esc(r['State'])}</span>
-      <span>${esc(r['Date'])}</span>
-      <span>${esc(r['Opposition Type'])}</span>
-      ${r['Megawatts'] ? `<span>${r['Megawatts']} MW</span>` : ''}
-    </div>
-    ${badge(r['Community Outcome'])}${sevDotsLabeled(+r['Severity']||2)}
-    <div class="card-snippet">${esc(r['Summary']||r['Objective']).slice(0,155)}${(r['Summary']||r['Objective']||'').length>155?'…':''}</div>
-    ${srcUrl ? `<a class="card-source" href="${esc(srcUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Source ↗</a>` : ''}
-  `;
-  const _lat = parseFloat(r.lat), _lon = parseFloat(r.lon);
-  card.onclick = () => {
-    highlightCard(i);
-    if(marker && !isNaN(_lat) && !isNaN(_lon)) {
-      clusterGroup.zoomToShowLayer(marker, () => { marker.openPopup(); });
-    }
-  };
-  cardRefs[i] = card;
-  list.appendChild(card);
+    const card = document.createElement('div');
+    card.className = 'card oc-' + ((r['Community Outcome']||'pending').toLowerCase());
+    const srcUrl = r['Source URL']||r['Opposition Website']||'';
+    card.innerHTML = `
+      <div class="card-title">${esc(r['Incident'])}${srcTagFull(r['data_source'])}</div>
+      <div class="card-meta">
+        <span>${esc(r['State'])}</span>
+        <span>${esc(r['Date'])}</span>
+        <span>${esc(r['Opposition Type'])}</span>
+        ${r['Megawatts'] ? `<span>${r['Megawatts']} MW</span>` : ''}
+      </div>
+      ${badge(r['Community Outcome'])}${sevDotsLabeled(+r['Severity']||2)}
+      <div class="card-snippet">${esc(r['Summary']||r['Objective']).slice(0,155)}${(r['Summary']||r['Objective']||'').length>155?'…':''}</div>
+      ${srcUrl ? `<a class="card-source" href="${esc(srcUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Source ↗</a>` : ''}
+    `;
+    const _lat = parseFloat(r.lat), _lon = parseFloat(r.lon);
+    card.onclick = () => {
+      highlightCard(i);
+      if(marker && !isNaN(_lat) && !isNaN(_lon)) {
+        clusterGroup.zoomToShowLayer(marker, () => { marker.openPopup(); });
+      }
+    };
+    cardRefs[i] = card;
+    list.appendChild(card);
 });
 
   document.getElementById('cAll').textContent     = visible.length.toLocaleString();
