@@ -75,12 +75,21 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .legend-row { display:flex; align-items:center; gap:7px; margin:4px 0; color:var(--muted) }
 .lsw { width:10px; height:10px; border-radius:2px; flex-shrink:0 }
 .note { font-size:10px; color:#505d6e; margin-top:7px; max-width:190px; line-height:1.4 }
-
 .state-count-badge {
-  min-width:26px; height:22px; padding:0 6px; border-radius:7px;
-  display:inline-flex; align-items:center; justify-content:center;
-  background:rgba(125,46,14,.96); border:2px solid #e67e22; color:#fff;
-  font-size:10px; font-weight:700; line-height:1; box-shadow:0 4px 12px rgba(0,0,0,.28);
+  min-width: 26px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(125,46,14,0.96);
+  border: 2px solid #e67e22;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.28);
 }
 
 .leaflet-popup-content-wrapper { background:#1a2030; border:1px solid var(--border); border-radius:10px; box-shadow:0 6px 24px rgba(0,0,0,.5); color:var(--text) }
@@ -101,15 +110,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
 @media (max-width:600px) {
   .app { grid-template-columns:1fr; grid-template-rows:minmax(260px, 38vh) 1fr }
   .sidebar { height:auto; max-width:none; }
-  .header { padding:12px 14px 10px; }
-  .sidebar-title { padding:12px 14px 0; }
-  .filters { padding:8px 10px; gap:6px; }
-  #list { padding:8px 10px; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
-  .stats { grid-template-columns:repeat(2,1fr); }
-  .row2, .row3 { grid-template-columns:1fr; }
-  .legend { top:10px; right:10px; max-width:170px; padding:8px 10px; font-size:11px; }
-  .map-hint { bottom:12px; font-size:10px; padding:4px 10px; max-width:calc(100% - 20px); white-space:normal; text-align:center; }
-  #map { height:100%; min-height:0; touch-action:pan-x pan-y; }
+  #map { height:100%; min-height:0 } /* mobile */
 }
 
 /* Choropleth */
@@ -258,8 +259,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
 </div>
 
 <script>
-const MARKER_REVEAL_ZOOM = 7;
-const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true, zoomSnap:0.5, zoomDelta:0.5, wheelPxPerZoomLevel:140, zoomAnimation:true, fadeAnimation:true, markerZoomAnimation:true });
+const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true });
 setTimeout(() => map.invalidateSize(), 300);
 window.addEventListener('resize', () => map.invalidateSize());
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
@@ -476,6 +476,29 @@ Papa.parse('./master_opposition.csv', {
 // ─── CHOROPLETH + QoL ────────────────────────────────────────────────────────
 let choroplethLayer = null, stateCountLayer = null, currentZoomedState = null;
 
+const STATE_BADGE_REVEAL_ZOOM = 5.5;
+const STATE_BADGE_CENTERS = {
+  Alabama:[32.8,-86.8], Alaska:[64.2,-149.5], Arizona:[34.05,-111.09], Arkansas:[35.2,-91.83],
+  California:[36.5,-119.5], Colorado:[39.05,-105.55], Connecticut:[41.62,-72.73], Delaware:[39.05,-75.5],
+  Florida:[28.15,-82.0], Georgia:[32.65,-83.35], Hawaii:[20.8,-156.3], Idaho:[44.2,-114.5],
+  Illinois:[40.0,-89.2], Indiana:[40.0,-86.15], Iowa:[42.05,-93.5], Kansas:[38.5,-98.2],
+  Kentucky:[37.8,-85.0], Louisiana:[31.05,-92.15], Maine:[45.25,-69.05], Maryland:[39.15,-76.7],
+  Massachusetts:[42.3,-71.85], Michigan:[44.9,-85.45], Minnesota:[46.05,-94.25], Mississippi:[32.7,-89.9],
+  Missouri:[38.45,-92.55], Montana:[46.9,-110.0], Nebraska:[41.55,-99.85], Nevada:[39.25,-116.65],
+  New Hampshire:[43.8,-71.6], New Jersey:[40.1,-74.55], New Mexico:[34.35,-106.0], New York:[42.95,-75.5],
+  North Carolina:[35.55,-79.35], North Dakota:[47.45,-100.5], Ohio:[40.3,-82.85], Oklahoma:[35.55,-97.35],
+  Oregon:[43.95,-120.75], Pennsylvania:[40.95,-77.75], Rhode Island:[41.68,-71.55], South Carolina:[33.85,-80.95],
+  South Dakota:[44.35,-100.2], Tennessee:[35.8,-86.4], Texas:[31.1,-99.25], Utah:[39.35,-111.75],
+  Vermont:[44.05,-72.7], Virginia:[37.7,-78.25], Washington:[47.4,-120.95], West Virginia:[38.6,-80.55],
+  Wisconsin:[44.55,-89.8], Wyoming:[43.1,-107.55], 'District of Columbia':[38.9072,-77.0369]
+};
+function getStateBadgeCenter(name, layer) {
+  const manual = STATE_BADGE_CENTERS[name];
+  if (manual) return manual;
+  const c = layer.getBounds().getCenter();
+  return [c.lat, c.lng];
+}
+
 const ABBREV_TO_NAME = {
   AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',
   CT:'Connecticut',DE:'Delaware',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',
@@ -518,67 +541,19 @@ function updateChoroplethVisuals(){
     layer.setStyle({fill:true,fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#8a3a20',weight:zoomedWeight(),opacity:1});
   });
 }
-const STATE_BADGE_REVEAL_ZOOM = 5.5;
-const STATE_BADGE_CENTERS = {
-  Alabama:[32.8,-86.8], Alaska:[64.2,-149.5], Arizona:[34.05,-111.09], Arkansas:[35.2,-91.83],
-  California:[36.5,-119.5], Colorado:[39.05,-105.55], Connecticut:[41.62,-72.73], Delaware:[39.05,-75.5],
-  Florida:[28.15,-82.0], Georgia:[32.65,-83.35], Hawaii:[20.8,-156.3], Idaho:[44.2,-114.5],
-  Illinois:[40.0,-89.2], Indiana:[40.0,-86.15], Iowa:[42.05,-93.5], Kansas:[38.5,-98.2],
-  Kentucky:[37.8,-85.0], Louisiana:[31.05,-92.15], Maine:[45.25,-69.05], Maryland:[39.15,-76.7],
-  Massachusetts:[42.3,-71.85], Michigan:[44.9,-85.45], Minnesota:[46.05,-94.25], Mississippi:[32.7,-89.9],
-  Missouri:[38.45,-92.55], Montana:[46.9,-110.0], Nebraska:[41.55,-99.85], Nevada:[39.25,-116.65],
-  New Hampshire:[43.8,-71.6], New Jersey:[40.1,-74.55], New Mexico:[34.35,-106.0], New York:[42.95,-75.5],
-  North Carolina:[35.55,-79.35], North Dakota:[47.45,-100.5], Ohio:[40.3,-82.85], Oklahoma:[35.55,-97.35],
-  Oregon:[43.95,-120.75], Pennsylvania:[40.95,-77.75], Rhode Island:[41.68,-71.55], South Carolina:[33.85,-80.95],
-  South Dakota:[44.35,-100.2], Tennessee:[35.8,-86.4], Texas:[31.1,-99.25], Utah:[39.35,-111.75],
-  Vermont:[44.05,-72.7], Virginia:[37.7,-78.25], Washington:[47.4,-120.95], West Virginia:[38.6,-80.55],
-  Wisconsin:[44.55,-89.8], Wyoming:[43.1,-107.55], 'District of Columbia':[38.9072,-77.0369]
-};
-function getStateBadgeCenter(name, layer){
-  return STATE_BADGE_CENTERS[name] || [layer.getBounds().getCenter().lat, layer.getBounds().getCenter().lng];
-}
-function buildStateCountLayer(featureLayers){
-  if (stateCountLayer) stateCountLayer.remove();
-  stateCountLayer = L.layerGroup();
-  featureLayers.forEach(({name, count, layer}) => {
-    if (!count) return;
-    const center = getStateBadgeCenter(name, layer);
-    const digits = String(count).length;
-    const w = digits >= 3 ? 34 : digits === 2 ? 30 : 26;
-    const icon = L.divIcon({ className:'', iconSize:[w,22], iconAnchor:[w/2,11], html:`<div class="state-count-badge">${count}</div>` });
-    stateCountLayer.addLayer(L.marker(center, { icon, keyboard:false, interactive:false, zIndexOffset:10 }));
-  });
-  stateCountLayer.addTo(map);
-  updateStateCountVisibility();
-}
-function updateStateCountVisibility(){
-  if(!stateCountLayer) return;
+function updateMarkerVisibility(){
   const z = map.getZoom();
-  const show = !currentZoomedState && z >= STATE_BADGE_REVEAL_ZOOM && z < MARKER_REVEAL_ZOOM;
-  stateCountLayer.eachLayer(marker => {
-    const el = marker.getElement && marker.getElement();
-    if (!el) return;
-    el.style.opacity = show ? '1' : '0';
-    el.style.pointerEvents = 'none';
-  });
-}
-let markerVisibilityShown = null;
-function updateMarkerVisibility(forceRefresh=false){
-  const z = map.getZoom();
-  const show = z >= MARKER_REVEAL_ZOOM;
-  const changed = markerVisibilityShown !== show;
+  const show = z >= 7;
 
-  if ((forceRefresh || changed) && clusterGroup && clusterGroup._map) clusterGroup.refreshClusters();
+  clusterGroup.refreshClusters();
   clusterGroup.eachLayer(m => {
     const el = m.getElement && m.getElement();
     if (!el) return;
 
-    el.style.transition = 'opacity .18s ease';
+    el.style.transition = 'opacity .2s ease';
     el.style.pointerEvents = show ? 'auto' : 'none';
     el.style.opacity = show ? '1' : '0';
   });
-
-  markerVisibilityShown = show;
 }
 
 
@@ -669,6 +644,50 @@ function buildChoropleth(data, geoJson){
   updateChoroplethVisuals();
 }
 
+function buildStateCountLayer(featureLayers){
+  if (stateCountLayer) stateCountLayer.remove();
+  stateCountLayer = L.layerGroup();
+
+  featureLayers.forEach(({name, count, layer}) => {
+    if (!count) return;
+    const center = getStateBadgeCenter(name, layer);
+    const digits = String(count).length;
+    const w = digits >= 3 ? 34 : digits === 2 ? 30 : 26;
+
+    const icon = L.divIcon({
+      className: '',
+      iconSize: [w, 22],
+      iconAnchor: [w / 2, 11],
+      html: `<div class="state-count-badge">${count}</div>`
+    });
+
+    stateCountLayer.addLayer(
+      L.marker(center, {
+        icon,
+        keyboard: false,
+        interactive: false,
+        zIndexOffset: 10
+      })
+    );
+  });
+
+  stateCountLayer.addTo(map);
+  updateStateCountVisibility();
+}
+
+function updateStateCountVisibility(){
+  if (!stateCountLayer) return;
+  const z = map.getZoom();
+  const show = !currentZoomedState && z >= STATE_BADGE_REVEAL_ZOOM && z < MARKER_REVEAL_ZOOM;
+
+  stateCountLayer.eachLayer(marker => {
+    const el = marker.getElement && marker.getElement();
+    if (!el) return;
+    el.style.opacity = show ? '1' : '0';
+    el.style.pointerEvents = 'none';
+  });
+}
+
 function choroZoomIn(feat,layer,stateName,cnt){
   currentZoomedState=stateName;
   choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
@@ -696,20 +715,8 @@ fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geo
   })
   .catch(e=>console.warn('GeoJSON failed',e));
 
-let zoomVisualFrame = null;
-function scheduleZoomVisualUpdate(forceRefresh=false){
-  if (zoomVisualFrame) cancelAnimationFrame(zoomVisualFrame);
-  zoomVisualFrame = requestAnimationFrame(() => {
-    updateChoroplethVisuals();
-    updateMarkerVisibility(forceRefresh);
-    updateStateCountVisibility();
-  });
-}
-
-map.on('zoom',()=>{ updateStateCountVisibility(); });
-map.on('zoomstart',()=>{ document.body.classList.add('map-zooming'); });
-map.on('zoomend',()=>{ document.body.classList.remove('map-zooming'); scheduleZoomVisualUpdate(true); });
-map.whenReady(()=>{ scheduleZoomVisualUpdate(true); });
+map.on('zoomend',()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();});
+map.whenReady(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&currentZoomedState)choroZoomOut();});
 
 
