@@ -521,18 +521,18 @@ function updateChoroplethVisuals(){
 const STATE_BADGE_REVEAL_ZOOM = 5.5;
 const STATE_BADGE_CENTERS = {
   Alabama:[32.8,-86.8], Alaska:[64.2,-149.5], Arizona:[34.05,-111.09], Arkansas:[35.2,-91.83],
-  California:[36.78,-119.42], Colorado:[39.0,-105.55], Connecticut:[41.6,-72.7], Delaware:[39.0,-75.5],
-  Florida:[27.8,-81.7], Georgia:[32.6,-83.4], Hawaii:[20.8,-156.3], Idaho:[44.2,-114.5],
-  Illinois:[40.0,-89.2], Indiana:[40.0,-86.1], Iowa:[42.1,-93.5], Kansas:[38.5,-98.2],
-  Kentucky:[37.7,-84.7], Louisiana:[31.0,-92.0], Maine:[45.2,-69.0], Maryland:[39.0,-76.7],
-  Massachusetts:[42.25,-71.8], Michigan:[44.75,-85.5], Minnesota:[46.1,-94.3], Mississippi:[32.7,-89.9],
-  Missouri:[38.45,-92.55], Montana:[46.9,-110.0], Nebraska:[41.5,-99.8], Nevada:[39.3,-116.6],
-  New Hampshire:[43.8,-71.6], New Jersey:[40.1,-74.5], New Mexico:[34.4,-106.1], New York:[42.95,-75.5],
-  North Carolina:[35.5,-79.4], North Dakota:[47.45,-100.5], Ohio:[40.35,-82.8], Oklahoma:[35.55,-97.3],
-  Oregon:[43.9,-120.8], Pennsylvania:[40.9,-77.7], Rhode Island:[41.7,-71.55], South Carolina:[33.9,-80.9],
-  South Dakota:[44.4,-100.2], Tennessee:[35.8,-86.35], Texas:[31.1,-99.3], Utah:[39.35,-111.7],
-  Vermont:[44.1,-72.7], Virginia:[37.75,-78.2], Washington:[47.45,-120.9], West Virginia:[38.6,-80.6],
-  Wisconsin:[44.55,-89.8], Wyoming:[43.1,-107.6], 'District of Columbia':[38.9072,-77.0369]
+  California:[36.5,-119.5], Colorado:[39.05,-105.55], Connecticut:[41.62,-72.73], Delaware:[39.05,-75.5],
+  Florida:[28.15,-82.0], Georgia:[32.65,-83.35], Hawaii:[20.8,-156.3], Idaho:[44.2,-114.5],
+  Illinois:[40.0,-89.2], Indiana:[40.0,-86.15], Iowa:[42.05,-93.5], Kansas:[38.5,-98.2],
+  Kentucky:[37.8,-85.0], Louisiana:[31.05,-92.15], Maine:[45.25,-69.05], Maryland:[39.15,-76.7],
+  Massachusetts:[42.3,-71.85], Michigan:[44.9,-85.45], Minnesota:[46.05,-94.25], Mississippi:[32.7,-89.9],
+  Missouri:[38.45,-92.55], Montana:[46.9,-110.0], Nebraska:[41.55,-99.85], Nevada:[39.25,-116.65],
+  New Hampshire:[43.8,-71.6], New Jersey:[40.1,-74.55], New Mexico:[34.35,-106.0], New York:[42.95,-75.5],
+  North Carolina:[35.55,-79.35], North Dakota:[47.45,-100.5], Ohio:[40.3,-82.85], Oklahoma:[35.55,-97.35],
+  Oregon:[43.95,-120.75], Pennsylvania:[40.95,-77.75], Rhode Island:[41.68,-71.55], South Carolina:[33.85,-80.95],
+  South Dakota:[44.35,-100.2], Tennessee:[35.8,-86.4], Texas:[31.1,-99.25], Utah:[39.35,-111.75],
+  Vermont:[44.05,-72.7], Virginia:[37.7,-78.25], Washington:[47.4,-120.95], West Virginia:[38.6,-80.55],
+  Wisconsin:[44.55,-89.8], Wyoming:[43.1,-107.55], 'District of Columbia':[38.9072,-77.0369]
 };
 function getStateBadgeCenter(name, layer){
   return STATE_BADGE_CENTERS[name] || [layer.getBounds().getCenter().lat, layer.getBounds().getCenter().lng];
@@ -546,7 +546,7 @@ function buildStateCountLayer(featureLayers){
     const digits = String(count).length;
     const w = digits >= 3 ? 34 : digits === 2 ? 30 : 26;
     const icon = L.divIcon({ className:'', iconSize:[w,22], iconAnchor:[w/2,11], html:`<div class="state-count-badge">${count}</div>` });
-    stateCountLayer.addLayer(L.marker(center, { icon, keyboard:false, interactive:false, zIndexOffset:140 }));
+    stateCountLayer.addLayer(L.marker(center, { icon, keyboard:false, interactive:false, zIndexOffset:10 }));
   });
   stateCountLayer.addTo(map);
   updateStateCountVisibility();
@@ -558,6 +558,7 @@ function updateStateCountVisibility(){
   stateCountLayer.eachLayer(marker => {
     const el = marker.getElement && marker.getElement();
     if (!el) return;
+    el.style.transition = 'opacity .14s ease';
     el.style.opacity = show ? '1' : '0';
     el.style.pointerEvents = 'none';
   });
@@ -671,6 +672,7 @@ function buildChoropleth(data, geoJson){
 
 function choroZoomIn(feat,layer,stateName,cnt){
   currentZoomedState=stateName;
+  updateStateCountVisibility();
   choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
   layer.setStyle({weight:2.5,color:'#ffb3ad',fillOpacity:0.18});
   map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:0.85});
@@ -681,6 +683,7 @@ function choroZoomIn(feat,layer,stateName,cnt){
 }
 function choroZoomOut(){
   currentZoomedState=null;
+  updateStateCountVisibility();
   if(choroplethLayer) choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
   map.flyTo([39.5,-98.35],4,{duration:0.8});
   document.getElementById('choroBack').style.display='none';
@@ -707,6 +710,7 @@ function scheduleZoomVisualUpdate(forceRefresh=false){
 }
 
 map.on('zoom',()=>{ updateStateCountVisibility(); });
+map.on('move',()=>{ if(currentZoomedState) updateStateCountVisibility(); });
 map.on('zoomstart',()=>{ document.body.classList.add('map-zooming'); });
 map.on('zoomend',()=>{ document.body.classList.remove('map-zooming'); scheduleZoomVisualUpdate(true); });
 map.whenReady(()=>{ scheduleZoomVisualUpdate(true); });
