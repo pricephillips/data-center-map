@@ -97,8 +97,7 @@ def flatten(record):
         'approx': record.get('approx', ''),
         'locationTbd': record.get('locationTbd', ''),
         'moratoriumExempt': record.get('moratoriumExempt', ''),
-        'info': (record.get('info') or '').replace('
-', ' '),
+        'info': (record.get('info') or '').replace('\n', ' '),
         'createdAt': record.get('createdAt', ''),
         'updatedAt': record.get('updatedAt', ''),
     }
