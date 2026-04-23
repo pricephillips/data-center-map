@@ -708,7 +708,10 @@ function getFeatureCenter(feat, layer){
 }
 
 function buildStateCountLayer(featureLayers){
-  if (stateCountLayer) stateCountLayer.remove();
+  if (stateCountLayer) {
+    stateCountLayer.clearLayers();
+    if (map.hasLayer(stateCountLayer)) map.removeLayer(stateCountLayer);
+  }
   stateCountLayer = L.layerGroup();
   featureLayers.forEach(({name, count, layer, feature}) => {
     if (!count) return;
@@ -716,7 +719,7 @@ function buildStateCountLayer(featureLayers){
     const digits = String(count).length;
     const w = digits >= 3 ? 34 : digits === 2 ? 30 : 26;
     const icon = L.divIcon({
-      className:'', iconSize:[w,24], iconAnchor:[w/2,12],
+      className:'state-count-icon', iconSize:[w,24], iconAnchor:[w/2,12],
       html:`<div class="state-count-badge">${count}</div>`
     });
     const marker = L.marker(center, { icon, keyboard:false, interactive:false, zIndexOffset:150 });
@@ -730,7 +733,14 @@ function buildStateCountLayer(featureLayers){
 let stateBadgeVisibilityShown = null;
 function updateStateCountVisibility(){
   if(!stateCountLayer) return;
-  const show = map.getZoom() >= STATE_BADGE_REVEAL_ZOOM && map.getZoom() < MARKER_REVEAL_ZOOM;
+  const show = !currentZoomedState && map.getZoom() >= STATE_BADGE_REVEAL_ZOOM && map.getZoom() < MARKER_REVEAL_ZOOM;
+
+  if (show) {
+    if (!map.hasLayer(stateCountLayer)) stateCountLayer.addTo(map);
+  } else if (map.hasLayer(stateCountLayer)) {
+    map.removeLayer(stateCountLayer);
+  }
+
   stateCountLayer.eachLayer(marker => {
     const el = marker.getElement && marker.getElement();
     if (!el) return;
@@ -788,7 +798,7 @@ function choroZoomIn(feat,layer,stateName,cnt){
   map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:1.0,easeLinearity:0.2});
   document.getElementById('choroBack').style.display='block';
   document.getElementById('mapHint').textContent=cnt>0?`${stateName}: ${cnt} incident${cnt===1?'':'s'} — click pins for details`:`${stateName}: no recorded opposition`;
-  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
+  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility(true);updateStateCountVisibility();},120);
   history.replaceState(null,'','#'+encodeURIComponent(stateName.toLowerCase().replace(/ /g,'-')));
 }
 function choroZoomOut(){
@@ -797,7 +807,7 @@ function choroZoomOut(){
   map.flyTo([39.5,-98.35],4,{duration:0.95,easeLinearity:0.2});
   document.getElementById('choroBack').style.display='none';
   document.getElementById('mapHint').textContent='Click any state to zoom in and reveal opposition incidents';
-  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
+  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility(true);updateStateCountVisibility();},120);
   history.replaceState(null,'',location.pathname+location.search);
 }
 
@@ -819,6 +829,7 @@ function scheduleZoomVisualUpdate(forceRefresh=false){
 }
 
 map.on('zoom',()=>{ updateStateCountVisibility(); });
+map.on('moveend',()=>{ updateStateCountVisibility(); });
 map.on('zoomstart',()=>{ document.body.classList.add('map-zooming'); });
 map.on('zoomend',()=>{ document.body.classList.remove('map-zooming'); scheduleZoomVisualUpdate(true); });
 map.whenReady(()=>{ scheduleZoomVisualUpdate(true); });
