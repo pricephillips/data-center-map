@@ -606,7 +606,7 @@ function choroZoomIn(feat,layer,stateName,cnt){
   map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:0.85});
   document.getElementById('choroBack').style.display='block';
   document.getElementById('mapHint').textContent=cnt>0?`${stateName}: ${cnt} incident${cnt===1?'':'s'} — click pins for details`:`${stateName}: no recorded opposition`;
-  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();},120);
+  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
   history.replaceState(null,'','#'+encodeURIComponent(stateName.toLowerCase().replace(/ /g,'-')));
 }
 function choroZoomOut(){
@@ -615,7 +615,7 @@ function choroZoomOut(){
   map.flyTo([39.5,-98.35],4,{duration:0.8});
   document.getElementById('choroBack').style.display='none';
   document.getElementById('mapHint').textContent='Click any state to zoom in and reveal opposition incidents';
-  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();},120);
+  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
   history.replaceState(null,'',location.pathname+location.search);
 }
 
@@ -626,8 +626,8 @@ fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geo
   })
   .catch(e=>console.warn('GeoJSON failed',e));
 
-map.on('zoomend',()=>{updateChoroplethVisuals();updateMarkerVisibility();});
-map.whenReady(()=>{updateChoroplethVisuals();updateMarkerVisibility();});
+map.on('zoomend',()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();});
+map.whenReady(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&currentZoomedState)choroZoomOut();});
 
 
