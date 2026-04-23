@@ -451,33 +451,7 @@ Papa.parse('./master_opposition.csv', {
     render();
   }
 });
-
-      leafletMarkers.push(m);
-    });
-
-    const pop = (id, vals) => {
-      const el = document.getElementById(id);
-      [...new Set(vals.filter(Boolean))].sort().forEach(v =>
-        el.insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)}</option>`)
-      );
-    };
-
-    pop('fState',     rows.map(r => r['State']));
-    pop('fType',      rows.map(r => r['Opposition Type']));
-    pop('fOutcome',   rows.map(r => r['Community Outcome']));
-    pop('fAuthority', rows.map(r => r['Authority Level']));
-
-    const issues = [...new Set(
-      rows.flatMap(r => (r['Issue Category'] || '').split(/;\s*/).map(x => x.trim()))
-    )].filter(Boolean).sort();
-
-    const fIs = document.getElementById('fIssue');
-    issues.forEach(v => fIs.insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)}</option>`));
-
-    render();
-  }
-});
-
+  
 // ─── CHOROPLETH + QoL ────────────────────────────────────────────────────────
 let choroplethLayer = null, currentZoomedState = null;
 
