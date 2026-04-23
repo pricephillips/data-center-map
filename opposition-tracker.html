@@ -18,7 +18,6 @@
   --bryce:#5aa9e6; --dct:#e67e22;
 }
 * { box-sizing:border-box; margin:0; padding:0 }
-button, select, input, a { touch-action:manipulation; }
 html { height:100%; overflow:hidden }
 body { font-family: Inter,system-ui,sans-serif; background:var(--bg); color:var(--text); height:100dvh; overflow:hidden }
 .app { display:grid; grid-template-columns:340px minmax(0,1fr); overflow:hidden; height:100vh }
@@ -76,62 +75,6 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .legend-row { display:flex; align-items:center; gap:7px; margin:4px 0; color:var(--muted) }
 .lsw { width:10px; height:10px; border-radius:2px; flex-shrink:0 }
 .note { font-size:10px; color:#505d6e; margin-top:7px; max-width:190px; line-height:1.4 }
-
-.mobile-sheet-toggle, .legend-toggle { display:none }
-@media (max-width:600px) {
-  .app { position:relative; display:block; height:100dvh; }
-  .sidebar {
-    position:absolute; left:0; right:0; bottom:0; top:auto; z-index:700;
-    height:min(72dvh, 680px); max-width:none; border-right:none; border-top:1px solid var(--border);
-    border-radius:16px 16px 0 0; box-shadow:0 -10px 28px rgba(0,0,0,.35);
-    transform:translateY(calc(100% - 96px)); transition:transform .22s ease;
-    background:rgba(22,28,37,.98); backdrop-filter:blur(10px);
-  }
-  body.mobile-sheet-open .sidebar { transform:translateY(0); }
-  #mapWrap, #map { height:100dvh; }
-  .mobile-sheet-toggle {
-    display:flex; align-items:center; justify-content:space-between; gap:10px;
-    position:absolute; left:10px; right:10px; bottom:14px; z-index:710;
-    min-height:48px; padding:10px 14px; border:1px solid var(--border); border-radius:999px;
-    background:rgba(15,18,24,.94); color:var(--text); box-shadow:0 8px 24px rgba(0,0,0,.28);
-  }
-  body.mobile-sheet-open .mobile-sheet-toggle { opacity:0; pointer-events:none; }
-  .mobile-sheet-handle { width:32px; height:4px; border-radius:999px; background:var(--muted); flex:0 0 auto; }
-  .mobile-sheet-label { font-size:13px; font-weight:700; margin-right:auto; }
-  .mobile-sheet-count { min-width:28px; height:28px; padding:0 8px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; background:#233044; color:#d9e6f2; font-size:12px; font-weight:700; }
-  .legend-toggle {
-    display:block; position:absolute; top:10px; right:10px; z-index:710;
-    min-width:72px; min-height:40px; padding:8px 12px; border:1px solid var(--border); border-radius:999px;
-    background:rgba(15,18,24,.94); color:var(--text); font-size:12px; font-weight:700;
-  }
-  .legend {
-    top:56px; right:10px; max-width:190px; padding:8px 10px; font-size:11px;
-    transition:opacity .18s ease, transform .18s ease;
-  }
-  .legend.is-collapsed { opacity:0; transform:translateY(-6px); pointer-events:none; }
-  .sidebar::before {
-    content:''; width:42px; height:5px; border-radius:999px; background:#536073;
-    position:absolute; top:8px; left:50%; transform:translateX(-50%);
-  }
-  .header { padding-top:20px; }
-  .map-hint { bottom:72px; }
-}
-
-
-.state-count-badge {
-  min-width:28px; height:24px; padding:0 7px; border-radius:7px;
-  display:inline-flex; align-items:center; justify-content:center;
-  background:rgba(125,46,14,.96); border:2px solid #e67e22; color:#fff;
-  font-size:11px; font-weight:700; line-height:1; box-shadow:0 4px 12px rgba(0,0,0,.28);
-  transition:opacity .22s ease, transform .22s ease; will-change:opacity, transform;
-}
-.leaflet-marker-icon, .leaflet-marker-shadow { transition: opacity .22s ease, transform .22s ease; }
-.leaflet-interactive { transition: fill-opacity .18s linear, stroke-width .18s linear; }
-
-@media (max-width:600px) {
-  .state-count-badge { min-width:24px; height:21px; padding:0 6px; font-size:10px; }
-}
-
 .leaflet-popup-content-wrapper { background:#1a2030; border:1px solid var(--border); border-radius:10px; box-shadow:0 6px 24px rgba(0,0,0,.5); color:var(--text) }
 .leaflet-popup-tip { background:#1a2030 }
 .leaflet-popup-content { margin:12px 14px; min-width:240px; max-width:360px }
@@ -153,16 +96,12 @@ input:focus, select:focus { border-color:#5aa9e6 }
   .header { padding:12px 14px 10px; }
   .sidebar-title { padding:12px 14px 0; }
   .filters { padding:8px 10px; gap:6px; }
-  #list { padding:8px 10px; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; content-visibility:auto; }
+  #list { padding:8px 10px; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
   .stats { grid-template-columns:repeat(2,1fr); }
   .row2, .row3 { grid-template-columns:1fr; }
   .legend { top:10px; right:10px; max-width:170px; padding:8px 10px; font-size:11px; }
   .map-hint { bottom:12px; font-size:10px; padding:4px 10px; max-width:calc(100% - 20px); white-space:normal; text-align:center; }
   #map { height:100%; min-height:0; touch-action:pan-x pan-y; }
-}
-@media (max-width:600px) and (pointer:coarse) {
-  .leaflet-control-zoom a { width:36px; height:36px; line-height:36px; font-size:20px; }
-  .card { scroll-margin-top:12px; }
 }
 
 /* Choropleth */
@@ -229,7 +168,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
 </head>
 <body>
 <div class="app">
-  <aside class="sidebar" id="sidebar">
+  <aside class="sidebar">
     <div class="header">
       <div class="logo">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M9 9h6v6H9z"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
@@ -286,13 +225,9 @@ input:focus, select:focus { border-color:#5aa9e6 }
     <div id="map"></div>
     <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
     <div class="map-hint" id="mapHint">Click any state to zoom in and reveal opposition incidents</div>
-    <button class="mobile-sheet-toggle" id="mobileSheetToggle" type="button" aria-controls="sidebar" aria-expanded="false" onclick="toggleMobileSheet()">
-      <span class="mobile-sheet-handle" aria-hidden="true"></span>
-      <span class="mobile-sheet-label">Browse incidents</span>
-      <span class="mobile-sheet-count" id="mobileSheetCount">0</span>
-    </button>
-    <button class="legend-toggle" id="legendToggle" type="button" aria-controls="legendPanel" aria-expanded="true" onclick="toggleLegend()">Legend</button>
-    <div class="legend" id="legendPanel">
+    <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
+    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal opposition incidents</div>
+    <div class="legend">
       <b>Outcome</b>
       <div class="legend-row"><span class="lsw" style="background:var(--pending)"></span>Pending / Active</div>
       <div class="legend-row"><span class="lsw" style="background:var(--win)"></span>Community win</div>
@@ -316,10 +251,9 @@ input:focus, select:focus { border-color:#5aa9e6 }
 
 <script>
 const MARKER_REVEAL_ZOOM = 7;
-const STATE_BADGE_REVEAL_ZOOM = 5.5;
 const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true, zoomSnap:0.5, zoomDelta:0.5, wheelPxPerZoomLevel:140, zoomAnimation:true, fadeAnimation:true, markerZoomAnimation:true });
 setTimeout(() => map.invalidateSize(), 300);
-window.addEventListener('resize', () => { syncMobileUi(); map.invalidateSize(); });
+window.addEventListener('resize', () => map.invalidateSize());
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
   subdomains:'abcd', maxZoom:19, attribution:'© OpenStreetMap contributors © CARTO'
 }).addTo(map);
@@ -450,7 +384,7 @@ function render() {
     card.onclick = () => {
       highlightCard(i);
       if(marker && !isNaN(_lat) && !isNaN(_lon)) {
-        clusterGroup.zoomToShowLayer(marker, () => { marker.openPopup(); if (isMobileViewport()) toggleMobileSheet(false); });
+        clusterGroup.zoomToShowLayer(marker, () => { marker.openPopup(); });
       }
     };
     cardRefs[i] = card;
@@ -458,44 +392,13 @@ function render() {
 });
 
   document.getElementById('cAll').textContent     = visible.length.toLocaleString();
-  const mobileCount = document.getElementById('mobileSheetCount');
-  if (mobileCount) mobileCount.textContent = visible.length > 999 ? '999+' : visible.length.toLocaleString();
   document.getElementById('cPending').textContent = pending.toLocaleString();
   document.getElementById('cWin').textContent     = win.toLocaleString();
   document.getElementById('cLoss').textContent    = loss.toLocaleString();
 }
 
 let dt;
-function debounce() { clearTimeout(dt); dt = setTimeout(render, isMobileViewport() ? 380 : 280); }
-
-function isMobileViewport(){ return window.innerWidth <= 600; }
-function toggleMobileSheet(force){
-  if(!isMobileViewport()) return;
-  const open = typeof force === "boolean" ? force : !document.body.classList.contains("mobile-sheet-open");
-  document.body.classList.toggle("mobile-sheet-open", open);
-  const btn = document.getElementById("mobileSheetToggle");
-  if(btn) btn.setAttribute("aria-expanded", open ? "true" : "false");
-  setTimeout(() => map.invalidateSize(), 240);
-}
-function toggleLegend(force){
-  const panel = document.getElementById("legendPanel");
-  const btn = document.getElementById("legendToggle");
-  if(!panel || !btn || !isMobileViewport()) return;
-  const expanded = typeof force === "boolean" ? force : panel.classList.contains("is-collapsed");
-  panel.classList.toggle("is-collapsed", !expanded);
-  btn.setAttribute("aria-expanded", expanded ? "true" : "false");
-}
-function syncMobileUi(){
-  if(!isMobileViewport()) {
-    document.body.classList.remove("mobile-sheet-open");
-    const btn = document.getElementById("mobileSheetToggle");
-    const legend = document.getElementById("legendPanel");
-    if(btn) btn.setAttribute("aria-expanded", "false");
-    if(legend) legend.classList.remove("is-collapsed");
-    return;
-  }
-  toggleLegend(false);
-}
+function debounce() { clearTimeout(dt); dt = setTimeout(render, 280); }
 
 Papa.parse('./master_opposition.csv', {
   download:true, header:true, skipEmptyLines:true,
@@ -521,21 +424,17 @@ Papa.parse('./master_opposition.csv', {
         return;
       }
 
-      const m = L.marker([mlat, mlon], { icon: iconFor(r), keyboard:false, interactive: map.getZoom() >= MARKER_REVEAL_ZOOM, opacity: map.getZoom() >= MARKER_REVEAL_ZOOM ? 1 : 0 })
-        .bindPopup(buildPopup(r), { autoPanPadding:[20,20] });
-
-      if (!isMobileViewport()) {
-        m.bindTooltip(
+      const m = L.marker([mlat, mlon], { icon: iconFor(r) })
+        .bindPopup(buildPopup(r))
+        .bindTooltip(
           `<b>${esc((r['Incident'] || '').slice(0, 50))}</b><br>${esc(r['State'] || '')} • ${esc(r['Community Outcome'] || 'Pending')}`,
           { direction: 'top', className: 'pin-tooltip' }
         );
-      }
 
       const idx = leafletMarkers.length;
       m.on('click', e => {
         L.DomEvent.stopPropagation(e);
         highlightCard(idx);
-        if (isMobileViewport()) toggleMobileSheet(false);
       });
 
       leafletMarkers.push(m);
@@ -618,23 +517,17 @@ function updateMarkerVisibility(forceRefresh=false){
   const changed = markerVisibilityShown !== show;
 
   if ((forceRefresh || changed) && clusterGroup && clusterGroup._map) clusterGroup.refreshClusters();
-
   clusterGroup.eachLayer(m => {
-    if (typeof m.setOpacity === 'function') m.setOpacity(show ? 1 : 0);
-    if (typeof m.options === 'object') m.options.interactive = show;
-
     const el = m.getElement && m.getElement();
     if (!el) return;
 
+    el.style.transition = 'opacity .18s ease';
     el.style.pointerEvents = show ? 'auto' : 'none';
     el.style.opacity = show ? '1' : '0';
-    el.style.transform = show ? 'scale(1)' : 'scale(.96)';
   });
 
   markerVisibilityShown = show;
 }
-
-map.whenReady(() => { syncMobileUi(); updateMarkerVisibility(); });
 
 
 function renderOutcomeSummary(visible){
@@ -653,10 +546,10 @@ function renderOutcomeSummary(visible){
 
   if(el) el.innerHTML = `
     <div class="summary-bar">
-      ${p ? `<div class="summary-seg" title="Pending / Active: ${p}" style="width:${pct(p)}%;background:var(--pending)"></div>` : ''}
-      ${w ? `<div class="summary-seg" title="Wins: ${w}" style="width:${pct(w)}%;background:var(--win)"></div>` : ''}
-      ${l ? `<div class="summary-seg" title="Losses: ${l}" style="width:${pct(l)}%;background:var(--loss)"></div>` : ''}
-      ${mx ? `<div class="summary-seg" title="Mixed: ${mx}" style="width:${pct(mx)}%;background:var(--mixed)"></div>` : ''}
+      <div class="summary-seg" title="Pending / Active: ${p}" style="width:${pct(p)}%;background:var(--pending)"></div>
+      <div class="summary-seg" title="Wins: ${w}" style="width:${pct(w)}%;background:var(--win)"></div>
+      <div class="summary-seg" title="Losses: ${l}" style="width:${pct(l)}%;background:var(--loss)"></div>
+      <div class="summary-seg" title="Mixed: ${mx}" style="width:${pct(mx)}%;background:var(--mixed)"></div>
     </div>
     <div class="summary-meta">
       <span>Pending ${p}</span>
@@ -683,63 +576,6 @@ function zoomToResults(){
   if(pts.length) map.flyToBounds(pts,{padding:[30,30],maxZoom:8,duration:0.8});
 }
 
-
-const STATE_BADGE_CENTERS = {
-  Alabama:[32.8067,-86.7911], Alaska:[64.2008,-149.4937], Arizona:[34.0489,-111.0937], Arkansas:[35.2010,-91.8318],
-  California:[36.7783,-119.4179], Colorado:[39.5501,-105.7821], Connecticut:[41.6032,-73.0877], Delaware:[38.9108,-75.5277],
-  Florida:[27.6648,-81.5158], Georgia:[32.1656,-82.9001], Hawaii:[20.7984,-156.3319], Idaho:[44.0682,-114.7420],
-  Illinois:[40.6331,-89.3985], Indiana:[40.2672,-86.1349], Iowa:[41.8780,-93.0977], Kansas:[39.0119,-98.4842],
-  Kentucky:[37.8393,-84.2700], Louisiana:[31.2448,-92.1450], Maine:[45.2538,-69.4455], Maryland:[39.0458,-76.6413],
-  Massachusetts:[42.4072,-71.3824], Michigan:[44.3148,-85.6024], Minnesota:[46.7296,-94.6859], Mississippi:[32.3547,-89.3985],
-  Missouri:[37.9643,-91.8318], Montana:[46.8797,-110.3626], Nebraska:[41.4925,-99.9018], Nevada:[38.8026,-116.4194],
-  New Hampshire:[43.1939,-71.5724], New Jersey:[40.0583,-74.4057], New Mexico:[34.5199,-105.8701], New York:[43.2994,-74.2179],
-  North Carolina:[35.7596,-79.0193], North Dakota:[47.5515,-101.0020], Ohio:[40.4173,-82.9071], Oklahoma:[35.4676,-97.5164],
-  Oregon:[43.8041,-120.5542], Pennsylvania:[41.2033,-77.1945], Rhode Island:[41.5801,-71.4774], South Carolina:[33.8361,-81.1637],
-  South Dakota:[43.9695,-99.9018], Tennessee:[35.5175,-86.5804], Texas:[31.9686,-99.9018], Utah:[39.3210,-111.0937],
-  Vermont:[44.5588,-72.5778], Virginia:[37.4316,-78.6569], Washington:[47.7511,-120.7401], West Virginia:[38.5976,-80.4549],
-  Wisconsin:[43.7844,-88.7879], Wyoming:[43.0760,-107.2903], 'District of Columbia':[38.9072,-77.0369]
-};
-
-function getFeatureCenter(feat, layer){
-  const n = (feat && feat.properties && (feat.properties.NAME || feat.properties.name)) || '';
-  if (STATE_BADGE_CENTERS[n]) return STATE_BADGE_CENTERS[n];
-  const center = layer.getBounds().getCenter();
-  return [center.lat, center.lng];
-}
-
-function buildStateCountLayer(featureLayers){
-  if (stateCountLayer) stateCountLayer.remove();
-  stateCountLayer = L.layerGroup();
-  featureLayers.forEach(({name, count, layer, feature}) => {
-    if (!count) return;
-    const center = getFeatureCenter(feature, layer);
-    const digits = String(count).length;
-    const w = digits >= 3 ? 34 : digits === 2 ? 30 : 26;
-    const icon = L.divIcon({
-      className:'', iconSize:[w,24], iconAnchor:[w/2,12],
-      html:`<div class="state-count-badge">${count}</div>`
-    });
-    const marker = L.marker(center, { icon, keyboard:false, interactive:false, zIndexOffset:150 });
-    if (!isMobileViewport()) marker.bindTooltip(`${name}: ${count} incident${count===1?'':'s'}`, { direction:'top', opacity:0.9, className:'pin-tooltip' });
-    stateCountLayer.addLayer(marker);
-  });
-  stateCountLayer.addTo(map);
-  updateStateCountVisibility();
-}
-
-let stateBadgeVisibilityShown = null;
-function updateStateCountVisibility(){
-  if(!stateCountLayer) return;
-  const show = !currentZoomedState && map.getZoom() >= STATE_BADGE_REVEAL_ZOOM && map.getZoom() < MARKER_REVEAL_ZOOM;
-  stateCountLayer.eachLayer(marker => {
-    const el = marker.getElement && marker.getElement();
-    if (!el) return;
-    el.style.opacity = show ? '1' : '0';
-    el.style.pointerEvents = 'none';
-    el.style.transform = show ? 'scale(1)' : 'scale(.96)';
-  });
-  stateBadgeVisibilityShown = show;
-}
 
 function buildChoropleth(data, geoJson){
   const counts={};
@@ -777,7 +613,6 @@ function buildChoropleth(data, geoJson){
   });
   choroplethLayer.addTo(map);
   choroplethLayer.bringToBack();
-  buildStateCountLayer(featureLayers);
   updateChoroplethVisuals();
 }
 
@@ -785,19 +620,19 @@ function choroZoomIn(feat,layer,stateName,cnt){
   currentZoomedState=stateName;
   choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
   layer.setStyle({weight:2.5,color:'#ffb3ad',fillOpacity:0.18});
-  map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:1.0,easeLinearity:0.2});
+  map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:0.85});
   document.getElementById('choroBack').style.display='block';
   document.getElementById('mapHint').textContent=cnt>0?`${stateName}: ${cnt} incident${cnt===1?'':'s'} — click pins for details`:`${stateName}: no recorded opposition`;
-  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility(true);updateStateCountVisibility();},120);
+  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
   history.replaceState(null,'','#'+encodeURIComponent(stateName.toLowerCase().replace(/ /g,'-')));
 }
 function choroZoomOut(){
   currentZoomedState=null;
   if(choroplethLayer) choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
-  map.flyTo([39.5,-98.35],4,{duration:0.95,easeLinearity:0.2});
+  map.flyTo([39.5,-98.35],4,{duration:0.8});
   document.getElementById('choroBack').style.display='none';
   document.getElementById('mapHint').textContent='Click any state to zoom in and reveal opposition incidents';
-  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility(true);updateStateCountVisibility();},120);
+  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
   history.replaceState(null,'',location.pathname+location.search);
 }
 
