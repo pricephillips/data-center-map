@@ -176,4 +176,329 @@ document.addEventListener('DOMContentLoaded', function () {
       return L.divIcon({
         className:'',
         iconSize:[sz,sz],
-        html:`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:#1a3a42;border:2px solid 
+        html:`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:#1a3a42;border:2px solid #4f98a3;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#7ecfda">${n}</div>`
+      });
+    }
+  });
+  map.addLayer(cluster);
+
+  const esc = s => String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const fmtInt = v => Number(v || 0).toLocaleString('en-US');
+
+  const ABBREV_TO_NAME = {
+    AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',CT:'Connecticut',DE:'Delaware',
+    FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',
+    LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',
+    MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',
+    NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',
+    RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',
+    VA:'Virginia',WA:'Washington',WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming',DC:'District of Columbia'
+  };
+  const FULL_NAMES = new Set(Object.values(ABBREV_TO_NAME));
+
+  const DENSITY_STEPS = [
+    {min:0,  max:0,    color:'#0a1520', opacity:0.55},
+    {min:1,  max:5,    color:'#0e3349', opacity:0.80},
+    {min:6,  max:15,   color:'#1a5068', opacity:0.86},
+    {min:16, max:30,   color:'#276b80', opacity:0.90},
+    {min:31, max:60,   color:'#348a9a', opacity:0.93},
+    {min:61, max:9999, color:'#4f98a3', opacity:0.96}
+  ];
+  function densityColor(n) {
+    return DENSITY_STEPS.find(s => n >= s.min && n <= s.max) || DENSITY_STEPS[0];
+  }
+  function zoomedOpacity(base) {
+    const z = map.getZoom();
+    if (z <= 4) return Math.min(0.97, base + 0.04);
+    if (z <= 5) return base;
+    if (z <= 6) return Math.max(0.30, base - 0.25);
+    if (z <= 7) return Math.max(0.18, base - 0.40);
+    return Math.max(0.10, base - 0.55);
+  }
+  function zoomedWeight() {
+    const z = map.getZoom();
+    return z <= 4 ? 2.2 : z <= 5 ? 1.8 : z <= 6 ? 1.4 : 1.0;
+  }
+
+  let allRows = [];
+  let filteredRows = [];
+  let choroplethLayer = null;
+  let currentZoomedState = null;
+  let cardRefs = [];
+
+  function normalizeState(raw) {
+    const val = (raw || '').trim();
+    if (!val) return '';
+    return FULL_NAMES.has(val) ? val : (ABBREV_TO_NAME[val.toUpperCase()] || val);
+  }
+
+  function buildPopup(r) {
+    return `
+      <div class="p-title">${esc(r.name || 'Unnamed proposal')}</div>
+      <div class="p-grid">
+        <span class="p-label">State</span><span class="p-val">${esc(r.state || '')}</span>
+        <span class="p-label">County</span><span class="p-val">${esc(r.counties || '')}</span>
+        <span class="p-label">Phase</span><span class="p-val">${esc(r.phase || '')}</span>
+        <span class="p-label">Capacity</span><span class="p-val">${r.capacity_mw ? fmtInt(r.capacity_mw) + ' MW' : '—'}</span>
+        <span class="p-label">Jobs</span><span class="p-val">${r.jobsTotal ? fmtInt(r.jobsTotal) : '—'}</span>
+        <span class="p-label">Company</span><span class="p-val">${esc(r.companies || '')}</span>
+        <span class="p-label">Date</span><span class="p-val">${esc(r.date || '')}</span>
+      </div>
+    `;
+  }
+
+  function matchesFilters(r) {
+    const q = document.getElementById('q').value.trim().toLowerCase();
+    const fState = document.getElementById('fState').value;
+    const fPhase = document.getElementById('fPhase').value;
+
+    if (fState && r.state !== fState) return false;
+    if (fPhase && r.phase !== fPhase) return false;
+    if (!q) return true;
+
+    const hay = [r.name, r.state, r.companies, r.counties, r.phase].join(' ').toLowerCase();
+    return hay.includes(q);
+  }
+
+  function updateCardCount(visible, total) {
+    const el = document.getElementById('cardCount');
+    el.innerHTML = visible === total
+      ? `<b>${fmtInt(total)}</b> proposals`
+      : `Showing <b>${fmtInt(visible)}</b> of <b>${fmtInt(total)}</b> proposals`;
+  }
+
+  function highlightCard(idx) {
+    cardRefs.forEach(c => c && c.classList.remove('active'));
+    if (cardRefs[idx]) {
+      cardRefs[idx].classList.add('active');
+      cardRefs[idx].scrollIntoView({ block:'nearest', behavior:'smooth' });
+    }
+  }
+
+  function renderListAndMarkers() {
+    cluster.clearLayers();
+    const list = document.getElementById('list');
+    list.innerHTML = '';
+    cardRefs = [];
+
+    filteredRows = allRows.filter(matchesFilters);
+    const visibleStates = new Set(filteredRows.map(r => r.state).filter(Boolean));
+
+    document.getElementById('statTotal').textContent = fmtInt(allRows.length);
+    document.getElementById('statVisible').textContent = fmtInt(filteredRows.length);
+    document.getElementById('statStates').textContent = fmtInt(visibleStates.size);
+    updateCardCount(filteredRows.length, allRows.length);
+
+    filteredRows.forEach((r, idx) => {
+      if (r._marker) cluster.addLayer(r._marker);
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-title">${esc(r.name || 'Unnamed proposal')}</div>
+        <div class="card-meta">
+          <span>${esc(r.state || '')}</span>
+          ${r.phase ? `<span>${esc(r.phase)}</span>` : ''}
+          ${r.capacity_mw ? `<span>${fmtInt(r.capacity_mw)} MW</span>` : ''}
+        </div>
+        <div class="card-snippet">${esc(r.companies || r.counties || '')}</div>
+      `;
+      card.onclick = () => {
+        if (r._marker) {
+          map.setView(r._marker.getLatLng(), 9);
+          r._marker.openPopup();
+          highlightCard(idx);
+        }
+      };
+      cardRefs[idx] = card;
+      list.appendChild(card);
+    });
+
+    if (!filteredRows.length) {
+      list.innerHTML = '<div style="padding:16px;text-align:center;font-size:12px;color:#8a96a4">No proposals match the current filters.</div>';
+    }
+  }
+
+  let renderTimer;
+  function debounceRender() {
+    clearTimeout(renderTimer);
+    renderTimer = setTimeout(renderListAndMarkers, 250);
+  }
+
+  function resetFilters() {
+    document.getElementById('q').value = '';
+    document.getElementById('fState').value = '';
+    document.getElementById('fPhase').value = '';
+    renderListAndMarkers();
+  }
+
+  function zoomToResults() {
+    const layers = filteredRows.map(r => r._marker).filter(Boolean);
+    if (!layers.length) return;
+    const group = L.featureGroup(layers);
+    map.flyToBounds(group.getBounds(), { padding:[30,30], maxZoom:8, duration:0.8 });
+  }
+
+  function updateChoroplethVisuals() {
+    if (!choroplethLayer) return;
+    choroplethLayer.eachLayer(layer => {
+      const cnt = layer.feature?.properties?._count || 0;
+      const s = densityColor(cnt);
+      layer.setStyle({
+        fillColor:s.color,
+        fillOpacity:zoomedOpacity(s.opacity),
+        color:'#3d6070',
+        weight:zoomedWeight(),
+        opacity:1
+      });
+    });
+  }
+
+  function choroZoomIn(feature, layer, stateName, cnt) {
+    currentZoomedState = stateName;
+    choroplethLayer.eachLayer(l => choroplethLayer.resetStyle(l));
+    layer.setStyle({ weight:2.5, color:'#b7f1fb', fillOpacity:0.18 });
+    map.flyToBounds(layer.getBounds(), { padding:[30,30], maxZoom:7, duration:0.85 });
+    document.getElementById('choroBack').style.display = 'block';
+    document.getElementById('mapHint').textContent =
+      cnt > 0 ? `${stateName}: ${cnt} proposal${cnt === 1 ? '' : 's'} — click pins for details`
+              : `${stateName}: no proposals in dataset`;
+    setTimeout(updateChoroplethVisuals, 120);
+  }
+
+  function choroZoomOut() {
+    currentZoomedState = null;
+    if (choroplethLayer) choroplethLayer.eachLayer(l => choroplethLayer.resetStyle(l));
+    map.flyTo([39.5,-98.35], 4, { duration:0.8 });
+    document.getElementById('choroBack').style.display = 'none';
+    document.getElementById('mapHint').textContent = 'Click any state to zoom in and see proposal density';
+    setTimeout(updateChoroplethVisuals, 120);
+  }
+
+  function buildChoropleth(rows, geoJson) {
+    const counts = {};
+    rows.forEach(r => {
+      const name = normalizeState(r.state);
+      if (name) counts[name] = (counts[name] || 0) + 1;
+    });
+
+    choroplethLayer = L.geoJSON(geoJson, {
+      style: feat => {
+        const name = feat.properties.NAME || feat.properties.name || '';
+        const cnt = counts[name] || 0;
+        feat.properties._count = cnt;
+        const s = densityColor(cnt);
+        return {
+          fillColor:s.color,
+          fillOpacity:zoomedOpacity(s.opacity),
+          color:'#3d6070',
+          weight:zoomedWeight(),
+          opacity:1
+        };
+      },
+      onEachFeature: (feat, layer) => {
+        const name = feat.properties.NAME || feat.properties.name || '';
+        const cnt = counts[name] || 0;
+        layer.on({
+          mouseover: e => {
+            if (currentZoomedState !== name) {
+              e.target.setStyle({
+                weight:2.5,
+                color:'#8fd7e2',
+                fillOpacity:Math.min(0.99, zoomedOpacity(densityColor(cnt).opacity) + 0.08)
+              });
+            }
+            document.getElementById('mapHint').textContent =
+              cnt > 0 ? `${name}: ${cnt} proposal${cnt === 1 ? '' : 's'} — click to zoom`
+                      : `${name}: no proposals in dataset`;
+          },
+          mouseout: e => {
+            if (currentZoomedState !== name) choroplethLayer.resetStyle(e.target);
+            document.getElementById('mapHint').textContent = 'Click any state to zoom in and see proposal density';
+          },
+          click: () => choroZoomIn(feat, layer, name, cnt)
+        });
+      }
+    });
+
+    choroplethLayer.addTo(map);
+    choroplethLayer.bringToBack();
+    updateChoroplethVisuals();
+  }
+
+  Papa.parse('data/proposals.csv', {
+    download:true,
+    header:true,
+    dynamicTyping:true,
+    skipEmptyLines:true,
+    complete: ({ data, errors }) => {
+      if (errors && errors.length) {
+        document.getElementById('mapHint').textContent = `CSV parse error: ${errors[0].message}`;
+        console.error(errors);
+        return;
+      }
+
+      allRows = (data || []).map(r => {
+        const lat = parseFloat(r.lat ?? r.latitude);
+        const lon = parseFloat(r.lon ?? r.lng ?? r.longitude);
+        const state = r.state || r.state_abb || '';
+        const row = { ...r, lat, lon, state };
+
+        if (!isNaN(lat) && !isNaN(lon)) {
+          row._marker = L.circleMarker([lat, lon], {
+            radius: 4,
+            fillColor:'#4f98a3',
+            fillOpacity:0.82,
+            color:'#7ecfda',
+            weight:1
+          }).bindPopup(buildPopup(row));
+          row._marker.on('click', () => {
+            const idx = filteredRows.indexOf(row);
+            if (idx >= 0) highlightCard(idx);
+          });
+        }
+
+        return row;
+      }).filter(r => r._marker);
+
+      const states = [...new Set(allRows.map(r => r.state).filter(Boolean))].sort();
+      const phases = [...new Set(allRows.map(r => r.phase).filter(Boolean))].sort();
+      states.forEach(v => {
+        const opt = document.createElement('option');
+        opt.value = v; opt.textContent = v;
+        document.getElementById('fState').appendChild(opt);
+      });
+      phases.forEach(v => {
+        const opt = document.createElement('option');
+        opt.value = v; opt.textContent = v;
+        document.getElementById('fPhase').appendChild(opt);
+      });
+
+      renderListAndMarkers();
+
+      fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
+        .then(r => r.json())
+        .then(geo => buildChoropleth(allRows, geo))
+        .catch(err => {
+          console.warn('GeoJSON failed', err);
+          document.getElementById('mapHint').textContent = 'Map loaded, but state choropleth failed to load';
+        });
+    },
+    error: err => {
+      document.getElementById('mapHint').textContent = `Error loading proposals.csv: ${err?.message || err}`;
+      console.error(err);
+    }
+  });
+
+  map.on('zoomend', updateChoroplethVisuals);
+  map.whenReady(updateChoroplethVisuals);
+
+  window.debounceRender = debounceRender;
+  window.renderListAndMarkers = renderListAndMarkers;
+  window.resetFilters = resetFilters;
+  window.zoomToResults = zoomToResults;
+  window.choroZoomOut = choroZoomOut;
+});
+</script>
+</body>
+</html>
