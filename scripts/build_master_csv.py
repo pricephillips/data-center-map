@@ -70,7 +70,7 @@ def main():
     with urllib.request.urlopen(SOURCE_URL) as response:
         payload = json.load(response)
 
-    records = payload["data"]
+    records = payload
     rows = [build_row(record) for record in records]
 
     with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
