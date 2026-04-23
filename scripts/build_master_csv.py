@@ -70,6 +70,8 @@ def main():
     with urllib.request.urlopen(SOURCE_URL) as response:
         payload = json.load(response)
 
+    records = payload["data"] if isinstance(payload, dict) else payload
+
     records = payload
     rows = [build_row(record) for record in records]
 
