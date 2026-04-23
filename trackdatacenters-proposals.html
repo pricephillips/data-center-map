@@ -415,7 +415,7 @@
           syncPhaseChips();
           applyFilters();
         });
-        document.getElementById('btnDownload').addEventListener('click', () => window.location.href = '../data/proposals.csv');
+        document.getElementById('btnDownload').addEventListener('click', () => window.location.href = '..data/proposals.csv');
         document.querySelectorAll('th.sortable').forEach(th => {
           th.addEventListener('click', () => {
             const col = th.dataset.col;
@@ -429,7 +429,7 @@
       }
 
       window.addEventListener('DOMContentLoaded', () => {
-        Papa.parse('../data/proposals.csv', {
+        Papa.parse('data/proposals.csv', {
           download: true,
           header: true,
           dynamicTyping: true,
