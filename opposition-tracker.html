@@ -111,7 +111,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .card.oc-mixed { border-left:3px solid var(--mixed) }
 .summary-bar { display:flex; height:9px; border-radius:999px; overflow:hidden; background:#111827; border:1px solid var(--border); margin-top:4px }
 .summary-seg { height:100% }
-.summary-meta { display:flex; gap:10px; flex-wrap:wrap; font-size:10px; color:var(--muted); margin-top:4px }
+.summary-meta { display:flex; gap:10px; flex-wrap:wrap; font-size:11px; color:var(--muted); margin-top:6px }
 .pin-tooltip { background:#0f1722; color:#eef2f7; border:1px solid var(--border); border-radius:8px; box-shadow:0 6px 20px rgba(0,0,0,.35) }
 
 .card-source { display:inline-block; margin-top:6px; font-size:11px; color:var(--bryce); text-decoration:none; border:1px solid var(--border); border-radius:6px; padding:3px 8px }
@@ -389,19 +389,21 @@ function debounce() { clearTimeout(dt); dt = setTimeout(render, 280); }
 
 Papa.parse('./master_opposition.csv', {
   download:true, header:true, skipEmptyLines:true,
-  complete({ data }) {
+  complete: ({ data }) => {
     rows = data;
-    rows.forEach(r => {
-      const _mlat = +r.lat, _mlon = +r.lon;
-      if (isNaN(_mlat) || isNaN(_mlon) || _mlat === 0 && _mlon === 0) { leafletMarkers.push(null); return; }
-      const m = L.marker([_mlat, _mlon], { icon: iconFor(r) }).bindPopup(buildPopup(r)).bindTooltip(`<b>${(r['Incident']||'').slice(0,50)}</b><br>${r['State']||''} · ${r['Community Outcome']||'Pending'}`, {direction:'top',className:'pin-tooltip'});
-      const _idx = leafletMarkers.length;
-      m.on('click', (e) => {
-        L.DomEvent.stopPropagation(e);
-        highlightCard(_idx);
-      });
-      leafletMarkers.push(m);
-    });
+
+    const parseDate = (v) => {
+      if (!v) return 0;
+      const d = new Date(v);
+      return isNaN(d.getTime()) ? 0 : d.getTime();
+    };
+
+    rows.sort((a, b) => parseDate(b['Date']) - parseDate(a['Date']));
+
+    rows.forEach(r=>{
+      const mlat = r.lat, mlon = r.lon;
+      if (isNaN(mlat) || isNaN(mlon) || mlat === 0 || mlon === 0) { leafletMarkers.push(null); return; }
+      ...
 
     const pop = (id, vals) => {
       const el = document.getElementById(id);
