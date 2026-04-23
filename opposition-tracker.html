@@ -558,7 +558,6 @@ function updateStateCountVisibility(){
   stateCountLayer.eachLayer(marker => {
     const el = marker.getElement && marker.getElement();
     if (!el) return;
-    el.style.transition = 'opacity .14s ease';
     el.style.opacity = show ? '1' : '0';
     el.style.pointerEvents = 'none';
   });
@@ -672,7 +671,6 @@ function buildChoropleth(data, geoJson){
 
 function choroZoomIn(feat,layer,stateName,cnt){
   currentZoomedState=stateName;
-  updateStateCountVisibility();
   choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
   layer.setStyle({weight:2.5,color:'#ffb3ad',fillOpacity:0.18});
   map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:0.85});
@@ -683,7 +681,6 @@ function choroZoomIn(feat,layer,stateName,cnt){
 }
 function choroZoomOut(){
   currentZoomedState=null;
-  updateStateCountVisibility();
   if(choroplethLayer) choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
   map.flyTo([39.5,-98.35],4,{duration:0.8});
   document.getElementById('choroBack').style.display='none';
@@ -710,7 +707,6 @@ function scheduleZoomVisualUpdate(forceRefresh=false){
 }
 
 map.on('zoom',()=>{ updateStateCountVisibility(); });
-map.on('move',()=>{ if(currentZoomedState) updateStateCountVisibility(); });
 map.on('zoomstart',()=>{ document.body.classList.add('map-zooming'); });
 map.on('zoomend',()=>{ document.body.classList.remove('map-zooming'); scheduleZoomVisualUpdate(true); });
 map.whenReady(()=>{ scheduleZoomVisualUpdate(true); });
