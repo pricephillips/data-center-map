@@ -477,14 +477,32 @@ function updateMarkerVisibility(){
 
 function renderOutcomeSummary(visible){
   let p=0,w=0,l=0,mx=0;
-  visible.forEach(({r})=>{
-    const o=(r['Community Outcome']||'').toLowerCase();
-    if(o==='win')w++;else if(o==='loss')l++;else if(o==='mixed')mx++;else p++;
+  visible.forEach(r=>{
+    const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
+    if(outcome === 'win') w++;
+    else if(outcome === 'loss') l++;
+    else if(outcome === 'mixed') mx++;
+    else p++;
   });
-  const tot=Math.max(1,visible.length);
-  const pct=n=>(n/tot*100).toFixed(1)+'%';
-  const el=document.getElementById('outcomeSummary');
-  if(el) el.innerHTML=`<div class="summary-bar"><div class="summary-seg" style="width:${pct(p)};background:var(--pending)"></div><div class="summary-seg" style="width:${pct(w)};background:var(--win)"></div><div class="summary-seg" style="width:${pct(l)};background:var(--loss)"></div><div class="summary-seg" style="width:${pct(mx)};background:var(--mixed)"></div></div><div class="summary-meta"><span>Pending ${p}</span><span>Wins ${w}</span><span>Losses ${l}</span><span>Mixed ${mx}</span></div>`;
+
+  const tot = Math.max(1, visible.length);
+  const pct = n => (n / tot * 100).toFixed(1);
+  const el = document.getElementById('outcomeSummary');
+
+  if(el) el.innerHTML = `
+    <div class="summary-bar">
+      <div class="summary-seg" title="Pending / Active: ${p}" style="width:${pct(p)}%;background:var(--pending)"></div>
+      <div class="summary-seg" title="Wins: ${w}" style="width:${pct(w)}%;background:var(--win)"></div>
+      <div class="summary-seg" title="Losses: ${l}" style="width:${pct(l)}%;background:var(--loss)"></div>
+      <div class="summary-seg" title="Mixed: ${mx}" style="width:${pct(mx)}%;background:var(--mixed)"></div>
+    </div>
+    <div class="summary-meta">
+      <span>Pending ${p}</span>
+      <span>Wins ${w}</span>
+      <span>Losses ${l}</span>
+      <span>Mixed ${mx}</span>
+    </div>
+  `;
 }
 function highlightCard(idx){
   if(idx < 0 || idx == null) return;
