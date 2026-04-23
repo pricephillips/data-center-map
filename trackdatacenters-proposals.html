@@ -428,25 +428,43 @@
         });
       }
 
-      window.addEventListener('DOMContentLoaded', () => {
-        Papa.parse('data/proposals.csv', {
-          download: true,
-          header: true,
-          dynamicTyping: true,
-          skipEmptyLines: true,
-          complete: ({ data }) => {
-            state.allRows = data;
-            document.getElementById('metaLastUpdated').textContent = `Loaded ${data.length} rows from proposals.csv`;
-            populateFilters(data);
-            attachEvents();
-            applyFilters();
-          },
-          error: err => {
-            document.getElementById('metaLastUpdated').textContent = 'Error loading proposals.csv';
-            console.error(err);
-          }
-        });
-      });
+window.addEventListener('DOMContentLoaded', () => {
+  const csvPath = 'data/proposals.csv';
+  document.getElementById('metaLastUpdated').textContent = `Loading ${csvPath}`;
+
+  Papa.parse(csvPath, {
+    download: true,
+    header: true,
+    dynamicTyping: true,
+    skipEmptyLines: true,
+    complete: (results) => {
+      if (results.errors && results.errors.length) {
+        document.getElementById('metaLastUpdated').textContent =
+          `CSV parse error: ${results.errors[0].message}`;
+        console.error(results.errors);
+        return;
+      }
+
+      const data = results.data || [];
+      state.allRows = data;
+      document.getElementById('metaLastUpdated').textContent =
+        `Loaded ${data.length} rows from ${csvPath}`;
+      populateFilters(data);
+      attachEvents();
+      applyFilters();
+    },
+    error: (err) => {
+      document.getElementById('metaLastUpdated').textContent =
+        `Error loading ${csvPath}: ${err?.message || err}`;
+      console.error(err);
+    }
+  });
+});
+
+window.addEventListener('error', (event) => {
+  document.getElementById('metaLastUpdated').textContent =
+    `Runtime error: ${event.message}`;
+});
     </script>
   </body>
 </html>
