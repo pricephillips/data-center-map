@@ -75,6 +75,14 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .legend-row { display:flex; align-items:center; gap:7px; margin:4px 0; color:var(--muted) }
 .lsw { width:10px; height:10px; border-radius:2px; flex-shrink:0 }
 .note { font-size:10px; color:#505d6e; margin-top:7px; max-width:190px; line-height:1.4 }
+
+.state-count-badge {
+  min-width:26px; height:22px; padding:0 6px; border-radius:7px;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:rgba(125,46,14,.96); border:2px solid #e67e22; color:#fff;
+  font-size:10px; font-weight:700; line-height:1; box-shadow:0 4px 12px rgba(0,0,0,.28);
+}
+
 .leaflet-popup-content-wrapper { background:#1a2030; border:1px solid var(--border); border-radius:10px; box-shadow:0 6px 24px rgba(0,0,0,.5); color:var(--text) }
 .leaflet-popup-tip { background:#1a2030 }
 .leaflet-popup-content { margin:12px 14px; min-width:240px; max-width:360px }
@@ -510,6 +518,50 @@ function updateChoroplethVisuals(){
     layer.setStyle({fill:true,fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#8a3a20',weight:zoomedWeight(),opacity:1});
   });
 }
+const STATE_BADGE_REVEAL_ZOOM = 5.5;
+const STATE_BADGE_CENTERS = {
+  Alabama:[32.8,-86.8], Alaska:[64.2,-149.5], Arizona:[34.05,-111.09], Arkansas:[35.2,-91.83],
+  California:[36.78,-119.42], Colorado:[39.0,-105.55], Connecticut:[41.6,-72.7], Delaware:[39.0,-75.5],
+  Florida:[27.8,-81.7], Georgia:[32.6,-83.4], Hawaii:[20.8,-156.3], Idaho:[44.2,-114.5],
+  Illinois:[40.0,-89.2], Indiana:[40.0,-86.1], Iowa:[42.1,-93.5], Kansas:[38.5,-98.2],
+  Kentucky:[37.7,-84.7], Louisiana:[31.0,-92.0], Maine:[45.2,-69.0], Maryland:[39.0,-76.7],
+  Massachusetts:[42.25,-71.8], Michigan:[44.75,-85.5], Minnesota:[46.1,-94.3], Mississippi:[32.7,-89.9],
+  Missouri:[38.45,-92.55], Montana:[46.9,-110.0], Nebraska:[41.5,-99.8], Nevada:[39.3,-116.6],
+  New Hampshire:[43.8,-71.6], New Jersey:[40.1,-74.5], New Mexico:[34.4,-106.1], New York:[42.95,-75.5],
+  North Carolina:[35.5,-79.4], North Dakota:[47.45,-100.5], Ohio:[40.35,-82.8], Oklahoma:[35.55,-97.3],
+  Oregon:[43.9,-120.8], Pennsylvania:[40.9,-77.7], Rhode Island:[41.7,-71.55], South Carolina:[33.9,-80.9],
+  South Dakota:[44.4,-100.2], Tennessee:[35.8,-86.35], Texas:[31.1,-99.3], Utah:[39.35,-111.7],
+  Vermont:[44.1,-72.7], Virginia:[37.75,-78.2], Washington:[47.45,-120.9], West Virginia:[38.6,-80.6],
+  Wisconsin:[44.55,-89.8], Wyoming:[43.1,-107.6], 'District of Columbia':[38.9072,-77.0369]
+};
+function getStateBadgeCenter(name, layer){
+  return STATE_BADGE_CENTERS[name] || [layer.getBounds().getCenter().lat, layer.getBounds().getCenter().lng];
+}
+function buildStateCountLayer(featureLayers){
+  if (stateCountLayer) stateCountLayer.remove();
+  stateCountLayer = L.layerGroup();
+  featureLayers.forEach(({name, count, layer}) => {
+    if (!count) return;
+    const center = getStateBadgeCenter(name, layer);
+    const digits = String(count).length;
+    const w = digits >= 3 ? 34 : digits === 2 ? 30 : 26;
+    const icon = L.divIcon({ className:'', iconSize:[w,22], iconAnchor:[w/2,11], html:`<div class="state-count-badge">${count}</div>` });
+    stateCountLayer.addLayer(L.marker(center, { icon, keyboard:false, interactive:false, zIndexOffset:140 }));
+  });
+  stateCountLayer.addTo(map);
+  updateStateCountVisibility();
+}
+function updateStateCountVisibility(){
+  if(!stateCountLayer) return;
+  const z = map.getZoom();
+  const show = !currentZoomedState && z >= STATE_BADGE_REVEAL_ZOOM && z < MARKER_REVEAL_ZOOM;
+  stateCountLayer.eachLayer(marker => {
+    const el = marker.getElement && marker.getElement();
+    if (!el) return;
+    el.style.opacity = show ? '1' : '0';
+    el.style.pointerEvents = 'none';
+  });
+}
 let markerVisibilityShown = null;
 function updateMarkerVisibility(forceRefresh=false){
   const z = map.getZoom();
@@ -613,6 +665,7 @@ function buildChoropleth(data, geoJson){
   });
   choroplethLayer.addTo(map);
   choroplethLayer.bringToBack();
+  buildStateCountLayer(featureLayers);
   updateChoroplethVisuals();
 }
 
