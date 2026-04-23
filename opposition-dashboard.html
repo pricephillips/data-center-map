@@ -357,6 +357,15 @@ Papa.parse('./master_opposition.csv', {
   download:true, header:true, skipEmptyLines:true,
   complete({ data }) {
     allRows = data;
+
+    const parseDate = (v) => {
+      if (!v) return 0;
+      const d = new Date(v);
+      return isNaN(d.getTime()) ? 0 : d.getTime();
+    };
+
+    allRows.sort((a, b) => parseDate(b['Date']) - parseDate(a['Date']));
+
     buildKPIs(allRows);
     buildCharts(allRows);
 
@@ -368,6 +377,7 @@ Papa.parse('./master_opposition.csv', {
     pop('tf-outcome', allRows.map(r=>r['Community Outcome']));
     pop('tf-type',    allRows.map(r=>r['Opposition Type']));
 
+    tSortCol = 'Date';
     tSortDir = -1;
     trender();
   }
