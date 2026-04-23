@@ -401,8 +401,10 @@ Papa.parse('./master_opposition.csv', {
     rows.sort((a, b) => parseDate(b['Date']) - parseDate(a['Date']));
 
     leafletMarkers = [];
+
     rows.forEach(r => {
-      const mlat = parseFloat(r.lat), mlon = parseFloat(r.lon);
+      const mlat = parseFloat(r.lat);
+      const mlon = parseFloat(r.lon);
 
       if (isNaN(mlat) || isNaN(mlon) || mlat === 0 || mlon === 0) {
         leafletMarkers.push(null);
@@ -412,8 +414,8 @@ Papa.parse('./master_opposition.csv', {
       const m = L.marker([mlat, mlon], { icon: iconFor(r) })
         .bindPopup(buildPopup(r))
         .bindTooltip(
-          `<b>${esc((r['Incident'] || '').slice(0,50))}</b><br>${esc(r['State'] || '')} • ${esc(r['Community Outcome'] || 'Pending')}`,
-          { direction:'top', className:'pin-tooltip' }
+          `<b>${esc((r['Incident'] || '').slice(0, 50))}</b><br>${esc(r['State'] || '')} • ${esc(r['Community Outcome'] || 'Pending')}`,
+          { direction: 'top', className: 'pin-tooltip' }
         );
 
       const idx = leafletMarkers.length;
@@ -432,17 +434,19 @@ Papa.parse('./master_opposition.csv', {
       );
     };
 
-    pop('fState',     rows.map(r => r['State']));
-    pop('fType',      rows.map(r => r['Opposition Type']));
-    pop('fOutcome',   rows.map(r => r['Community Outcome']));
+    pop('fState', rows.map(r => r['State']));
+    pop('fType', rows.map(r => r['Opposition Type']));
+    pop('fOutcome', rows.map(r => r['Community Outcome']));
     pop('fAuthority', rows.map(r => r['Authority Level']));
 
     const issues = [...new Set(
-      rows.flatMap(r => (r['Issue Category'] || '').split(/;\\s*/).map(x => x.trim()))
+      rows.flatMap(r => (r['Issue Category'] || '').split(/;\s*/).map(x => x.trim()))
     )].filter(Boolean).sort();
 
     const fIs = document.getElementById('fIssue');
-    issues.forEach(v => fIs.insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)}</option>`));
+    issues.forEach(v =>
+      fIs.insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)}</option>`)
+    );
 
     render();
   }
