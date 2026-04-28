@@ -189,14 +189,14 @@ input:focus, select:focus { border-color:#5aa9e6 }
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M9 9h6v6H9z"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
         <h1>Opposition Tracker</h1>
       </div>
-      <div class="sub">Merged master — datacentertracker.org (2014–2025) + Bryce tracker (2026)</div>
+      <div class="sub">Merged master — archived records (2014–2025) + ongoing monitoring (2026)</div>
       <div class="source-pills">
-        <span class="pill pill-dct">datacentertracker.org</span>
-        <span class="pill pill-bryce">Bryce tracker</span>
+        <span class="pill pill-dct">Historical archive</span>
+        <span class="pill pill-bryce">Ongoing monitoring</span>
       </div>
     </div>
 
-    <div class="sidebar-title"><h1>Community Opposition Tracker</h1><p>Tracking community resistance, legislation, and legal challenges to data center development. Click a state to zoom in, then click a pin for details.</p></div>
+    <div class="sidebar-title"><h1>Community Opposition Tracker</h1><p>Tracking community resistance, legislation, and legal challenges to data center development. Click a state to zoom in. At the state level, a clickable county choropleth appears; click a county or a pin for details.</p></div>
 <div class="filters">
       <div class="search-wrap">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -218,7 +218,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
         <div class="row3" style="margin-top:6px">
           <select id="fScope"     onchange="render()"><option value="">Any geographic level</option><option value="local">Local</option><option value="state">State</option><option value="federal">Federal</option></select>
           <select id="fAuthority" onchange="render()"><option value="">Any decision maker</option></select>
-          <select id="fSource"    onchange="render()"><option value="">All sources</option><option value="datacentertracker.org">DataCenterTracker.org</option><option value="bryce_tracker">Bryce Tracker (2026)</option></select>
+          <select id="fSource"    onchange="render()"><option value="">All sources</option><option value="historical_archive">Historical archive</option><option value="ongoing_monitoring">Ongoing monitoring</option></select>
         </div>
       </div>
       <label class="chk"><input type="checkbox" id="activeOnly" onchange="render()"/> Active &amp; pending only</label>
@@ -239,9 +239,9 @@ input:focus, select:focus { border-color:#5aa9e6 }
   <div class="mapwrap">
     <div id="map"></div>
     <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
-    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal opposition incidents</div>
+    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal county-level opposition</div>
     <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
-    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal opposition incidents</div>
+    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal county-level opposition</div>
     <div class="legend">
       <b>Outcome</b>
       <div class="legend-row"><span class="lsw" style="background:var(--pending)"></span>Pending / Active</div>
@@ -282,11 +282,16 @@ const clusterGroup = L.markerClusterGroup({
 clusterGroup.on('click', e => { if(e.originalEvent) L.DomEvent.stopPropagation(e); });
 
 const OUTCOME_COLORS = { win:'#4caf50', loss:'#e74c3c', pending:'#f39c12', mixed:'#9b59b6' };
-const SOURCE_COLORS  = { 'bryce_tracker':'#5aa9e6', 'datacentertracker.org':'#e67e22' };
+const SOURCE_COLORS  = { 'ongoing_monitoring':'#5aa9e6', 'historical_archive':'#e67e22' };
 const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(v||'—')}</span>`; };
 const sevDots = n => { let h='<span class="sev">'; for(let i=1;i<=5;i++) h+=`<span class="sev-dot${i<=n?' on':''}"></span>`; return h+'</span>'; };
-const srcTag = s => s==='bryce_tracker' ? '<span class="src-tag src-bryce">Bryce</span>' : '<span class="src-tag src-dct">DCT</span>';
+const srcTag = s => s==='ongoing_monitoring' ? '<span class="src-tag src-bryce">Live</span>' : '<span class="src-tag src-dct">Hist</span>';
+
+
+function normalizeSourceValue(v) {
+  return String(v || '').trim() === 'bryce_tracker' ? 'ongoing_monitoring' : 'historical_archive';
+}
 
 let rows=[], leafletMarkers=[], cardRefs=[];
 
@@ -414,7 +419,7 @@ function debounce() { clearTimeout(dt); dt = setTimeout(render, 280); }
 Papa.parse('./master_opposition.csv', {
   download:true, header:true, skipEmptyLines:true,
   complete: ({ data }) => {
-    rows = data;
+    rows = data.map(r => ({ ...r, data_source: normalizeSourceValue(r['data_source']) }));
 
     const parseDate = (v) => {
       if (!v) return 0;
@@ -477,7 +482,7 @@ Papa.parse('./master_opposition.csv', {
 });
   
 // ─── CHOROPLETH + QoL ────────────────────────────────────────────────────────
-let choroplethLayer = null, stateCountLayer = null, currentZoomedState = null;
+let choroplethLayer = null, stateCountLayer = null, countyLayer = null, countyGeoJson = null, currentZoomedState = null, countyCountsByState = {};
 
 const STATE_BADGE_REVEAL_ZOOM = 4;  // show from initial zoom
 const STATE_BADGE_CENTERS = {
@@ -603,10 +608,12 @@ function zoomToResults(){
 }
 
 
+
 function buildChoropleth(data, geoJson){
   const counts={};
   const FULL_NAMES=new Set(Object.values(ABBREV_TO_NAME));
   const featureLayers=[];
+  buildCountyCounts(data);
   data.forEach(r=>{
     const raw=(r['State']||'').trim();
     const name=FULL_NAMES.has(raw)?raw:(ABBREV_TO_NAME[raw.toUpperCase()]||raw);
@@ -631,7 +638,7 @@ function buildChoropleth(data, geoJson){
         },
         mouseout: e=>{
           if(currentZoomedState!==name) choroplethLayer.resetStyle(e.target);
-          document.getElementById('mapHint').textContent='Click any state to zoom in and reveal opposition incidents';
+          document.getElementById('mapHint').textContent=currentZoomedState ? `Viewing ${currentZoomedState}. Zoom in to activate counties.` : 'Click any state to zoom in and reveal county-level opposition';
         },
         click:()=>choroZoomIn(feat,layer,name,cnt)
       });
@@ -639,49 +646,56 @@ function buildChoropleth(data, geoJson){
   });
   choroplethLayer.addTo(map);
   choroplethLayer.bringToBack();
+
+  countyLayer = L.geoJSON(null, {
+    style: countyStyle,
+    onEachFeature:(feat, layer) => {
+      const stateAbbr = Object.keys(ABBREV_TO_FIPS).find(abbr => ABBREV_TO_FIPS[abbr] === feat.properties.STATE) || '';
+      const stateName = ABBREV_TO_NAME[stateAbbr] || currentZoomedState || '';
+      const countyName = feat.properties.NAME || '';
+      const cnt = countyCount(stateAbbr, countyName);
+      layer.on({
+        mouseover:e=>{
+          e.target.setStyle({weight:1.6,color:'#ffffff',fillOpacity:0.98});
+          document.getElementById('mapHint').textContent = cnt ? `${countyName} County, ${stateName}: ${cnt} incident${cnt===1?'':'s'} — click to filter` : `${countyName} County, ${stateName}: no recorded opposition`;
+        },
+        mouseout:e=>{
+          countyLayer.resetStyle(e.target);
+          document.getElementById('mapHint').textContent = `${stateName}: county choropleth active — click a county to filter incidents.`;
+        },
+        click:()=>filterToCounty(stateName, countyName, layer)
+      });
+    }
+  });
+
   buildStateCountLayer(featureLayers);
   updateChoroplethVisuals();
+  syncCountyLayer();
 }
 
 function buildStateCountLayer(featureLayers){
   if (stateCountLayer) stateCountLayer.remove();
-
-  // Dedicated pane: above choropleth (400), below popups (600)
   if (!map.getPane('stateBadgePane')) {
     const pane = map.createPane('stateBadgePane');
     pane.style.zIndex = 450;
     pane.style.pointerEvents = 'none';
     pane.style.transition = 'opacity 0.2s ease';
   }
-
   stateCountLayer = L.layerGroup();
-
   featureLayers.forEach(({name, count, layer}) => {
     if (!count) return;
     const center = getStateBadgeCenter(name, layer);
     const digits = String(count).length;
     const w = digits >= 3 ? 36 : digits === 2 ? 30 : 26;
     const h = 22;
-
     const icon = L.divIcon({
       className: '',
       iconSize: [w, h],
-      // [w/2, h/2] pins the CENTER of the badge to the coordinate
       iconAnchor: [w / 2, h / 2],
       html: `<div class="state-count-badge" style="width:${w}px;height:${h}px">${count}</div>`
     });
-
-    stateCountLayer.addLayer(
-      L.marker(center, {
-        icon,
-        pane: 'stateBadgePane',
-        keyboard: false,
-        interactive: false,
-        zIndexOffset: 0
-      })
-    );
+    stateCountLayer.addLayer(L.marker(center, { icon, pane:'stateBadgePane', keyboard:false, interactive:false, zIndexOffset:0 }));
   });
-
   stateCountLayer.addTo(map);
   updateStateCountVisibility();
 }
@@ -689,10 +703,7 @@ function buildStateCountLayer(featureLayers){
 function updateStateCountVisibility(){
   if (!stateCountLayer) return;
   const z = map.getZoom();
-  // Visible from the opening zoom (4) until individual pins appear (7),
-  // and hidden whenever the user has zoomed into a specific state
   const show = !currentZoomedState && z >= STATE_BADGE_REVEAL_ZOOM && z < 7;
-
   stateCountLayer.eachLayer(marker => {
     const el = marker.getElement && marker.getElement();
     if (!el) return;
@@ -703,28 +714,32 @@ function updateStateCountVisibility(){
 
 function choroZoomIn(feat,layer,stateName,cnt){
   currentZoomedState=stateName;
-  choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
-  layer.setStyle({weight:2.5,color:'#ffb3ad',fillOpacity:0.18});
-  map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:1.0,easeLinearity:0.15});
+  if(choroplethLayer) choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
+  layer.setStyle({weight:2.8,color:'#ffb199',fillOpacity:0.18});
+  map.flyToBounds(layer.getBounds(),{padding:[24,24],maxZoom:6.4,duration:1.0,easeLinearity:0.15});
   document.getElementById('choroBack').style.display='block';
-  document.getElementById('mapHint').textContent=cnt>0?`${stateName}: ${cnt} incident${cnt===1?'':'s'} — click pins for details`:`${stateName}: no recorded opposition`;
-  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
+  document.getElementById('mapHint').textContent=cnt?`${stateName}: ${cnt} incident${cnt===1?'':'s'} — zoom in or click a county`:`${stateName}: no recorded opposition`;
+  setTimeout(()=>{updateChoroplethVisuals();syncCountyLayer();updateMarkerVisibility();updateStateCountVisibility();},120);
   history.replaceState(null,'','#'+encodeURIComponent(stateName.toLowerCase().replace(/ /g,'-')));
 }
 function choroZoomOut(){
   currentZoomedState=null;
   if(choroplethLayer) choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
+  if(countyLayer && map.hasLayer(countyLayer)) map.removeLayer(countyLayer);
   map.flyTo([39.5,-98.35],4,{duration:1.0,easeLinearity:0.15});
   document.getElementById('choroBack').style.display='none';
-  document.getElementById('mapHint').textContent='Click any state to zoom in and reveal opposition incidents';
-  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
+  document.getElementById('mapHint').textContent='Click any state to zoom in and reveal county-level opposition';
+  setTimeout(()=>{updateChoroplethVisuals();syncCountyLayer();updateMarkerVisibility();updateStateCountVisibility();},120);
   history.replaceState(null,'',location.pathname+location.search);
 }
 
-fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
-  .then(r=>r.json())
-  .then(geo=>{
-    const poll=setInterval(()=>{ if(rows.length>0){clearInterval(poll);buildChoropleth(rows,geo);} },100);
+Promise.all([
+  fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json').then(r=>r.json()),
+  fetch('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json').then(r=>r.json())
+])
+  .then(([statesGeo, countiesGeo])=>{
+    countyGeoJson = countiesGeo;
+    const poll=setInterval(()=>{ if(rows.length>0){clearInterval(poll);buildChoropleth(rows,statesGeo);} },100);
   })
   .catch(e=>console.warn('GeoJSON failed',e));
 
@@ -732,11 +747,13 @@ let _choroplethDebounce = null;
 map.on('zoomend', () => {
   updateMarkerVisibility();
   updateStateCountVisibility();
+  syncCountyLayer();
   clearTimeout(_choroplethDebounce);
   _choroplethDebounce = setTimeout(updateChoroplethVisuals, 80);
 });
-map.whenReady(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();});
+map.whenReady(()=>{updateChoroplethVisuals();syncCountyLayer();updateMarkerVisibility();updateStateCountVisibility();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&currentZoomedState)choroZoomOut();});
+
 
 
 function toggleAdvFilters(btn) {
@@ -751,8 +768,8 @@ function updateCardCount(vis, tot) {
 }
 function srcTagFull(s) {
   if (s === 'bryce_tracker')
-    return '<span class="src-tag src-bryce">Bryce<span class="src-tip">Bryce Tracker — ongoing 2026 monitoring</span></span>';
-  return '<span class="src-tag src-dct">DCT<span class="src-tip">DataCenterTracker.org — public database 2014–2025</span></span>';
+    return '<span class="src-tag src-bryce">Live<span class="src-tip">Ongoing monitoring</span></span>';
+  return '<span class="src-tag src-dct">Hist<span class="src-tip">Archived records 2014–2025</span></span>';
 }
 function sevDotsLabeled(raw) {
   const n = Math.min(5, Math.max(1, +raw || 1));
