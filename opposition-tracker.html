@@ -196,7 +196,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
       </div>
     </div>
 
-    <div class="sidebar-title"><h1>Community Opposition Tracker</h1><p>Tracking community resistance, legislation, and legal challenges to data center development. Click a state to zoom in, then click a pin for details.</p></div>
+    <div class="sidebar-title"><h1>Community Opposition Tracker</h1><p>Tracking community resistance, legislation, and legal challenges to data center development. Click a state to zoom in. At the state level, a clickable county choropleth appears; click a county or a pin for details.</p></div>
 <div class="filters">
       <div class="search-wrap">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -239,9 +239,9 @@ input:focus, select:focus { border-color:#5aa9e6 }
   <div class="mapwrap">
     <div id="map"></div>
     <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
-    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal opposition incidents</div>
+    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal county-level opposition</div>
     <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
-    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal opposition incidents</div>
+    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal county-level opposition</div>
     <div class="legend">
       <b>Outcome</b>
       <div class="legend-row"><span class="lsw" style="background:var(--pending)"></span>Pending / Active</div>
@@ -631,7 +631,7 @@ function buildChoropleth(data, geoJson){
         },
         mouseout: e=>{
           if(currentZoomedState!==name) choroplethLayer.resetStyle(e.target);
-          document.getElementById('mapHint').textContent='Click any state to zoom in and reveal opposition incidents';
+          document.getElementById('mapHint').textContent='Click any state to zoom in and reveal county-level opposition';
         },
         click:()=>choroZoomIn(feat,layer,name,cnt)
       });
@@ -707,7 +707,7 @@ function choroZoomIn(feat,layer,stateName,cnt){
   layer.setStyle({weight:2.5,color:'#ffb3ad',fillOpacity:0.18});
   map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:1.0,easeLinearity:0.15});
   document.getElementById('choroBack').style.display='block';
-  document.getElementById('mapHint').textContent=cnt>0?`${stateName}: ${cnt} incident${cnt===1?'':'s'} — click pins for details`:`${stateName}: no recorded opposition`;
+  document.getElementById('mapHint').textContent=cnt>0?`${stateName}: ${cnt} incident${cnt===1?'':'s'} — zoom in or click a county`:`${stateName}: no recorded opposition`;
   setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
   history.replaceState(null,'','#'+encodeURIComponent(stateName.toLowerCase().replace(/ /g,'-')));
 }
@@ -716,7 +716,7 @@ function choroZoomOut(){
   if(choroplethLayer) choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
   map.flyTo([39.5,-98.35],4,{duration:1.0,easeLinearity:0.15});
   document.getElementById('choroBack').style.display='none';
-  document.getElementById('mapHint').textContent='Click any state to zoom in and reveal opposition incidents';
+  document.getElementById('mapHint').textContent='Click any state to zoom in and reveal county-level opposition';
   setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
   history.replaceState(null,'',location.pathname+location.search);
 }
