@@ -1,9 +1,9 @@
 import csv
-import json
-import urllib.request
+import requests
 
 SOURCE_URL = "https://datacentertracker.org/data/fights.json"
 OUTPUT_CSV = "master_opposition.csv"
+
 
 def join_list(value):
     if not value:
@@ -12,15 +12,18 @@ def join_list(value):
         return "; ".join(str(x) for x in value if x is not None)
     return str(value)
 
+
 def clean(value):
     if value is None:
         return ""
     return value
 
+
 def load_existing_header(path):
     with open(path, newline="", encoding="utf-8") as f:
         reader = csv.reader(f)
         return next(reader)
+
 
 def build_row(record):
     sources = record.get("sources") or []
@@ -64,20 +67,22 @@ def build_row(record):
         "lon": clean(record.get("lng")),
     }
 
+
 def main():
     header = load_existing_header(OUTPUT_CSV)
 
-    import requests
     response_obj = requests.get(SOURCE_URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
     response_obj.raise_for_status()
     payload = response_obj.json()
     records = payload["data"] if isinstance(payload, dict) else payload
+
     rows = [build_row(record) for record in records]
 
     with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=header, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(rows)
+
 
 if __name__ == "__main__":
     main()
