@@ -70,10 +70,8 @@ def main():
     import requests
     response_obj = requests.get(SOURCE_URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
     response_obj.raise_for_status()
-
+    payload = response_obj.json()
     records = payload["data"] if isinstance(payload, dict) else payload
-
-    records = payload
     rows = [build_row(record) for record in records]
 
     with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
