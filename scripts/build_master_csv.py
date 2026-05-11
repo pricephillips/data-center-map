@@ -67,8 +67,9 @@ def build_row(record):
 def main():
     header = load_existing_header(OUTPUT_CSV)
 
-    with urllib.request.urlopen(SOURCE_URL) as response:
-        payload = json.load(response)
+    import requests
+    response_obj = requests.get(SOURCE_URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
+    response_obj.raise_for_status()
 
     records = payload["data"] if isinstance(payload, dict) else payload
 
