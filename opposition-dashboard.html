@@ -10,7 +10,7 @@
 :root {
   --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
   --muted:#8a96a4; --border:#2c3544;
-  --win:#4caf50; --loss:#e74c3c; --pending:#f39c12; --mixed:#9b59b6;
+  --win:#dc2626; --loss:#2563eb; --pending:#f39c12; --mixed:#9b59b6;
   --atlas:#4f98a3; --ai:#e67e22;
 }
 * { box-sizing:border-box; margin:0; padding:0 }
@@ -50,7 +50,7 @@ input:focus, select:focus { border-color:var(--atlas) }
 /* Table */
 .table-wrap { background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden }
 table { width:100%; border-collapse:collapse; font-size:12px }
-thead th { background:var(--panel2); padding:10px 12px; text-align:left; font-weight:600; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.4px; white-space:nowrap; cursor:pointer; user-select:none }
+thead th { background:var(--panel2); padding:10px 12px; text-align:left; font-weight:600; color:var(--muted); font-size:11px; cursor:pointer; user-select:none; text-transform:uppercase; letter-spacing:.4px; white-space:nowrap; cursor:pointer; user-select:none }
 thead th:hover { color:var(--text) }
 thead th.sorted-asc::after { content:' ↑' }
 thead th.sorted-desc::after { content:' ↓' }
@@ -63,8 +63,8 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
 .td-link a:hover { text-decoration:underline }
 .badge { display:inline-block; padding:2px 7px; border-radius:999px; font-size:10px; font-weight:700; text-transform:uppercase }
 .badge-pending { background:#4b3408; color:#ffc15a }
-.badge-win     { background:#15351a; color:#7bd67f }
-.badge-loss    { background:#421713; color:#ff8f84 }
+.badge-win     { background:#3b0a0a; color:#fca5a5 }
+.badge-loss    { background:#0f2548; color:#93c5fd }
 .badge-mixed   { background:#2f1d46; color:#c89fff }
 .badge-        { background:#1a2535; color:#8ab4d4 }
 .src-tag { display:inline-block; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700; margin-left:4px }
@@ -130,16 +130,17 @@ tbody td  { padding:12px 14px; font-size:13px }
 <body>
 
 <div class="page-header">
-  <h1>Community Opposition Tracker</h1>
+  <h1>Data Center Opposition Tracker</h1>
   <p>Tracking community resistance, legislation, and legal challenges to data center development across the US. Data sourced from DataCenterTracker.org (2014–2025) and ongoing monitoring. Charts update automatically.</p>
+  <p id="dataFreshness" style="font-size:11px;color:var(--muted);margin-top:4px"></p>
 </div>
 
 <!-- KPIs -->
 <div class="kpis">
   <div class="kpi k-total"><b id="kTotal">—</b><span>Total incidents tracked</span></div>
   <div class="kpi k-states"><b id="kStates">—</b><span>States with opposition</span></div>
-  <div class="kpi k-win"><b id="kWin">—</b><span>Community victories</span></div>
-  <div class="kpi k-loss"><b id="kLoss">—</b><span>Projects approved despite opposition</span></div>
+  <div class="kpi k-win"><b id="kWin">—</b><span>Projects blocked</span></div>
+  <div class="kpi k-loss"><b id="kLoss">—</b><span>Projects approved</span></div>
   <div class="kpi k-pending"><b id="kPending">—</b><span>Pending / active cases</span></div>
   <div class="kpi" style="--c:#f472b6"><b id="kMW" style="color:#f472b6">—</b><span>Megawatts contested</span></div>
 </div>
@@ -148,8 +149,8 @@ tbody td  { padding:12px 14px; font-size:13px }
 <div class="outcome-strip">
   <b>What the colors mean:</b>
   <div class="os-item"><span class="os-dot" style="background:#ffc15a"></span>Pending — decision not yet made</div>
-  <div class="os-item"><span class="os-dot" style="background:#7bd67f"></span>Win — community blocked or modified project</div>
-  <div class="os-item"><span class="os-dot" style="background:#ff8f84"></span>Loss — project approved despite opposition</div>
+  <div class="os-item"><span class="os-dot" style="background:#7bd67f"></span>Blocked — opposition stopped or modified project</div>
+  <div class="os-item"><span class="os-dot" style="background:#ff8f84"></span>Approved — project advanced despite opposition</div>
   <div class="os-item"><span class="os-dot" style="background:#c89fff"></span>Mixed — partial concessions or ongoing</div>
 </div>
 <!-- Charts -->
@@ -212,7 +213,7 @@ tbody td  { padding:12px 14px; font-size:13px }
 
 <script>
 const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(v||'—')}</span>`; };
+const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(friendlyOutcome(v))}</span>`; };
 const srcTag = s => s==='bryce_tracker'
   ? '<span class="src-tag src-bryce">Bryce<span class="src-tip">Bryce Tracker — ongoing 2026 monitoring</span></span>'
   : '<span class="src-tag src-dct">DCT<span class="src-tip">DataCenterTracker.org — public database 2014–2025</span></span>';
@@ -255,7 +256,9 @@ function buildCharts(rows) {
   // Outcomes pie
   const byOut = {};
   rows.forEach(r => { const o=r['Community Outcome']||'unknown'; byOut[o]=(byOut[o]||0)+1; });
-  const outColors = { win:'#4caf50', loss:'#e74c3c', pending:'#f39c12', mixed:'#9b59b6', unknown:'#4a5568', '':'#4a5568' };
+  const OUTCOME_LABELS = { win:'Blocked', loss:'Approved', pending:'Pending', active:'Active', mixed:'Contested' };
+      const friendlyOutcome = v => OUTCOME_LABELS[(v||'').toLowerCase()] || v || '—';
+      const outColors = { win:'#dc2626', loss:'#2563eb', pending:'#f39c12', mixed:'#9b59b6', unknown:'#4a5568', '':'#4a5568' };
   const outEntries = Object.entries(byOut).sort((a,b)=>b[1]-a[1]);
   new Chart(document.getElementById('cOutcomes'), {
     type:'doughnut',
@@ -289,6 +292,15 @@ function buildKPIs(rows) {
   document.getElementById('kLoss').textContent    = loss.toLocaleString();
   document.getElementById('kPending').textContent = pending.toLocaleString();
   document.getElementById('kMW').textContent      = mw>0 ? Math.round(mw).toLocaleString()+' MW' : '—';
+  // Last updated
+  const maxDate = rows.reduce((max,r)=>{
+    const d=new Date(r['Date']); return (!isNaN(d)&&d>max)?d:max;
+  }, new Date(0));
+  if(maxDate.getFullYear()>2000){
+    const label=maxDate.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+    const el=document.getElementById('dataFreshness');
+    if(el) el.textContent='Data through '+label;
+  }
 }
 
 // ── Table ──────────────────────────────────────────────────────────────────

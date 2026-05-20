@@ -183,11 +183,11 @@ input:focus, select:focus { border-color:var(--atlas) }
       <div class="legend-row"><span class="lsw" style="background:var(--ai)"></span>Epoch Frontier Data (Hyperscalers)</div>
       <div class="note">OSTI IM3 pins cluster at low zoom. AI Centers always visible. Click any pin for details.</div>
       <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px"><b style="font-size:11px;color:var(--muted);font-weight:600">Facility Density</b>
-        <div class="legend-row"><span class="lsw" style="background:#0e3349;border-radius:2px"></span>1–10</div>
-        <div class="legend-row"><span class="lsw" style="background:#1a5068;border-radius:2px"></span>11–50</div>
-        <div class="legend-row"><span class="lsw" style="background:#276b80;border-radius:2px"></span>51–100</div>
-        <div class="legend-row"><span class="lsw" style="background:#348a9a;border-radius:2px"></span>101–200</div>
-        <div class="legend-row"><span class="lsw" style="background:#4f98a3;border-radius:2px"></span>200+</div></div>
+        <div class="legend-row"><span class="lsw" style="background:#1e3a5f;border-radius:2px"></span>1–10</div>
+        <div class="legend-row"><span class="lsw" style="background:#1d4ed8;border-radius:2px"></span>11–50</div>
+        <div class="legend-row"><span class="lsw" style="background:#0369a1;border-radius:2px"></span>51–100</div>
+        <div class="legend-row"><span class="lsw" style="background:#0891b2;border-radius:2px"></span>101–200</div>
+        <div class="legend-row"><span class="lsw" style="background:#06b6d4;border-radius:2px"></span>200+</div></div>
     </div>
   </div>
 </div>
@@ -393,12 +393,12 @@ let choroplethLayer = null, currentZoomedState = null;
 const ABBREV_TO_NAME = {AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',CT:'Connecticut',DE:'Delaware',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming',DC:'District of Columbia'};
 
 const DC_STEPS = [
-  {min:0,   max:0,   color:'#0a1520', opacity:0.60},
-  {min:1,   max:10,  color:'#0e3349', opacity:0.80},
-  {min:11,  max:50,  color:'#1a5068', opacity:0.86},
-  {min:51,  max:100, color:'#276b80', opacity:0.90},
-  {min:101, max:200, color:'#348a9a', opacity:0.93},
-  {min:201, max:9999,color:'#4f98a3', opacity:0.96},
+  {min:0,   max:0,   color:'#111827', opacity:0.15},
+  {min:1,   max:10,  color:'#1e3a5f', opacity:0.60},
+  {min:11,  max:50,  color:'#1d4ed8', opacity:0.75},
+  {min:51,  max:100, color:'#0369a1', opacity:0.86},
+  {min:101, max:200, color:'#0891b2', opacity:0.93},
+  {min:201, max:9999,color:'#06b6d4', opacity:0.98},
 ];
 function densityColor(n){ return DC_STEPS.find(s=>n>=s.min&&n<=s.max)||DC_STEPS[0]; }
 

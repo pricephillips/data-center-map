@@ -14,7 +14,7 @@
 :root {
   --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
   --muted:#8a96a4; --border:#2c3544;
-  --win:#4caf50; --loss:#e74c3c; --pending:#f39c12; --mixed:#9b59b6;
+  --win:#dc2626; --loss:#2563eb; --pending:#f39c12; --mixed:#9b59b6;
   --bryce:#5aa9e6; --dct:#e67e22;
 }
 * { box-sizing:border-box; margin:0; padding:0 }
@@ -57,8 +57,8 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .card-meta span { margin-right:10px }
 .badge { display:inline-block; padding:2px 7px; border-radius:999px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.3px }
 .badge-pending { background:#4b3408; color:#ffc15a }
-.badge-win     { background:#15351a; color:#7bd67f }
-.badge-loss    { background:#421713; color:#ff8f84}
+.badge-win     { background:#3b0a0a; color:#fca5a5 }
+.badge-loss    { background:#0f2548; color:#93c5fd }
 .badge-mixed   { background:#2f1d46; color:#c89fff }
 .badge-        { background:#1a2535; color:#8ab4d4 }
 .src-tag { display:inline-block; padding:1px 6px; border-radius:4px; font-size:9px; font-weight:700; margin-left:5px; vertical-align:middle }
@@ -75,6 +75,12 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .legend-row { display:flex; align-items:center; gap:7px; margin:4px 0; color:var(--muted) }
 .lsw { width:10px; height:10px; border-radius:2px; flex-shrink:0 }
 .note { font-size:10px; color:#505d6e; margin-top:7px; max-width:190px; line-height:1.4 }
+
+.leaflet-div-icon-clean {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
 .state-count-badge {
   min-width: 26px;
   height: 22px;
@@ -83,14 +89,14 @@ input:focus, select:focus { border-color:#5aa9e6 }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(125,46,14,0.96);
-  border: 2px solid #e67e22;
+  text-align: center;
+  background: rgba(220,38,38,0.92);
+  border: 1.5px solid rgba(255,255,255,0.25);
   color: #fff;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.28);
-  /* Ensure no inherited margin/padding shifts the anchor point */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.50);
   margin: 0;
   position: relative;
   top: 0; left: 0;
@@ -164,6 +170,15 @@ input:focus, select:focus { border-color:#5aa9e6 }
 /* Severity dots */
 .sev-wrap { display:inline-flex; gap:3px; align-items:center; cursor:help; margin-left:6px }
 /* Advanced filters toggle */
+
+/* Active filter pills */
+.filter-pills { display:flex; flex-wrap:wrap; gap:4px; margin:4px 0 2px; min-height:0; }
+.filter-pill  { display:inline-flex; align-items:center; gap:4px; padding:2px 7px 2px 8px;
+                border-radius:999px; background:rgba(220,38,38,0.18); border:1px solid rgba(220,38,38,0.4);
+                color:#fca5a5; font-size:10px; font-weight:600; white-space:nowrap; }
+.filter-pill button { background:none; border:none; color:#fca5a5; font-size:11px; line-height:1;
+                      padding:0; cursor:pointer; opacity:0.7; }
+.filter-pill button:hover { opacity:1; }
 .filter-adv-toggle { width:100%; text-align:left; padding:7px 0 4px; font-size:12px; font-weight:600; color:var(--muted); background:none; border:none; border-top:1px solid var(--border); cursor:pointer; display:flex; align-items:center; gap:6px; margin-top:4px; transition:color .15s }
 .filter-adv-toggle:hover { color:var(--text) }
 .filter-adv-toggle svg { transition:transform .2s }
@@ -196,7 +211,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
       </div>
     </div>
 
-    <div class="sidebar-title"><h1>Community Opposition Tracker</h1><p>Tracking community resistance, legislation, and legal challenges to data center development. Click a state to zoom in. At the state level, a clickable county choropleth appears; click a county or a pin for details.</p></div>
+    <div class="sidebar-title"><h1>Developer Risk: Opposition Tracker</h1><p>Tracking community resistance, legislation, and legal challenges to data center development. Click a state to zoom in. At the state level, a clickable county choropleth appears; click a county or a pin for details.</p></div>
 <div class="filters">
       <div class="search-wrap">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -223,12 +238,13 @@ input:focus, select:focus { border-color:#5aa9e6 }
       </div>
       <label class="chk"><input type="checkbox" id="activeOnly" onchange="render()"/> Active &amp; pending only</label>
       <div id="outcomeSummary"></div>
+      <div id="filterPills" class="filter-pills"></div>
       <div class="toolbar-row"><button class="tool-btn" onclick="resetFilters()">Reset filters</button><button class="tool-btn" onclick="zoomToResults()" class="tool-btn show-map">Show on map →</button></div>
       <div class="stats">
         <div class="stat"><b id="cAll">—</b><span>Total</span></div>
         <div class="stat s-pending"><b id="cPending">—</b><span>Pending</span></div>
-        <div class="stat s-win"><b id="cWin">—</b><span>Wins</span></div>
-        <div class="stat s-loss"><b id="cLoss">—</b><span>Losses</span></div>
+        <div class="stat s-win"><b id="cWin">—</b><span>Blocked</span></div>
+        <div class="stat s-loss"><b id="cLoss">—</b><span>Approved</span></div>
       </div>
     </div>
 
@@ -245,17 +261,17 @@ input:focus, select:focus { border-color:#5aa9e6 }
     <div class="legend">
       <b>Outcome</b>
       <div class="legend-row"><span class="lsw" style="background:var(--pending)"></span>Pending / Active</div>
-      <div class="legend-row"><span class="lsw" style="background:var(--win)"></span>Community win</div>
-      <div class="legend-row"><span class="lsw" style="background:var(--loss)"></span>Community loss</div>
+      <div class="legend-row"><span class="lsw" style="background:var(--win)"></span>Blocked — project stopped</div>
+      <div class="legend-row"><span class="lsw" style="background:var(--loss)"></span>Approved — project advanced</div>
       <div class="legend-row"><span class="lsw" style="background:var(--mixed)"></span>Mixed</div>
       <div class="note">Size = severity (1–5). Pins jittered at county level.</div>
       <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
         <b style="font-size:11px;color:var(--muted);font-weight:600">Opposition Activity</b>
-        <div class="legend-row"><span class="lsw" style="background:#1a0a08;border-radius:2px"></span>1–2</div>
-        <div class="legend-row"><span class="lsw" style="background:#4a1a0e;border-radius:2px"></span>3–7</div>
-        <div class="legend-row"><span class="lsw" style="background:#7a2a14;border-radius:2px"></span>8–15</div>
-        <div class="legend-row"><span class="lsw" style="background:#b03a1a;border-radius:2px"></span>16–30</div>
-        <div class="legend-row"><span class="lsw" style="background:#e74c3c;border-radius:2px"></span>31+</div>
+        <div class="legend-row"><span class="lsw" style="background:#3b82f6;border-radius:2px"></span>1–2</div>
+        <div class="legend-row"><span class="lsw" style="background:#8b5cf6;border-radius:2px"></span>3–7</div>
+        <div class="legend-row"><span class="lsw" style="background:#6366f1;border-radius:2px"></span>8–15</div>
+        <div class="legend-row"><span class="lsw" style="background:#c026d3;border-radius:2px"></span>16–30</div>
+        <div class="legend-row"><span class="lsw" style="background:#7f1d1d;border-radius:2px"></span>31+</div>
       </div>
     </div>
   </div>
@@ -281,10 +297,12 @@ const clusterGroup = L.markerClusterGroup({
 // cluster added dynamically by updateMarkerVisibility() at zoom >= 7
 clusterGroup.on('click', e => { if(e.originalEvent) L.DomEvent.stopPropagation(e); });
 
-const OUTCOME_COLORS = { win:'#4caf50', loss:'#e74c3c', pending:'#f39c12', mixed:'#9b59b6' };
+const OUTCOME_LABELS = { win:'Blocked', loss:'Approved', pending:'Pending', active:'Active', mixed:'Contested' };
+  const friendlyOutcome = v => OUTCOME_LABELS[(v||'').toLowerCase()] || v || '—';
+  const OUTCOME_COLORS = { win:'#dc2626', loss:'#2563eb', pending:'#f39c12', mixed:'#9b59b6' };
 const SOURCE_COLORS  = { 'ongoing_monitoring':'#5aa9e6', 'historical_archive':'#e67e22' };
 const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(v||'—')}</span>`; };
+const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(friendlyOutcome(v))}</span>`; };
 const sevDots = n => { let h='<span class="sev">'; for(let i=1;i<=5;i++) h+=`<span class="sev-dot${i<=n?' on':''}"></span>`; return h+'</span>'; };
 const srcTag = s => s==='ongoing_monitoring' ? '<span class="src-tag src-bryce">Live</span>' : '<span class="src-tag src-dct">Hist</span>';
 
@@ -406,6 +424,7 @@ function render() {
   document.getElementById('cPending').textContent = pending.toLocaleString();
   document.getElementById('cWin').textContent     = win.toLocaleString();
   document.getElementById('cLoss').textContent    = loss.toLocaleString();
+  updateFilterPills();
 }
 
 let dt;
@@ -496,6 +515,10 @@ const STATE_BADGE_CENTERS = {
   Wisconsin:[44.55,-89.8], Wyoming:[43.1,-107.55], 'District of Columbia':[38.9072,-77.0369]
 };
 function getStateBadgeCenter(name, layer) {
+  if (layer && typeof layer.getCenter === 'function') {
+    const c = layer.getCenter();
+    if (c && isFinite(c.lat) && isFinite(c.lng)) return [c.lat, c.lng];
+  }
   const manual = STATE_BADGE_CENTERS[name];
   if (manual) return manual;
   const c = layer.getBounds().getCenter();
@@ -516,12 +539,12 @@ const ABBREV_TO_NAME = {
 };
 
 const OPP_STEPS = [
-  {min:0,   max:0,   color:'#0f1218', opacity:0.28},
-  {min:1,   max:2,   color:'#321408', opacity:0.36},
-  {min:3,   max:7,   color:'#6a2210', opacity:0.42},
-  {min:8,   max:15,  color:'#9e3018', opacity:0.48},
-  {min:16,  max:30,  color:'#cc4422', opacity:0.54},
-  {min:31,  max:9999,color:'#e8543a', opacity:0.60},
+  {min:0,   max:0,   color:'#1f2937', opacity:0.10},
+  {min:1,   max:2,   color:'#3b82f6', opacity:0.58},
+  {min:3,   max:7,   color:'#6366f1', opacity:0.72},
+  {min:8,   max:15,  color:'#8b5cf6', opacity:0.84},
+  {min:16,  max:30,  color:'#c026d3', opacity:0.92},
+  {min:31,  max:9999,color:'#dc2626', opacity:0.98},
 ];
 function densityColor(n){ return OPP_STEPS.find(s=>n>=s.min&&n<=s.max)||OPP_STEPS[0]; }
 
@@ -541,7 +564,7 @@ function updateChoroplethVisuals(){
   choroplethLayer.eachLayer(layer=>{
     const cnt=layer.feature?.properties?._count||0;
     const s=densityColor(cnt);
-    layer.setStyle({fill:true,fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#8a3a20',weight:zoomedWeight(),opacity:1});
+    layer.setStyle({fill:true,fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#374151',weight:zoomedWeight(),opacity:1});
   });
 }
 function updateMarkerVisibility(){
@@ -573,8 +596,8 @@ function renderOutcomeSummary(visible){
   if(el) el.innerHTML = `
     <div class="summary-bar">
       <div class="summary-seg" title="Pending / Active: ${p}" style="width:${pct(p)}%;background:var(--pending)"></div>
-      <div class="summary-seg" title="Wins: ${w}" style="width:${pct(w)}%;background:var(--win)"></div>
-      <div class="summary-seg" title="Losses: ${l}" style="width:${pct(l)}%;background:var(--loss)"></div>
+      <div class="summary-seg" title="Blocked: ${w}" style="width:${pct(w)}%;background:var(--win)"></div>
+      <div class="summary-seg" title="Approved: ${l}" style="width:${pct(l)}%;background:var(--loss)"></div>
       <div class="summary-seg" title="Mixed: ${mx}" style="width:${pct(mx)}%;background:var(--mixed)"></div>
     </div>
     <div class="summary-meta">
@@ -604,13 +627,18 @@ function zoomToResults(){
 
 
 function buildChoropleth(data, geoJson){
-  const counts={};
+  const counts={}, sevSum={}, sevCnt={};
   const FULL_NAMES=new Set(Object.values(ABBREV_TO_NAME));
   const featureLayers=[];
   data.forEach(r=>{
     const raw=(r['State']||'').trim();
     const name=FULL_NAMES.has(raw)?raw:(ABBREV_TO_NAME[raw.toUpperCase()]||raw);
-    if(name) counts[name]=(counts[name]||0)+1;
+    if(name){
+      counts[name]=(counts[name]||0)+1;
+      const sev=+r['Severity']||1;
+      sevSum[name]=(sevSum[name]||0)+sev;
+      sevCnt[name]=(sevCnt[name]||0)+1;
+    }
   });
   choroplethLayer=L.geoJSON(geoJson,{
     style: feat=>{
@@ -618,7 +646,7 @@ function buildChoropleth(data, geoJson){
       const cnt=counts[name]||0;
       feat.properties._count=cnt;
       const s=densityColor(cnt);
-      return {fill:true, fillColor:s.color, fillOpacity:zoomedOpacity(s.opacity), color:'#8a3a20', weight:zoomedWeight(), opacity:1};
+      return {fill:true, fillColor:s.color, fillOpacity:zoomedOpacity(s.opacity), color:'#374151', weight:zoomedWeight(), opacity:1};
     },
     onEachFeature:(feat,layer)=>{
       const name=feat.properties.NAME||feat.properties.name||'';
@@ -626,8 +654,23 @@ function buildChoropleth(data, geoJson){
       featureLayers.push({name, count: cnt, layer, feature: feat});
       layer.on({
         mouseover: e=>{
-          if(currentZoomedState!==name) e.target.setStyle({weight:2.5,color:'#ff8f84',fillOpacity:Math.min(0.99,zoomedOpacity(densityColor(cnt).opacity)+0.08)});
-          document.getElementById('mapHint').textContent=cnt>0?`${name}: ${cnt} incident${cnt===1?'':'s'} — click to zoom`:`${name}: no recorded opposition`;
+          if(currentZoomedState!==name) e.target.setStyle({weight:2.5,color:'#fca5a5',fillOpacity:Math.min(0.99,zoomedOpacity(densityColor(cnt).opacity)+0.08)});
+          if(cnt>0){
+            const stRows = rows.filter(r=>{
+              const raw=(r['State']||'').trim();
+              return (ABBREV_TO_NAME[raw.toUpperCase()]||raw)===name;
+            });
+            const bl=stRows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='win').length;
+            const ap=stRows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='loss').length;
+            const pe=stRows.filter(r=>!['win','loss'].includes((r['Community Outcome']||'').toLowerCase())).length;
+            const parts=[];
+            if(bl) parts.push(`🔴 ${bl} Blocked`);
+            if(ap) parts.push(`🔵 ${ap} Approved`);
+            if(pe) parts.push(`⏳ ${pe} Pending`);
+            document.getElementById('mapHint').textContent=`${name}: ${cnt} incident${cnt===1?'':'s'} — ${parts.join(' · ')} — click to zoom`;
+          } else {
+            document.getElementById('mapHint').textContent=`${name}: no recorded opposition`;
+          }
         },
         mouseout: e=>{
           if(currentZoomedState!==name) choroplethLayer.resetStyle(e.target);
@@ -663,12 +706,16 @@ function buildStateCountLayer(featureLayers){
     const w = digits >= 3 ? 36 : digits === 2 ? 30 : 26;
     const h = 22;
 
+    const avgSev = sevCnt[name] ? (sevSum[name]||0)/sevCnt[name] : 0;
+    const badgeBg = avgSev >= 3.5 ? 'rgba(127,29,29,0.94)'
+                  : avgSev >= 2.5 ? 'rgba(220,38,38,0.92)'
+                  : avgSev >= 1.5 ? 'rgba(234,88,12,0.90)'
+                  : 'rgba(146,64,14,0.88)';
     const icon = L.divIcon({
-      className: '',
+      className: 'leaflet-div-icon-clean',
       iconSize: [w, h],
-      // [w/2, h/2] pins the CENTER of the badge to the coordinate
       iconAnchor: [w / 2, h / 2],
-      html: `<div class="state-count-badge" style="width:${w}px;height:${h}px">${count}</div>`
+      html: `<div class="state-count-badge" style="width:${w}px;height:${h}px;box-sizing:border-box;background:${badgeBg}" title="Avg severity: ${avgSev.toFixed(1)}">${count}</div>`
     });
 
     stateCountLayer.addLayer(
