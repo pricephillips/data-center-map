@@ -47,8 +47,8 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .stat b { display:block; font-size:16px; font-weight:700 }
 .stat span { font-size:10px; color:var(--muted) }
 .stat.s-pending b { color:var(--pending) }
-.stat.s-win b { color:var(--win) }
-.stat.s-loss b { color:var(--loss) }
+.stat.s-blocked b { color:var(--win) }
+.stat.s-approved b { color:var(--loss) }
 .list { overflow-y:auto; flex:1; padding:8px }
 .card { padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:#0c1018; margin-bottom:7px; cursor:pointer; transition:border-color 0.15s }
 .card:hover { border-color:#4a5a72 }
@@ -57,8 +57,8 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .card-meta span { margin-right:10px }
 .badge { display:inline-block; padding:2px 7px; border-radius:999px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.3px }
 .badge-pending { background:#4b3408; color:#ffc15a }
-.badge-win     { background:#3b0a0a; color:#fca5a5 }
-.badge-loss    { background:#0f2548; color:#93c5fd }
+.badge-blocked  { background:#3b0a0a; color:#fca5a5 }
+.badge-approved { background:#0f2548; color:#93c5fd }
 .badge-mixed   { background:#2f1d46; color:#c89fff }
 .badge-        { background:#1a2535; color:#8ab4d4 }
 .src-tag { display:inline-block; padding:1px 6px; border-radius:4px; font-size:9px; font-weight:700; margin-left:5px; vertical-align:middle }
@@ -135,8 +135,8 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .tool-btn:hover { border-color:#e74c3c }
 .card.active { border-color:#ff8f84; box-shadow:0 0 0 1px rgba(255,143,132,.22) inset }
 .card.oc-pending { border-left:3px solid var(--pending) }
-.card.oc-win { border-left:3px solid var(--win) }
-.card.oc-loss { border-left:3px solid var(--loss) }
+.card.oc-blocked { border-left:3px solid var(--win) }
+.card.oc-approved { border-left:3px solid var(--loss) }
 .card.oc-mixed { border-left:3px solid var(--mixed) }
 .summary-bar { display:flex; height:9px; border-radius:999px; overflow:hidden; background:#111827; border:1px solid var(--border); margin-top:4px }
 .summary-seg { height:100% }
@@ -239,8 +239,8 @@ input:focus, select:focus { border-color:#5aa9e6 }
       <div class="stats">
         <div class="stat"><b id="cAll">—</b><span>Total</span></div>
         <div class="stat s-pending"><b id="cPending">—</b><span>Pending</span></div>
-        <div class="stat s-win"><b id="cWin">—</b><span>Blocked</span></div>
-        <div class="stat s-loss"><b id="cLoss">—</b><span>Approved</span></div>
+        <div class="stat s-blocked"><b id="cWin">—</b><span>Blocked</span></div>
+        <div class="stat s-approved"><b id="cLoss">—</b><span>Approved</span></div>
       </div>
     </div>
 
@@ -291,9 +291,9 @@ const clusterGroup = L.markerClusterGroup({
 // cluster added dynamically by updateMarkerVisibility() at zoom >= 7
 clusterGroup.on('click', e => { if(e.originalEvent) L.DomEvent.stopPropagation(e); });
 
-const OUTCOME_LABELS = { win:'Blocked', loss:'Approved', pending:'Pending', active:'Active', mixed:'Contested' };
+const OUTCOME_LABELS = { blocked:'Blocked', approved:'Approved', pending:'Pending', active:'Active', mixed:'Contested' };
 const friendlyOutcome = v => OUTCOME_LABELS[(v||'').toLowerCase()] || v || '—';
-const OUTCOME_COLORS = { win:'#dc2626', loss:'#2563eb', pending:'#f39c12', mixed:'#9b59b6' };
+const OUTCOME_COLORS = { blocked:'#dc2626', approved:'#2563eb', pending:'#f39c12', mixed:'#9b59b6' };
 const SOURCE_COLORS  = { 'ongoing_monitoring':'#5aa9e6', 'historical_archive':'#e67e22' };
 const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(friendlyOutcome(v))}</span>`; };
@@ -368,6 +368,44 @@ function match(r) {
   return hay.includes(q);
 }
 
+function updateFilterPills() {
+  const box = document.getElementById('filterPills');
+  if (!box) return;
+  const specs = [
+    { id:'q',         label:'Search',  type:'text' },
+    { id:'fState',    label:'State',   type:'select' },
+    { id:'fType',     label:'Type',    type:'select' },
+    { id:'fOutcome',  label:'Result',  type:'select' },
+    { id:'fIssue',    label:'Concern', type:'select' },
+    { id:'fScope',    label:'Level',   type:'select' },
+    { id:'fAuthority',label:'Decision maker', type:'select' },
+    { id:'fSource',   label:'Source',  type:'select' },
+    { id:'activeOnly',label:'Active & pending only', type:'check' }
+  ];
+  box.innerHTML = '';
+  specs.forEach(s => {
+    const el = document.getElementById(s.id);
+    if (!el) return;
+    let active, text;
+    if (s.type === 'check') { active = el.checked; text = s.label; }
+    else if (s.type === 'text') { active = el.value.trim() !== ''; text = `${s.label}: ${el.value.trim()}`; }
+    else { active = el.value !== ''; text = `${s.label}: ${el.options[el.selectedIndex].textContent}`; }
+    if (!active) return;
+    const pill = document.createElement('span');
+    pill.className = 'filter-pill';
+    pill.textContent = text;
+    const btn = document.createElement('button');
+    btn.textContent = '×';
+    btn.title = 'Clear filter';
+    btn.onclick = () => {
+      if (s.type === 'check') el.checked = false; else el.value = '';
+      render();
+    };
+    pill.appendChild(btn);
+    box.appendChild(pill);
+  });
+}
+
 function render() {
   clusterGroup.clearLayers();
   const list = document.getElementById('list');
@@ -378,14 +416,14 @@ function render() {
 
   renderOutcomeSummary(visible);
   updateCardCount(visible.length, rows.length);
-  let pending=0, win=0, loss=0;
+  let pending=0, blocked=0, approved=0;
   visible.forEach(({ r, i })=>{
     const marker = leafletMarkers[i];
     if (marker) clusterGroup.addLayer(marker);
 
     const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
-    if(outcome === 'win') win++;
-    else if(outcome === 'loss') loss++;
+    if(outcome === 'blocked') blocked++;
+    else if(outcome === 'approved') approved++;
     else pending++;
 
     const card = document.createElement('div');
@@ -416,8 +454,8 @@ function render() {
 
   document.getElementById('cAll').textContent     = visible.length.toLocaleString();
   document.getElementById('cPending').textContent = pending.toLocaleString();
-  document.getElementById('cWin').textContent     = win.toLocaleString();
-  document.getElementById('cLoss').textContent    = loss.toLocaleString();
+  document.getElementById('cWin').textContent     = blocked.toLocaleString();
+  document.getElementById('cLoss').textContent    = approved.toLocaleString();
   updateFilterPills();
 }
 
@@ -577,8 +615,8 @@ function renderOutcomeSummary(visible){
   let p=0,w=0,l=0,mx=0;
   visible.forEach(({ r })=>{
     const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
-    if(outcome === 'win') w++;
-    else if(outcome === 'loss') l++;
+    if(outcome === 'blocked') w++;
+    else if(outcome === 'approved') l++;
     else if(outcome === 'mixed') mx++;
     else p++;
   });
@@ -654,13 +692,13 @@ function buildChoropleth(data, geoJson){
               const raw=(r['State']||'').trim();
               return (ABBREV_TO_NAME[raw.toUpperCase()]||raw)===name;
             });
-            const bl=stRows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='win').length;
-            const ap=stRows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='loss').length;
-            const pe=stRows.filter(r=>!['win','loss'].includes((r['Community Outcome']||'').toLowerCase())).length;
+            const bl=stRows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='blocked').length;
+            const ap=stRows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='approved').length;
+            const pe=stRows.filter(r=>!['blocked','approved'].includes((r['Community Outcome']||'').toLowerCase())).length;
             const parts=[];
-            if(bl) parts.push(`🔴 ${bl} Blocked`);
-            if(ap) parts.push(`🔵 ${ap} Approved`);
-            if(pe) parts.push(`⏳ ${pe} Pending`);
+            if(bl) parts.push(`${bl} Blocked`);
+            if(ap) parts.push(`${ap} Approved`);
+            if(pe) parts.push(`${pe} Pending`);
             document.getElementById('mapHint').textContent=`${name}: ${cnt} incident${cnt===1?'':'s'} — ${parts.join(' · ')} — click to zoom`;
           } else {
             document.getElementById('mapHint').textContent=`${name}: no recorded opposition`;
@@ -676,11 +714,11 @@ function buildChoropleth(data, geoJson){
   });
   choroplethLayer.addTo(map);
   choroplethLayer.bringToBack();
-  buildStateCountLayer(featureLayers);
+  buildStateCountLayer(featureLayers, sevSum, sevCnt);
   updateChoroplethVisuals();
 }
 
-function buildStateCountLayer(featureLayers){
+function buildStateCountLayer(featureLayers, sevSum, sevCnt){
   if (stateCountLayer) stateCountLayer.remove();
 
   // Dedicated pane: above choropleth (400), below popups (600)
