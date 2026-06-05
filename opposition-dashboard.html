@@ -63,8 +63,8 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
 .td-link a:hover { text-decoration:underline }
 .badge { display:inline-block; padding:2px 7px; border-radius:999px; font-size:10px; font-weight:700; text-transform:uppercase }
 .badge-pending { background:#4b3408; color:#ffc15a }
-.badge-win     { background:#3b0a0a; color:#fca5a5 }
-.badge-loss    { background:#0f2548; color:#93c5fd }
+.badge-blocked  { background:#3b0a0a; color:#fca5a5 }
+.badge-approved { background:#0f2548; color:#93c5fd }
 .badge-mixed   { background:#2f1d46; color:#c89fff }
 .badge-        { background:#1a2535; color:#8ab4d4 }
 .src-tag { display:inline-block; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700; margin-left:4px }
@@ -182,7 +182,7 @@ tbody td  { padding:12px 14px; font-size:13px }
   <select id="tf-state"   onchange="trender()"><option value="">All states</option></select>
   <select id="tf-outcome" onchange="trender()"><option value="">All outcomes</option></select>
   <select id="tf-type"    onchange="trender()"><option value="">All types</option></select>
-  <select id="tf-source"  onchange="trender()"><option value="">All sources</option><option value="datacentertracker.org">DataCenterTracker.org</option><option value="bryce_tracker">Bryce Tracker (2026)</option></select>
+  <select id="tf-source"  onchange="trender()"><option value="">All sources</option></select>
   <button class="reset-btn" id="tResetBtn" onclick="tResetFilters()">Reset filters</button><span class="tbl-meta" id="tMeta"></span>
 </div>
 
@@ -256,13 +256,13 @@ function buildCharts(rows) {
   // Outcomes pie
   const byOut = {};
   rows.forEach(r => { const o=r['Community Outcome']||'unknown'; byOut[o]=(byOut[o]||0)+1; });
-  const OUTCOME_LABELS = { win:'Blocked', loss:'Approved', pending:'Pending', active:'Active', mixed:'Contested' };
+  const OUTCOME_LABELS = { blocked:'Blocked', approved:'Approved', pending:'Pending', active:'Active', mixed:'Contested' };
       const friendlyOutcome = v => OUTCOME_LABELS[(v||'').toLowerCase()] || v || '—';
-      const outColors = { win:'#dc2626', loss:'#2563eb', pending:'#f39c12', mixed:'#9b59b6', unknown:'#4a5568', '':'#4a5568' };
+      const outColors = { blocked:'#dc2626', approved:'#2563eb', pending:'#f39c12', mixed:'#9b59b6', unknown:'#4a5568', '':'#4a5568' };
   const outEntries = Object.entries(byOut).sort((a,b)=>b[1]-a[1]);
   new Chart(document.getElementById('cOutcomes'), {
     type:'doughnut',
-    data:{ labels:outEntries.map(x=>x[0]||'unknown'), datasets:[{ data:outEntries.map(x=>x[1]), backgroundColor:outEntries.map(x=>outColors[x[0]]||'#4a5568'), borderWidth:0, hoverOffset:6 }] },
+    data:{ labels:outEntries.map(x=>friendlyOutcome(x[0])), datasets:[{ data:outEntries.map(x=>x[1]), backgroundColor:outEntries.map(x=>outColors[x[0]]||'#4a5568'), borderWidth:0, hoverOffset:6 }] },
     options:{ ...chartDefaults, cutout:'60%', plugins:{ legend:{ position:'right', labels:{ color:'#8a96a4', font:{size:11}, padding:10 } } } }
   });
 
@@ -282,8 +282,8 @@ function buildCharts(rows) {
 // ── KPIs ───────────────────────────────────────────────────────────────────
 function buildKPIs(rows) {
   const pending = rows.filter(r=>['active','pending'].includes((r['Status']||'').toLowerCase())).length;
-  const win     = rows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='win').length;
-  const loss    = rows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='loss').length;
+  const win     = rows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='blocked').length;
+  const loss    = rows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='approved').length;
   const states  = new Set(rows.map(r=>r['State']).filter(Boolean)).size;
   const mw = rows.reduce((s,r)=>s+(+r['Megawatts']||0),0);
   document.getElementById('kTotal').textContent   = rows.length.toLocaleString();
@@ -388,6 +388,7 @@ Papa.parse('./master_opposition.csv', {
     pop('tf-state',   allRows.map(r=>r['State']));
     pop('tf-outcome', allRows.map(r=>r['Community Outcome']));
     pop('tf-type',    allRows.map(r=>r['Opposition Type']));
+    pop('tf-source',  allRows.map(r=>r['data_source']));
 
     tSortCol = 'Date';
     tSortDir = -1;
