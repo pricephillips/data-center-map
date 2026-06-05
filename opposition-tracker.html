@@ -129,10 +129,6 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .choro-back { position:absolute; top:12px; left:12px; z-index:500; background:rgba(15,18,24,.93); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:8px; padding:6px 12px; font-size:11px; font-weight:600; cursor:pointer; color:var(--text); display:none }
 .choro-back:hover { border-color:#e74c3c }
 .map-hint { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:500; background:rgba(15,18,24,.88); backdrop-filter:blur(6px); border:1px solid var(--border); border-radius:20px; padding:5px 14px; font-size:11px; color:var(--muted); pointer-events:none; white-space:nowrap }
-
-.choro-back { position:absolute; top:12px; left:12px; z-index:500; background:rgba(15,18,24,.93); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:8px; padding:6px 12px; font-size:11px; font-weight:600; cursor:pointer; color:var(--text); display:none }
-.choro-back:hover { border-color:#e74c3c }
-.map-hint { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:500; background:rgba(15,18,24,.88); backdrop-filter:blur(6px); border:1px solid var(--border); border-radius:20px; padding:5px 14px; font-size:11px; color:var(--muted); pointer-events:none; white-space:nowrap }
 .map-faded-marker { opacity:0.12; pointer-events:none; transition:opacity .25s ease }
 .toolbar-row { display:flex; gap:7px; flex-wrap:wrap; margin-top:6px }
 .tool-btn { padding:6px 10px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--text); font-size:11px; cursor:pointer }
@@ -256,8 +252,6 @@ input:focus, select:focus { border-color:#5aa9e6 }
     <div id="map"></div>
     <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
     <div class="map-hint" id="mapHint">Click any state to zoom in and reveal county-level opposition</div>
-    <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
-    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal county-level opposition</div>
     <div class="legend">
       <b>Outcome</b>
       <div class="legend-row"><span class="lsw" style="background:var(--pending)"></span>Pending / Active</div>
@@ -298,8 +292,8 @@ const clusterGroup = L.markerClusterGroup({
 clusterGroup.on('click', e => { if(e.originalEvent) L.DomEvent.stopPropagation(e); });
 
 const OUTCOME_LABELS = { win:'Blocked', loss:'Approved', pending:'Pending', active:'Active', mixed:'Contested' };
-  const friendlyOutcome = v => OUTCOME_LABELS[(v||'').toLowerCase()] || v || '—';
-  const OUTCOME_COLORS = { win:'#dc2626', loss:'#2563eb', pending:'#f39c12', mixed:'#9b59b6' };
+const friendlyOutcome = v => OUTCOME_LABELS[(v||'').toLowerCase()] || v || '—';
+const OUTCOME_COLORS = { win:'#dc2626', loss:'#2563eb', pending:'#f39c12', mixed:'#9b59b6' };
 const SOURCE_COLORS  = { 'ongoing_monitoring':'#5aa9e6', 'historical_archive':'#e67e22' };
 const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(friendlyOutcome(v))}</span>`; };
@@ -457,7 +451,7 @@ Papa.parse('./master_opposition.csv', {
       const m = L.marker([mlat, mlon], { icon: iconFor(r) })
         .bindPopup(buildPopup(r))
         .bindTooltip(
-          `<b>${esc((r['Incident'] || '').slice(0, 50))}</b><br>${esc(r['State'] || '')} • ${esc(r['Community Outcome'] || 'Pending')}`,
+          `<b>${esc((r['Incident'] || '').slice(0, 50))}</b><br>${esc(r['State'] || '')} • ${esc(friendlyOutcome(r['Community Outcome']))}`,
           { direction: 'top', className: 'pin-tooltip' }
         );
 
@@ -602,8 +596,8 @@ function renderOutcomeSummary(visible){
     </div>
     <div class="summary-meta">
       <span>Pending ${p}</span>
-      <span>Wins ${w}</span>
-      <span>Losses ${l}</span>
+      <span>Blocked ${w}</span>
+      <span>Approved ${l}</span>
       <span>Mixed ${mx}</span>
     </div>
   `;
