@@ -368,6 +368,44 @@ function match(r) {
   return hay.includes(q);
 }
 
+function updateFilterPills() {
+  const box = document.getElementById('filterPills');
+  if (!box) return;
+  const specs = [
+    { id:'q',         label:'Search',  type:'text' },
+    { id:'fState',    label:'State',   type:'select' },
+    { id:'fType',     label:'Type',    type:'select' },
+    { id:'fOutcome',  label:'Result',  type:'select' },
+    { id:'fIssue',    label:'Concern', type:'select' },
+    { id:'fScope',    label:'Level',   type:'select' },
+    { id:'fAuthority',label:'Decision maker', type:'select' },
+    { id:'fSource',   label:'Source',  type:'select' },
+    { id:'activeOnly',label:'Active & pending only', type:'check' }
+  ];
+  box.innerHTML = '';
+  specs.forEach(s => {
+    const el = document.getElementById(s.id);
+    if (!el) return;
+    let active, text;
+    if (s.type === 'check') { active = el.checked; text = s.label; }
+    else if (s.type === 'text') { active = el.value.trim() !== ''; text = `${s.label}: ${el.value.trim()}`; }
+    else { active = el.value !== ''; text = `${s.label}: ${el.options[el.selectedIndex].textContent}`; }
+    if (!active) return;
+    const pill = document.createElement('span');
+    pill.className = 'filter-pill';
+    pill.textContent = text;
+    const btn = document.createElement('button');
+    btn.textContent = '×';
+    btn.title = 'Clear filter';
+    btn.onclick = () => {
+      if (s.type === 'check') el.checked = false; else el.value = '';
+      render();
+    };
+    pill.appendChild(btn);
+    box.appendChild(pill);
+  });
+}
+
 function render() {
   clusterGroup.clearLayers();
   const list = document.getElementById('list');
@@ -676,11 +714,11 @@ function buildChoropleth(data, geoJson){
   });
   choroplethLayer.addTo(map);
   choroplethLayer.bringToBack();
-  buildStateCountLayer(featureLayers);
+  buildStateCountLayer(featureLayers, sevSum, sevCnt);
   updateChoroplethVisuals();
 }
 
-function buildStateCountLayer(featureLayers){
+function buildStateCountLayer(featureLayers, sevSum, sevCnt){
   if (stateCountLayer) stateCountLayer.remove();
 
   // Dedicated pane: above choropleth (400), below popups (600)

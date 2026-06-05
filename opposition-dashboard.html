@@ -213,6 +213,8 @@ tbody td  { padding:12px 14px; font-size:13px }
 
 <script>
 const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const OUTCOME_LABELS = { blocked:'Blocked', approved:'Approved', pending:'Pending', active:'Active', mixed:'Contested' };
+const friendlyOutcome = v => OUTCOME_LABELS[(v||'').toLowerCase()] || v || '—';
 const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(friendlyOutcome(v))}</span>`; };
 const srcTag = s => s==='bryce_tracker'
   ? '<span class="src-tag src-bryce">Bryce<span class="src-tip">Bryce Tracker — ongoing 2026 monitoring</span></span>'
@@ -256,8 +258,6 @@ function buildCharts(rows) {
   // Outcomes pie
   const byOut = {};
   rows.forEach(r => { const o=r['Community Outcome']||'unknown'; byOut[o]=(byOut[o]||0)+1; });
-  const OUTCOME_LABELS = { blocked:'Blocked', approved:'Approved', pending:'Pending', active:'Active', mixed:'Contested' };
-      const friendlyOutcome = v => OUTCOME_LABELS[(v||'').toLowerCase()] || v || '—';
       const outColors = { blocked:'#dc2626', approved:'#2563eb', pending:'#f39c12', mixed:'#9b59b6', unknown:'#4a5568', '':'#4a5568' };
   const outEntries = Object.entries(byOut).sort((a,b)=>b[1]-a[1]);
   new Chart(document.getElementById('cOutcomes'), {
