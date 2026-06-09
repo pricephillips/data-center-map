@@ -221,8 +221,8 @@ tbody td  { padding:12px 14px; font-size:13px }
   <select id="tf-type"    onchange="trender()"><option value="">All types</option></select>
   <select id="tf-source"  onchange="trender()"><option value="">All sources</option><option value="datacentertracker.org">DataCenterTracker.org</option><option value="bryce_tracker">Bryce Tracker (2026)</option></select>
   <select id="tf-ref" onchange="trender()">
+    <option value="include">All records (incl. reference)</option>
     <option value="exclude">Opposition only (excl. reference)</option>
-    <option value="include">Include reference docs</option>
     <option value="only">Reference docs only</option>
   </select>
   <button class="reset-btn" id="tResetBtn" onclick="tResetFilters()">Reset filters</button>
@@ -308,17 +308,18 @@ tbody td  { padding:12px 14px; font-size:13px }
 // ── Reference type detection ──────────────────────────────────────────────
 const REFERENCE_TYPES = new Set([
   'study','report','study or report','study_or_report','study/report',
-  'background study','research','analysis','white paper','whitepaper',
+  'background study','white paper','whitepaper',
   'policy report','impact study','environmental study','environmental report',
   'background report','reference','reference document','literature review',
   'technical report','academic study'
 ]);
 
 function isRefType(r) {
-  const rt = String(r['Record Type'] || r['Opposition Type'] || '').trim().toLowerCase();
-  // Also treat rows where Outcome === 'reference' as reference docs
+  // Only check dedicated Record Type field — never fall back to Opposition Type
+  // (values like lawsuit, ordinance, regulatory_action are NOT reference docs)
+  const rt = String(r['Record Type'] || '').trim().toLowerCase();
   const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
-  return REFERENCE_TYPES.has(rt) || outcome === 'reference';
+  return (rt !== '' && REFERENCE_TYPES.has(rt)) || outcome === 'reference';
 }
 
 // ── Utilities ─────────────────────────────────────────────────────────────
@@ -334,9 +335,10 @@ const badge = v => {
   return `<span class="badge badge-${k||''}">${esc(friendlyOutcome(v))}</span>`;
 };
 
-const srcTag = s => s==='bryce_tracker'
-  ? '<span class="src-tag src-bryce">Bryce<span class="src-tip">Bryce Tracker — ongoing 2026 monitoring</span></span>'
-  : '<span class="src-tag src-dct">DCT<span class="src-tip">DataCenterTracker.org — public database 2014–2025</span></span>';
+const srcTag = s => !s ? ''
+  : s==='bryce_tracker'
+    ? '<span class="src-tag src-bryce">Bryce<span class="src-tip">Bryce Tracker — ongoing 2026 monitoring</span></span>'
+    : '<span class="src-tag src-dct">DCT<span class="src-tip">DataCenterTracker.org — public database 2014–2025</span></span>';
 
 const CHART_COLORS = ['#4f98a3','#e67e22','#4caf50','#e74c3c','#f39c12','#9b59b6','#5aa9e6','#2ecc71','#e91e63','#ff9800','#00bcd4','#8bc34a','#ff5722','#607d8b','#9c27b0'];
 const GRID = { color:'rgba(255,255,255,0.06)' };
@@ -416,7 +418,7 @@ function buildCharts(rows) {
 function buildKPIs(rows) {
   const opp = rows.filter(r => !isRefType(r));
   const refs = rows.filter(r => isRefType(r));
-  const pending = opp.filter(r=>['active','pending'].includes((r['Status']||'').toLowerCase())).length;
+  const pending = opp.filter(r=>['active','pending'].includes((r['Community Outcome']||'').toLowerCase())).length;
   const win     = opp.filter(r=>(r['Community Outcome']||'').toLowerCase()==='win').length;
   const loss    = opp.filter(r=>(r['Community Outcome']||'').toLowerCase()==='loss').length;
   const states  = new Set(opp.map(r=>r['State']).filter(Boolean)).size;
@@ -503,7 +505,7 @@ function trender() {
   document.getElementById('pageInfo').textContent = `${start+1}–${Math.min(end,tFiltered.length)} of ${tFiltered.length.toLocaleString()}`;
 }
 
-function tpage(dir) { tPage+=dir; trender(); }
+function tpage(dir) { tPage = Math.max(0, tPage+dir); trender(); }
 let tdt;
 function tdebounce() { clearTimeout(tdt); tdt=setTimeout(()=>{tPage=0;trender();},260); }
 
@@ -639,14 +641,14 @@ Papa.parse('./master_opposition.csv', {
 function tResetFilters() {
   document.getElementById('tq').value = '';
   ['tf-state','tf-outcome','tf-type','tf-source'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
-  document.getElementById('tf-ref').value = 'exclude';
+  document.getElementById('tf-ref').value = 'include';
   tPage = 0; trender();
 }
 
 function updateResetBtn() {
   const q = document.getElementById('tq')?.value || '';
   const anyFilter = ['tf-state','tf-outcome','tf-type','tf-source'].some(id => document.getElementById(id)?.value);
-  const refNonDefault = document.getElementById('tf-ref')?.value !== 'exclude';
+  const refNonDefault = document.getElementById('tf-ref')?.value !== 'include';
   const btn = document.getElementById('tResetBtn');
   if(btn) btn.classList.toggle('active', !!(q || anyFilter || refNonDefault));
 }
