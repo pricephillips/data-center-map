@@ -236,11 +236,12 @@ input:focus, select:focus { border-color:#5aa9e6 }
       <div id="outcomeSummary"></div>
       <div id="filterPills" class="filter-pills"></div>
       <div class="toolbar-row"><button class="tool-btn" onclick="resetFilters()">Reset filters</button><button class="tool-btn" onclick="zoomToResults()" class="tool-btn show-map">Show on map →</button></div>
-      <div class="stats">
+      <div class="stats" style="grid-template-columns:repeat(5,1fr)">
         <div class="stat"><b id="cAll">—</b><span>Total</span></div>
         <div class="stat s-pending"><b id="cPending">—</b><span>Pending</span></div>
         <div class="stat s-win"><b id="cWin">—</b><span>Blocked</span></div>
         <div class="stat s-loss"><b id="cLoss">—</b><span>Approved</span></div>
+        <div class="stat" style="--c:var(--mixed)"><b id="cMixed" style="color:var(--mixed)">—</b><span>Mixed</span></div>
       </div>
     </div>
 
@@ -297,8 +298,7 @@ const OUTCOME_COLORS = { win:'#dc2626', loss:'#2563eb', pending:'#f39c12', mixed
 const SOURCE_COLORS  = { 'ongoing_monitoring':'#5aa9e6', 'historical_archive':'#e67e22' };
 const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(friendlyOutcome(v))}</span>`; };
-const sevDots = n => { let h='<span class="sev">'; for(let i=1;i<=5;i++) h+=`<span class="sev-dot${i<=n?' on':''}"></span>`; return h+'</span>'; };
-const srcTag = s => s==='ongoing_monitoring' ? '<span class="src-tag src-bryce">Live</span>' : '<span class="src-tag src-dct">Hist</span>';
+// sevDots / srcTag unused — use sevDotsLabeled and srcTagFull throughout
 
 let rows=[], leafletMarkers=[], cardRefs=[];
 
@@ -358,11 +358,11 @@ function match(r) {
   if (fSt && r['State'] !== fSt) return false;
   if (fTy && r['Opposition Type'] !== fTy) return false;
   if (fOc && r['Community Outcome'] !== fOc) return false;
-  if (fIs && !r['Issue Category'].includes(fIs)) return false;
+  if (fIs && !(r['Issue Category']||'').includes(fIs)) return false;
   if (fSc && r['Scope'] !== fSc) return false;
   if (fAu && r['Authority Level'] !== fAu) return false;
   if (fSr && r['data_source'] !== fSr) return false;
-  if (act && !['active','pending'].includes((r['Status']||'').toLowerCase())) return false;
+  if (act && !['active','pending'].includes((r['Community Outcome']||'').toLowerCase())) return false;
   if (!q) return true;
   const hay = [r['Incident'],r['Entity'],r['State'],r['County'],r['Opposition Groups'],r['Opposition Type'],r['Objective'],r['Company'],r['Hyperscaler'],r['City']].join(' ').toLowerCase();
   return hay.includes(q);
@@ -378,7 +378,7 @@ function render() {
 
   renderOutcomeSummary(visible);
   updateCardCount(visible.length, rows.length);
-  let pending=0, win=0, loss=0;
+  let pending=0, win=0, loss=0, mixed=0;
   visible.forEach(({ r, i })=>{
     const marker = leafletMarkers[i];
     if (marker) clusterGroup.addLayer(marker);
@@ -386,6 +386,7 @@ function render() {
     const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
     if(outcome === 'win') win++;
     else if(outcome === 'loss') loss++;
+    else if(outcome === 'mixed') mixed++;
     else pending++;
 
     const card = document.createElement('div');
@@ -418,7 +419,36 @@ function render() {
   document.getElementById('cPending').textContent = pending.toLocaleString();
   document.getElementById('cWin').textContent     = win.toLocaleString();
   document.getElementById('cLoss').textContent    = loss.toLocaleString();
+  const mixedEl = document.getElementById('cMixed'); if (mixedEl) mixedEl.textContent = mixed.toLocaleString();
   updateFilterPills();
+}
+
+function updateFilterPills() {
+  const el = document.getElementById('filterPills');
+  if (!el) return;
+  const labels = {
+    fState: v => v, fType: v => v, fOutcome: v => friendlyOutcome(v),
+    fIssue: v => v, fScope: v => v, fAuthority: v => v,
+    fSource: v => v === 'ongoing_monitoring' ? 'Ongoing monitoring' : v === 'historical_archive' ? 'Historical archive' : v
+  };
+  const active = Object.entries(labels)
+    .map(([id, fmt]) => { const el = document.getElementById(id); return el && el.value ? {id, label: fmt(el.value)} : null; })
+    .filter(Boolean);
+  const activeOnly = document.getElementById('activeOnly');
+  if (activeOnly && activeOnly.checked) active.push({id: 'activeOnly', label: 'Active & pending only'});
+  el.innerHTML = active.map(({id, label}) =>
+    `<span class="filter-pill">${esc(label)} <button onclick="clearPill('${id}')" title="Remove filter">×</button></span>`
+  ).join('');
+}
+
+function clearPill(id) {
+  if (id === 'activeOnly') {
+    document.getElementById('activeOnly').checked = false;
+  } else {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  }
+  render();
 }
 
 let dt;
@@ -429,10 +459,15 @@ Papa.parse('./master_opposition.csv', {
   complete: ({ data }) => {
     rows = data.map(r => ({ ...r, data_source: String(r['data_source']||'').trim()==='bryce_tracker' ? 'ongoing_monitoring' : 'historical_archive' }));
 
+    const NOW = Date.now();
     const parseDate = (v) => {
       if (!v) return 0;
       const d = new Date(v);
-      return isNaN(d.getTime()) ? 0 : d.getTime();
+      if (isNaN(d.getTime())) return 0;
+      // Clamp future dates to now so they don't sort above real recent events.
+      // A date value of e.g. "2026-09" parses as a future UTC timestamp and
+      // would otherwise float to the top of a newest-first sort.
+      return Math.min(d.getTime(), NOW);
     };
 
     rows.sort((a, b) => parseDate(b['Date']) - parseDate(a['Date']));
@@ -473,7 +508,15 @@ Papa.parse('./master_opposition.csv', {
 
     pop('fState', rows.map(r => r['State']));
     pop('fType', rows.map(r => r['Opposition Type']));
-    pop('fOutcome', rows.map(r => r['Community Outcome']));
+    // Populate outcome dropdown with friendly labels mapped back to raw values
+    const outcomeEl = document.getElementById('fOutcome');
+    const seenOutcomes = [...new Set(rows.map(r => r['Community Outcome']).filter(Boolean))].sort();
+    seenOutcomes.forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v;
+      opt.textContent = friendlyOutcome(v);
+      outcomeEl.appendChild(opt);
+    });
     pop('fAuthority', rows.map(r => r['Authority Level']));
 
     const issues = [...new Set(
@@ -656,11 +699,13 @@ function buildChoropleth(data, geoJson){
             });
             const bl=stRows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='win').length;
             const ap=stRows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='loss').length;
-            const pe=stRows.filter(r=>!['win','loss'].includes((r['Community Outcome']||'').toLowerCase())).length;
+            const pe=stRows.filter(r=>['active','pending',''].includes((r['Community Outcome']||'').toLowerCase())).length;
+            const mx=stRows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='mixed').length;
             const parts=[];
             if(bl) parts.push(`🔴 ${bl} Blocked`);
             if(ap) parts.push(`🔵 ${ap} Approved`);
             if(pe) parts.push(`⏳ ${pe} Pending`);
+            if(mx) parts.push(`🟣 ${mx} Mixed`);
             document.getElementById('mapHint').textContent=`${name}: ${cnt} incident${cnt===1?'':'s'} — ${parts.join(' · ')} — click to zoom`;
           } else {
             document.getElementById('mapHint').textContent=`${name}: no recorded opposition`;

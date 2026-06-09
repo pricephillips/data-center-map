@@ -353,8 +353,6 @@ let tFiltered = [], tSortCol = 'Date', tSortDir = -1, tPage = 0;
 const PAGE_SIZE = 50;
 
 // Full list state
-let flAllRows = [];
-let flFiltered = [];
 let flCurrentPage = 0;
 let flSortCol = 'Date';
 let flSortDir = -1;
@@ -428,8 +426,9 @@ function buildKPIs(rows) {
   document.getElementById('kLoss').textContent    = loss.toLocaleString();
   document.getElementById('kPending').textContent = pending.toLocaleString();
   document.getElementById('kRef').textContent     = refs.length.toLocaleString();
+  const _now = new Date();
   const maxDate = opp.reduce((max,r)=>{
-    const d=new Date(r['Date']); return (!isNaN(d)&&d>max)?d:max;
+    const d=new Date(r['Date']); return (!isNaN(d)&&d>max&&d<=_now)?d:max;
   }, new Date(0));
   if(maxDate.getFullYear()>2000){
     const label=maxDate.toLocaleDateString('en-US',{month:'long',year:'numeric'});
@@ -478,7 +477,7 @@ function trender() {
   tFiltered.sort((a,b) => {
     let va=a[tSortCol]||'', vb=b[tSortCol]||'';
     if(['Severity','Megawatts'].includes(tSortCol)) { va=+va||0; vb=+vb||0; }
-    if(va<vb) return -tSortDir; if(va>vb) return tSortDir; return 0;
+    if(va<vb) return tSortDir; if(va>vb) return -tSortDir; return 0;
   });
 
   const start = tPage*PAGE_SIZE, end = start+PAGE_SIZE;
@@ -528,6 +527,7 @@ function flSort(col) {
   renderFullList();
 }
 
+const _parseDateMs = v => { const d=new Date(v||''); return isNaN(d)?0:Math.min(d.getTime(),Date.now()); };
 function getFlRows() {
   let rows = allRows;
   if (flSearch) {
@@ -535,7 +535,9 @@ function getFlRows() {
     rows = rows.filter(r => [r['Incident'],r['State'],r['Opposition Type'],r['Community Outcome'],r['Summary'],r['Objective']].filter(Boolean).join(' ').toLowerCase().includes(q));
   }
   return [...rows].sort((a,b) => {
-    let va = a[flSortCol]||'', vb = b[flSortCol]||'';
+    let va, vb;
+    if (flSortCol === 'Date') { va=_parseDateMs(a['Date']); vb=_parseDateMs(b['Date']); }
+    else { va=a[flSortCol]||''; vb=b[flSortCol]||''; }
     if (['Severity','Megawatts'].includes(flSortCol)) { va=+va||0; vb=+vb||0; }
     if (va<vb) return -flSortDir; if (va>vb) return flSortDir; return 0;
   });
@@ -628,7 +630,11 @@ Papa.parse('./master_opposition.csv', {
     // Populate dropdowns from opposition-only rows to avoid cluttering with reference noise
     const oppRows = allRows.filter(r => !isRefType(r));
     pop('tf-state',   oppRows.map(r=>r['State']));
-    pop('tf-outcome', oppRows.map(r=>r['Community Outcome']));
+    // tf-outcome: show friendly labels, match on raw values
+    const tfOutcomeEl = document.getElementById('tf-outcome');
+    [...new Set(oppRows.map(r=>r['Community Outcome']).filter(Boolean))].sort().forEach(v=>{
+      const opt=document.createElement('option'); opt.value=v; opt.textContent=friendlyOutcome(v); tfOutcomeEl.appendChild(opt);
+    });
     pop('tf-type',    oppRows.map(r=>r['Opposition Type']));
 
     tSortCol = 'Date';
