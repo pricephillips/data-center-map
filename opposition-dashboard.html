@@ -12,6 +12,7 @@
   --muted:#8a96a4; --border:#2c3544;
   --win:#dc2626; --loss:#2563eb; --pending:#f39c12; --mixed:#9b59b6;
   --atlas:#4f98a3; --ai:#e67e22;
+  --ref-bg:#1a2535; --ref-text:#5aa9e6; --ref-border:#1e3a52;
 }
 * { box-sizing:border-box; margin:0; padding:0 }
 body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(--text); padding:20px; min-height:100vh }
@@ -30,6 +31,7 @@ h2 { font-size:15px; font-weight:700; margin-bottom:14px; color:var(--text) }
 .kpi.k-win b { color:var(--win) }
 .kpi.k-loss b { color:var(--loss) }
 .kpi.k-states b { color:#a78bfa }
+.kpi.k-ref b { color:var(--ref-text) }
 
 /* Charts grid */
 .charts { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px }
@@ -50,7 +52,7 @@ input:focus, select:focus { border-color:var(--atlas) }
 /* Table */
 .table-wrap { background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden }
 table { width:100%; border-collapse:collapse; font-size:12px }
-thead th { background:var(--panel2); padding:10px 12px; text-align:left; font-weight:600; color:var(--muted); font-size:11px; cursor:pointer; user-select:none; text-transform:uppercase; letter-spacing:.4px; white-space:nowrap; cursor:pointer; user-select:none }
+thead th { background:var(--panel2); padding:10px 12px; text-align:left; font-weight:600; color:var(--muted); font-size:11px; cursor:pointer; user-select:none; text-transform:uppercase; letter-spacing:.4px; white-space:nowrap }
 thead th:hover { color:var(--text) }
 thead th.sorted-asc::after { content:' ↑' }
 thead th.sorted-desc::after { content:' ↓' }
@@ -67,9 +69,19 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
 .badge-loss    { background:#0f2548; color:#93c5fd }
 .badge-mixed   { background:#2f1d46; color:#c89fff }
 .badge-        { background:#1a2535; color:#8ab4d4 }
+.badge-reference { background:var(--ref-bg); color:var(--ref-text) }
 .src-tag { display:inline-block; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700; margin-left:4px }
 .src-dct   { background:#3b2208; color:#e67e22 }
 .src-bryce { background:#1a2e42; color:#5aa9e6 }
+
+/* Reference row styling */
+tbody tr.ref-row { opacity:.75 }
+tbody tr.ref-row:hover { opacity:1; background:#111e2a }
+.ref-notice {
+  background:#101e2c; border:1px solid var(--ref-border); border-radius:8px;
+  padding:10px 14px; font-size:12px; color:var(--ref-text); margin-bottom:12px;
+}
+.ref-notice strong { color:var(--text) }
 
 /* Pagination */
 .pagination { display:flex; align-items:center; gap:8px; padding:12px 14px; border-top:1px solid var(--border); font-size:12px; color:var(--muted) }
@@ -77,6 +89,29 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
 .pagination button:hover { border-color:var(--atlas) }
 .pagination button:disabled { opacity:.35; cursor:default }
 .page-info { margin:0 auto }
+
+/* Full record list section */
+.full-list-section { background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-top:20px }
+.full-list-header {
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:12px 14px; border-bottom:1px solid var(--border); flex-wrap:wrap;
+}
+.full-list-title { font-size:14px; font-weight:700 }
+.full-list-count { font-size:11px; color:var(--muted) }
+.full-list-controls { display:flex; gap:8px; align-items:center; flex-wrap:wrap }
+.full-list-search { flex:1; min-width:180px; max-width:240px }
+.full-list-body { overflow:auto }
+.full-list-body.hidden { display:none }
+.full-list-body table { min-width:1000px }
+.full-list-body thead th { position:sticky; top:0; z-index:1 }
+.full-list-scroll { overflow:auto; max-height:480px }
+.toggle-btn, .export-all-btn {
+  padding:5px 12px; border-radius:7px; border:1px solid var(--border);
+  background:#0c1018; color:var(--muted); font-size:12px; cursor:pointer; white-space:nowrap;
+}
+.toggle-btn:hover, .export-all-btn:hover { border-color:var(--atlas); color:var(--text) }
+.toggle-btn .arrow { display:inline-block; transition:transform .18s }
+.toggle-btn.collapsed .arrow { transform:rotate(-90deg) }
 
 @media (max-width:1100px) {
   .kpis { grid-template-columns:repeat(2,minmax(0,1fr)) }
@@ -92,8 +127,9 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
   .kpi span { font-size:12px }
   .charts { grid-template-columns:1fr }
   .chart-card.wide { grid-column:1 }
-  .outcome-strip { gap:10px; padding:10px 12px }
   .table-controls { padding:12px; gap:8px }
+  .full-list-controls { width:100% }
+  .full-list-search { max-width:100% }
 }
 
 /* ── Accessibility pass ── */
@@ -142,7 +178,7 @@ tbody td  { padding:12px 14px; font-size:13px }
   <div class="kpi k-win"><b id="kWin">—</b><span>Projects blocked</span></div>
   <div class="kpi k-loss"><b id="kLoss">—</b><span>Projects approved</span></div>
   <div class="kpi k-pending"><b id="kPending">—</b><span>Pending / active cases</span></div>
-  <div class="kpi" style="--c:#f472b6"><b id="kMW" style="color:#f472b6">—</b><span>Megawatts contested</span></div>
+  <div class="kpi k-ref"><b id="kRef">—</b><span>Reference docs (not counted)</span></div>
 </div>
 
 <!-- Outcome legend -->
@@ -153,6 +189,7 @@ tbody td  { padding:12px 14px; font-size:13px }
   <div class="os-item"><span class="os-dot" style="background:#ff8f84"></span>Approved — project advanced despite opposition</div>
   <div class="os-item"><span class="os-dot" style="background:#c89fff"></span>Mixed — partial concessions or ongoing</div>
 </div>
+
 <!-- Charts -->
 <div class="charts">
   <div class="chart-card wide">
@@ -183,7 +220,20 @@ tbody td  { padding:12px 14px; font-size:13px }
   <select id="tf-outcome" onchange="trender()"><option value="">All outcomes</option></select>
   <select id="tf-type"    onchange="trender()"><option value="">All types</option></select>
   <select id="tf-source"  onchange="trender()"><option value="">All sources</option><option value="datacentertracker.org">DataCenterTracker.org</option><option value="bryce_tracker">Bryce Tracker (2026)</option></select>
-  <button class="reset-btn" id="tResetBtn" onclick="tResetFilters()">Reset filters</button><span class="tbl-meta" id="tMeta"></span>
+  <select id="tf-ref" onchange="trender()">
+    <option value="exclude">Opposition only (excl. reference)</option>
+    <option value="include">Include reference docs</option>
+    <option value="only">Reference docs only</option>
+  </select>
+  <button class="reset-btn" id="tResetBtn" onclick="tResetFilters()">Reset filters</button>
+  <span class="tbl-meta" id="tMeta"></span>
+</div>
+
+<!-- Reference notice (shown when reference filter active) -->
+<div id="refNotice" style="display:none">
+  <div class="ref-notice">
+    <strong>Reference documents</strong> — Studies, reports, and background analyses. These do <em>not</em> represent active opposition events or litigation and are excluded from all opposition intensity counts by default.
+  </div>
 </div>
 
 <!-- Table -->
@@ -211,9 +261,79 @@ tbody td  { padding:12px 14px; font-size:13px }
   </div>
 </div>
 
+<!-- All Records section -->
+<div class="full-list-section">
+  <div class="full-list-header">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span class="full-list-title">All records</span>
+      <span class="full-list-count" id="fullListCount">0 records</span>
+    </div>
+    <div class="full-list-controls">
+      <input type="text" class="full-list-search" id="fullListSearch" placeholder="Search all records…" oninput="flDebounce()">
+      <button class="toggle-btn" id="flToggle" onclick="toggleFullList()">
+        <span class="arrow">▾</span> <span id="flToggleLabel">Collapse</span>
+      </button>
+      <button class="export-all-btn" id="exportAllBtn" onclick="exportAllCSV()">Export all CSV</button>
+    </div>
+  </div>
+  <div class="full-list-body" id="fullListBody">
+    <div class="full-list-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="flSort('Incident')">Incident</th>
+            <th onclick="flSort('Date')">Date</th>
+            <th onclick="flSort('State')">State</th>
+            <th onclick="flSort('Opposition Type')">Type</th>
+            <th onclick="flSort('Community Outcome')">Result</th>
+            <th onclick="flSort('Severity')">Severity</th>
+            <th>Summary</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody id="flTbody"></tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <button id="flBtnFirst" onclick="flPageNav('first')" disabled>«</button>
+      <button id="flBtnPrev"  onclick="flPageNav('prev')"  disabled>← Prev</button>
+      <span class="page-info" id="flPageInfo"></span>
+      <button id="flBtnNext"  onclick="flPageNav('next')">Next →</button>
+      <button id="flBtnLast"  onclick="flPageNav('last')">»</button>
+    </div>
+  </div>
+</div>
+
 <script>
+// ── Reference type detection ──────────────────────────────────────────────
+const REFERENCE_TYPES = new Set([
+  'study','report','study or report','study_or_report','study/report',
+  'background study','research','analysis','white paper','whitepaper',
+  'policy report','impact study','environmental study','environmental report',
+  'background report','reference','reference document','literature review',
+  'technical report','academic study'
+]);
+
+function isRefType(r) {
+  const rt = String(r['Record Type'] || r['Opposition Type'] || '').trim().toLowerCase();
+  // Also treat rows where Outcome === 'reference' as reference docs
+  const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
+  return REFERENCE_TYPES.has(rt) || outcome === 'reference';
+}
+
+// ── Utilities ─────────────────────────────────────────────────────────────
 const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(friendlyOutcome(v))}</span>`; };
+
+function friendlyOutcome(v) {
+  const map = { win:'Blocked', loss:'Approved', pending:'Pending', active:'Active', mixed:'Contested', reference:'Reference' };
+  return map[(v||'').toLowerCase()] || v || '—';
+}
+
+const badge = v => {
+  const k=(v||'').toLowerCase();
+  return `<span class="badge badge-${k||''}">${esc(friendlyOutcome(v))}</span>`;
+};
+
 const srcTag = s => s==='bryce_tracker'
   ? '<span class="src-tag src-bryce">Bryce<span class="src-tip">Bryce Tracker — ongoing 2026 monitoring</span></span>'
   : '<span class="src-tag src-dct">DCT<span class="src-tip">DataCenterTracker.org — public database 2014–2025</span></span>';
@@ -230,49 +350,62 @@ let allRows = [];
 let tFiltered = [], tSortCol = 'Date', tSortDir = -1, tPage = 0;
 const PAGE_SIZE = 50;
 
-// ── Charts ─────────────────────────────────────────────────────────────────
-function buildCharts(rows) {
+// Full list state
+let flAllRows = [];
+let flFiltered = [];
+let flCurrentPage = 0;
+let flSortCol = 'Date';
+let flSortDir = -1;
+let flSearch = '';
+const FL_PAGE_SIZE = 50;
 
-  // Opposition concentration — top 25 states, horizontal bar
+// ── Charts ─────────────────────────────────────────────────────────────────
+let chartInstances = {};
+
+function destroyCharts() {
+  Object.values(chartInstances).forEach(c => c.destroy());
+  chartInstances = {};
+}
+
+function buildCharts(rows) {
+  destroyCharts();
+  // Exclude reference docs from all charts
+  const opp = rows.filter(r => !isRefType(r));
+
   const stateLarge = {};
-  rows.forEach(r => { if(r['State']) stateLarge[r['State']] = (stateLarge[r['State']]||0)+1; });
+  opp.forEach(r => { if(r['State']) stateLarge[r['State']] = (stateLarge[r['State']]||0)+1; });
   const stateLargeSorted = Object.entries(stateLarge).sort((a,b)=>b[1]-a[1]).slice(0,25);
-  new Chart(document.getElementById('cStateLarge'), {
+  chartInstances.stateLarge = new Chart(document.getElementById('cStateLarge'), {
     type:'bar',
     data:{ labels:stateLargeSorted.map(x=>x[0]), datasets:[{ label:'Actions', data:stateLargeSorted.map(x=>x[1]), backgroundColor:stateLargeSorted.map((_,i)=>CHART_COLORS[i%CHART_COLORS.length]), borderRadius:4 }] },
     options:{ ...chartDefaults, indexAxis:'y', scales:{ x:{ ticks:TICK, grid:GRID, beginAtZero:true }, y:{ ticks:{...TICK, font:{size:12}}, grid:{display:false} } }, plugins:{...chartDefaults.plugins, legend:{display:false}} }
   });
 
-  // Opposition types
   const byType = {};
-  rows.forEach(r => { const t=r['Opposition Type']||'unknown'; byType[t]=(byType[t]||0)+1; });
+  opp.forEach(r => { const t=r['Opposition Type']||'unknown'; byType[t]=(byType[t]||0)+1; });
   const typesSorted = Object.entries(byType).sort((a,b)=>b[1]-a[1]).slice(0,10);
-  new Chart(document.getElementById('cTypes'), {
+  chartInstances.types = new Chart(document.getElementById('cTypes'), {
     type:'bar',
     data:{ labels:typesSorted.map(x=>x[0]), datasets:[{ data:typesSorted.map(x=>x[1]), backgroundColor:CHART_COLORS, borderRadius:4 }] },
     options:{ ...chartDefaults, indexAxis:'y', scales:{ x:{ ticks:TICK, grid:GRID }, y:{ ticks:TICK, grid:{display:false} } }, plugins:{...chartDefaults.plugins, legend:{display:false}} }
   });
 
-  // Outcomes pie
   const byOut = {};
-  rows.forEach(r => { const o=r['Community Outcome']||'unknown'; byOut[o]=(byOut[o]||0)+1; });
-  const OUTCOME_LABELS = { win:'Blocked', loss:'Approved', pending:'Pending', active:'Active', mixed:'Contested' };
-      const friendlyOutcome = v => OUTCOME_LABELS[(v||'').toLowerCase()] || v || '—';
-      const outColors = { win:'#dc2626', loss:'#2563eb', pending:'#f39c12', mixed:'#9b59b6', unknown:'#4a5568', '':'#4a5568' };
+  opp.forEach(r => { const o=r['Community Outcome']||'unknown'; byOut[o]=(byOut[o]||0)+1; });
+  const outColors = { win:'#dc2626', loss:'#2563eb', pending:'#f39c12', mixed:'#9b59b6', unknown:'#4a5568', '':'#4a5568' };
   const outEntries = Object.entries(byOut).sort((a,b)=>b[1]-a[1]);
-  new Chart(document.getElementById('cOutcomes'), {
+  chartInstances.outcomes = new Chart(document.getElementById('cOutcomes'), {
     type:'doughnut',
-    data:{ labels:outEntries.map(x=>x[0]||'unknown'), datasets:[{ data:outEntries.map(x=>x[1]), backgroundColor:outEntries.map(x=>outColors[x[0]]||'#4a5568'), borderWidth:0, hoverOffset:6 }] },
+    data:{ labels:outEntries.map(x=>friendlyOutcome(x[0])), datasets:[{ data:outEntries.map(x=>x[1]), backgroundColor:outEntries.map(x=>outColors[x[0]]||'#4a5568'), borderWidth:0, hoverOffset:6 }] },
     options:{ ...chartDefaults, cutout:'60%', plugins:{ legend:{ position:'right', labels:{ color:'#8a96a4', font:{size:11}, padding:10 } } } }
   });
 
-  // Issues — flatten semicolon-separated
   const byIssue = {};
-  rows.forEach(r => {
+  opp.forEach(r => {
     (r['Issue Category']||'').split(/;\s*/).forEach(i => { i=i.trim(); if(i) byIssue[i]=(byIssue[i]||0)+1; });
   });
   const issuesSorted = Object.entries(byIssue).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  new Chart(document.getElementById('cIssues'), {
+  chartInstances.issues = new Chart(document.getElementById('cIssues'), {
     type:'bar',
     data:{ labels:issuesSorted.map(x=>x[0]), datasets:[{ data:issuesSorted.map(x=>x[1]), backgroundColor:CHART_COLORS, borderRadius:4 }] },
     options:{ ...chartDefaults, indexAxis:'y', scales:{ x:{ ticks:TICK, grid:GRID }, y:{ ticks:TICK, grid:{display:false} } }, plugins:{...chartDefaults.plugins, legend:{display:false}} }
@@ -281,19 +414,19 @@ function buildCharts(rows) {
 
 // ── KPIs ───────────────────────────────────────────────────────────────────
 function buildKPIs(rows) {
-  const pending = rows.filter(r=>['active','pending'].includes((r['Status']||'').toLowerCase())).length;
-  const win     = rows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='win').length;
-  const loss    = rows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='loss').length;
-  const states  = new Set(rows.map(r=>r['State']).filter(Boolean)).size;
-  const mw = rows.reduce((s,r)=>s+(+r['Megawatts']||0),0);
-  document.getElementById('kTotal').textContent   = rows.length.toLocaleString();
+  const opp = rows.filter(r => !isRefType(r));
+  const refs = rows.filter(r => isRefType(r));
+  const pending = opp.filter(r=>['active','pending'].includes((r['Status']||'').toLowerCase())).length;
+  const win     = opp.filter(r=>(r['Community Outcome']||'').toLowerCase()==='win').length;
+  const loss    = opp.filter(r=>(r['Community Outcome']||'').toLowerCase()==='loss').length;
+  const states  = new Set(opp.map(r=>r['State']).filter(Boolean)).size;
+  document.getElementById('kTotal').textContent   = opp.length.toLocaleString();
   document.getElementById('kStates').textContent  = states.toLocaleString();
   document.getElementById('kWin').textContent     = win.toLocaleString();
   document.getElementById('kLoss').textContent    = loss.toLocaleString();
   document.getElementById('kPending').textContent = pending.toLocaleString();
-  document.getElementById('kMW').textContent      = mw>0 ? Math.round(mw).toLocaleString()+' MW' : '—';
-  // Last updated
-  const maxDate = rows.reduce((max,r)=>{
+  document.getElementById('kRef').textContent     = refs.length.toLocaleString();
+  const maxDate = opp.reduce((max,r)=>{
     const d=new Date(r['Date']); return (!isNaN(d)&&d>max)?d:max;
   }, new Date(0));
   if(maxDate.getFullYear()>2000){
@@ -303,13 +436,19 @@ function buildKPIs(rows) {
   }
 }
 
-// ── Table ──────────────────────────────────────────────────────────────────
+// ── Table filter ───────────────────────────────────────────────────────────
 function tmatch(r) {
   const q  = document.getElementById('tq').value.trim().toLowerCase();
   const fs = document.getElementById('tf-state').value;
   const fo = document.getElementById('tf-outcome').value;
   const ft = document.getElementById('tf-type').value;
   const fc = document.getElementById('tf-source').value;
+  const fr = document.getElementById('tf-ref').value;
+
+  const isRef = isRefType(r);
+  if (fr === 'exclude' && isRef) return false;
+  if (fr === 'only' && !isRef) return false;
+
   if (fs && r['State']!==fs) return false;
   if (fo && r['Community Outcome']!==fo) return false;
   if (ft && r['Opposition Type']!==ft) return false;
@@ -319,10 +458,9 @@ function tmatch(r) {
 }
 
 function tsort(col) {
-  const ths = document.querySelectorAll('thead th');
+  const ths = document.querySelectorAll('.table-wrap thead th');
   ths.forEach(th => th.className='');
   if (tSortCol===col) tSortDir*=-1; else { tSortCol=col; tSortDir=1; }
-  // find which th
   const cols=['Incident','Date','State','Opposition Type','Community Outcome','Severity','Megawatts'];
   const idx=cols.indexOf(col);
   if(idx>=0) ths[idx].className = tSortDir===1?'sorted-asc':'sorted-desc';
@@ -331,6 +469,9 @@ function tsort(col) {
 
 function trender() {
   updateResetBtn();
+  const refMode = document.getElementById('tf-ref').value;
+  document.getElementById('refNotice').style.display = (refMode === 'only') ? 'block' : 'none';
+
   tFiltered = allRows.filter(tmatch);
   tFiltered.sort((a,b) => {
     let va=a[tSortCol]||'', vb=b[tSortCol]||'';
@@ -341,18 +482,20 @@ function trender() {
   const start = tPage*PAGE_SIZE, end = start+PAGE_SIZE;
   const pageRows = tFiltered.slice(start, end);
   const tbody = document.getElementById('tbody');
-  tbody.innerHTML = pageRows.map(r => `
-    <tr>
+  tbody.innerHTML = pageRows.map(r => {
+    const isRef = isRefType(r);
+    return `<tr class="${isRef?'ref-row':''}">
       <td class="td-incident">${esc(r['Incident'])}${srcTag(r['data_source'])}</td>
       <td style="white-space:nowrap">${esc(String(r['Date']||'').slice(0,10))}</td>
       <td>${esc(r['State'])}</td>
       <td style="white-space:nowrap">${esc(r['Opposition Type'])}</td>
-      <td>${badge(r['Community Outcome'])}</td>
+      <td>${isRef ? '<span class="badge badge-reference">Reference</span>' : badge(r['Community Outcome'])}</td>
       <td style="text-align:center">${esc(r['Severity'])}</td>
       <td style="text-align:right">${r['Megawatts']?Number(r['Megawatts']).toLocaleString():''}</td>
       <td class="td-summary">${esc((r['Summary']||r['Objective']||'').slice(0,120))}</td>
       <td class="td-link">${r['Source URL']?`<a href="${esc(r['Source URL'])}" target="_blank" rel="noopener">↗</a>`:''}</td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 
   document.getElementById('tMeta').textContent = `${tFiltered.length.toLocaleString()} rows · page ${tPage+1} of ${Math.ceil(tFiltered.length/PAGE_SIZE)||1}`;
   document.getElementById('btnPrev').disabled = tPage===0;
@@ -363,6 +506,101 @@ function trender() {
 function tpage(dir) { tPage+=dir; trender(); }
 let tdt;
 function tdebounce() { clearTimeout(tdt); tdt=setTimeout(()=>{tPage=0;trender();},260); }
+
+// ── Full record list ────────────────────────────────────────────────────────
+let flCollapsed = false;
+
+function toggleFullList() {
+  flCollapsed = !flCollapsed;
+  const body = document.getElementById('fullListBody');
+  const btn  = document.getElementById('flToggle');
+  const lbl  = document.getElementById('flToggleLabel');
+  body.classList.toggle('hidden', flCollapsed);
+  btn.classList.toggle('collapsed', flCollapsed);
+  lbl.textContent = flCollapsed ? 'Expand' : 'Collapse';
+}
+
+function flSort(col) {
+  if (flSortCol === col) flSortDir *= -1; else { flSortCol = col; flSortDir = 1; }
+  flCurrentPage = 0;
+  renderFullList();
+}
+
+function getFlRows() {
+  let rows = allRows;
+  if (flSearch) {
+    const q = flSearch.toLowerCase();
+    rows = rows.filter(r => [r['Incident'],r['State'],r['Opposition Type'],r['Community Outcome'],r['Summary'],r['Objective']].filter(Boolean).join(' ').toLowerCase().includes(q));
+  }
+  return [...rows].sort((a,b) => {
+    let va = a[flSortCol]||'', vb = b[flSortCol]||'';
+    if (['Severity','Megawatts'].includes(flSortCol)) { va=+va||0; vb=+vb||0; }
+    if (va<vb) return -flSortDir; if (va>vb) return flSortDir; return 0;
+  });
+}
+
+function renderFullList() {
+  if (flCollapsed) return;
+  const rows = getFlRows();
+  const total = rows.length;
+  const totalPages = Math.max(1, Math.ceil(total / FL_PAGE_SIZE));
+  if (flCurrentPage >= totalPages) flCurrentPage = Math.max(0, totalPages - 1);
+  const start = flCurrentPage * FL_PAGE_SIZE;
+  const pageRows = rows.slice(start, start + FL_PAGE_SIZE);
+
+  document.getElementById('fullListCount').textContent = `${total.toLocaleString()} record${total!==1?'s':''}`;
+
+  const tbody = document.getElementById('flTbody');
+  tbody.innerHTML = pageRows.map(r => {
+    const isRef = isRefType(r);
+    return `<tr class="${isRef?'ref-row':''}">
+      <td class="td-incident">${esc(r['Incident']||'—')}${srcTag(r['data_source'])}</td>
+      <td style="white-space:nowrap">${esc(String(r['Date']||'').slice(0,10))}</td>
+      <td>${esc(r['State']||'—')}</td>
+      <td style="white-space:nowrap">${esc(r['Opposition Type']||'—')}</td>
+      <td>${isRef ? '<span class="badge badge-reference">Reference</span>' : badge(r['Community Outcome'])}</td>
+      <td style="text-align:center">${esc(r['Severity']||'')}</td>
+      <td class="td-summary">${esc((r['Summary']||r['Objective']||'').slice(0,100))}</td>
+      <td class="td-link">${r['Source URL']?`<a href="${esc(r['Source URL'])}" target="_blank" rel="noopener">↗</a>`:''}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px">No records match.</td></tr>';
+
+  document.getElementById('flPageInfo').textContent = total
+    ? `Page ${flCurrentPage+1} of ${totalPages} · ${total.toLocaleString()} records`
+    : '0 records';
+  document.getElementById('flBtnFirst').disabled = flCurrentPage===0;
+  document.getElementById('flBtnPrev').disabled  = flCurrentPage===0;
+  document.getElementById('flBtnNext').disabled  = flCurrentPage>=totalPages-1;
+  document.getElementById('flBtnLast').disabled  = flCurrentPage>=totalPages-1;
+}
+
+function flPageNav(dir) {
+  const total = getFlRows().length;
+  const totalPages = Math.max(1, Math.ceil(total / FL_PAGE_SIZE));
+  if (dir==='first') flCurrentPage=0;
+  else if (dir==='prev' && flCurrentPage>0) flCurrentPage--;
+  else if (dir==='next' && flCurrentPage<totalPages-1) flCurrentPage++;
+  else if (dir==='last') flCurrentPage=totalPages-1;
+  renderFullList();
+}
+
+let flDt;
+function flDebounce() { clearTimeout(flDt); flDt=setTimeout(()=>{ flSearch=document.getElementById('fullListSearch').value; flCurrentPage=0; renderFullList(); },260); }
+
+function exportAllCSV() {
+  const rows = getFlRows();
+  if (!rows.length) return;
+  const headers = Object.keys(rows[0]);
+  const csv = [headers.join(',')].concat(rows.map(r => headers.map(h => {
+    const v = String(r[h]??'');
+    return /[",\n]/.test(v) ? `"${v.replace(/"/g,'""')}"` : v;
+  }).join(','))).join('\n');
+  const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'data_center_opposition_all.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+}
 
 // ── Init ───────────────────────────────────────────────────────────────────
 Papa.parse('./master_opposition.csv', {
@@ -385,28 +623,33 @@ Papa.parse('./master_opposition.csv', {
       const el=document.getElementById(id);
       [...new Set(vals.filter(Boolean))].sort().forEach(v=>el.insertAdjacentHTML('beforeend',`<option value="${esc(v)}">${esc(v)}</option>`));
     };
-    pop('tf-state',   allRows.map(r=>r['State']));
-    pop('tf-outcome', allRows.map(r=>r['Community Outcome']));
-    pop('tf-type',    allRows.map(r=>r['Opposition Type']));
+    // Populate dropdowns from opposition-only rows to avoid cluttering with reference noise
+    const oppRows = allRows.filter(r => !isRefType(r));
+    pop('tf-state',   oppRows.map(r=>r['State']));
+    pop('tf-outcome', oppRows.map(r=>r['Community Outcome']));
+    pop('tf-type',    oppRows.map(r=>r['Opposition Type']));
 
     tSortCol = 'Date';
     tSortDir = -1;
     trender();
+    renderFullList();
   }
 });
 
 function tResetFilters() {
   document.getElementById('tq').value = '';
   ['tf-state','tf-outcome','tf-type','tf-source'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('tf-ref').value = 'exclude';
   tPage = 0; trender();
 }
+
 function updateResetBtn() {
   const q = document.getElementById('tq')?.value || '';
   const anyFilter = ['tf-state','tf-outcome','tf-type','tf-source'].some(id => document.getElementById(id)?.value);
+  const refNonDefault = document.getElementById('tf-ref')?.value !== 'exclude';
   const btn = document.getElementById('tResetBtn');
-  if(btn) btn.classList.toggle('active', !!(q || anyFilter));
+  if(btn) btn.classList.toggle('active', !!(q || anyFilter || refNonDefault));
 }
 </script>
 </body>
 </html>
-
