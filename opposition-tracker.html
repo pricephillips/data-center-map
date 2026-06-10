@@ -49,7 +49,6 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .stat.s-pending b { color:var(--pending) }
 .stat.s-win b { color:var(--win) }
 .stat.s-loss b { color:var(--loss) }
-.list { overflow-y:auto; flex:1; padding:8px }
 .card { padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:#0c1018; margin-bottom:7px; cursor:pointer; transition:border-color 0.15s }
 .card:hover { border-color:#4a5a72 }
 .card-title { font-size:13px; font-weight:600; line-height:1.3; margin-bottom:4px }
@@ -64,9 +63,9 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .src-tag { display:inline-block; padding:1px 6px; border-radius:4px; font-size:9px; font-weight:700; margin-left:5px; vertical-align:middle }
 .src-bryce { background:#1a2e42; color:var(--bryce) }
 .src-dct   { background:#3b2208; color:var(--dct) }
-.sev { display:inline-flex; gap:2px; margin-left:5px; vertical-align:middle }
-.sev-dot { width:6px; height:6px; border-radius:50%; background:var(--border) }
-.sev-dot.on { background:#f39c12 }
+.src-frac  { background:#1a3322; color:#4ade80 }
+.src-dcw   { background:#2d1a42; color:#c084fc }
+.src-dco   { background:#1a2a1a; color:#86efac }
 .card-snippet { font-size:11px; color:var(--muted); line-height:1.45; margin-top:4px }
 .mapwrap { position:relative; overflow:hidden; min-height:0; }
 #map { position:absolute; inset:0; }
@@ -129,7 +128,6 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .choro-back { position:absolute; top:12px; left:12px; z-index:500; background:rgba(15,18,24,.93); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:8px; padding:6px 12px; font-size:11px; font-weight:600; cursor:pointer; color:var(--text); display:none }
 .choro-back:hover { border-color:#e74c3c }
 .map-hint { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:500; background:rgba(15,18,24,.88); backdrop-filter:blur(6px); border:1px solid var(--border); border-radius:20px; padding:5px 14px; font-size:11px; color:var(--muted); pointer-events:none; white-space:nowrap }
-.map-faded-marker { opacity:0.12; pointer-events:none; transition:opacity .25s ease }
 .toolbar-row { display:flex; gap:7px; flex-wrap:wrap; margin-top:6px }
 .tool-btn { padding:6px 10px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--text); font-size:11px; cursor:pointer }
 .tool-btn:hover { border-color:#e74c3c }
@@ -147,9 +145,6 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .card-source:hover { border-color:var(--bryce); background:rgba(90,169,230,.08) }
 
 /* ── Map accessibility pass ── */
-.sidebar-title { padding:14px 16px 0 }
-.sidebar-title h1 { font-size:17px; font-weight:800; color:var(--text); margin-bottom:4px }
-.sidebar-title p  { font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border) }
 .card-count { font-size:12px; color:var(--muted); padding:6px 12px 2px; font-weight:500 }
 .card-count b { color:var(--text) }
 .tool-btn.show-map { background:color-mix(in srgb,var(--pending,#f39c12) 12%,transparent); border-color:var(--pending,#f39c12); color:var(--pending,#f39c12) }
@@ -157,16 +152,8 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .src-tag { position:relative; cursor:help }
 .src-tag .src-tip { display:none; position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#1c2535; border:1px solid var(--border); border-radius:7px; padding:6px 10px; font-size:11px; color:var(--text); white-space:nowrap; z-index:999; pointer-events:none; font-weight:400 }
 .src-tag:hover .src-tip { display:block }
-/* Outcome legend */
-.outcome-legend { margin:8px 12px 4px; padding:10px 12px; background:var(--panel2); border:1px solid var(--border); border-radius:8px }
-.outcome-legend-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); margin-bottom:7px }
-.ol-row { display:flex; align-items:center; gap:8px; margin-bottom:4px; font-size:11px; line-height:1.4 }
-.ol-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0 }
-.ol-desc { color:var(--muted) }
 /* Severity dots */
 .sev-wrap { display:inline-flex; gap:3px; align-items:center; cursor:help; margin-left:6px }
-/* Advanced filters toggle */
-
 /* Active filter pills */
 .filter-pills { display:flex; flex-wrap:wrap; gap:4px; margin:4px 0 2px; min-height:0; }
 .filter-pill  { display:inline-flex; align-items:center; gap:4px; padding:2px 7px 2px 8px;
@@ -189,7 +176,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .how-to-use li { font-size:13px; padding:6px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:flex-start }
 .how-to-use li:last-child { border:none }
 .how-to-use li .ico { font-size:18px; line-height:1; flex-shrink:0 }
-.how-to-use .close-btn { width:100%; padding:10px; border-radius:8px; border:none; background:var(--win,#4caf50); color:#fff; font-size:14px; font-weight:700; cursor:pointer }
+.how-to-use .close-btn { width:100%; padding:10px; border-radius:8px; border:none; background:#1a3a5c;border:1px solid #5aa9e6;color:#5aa9e6; color:#fff; font-size:14px; font-weight:700; cursor:pointer }
 </style>
 </head>
 <body>
@@ -198,16 +185,14 @@ input:focus, select:focus { border-color:#5aa9e6 }
     <div class="header">
       <div class="logo">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M9 9h6v6H9z"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
-        <h1>Opposition Tracker</h1>
+        <h1>Developer Risk: Opposition Tracker</h1>
       </div>
-      <div class="sub">Merged master — Historical archive (2014–2025) + ongoing monitoring (2026)</div>
+      <div class="sub">Community resistance, legislation, and legal challenges to data center development. Click a state to zoom in; click a pin for details.</div>
       <div class="source-pills">
         <span class="pill pill-dct">Historical archive</span>
         <span class="pill pill-bryce">Ongoing monitoring</span>
       </div>
     </div>
-
-    <div class="sidebar-title"><h1>Developer Risk: Opposition Tracker</h1><p>Tracking community resistance, legislation, and legal challenges to data center development. Click a state to zoom in. At the state level, a clickable county choropleth appears; click a county or a pin for details.</p></div>
 <div class="filters">
       <div class="search-wrap">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -229,13 +214,17 @@ input:focus, select:focus { border-color:#5aa9e6 }
         <div class="row3" style="margin-top:6px">
           <select id="fScope"     onchange="render()"><option value="">Any geographic level</option><option value="local">Local</option><option value="state">State</option><option value="federal">Federal</option></select>
           <select id="fAuthority" onchange="render()"><option value="">Any decision maker</option></select>
-          <select id="fSource"    onchange="render()"><option value="">All sources</option><option value="historical_archive">Historical archive</option><option value="ongoing_monitoring">Ongoing monitoring</option></select>
+          <select id="fSource" onchange="render()">
+      <option value="">All sources</option>
+      <option value="historical_archive">Historical archive</option>
+      <option value="ongoing_monitoring">Ongoing monitoring</option>
+      <option value="bryce_rejection_db">Bryce Rejection DB</option>
+      <option value="fractracker">FracTracker</option>
+      <option value="datacenter_watch">Data Center Watch</option>
+      <option value="dc_opposition_site">DC Opposition Site</option>
+    </select>
         </div>
       </div>
-      <label class="chk"><input type="checkbox" id="activeOnly" onchange="render()"/> Active &amp; pending only</label>
-      <div id="outcomeSummary"></div>
-      <div id="filterPills" class="filter-pills"></div>
-      <div class="toolbar-row"><button class="tool-btn" onclick="resetFilters()">Reset filters</button><button class="tool-btn" onclick="zoomToResults()" class="tool-btn show-map">Show on map →</button></div>
       <div class="stats" style="grid-template-columns:repeat(5,1fr)">
         <div class="stat"><b id="cAll">—</b><span>Total</span></div>
         <div class="stat s-pending"><b id="cPending">—</b><span>Pending</span></div>
@@ -243,6 +232,10 @@ input:focus, select:focus { border-color:#5aa9e6 }
         <div class="stat s-loss"><b id="cLoss">—</b><span>Approved</span></div>
         <div class="stat" style="--c:var(--mixed)"><b id="cMixed" style="color:var(--mixed)">—</b><span>Mixed</span></div>
       </div>
+      <label class="chk"><input type="checkbox" id="activeOnly" onchange="render()"/> Active &amp; pending only</label>
+      <div id="outcomeSummary"></div>
+      <div id="filterPills" class="filter-pills"></div>
+      <div class="toolbar-row"><button class="tool-btn" onclick="resetFilters()">Reset filters</button><button class="tool-btn" onclick="zoomToResults()" class="tool-btn show-map">Show on map →</button></div>
     </div>
 
     <div class="card-count" id="cardCount"></div>
@@ -262,11 +255,11 @@ input:focus, select:focus { border-color:#5aa9e6 }
       <div class="note">Size = severity (1–5). Pins jittered at county level.</div>
       <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
         <b style="font-size:11px;color:var(--muted);font-weight:600">Opposition Activity</b>
-        <div class="legend-row"><span class="lsw" style="background:#3b82f6;border-radius:2px"></span>1–2</div>
-        <div class="legend-row"><span class="lsw" style="background:#8b5cf6;border-radius:2px"></span>3–7</div>
-        <div class="legend-row"><span class="lsw" style="background:#6366f1;border-radius:2px"></span>8–15</div>
-        <div class="legend-row"><span class="lsw" style="background:#c026d3;border-radius:2px"></span>16–30</div>
-        <div class="legend-row"><span class="lsw" style="background:#7f1d1d;border-radius:2px"></span>31+</div>
+        <div class="legend-row"><span class="lsw" style="background:#78350f;opacity:.75;border-radius:2px"></span>1–2</div>
+        <div class="legend-row"><span class="lsw" style="background:#92400e;border-radius:2px"></span>3–7</div>
+        <div class="legend-row"><span class="lsw" style="background:#b45309;border-radius:2px"></span>8–15</div>
+        <div class="legend-row"><span class="lsw" style="background:#d97706;border-radius:2px"></span>16–30</div>
+        <div class="legend-row"><span class="lsw" style="background:#f59e0b;border-radius:2px"></span>31+</div>
       </div>
     </div>
   </div>
@@ -295,16 +288,27 @@ clusterGroup.on('click', e => { if(e.originalEvent) L.DomEvent.stopPropagation(e
 const OUTCOME_LABELS = { win:'Blocked', loss:'Approved', pending:'Pending', active:'Active', mixed:'Contested' };
 const friendlyOutcome = v => OUTCOME_LABELS[(v||'').toLowerCase()] || v || '—';
 const OUTCOME_COLORS = { win:'#dc2626', loss:'#2563eb', pending:'#f39c12', mixed:'#9b59b6' };
-const SOURCE_COLORS  = { 'ongoing_monitoring':'#5aa9e6', 'historical_archive':'#e67e22' };
+const SOURCE_COLORS  = { 'ongoing_monitoring':'#5aa9e6', 'historical_archive':'#e67e22', 'bryce_rejection_db':'#5aa9e6', 'fractracker':'#4ade80', 'datacenter_watch':'#c084fc', 'dc_opposition_site':'#86efac' };
 const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(friendlyOutcome(v))}</span>`; };
 // sevDots / srcTag unused — use sevDotsLabeled and srcTagFull throughout
 
 let rows=[], leafletMarkers=[], cardRefs=[];
 
+// research_tool: a study/report actively used in an opposition campaign
+// Distinguished from neutral reference docs by record_subtype or explicit Record Type value
+const RESEARCH_TOOL_TYPES = new Set(['research_tool','commissioned_study','opposition_study','campaign_research','expert_report','impact_assessment']);
+function isResearchTool(r) {
+  const sub = String(r['record_subtype']||'').trim().toLowerCase();
+  const rt  = String(r['Record Type']||'').trim().toLowerCase();
+  return RESEARCH_TOOL_TYPES.has(sub) || RESEARCH_TOOL_TYPES.has(rt);
+}
+
 function iconFor(r) {
   const o = (r['Community Outcome']||'').toLowerCase();
-  const fillColor = OUTCOME_COLORS[o] || '#f39c12';
+  // research_tool rows get a distinct teal fill so they're visually separate from both
+  // opposition events (outcome-colored) and reference docs (not shown on map)
+  const fillColor = isResearchTool(r) ? '#0d9488' : (OUTCOME_COLORS[o] || '#f39c12');
   const strokeColor = SOURCE_COLORS[r['data_source']] || '#5aa9e6';
   const n = Number(r['Severity']||2);
   const s = 11 + n*3;
@@ -339,33 +343,42 @@ function buildPopup(r) {
       ${sigs ? `<span class="p-label">Petition</span><span class="p-val">${sigs}</span>` : ''}
       ${r['Opposition Groups'] ? `<span class="p-label">Groups</span><span class="p-val">${esc(r['Opposition Groups'])}</span>` : ''}
     </div>
-    ${r['Summary'] ? `<div class="p-summary">${esc(r['Summary']).slice(0,500)}${r['Summary'].length>500?'…':''}</div>` : ''}
+    ${r['Summary'] ? `<div class="p-summary">${esc(r['Summary'].slice(0,500))}${r['Summary'].length>500?'…':''}</div>` : ''}
     ${links ? `<div class="p-links">${links}</div>` : ''}
   `;
 }
 
-function match(r) {
-  const q   = document.getElementById('q').value.trim().toLowerCase();
-  const fSt = document.getElementById('fState').value;
-  const fTy = document.getElementById('fType').value;
-  const fOc = document.getElementById('fOutcome').value;
-  const fIs = document.getElementById('fIssue').value;
-  const fSc = document.getElementById('fScope').value;
-  const fAu = document.getElementById('fAuthority').value;
-  const fSr = document.getElementById('fSource').value;
-  const act = document.getElementById('activeOnly').checked;
+// match() accepts pre-read filter values to avoid repeated DOM reads in tight loops
+function match(r, f) {
+  if (f.fSt && r['State'] !== f.fSt) return false;
+  if (f.fTy && r['Opposition Type'] !== f.fTy) return false;
+  if (f.fOc && r['Community Outcome'] !== f.fOc) return false;
+  // Issue Category is semicolon-delimited — use exact token match, not substring
+  if (f.fIs) {
+    const tokens = (r['Issue Category']||'').split(/;\s*/).map(s=>s.trim().toLowerCase());
+    if (!tokens.includes(f.fIs.toLowerCase())) return false;
+  }
+  if (f.fSc && r['Scope'] !== f.fSc) return false;
+  if (f.fAu && r['Authority Level'] !== f.fAu) return false;
+  if (f.fSr && r['data_source'] !== f.fSr) return false;
+  if (f.act && !['active','pending'].includes((r['Community Outcome']||'').toLowerCase())) return false;
+  if (!f.q) return true;
+  const hay = [r['Incident'],r['Entity'],r['State'],r['County'],r['Opposition Groups'],r['Opposition Type'],r['Objective'],r['Summary'],r['Company'],r['Hyperscaler'],r['City']].join(' ').toLowerCase();
+  return hay.includes(f.q);
+}
 
-  if (fSt && r['State'] !== fSt) return false;
-  if (fTy && r['Opposition Type'] !== fTy) return false;
-  if (fOc && r['Community Outcome'] !== fOc) return false;
-  if (fIs && !(r['Issue Category']||'').includes(fIs)) return false;
-  if (fSc && r['Scope'] !== fSc) return false;
-  if (fAu && r['Authority Level'] !== fAu) return false;
-  if (fSr && r['data_source'] !== fSr) return false;
-  if (act && !['active','pending'].includes((r['Community Outcome']||'').toLowerCase())) return false;
-  if (!q) return true;
-  const hay = [r['Incident'],r['Entity'],r['State'],r['County'],r['Opposition Groups'],r['Opposition Type'],r['Objective'],r['Company'],r['Hyperscaler'],r['City']].join(' ').toLowerCase();
-  return hay.includes(q);
+function readFilters() {
+  return {
+    q:   document.getElementById('q').value.trim().toLowerCase(),
+    fSt: document.getElementById('fState').value,
+    fTy: document.getElementById('fType').value,
+    fOc: document.getElementById('fOutcome').value,
+    fIs: document.getElementById('fIssue').value,
+    fSc: document.getElementById('fScope').value,
+    fAu: document.getElementById('fAuthority').value,
+    fSr: document.getElementById('fSource').value,
+    act: document.getElementById('activeOnly').checked,
+  };
 }
 
 function render() {
@@ -374,10 +387,23 @@ function render() {
   list.innerHTML = '';
   cardRefs = [];
   const visible = [];
-  rows.forEach((r,i) => { if(match(r)) visible.push({r,i}); });
+  const f = readFilters();
+  rows.forEach((r,i) => { if(match(r, f)) visible.push({r,i}); });
 
-  renderOutcomeSummary(visible);
   updateCardCount(visible.length, rows.length);
+
+  if (!visible.length) {
+    list.innerHTML = '<div style="padding:28px 12px;text-align:center;color:var(--muted);font-size:12px;line-height:1.6">No incidents match the current filters.<br><button onclick="resetFilters()" style="margin-top:10px;padding:5px 14px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:11px;cursor:pointer">Reset filters</button></div>';
+    document.getElementById('cAll').textContent='0';
+    document.getElementById('cPending').textContent='0';
+    document.getElementById('cWin').textContent='0';
+    document.getElementById('cLoss').textContent='0';
+    const mixedEl=document.getElementById('cMixed'); if(mixedEl) mixedEl.textContent='0';
+    renderOutcomeSummary(0,0,0,0);
+    updateFilterPills();
+    return;
+  }
+
   let pending=0, win=0, loss=0, mixed=0;
   visible.forEach(({ r, i })=>{
     const marker = leafletMarkers[i];
@@ -395,7 +421,7 @@ function render() {
     card.innerHTML = `
       <div class="card-title">${esc(r['Incident'])}${srcTagFull(r['data_source'])}</div>
       <div class="card-meta">
-        <span>${esc(r['State'])}</span>
+        <span>${esc(r['State'])}${r['County'] ? ' · '+esc(r['County']) : ''}</span>
         <span>${esc(r['Date'])}</span>
         <span>${esc(r['Opposition Type'])}</span>
         ${r['Megawatts'] ? `<span>${r['Megawatts']} MW</span>` : ''}
@@ -420,6 +446,7 @@ function render() {
   document.getElementById('cWin').textContent     = win.toLocaleString();
   document.getElementById('cLoss').textContent    = loss.toLocaleString();
   const mixedEl = document.getElementById('cMixed'); if (mixedEl) mixedEl.textContent = mixed.toLocaleString();
+  renderOutcomeSummary(pending, win, loss, mixed);
   updateFilterPills();
 }
 
@@ -429,7 +456,11 @@ function updateFilterPills() {
   const labels = {
     fState: v => v, fType: v => v, fOutcome: v => friendlyOutcome(v),
     fIssue: v => v, fScope: v => v, fAuthority: v => v,
-    fSource: v => v === 'ongoing_monitoring' ? 'Ongoing monitoring' : v === 'historical_archive' ? 'Historical archive' : v
+    fSource: v => ({
+      ongoing_monitoring:'Ongoing monitoring', historical_archive:'Historical archive',
+      bryce_rejection_db:'Bryce Rejection DB', fractracker:'FracTracker',
+      datacenter_watch:'Data Center Watch', dc_opposition_site:'DC Opposition Site'
+    }[v] || v)
   };
   const active = Object.entries(labels)
     .map(([id, fmt]) => { const el = document.getElementById(id); return el && el.value ? {id, label: fmt(el.value)} : null; })
@@ -457,7 +488,20 @@ function debounce() { clearTimeout(dt); dt = setTimeout(render, 280); }
 Papa.parse('./master_opposition.csv', {
   download:true, header:true, skipEmptyLines:true,
   complete: ({ data }) => {
-    rows = data.map(r => ({ ...r, data_source: String(r['data_source']||'').trim()==='bryce_tracker' ? 'ongoing_monitoring' : 'historical_archive' }));
+    // Normalize known source values; preserve unknown values rather than silently mapping them
+    const SOURCE_MAP = {
+      bryce_tracker:       'ongoing_monitoring',
+      historical_archive:  'historical_archive',
+      datacentertracker_org: 'historical_archive',
+      fractracker:         'fractracker',
+      bryce_rejection_db:  'bryce_rejection_db',
+      datacenter_watch:    'datacenter_watch',
+      dc_opposition_site:  'dc_opposition_site',
+    };
+    rows = data.map(r => {
+      const raw = String(r['data_source']||'').trim();
+      return { ...r, data_source: SOURCE_MAP[raw] || (raw ? raw : 'historical_archive') };
+    });
 
     const NOW = Date.now();
     const parseDate = (v) => {
@@ -534,6 +578,7 @@ Papa.parse('./master_opposition.csv', {
   
 // ─── CHOROPLETH + QoL ────────────────────────────────────────────────────────
 let choroplethLayer = null, stateCountLayer = null, currentZoomedState = null;
+let _sevSum = {}, _sevCnt = {}; // severity accumulators — written by buildChoropleth, read by buildStateCountLayer
 
 const STATE_BADGE_REVEAL_ZOOM = 4;  // show from initial zoom
 const STATE_BADGE_CENTERS = {
@@ -575,13 +620,15 @@ const ABBREV_TO_NAME = {
   WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming',DC:'District of Columbia'
 };
 
+// Warm amber-to-rust ramp — completely avoids blues, purples, reds used by pin outcome colors
+// (Approved=#2563eb, Mixed=#9b59b6, Blocked=#dc2626) so pins always read clearly over the fill.
 const OPP_STEPS = [
-  {min:0,   max:0,   color:'#1f2937', opacity:0.10},
-  {min:1,   max:2,   color:'#3b82f6', opacity:0.58},
-  {min:3,   max:7,   color:'#6366f1', opacity:0.72},
-  {min:8,   max:15,  color:'#8b5cf6', opacity:0.84},
-  {min:16,  max:30,  color:'#c026d3', opacity:0.92},
-  {min:31,  max:9999,color:'#dc2626', opacity:0.98},
+  {min:0,   max:0,   color:'#1f2937', opacity:0.08},
+  {min:1,   max:2,   color:'#78350f', opacity:0.38},
+  {min:3,   max:7,   color:'#92400e', opacity:0.55},
+  {min:8,   max:15,  color:'#b45309', opacity:0.68},
+  {min:16,  max:30,  color:'#d97706', opacity:0.80},
+  {min:31,  max:9999,color:'#f59e0b', opacity:0.90},
 ];
 function densityColor(n){ return OPP_STEPS.find(s=>n>=s.min&&n<=s.max)||OPP_STEPS[0]; }
 
@@ -616,17 +663,8 @@ function updateMarkerVisibility(){
 }
 
 
-function renderOutcomeSummary(visible){
-  let p=0,w=0,l=0,mx=0;
-  visible.forEach(({ r })=>{
-    const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
-    if(outcome === 'win') w++;
-    else if(outcome === 'loss') l++;
-    else if(outcome === 'mixed') mx++;
-    else p++;
-  });
-
-  const tot = Math.max(1, visible.length);
+function renderOutcomeSummary(p, w, l, mx){
+  const tot = Math.max(1, p+w+l+mx);
   const pct = n => (n / tot * 100).toFixed(1);
   const el = document.getElementById('outcomeSummary');
 
@@ -658,13 +696,14 @@ function resetFilters(){
 }
 function zoomToResults(){
   const pts=[];
-  rows.forEach(r=>{if(!match(r))return;const lat=+r.lat,lon=+r.lon;if(!isNaN(lat)&&!isNaN(lon))pts.push([lat,lon]);});
+  const _f=readFilters(); rows.forEach(r=>{if(!match(r,_f))return;const lat=+r.lat,lon=+r.lon;if(!isNaN(lat)&&!isNaN(lon))pts.push([lat,lon]);});
   if(pts.length) map.flyToBounds(pts,{padding:[30,30],maxZoom:8,duration:1.0,easeLinearity:0.15});
 }
 
 
 function buildChoropleth(data, geoJson){
-  const counts={}, sevSum={}, sevCnt={};
+  const counts={};
+  _sevSum={}; _sevCnt={};
   const FULL_NAMES=new Set(Object.values(ABBREV_TO_NAME));
   const featureLayers=[];
   data.forEach(r=>{
@@ -673,8 +712,8 @@ function buildChoropleth(data, geoJson){
     if(name){
       counts[name]=(counts[name]||0)+1;
       const sev=+r['Severity']||1;
-      sevSum[name]=(sevSum[name]||0)+sev;
-      sevCnt[name]=(sevCnt[name]||0)+1;
+      _sevSum[name]=(_sevSum[name]||0)+sev;
+      _sevCnt[name]=(_sevCnt[name]||0)+1;
     }
   });
   choroplethLayer=L.geoJSON(geoJson,{
@@ -693,7 +732,10 @@ function buildChoropleth(data, geoJson){
         mouseover: e=>{
           if(currentZoomedState!==name) e.target.setStyle({weight:2.5,color:'#fca5a5',fillOpacity:Math.min(0.99,zoomedOpacity(densityColor(cnt).opacity)+0.08)});
           if(cnt>0){
+            // Use match() so tooltip reflects active sidebar filters
+            const _hf=readFilters();
             const stRows = rows.filter(r=>{
+              if (!match(r,_hf)) return false;
               const raw=(r['State']||'').trim();
               return (ABBREV_TO_NAME[raw.toUpperCase()]||raw)===name;
             });
@@ -706,7 +748,8 @@ function buildChoropleth(data, geoJson){
             if(ap) parts.push(`🔵 ${ap} Approved`);
             if(pe) parts.push(`⏳ ${pe} Pending`);
             if(mx) parts.push(`🟣 ${mx} Mixed`);
-            document.getElementById('mapHint').textContent=`${name}: ${cnt} incident${cnt===1?'':'s'} — ${parts.join(' · ')} — click to zoom`;
+            const filteredCnt = stRows.length;
+            document.getElementById('mapHint').textContent=`${name}: ${filteredCnt} incident${filteredCnt===1?'':'s'} — ${parts.join(' · ')} — click to zoom`;
           } else {
             document.getElementById('mapHint').textContent=`${name}: no recorded opposition`;
           }
@@ -745,11 +788,13 @@ function buildStateCountLayer(featureLayers){
     const w = digits >= 3 ? 36 : digits === 2 ? 30 : 26;
     const h = 22;
 
-    const avgSev = sevCnt[name] ? (sevSum[name]||0)/sevCnt[name] : 0;
-    const badgeBg = avgSev >= 3.5 ? 'rgba(127,29,29,0.94)'
-                  : avgSev >= 2.5 ? 'rgba(220,38,38,0.92)'
-                  : avgSev >= 1.5 ? 'rgba(234,88,12,0.90)'
-                  : 'rgba(146,64,14,0.88)';
+    const avgSev = _sevCnt[name] ? (_sevSum[name]||0)/_sevCnt[name] : 0;
+    // Badge color keyed to severity — uses cool teal/slate so it contrasts
+    // against the warm amber choropleth fill rather than blending into it.
+    const badgeBg = avgSev >= 3.5 ? 'rgba(15,118,110,0.97)'   // high sev → teal-700
+                  : avgSev >= 2.5 ? 'rgba(20,148,132,0.94)'   // med-high → teal-600
+                  : avgSev >= 1.5 ? 'rgba(45,122,122,0.91)'   // medium → slate-teal
+                  : 'rgba(71,85,105,0.88)';                    // low sev → slate-600
     const icon = L.divIcon({
       className: 'leaflet-div-icon-clean',
       iconSize: [w, h],
@@ -793,7 +838,10 @@ function choroZoomIn(feat,layer,stateName,cnt){
   layer.setStyle({weight:2.5,color:'#ffb3ad',fillOpacity:0.18});
   map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:1.0,easeLinearity:0.15});
   document.getElementById('choroBack').style.display='block';
-  document.getElementById('mapHint').textContent=cnt>0?`${stateName}: ${cnt} incident${cnt===1?'':'s'} — zoom in or click a county`:`${stateName}: no recorded opposition`;
+  // Use filtered count so hint matches what the sidebar is showing
+  const _zf=readFilters();
+  const filteredStateCnt = rows.filter(r=>match(r,_zf)&&(ABBREV_TO_NAME[(r['State']||'').trim().toUpperCase()]||(r['State']||'').trim())===stateName).length;
+  document.getElementById('mapHint').textContent=filteredStateCnt>0?`${stateName}: ${filteredStateCnt} incident${filteredStateCnt===1?'':'s'} — zoom in or click a county`:`${stateName}: no recorded opposition`;
   setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
   history.replaceState(null,'','#'+encodeURIComponent(stateName.toLowerCase().replace(/ /g,'-')));
 }
@@ -804,7 +852,7 @@ function choroZoomOut(){
   document.getElementById('choroBack').style.display='none';
   document.getElementById('mapHint').textContent='Click any state to zoom in and reveal county-level opposition';
   setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
-  history.replaceState(null,'',location.pathname+location.search);
+  history.replaceState(null,'',location.href.replace(/#.*/,''));
 }
 
 fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
@@ -836,9 +884,15 @@ function updateCardCount(vis, tot) {
   el.innerHTML = vis === tot ? `<b>${tot}</b> incidents` : `Showing <b>${vis}</b> of <b>${tot}</b> incidents`;
 }
 function srcTagFull(s) {
-  if (s === 'ongoing_monitoring')
-    return '<span class="src-tag src-bryce">Live<span class="src-tip">Ongoing monitoring</span></span>';
-  return '<span class="src-tag src-dct">Hist<span class="src-tip">Historical archive 2014–2025</span></span>';
+  const tags = {
+    ongoing_monitoring:  ['src-bryce', 'Live',  'Ongoing monitoring'],
+    bryce_rejection_db:  ['src-bryce', 'Bryce', 'Robert Bryce — Data Center Rejection Database'],
+    fractracker:         ['src-frac',  'FT',    'FracTracker Alliance — Open U.S. Data Centers Tracker'],
+    datacenter_watch:    ['src-dcw',   'DCW',   'Data Center Watch — quarterly opposition reports'],
+    dc_opposition_site:  ['src-dco',   'DCO',   'DataCenterOpposition.com — community-reported'],
+  };
+  const [cls, label, tip] = tags[s] || ['src-dct', 'Hist', 'Historical archive 2014–2025'];
+  return `<span class="src-tag ${cls}">${label}<span class="src-tip">${tip}</span></span>`;
 }
 function sevDotsLabeled(raw) {
   const n = Math.min(5, Math.max(1, +raw || 1));

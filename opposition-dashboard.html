@@ -11,21 +11,19 @@
   --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
   --muted:#8a96a4; --border:#2c3544;
   --win:#dc2626; --loss:#2563eb; --pending:#f39c12; --mixed:#9b59b6;
-  --atlas:#4f98a3; --ai:#e67e22;
+  --atlas:#4f98a3;
   --ref-bg:#1a2535; --ref-text:#5aa9e6; --ref-border:#1e3a52;
 }
 * { box-sizing:border-box; margin:0; padding:0 }
 body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(--text); padding:20px; min-height:100vh }
-h2 { font-size:15px; font-weight:700; margin-bottom:14px; color:var(--text) }
+h2 { font-weight:700; margin-bottom:14px; color:var(--text) }
 .page-header { margin-bottom:20px }
-.page-header h1 { font-size:20px; font-weight:700; margin-bottom:4px }
-.page-header p { font-size:12px; color:var(--muted) }
 
 /* KPI strip */
 .kpis { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-bottom:20px }
 .kpi { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:14px 12px; min-width:0 }
-.kpi b { display:block; font-size:22px; font-weight:800; margin-bottom:3px }
-.kpi span { font-size:11px; color:var(--muted) }
+.kpi b { display:block; font-weight:800; margin-bottom:3px }
+.kpi span { color:var(--muted) }
 .kpi.k-total b { color:var(--atlas) }
 .kpi.k-pending b { color:var(--pending) }
 .kpi.k-win b { color:var(--win) }
@@ -45,7 +43,7 @@ h2 { font-size:15px; font-weight:700; margin-bottom:14px; color:var(--text) }
 .search-wrap { position:relative; flex:1; min-width:200px }
 .search-wrap svg { position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none }
 .search-wrap input { padding-left:32px; width:100% }
-input, select { padding:7px 10px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--text); font-size:12px; outline:none }
+input, select { border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--text); outline:none }
 input:focus, select:focus { border-color:var(--atlas) }
 .tbl-meta { font-size:11px; color:var(--muted); margin-left:auto }
 
@@ -58,7 +56,7 @@ thead th.sorted-asc::after { content:' ↑' }
 thead th.sorted-desc::after { content:' ↓' }
 tbody tr { border-top:1px solid var(--border) }
 tbody tr:hover { background:#131a23 }
-tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
+tbody td { vertical-align:top; line-height:1.4 }
 .td-incident { font-weight:600; max-width:180px }
 .td-summary { max-width:260px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
 .td-link a { color:var(--atlas); text-decoration:none; font-size:11px }
@@ -69,10 +67,14 @@ tbody td { padding:9px 12px; vertical-align:top; line-height:1.4 }
 .badge-loss    { background:#0f2548; color:#93c5fd }
 .badge-mixed   { background:#2f1d46; color:#c89fff }
 .badge-        { background:#1a2535; color:#8ab4d4 }
-.badge-reference { background:var(--ref-bg); color:var(--ref-text) }
+.badge-reference    { background:var(--ref-bg); color:var(--ref-text) }
+.badge-research_tool { background:#0f2e2b; color:#2dd4bf }
 .src-tag { display:inline-block; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700; margin-left:4px }
-.src-dct   { background:#3b2208; color:#e67e22 }
-.src-bryce { background:#1a2e42; color:#5aa9e6 }
+.src-dct  { background:#3b2208; color:#e67e22 }
+.src-bryce{ background:#1a2e42; color:#5aa9e6 }
+.src-frac { background:#1a3322; color:#4ade80 }
+.src-dcw  { background:#2d1a42; color:#c084fc }
+.src-dco  { background:#1a2a1a; color:#86efac }
 
 /* Reference row styling */
 tbody tr.ref-row { opacity:.75 }
@@ -85,33 +87,13 @@ tbody tr.ref-row:hover { opacity:1; background:#111e2a }
 
 /* Pagination */
 .pagination { display:flex; align-items:center; gap:8px; padding:12px 14px; border-top:1px solid var(--border); font-size:12px; color:var(--muted) }
-.pagination button { padding:5px 10px; border-radius:7px; border:1px solid var(--border); background:#0c1018; color:var(--text); cursor:pointer; font-size:12px }
+.pagination button { border-radius:7px; border:1px solid var(--border); background:#0c1018; color:var(--text); cursor:pointer }
 .pagination button:hover { border-color:var(--atlas) }
 .pagination button:disabled { opacity:.35; cursor:default }
 .page-info { margin:0 auto }
 
-/* Full record list section */
-.full-list-section { background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-top:20px }
-.full-list-header {
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
-  padding:12px 14px; border-bottom:1px solid var(--border); flex-wrap:wrap;
-}
-.full-list-title { font-size:14px; font-weight:700 }
-.full-list-count { font-size:11px; color:var(--muted) }
-.full-list-controls { display:flex; gap:8px; align-items:center; flex-wrap:wrap }
-.full-list-search { flex:1; min-width:180px; max-width:240px }
-.full-list-body { overflow:auto }
-.full-list-body.hidden { display:none }
-.full-list-body table { min-width:1000px }
-.full-list-body thead th { position:sticky; top:0; z-index:1 }
-.full-list-scroll { overflow:auto; max-height:480px }
-.toggle-btn, .export-all-btn {
-  padding:5px 12px; border-radius:7px; border:1px solid var(--border);
-  background:#0c1018; color:var(--muted); font-size:12px; cursor:pointer; white-space:nowrap;
-}
-.toggle-btn:hover, .export-all-btn:hover { border-color:var(--atlas); color:var(--text) }
-.toggle-btn .arrow { display:inline-block; transition:transform .18s }
-.toggle-btn.collapsed .arrow { transform:rotate(-90deg) }
+/* export-all-btn used in filter bar */
+.export-all-btn:hover { border-color:var(--atlas) !important; color:var(--text) !important }
 
 @media (max-width:1100px) {
   .kpis { grid-template-columns:repeat(2,minmax(0,1fr)) }
@@ -128,8 +110,6 @@ tbody tr.ref-row:hover { opacity:1; background:#111e2a }
   .charts { grid-template-columns:1fr }
   .chart-card.wide { grid-column:1 }
   .table-controls { padding:12px; gap:8px }
-  .full-list-controls { width:100% }
-  .full-list-search { max-width:100% }
 }
 
 /* ── Accessibility pass ── */
@@ -178,16 +158,17 @@ tbody td  { padding:12px 14px; font-size:13px }
   <div class="kpi k-win"><b id="kWin">—</b><span>Projects blocked</span></div>
   <div class="kpi k-loss"><b id="kLoss">—</b><span>Projects approved</span></div>
   <div class="kpi k-pending"><b id="kPending">—</b><span>Pending / active cases</span></div>
+  <div class="kpi" style="--kc:var(--mixed)"><b id="kMixed" style="color:var(--mixed)">—</b><span>Mixed / contested</span></div>
   <div class="kpi k-ref"><b id="kRef">—</b><span>Reference docs (not counted)</span></div>
 </div>
 
 <!-- Outcome legend -->
 <div class="outcome-strip">
   <b>What the colors mean:</b>
-  <div class="os-item"><span class="os-dot" style="background:#ffc15a"></span>Pending — decision not yet made</div>
-  <div class="os-item"><span class="os-dot" style="background:#7bd67f"></span>Blocked — opposition stopped or modified project</div>
-  <div class="os-item"><span class="os-dot" style="background:#ff8f84"></span>Approved — project advanced despite opposition</div>
-  <div class="os-item"><span class="os-dot" style="background:#c89fff"></span>Mixed — partial concessions or ongoing</div>
+  <div class="os-item"><span class="os-dot" style="background:var(--pending)"></span>Pending — decision not yet made</div>
+  <div class="os-item"><span class="os-dot" style="background:var(--win)"></span>Blocked — opposition stopped or modified project</div>
+  <div class="os-item"><span class="os-dot" style="background:var(--loss)"></span>Approved — project advanced despite opposition</div>
+  <div class="os-item"><span class="os-dot" style="background:var(--mixed)"></span>Mixed — partial concessions or ongoing</div>
 </div>
 
 <!-- Charts -->
@@ -219,12 +200,20 @@ tbody td  { padding:12px 14px; font-size:13px }
   <select id="tf-state"   onchange="trender()"><option value="">All states</option></select>
   <select id="tf-outcome" onchange="trender()"><option value="">All outcomes</option></select>
   <select id="tf-type"    onchange="trender()"><option value="">All types</option></select>
-  <select id="tf-source"  onchange="trender()"><option value="">All sources</option><option value="datacentertracker.org">DataCenterTracker.org</option><option value="bryce_tracker">Bryce Tracker (2026)</option></select>
+  <select id="tf-source"  onchange="trender()">
+    <option value="">All sources</option>
+    <option value="datacentertracker.org">DataCenterTracker.org</option>
+    <option value="bryce_tracker">Bryce Tracker</option>
+    <option value="fractracker">FracTracker</option>
+    <option value="datacenter_watch">Data Center Watch</option>
+    <option value="dc_opposition_site">DC Opposition Site</option>
+  </select>
   <select id="tf-ref" onchange="trender()">
     <option value="include">All records (incl. reference)</option>
     <option value="exclude">Opposition only (excl. reference)</option>
     <option value="only">Reference docs only</option>
   </select>
+  <button class="export-all-btn" id="exportAllBtn" onclick="exportAllCSV()" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:#0c1018;color:var(--muted);font-size:13px;cursor:pointer;white-space:nowrap">Export CSV</button>
   <button class="reset-btn" id="tResetBtn" onclick="tResetFilters()">Reset filters</button>
   <span class="tbl-meta" id="tMeta"></span>
 </div>
@@ -261,48 +250,6 @@ tbody td  { padding:12px 14px; font-size:13px }
   </div>
 </div>
 
-<!-- All Records section -->
-<div class="full-list-section">
-  <div class="full-list-header">
-    <div style="display:flex;align-items:center;gap:10px">
-      <span class="full-list-title">All records</span>
-      <span class="full-list-count" id="fullListCount">0 records</span>
-    </div>
-    <div class="full-list-controls">
-      <input type="text" class="full-list-search" id="fullListSearch" placeholder="Search all records…" oninput="flDebounce()">
-      <button class="toggle-btn" id="flToggle" onclick="toggleFullList()">
-        <span class="arrow">▾</span> <span id="flToggleLabel">Collapse</span>
-      </button>
-      <button class="export-all-btn" id="exportAllBtn" onclick="exportAllCSV()">Export all CSV</button>
-    </div>
-  </div>
-  <div class="full-list-body" id="fullListBody">
-    <div class="full-list-scroll">
-      <table>
-        <thead>
-          <tr>
-            <th onclick="flSort('Incident')">Incident</th>
-            <th onclick="flSort('Date')">Date</th>
-            <th onclick="flSort('State')">State</th>
-            <th onclick="flSort('Opposition Type')">Type</th>
-            <th onclick="flSort('Community Outcome')">Result</th>
-            <th onclick="flSort('Severity')">Severity</th>
-            <th>Summary</th>
-            <th>Source</th>
-          </tr>
-        </thead>
-        <tbody id="flTbody"></tbody>
-      </table>
-    </div>
-    <div class="pagination">
-      <button id="flBtnFirst" onclick="flPageNav('first')" disabled>«</button>
-      <button id="flBtnPrev"  onclick="flPageNav('prev')"  disabled>← Prev</button>
-      <span class="page-info" id="flPageInfo"></span>
-      <button id="flBtnNext"  onclick="flPageNav('next')">Next →</button>
-      <button id="flBtnLast"  onclick="flPageNav('last')">»</button>
-    </div>
-  </div>
-</div>
 
 <script>
 // ── Reference type detection ──────────────────────────────────────────────
@@ -322,6 +269,15 @@ function isRefType(r) {
   return (rt !== '' && REFERENCE_TYPES.has(rt)) || outcome === 'reference';
 }
 
+// research_tool: study/report actively used in an opposition campaign
+// Set record_subtype = 'research_tool' (or any RESEARCH_TOOL_TYPES value) in the CSV.
+const RESEARCH_TOOL_TYPES = new Set(['research_tool','commissioned_study','opposition_study','campaign_research','expert_report','impact_assessment']);
+function isResearchTool(r) {
+  const sub = String(r['record_subtype']||'').trim().toLowerCase();
+  const rt  = String(r['Record Type']||'').trim().toLowerCase();
+  return RESEARCH_TOOL_TYPES.has(sub) || RESEARCH_TOOL_TYPES.has(rt);
+}
+
 // ── Utilities ─────────────────────────────────────────────────────────────
 const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
@@ -335,10 +291,18 @@ const badge = v => {
   return `<span class="badge badge-${k||''}">${esc(friendlyOutcome(v))}</span>`;
 };
 
-const srcTag = s => !s ? ''
-  : s==='bryce_tracker'
-    ? '<span class="src-tag src-bryce">Bryce<span class="src-tip">Bryce Tracker — ongoing 2026 monitoring</span></span>'
-    : '<span class="src-tag src-dct">DCT<span class="src-tip">DataCenterTracker.org — public database 2014–2025</span></span>';
+const _SRC_TAG_MAP = {
+  bryce_tracker:      ['src-bryce', 'Bryce', 'Robert Bryce — ongoing 2026 monitoring'],
+  fractracker:        ['src-frac',  'FT',    'FracTracker Alliance — Open U.S. Data Centers Tracker'],
+  datacenter_watch:   ['src-dcw',   'DCW',   'Data Center Watch — quarterly opposition reports'],
+  dc_opposition_site: ['src-dco',   'DCO',   'DataCenterOpposition.com — community-reported'],
+  'datacentertracker.org': ['src-dct', 'DCT', 'DataCenterTracker.org — public database 2014–2025'],
+};
+const srcTag = s => {
+  if (!s) return '';
+  const [cls, label, tip] = _SRC_TAG_MAP[s] || ['src-dct', 'DCT', 'DataCenterTracker.org'];
+  return `<span class="src-tag ${cls}">${label}<span class="src-tip">${tip}</span></span>`;
+};
 
 const CHART_COLORS = ['#4f98a3','#e67e22','#4caf50','#e74c3c','#f39c12','#9b59b6','#5aa9e6','#2ecc71','#e91e63','#ff9800','#00bcd4','#8bc34a','#ff5722','#607d8b','#9c27b0'];
 const GRID = { color:'rgba(255,255,255,0.06)' };
@@ -352,12 +316,7 @@ let allRows = [];
 let tFiltered = [], tSortCol = 'Date', tSortDir = -1, tPage = 0;
 const PAGE_SIZE = 50;
 
-// Full list state
-let flCurrentPage = 0;
-let flSortCol = 'Date';
-let flSortDir = -1;
-let flSearch = '';
-const FL_PAGE_SIZE = 50;
+
 
 // ── Charts ─────────────────────────────────────────────────────────────────
 let chartInstances = {};
@@ -414,18 +373,26 @@ function buildCharts(rows) {
 
 // ── KPIs ───────────────────────────────────────────────────────────────────
 function buildKPIs(rows) {
-  const opp = rows.filter(r => !isRefType(r));
-  const refs = rows.filter(r => isRefType(r));
-  const pending = opp.filter(r=>['active','pending'].includes((r['Community Outcome']||'').toLowerCase())).length;
-  const win     = opp.filter(r=>(r['Community Outcome']||'').toLowerCase()==='win').length;
-  const loss    = opp.filter(r=>(r['Community Outcome']||'').toLowerCase()==='loss').length;
-  const states  = new Set(opp.map(r=>r['State']).filter(Boolean)).size;
-  document.getElementById('kTotal').textContent   = opp.length.toLocaleString();
+  let pending=0, win=0, loss=0, mixed=0, refCount=0;
+  const stateSet = new Set();
+  rows.forEach(r => {
+    if (isRefType(r)) { refCount++; return; }
+    const o = (r['Community Outcome']||'').toLowerCase();
+    if (o==='win') win++;
+    else if (o==='loss') loss++;
+    else if (o==='mixed') mixed++;
+    else pending++;
+    if (r['State']) stateSet.add(r['State']);
+  });
+  const opp = rows.filter(r => !isRefType(r)); // needed for maxDate reduce below
+  const states = stateSet.size;
+  document.getElementById('kTotal').textContent   = (rows.length - refCount).toLocaleString();
   document.getElementById('kStates').textContent  = states.toLocaleString();
   document.getElementById('kWin').textContent     = win.toLocaleString();
   document.getElementById('kLoss').textContent    = loss.toLocaleString();
   document.getElementById('kPending').textContent = pending.toLocaleString();
-  document.getElementById('kRef').textContent     = refs.length.toLocaleString();
+  const kMixedEl = document.getElementById('kMixed'); if(kMixedEl) kMixedEl.textContent = mixed.toLocaleString();
+  document.getElementById('kRef').textContent     = refCount.toLocaleString();
   const _now = new Date();
   const maxDate = opp.reduce((max,r)=>{
     const d=new Date(r['Date']); return (!isNaN(d)&&d>max&&d<=_now)?d:max;
@@ -438,24 +405,27 @@ function buildKPIs(rows) {
 }
 
 // ── Table filter ───────────────────────────────────────────────────────────
-function tmatch(r) {
-  const q  = document.getElementById('tq').value.trim().toLowerCase();
-  const fs = document.getElementById('tf-state').value;
-  const fo = document.getElementById('tf-outcome').value;
-  const ft = document.getElementById('tf-type').value;
-  const fc = document.getElementById('tf-source').value;
-  const fr = document.getElementById('tf-ref').value;
-
+// tmatch accepts a pre-read filter snapshot to avoid repeated DOM reads per row
+function tmatch(r, tf) {
   const isRef = isRefType(r);
-  if (fr === 'exclude' && isRef) return false;
-  if (fr === 'only' && !isRef) return false;
-
-  if (fs && r['State']!==fs) return false;
-  if (fo && r['Community Outcome']!==fo) return false;
-  if (ft && r['Opposition Type']!==ft) return false;
-  if (fc && r['data_source']!==fc) return false;
-  if (!q) return true;
-  return [r['Incident'],r['Entity'],r['State'],r['County'],r['Opposition Groups'],r['Opposition Type'],r['Company']].join(' ').toLowerCase().includes(q);
+  if (tf.fr === 'exclude' && isRef) return false;
+  if (tf.fr === 'only' && !isRef) return false;
+  if (tf.fs && r['State']!==tf.fs) return false;
+  if (tf.fo && r['Community Outcome']!==tf.fo) return false;
+  if (tf.ft && r['Opposition Type']!==tf.ft) return false;
+  if (tf.fc && r['data_source']!==tf.fc) return false;
+  if (!tf.q) return true;
+  return [r['Incident'],r['Entity'],r['State'],r['County'],r['Opposition Groups'],r['Opposition Type'],r['Company'],r['Summary'],r['Objective']].join(' ').toLowerCase().includes(tf.q);
+}
+function readTFilters() {
+  return {
+    q:  document.getElementById('tq').value.trim().toLowerCase(),
+    fs: document.getElementById('tf-state').value,
+    fo: document.getElementById('tf-outcome').value,
+    ft: document.getElementById('tf-type').value,
+    fc: document.getElementById('tf-source').value,
+    fr: document.getElementById('tf-ref').value,
+  };
 }
 
 function tsort(col) {
@@ -473,9 +443,12 @@ function trender() {
   const refMode = document.getElementById('tf-ref').value;
   document.getElementById('refNotice').style.display = (refMode === 'only') ? 'block' : 'none';
 
-  tFiltered = allRows.filter(tmatch);
+  const _tf = readTFilters();
+  tFiltered = allRows.filter(r => tmatch(r, _tf));
   tFiltered.sort((a,b) => {
-    let va=a[tSortCol]||'', vb=b[tSortCol]||'';
+    let va, vb;
+    if (tSortCol === 'Date') { va=_parseDateMs(a['Date']); vb=_parseDateMs(b['Date']); }
+    else { va=a[tSortCol]||''; vb=b[tSortCol]||''; }
     if(['Severity','Megawatts'].includes(tSortCol)) { va=+va||0; vb=+vb||0; }
     if(va<vb) return tSortDir; if(va>vb) return -tSortDir; return 0;
   });
@@ -483,6 +456,14 @@ function trender() {
   const start = tPage*PAGE_SIZE, end = start+PAGE_SIZE;
   const pageRows = tFiltered.slice(start, end);
   const tbody = document.getElementById('tbody');
+  if (!tFiltered.length) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:28px;color:var(--muted);font-size:12px">No records match the current filters. <button onclick="tResetFilters()" style="margin-left:8px;padding:3px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:11px">Reset</button></td></tr>';
+    document.getElementById('tMeta').textContent = '0 rows';
+    document.getElementById('btnPrev').disabled = true;
+    document.getElementById('btnNext').disabled = true;
+    document.getElementById('pageInfo').textContent = '0 results';
+    return;
+  }
   tbody.innerHTML = pageRows.map(r => {
     const isRef = isRefType(r);
     return `<tr class="${isRef?'ref-row':''}">
@@ -490,7 +471,7 @@ function trender() {
       <td style="white-space:nowrap">${esc(String(r['Date']||'').slice(0,10))}</td>
       <td>${esc(r['State'])}</td>
       <td style="white-space:nowrap">${esc(r['Opposition Type'])}</td>
-      <td>${isRef ? '<span class="badge badge-reference">Reference</span>' : badge(r['Community Outcome'])}</td>
+      <td>${isRef ? '<span class="badge badge-reference">Reference</span>' : isResearchTool(r) ? '<span class="badge badge-research_tool">Research tool</span>' : badge(r['Community Outcome'])}</td>
       <td style="text-align:center">${esc(r['Severity'])}</td>
       <td style="text-align:right">${r['Megawatts']?Number(r['Megawatts']).toLocaleString():''}</td>
       <td class="td-summary">${esc((r['Summary']||r['Objective']||'').slice(0,120))}</td>
@@ -504,97 +485,17 @@ function trender() {
   document.getElementById('pageInfo').textContent = `${start+1}–${Math.min(end,tFiltered.length)} of ${tFiltered.length.toLocaleString()}`;
 }
 
-function tpage(dir) { tPage = Math.max(0, tPage+dir); trender(); }
+function tpage(dir) { const maxPage = Math.max(0, Math.ceil(tFiltered.length/PAGE_SIZE)-1); tPage = Math.min(maxPage, Math.max(0, tPage+dir)); trender(); }
 let tdt;
 function tdebounce() { clearTimeout(tdt); tdt=setTimeout(()=>{tPage=0;trender();},260); }
 
-// ── Full record list ────────────────────────────────────────────────────────
-let flCollapsed = false;
-
-function toggleFullList() {
-  flCollapsed = !flCollapsed;
-  const body = document.getElementById('fullListBody');
-  const btn  = document.getElementById('flToggle');
-  const lbl  = document.getElementById('flToggleLabel');
-  body.classList.toggle('hidden', flCollapsed);
-  btn.classList.toggle('collapsed', flCollapsed);
-  lbl.textContent = flCollapsed ? 'Expand' : 'Collapse';
-}
-
-function flSort(col) {
-  if (flSortCol === col) flSortDir *= -1; else { flSortCol = col; flSortDir = 1; }
-  flCurrentPage = 0;
-  renderFullList();
-}
-
 const _parseDateMs = v => { const d=new Date(v||''); return isNaN(d)?0:Math.min(d.getTime(),Date.now()); };
-function getFlRows() {
-  let rows = allRows;
-  if (flSearch) {
-    const q = flSearch.toLowerCase();
-    rows = rows.filter(r => [r['Incident'],r['State'],r['Opposition Type'],r['Community Outcome'],r['Summary'],r['Objective']].filter(Boolean).join(' ').toLowerCase().includes(q));
-  }
-  return [...rows].sort((a,b) => {
-    let va, vb;
-    if (flSortCol === 'Date') { va=_parseDateMs(a['Date']); vb=_parseDateMs(b['Date']); }
-    else { va=a[flSortCol]||''; vb=b[flSortCol]||''; }
-    if (['Severity','Megawatts'].includes(flSortCol)) { va=+va||0; vb=+vb||0; }
-    if (va<vb) return -flSortDir; if (va>vb) return flSortDir; return 0;
-  });
-}
-
-function renderFullList() {
-  if (flCollapsed) return;
-  const rows = getFlRows();
-  const total = rows.length;
-  const totalPages = Math.max(1, Math.ceil(total / FL_PAGE_SIZE));
-  if (flCurrentPage >= totalPages) flCurrentPage = Math.max(0, totalPages - 1);
-  const start = flCurrentPage * FL_PAGE_SIZE;
-  const pageRows = rows.slice(start, start + FL_PAGE_SIZE);
-
-  document.getElementById('fullListCount').textContent = `${total.toLocaleString()} record${total!==1?'s':''}`;
-
-  const tbody = document.getElementById('flTbody');
-  tbody.innerHTML = pageRows.map(r => {
-    const isRef = isRefType(r);
-    return `<tr class="${isRef?'ref-row':''}">
-      <td class="td-incident">${esc(r['Incident']||'—')}${srcTag(r['data_source'])}</td>
-      <td style="white-space:nowrap">${esc(String(r['Date']||'').slice(0,10))}</td>
-      <td>${esc(r['State']||'—')}</td>
-      <td style="white-space:nowrap">${esc(r['Opposition Type']||'—')}</td>
-      <td>${isRef ? '<span class="badge badge-reference">Reference</span>' : badge(r['Community Outcome'])}</td>
-      <td style="text-align:center">${esc(r['Severity']||'')}</td>
-      <td class="td-summary">${esc((r['Summary']||r['Objective']||'').slice(0,100))}</td>
-      <td class="td-link">${r['Source URL']?`<a href="${esc(r['Source URL'])}" target="_blank" rel="noopener">↗</a>`:''}</td>
-    </tr>`;
-  }).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px">No records match.</td></tr>';
-
-  document.getElementById('flPageInfo').textContent = total
-    ? `Page ${flCurrentPage+1} of ${totalPages} · ${total.toLocaleString()} records`
-    : '0 records';
-  document.getElementById('flBtnFirst').disabled = flCurrentPage===0;
-  document.getElementById('flBtnPrev').disabled  = flCurrentPage===0;
-  document.getElementById('flBtnNext').disabled  = flCurrentPage>=totalPages-1;
-  document.getElementById('flBtnLast').disabled  = flCurrentPage>=totalPages-1;
-}
-
-function flPageNav(dir) {
-  const total = getFlRows().length;
-  const totalPages = Math.max(1, Math.ceil(total / FL_PAGE_SIZE));
-  if (dir==='first') flCurrentPage=0;
-  else if (dir==='prev' && flCurrentPage>0) flCurrentPage--;
-  else if (dir==='next' && flCurrentPage<totalPages-1) flCurrentPage++;
-  else if (dir==='last') flCurrentPage=totalPages-1;
-  renderFullList();
-}
-
-let flDt;
-function flDebounce() { clearTimeout(flDt); flDt=setTimeout(()=>{ flSearch=document.getElementById('fullListSearch').value; flCurrentPage=0; renderFullList(); },260); }
 
 function exportAllCSV() {
-  const rows = getFlRows();
+  // Export the currently filtered table rows (respects all active filters)
+  const rows = tFiltered;
   if (!rows.length) return;
-  const headers = Object.keys(rows[0]);
+  const headers = [...new Set(rows.flatMap(r => Object.keys(r)))];
   const csv = [headers.join(',')].concat(rows.map(r => headers.map(h => {
     const v = String(r[h]??'');
     return /[",\n]/.test(v) ? `"${v.replace(/"/g,'""')}"` : v;
@@ -612,10 +513,12 @@ Papa.parse('./master_opposition.csv', {
   complete({ data }) {
     allRows = data;
 
+    const _initNow = Date.now();
     const parseDate = (v) => {
       if (!v) return 0;
       const d = new Date(v);
-      return isNaN(d.getTime()) ? 0 : d.getTime();
+      if (isNaN(d.getTime())) return 0;
+      return Math.min(d.getTime(), _initNow);
     };
 
     allRows.sort((a, b) => parseDate(b['Date']) - parseDate(a['Date']));
@@ -640,7 +543,6 @@ Papa.parse('./master_opposition.csv', {
     tSortCol = 'Date';
     tSortDir = -1;
     trender();
-    renderFullList();
   }
 });
 
@@ -652,9 +554,10 @@ function tResetFilters() {
 }
 
 function updateResetBtn() {
-  const q = document.getElementById('tq')?.value || '';
-  const anyFilter = ['tf-state','tf-outcome','tf-type','tf-source'].some(id => document.getElementById(id)?.value);
-  const refNonDefault = document.getElementById('tf-ref')?.value !== 'include';
+  const tf = readTFilters();
+  const q = tf.q;
+  const anyFilter = !!(tf.fs || tf.fo || tf.ft || tf.fc);
+  const refNonDefault = tf.fr !== 'include';
   const btn = document.getElementById('tResetBtn');
   if(btn) btn.classList.toggle('active', !!(q || anyFilter || refNonDefault));
 }
