@@ -1,9 +1,31 @@
 import csv
 import requests
+import feedparser
 
 SOURCE_URL = "https://datacentertracker.org/data/fights.json"
 OUTPUT_CSV = "master_opposition.csv"
+RSS_URL = "https://news.google.com/rss/search?q=data+center+opposition+moratorium&hl=en-US&gl=US&ceid=US:en"
 
+def load_proposals(path="data/proposals.csv"):
+    proposals = {}
+    try:
+        with open(path, newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                key = (row.get("state", "").strip().upper(), row.get("companies", "").strip().lower())
+                proposals[key] = row
+    except FileNotFoundError:
+        pass
+    return proposals
+
+def score_severity(record):
+    score = 1
+    if record.get("petition_signatures") and int(record.get("petition_signatures") or 0) > 1000:
+        score += 1
+    if record.get("authority_level") in ("state", "federal"):
+        score += 1
+    if record.get("status") in ("ongoing", "escalated"):
+        score += 1
+    return min(score, 5)
 
 def join_list(value):
     if not value:
@@ -12,32 +34,41 @@ def join_list(value):
         return "; ".join(str(x) for x in value if x is not None)
     return str(value)
 
-
 def clean(value):
     if value is None:
         return ""
     return value
 
+def load_existing_rows(path):
+    existing = {}
+    header = []
+    try:
+        with open(path, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            header = reader.fieldnames or []
+            for row in reader:
+                key = (row.get("Incident", "").strip(), row.get("Entity", "").strip())
+                existing[key] = row
+    except FileNotFoundError:
+        pass
+    return existing, header
 
-def load_existing_header(path):
-    with open(path, newline="", encoding="utf-8") as f:
-        reader = csv.reader(f)
-        return next(reader)
-
-
-def build_row(record):
+def build_row(record, proposals=None):
     sources = record.get("sources") or []
     jurisdiction = clean(record.get("jurisdiction"))
     state = clean(record.get("state"))
+    company = clean(record.get("company"))
+
+    proposal = (proposals or {}).get((state.upper(), company.lower()), {})
 
     return {
         "Incident": jurisdiction,
         "City": jurisdiction,
         "Date": clean(record.get("date")),
-        "Entity": clean(record.get("company")) or "Unknown",
+        "Entity": company or "Unknown",
         "Location": f"{jurisdiction}, {state}" if jurisdiction and state else jurisdiction or state,
         "Opposition Type": join_list(record.get("action_type")),
-        "Severity": 4,
+        "Severity": score_severity(record),
         "Source URL": sources[0] if sources else "",
         "State": state,
         "County": clean(record.get("county")),
@@ -48,11 +79,11 @@ def build_row(record):
         "Status": clean(record.get("status")),
         "Community Outcome": clean(record.get("community_outcome")),
         "Hyperscaler": clean(record.get("hyperscaler")),
-        "Company": clean(record.get("company")),
+        "Company": company,
         "Project Name": clean(record.get("project_name")),
         "Investment Million USD": clean(record.get("investment_million_usd")),
-        "Megawatts": clean(record.get("megawatts")),
-        "Acreage": clean(record.get("acreage")),
+        "Megawatts": clean(record.get("megawatts")) or proposal.get("capacity_mw", ""),
+        "Acreage": clean(record.get("acreage")) or proposal.get("size_acres", ""),
         "Sponsors": join_list(record.get("sponsors")),
         "Opposition Groups": join_list(record.get("opposition_groups")),
         "Summary": clean(record.get("summary")),
@@ -67,22 +98,66 @@ def build_row(record):
         "lon": clean(record.get("lng")),
     }
 
+def fetch_news_rows(existing_keys):
+    rows = []
+    try:
+        feed = feedparser.parse(RSS_URL)
+        for entry in feed.entries:
+            title = entry.title
+            link = entry.link
+            key = (title[:50], "Unknown")
+            if key not in existing_keys:
+                rows.append({
+                    "Incident": title[:50],
+                    "Entity": "Unknown",
+                    "Summary": title,
+                    "Source URL": link,
+                    "datasource": "google_news_rss",
+                    "Severity": 1,
+                    "Status": "ongoing"
+                })
+    except Exception:
+        pass
+    return rows
 
 def main():
-    header = load_existing_header(OUTPUT_CSV)
+    existing_rows, header = load_existing_rows(OUTPUT_CSV)
+    proposals = load_proposals()
 
-    response_obj = requests.get(SOURCE_URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
-    response_obj.raise_for_status()
-    payload = response_obj.json()
-    records = payload["data"] if isinstance(payload, dict) else payload
+    if not header:
+         header = [
+            "Incident", "City", "Date", "Entity", "Location", "Opposition Type", 
+            "Severity", "Source URL", "State", "County", "Scope", "Issue Category", 
+            "Objective", "Authority Level", "Status", "Community Outcome", 
+            "Hyperscaler", "Company", "Project Name", "Investment Million USD", 
+            "Megawatts", "Acreage", "Sponsors", "Opposition Groups", "Summary", 
+            "Sources", "Opposition Website", "Opposition Facebook", 
+            "Opposition Instagram", "Petition URL", "Petition Signatures", 
+            "datasource", "lat", "lon"
+        ]
 
-    rows = [build_row(record) for record in records]
+    try:
+        response_obj = requests.get(SOURCE_URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
+        response_obj.raise_for_status()
+        payload = response_obj.json()
+        records = payload["data"] if isinstance(payload, dict) else payload
+    except requests.RequestException:
+        records = []
+
+    for record in records:
+        row = build_row(record, proposals)
+        key = (row.get("Incident", "").strip(), row.get("Entity", "").strip())
+        existing_rows[key] = row
+        
+    news_rows = fetch_news_rows(existing_rows.keys())
+    for row in news_rows:
+        key = (row.get("Incident", "").strip(), row.get("Entity", "").strip())
+        existing_rows[key] = row
 
     with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=header, extrasaction="ignore")
         writer.writeheader()
-        writer.writerows(rows)
-
+        writer.writerows(existing_rows.values())
 
 if __name__ == "__main__":
     main()
