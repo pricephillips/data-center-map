@@ -15,7 +15,7 @@
   --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
   --muted:#8a96a4; --border:#2c3544;
   --win:#dc2626; --loss:#2563eb; --pending:#f39c12; --mixed:#9b59b6;
-  --bryce:#5aa9e6; --dct:#e67e22;
+  --bryce:#5aa9e6; --dct:#e67e22; --atlas:#4f98a3;
 }
 * { box-sizing:border-box; margin:0; padding:0 }
 html { height:100%; overflow:hidden }
@@ -27,10 +27,7 @@ body { font-family: Inter,system-ui,sans-serif; background:var(--bg); color:var(
 .logo svg { color:#5aa9e6; flex-shrink:0 }
 h1 { font-size:17px; font-weight:700 }
 .sub { font-size:11px; color:var(--muted); line-height:1.45 }
-.source-pills { display:flex; gap:6px; margin-top:6px }
-.pill { font-size:10px; padding:2px 8px; border-radius:999px; font-weight:600 }
-.pill-bryce { background:#1a2e42; color:var(--bryce) }
-.pill-dct   { background:#3b2208; color:var(--dct) }
+
 .filters { padding:10px 12px; border-bottom:1px solid var(--border); background:var(--panel2); display:flex; flex-direction:column; gap:7px }
 #list { overflow-y:auto; flex:1; padding:10px 12px; }
 .search-wrap { position:relative }
@@ -177,6 +174,12 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .how-to-use li:last-child { border:none }
 .how-to-use li .ico { font-size:18px; line-height:1; flex-shrink:0 }
 .how-to-use .close-btn { width:100%; padding:10px; border-radius:8px; border:none; background:#1a3a5c;border:1px solid #5aa9e6;color:#5aa9e6; color:#fff; font-size:14px; font-weight:700; cursor:pointer }
+/* Layer toggle controls */
+.layer-toggles { border-top:1px solid var(--border); margin-top:10px; padding-top:10px }
+.layer-toggle-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); margin-bottom:6px }
+.layer-chk { display:flex; align-items:center; gap:7px; font-size:12px; color:var(--text); padding:3px 0; cursor:pointer }
+.layer-chk input { width:13px; height:13px; cursor:pointer; accent-color:var(--atlas) }
+
 </style>
 </head>
 <body>
@@ -188,10 +191,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
         <h1>Developer Risk: Opposition Tracker</h1>
       </div>
       <div class="sub">Community resistance, legislation, and legal challenges to data center development. Click a state to zoom in; click a pin for details.</div>
-      <div class="source-pills">
-        <span class="pill pill-dct">Historical archive</span>
-        <span class="pill pill-bryce">Ongoing monitoring</span>
-      </div>
+
     </div>
 <div class="filters">
       <div class="search-wrap">
@@ -216,7 +216,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
           <select id="fAuthority" onchange="render()"><option value="">Any decision maker</option></select>
           <select id="fSource" onchange="render()">
       <option value="">All sources</option>
-      <option value="historical_archive">Historical archive</option>
+      <option value="historical_archive">DCT Archive (2014–2025)</option>
       <option value="ongoing_monitoring">Ongoing monitoring</option>
       <option value="bryce_rejection_db">Bryce Rejection DB</option>
       <option value="fractracker">FracTracker</option>
@@ -236,6 +236,12 @@ input:focus, select:focus { border-color:#5aa9e6 }
       <div id="outcomeSummary"></div>
       <div id="filterPills" class="filter-pills"></div>
       <div class="toolbar-row"><button class="tool-btn" onclick="resetFilters()">Reset filters</button><button class="tool-btn" onclick="zoomToResults()" class="tool-btn show-map">Show on map →</button></div>
+      <div class="layer-toggles">
+        <div class="layer-toggle-title">Map layers</div>
+        <label class="layer-chk"><input type="checkbox" id="layerOpposition" checked onchange="updateLayers()"> Opposition activity</label>
+        <label class="layer-chk"><input type="checkbox" id="layerVoting" onchange="updateLayers()"> 2024 Presidential Results</label>
+        <label class="layer-chk" id="layerMatrixWrap" style="opacity:.4;pointer-events:none"><input type="checkbox" id="layerMatrix" onchange="updateLayers()"> Opposition × 2024 Politics matrix</label>
+      </div>
     </div>
 
     <div class="card-count" id="cardCount"></div>
@@ -252,7 +258,27 @@ input:focus, select:focus { border-color:#5aa9e6 }
       <div class="legend-row"><span class="lsw" style="background:var(--win)"></span>Blocked — project stopped</div>
       <div class="legend-row"><span class="lsw" style="background:var(--loss)"></span>Approved — project advanced</div>
       <div class="legend-row"><span class="lsw" style="background:var(--mixed)"></span>Mixed</div>
-      <div class="note">Size = severity (1–5). Pins jittered at county level.</div>
+      <div class="note">Size = severity (1–5). Pin color = data source.</div>
+      <!-- Voting layer legend — shown/hidden by JS -->
+      <div id="legendVoting" style="display:none;border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
+        <b style="font-size:11px;color:var(--muted);font-weight:600">2024 Presidential Results</b>
+        <div style="display:flex;gap:4px;margin-top:6px;align-items:center;font-size:10px;color:var(--muted)">
+          <span style="white-space:nowrap">Strong D</span>
+          <div style="flex:1;height:8px;border-radius:3px;background:linear-gradient(to right,#1d4ed8,#93c5fd,#f5f5f5,#fca5a5,#b91c1c)"></div>
+          <span style="white-space:nowrap">Strong R</span>
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:3px">Opacity = margin size</div>
+      </div>
+      <!-- Matrix legend — shown/hidden by JS -->
+      <div id="legendMatrix" style="display:none;border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
+        <b style="font-size:11px;color:var(--muted);font-weight:600">Opposition × Politics</b>
+        <div style="margin-top:6px">
+          <canvas id="matrixLegendCanvas" width="110" height="110"></canvas>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:2px">
+          <span>Low opposition</span><span>High opposition</span>
+        </div>
+      </div>
       <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
         <b style="font-size:11px;color:var(--muted);font-weight:600">Opposition Activity</b>
         <div class="legend-row"><span class="lsw" style="background:#78350f;opacity:.75;border-radius:2px"></span>1–2</div>
@@ -290,13 +316,55 @@ const friendlyOutcome = v => OUTCOME_LABELS[(v||'').toLowerCase()] || v || '—'
 const OUTCOME_COLORS = { win:'#dc2626', loss:'#2563eb', pending:'#f39c12', mixed:'#9b59b6' };
 const SOURCE_COLORS  = { 'ongoing_monitoring':'#5aa9e6', 'historical_archive':'#e67e22', 'bryce_rejection_db':'#5aa9e6', 'fractracker':'#4ade80', 'datacenter_watch':'#c084fc', 'dc_opposition_site':'#86efac' };
 const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(friendlyOutcome(v))}</span>`; };
-// sevDots / srcTag unused — use sevDotsLabeled and srcTagFull throughout
 
+// formatDate: renders raw CSV date strings cleanly.
+// Handles full dates (2025-03-14), month-only (2026-03), year-only (2026), and free text.
+// Future dates are shown with a "~" prefix to signal they're estimated/pending.
+const _NOW_DATE = new Date(); // computed once at load — fine for a single session
+function formatDate(v) {
+  if (!v) return '—';
+  const s = String(v).trim();
+  const now = _NOW_DATE;
+
+  // YYYY-MM-DD or YYYY-M-D
+  if (/^\d{4}-\d{1,2}-\d{1,2}$/.test(s)) {
+    const d = new Date(s + 'T12:00:00'); // noon local to avoid UTC rollback
+    if (isNaN(d)) return s;
+    const label = d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+    return d > now ? '~' + label : label;
+  }
+  // YYYY-MM (month only)
+  if (/^\d{4}-\d{1,2}$/.test(s)) {
+    const [y, m] = s.split('-').map(Number);
+    const d = new Date(y, m - 1, 1);
+    const label = d.toLocaleDateString('en-US', { month:'short', year:'numeric' });
+    return d > now ? '~' + label : label;
+  }
+  // YYYY (year only)
+  if (/^\d{4}$/.test(s)) {
+    const d = new Date(+s, 0, 1);
+    return d > now ? '~' + s : s;
+  }
+  // Fallback: return as-is (free text like "Q3 2025", "March 2026")
+  return s;
+}
+const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(friendlyOutcome(v))}</span>`; };
 let rows=[], leafletMarkers=[], cardRefs=[];
 
 // research_tool: a study/report actively used in an opposition campaign
 // Distinguished from neutral reference docs by record_subtype or explicit Record Type value
+const REFERENCE_TYPES = new Set([
+  'study','report','study or report','study_or_report','study/report',
+  'background study','white paper','whitepaper','policy report','impact study',
+  'environmental study','environmental report','background report','reference',
+  'reference document','literature review','technical report','academic study'
+]);
+function isRefType(r) {
+  const rt = String(r['Record Type'] || '').trim().toLowerCase();
+  const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
+  return (rt !== '' && REFERENCE_TYPES.has(rt)) || outcome === 'reference';
+}
+
 const RESEARCH_TOOL_TYPES = new Set(['research_tool','commissioned_study','opposition_study','campaign_research','expert_report','impact_assessment']);
 function isResearchTool(r) {
   const sub = String(r['record_subtype']||'').trim().toLowerCase();
@@ -331,7 +399,7 @@ function buildPopup(r) {
     <div class="p-title">${esc(r['Incident'])} ${srcTagFull(r['data_source'])}</div>
     ${badge(r['Community Outcome'])} ${sevDotsLabeled(+r['Severity']||2)}
     <div class="p-grid">
-      <span class="p-label">Date</span>       <span class="p-val">${esc(r['Date'])}</span>
+      <span class="p-label">Date</span>       <span class="p-val">${formatDate(r['Date'])}</span>
       <span class="p-label">Entity</span>     <span class="p-val">${esc(r['Entity'])}</span>
       <span class="p-label">Type</span>       <span class="p-val">${esc(r['Opposition Type'])}</span>
       <span class="p-label">Status</span>     <span class="p-val">${esc(r['Status'])}</span>
@@ -382,13 +450,14 @@ function readFilters() {
 }
 
 function render() {
+  _cachedFilters = null; // invalidate hover filter cache
   clusterGroup.clearLayers();
   const list = document.getElementById('list');
   list.innerHTML = '';
   cardRefs = [];
   const visible = [];
   const f = readFilters();
-  rows.forEach((r,i) => { if(match(r, f)) visible.push({r,i}); });
+  rows.forEach((r,i) => { if(!isRefType(r) && match(r, f)) visible.push({r,i}); });
 
   updateCardCount(visible.length, rows.length);
 
@@ -405,9 +474,12 @@ function render() {
   }
 
   let pending=0, win=0, loss=0, mixed=0;
+  const markersToAdd = [];
+  const fragment = document.createDocumentFragment();
+
   visible.forEach(({ r, i })=>{
     const marker = leafletMarkers[i];
-    if (marker) clusterGroup.addLayer(marker);
+    if (marker) markersToAdd.push(marker);
 
     const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
     if(outcome === 'win') win++;
@@ -422,7 +494,7 @@ function render() {
       <div class="card-title">${esc(r['Incident'])}${srcTagFull(r['data_source'])}</div>
       <div class="card-meta">
         <span>${esc(r['State'])}${r['County'] ? ' · '+esc(r['County']) : ''}</span>
-        <span>${esc(r['Date'])}</span>
+        <span>${formatDate(r['Date'])}</span>
         <span>${esc(r['Opposition Type'])}</span>
         ${r['Megawatts'] ? `<span>${r['Megawatts']} MW</span>` : ''}
       </div>
@@ -438,8 +510,12 @@ function render() {
       }
     };
     cardRefs[i] = card;
-    list.appendChild(card);
-});
+    fragment.appendChild(card);
+  });
+
+  // Batch DOM insert (one reflow) and batch cluster add
+  list.appendChild(fragment);
+  if (markersToAdd.length) clusterGroup.addLayers(markersToAdd);
 
   document.getElementById('cAll').textContent     = visible.length.toLocaleString();
   document.getElementById('cPending').textContent = pending.toLocaleString();
@@ -457,7 +533,7 @@ function updateFilterPills() {
     fState: v => v, fType: v => v, fOutcome: v => friendlyOutcome(v),
     fIssue: v => v, fScope: v => v, fAuthority: v => v,
     fSource: v => ({
-      ongoing_monitoring:'Ongoing monitoring', historical_archive:'Historical archive',
+      ongoing_monitoring:'Ongoing monitoring', historical_archive:'DCT Archive (2014–2025)',
       bryce_rejection_db:'Bryce Rejection DB', fractracker:'FracTracker',
       datacenter_watch:'Data Center Watch', dc_opposition_site:'DC Opposition Site'
     }[v] || v)
@@ -519,6 +595,9 @@ Papa.parse('./master_opposition.csv', {
     leafletMarkers = [];
 
     rows.forEach(r => {
+      // Reference docs don't belong on the map — push null to preserve index alignment
+      if (isRefType(r)) { leafletMarkers.push(null); return; }
+
       const mlat = parseFloat(r.lat);
       const mlon = parseFloat(r.lon);
 
@@ -528,7 +607,7 @@ Papa.parse('./master_opposition.csv', {
       }
 
       const m = L.marker([mlat, mlon], { icon: iconFor(r) })
-        .bindPopup(buildPopup(r))
+        .bindPopup(() => buildPopup(r), { maxWidth: 340 })
         .bindTooltip(
           `<b>${esc((r['Incident'] || '').slice(0, 50))}</b><br>${esc(r['State'] || '')} • ${esc(friendlyOutcome(r['Community Outcome']))}`,
           { direction: 'top', className: 'pin-tooltip' }
@@ -550,21 +629,23 @@ Papa.parse('./master_opposition.csv', {
       );
     };
 
-    pop('fState', rows.map(r => r['State']));
-    pop('fType', rows.map(r => r['Opposition Type']));
-    // Populate outcome dropdown with friendly labels mapped back to raw values
+    // Populate dropdowns from opposition-only rows — excludes reference docs
+    const oppRows = rows.filter(r => !isRefType(r));
+    pop('fState', oppRows.map(r => r['State']));
+    pop('fType', oppRows.map(r => r['Opposition Type']));
+    // Outcome: friendly labels, raw values, skip 'reference'
     const outcomeEl = document.getElementById('fOutcome');
-    const seenOutcomes = [...new Set(rows.map(r => r['Community Outcome']).filter(Boolean))].sort();
+    const seenOutcomes = [...new Set(oppRows.map(r => r['Community Outcome']).filter(Boolean))].sort();
     seenOutcomes.forEach(v => {
       const opt = document.createElement('option');
       opt.value = v;
       opt.textContent = friendlyOutcome(v);
       outcomeEl.appendChild(opt);
     });
-    pop('fAuthority', rows.map(r => r['Authority Level']));
+    pop('fAuthority', oppRows.map(r => r['Authority Level']));
 
     const issues = [...new Set(
-      rows.flatMap(r => (r['Issue Category'] || '').split(/;\s*/).map(x => x.trim()))
+      oppRows.flatMap(r => (r['Issue Category'] || '').split(/;\s*/).map(x => x.trim()))
     )].filter(Boolean).sort();
 
     const fIs = document.getElementById('fIssue');
@@ -572,12 +653,16 @@ Papa.parse('./master_opposition.csv', {
       fIs.insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)}</option>`)
     );
 
+    // Store opp-only total for accurate card count denominator
+    window._oppTotal = oppRows.length;
     render();
   }
 });
   
 // ─── CHOROPLETH + QoL ────────────────────────────────────────────────────────
 let choroplethLayer = null, stateCountLayer = null, currentZoomedState = null;
+let _choroplethFeatures = []; // cached after buildChoropleth
+let _cachedFilters = null; // invalidated on render(), read on hover
 let _sevSum = {}, _sevCnt = {}; // severity accumulators — written by buildChoropleth, read by buildStateCountLayer
 
 const STATE_BADGE_REVEAL_ZOOM = 4;  // show from initial zoom
@@ -707,6 +792,7 @@ function buildChoropleth(data, geoJson){
   const FULL_NAMES=new Set(Object.values(ABBREV_TO_NAME));
   const featureLayers=[];
   data.forEach(r=>{
+    if(isRefType(r)) return; // exclude reference docs from choropleth intensity
     const raw=(r['State']||'').trim();
     const name=FULL_NAMES.has(raw)?raw:(ABBREV_TO_NAME[raw.toUpperCase()]||raw);
     if(name){
@@ -732,17 +818,22 @@ function buildChoropleth(data, geoJson){
         mouseover: e=>{
           if(currentZoomedState!==name) e.target.setStyle({weight:2.5,color:'#fca5a5',fillOpacity:Math.min(0.99,zoomedOpacity(densityColor(cnt).opacity)+0.08)});
           if(cnt>0){
-            // Use match() so tooltip reflects active sidebar filters
-            const _hf=readFilters();
+            // Use cached filters — invalidated on every render() call
+            if (!_cachedFilters) _cachedFilters = readFilters();
             const stRows = rows.filter(r=>{
-              if (!match(r,_hf)) return false;
+              if (isRefType(r)) return false;
+              if (!match(r,_cachedFilters)) return false;
               const raw=(r['State']||'').trim();
               return (ABBREV_TO_NAME[raw.toUpperCase()]||raw)===name;
             });
-            const bl=stRows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='win').length;
-            const ap=stRows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='loss').length;
-            const pe=stRows.filter(r=>['active','pending',''].includes((r['Community Outcome']||'').toLowerCase())).length;
-            const mx=stRows.filter(r=>(r['Community Outcome']||'').toLowerCase()==='mixed').length;
+            let bl=0, ap=0, pe=0, mx=0;
+            stRows.forEach(r => {
+              const o = (r['Community Outcome']||'').toLowerCase();
+              if (o==='win') bl++;
+              else if (o==='loss') ap++;
+              else if (o==='mixed') mx++;
+              else pe++;
+            });
             const parts=[];
             if(bl) parts.push(`🔴 ${bl} Blocked`);
             if(ap) parts.push(`🔵 ${ap} Approved`);
@@ -758,11 +849,13 @@ function buildChoropleth(data, geoJson){
           if(currentZoomedState!==name) choroplethLayer.resetStyle(e.target);
           document.getElementById('mapHint').textContent='Click any state to zoom in and reveal county-level opposition';
         },
-        click:()=>choroZoomIn(feat,layer,name,cnt)
+        click:()=>choroZoomIn(feat,layer,name)
       });
     }
   });
   choroplethLayer.addTo(map);
+  _choroplethFeatures = [];
+  choroplethLayer.eachLayer(l => { if (l.feature) _choroplethFeatures.push(l.feature); });
   choroplethLayer.bringToBack();
   buildStateCountLayer(featureLayers);
   updateChoroplethVisuals();
@@ -818,29 +911,22 @@ function buildStateCountLayer(featureLayers){
 }
 
 function updateStateCountVisibility(){
-  if (!stateCountLayer) return;
+  const pane = map.getPane('stateBadgePane');
+  if (!pane) return;
   const z = map.getZoom();
-  // Visible from the opening zoom (4) until individual pins appear (7),
-  // and hidden whenever the user has zoomed into a specific state
   const show = !currentZoomedState && z >= STATE_BADGE_REVEAL_ZOOM && z < 7;
-
-  stateCountLayer.eachLayer(marker => {
-    const el = marker.getElement && marker.getElement();
-    if (!el) return;
-    el.style.opacity = show ? '1' : '0';
-    el.style.pointerEvents = 'none';
-  });
+  pane.style.opacity = show ? '1' : '0';
 }
 
-function choroZoomIn(feat,layer,stateName,cnt){
+function choroZoomIn(feat,layer,stateName){
   currentZoomedState=stateName;
   choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
   layer.setStyle({weight:2.5,color:'#ffb3ad',fillOpacity:0.18});
   map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:1.0,easeLinearity:0.15});
   document.getElementById('choroBack').style.display='block';
   // Use filtered count so hint matches what the sidebar is showing
-  const _zf=readFilters();
-  const filteredStateCnt = rows.filter(r=>match(r,_zf)&&(ABBREV_TO_NAME[(r['State']||'').trim().toUpperCase()]||(r['State']||'').trim())===stateName).length;
+  if (!_cachedFilters) _cachedFilters = readFilters();
+  const filteredStateCnt = rows.filter(r=>match(r,_cachedFilters)&&(ABBREV_TO_NAME[(r['State']||'').trim().toUpperCase()]||(r['State']||'').trim())===stateName).length;
   document.getElementById('mapHint').textContent=filteredStateCnt>0?`${stateName}: ${filteredStateCnt} incident${filteredStateCnt===1?'':'s'} — zoom in or click a county`:`${stateName}: no recorded opposition`;
   setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
   history.replaceState(null,'','#'+encodeURIComponent(stateName.toLowerCase().replace(/ /g,'-')));
@@ -881,7 +967,8 @@ function toggleAdvFilters(btn) {
 function updateCardCount(vis, tot) {
   const el = document.getElementById('cardCount');
   if (!el) return;
-  el.innerHTML = vis === tot ? `<b>${tot}</b> incidents` : `Showing <b>${vis}</b> of <b>${tot}</b> incidents`;
+  const oppTot = window._oppTotal || tot;
+  el.innerHTML = vis === oppTot ? `<b>${oppTot}</b> incidents` : `Showing <b>${vis}</b> of <b>${oppTot}</b> incidents`;
 }
 function srcTagFull(s) {
   const tags = {
@@ -921,6 +1008,311 @@ function showHowToUse() {
   document.querySelector('.app').appendChild(wrap);
 }
 window.addEventListener('load', () => setTimeout(showHowToUse, 700));
+
+// ── POLITICAL LAYER MODULE ────────────────────────────────────────────────────
+// Loads county_votes.json from ./data/
+// Renders three toggleable overlays:
+//   1. Opposition activity choropleth (existing, now toggleable)
+//   2. 2024 presidential results (blue=D, red=R, opacity=margin size)
+//   3. Bivariate matrix (opposition intensity × 2024 partisan lean)
+
+let voteData   = null;  // fips -> { '2024': margin }
+let votingLayer   = null;
+let matrixLayer   = null;
+
+// State-level aggregates for zoom-out view
+let stateVoteAgg = {}; // state name -> avg margin
+
+// ── Data loading ──────────────────────────────────────────────────────────────
+async function loadVoteData() {
+  if (voteData) return true;
+  try {
+    const vr = await fetch('./data/county_votes.json');
+    if (!vr.ok) throw new Error('fetch failed');
+    voteData = await vr.json();
+    buildStateVoteAgg();
+    return true;
+  } catch(e) {
+    console.error('Failed to load vote data:', e);
+    return false;
+  }
+}
+
+// Module-scope FIPS prefix → state name — used by buildStateVoteAgg and buildMatrixLayer
+const FIPS_TO_STATE = {
+  '01':'Alabama','02':'Alaska','04':'Arizona','05':'Arkansas','06':'California',
+  '08':'Colorado','09':'Connecticut','10':'Delaware','11':'District of Columbia',
+  '12':'Florida','13':'Georgia','15':'Hawaii','16':'Idaho','17':'Illinois',
+  '18':'Indiana','19':'Iowa','20':'Kansas','21':'Kentucky','22':'Louisiana',
+  '23':'Maine','24':'Maryland','25':'Massachusetts','26':'Michigan','27':'Minnesota',
+  '28':'Mississippi','29':'Missouri','30':'Montana','31':'Nebraska','32':'Nevada',
+  '33':'New Hampshire','34':'New Jersey','35':'New Mexico','36':'New York',
+  '37':'North Carolina','38':'North Dakota','39':'Ohio','40':'Oklahoma',
+  '41':'Oregon','42':'Pennsylvania','44':'Rhode Island','45':'South Carolina',
+  '46':'South Dakota','47':'Tennessee','48':'Texas','49':'Utah','50':'Vermont',
+  '51':'Virginia','53':'Washington','54':'West Virginia','55':'Wisconsin','56':'Wyoming',
+};
+
+function buildStateVoteAgg() {
+  // Aggregate county margins to state level for zoom-out view
+  const sums = {}, counts = {};
+  for (const [fips, years] of Object.entries(voteData)) {
+    const margin = years['2024'] ?? null;
+    if (margin === null) continue;
+    const stFips = fips.slice(0, 2);
+    sums[stFips]   = (sums[stFips]   || 0) + margin;
+    counts[stFips] = (counts[stFips] || 0) + 1;
+  }
+  stateVoteAgg = {};
+  for (const [stFips, sum] of Object.entries(sums)) {
+    const name = FIPS_TO_STATE[stFips];
+    if (name) stateVoteAgg[name] = sum / counts[stFips];
+  }
+}
+
+// ── Margin helpers ────────────────────────────────────────────────────────────
+function getMarginForFips(fips) {
+  const entry = voteData?.[fips];
+  return entry?.['2024'] ?? null;
+}
+
+// ── Color helpers ─────────────────────────────────────────────────────────────
+// Voting: blue=D, red=R. Margin [-1,1] → color + opacity.
+function voteColor(margin) {
+  if (margin === null) return null;
+  const abs = Math.abs(margin);
+  const opacity = Math.min(0.85, 0.15 + abs * 1.4); // min tint even for close counties
+  const color = margin < 0 ? '#b91c1c' : '#1d4ed8';
+  return { color, opacity };
+}
+
+// Bivariate: opposition intensity [0,1] × partisan lean [-1,1]
+// Uses a perceptually-distinct 2D color space:
+//   Low opp + D lean  → cool teal  (#0e7490)
+//   Low opp + R lean  → warm brown (#b45309)
+//   High opp + D lean → electric blue (#2563eb) brightened
+//   High opp + R lean → hot red (#dc2626) saturated
+// Interpolated continuously via HSL mixing.
+function matrixColor(oppScore, margin) {
+  if (oppScore === null || margin === null) return null;
+  // oppScore: 0=no opposition, 1=max. margin: -1=strong R, +1=strong D
+  // We want a grid that reads naturally: axis = partisan, y-axis = opposition
+  const t = Math.max(0, Math.min(1, oppScore));   // opposition intensity
+  const p = Math.max(-1, Math.min(1, margin));     // partisan lean
+
+  // Four corner colors in HSL:
+  // low-opp/D-lean: hsl(195,60%,35%)  (muted teal)
+  // low-opp/R-lean: hsl(30,65%,38%)   (muted amber)
+  // high-opp/D-lean: hsl(220,80%,45%) (vivid blue)
+  // high-opp/R-lean: hsl(5,80%,45%)   (vivid red)
+  const pNorm = (p + 1) / 2; // [0=R,1=D]
+  const hLow  = 30  + pNorm * (195 - 30);   // amber → teal at low opposition
+  const hHigh = 5   + pNorm * (220 - 5);    // red   → blue at high opposition
+  const h = hLow + t * (hHigh - hLow);
+  const s = 62 + t * 18;   // more saturated at high opposition
+  const l = 38 - t * 5;    // slightly darker at high opposition
+  const opacity = 0.25 + t * 0.50 + Math.abs(p) * 0.15;
+  return { color: `hsl(${Math.round(h)},${Math.round(s)}%,${Math.round(l)}%)`, opacity: Math.min(0.88, opacity) };
+}
+
+// ── Opposition score normalisation ───────────────────────────────────────────
+// Returns [0,1] opposition intensity for a county name+state, relative to dataset max.
+let _maxCountyOpp = 1;
+let _countyOppMap = {}; // "county|state" -> count
+function buildCountyOppMap() {
+  _countyOppMap = {};
+  rows.forEach(r => {
+    const key = `${(r['County']||'').trim().toLowerCase()}|${(r['State']||'').trim().toLowerCase()}`;
+    _countyOppMap[key] = (_countyOppMap[key] || 0) + 1;
+  });
+  _maxCountyOpp = Math.max(1, ...Object.values(_countyOppMap));
+}
+function getCountyOppScore(countyName, stateName) {
+  const key = `${(countyName||'').trim().toLowerCase()}|${(stateName||'').trim().toLowerCase()}`;
+  return (_countyOppMap[key] || 0) / _maxCountyOpp;
+}
+
+// ── Layer rendering ───────────────────────────────────────────────────────────
+function buildVotingLayer(geoFeatures, isCounty) {
+  if (!voteData) return null;
+  // Pre-compute margin for every feature once — avoids double lookup in style+onEachFeature
+  const marginCache = new Map();
+  geoFeatures.forEach(feat => {
+    const margin = isCounty
+      ? getMarginForFips(String(feat.id).padStart(5,'0'))
+      : (stateVoteAgg[feat.properties.name || feat.properties.NAME] ?? null);
+    marginCache.set(feat, margin);
+  });
+  return L.geoJSON({ type:'FeatureCollection', features: geoFeatures }, {
+    style(feat) {
+      const vc = voteColor(marginCache.get(feat) ?? null);
+      return vc
+        ? { color:'transparent', weight:0, fillColor:vc.color, fillOpacity:vc.opacity }
+        : { fillOpacity:0, weight:0 };
+    },
+    onEachFeature(feat, layer) {
+      const margin = marginCache.get(feat) ?? null;
+      const name = feat.properties.NAME || feat.properties.name || '';
+      const stateRef = isCounty ? ` (${feat.properties.STATE || feat.properties.state || ''})` : '';
+      const mLabel = margin === null ? 'No data'
+        : `${Math.abs(margin * 100).toFixed(1)}% ${margin < 0 ? 'R' : 'D'} lean`;
+      layer.bindTooltip(
+        `<b>${name}${stateRef}</b><br>2024 Presidential Results: ${mLabel}`,
+        { sticky:true, className:'pin-tooltip' }
+      );
+    }
+  });
+}
+
+function buildMatrixLayer(geoFeatures, isCounty) {
+  if (!voteData) return null;
+  // Precompute everything that doesn't vary per-feature
+  const stateCounts = {};
+  rows.forEach(r => { const s=r['State']; if(s) stateCounts[s]=(stateCounts[s]||0)+1; });
+  const maxState = Math.max(1, ...Object.values(stateCounts));
+  // FIPS_TO_STATE is module-scope — direct O(1) lookup, no loop needed
+  return L.geoJSON({ type:'FeatureCollection', features: geoFeatures }, {
+    style(feat) {
+      let margin = null, oppScore = 0;
+      if (isCounty) {
+        const fips = String(feat.id).padStart(5,'0');
+        margin = getMarginForFips(fips);
+        const cName = feat.properties.NAME || feat.properties.name || '';
+        const stName = FIPS_TO_STATE[fips.slice(0,2)] || '';
+        oppScore = getCountyOppScore(cName, stName);
+      } else {
+        const name = feat.properties.name || feat.properties.NAME || '';
+        margin = stateVoteAgg[name] ?? null;
+        oppScore = (stateCounts[name] || 0) / maxState;
+      }
+      const mc = matrixColor(oppScore, margin);
+      return mc
+        ? { color:'transparent', weight:0, fillColor:mc.color, fillOpacity:mc.opacity }
+        : { fillOpacity:0, weight:0 };
+    }
+  });
+}
+
+// ── Update layers on toggle/year change ──────────────────────────────────────
+async function updateLayers() {
+  const showOpp    = document.getElementById('layerOpposition')?.checked;
+  const showVoting = document.getElementById('layerVoting')?.checked;
+  const showMatrix = document.getElementById('layerMatrix')?.checked;
+
+  // Enable matrix toggle only when both others are on
+  const matrixWrap = document.getElementById('layerMatrixWrap');
+  if (showOpp && showVoting) {
+    matrixWrap.style.opacity = '1';
+    matrixWrap.style.pointerEvents = 'auto';
+  } else {
+    matrixWrap.style.opacity = '.4';
+    matrixWrap.style.pointerEvents = 'none';
+    if (document.getElementById('layerMatrix')) document.getElementById('layerMatrix').checked = false;
+  }
+
+  // Show/hide opposition choropleth
+  if (choroplethLayer) {
+    if (showOpp) { if (!map.hasLayer(choroplethLayer)) map.addLayer(choroplethLayer); }
+    else         { if ( map.hasLayer(choroplethLayer)) map.removeLayer(choroplethLayer); }
+  }
+  if (stateCountLayer) {
+    if (showOpp) { if (!map.hasLayer(stateCountLayer)) map.addLayer(stateCountLayer); }
+    else         { if ( map.hasLayer(stateCountLayer)) map.removeLayer(stateCountLayer); }
+  }
+
+  // Show/hide year selector
+  // Legend visibility
+  document.getElementById('legendVoting').style.display = showVoting ? 'block' : 'none';
+  document.getElementById('legendMatrix').style.display = (showOpp && showVoting && showMatrix) ? 'block' : 'none';
+
+  if (!showVoting && !showMatrix) {
+    if (votingLayer) { map.removeLayer(votingLayer); votingLayer = null; }
+    if (matrixLayer) { map.removeLayer(matrixLayer); matrixLayer = null; }
+    return;
+  }
+
+  const ok = await loadVoteData();
+  if (!ok) { alert('Could not load political data. Make sure county_votes.json and county_fips_lookup.json are in ./data/'); return; }
+
+  buildCountyOppMap();
+  await renderPoliticalLayers();
+  if (showMatrix) drawMatrixLegend();
+}
+
+async function renderPoliticalLayers() {
+  // Remove existing
+  if (votingLayer) { map.removeLayer(votingLayer); votingLayer = null; }
+  if (matrixLayer) { map.removeLayer(matrixLayer); matrixLayer = null; }
+
+  const showVoting = document.getElementById('layerVoting')?.checked;
+  const showMatrix = document.getElementById('layerMatrix')?.checked;
+  if (!showVoting && !showMatrix) return;
+
+  const isZoomed = currentZoomedState !== null;
+  const zoom = map.getZoom();
+  const useCounty = isZoomed || zoom >= 6;
+
+  // Use cached features — choropleth features don't change after load
+  let features = _choroplethFeatures;
+  if (!features.length) {
+    if (choroplethLayer) choroplethLayer.eachLayer(l => { if (l.feature) _choroplethFeatures.push(l.feature); });
+    features = _choroplethFeatures;
+  }
+  if (!features.length) return;
+
+  // Filter to current state if zoomed
+  if (isZoomed && currentZoomedState) {
+    features = features.filter(f => {
+      const name = f.properties.name || f.properties.NAME || '';
+      return name === currentZoomedState;
+    });
+  }
+
+  if (showVoting) {
+    votingLayer = buildVotingLayer(features, false); // state-level features from choropleth
+    if (votingLayer) { votingLayer.addTo(map); votingLayer.bringToBack(); }
+  }
+  if (showMatrix && document.getElementById('layerOpposition')?.checked) {
+    matrixLayer = buildMatrixLayer(features, false);
+    if (matrixLayer) { matrixLayer.addTo(map); matrixLayer.bringToBack(); }
+  }
+}
+
+// ── Bivariate matrix legend (canvas) ─────────────────────────────────────────
+function drawMatrixLegend() {
+  const canvas = document.getElementById('matrixLegendCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const steps = 40;
+  const cw = W / steps, ch = H / steps;
+  for (let xi = 0; xi < steps; xi++) {
+    for (let yi = 0; yi < steps; yi++) {
+      const opp    = xi / (steps - 1);              // left=low, right=high
+      const margin = 1 - (yi / (steps - 1)) * 2;   // top=D(+1), bottom=R(-1)
+      const mc = matrixColor(opp, margin);
+      if (!mc) continue;
+      // Parse hsl color string for canvas
+      ctx.globalAlpha = mc.opacity;
+      ctx.fillStyle = mc.color;
+      ctx.fillRect(xi * cw, yi * ch, cw + 0.5, ch + 0.5);
+    }
+  }
+  ctx.globalAlpha = 1;
+  // Y-axis labels
+  ctx.fillStyle = '#8a96a4';
+  ctx.font = '9px Inter,sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('D', W - 2, 9);
+  ctx.fillText('R', W - 2, H - 2);
+}
+
+// Re-render political layers when zoom changes (state vs county resolution)
+map.on('zoomend', () => {
+  if (document.getElementById('layerVoting')?.checked || document.getElementById('layerMatrix')?.checked) {
+    renderPoliticalLayers();
+  }
+});
 
 </script>
 </body>
