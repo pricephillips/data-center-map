@@ -1053,16 +1053,63 @@ const FIPS_TO_STATE = {
   '51':'Virginia','53':'Washington','54':'West Virginia','55':'Wisconsin','56':'Wyoming',
 };
 
+const STATE_2024_MARGIN = {
+  Alabama: -29.6,
+  Alaska: -13.3,
+  Arizona: -5.5,
+  Arkansas: -30.6,
+  California: 20.2,
+  Colorado: 11.2,
+  Connecticut: 14.5,
+  Delaware: 6.4,
+  "District of Columbia": 84.9,
+  Florida: -13.1,
+  Georgia: -2.2,
+  Hawaii: 25.9,
+  Idaho: -37.0,
+  Illinois: 11.4,
+  Indiana: -19.0,
+  Iowa: -13.2,
+  Kansas: -16.0,
+  Kentucky: -30.4,
+  Louisiana: -22.0,
+  Maine: 6.8,
+  Maryland: 28.3,
+  Massachusetts: 24.5,
+  Michigan: -1.4,
+  Minnesota: 4.2,
+  Mississippi: -18.0,
+  Missouri: -18.4,
+  Montana: -20.2,
+  Nebraska: -20.5,
+  Nevada: -3.1,
+  "New Hampshire": 2.8,
+  "New Jersey": 5.9,
+  "New Mexico": 6.0,
+  "New York": 12.4,
+  "North Carolina": -3.4,
+  "North Dakota": -36.7,
+  Ohio: -11.2,
+  Oklahoma: -33.2,
+  Oregon: 14.4,
+  Pennsylvania: -1.7,
+  "Rhode Island": 13.1,
+  "South Carolina": -17.1,
+  "South Dakota": -29.7,
+  Tennessee: -23.1,
+  Texas: -13.7,
+  Utah: -20.8,
+  Vermont: 31.1,
+  Virginia: 4.9,
+  Washington: 18.2,
+  "West Virginia": -41.5,
+  Wisconsin: -0.9,
+  Wyoming: -46.1
+};
+
 function buildStateVoteAgg() {
-  // Aggregate county margins to state level for zoom-out view
-  const sums = {}, counts = {};
-  for (const [fips, years] of Object.entries(voteData)) {
-    const margin = years['2024'] ?? null;
-    if (margin === null) continue;
-    const stFips = fips.slice(0, 2);
-    sums[stFips]   = (sums[stFips]   || 0) + margin;
-    counts[stFips] = (counts[stFips] || 0) + 1;
-  }
+  stateVoteAgg = { ...STATE_2024_MARGIN };
+}
   stateVoteAgg = {};
   for (const [stFips, sum] of Object.entries(sums)) {
     const name = FIPS_TO_STATE[stFips];
