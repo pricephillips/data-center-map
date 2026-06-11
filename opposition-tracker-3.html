@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Center Opposition Tracker</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+<style>
+:root {
+  --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
+  --muted:#8a96a4; --border:#2c3544;
+  --win:#dc2626; --loss:#2563eb; --pending:#f39c12; --mixed:#9b59b6;
+  --bryce:#5aa9e6; --dct:#e67e22; --atlas:#4f98a3;
+}
+* { box-sizing:border-box; margin:0; padding:0 }
+html { height:100%; overflow:hidden }
+body { font-family: Inter,system-ui,sans-serif; background:var(--bg); color:var(--text); height:100dvh; overflow:hidden }
+.app { display:grid; grid-template-columns:340px minmax(0,1fr); overflow:hidden; height:100vh }
+.sidebar { background:var(--panel); border-right:1px solid var(--border); display:flex; flex-direction:column; min-width:0; overflow:hidden; height:100vh; max-width:340px }
+.header { padding:14px 16px 12px; border-bottom:1px solid var(--border) }
+.logo { display:flex; align-items:center; gap:8px; margin-bottom:4px }
+.logo svg { color:#5aa9e6; flex-shrink:0 }
+h1 { font-size:17px; font-weight:700 }
+.sub { font-size:11px; color:var(--muted); line-height:1.45 }
+
+.filters { padding:10px 12px; border-bottom:1px solid var(--border); background:var(--panel2); display:flex; flex-direction:column; gap:7px }
+#list { overflow-y:auto; flex:1; padding:10px 12px; }
+.search-wrap { position:relative }
+.search-wrap svg { position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none }
+.search-wrap input { padding-left:32px }
+input, select { width:100%; padding:7px 10px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--text); font-size:12px; outline:none }
+input:focus, select:focus { border-color:#5aa9e6 }
+.row2 { display:grid; grid-template-columns:1fr 1fr; gap:7px }
+.row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px }
+.chk { display:flex; align-items:center; gap:7px; font-size:11px; color:var(--muted); cursor:pointer }
+.chk input[type=checkbox] { width:auto; accent-color:#5aa9e6 }
+.stats { display:grid; grid-template-columns:repeat(4,1fr); gap:5px }
+.stat { padding:8px 6px; border:1px solid var(--border); border-radius:8px; background:#0c1018; text-align:center }
+.stat b { display:block; font-size:16px; font-weight:700 }
+.stat span { font-size:10px; color:var(--muted) }
+.stat.s-pending b { color:var(--pending) }
+.stat.s-win b { color:var(--win) }
+.stat.s-loss b { color:var(--loss) }
+.card { padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:#0c1018; margin-bottom:7px; cursor:pointer; transition:border-color 0.15s }
+.card:hover { border-color:#4a5a72 }
+.card-title { font-size:13px; font-weight:600; line-height:1.3; margin-bottom:4px }
+.card-meta { font-size:11px; color:var(--muted); display:flex; gap:0; flex-wrap:wrap; margin-bottom:4px }
+.card-meta span { margin-right:10px }
+.badge { display:inline-block; padding:2px 7px; border-radius:999px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.3px }
+.badge-pending { background:#4b3408; color:#ffc15a }
+.badge-win     { background:#3b0a0a; color:#fca5a5 }
+.badge-loss    { background:#0f2548; color:#93c5fd }
+.badge-mixed   { background:#2f1d46; color:#c89fff }
+.badge-        { background:#1a2535; color:#8ab4d4 }
+.src-tag { display:inline-block; padding:1px 6px; border-radius:4px; font-size:9px; font-weight:700; margin-left:5px; vertical-align:middle }
+.src-bryce { background:#1a2e42; color:var(--bryce) }
+.src-dct   { background:#3b2208; color:var(--dct) }
+.src-frac  { background:#1a3322; color:#4ade80 }
+.src-dcw   { background:#2d1a42; color:#c084fc }
+.src-dco   { background:#1a2a1a; color:#86efac }
+.card-snippet { font-size:11px; color:var(--muted); line-height:1.45; margin-top:4px }
+.mapwrap { position:relative; overflow:hidden; min-height:0; }
+#map { position:absolute; inset:0; }
+.legend { position:absolute; top:12px; right:12px; z-index:500; background:rgba(15,18,24,.93); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:11px; padding:10px 13px; font-size:12px }
+.legend b { color:var(--text); display:block; margin-bottom:5px }
+.legend-row { display:flex; align-items:center; gap:7px; margin:4px 0; color:var(--muted) }
+.lsw { width:10px; height:10px; border-radius:2px; flex-shrink:0 }
+.note { font-size:10px; color:#505d6e; margin-top:7px; max-width:190px; line-height:1.4 }
+
+.leaflet-div-icon-clean {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.state-count-badge {
+  min-width: 26px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: rgba(220,38,38,0.92);
+  border: 1.5px solid rgba(255,255,255,0.25);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.50);
+  margin: 0;
+  position: relative;
+  top: 0; left: 0;
+  white-space: nowrap;
+  transition: opacity 0.25s ease;
+}
+
+.leaflet-popup-content-wrapper { background:#1a2030; border:1px solid var(--border); border-radius:10px; box-shadow:0 6px 24px rgba(0,0,0,.5); color:var(--text) }
+.leaflet-popup-tip { background:#1a2030 }
+.leaflet-popup-content { margin:12px 14px; min-width:240px; max-width:360px }
+.p-title { font-size:14px; font-weight:700; margin-bottom:6px; line-height:1.3 }
+.p-grid { display:grid; grid-template-columns:auto 1fr; gap:4px 11px; font-size:12px; margin:7px 0 }
+.p-label { color:#8a96a4 }
+.p-val { color:#d8e0ea; word-break:break-word }
+.p-summary { font-size:11px; color:#9aabb7; border-top:1px solid #2c3544; padding-top:7px; margin-top:3px; line-height:1.5; max-height:90px; overflow-y:auto }
+.p-links { margin-top:7px; display:flex; gap:9px; flex-wrap:wrap }
+.p-link { font-size:11px; color:#5aa9e6; text-decoration:none }
+.p-link:hover { text-decoration:underline }
+@media (max-width:900px) {
+  .app { grid-template-columns:300px minmax(0,1fr); }
+  .sidebar { max-width:300px; }
+}
+@media (max-width:600px) {
+  .app { grid-template-columns:1fr; grid-template-rows:minmax(260px, 38vh) 1fr }
+  .sidebar { height:auto; max-width:none; }
+  #map { height:100%; min-height:0 } /* mobile */
+}
+
+/* Choropleth */
+.choro-back { position:absolute; top:12px; left:12px; z-index:500; background:rgba(15,18,24,.93); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:8px; padding:6px 12px; font-size:11px; font-weight:600; cursor:pointer; color:var(--text); display:none }
+.choro-back:hover { border-color:#e74c3c }
+.map-hint { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:500; background:rgba(15,18,24,.88); backdrop-filter:blur(6px); border:1px solid var(--border); border-radius:20px; padding:5px 14px; font-size:11px; color:var(--muted); pointer-events:none; white-space:nowrap }
+.toolbar-row { display:flex; gap:7px; flex-wrap:wrap; margin-top:6px }
+.tool-btn { padding:6px 10px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--text); font-size:11px; cursor:pointer }
+.tool-btn:hover { border-color:#e74c3c }
+.card.active { border-color:#ff8f84; box-shadow:0 0 0 1px rgba(255,143,132,.22) inset }
+.card.oc-pending { border-left:3px solid var(--pending) }
+.card.oc-win { border-left:3px solid var(--win) }
+.card.oc-loss { border-left:3px solid var(--loss) }
+.card.oc-mixed { border-left:3px solid var(--mixed) }
+.summary-bar { display:flex; height:9px; border-radius:999px; overflow:hidden; background:#111827; border:1px solid var(--border); margin-top:4px }
+.summary-seg { height:100% }
+.summary-meta { display:flex; gap:10px; flex-wrap:wrap; font-size:11px; color:var(--muted); margin-top:6px }
+.pin-tooltip { background:#0f1722; color:#eef2f7; border:1px solid var(--border); border-radius:8px; box-shadow:0 6px 20px rgba(0,0,0,.35) }
+
+.card-source { display:inline-block; margin-top:6px; font-size:11px; color:var(--bryce); text-decoration:none; border:1px solid var(--border); border-radius:6px; padding:3px 8px }
+.card-source:hover { border-color:var(--bryce); background:rgba(90,169,230,.08) }
+
+/* ── Map accessibility pass ── */
+.card-count { font-size:12px; color:var(--muted); padding:6px 12px 2px; font-weight:500 }
+.card-count b { color:var(--text) }
+.tool-btn.show-map { background:color-mix(in srgb,var(--pending,#f39c12) 12%,transparent); border-color:var(--pending,#f39c12); color:var(--pending,#f39c12) }
+/* Source tooltips */
+.src-tag { position:relative; cursor:help }
+.src-tag .src-tip { display:none; position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#1c2535; border:1px solid var(--border); border-radius:7px; padding:6px 10px; font-size:11px; color:var(--text); white-space:nowrap; z-index:999; pointer-events:none; font-weight:400 }
+.src-tag:hover .src-tip { display:block }
+/* Severity dots */
+.sev-wrap { display:inline-flex; gap:3px; align-items:center; cursor:help; margin-left:6px }
+/* Active filter pills */
+.filter-pills { display:flex; flex-wrap:wrap; gap:4px; margin:4px 0 2px; min-height:0; }
+.filter-pill  { display:inline-flex; align-items:center; gap:4px; padding:2px 7px 2px 8px;
+                border-radius:999px; background:rgba(220,38,38,0.18); border:1px solid rgba(220,38,38,0.4);
+                color:#fca5a5; font-size:10px; font-weight:600; white-space:nowrap; }
+.filter-pill button { background:none; border:none; color:#fca5a5; font-size:11px; line-height:1;
+                      padding:0; cursor:pointer; opacity:0.7; }
+.filter-pill button:hover { opacity:1; }
+.filter-adv-toggle { width:100%; text-align:left; padding:7px 0 4px; font-size:12px; font-weight:600; color:var(--muted); background:none; border:none; border-top:1px solid var(--border); cursor:pointer; display:flex; align-items:center; gap:6px; margin-top:4px; transition:color .15s }
+.filter-adv-toggle:hover { color:var(--text) }
+.filter-adv-toggle svg { transition:transform .2s }
+.advanced-filters { display:none }
+.advanced-filters.open { display:block }
+/* How-to-use */
+.htu-overlay { position:absolute; inset:0; z-index:599; background:rgba(0,0,0,.5); backdrop-filter:blur(2px) }
+.how-to-use  { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:600; background:#0f1722; border:1px solid var(--border); border-radius:14px; padding:24px 28px; max-width:340px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,.6) }
+.how-to-use h3 { font-size:16px; font-weight:800; margin-bottom:6px }
+.how-to-use p  { font-size:12px; color:var(--muted); margin-bottom:14px }
+.how-to-use ul { list-style:none; margin-bottom:18px }
+.how-to-use li { font-size:13px; padding:6px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:flex-start }
+.how-to-use li:last-child { border:none }
+.how-to-use li .ico { font-size:18px; line-height:1; flex-shrink:0 }
+.how-to-use .close-btn { width:100%; padding:10px; border-radius:8px; border:none; background:#1a3a5c;border:1px solid #5aa9e6;color:#5aa9e6; color:#fff; font-size:14px; font-weight:700; cursor:pointer }
+/* Layer toggle controls */
+.layer-toggles { border-top:1px solid var(--border); margin-top:10px; padding-top:10px }
+.layer-toggle-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); margin-bottom:6px }
+.layer-chk { display:flex; align-items:center; gap:7px; font-size:12px; color:var(--text); padding:3px 0; cursor:pointer }
+.layer-chk input { width:13px; height:13px; cursor:pointer; accent-color:var(--atlas) }
+
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="header">
+      <div class="logo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M9 9h6v6H9z"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+        <h1>Developer Risk: Opposition Tracker</h1>
+      </div>
+      <div class="sub">Community resistance, legislation, and legal challenges to data center development. Click a state to zoom in; click a pin for details.</div>
+
+    </div>
+<div class="filters">
+      <div class="search-wrap">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="q" type="text" placeholder="Incident, entity, state, group…" oninput="debounce()"/>
+      </div>
+      <div class="row2">
+        <select id="fState"   onchange="render()"><option value="">All states</option></select>
+        <select id="fType"    onchange="render()"><option value="">All action types</option></select>
+      </div>
+      <div class="row2">
+        <select id="fOutcome" onchange="render()"><option value="">All results</option></select>
+        <select id="fIssue"   onchange="render()"><option value="">All concerns</option></select>
+      </div>
+      <button class="filter-adv-toggle" onclick="toggleAdvFilters(this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        More filters
+      </button>
+      <div class="advanced-filters" id="advFilters">
+        <div class="row3" style="margin-top:6px">
+          <select id="fScope"     onchange="render()"><option value="">Any geographic level</option><option value="local">Local</option><option value="state">State</option><option value="federal">Federal</option></select>
+          <select id="fAuthority" onchange="render()"><option value="">Any decision maker</option></select>
+          <select id="fSource" onchange="render()">
+      <option value="">All sources</option>
+      <option value="historical_archive">DCT Archive (2014–2025)</option>
+      <option value="ongoing_monitoring">Ongoing monitoring</option>
+      <option value="bryce_rejection_db">Bryce Rejection DB</option>
+      <option value="fractracker">FracTracker</option>
+      <option value="datacenter_watch">Data Center Watch</option>
+      <option value="dc_opposition_site">DC Opposition Site</option>
+    </select>
+        </div>
+      </div>
+      <div class="stats" style="grid-template-columns:repeat(5,1fr)">
+        <div class="stat"><b id="cAll">—</b><span>Total</span></div>
+        <div class="stat s-pending"><b id="cPending">—</b><span>Pending</span></div>
+        <div class="stat s-win"><b id="cWin">—</b><span>Blocked</span></div>
+        <div class="stat s-loss"><b id="cLoss">—</b><span>Approved</span></div>
+        <div class="stat" style="--c:var(--mixed)"><b id="cMixed" style="color:var(--mixed)">—</b><span>Mixed</span></div>
+      </div>
+      <label class="chk"><input type="checkbox" id="activeOnly" onchange="render()"/> Active &amp; pending only</label>
+      <div id="outcomeSummary"></div>
+      <div id="filterPills" class="filter-pills"></div>
+      <div class="toolbar-row"><button class="tool-btn" onclick="resetFilters()">Reset filters</button><button class="tool-btn" onclick="zoomToResults()" class="tool-btn show-map">Show on map →</button></div>
+      <div class="layer-toggles">
+        <div class="layer-toggle-title">Map layers</div>
+        <label class="layer-chk"><input type="checkbox" id="layerOpposition" checked onchange="updateLayers()"> Opposition activity</label>
+        <label class="layer-chk"><input type="checkbox" id="layerVoting" onchange="updateLayers()"> 2024 Presidential Results</label>
+        <label class="layer-chk" id="layerMatrixWrap" style="opacity:.4;pointer-events:none"><input type="checkbox" id="layerMatrix" onchange="updateLayers()"> Opposition × 2024 Politics matrix</label>
+      </div>
+    </div>
+
+    <div class="card-count" id="cardCount"></div>
+<div id="list" class="list"></div>
+  </aside>
+
+  <div class="mapwrap">
+    <div id="map"></div>
+    <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
+    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal county-level opposition</div>
+    <div class="legend">
+      <b>Outcome</b>
+      <div class="legend-row"><span class="lsw" style="background:var(--pending)"></span>Pending / Active</div>
+      <div class="legend-row"><span class="lsw" style="background:var(--win)"></span>Blocked — project stopped</div>
+      <div class="legend-row"><span class="lsw" style="background:var(--loss)"></span>Approved — project advanced</div>
+      <div class="legend-row"><span class="lsw" style="background:var(--mixed)"></span>Mixed</div>
+      <div class="note">Size = severity (1–5). Pin color = data source.</div>
+      <!-- Voting layer legend — shown/hidden by JS -->
+      <div id="legendVoting" style="display:none;border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
+        <b style="font-size:11px;color:var(--muted);font-weight:600">2024 Presidential Results</b>
+        <div style="display:flex;gap:4px;margin-top:6px;align-items:center;font-size:10px;color:var(--muted)">
+          <span style="white-space:nowrap">Strong D</span>
+          <div style="flex:1;height:8px;border-radius:3px;background:linear-gradient(to right,#1d4ed8,#93c5fd,#f5f5f5,#fca5a5,#b91c1c)"></div>
+          <span style="white-space:nowrap">Strong R</span>
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:3px">Opacity = margin size</div>
+      </div>
+      <!-- Matrix legend — shown/hidden by JS -->
+      <div id="legendMatrix" style="display:none;border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
+        <b style="font-size:11px;color:var(--muted);font-weight:600">Opposition × Politics</b>
+        <div style="margin-top:6px">
+          <canvas id="matrixLegendCanvas" width="110" height="110"></canvas>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:2px">
+          <span>Low opposition</span><span>High opposition</span>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
+        <b style="font-size:11px;color:var(--muted);font-weight:600">Opposition Activity</b>
+        <div class="legend-row"><span class="lsw" style="background:#78350f;opacity:.75;border-radius:2px"></span>1–2</div>
+        <div class="legend-row"><span class="lsw" style="background:#92400e;border-radius:2px"></span>3–7</div>
+        <div class="legend-row"><span class="lsw" style="background:#b45309;border-radius:2px"></span>8–15</div>
+        <div class="legend-row"><span class="lsw" style="background:#d97706;border-radius:2px"></span>16–30</div>
+        <div class="legend-row"><span class="lsw" style="background:#f59e0b;border-radius:2px"></span>31+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true, zoomSnap:0.25, zoomDelta:0.5, wheelPxPerZoomLevel:80 });
+setTimeout(() => map.invalidateSize(), 300);
+window.addEventListener('resize', () => map.invalidateSize());
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  subdomains:'abcd', maxZoom:19, attribution:'© OpenStreetMap contributors © CARTO'
+}).addTo(map);
+
+const clusterGroup = L.markerClusterGroup({
+  maxClusterRadius:50,
+  iconCreateFunction(c) {
+    const n=c.getChildCount(), sz=n>200?46:n>50?38:30;
+    return L.divIcon({ className:'', iconSize:[sz,sz],
+      html:`<div style="width:${sz}px;height:${sz}px;border-radius:4px;background:#7d2e0e;border:2px solid #e67e22;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;transition:opacity 0.2s ease">${n}</div>`
+    });
+  }
+});
+// cluster added dynamically by updateMarkerVisibility() at zoom >= 7
+clusterGroup.on('click', e => { if(e.originalEvent) L.DomEvent.stopPropagation(e); });
+
+const OUTCOME_LABELS = { win:'Blocked', loss:'Approved', pending:'Pending', active:'Active', mixed:'Contested' };
+const friendlyOutcome = v => OUTCOME_LABELS[(v||'').toLowerCase()] || v || '—';
+const OUTCOME_COLORS = { win:'#dc2626', loss:'#2563eb', pending:'#f39c12', mixed:'#9b59b6' };
+const SOURCE_COLORS  = { 'ongoing_monitoring':'#5aa9e6', 'historical_archive':'#e67e22', 'bryce_rejection_db':'#5aa9e6', 'fractracker':'#4ade80', 'datacenter_watch':'#c084fc', 'dc_opposition_site':'#86efac' };
+const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+// formatDate: renders raw CSV date strings cleanly.
+// Handles full dates (2025-03-14), month-only (2026-03), year-only (2026), and free text.
+// Future dates are shown with a "~" prefix to signal they're estimated/pending.
+const _NOW_DATE = new Date(); // computed once at load — fine for a single session
+function formatDate(v) {
+  if (!v) return '—';
+  const s = String(v).trim();
+  const now = _NOW_DATE;
+
+  // YYYY-MM-DD or YYYY-M-D
+  if (/^\d{4}-\d{1,2}-\d{1,2}$/.test(s)) {
+    const d = new Date(s + 'T12:00:00'); // noon local to avoid UTC rollback
+    if (isNaN(d)) return s;
+    const label = d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+    return d > now ? '~' + label : label;
+  }
+  // YYYY-MM (month only)
+  if (/^\d{4}-\d{1,2}$/.test(s)) {
+    const [y, m] = s.split('-').map(Number);
+    const d = new Date(y, m - 1, 1);
+    const label = d.toLocaleDateString('en-US', { month:'short', year:'numeric' });
+    return d > now ? '~' + label : label;
+  }
+  // YYYY (year only)
+  if (/^\d{4}$/.test(s)) {
+    const d = new Date(+s, 0, 1);
+    return d > now ? '~' + s : s;
+  }
+  // Fallback: return as-is (free text like "Q3 2025", "March 2026")
+  return s;
+}
+const badge = v => { const k=(v||'').toLowerCase(); return `<span class="badge badge-${k||''}">${esc(friendlyOutcome(v))}</span>`; };
+let rows=[], leafletMarkers=[], cardRefs=[];
+
+// research_tool: a study/report actively used in an opposition campaign
+// Distinguished from neutral reference docs by record_subtype or explicit Record Type value
+const REFERENCE_TYPES = new Set([
+  'study','report','study or report','study_or_report','study/report',
+  'background study','white paper','whitepaper','policy report','impact study',
+  'environmental study','environmental report','background report','reference',
+  'reference document','literature review','technical report','academic study'
+]);
+function isRefType(r) {
+  const rt = String(r['Record Type'] || '').trim().toLowerCase();
+  const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
+  return (rt !== '' && REFERENCE_TYPES.has(rt)) || outcome === 'reference';
+}
+
+const RESEARCH_TOOL_TYPES = new Set(['research_tool','commissioned_study','opposition_study','campaign_research','expert_report','impact_assessment']);
+function isResearchTool(r) {
+  const sub = String(r['record_subtype']||'').trim().toLowerCase();
+  const rt  = String(r['Record Type']||'').trim().toLowerCase();
+  return RESEARCH_TOOL_TYPES.has(sub) || RESEARCH_TOOL_TYPES.has(rt);
+}
+
+function iconFor(r) {
+  const o = (r['Community Outcome']||'').toLowerCase();
+  // research_tool rows get a distinct teal fill so they're visually separate from both
+  // opposition events (outcome-colored) and reference docs (not shown on map)
+  const fillColor = isResearchTool(r) ? '#0d9488' : (OUTCOME_COLORS[o] || '#f39c12');
+  const strokeColor = SOURCE_COLORS[r['data_source']] || '#5aa9e6';
+  const n = Number(r['Severity']||2);
+  const s = 11 + n*3;
+  return L.divIcon({ className:'', iconSize:[s,s], iconAnchor:[s/2,s/2],
+    html:`<svg width="${s}" height="${s}" viewBox="0 0 ${s} ${s}"><rect x="1.5" y="1.5" width="${s-3}" height="${s-3}" rx="2" fill="${fillColor}" fill-opacity="0.88" stroke="${strokeColor}" stroke-width="2"/></svg>`
+  });
+}
+
+function buildPopup(r) {
+  const links = [
+    r['Source URL']          ? `<a class="p-link" href="${esc(r['Source URL'])}"          target="_blank" rel="noopener">Source ↗</a>` : '',
+    r['Opposition Website']  ? `<a class="p-link" href="${esc(r['Opposition Website'])}"  target="_blank" rel="noopener">Org ↗</a>` : '',
+    r['Petition URL']        ? `<a class="p-link" href="${esc(r['Petition URL'])}"        target="_blank" rel="noopener">Petition ↗</a>` : '',
+    r['Opposition Facebook'] ? `<a class="p-link" href="${esc(r['Opposition Facebook'])}" target="_blank" rel="noopener">Facebook ↗</a>` : '',
+  ].filter(Boolean).join('');
+  const mw  = r['Megawatts'] ? r['Megawatts']+' MW' : '—';
+  const inv = r['Investment Million USD'] ? '$'+Number(r['Investment Million USD']).toLocaleString()+'M' : '—';
+  const sigs = r['Petition Signatures'] && +r['Petition Signatures']>0 ? Number(r['Petition Signatures']).toLocaleString()+' sigs' : '';
+  return `
+    <div class="p-title">${esc(r['Incident'])} ${srcTagFull(r['data_source'])}</div>
+    ${badge(r['Community Outcome'])} ${sevDotsLabeled(+r['Severity']||2)}
+    <div class="p-grid">
+      <span class="p-label">Date</span>       <span class="p-val">${formatDate(r['Date'])}</span>
+      <span class="p-label">Entity</span>     <span class="p-val">${esc(r['Entity'])}</span>
+      <span class="p-label">Type</span>       <span class="p-val">${esc(r['Opposition Type'])}</span>
+      <span class="p-label">Status</span>     <span class="p-val">${esc(r['Status'])}</span>
+      <span class="p-label">Location</span>   <span class="p-val">${esc(r['County'] ? r['County']+', ' : '')}${esc(r['State'])}</span>
+      ${r['Issue Category'] ? `<span class="p-label">Issue</span><span class="p-val">${esc(r['Issue Category'])}</span>` : ''}
+      ${r['Authority Level'] ? `<span class="p-label">Authority</span><span class="p-val">${esc(r['Authority Level'])}</span>` : ''}
+      ${mw!=='—' ? `<span class="p-label">Power</span><span class="p-val">${mw}</span>` : ''}
+      ${inv!=='—' ? `<span class="p-label">Investment</span><span class="p-val">${inv}</span>` : ''}
+      ${sigs ? `<span class="p-label">Petition</span><span class="p-val">${sigs}</span>` : ''}
+      ${r['Opposition Groups'] ? `<span class="p-label">Groups</span><span class="p-val">${esc(r['Opposition Groups'])}</span>` : ''}
+    </div>
+    ${r['Summary'] ? `<div class="p-summary">${esc(r['Summary'].slice(0,500))}${r['Summary'].length>500?'…':''}</div>` : ''}
+    ${links ? `<div class="p-links">${links}</div>` : ''}
+  `;
+}
+
+// match() accepts pre-read filter values to avoid repeated DOM reads in tight loops
+function match(r, f) {
+  if (f.fSt && r['State'] !== f.fSt) return false;
+  if (f.fTy && r['Opposition Type'] !== f.fTy) return false;
+  if (f.fOc && r['Community Outcome'] !== f.fOc) return false;
+  // Issue Category is semicolon-delimited — use exact token match, not substring
+  if (f.fIs) {
+    const tokens = (r['Issue Category']||'').split(/;\s*/).map(s=>s.trim().toLowerCase());
+    if (!tokens.includes(f.fIs.toLowerCase())) return false;
+  }
+  if (f.fSc && r['Scope'] !== f.fSc) return false;
+  if (f.fAu && r['Authority Level'] !== f.fAu) return false;
+  if (f.fSr && r['data_source'] !== f.fSr) return false;
+  if (f.act && !['active','pending'].includes((r['Community Outcome']||'').toLowerCase())) return false;
+  if (!f.q) return true;
+  const hay = [r['Incident'],r['Entity'],r['State'],r['County'],r['Opposition Groups'],r['Opposition Type'],r['Objective'],r['Summary'],r['Company'],r['Hyperscaler'],r['City']].join(' ').toLowerCase();
+  return hay.includes(f.q);
+}
+
+function readFilters() {
+  return {
+    q:   document.getElementById('q').value.trim().toLowerCase(),
+    fSt: document.getElementById('fState').value,
+    fTy: document.getElementById('fType').value,
+    fOc: document.getElementById('fOutcome').value,
+    fIs: document.getElementById('fIssue').value,
+    fSc: document.getElementById('fScope').value,
+    fAu: document.getElementById('fAuthority').value,
+    fSr: document.getElementById('fSource').value,
+    act: document.getElementById('activeOnly').checked,
+  };
+}
+
+function render() {
+  _cachedFilters = null; // invalidate hover filter cache
+  clusterGroup.clearLayers();
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+  cardRefs = [];
+  const visible = [];
+  const f = readFilters();
+  rows.forEach((r,i) => { if(!isRefType(r) && match(r, f)) visible.push({r,i}); });
+
+  updateCardCount(visible.length, rows.length);
+
+  if (!visible.length) {
+    list.innerHTML = '<div style="padding:28px 12px;text-align:center;color:var(--muted);font-size:12px;line-height:1.6">No incidents match the current filters.<br><button onclick="resetFilters()" style="margin-top:10px;padding:5px 14px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:11px;cursor:pointer">Reset filters</button></div>';
+    document.getElementById('cAll').textContent='0';
+    document.getElementById('cPending').textContent='0';
+    document.getElementById('cWin').textContent='0';
+    document.getElementById('cLoss').textContent='0';
+    const mixedEl=document.getElementById('cMixed'); if(mixedEl) mixedEl.textContent='0';
+    renderOutcomeSummary(0,0,0,0);
+    updateFilterPills();
+    return;
+  }
+
+  let pending=0, win=0, loss=0, mixed=0;
+  const markersToAdd = [];
+  const fragment = document.createDocumentFragment();
+
+  visible.forEach(({ r, i })=>{
+    const marker = leafletMarkers[i];
+    if (marker) markersToAdd.push(marker);
+
+    const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
+    if(outcome === 'win') win++;
+    else if(outcome === 'loss') loss++;
+    else if(outcome === 'mixed') mixed++;
+    else pending++;
+
+    const card = document.createElement('div');
+    card.className = 'card oc-' + ((r['Community Outcome']||'pending').toLowerCase());
+    const srcUrl = r['Source URL']||r['Opposition Website']||'';
+    card.innerHTML = `
+      <div class="card-title">${esc(r['Incident'])}${srcTagFull(r['data_source'])}</div>
+      <div class="card-meta">
+        <span>${esc(r['State'])}${r['County'] ? ' · '+esc(r['County']) : ''}</span>
+        <span>${formatDate(r['Date'])}</span>
+        <span>${esc(r['Opposition Type'])}</span>
+        ${r['Megawatts'] ? `<span>${r['Megawatts']} MW</span>` : ''}
+      </div>
+      ${badge(r['Community Outcome'])}${sevDotsLabeled(+r['Severity']||2)}
+      <div class="card-snippet">${esc(r['Summary']||r['Objective']).slice(0,155)}${(r['Summary']||r['Objective']||'').length>155?'…':''}</div>
+      ${srcUrl ? `<a class="card-source" href="${esc(srcUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Source ↗</a>` : ''}
+    `;
+    const _lat = parseFloat(r.lat), _lon = parseFloat(r.lon);
+    card.onclick = () => {
+      highlightCard(i);
+      if(marker && !isNaN(_lat) && !isNaN(_lon)) {
+        clusterGroup.zoomToShowLayer(marker, () => { marker.openPopup(); });
+      }
+    };
+    cardRefs[i] = card;
+    fragment.appendChild(card);
+  });
+
+  // Batch DOM insert (one reflow) and batch cluster add
+  list.appendChild(fragment);
+  if (markersToAdd.length) clusterGroup.addLayers(markersToAdd);
+
+  document.getElementById('cAll').textContent     = visible.length.toLocaleString();
+  document.getElementById('cPending').textContent = pending.toLocaleString();
+  document.getElementById('cWin').textContent     = win.toLocaleString();
+  document.getElementById('cLoss').textContent    = loss.toLocaleString();
+  const mixedEl = document.getElementById('cMixed'); if (mixedEl) mixedEl.textContent = mixed.toLocaleString();
+  renderOutcomeSummary(pending, win, loss, mixed);
+  updateFilterPills();
+}
+
+function updateFilterPills() {
+  const el = document.getElementById('filterPills');
+  if (!el) return;
+  const labels = {
+    fState: v => v, fType: v => v, fOutcome: v => friendlyOutcome(v),
+    fIssue: v => v, fScope: v => v, fAuthority: v => v,
+    fSource: v => ({
+      ongoing_monitoring:'Ongoing monitoring', historical_archive:'DCT Archive (2014–2025)',
+      bryce_rejection_db:'Bryce Rejection DB', fractracker:'FracTracker',
+      datacenter_watch:'Data Center Watch', dc_opposition_site:'DC Opposition Site'
+    }[v] || v)
+  };
+  const active = Object.entries(labels)
+    .map(([id, fmt]) => { const el = document.getElementById(id); return el && el.value ? {id, label: fmt(el.value)} : null; })
+    .filter(Boolean);
+  const activeOnly = document.getElementById('activeOnly');
+  if (activeOnly && activeOnly.checked) active.push({id: 'activeOnly', label: 'Active & pending only'});
+  el.innerHTML = active.map(({id, label}) =>
+    `<span class="filter-pill">${esc(label)} <button onclick="clearPill('${id}')" title="Remove filter">×</button></span>`
+  ).join('');
+}
+
+function clearPill(id) {
+  if (id === 'activeOnly') {
+    document.getElementById('activeOnly').checked = false;
+  } else {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  }
+  render();
+}
+
+let dt;
+function debounce() { clearTimeout(dt); dt = setTimeout(render, 280); }
+
+Papa.parse('./master_opposition.csv', {
+  download:true, header:true, skipEmptyLines:true,
+  complete: ({ data }) => {
+    // Normalize known source values; preserve unknown values rather than silently mapping them
+    const SOURCE_MAP = {
+      bryce_tracker:       'ongoing_monitoring',
+      historical_archive:  'historical_archive',
+      datacentertracker_org: 'historical_archive',
+      fractracker:         'fractracker',
+      bryce_rejection_db:  'bryce_rejection_db',
+      datacenter_watch:    'datacenter_watch',
+      dc_opposition_site:  'dc_opposition_site',
+    };
+    rows = data.map(r => {
+      const raw = String(r['data_source']||'').trim();
+      return { ...r, data_source: SOURCE_MAP[raw] || (raw ? raw : 'historical_archive') };
+    });
+
+    const NOW = Date.now();
+    const parseDate = (v) => {
+      if (!v) return 0;
+      const d = new Date(v);
+      if (isNaN(d.getTime())) return 0;
+      // Clamp future dates to now so they don't sort above real recent events.
+      // A date value of e.g. "2026-09" parses as a future UTC timestamp and
+      // would otherwise float to the top of a newest-first sort.
+      return Math.min(d.getTime(), NOW);
+    };
+
+    rows.sort((a, b) => parseDate(b['Date']) - parseDate(a['Date']));
+
+    leafletMarkers = [];
+
+    rows.forEach(r => {
+      // Reference docs don't belong on the map — push null to preserve index alignment
+      if (isRefType(r)) { leafletMarkers.push(null); return; }
+
+      const mlat = parseFloat(r.lat);
+      const mlon = parseFloat(r.lon);
+
+      if (isNaN(mlat) || isNaN(mlon) || mlat === 0 || mlon === 0) {
+        leafletMarkers.push(null);
+        return;
+      }
+
+      const m = L.marker([mlat, mlon], { icon: iconFor(r) })
+        .bindPopup(() => buildPopup(r), { maxWidth: 340 })
+        .bindTooltip(
+          `<b>${esc((r['Incident'] || '').slice(0, 50))}</b><br>${esc(r['State'] || '')} • ${esc(friendlyOutcome(r['Community Outcome']))}`,
+          { direction: 'top', className: 'pin-tooltip' }
+        );
+
+      const idx = leafletMarkers.length;
+      m.on('click', e => {
+        L.DomEvent.stopPropagation(e);
+        highlightCard(idx);
+      });
+
+      leafletMarkers.push(m);
+    });
+
+    const pop = (id, vals) => {
+      const el = document.getElementById(id);
+      [...new Set(vals.filter(Boolean))].sort().forEach(v =>
+        el.insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)}</option>`)
+      );
+    };
+
+    // Populate dropdowns from opposition-only rows — excludes reference docs
+    const oppRows = rows.filter(r => !isRefType(r));
+    pop('fState', oppRows.map(r => r['State']));
+    pop('fType', oppRows.map(r => r['Opposition Type']));
+    // Outcome: friendly labels, raw values, skip 'reference'
+    const outcomeEl = document.getElementById('fOutcome');
+    const seenOutcomes = [...new Set(oppRows.map(r => r['Community Outcome']).filter(Boolean))].sort();
+    seenOutcomes.forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v;
+      opt.textContent = friendlyOutcome(v);
+      outcomeEl.appendChild(opt);
+    });
+    pop('fAuthority', oppRows.map(r => r['Authority Level']));
+
+    const issues = [...new Set(
+      oppRows.flatMap(r => (r['Issue Category'] || '').split(/;\s*/).map(x => x.trim()))
+    )].filter(Boolean).sort();
+
+    const fIs = document.getElementById('fIssue');
+    issues.forEach(v =>
+      fIs.insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)}</option>`)
+    );
+
+    // Store opp-only total for accurate card count denominator
+    window._oppTotal = oppRows.length;
+    render();
+  }
+});
+  
+// ─── CHOROPLETH + QoL ────────────────────────────────────────────────────────
+let choroplethLayer = null, stateCountLayer = null, currentZoomedState = null;
+let _choroplethFeatures = []; // cached after buildChoropleth
+let _cachedFilters = null; // invalidated on render(), read on hover
+let _sevSum = {}, _sevCnt = {}; // severity accumulators — written by buildChoropleth, read by buildStateCountLayer
+
+const STATE_BADGE_REVEAL_ZOOM = 4;  // show from initial zoom
+const STATE_BADGE_CENTERS = {
+  Alabama:[32.8,-86.8], Alaska:[64.2,-149.5], Arizona:[34.05,-111.09], Arkansas:[35.2,-91.83],
+  California:[36.5,-119.5], Colorado:[39.05,-105.55], Connecticut:[41.62,-72.73], Delaware:[39.05,-75.5],
+  Florida:[28.15,-82.0], Georgia:[32.65,-83.35], Hawaii:[20.8,-156.3], Idaho:[44.2,-114.5],
+  Illinois:[40.0,-89.2], Indiana:[40.0,-86.15], Iowa:[42.05,-93.5], Kansas:[38.5,-98.2],
+  Kentucky:[37.8,-85.0], Louisiana:[31.05,-92.15], Maine:[45.25,-69.05], Maryland:[39.15,-76.7],
+  Massachusetts:[42.3,-71.85], Michigan:[44.9,-85.45], Minnesota:[46.05,-94.25], Mississippi:[32.7,-89.9],
+  Missouri:[38.45,-92.55], Montana:[46.9,-110.0], Nebraska:[41.55,-99.85], Nevada:[39.25,-116.65],
+  'New Hampshire':[43.8,-71.6], 'New Jersey':[40.1,-74.55], 'New Mexico':[34.35,-106.0], 'New York':[42.95,-75.5],
+  'North Carolina':[35.55,-79.35], 'North Dakota':[47.45,-100.5], Ohio:[40.3,-82.85], Oklahoma:[35.55,-97.35],
+  Oregon:[43.95,-120.75], Pennsylvania:[40.95,-77.75], 'Rhode Island':[41.68,-71.55], 'South Carolina':[33.85,-80.95],
+  'South Dakota':[44.35,-100.2], Tennessee:[35.8,-86.4], Texas:[31.1,-99.25], Utah:[39.35,-111.75],
+  Vermont:[44.05,-72.7], Virginia:[37.7,-78.25], Washington:[47.4,-120.95], 'West Virginia':[38.6,-80.55],
+  Wisconsin:[44.55,-89.8], Wyoming:[43.1,-107.55], 'District of Columbia':[38.9072,-77.0369]
+};
+function getStateBadgeCenter(name, layer) {
+  if (layer && typeof layer.getCenter === 'function') {
+    const c = layer.getCenter();
+    if (c && isFinite(c.lat) && isFinite(c.lng)) return [c.lat, c.lng];
+  }
+  const manual = STATE_BADGE_CENTERS[name];
+  if (manual) return manual;
+  const c = layer.getBounds().getCenter();
+  return [c.lat, c.lng];
+}
+
+const ABBREV_TO_NAME = {
+  AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',
+  CT:'Connecticut',DE:'Delaware',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',
+  IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',
+  ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',
+  MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',
+  NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',
+  NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',
+  PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',
+  TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',
+  WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming',DC:'District of Columbia'
+};
+
+// Warm amber-to-rust ramp — completely avoids blues, purples, reds used by pin outcome colors
+// (Approved=#2563eb, Mixed=#9b59b6, Blocked=#dc2626) so pins always read clearly over the fill.
+const OPP_STEPS = [
+  {min:0,   max:0,   color:'#1f2937', opacity:0.08},
+  {min:1,   max:2,   color:'#78350f', opacity:0.38},
+  {min:3,   max:7,   color:'#92400e', opacity:0.55},
+  {min:8,   max:15,  color:'#b45309', opacity:0.68},
+  {min:16,  max:30,  color:'#d97706', opacity:0.80},
+  {min:31,  max:9999,color:'#f59e0b', opacity:0.90},
+];
+function densityColor(n){ return OPP_STEPS.find(s=>n>=s.min&&n<=s.max)||OPP_STEPS[0]; }
+
+function zoomedOpacity(base){
+  const z=map.getZoom();
+  if(z<=4) return Math.min(0.97, base+0.04);
+  if(z<=5) return base;
+  if(z<=6) return Math.max(0.30, base-0.25);
+  if(z<=7) return Math.max(0.18, base-0.40);
+  return Math.max(0.10, base-0.55);
+}
+function zoomedWeight(){
+  const z=map.getZoom(); return z<=4?2.2:z<=5?1.8:z<=6?1.4:1.0;
+}
+function updateChoroplethVisuals(){
+  if(!choroplethLayer) return;
+  choroplethLayer.eachLayer(layer=>{
+    const cnt=layer.feature?.properties?._count||0;
+    const s=densityColor(cnt);
+    layer.setStyle({fill:true,fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#374151',weight:zoomedWeight(),opacity:1});
+  });
+}
+function updateMarkerVisibility(){
+  const z = map.getZoom();
+  const show = z >= 7;
+  // Add/remove entire layer — no invisible DOM nodes, no pointer-event leakage
+  if (show && !map.hasLayer(clusterGroup)) {
+    map.addLayer(clusterGroup);
+  } else if (!show && map.hasLayer(clusterGroup)) {
+    map.removeLayer(clusterGroup);
+  }
+}
+
+
+function renderOutcomeSummary(p, w, l, mx){
+  const tot = Math.max(1, p+w+l+mx);
+  const pct = n => (n / tot * 100).toFixed(1);
+  const el = document.getElementById('outcomeSummary');
+
+  if(el) el.innerHTML = `
+    <div class="summary-bar">
+      <div class="summary-seg" title="Pending / Active: ${p}" style="width:${pct(p)}%;background:var(--pending)"></div>
+      <div class="summary-seg" title="Blocked: ${w}" style="width:${pct(w)}%;background:var(--win)"></div>
+      <div class="summary-seg" title="Approved: ${l}" style="width:${pct(l)}%;background:var(--loss)"></div>
+      <div class="summary-seg" title="Mixed: ${mx}" style="width:${pct(mx)}%;background:var(--mixed)"></div>
+    </div>
+    <div class="summary-meta">
+      <span>Pending ${p}</span>
+      <span>Blocked ${w}</span>
+      <span>Approved ${l}</span>
+      <span>Mixed ${mx}</span>
+    </div>
+  `;
+}
+function highlightCard(idx){
+  if(idx < 0 || idx == null) return;
+  cardRefs.forEach(c=>c&&c.classList.remove('active'));
+  if(cardRefs[idx]){cardRefs[idx].classList.add('active');cardRefs[idx].scrollIntoView({block:'nearest',behavior:'smooth'});}
+}
+function resetFilters(){
+  document.getElementById('q').value='';
+  ['fState','fType','fOutcome','fIssue','fScope','fAuthority','fSource'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('activeOnly').checked=false;
+  render();
+}
+function zoomToResults(){
+  const pts=[];
+  const _f=readFilters(); rows.forEach(r=>{if(!match(r,_f))return;const lat=+r.lat,lon=+r.lon;if(!isNaN(lat)&&!isNaN(lon))pts.push([lat,lon]);});
+  if(pts.length) map.flyToBounds(pts,{padding:[30,30],maxZoom:8,duration:1.0,easeLinearity:0.15});
+}
+
+
+function buildChoropleth(data, geoJson){
+  const counts={};
+  _sevSum={}; _sevCnt={};
+  const FULL_NAMES=new Set(Object.values(ABBREV_TO_NAME));
+  const featureLayers=[];
+  data.forEach(r=>{
+    if(isRefType(r)) return; // exclude reference docs from choropleth intensity
+    const raw=(r['State']||'').trim();
+    const name=FULL_NAMES.has(raw)?raw:(ABBREV_TO_NAME[raw.toUpperCase()]||raw);
+    if(name){
+      counts[name]=(counts[name]||0)+1;
+      const sev=+r['Severity']||1;
+      _sevSum[name]=(_sevSum[name]||0)+sev;
+      _sevCnt[name]=(_sevCnt[name]||0)+1;
+    }
+  });
+  choroplethLayer=L.geoJSON(geoJson,{
+    style: feat=>{
+      const name=feat.properties.NAME||feat.properties.name||'';
+      const cnt=counts[name]||0;
+      feat.properties._count=cnt;
+      const s=densityColor(cnt);
+      return {fill:true, fillColor:s.color, fillOpacity:zoomedOpacity(s.opacity), color:'#374151', weight:zoomedWeight(), opacity:1};
+    },
+    onEachFeature:(feat,layer)=>{
+      const name=feat.properties.NAME||feat.properties.name||'';
+      const cnt=counts[name]||0;
+      featureLayers.push({name, count: cnt, layer, feature: feat});
+      layer.on({
+        mouseover: e=>{
+          if(currentZoomedState!==name) e.target.setStyle({weight:2.5,color:'#fca5a5',fillOpacity:Math.min(0.99,zoomedOpacity(densityColor(cnt).opacity)+0.08)});
+          if(cnt>0){
+            // Use cached filters — invalidated on every render() call
+            if (!_cachedFilters) _cachedFilters = readFilters();
+            const stRows = rows.filter(r=>{
+              if (isRefType(r)) return false;
+              if (!match(r,_cachedFilters)) return false;
+              const raw=(r['State']||'').trim();
+              return (ABBREV_TO_NAME[raw.toUpperCase()]||raw)===name;
+            });
+            let bl=0, ap=0, pe=0, mx=0;
+            stRows.forEach(r => {
+              const o = (r['Community Outcome']||'').toLowerCase();
+              if (o==='win') bl++;
+              else if (o==='loss') ap++;
+              else if (o==='mixed') mx++;
+              else pe++;
+            });
+            const parts=[];
+            if(bl) parts.push(`🔴 ${bl} Blocked`);
+            if(ap) parts.push(`🔵 ${ap} Approved`);
+            if(pe) parts.push(`⏳ ${pe} Pending`);
+            if(mx) parts.push(`🟣 ${mx} Mixed`);
+            const filteredCnt = stRows.length;
+            document.getElementById('mapHint').textContent=`${name}: ${filteredCnt} incident${filteredCnt===1?'':'s'} — ${parts.join(' · ')} — click to zoom`;
+          } else {
+            document.getElementById('mapHint').textContent=`${name}: no recorded opposition`;
+          }
+        },
+        mouseout: e=>{
+          if(currentZoomedState!==name) choroplethLayer.resetStyle(e.target);
+          document.getElementById('mapHint').textContent='Click any state to zoom in and reveal county-level opposition';
+        },
+        click:()=>choroZoomIn(feat,layer,name)
+      });
+    }
+  });
+  choroplethLayer.addTo(map);
+  _choroplethFeatures = [];
+  choroplethLayer.eachLayer(l => { if (l.feature) _choroplethFeatures.push(l.feature); });
+  choroplethLayer.bringToBack();
+  buildStateCountLayer(featureLayers);
+  updateChoroplethVisuals();
+}
+
+function buildStateCountLayer(featureLayers){
+  if (stateCountLayer) stateCountLayer.remove();
+
+  // Dedicated pane: above choropleth (400), below popups (600)
+  if (!map.getPane('stateBadgePane')) {
+    const pane = map.createPane('stateBadgePane');
+    pane.style.zIndex = 450;
+    pane.style.pointerEvents = 'none';
+    pane.style.transition = 'opacity 0.2s ease';
+  }
+
+  stateCountLayer = L.layerGroup();
+
+  featureLayers.forEach(({name, count, layer}) => {
+    if (!count) return;
+    const center = getStateBadgeCenter(name, layer);
+    const digits = String(count).length;
+    const w = digits >= 3 ? 36 : digits === 2 ? 30 : 26;
+    const h = 22;
+
+    const avgSev = _sevCnt[name] ? (_sevSum[name]||0)/_sevCnt[name] : 0;
+    // Badge color keyed to severity — uses cool teal/slate so it contrasts
+    // against the warm amber choropleth fill rather than blending into it.
+    const badgeBg = avgSev >= 3.5 ? 'rgba(15,118,110,0.97)'   // high sev → teal-700
+                  : avgSev >= 2.5 ? 'rgba(20,148,132,0.94)'   // med-high → teal-600
+                  : avgSev >= 1.5 ? 'rgba(45,122,122,0.91)'   // medium → slate-teal
+                  : 'rgba(71,85,105,0.88)';                    // low sev → slate-600
+    const icon = L.divIcon({
+      className: 'leaflet-div-icon-clean',
+      iconSize: [w, h],
+      iconAnchor: [w / 2, h / 2],
+      html: `<div class="state-count-badge" style="width:${w}px;height:${h}px;box-sizing:border-box;background:${badgeBg}" title="Avg severity: ${avgSev.toFixed(1)}">${count}</div>`
+    });
+
+    stateCountLayer.addLayer(
+      L.marker(center, {
+        icon,
+        pane: 'stateBadgePane',
+        keyboard: false,
+        interactive: false,
+        zIndexOffset: 0
+      })
+    );
+  });
+
+  stateCountLayer.addTo(map);
+  updateStateCountVisibility();
+}
+
+function updateStateCountVisibility(){
+  const pane = map.getPane('stateBadgePane');
+  if (!pane) return;
+  const z = map.getZoom();
+  const show = !currentZoomedState && z >= STATE_BADGE_REVEAL_ZOOM && z < 7;
+  pane.style.opacity = show ? '1' : '0';
+}
+
+function choroZoomIn(feat,layer,stateName){
+  currentZoomedState=stateName;
+  choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
+  layer.setStyle({weight:2.5,color:'#ffb3ad',fillOpacity:0.18});
+  map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:1.0,easeLinearity:0.15});
+  document.getElementById('choroBack').style.display='block';
+  // Use filtered count so hint matches what the sidebar is showing
+  if (!_cachedFilters) _cachedFilters = readFilters();
+  const filteredStateCnt = rows.filter(r=>match(r,_cachedFilters)&&(ABBREV_TO_NAME[(r['State']||'').trim().toUpperCase()]||(r['State']||'').trim())===stateName).length;
+  document.getElementById('mapHint').textContent=filteredStateCnt>0?`${stateName}: ${filteredStateCnt} incident${filteredStateCnt===1?'':'s'} — zoom in or click a county`:`${stateName}: no recorded opposition`;
+  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
+  history.replaceState(null,'','#'+encodeURIComponent(stateName.toLowerCase().replace(/ /g,'-')));
+}
+function choroZoomOut(){
+  currentZoomedState=null;
+  if(choroplethLayer) choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
+  map.flyTo([39.5,-98.35],4,{duration:1.0,easeLinearity:0.15});
+  document.getElementById('choroBack').style.display='none';
+  document.getElementById('mapHint').textContent='Click any state to zoom in and reveal county-level opposition';
+  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
+  history.replaceState(null,'',location.href.replace(/#.*/,''));
+}
+
+fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
+  .then(r=>r.json())
+  .then(geo=>{
+    const poll=setInterval(()=>{ if(rows.length>0){clearInterval(poll);buildChoropleth(rows,geo);} },100);
+  })
+  .catch(e=>console.warn('GeoJSON failed',e));
+
+let _choroplethDebounce = null;
+map.on('zoomend', () => {
+  updateMarkerVisibility();
+  updateStateCountVisibility();
+  clearTimeout(_choroplethDebounce);
+  _choroplethDebounce = setTimeout(updateChoroplethVisuals, 80);
+});
+map.whenReady(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&currentZoomedState)choroZoomOut();});
+
+
+function toggleAdvFilters(btn) {
+  const el = document.getElementById('advFilters');
+  el.classList.toggle('open');
+  btn.querySelector('svg').style.transform = el.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+function updateCardCount(vis, tot) {
+  const el = document.getElementById('cardCount');
+  if (!el) return;
+  const oppTot = window._oppTotal || tot;
+  el.innerHTML = vis === oppTot ? `<b>${oppTot}</b> incidents` : `Showing <b>${vis}</b> of <b>${oppTot}</b> incidents`;
+}
+function srcTagFull(s) {
+  const tags = {
+    ongoing_monitoring:  ['src-bryce', 'Live',  'Ongoing monitoring'],
+    bryce_rejection_db:  ['src-bryce', 'Bryce', 'Robert Bryce — Data Center Rejection Database'],
+    fractracker:         ['src-frac',  'FT',    'FracTracker Alliance — Open U.S. Data Centers Tracker'],
+    datacenter_watch:    ['src-dcw',   'DCW',   'Data Center Watch — quarterly opposition reports'],
+    dc_opposition_site:  ['src-dco',   'DCO',   'DataCenterOpposition.com — community-reported'],
+  };
+  const [cls, label, tip] = tags[s] || ['src-dct', 'Hist', 'Historical archive 2014–2025'];
+  return `<span class="src-tag ${cls}">${label}<span class="src-tip">${tip}</span></span>`;
+}
+function sevDotsLabeled(raw) {
+  const n = Math.min(5, Math.max(1, +raw || 1));
+  const dots = Array.from({length:5}, (_,i) =>
+    `<span style="width:7px;height:7px;border-radius:50%;display:inline-block;background:${i<n?'#e74c3c':'#2c3544'}"></span>`
+  ).join('');
+  return `<span class="sev-wrap" title="Severity: ${n} out of 5 — higher = stronger opposition">${dots}</span>`;
+}
+function showHowToUse() {
+  if (document.getElementById('htuWrap')) return;
+  const wrap = document.createElement('div');
+  wrap.id = 'htuWrap';
+  wrap.style.cssText = 'position:absolute;inset:0;z-index:598';
+  wrap.innerHTML = `
+    <div class="htu-overlay"></div>
+    <div class="how-to-use">
+      <h3>How to use this map</h3>
+      <p>Tracking community opposition to data center projects across the US.</p>
+      <ul>
+        <li><span class="ico">🗺️</span><div><b>Click any state</b> on the map to zoom in and see individual incidents.</div></li>
+        <li><span class="ico">📌</span><div><b>Click a pin</b> to see details about that specific opposition event.</div></li>
+        <li><span class="ico">🔍</span><div><b>Use the filters</b> on the left to narrow by state, result, type, or concern.</div></li>
+      </ul>
+      <button class="close-btn" onclick="document.getElementById('htuWrap').remove()">Got it →</button>
+    </div>`;
+  document.querySelector('.app').appendChild(wrap);
+}
+window.addEventListener('load', () => setTimeout(showHowToUse, 700));
+
+// ── POLITICAL LAYER MODULE ────────────────────────────────────────────────────
+// Loads county_votes.json from ./data/
+// Renders three toggleable overlays:
+//   1. Opposition activity choropleth (existing, now toggleable)
+//   2. 2024 presidential results (blue=D, red=R, opacity=margin size)
+//   3. Bivariate matrix (opposition intensity × 2024 partisan lean)
+
+let voteData   = null;  // fips -> { '2024': margin }
+let votingLayer   = null;
+let matrixLayer   = null;
+
+// State-level aggregates for zoom-out view
+let stateVoteAgg = {}; // state name -> avg margin
+
+// ── Data loading ──────────────────────────────────────────────────────────────
+async function loadVoteData() {
+  if (voteData) return true;
+  try {
+    const vr = await fetch('./data/county_votes.json');
+    if (!vr.ok) throw new Error('fetch failed');
+    voteData = await vr.json();
+    buildStateVoteAgg();
+    return true;
+  } catch(e) {
+    console.error('Failed to load vote data:', e);
+    return false;
+  }
+}
+
+// Module-scope FIPS prefix → state name — used by buildStateVoteAgg and buildMatrixLayer
+const FIPS_TO_STATE = {
+  '01':'Alabama','02':'Alaska','04':'Arizona','05':'Arkansas','06':'California',
+  '08':'Colorado','09':'Connecticut','10':'Delaware','11':'District of Columbia',
+  '12':'Florida','13':'Georgia','15':'Hawaii','16':'Idaho','17':'Illinois',
+  '18':'Indiana','19':'Iowa','20':'Kansas','21':'Kentucky','22':'Louisiana',
+  '23':'Maine','24':'Maryland','25':'Massachusetts','26':'Michigan','27':'Minnesota',
+  '28':'Mississippi','29':'Missouri','30':'Montana','31':'Nebraska','32':'Nevada',
+  '33':'New Hampshire','34':'New Jersey','35':'New Mexico','36':'New York',
+  '37':'North Carolina','38':'North Dakota','39':'Ohio','40':'Oklahoma',
+  '41':'Oregon','42':'Pennsylvania','44':'Rhode Island','45':'South Carolina',
+  '46':'South Dakota','47':'Tennessee','48':'Texas','49':'Utah','50':'Vermont',
+  '51':'Virginia','53':'Washington','54':'West Virginia','55':'Wisconsin','56':'Wyoming',
+};
+
+function buildStateVoteAgg() {
+  // Aggregate county margins to state level for zoom-out view
+  const sums = {}, counts = {};
+  for (const [fips, years] of Object.entries(voteData)) {
+    const margin = years['2024'] ?? null;
+    if (margin === null) continue;
+    const stFips = fips.slice(0, 2);
+    sums[stFips]   = (sums[stFips]   || 0) + margin;
+    counts[stFips] = (counts[stFips] || 0) + 1;
+  }
+  stateVoteAgg = {};
+  for (const [stFips, sum] of Object.entries(sums)) {
+    const name = FIPS_TO_STATE[stFips];
+    if (name) stateVoteAgg[name] = sum / counts[stFips];
+  }
+}
+
+// ── Margin helpers ────────────────────────────────────────────────────────────
+function getMarginForFips(fips) {
+  const entry = voteData?.[fips];
+  return entry?.['2024'] ?? null;
+}
+
+// ── Color helpers ─────────────────────────────────────────────────────────────
+// Voting: blue=D, red=R. Margin [-1,1] → color + opacity.
+function voteColor(margin) {
+  if (margin === null) return null;
+  const abs = Math.abs(margin);
+  const opacity = Math.min(0.85, 0.15 + abs * 1.4); // min tint even for close counties
+  const color = margin < 0 ? '#b91c1c' : '#1d4ed8';
+  return { color, opacity };
+}
+
+// Bivariate: opposition intensity [0,1] × partisan lean [-1,1]
+// Uses a perceptually-distinct 2D color space:
+//   Low opp + D lean  → cool teal  (#0e7490)
+//   Low opp + R lean  → warm brown (#b45309)
+//   High opp + D lean → electric blue (#2563eb) brightened
+//   High opp + R lean → hot red (#dc2626) saturated
+// Interpolated continuously via HSL mixing.
+function matrixColor(oppScore, margin) {
+  if (oppScore === null || margin === null) return null;
+  // oppScore: 0=no opposition, 1=max. margin: -1=strong R, +1=strong D
+  // We want a grid that reads naturally: axis = partisan, y-axis = opposition
+  const t = Math.max(0, Math.min(1, oppScore));   // opposition intensity
+  const p = Math.max(-1, Math.min(1, margin));     // partisan lean
+
+  // Four corner colors in HSL:
+  // low-opp/D-lean: hsl(195,60%,35%)  (muted teal)
+  // low-opp/R-lean: hsl(30,65%,38%)   (muted amber)
+  // high-opp/D-lean: hsl(220,80%,45%) (vivid blue)
+  // high-opp/R-lean: hsl(5,80%,45%)   (vivid red)
+  const pNorm = (p + 1) / 2; // [0=R,1=D]
+  const hLow  = 30  + pNorm * (195 - 30);   // amber → teal at low opposition
+  const hHigh = 5   + pNorm * (220 - 5);    // red   → blue at high opposition
+  const h = hLow + t * (hHigh - hLow);
+  const s = 62 + t * 18;   // more saturated at high opposition
+  const l = 38 - t * 5;    // slightly darker at high opposition
+  const opacity = 0.25 + t * 0.50 + Math.abs(p) * 0.15;
+  return { color: `hsl(${Math.round(h)},${Math.round(s)}%,${Math.round(l)}%)`, opacity: Math.min(0.88, opacity) };
+}
+
+// ── Opposition score normalisation ───────────────────────────────────────────
+// Returns [0,1] opposition intensity for a county name+state, relative to dataset max.
+let _maxCountyOpp = 1;
+let _countyOppMap = {}; // "county|state" -> count
+function buildCountyOppMap() {
+  _countyOppMap = {};
+  rows.forEach(r => {
+    const key = `${(r['County']||'').trim().toLowerCase()}|${(r['State']||'').trim().toLowerCase()}`;
+    _countyOppMap[key] = (_countyOppMap[key] || 0) + 1;
+  });
+  _maxCountyOpp = Math.max(1, ...Object.values(_countyOppMap));
+}
+function getCountyOppScore(countyName, stateName) {
+  const key = `${(countyName||'').trim().toLowerCase()}|${(stateName||'').trim().toLowerCase()}`;
+  return (_countyOppMap[key] || 0) / _maxCountyOpp;
+}
+
+// ── Layer rendering ───────────────────────────────────────────────────────────
+function buildVotingLayer(geoFeatures, isCounty) {
+  if (!voteData) return null;
+  // Pre-compute margin for every feature once — avoids double lookup in style+onEachFeature
+  const marginCache = new Map();
+  geoFeatures.forEach(feat => {
+    const margin = isCounty
+      ? getMarginForFips(String(feat.id).padStart(5,'0'))
+      : (stateVoteAgg[feat.properties.name || feat.properties.NAME] ?? null);
+    marginCache.set(feat, margin);
+  });
+  return L.geoJSON({ type:'FeatureCollection', features: geoFeatures }, {
+    style(feat) {
+      const vc = voteColor(marginCache.get(feat) ?? null);
+      return vc
+        ? { color:'transparent', weight:0, fillColor:vc.color, fillOpacity:vc.opacity }
+        : { fillOpacity:0, weight:0 };
+    },
+    onEachFeature(feat, layer) {
+      const margin = marginCache.get(feat) ?? null;
+      const name = feat.properties.NAME || feat.properties.name || '';
+      const stateRef = isCounty ? ` (${feat.properties.STATE || feat.properties.state || ''})` : '';
+      const mLabel = margin === null ? 'No data'
+        : `${Math.abs(margin * 100).toFixed(1)}% ${margin < 0 ? 'R' : 'D'} lean`;
+      layer.bindTooltip(
+        `<b>${name}${stateRef}</b><br>2024 Presidential Results: ${mLabel}`,
+        { sticky:true, className:'pin-tooltip' }
+      );
+    }
+  });
+}
+
+function buildMatrixLayer(geoFeatures, isCounty) {
+  if (!voteData) return null;
+  // Precompute everything that doesn't vary per-feature
+  const stateCounts = {};
+  rows.forEach(r => { const s=r['State']; if(s) stateCounts[s]=(stateCounts[s]||0)+1; });
+  const maxState = Math.max(1, ...Object.values(stateCounts));
+  // FIPS_TO_STATE is module-scope — direct O(1) lookup, no loop needed
+  return L.geoJSON({ type:'FeatureCollection', features: geoFeatures }, {
+    style(feat) {
+      let margin = null, oppScore = 0;
+      if (isCounty) {
+        const fips = String(feat.id).padStart(5,'0');
+        margin = getMarginForFips(fips);
+        const cName = feat.properties.NAME || feat.properties.name || '';
+        const stName = FIPS_TO_STATE[fips.slice(0,2)] || '';
+        oppScore = getCountyOppScore(cName, stName);
+      } else {
+        const name = feat.properties.name || feat.properties.NAME || '';
+        margin = stateVoteAgg[name] ?? null;
+        oppScore = (stateCounts[name] || 0) / maxState;
+      }
+      const mc = matrixColor(oppScore, margin);
+      return mc
+        ? { color:'transparent', weight:0, fillColor:mc.color, fillOpacity:mc.opacity }
+        : { fillOpacity:0, weight:0 };
+    }
+  });
+}
+
+// ── Update layers on toggle/year change ──────────────────────────────────────
+async function updateLayers() {
+  const showOpp    = document.getElementById('layerOpposition')?.checked;
+  const showVoting = document.getElementById('layerVoting')?.checked;
+  const showMatrix = document.getElementById('layerMatrix')?.checked;
+
+  // Enable matrix toggle only when both others are on
+  const matrixWrap = document.getElementById('layerMatrixWrap');
+  if (showOpp && showVoting) {
+    matrixWrap.style.opacity = '1';
+    matrixWrap.style.pointerEvents = 'auto';
+  } else {
+    matrixWrap.style.opacity = '.4';
+    matrixWrap.style.pointerEvents = 'none';
+    if (document.getElementById('layerMatrix')) document.getElementById('layerMatrix').checked = false;
+  }
+
+  // Show/hide opposition choropleth
+  if (choroplethLayer) {
+    if (showOpp) { if (!map.hasLayer(choroplethLayer)) map.addLayer(choroplethLayer); }
+    else         { if ( map.hasLayer(choroplethLayer)) map.removeLayer(choroplethLayer); }
+  }
+  if (stateCountLayer) {
+    if (showOpp) { if (!map.hasLayer(stateCountLayer)) map.addLayer(stateCountLayer); }
+    else         { if ( map.hasLayer(stateCountLayer)) map.removeLayer(stateCountLayer); }
+  }
+
+  // Show/hide year selector
+  // Legend visibility
+  document.getElementById('legendVoting').style.display = showVoting ? 'block' : 'none';
+  document.getElementById('legendMatrix').style.display = (showOpp && showVoting && showMatrix) ? 'block' : 'none';
+
+  if (!showVoting && !showMatrix) {
+    if (votingLayer) { map.removeLayer(votingLayer); votingLayer = null; }
+    if (matrixLayer) { map.removeLayer(matrixLayer); matrixLayer = null; }
+    return;
+  }
+
+  const ok = await loadVoteData();
+  if (!ok) { alert('Could not load political data. Make sure county_votes.json and county_fips_lookup.json are in ./data/'); return; }
+
+  buildCountyOppMap();
+  await renderPoliticalLayers();
+  if (showMatrix) drawMatrixLegend();
+}
+
+async function renderPoliticalLayers() {
+  // Remove existing
+  if (votingLayer) { map.removeLayer(votingLayer); votingLayer = null; }
+  if (matrixLayer) { map.removeLayer(matrixLayer); matrixLayer = null; }
+
+  const showVoting = document.getElementById('layerVoting')?.checked;
+  const showMatrix = document.getElementById('layerMatrix')?.checked;
+  if (!showVoting && !showMatrix) return;
+
+  const isZoomed = currentZoomedState !== null;
+  const zoom = map.getZoom();
+  const useCounty = isZoomed || zoom >= 6;
+
+  // Use cached features — choropleth features don't change after load
+  let features = _choroplethFeatures || [];
+  if (!features.length) {
+    if (choroplethLayer) choroplethLayer.eachLayer(l => { if (l.feature) _choroplethFeatures.push(l.feature); });
+    features = _choroplethFeatures;
+  }
+  if (!features.length) return;
+
+  // Filter to current state if zoomed
+  if (isZoomed && currentZoomedState) {
+    features = features.filter(f => {
+      const name = f.properties.name || f.properties.NAME || '';
+      return name === currentZoomedState;
+    });
+  }
+
+  if (showVoting) {
+    votingLayer = buildVotingLayer(features, false); // state-level features from choropleth
+    if (votingLayer) { votingLayer.addTo(map); votingLayer.bringToBack(); }
+  }
+  if (showMatrix && document.getElementById('layerOpposition')?.checked) {
+    matrixLayer = buildMatrixLayer(features, false);
+    if (matrixLayer) { matrixLayer.addTo(map); matrixLayer.bringToBack(); }
+  }
+}
+
+// ── Bivariate matrix legend (canvas) ─────────────────────────────────────────
+function drawMatrixLegend() {
+  const canvas = document.getElementById('matrixLegendCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const steps = 40;
+  const cw = W / steps, ch = H / steps;
+  for (let xi = 0; xi < steps; xi++) {
+    for (let yi = 0; yi < steps; yi++) {
+      const opp    = xi / (steps - 1);              // left=low, right=high
+      const margin = 1 - (yi / (steps - 1)) * 2;   // top=D(+1), bottom=R(-1)
+      const mc = matrixColor(opp, margin);
+      if (!mc) continue;
+      // Parse hsl color string for canvas
+      ctx.globalAlpha = mc.opacity;
+      ctx.fillStyle = mc.color;
+      ctx.fillRect(xi * cw, yi * ch, cw + 0.5, ch + 0.5);
+    }
+  }
+  ctx.globalAlpha = 1;
+  // Y-axis labels
+  ctx.fillStyle = '#8a96a4';
+  ctx.font = '9px Inter,sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('D', W - 2, 9);
+  ctx.fillText('R', W - 2, H - 2);
+}
+
+// Re-render political layers when zoom changes (state vs county resolution)
+map.on('zoomend', () => {
+  if (document.getElementById('layerVoting')?.checked || document.getElementById('layerMatrix')?.checked) {
+    renderPoliticalLayers();
+  }
+});
+
+</script>
+</body>
+</html>
