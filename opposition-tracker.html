@@ -1253,7 +1253,7 @@ async function renderPoliticalLayers() {
   const useCounty = isZoomed || zoom >= 6;
 
   // Use cached features — choropleth features don't change after load
-  let features = _choroplethFeatures;
+  let features = _choroplethFeatures || [];
   if (!features.length) {
     if (choroplethLayer) choroplethLayer.eachLayer(l => { if (l.feature) _choroplethFeatures.push(l.feature); });
     features = _choroplethFeatures;
