@@ -138,6 +138,15 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .summary-meta { display:flex; gap:10px; flex-wrap:wrap; font-size:11px; color:var(--muted); margin-top:6px }
 .pin-tooltip { background:#0f1722; color:#eef2f7; border:1px solid var(--border); border-radius:8px; box-shadow:0 6px 20px rgba(0,0,0,.35) }
 
+/* Diagnostic status banner — visible failure instead of silent black box */
+.map-status { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:560;
+  background:rgba(15,23,34,.97); border:1px solid #2c3544; border-radius:10px;
+  padding:14px 18px; font-size:12px; color:#eef2f7; max-width:340px; line-height:1.65;
+  display:none; box-shadow:0 10px 36px rgba(0,0,0,.5) }
+.map-status.show { display:block }
+.map-status b { color:#fca5a5 }
+.map-status code { background:#0c1018; border:1px solid #2c3544; border-radius:4px; padding:1px 5px; font-size:11px }
+
 .card-source { display:inline-block; margin-top:6px; font-size:11px; color:var(--bryce); text-decoration:none; border:1px solid var(--border); border-radius:6px; padding:3px 8px }
 .card-source:hover { border-color:var(--bryce); background:rgba(90,169,230,.08) }
 
@@ -229,10 +238,10 @@ input:focus, select:focus { border-color:#5aa9e6 }
       <div id="filterPills" class="filter-pills"></div>
       <div class="toolbar-row"><button class="tool-btn" onclick="resetFilters()">Reset filters</button><button class="tool-btn show-map" onclick="zoomToResults()">Show on map →</button></div>
       <div class="layer-toggles">
-        <div class="layer-toggle-title">Map layers</div>
-        <label class="layer-chk"><input type="checkbox" id="layerOpposition" checked onchange="updateLayers()"> Opposition activity</label>
-        <label class="layer-chk"><input type="checkbox" id="layerVoting" onchange="updateLayers()"> 2024 Presidential Results</label>
-        <label class="layer-chk" id="layerMatrixWrap" style="opacity:.4;pointer-events:none"><input type="checkbox" id="layerMatrix" onchange="updateLayers()"> Opposition × 2024 Politics matrix</label>
+        <div class="layer-toggle-title">Map shading</div>
+        <label class="layer-chk"><input type="radio" name="layerMode" value="opposition" checked onchange="updateLayers()"> Opposition activity</label>
+        <label class="layer-chk"><input type="radio" name="layerMode" value="voting" onchange="updateLayers()"> 2024 Presidential Results</label>
+        <label class="layer-chk"><input type="radio" name="layerMode" value="matrix" onchange="updateLayers()"> Opposition × 2024 Politics matrix</label>
       </div>
     </div>
     <div class="card-count" id="cardCount"></div>
@@ -241,6 +250,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
 
   <div class="mapwrap">
     <div id="map"></div>
+    <div class="map-status" id="mapStatus"></div>
     <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
     <div class="map-hint" id="mapHint">Click any state to zoom in and reveal county-level opposition</div>
     <div class="legend">
@@ -251,13 +261,13 @@ input:focus, select:focus { border-color:#5aa9e6 }
       <div class="legend-row"><span class="lsw" style="background:var(--mixed)"></span>Mixed</div>
       <div class="note">Size = severity (1–5). Pin color = data source.</div>
       <div id="legendVoting" style="display:none;border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
-        <b style="font-size:11px;color:var(--muted);font-weight:600">2024 Presidential Results</b>
+        <b style="font-size:11px;color:var(--muted);font-weight:600">2024 Presidential Margin</b>
         <div style="display:flex;gap:4px;margin-top:6px;align-items:center;font-size:10px;color:var(--muted)">
-          <span style="white-space:nowrap">Strong D</span>
-          <div style="flex:1;height:8px;border-radius:3px;background:linear-gradient(to right,#1d4ed8,#93c5fd,#f5f5f5,#fca5a5,#b91c1c)"></div>
-          <span style="white-space:nowrap">Strong R</span>
+          <span style="white-space:nowrap">D +40</span>
+          <div style="flex:1;height:8px;border-radius:3px;background:linear-gradient(to right,#1d4ed8,#475569,#b91c1c)"></div>
+          <span style="white-space:nowrap">R +40</span>
         </div>
-        <div style="font-size:10px;color:var(--muted);margin-top:3px">Opacity = margin size</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:3px;text-align:center">Even at midpoint · color saturates at ±40 pts</div>
       </div>
       <div id="legendMatrix" style="display:none;border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
         <b style="font-size:11px;color:var(--muted);font-weight:600">Opposition × Politics</b>
@@ -268,7 +278,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
           <span>Low opposition</span><span>High opposition</span>
         </div>
       </div>
-      <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
+      <div id="legendOppActivity" style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
         <b style="font-size:11px;color:var(--muted);font-weight:600">Opposition Activity</b>
         <div class="legend-row"><span class="lsw" style="background:#78350f;opacity:.75;border-radius:2px"></span>1–2</div>
         <div class="legend-row"><span class="lsw" style="background:#92400e;border-radius:2px"></span>3–7</div>
@@ -281,15 +291,56 @@ input:focus, select:focus { border-color:#5aa9e6 }
 </div>
 
 <script>
+// ── Diagnostics: turn silent failures into visible messages ──────────────────
+function mapStatus(msg) {
+  const el = document.getElementById('mapStatus');
+  if (!el) return;
+  if (!msg) { el.classList.remove('show'); el.innerHTML=''; return; }
+  el.innerHTML = msg;
+  el.classList.add('show');
+}
+
+// Guard: if CDN scripts were blocked by the embed host, say so instead of dying silently
+if (typeof L === 'undefined' || typeof Papa === 'undefined') {
+  const missing = [typeof L === 'undefined' ? 'Leaflet (unpkg.com)' : '', typeof Papa === 'undefined' ? 'PapaParse (unpkg.com)' : ''].filter(Boolean).join(' and ');
+  mapStatus(`<b>Map libraries failed to load.</b><br>${missing} was blocked by this page's host. If this page is embedded (Notion / mirror), the embed host is blocking external scripts. Open the page directly in a browser tab to confirm.`);
+  throw new Error('Required libraries missing: ' + missing);
+}
+
+// Where the canonical data lives — used as fallback when relative paths
+// fail on an embed/mirror host. Verify this matches the GitHub Pages URL.
+const DATA_BASE = 'https://pricephillips.github.io/data-center-map';
+
 const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true, zoomSnap:0.25, zoomDelta:0.5, wheelPxPerZoomLevel:80 });
 setTimeout(() => map.invalidateSize(), 300);
 window.addEventListener('resize', () => map.invalidateSize());
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-  subdomains:'abcd', maxZoom:19, attribution:'© OpenStreetMap contributors © CARTO'
+// Embed hosts (Notion iframes) often size the frame after load — track it
+if (window.ResizeObserver) {
+  new ResizeObserver(() => map.invalidateSize()).observe(document.querySelector('.mapwrap'));
+}
+
+// Basemap with automatic fallback: if Carto CDN is blocked, switch to OSM
+let _tileErrors = 0, _tileFellBack = false;
+const baseTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  subdomains:'abcd', maxZoom:19, updateWhenIdle:true, attribution:'© OpenStreetMap contributors © CARTO'
 }).addTo(map);
+baseTiles.on('tileerror', () => {
+  _tileErrors++;
+  if (_tileErrors >= 3 && !_tileFellBack) {
+    _tileFellBack = true;
+    map.removeLayer(baseTiles);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom:19, updateWhenIdle:true, attribution:'© OpenStreetMap contributors'
+    }).addTo(map);
+    mapStatus('Basemap CDN unreachable from this host — switched to OpenStreetMap tiles.');
+    setTimeout(() => mapStatus(''), 5000);
+  }
+});
 
 const clusterGroup = L.markerClusterGroup({
   maxClusterRadius:50,
+  chunkedLoading:true,           // process bulk adds in async chunks — no main-thread block
+  chunkInterval:120, chunkDelay:40,
   iconCreateFunction(c) {
     const n=c.getChildCount(), sz=n>200?46:n>50?38:30;
     return L.divIcon({ className:'', iconSize:[sz,sz],
@@ -350,15 +401,24 @@ function isResearchTool(r) {
   return RESEARCH_TOOL_TYPES.has(sub) || RESEARCH_TOOL_TYPES.has(rt);
 }
 
+// Icon cache: outcome x source x severity yields at most ~120 distinct icons.
+// L.divIcon instances are plain option objects — safe to share across markers.
+const _iconCache = new Map();
 function iconFor(r) {
   const o = (r['Community Outcome']||'').toLowerCase();
   const fillColor = isResearchTool(r) ? '#0d9488' : (OUTCOME_COLORS[o] || '#f39c12');
   const strokeColor = SOURCE_COLORS[r['data_source']] || '#5aa9e6';
   const n = Number(r['Severity']||2);
-  const s = 11 + n*3;
-  return L.divIcon({ className:'', iconSize:[s,s], iconAnchor:[s/2,s/2],
-    html:`<svg width="${s}" height="${s}" viewBox="0 0 ${s} ${s}"><rect x="1.5" y="1.5" width="${s-3}" height="${s-3}" rx="2" fill="${fillColor}" fill-opacity="0.88" stroke="${strokeColor}" stroke-width="2"/></svg>`
-  });
+  const key = fillColor + '|' + strokeColor + '|' + n;
+  let icon = _iconCache.get(key);
+  if (!icon) {
+    const s = 11 + n*3;
+    icon = L.divIcon({ className:'', iconSize:[s,s], iconAnchor:[s/2,s/2],
+      html:`<svg width="${s}" height="${s}" viewBox="0 0 ${s} ${s}"><rect x="1.5" y="1.5" width="${s-3}" height="${s-3}" rx="2" fill="${fillColor}" fill-opacity="0.88" stroke="${strokeColor}" stroke-width="2"/></svg>`
+    });
+    _iconCache.set(key, icon);
+  }
+  return icon;
 }
 
 function buildPopup(r) {
@@ -405,8 +465,7 @@ function match(r, f) {
   if (f.fSr && r['data_source'] !== f.fSr) return false;
   if (f.act && !['active','pending'].includes((r['Community Outcome']||'').toLowerCase())) return false;
   if (!f.q) return true;
-  const hay = [r['Incident'],r['Entity'],r['State'],r['County'],r['Opposition Groups'],r['Opposition Type'],r['Objective'],r['Summary'],r['Company'],r['Hyperscaler'],r['City']].join(' ').toLowerCase();
-  return hay.includes(f.q);
+  return (r._hay || '').includes(f.q);
 }
 
 function readFilters() {
@@ -423,20 +482,27 @@ function readFilters() {
   };
 }
 
+// List windowing: render LIST_CHUNK cards at a time; "Show more" appends.
+const LIST_CHUNK = 150;
+let _listLimit = LIST_CHUNK;
+let _visibleCache = [];
+// Per-state outcome stats, rebuilt each render — makes choropleth hover O(1)
+let _stateHoverStats = {};
+
 function render() {
   _cachedFilters = null;
+  _listLimit = LIST_CHUNK;            // new filter state — reset the window
   clusterGroup.clearLayers();
-  const list = document.getElementById('list');
-  list.innerHTML = '';
-  cardRefs = [];
   const visible = [];
   const f = readFilters();
   rows.forEach((r,i) => { if(!isRefType(r) && match(r, f)) visible.push({r,i}); });
+  _visibleCache = visible;
 
   updateCardCount(visible.length, rows.length);
 
   if (!visible.length) {
-    list.innerHTML = '<div style="padding:28px 12px;text-align:center;color:var(--muted);font-size:12px;line-height:1.6">No incidents match the current filters.<br><button onclick="resetFilters()" style="margin-top:10px;padding:5px 14px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:11px;cursor:pointer">Reset filters</button></div>';
+    _stateHoverStats = {};
+    document.getElementById('list').innerHTML = '<div style="padding:28px 12px;text-align:center;color:var(--muted);font-size:12px;line-height:1.6">No incidents match the current filters.<br><button onclick="resetFilters()" style="margin-top:10px;padding:5px 14px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:11px;cursor:pointer">Reset filters</button></div>';
     document.getElementById('cAll').textContent='0';
     document.getElementById('cPending').textContent='0';
     document.getElementById('cWin').textContent='0';
@@ -447,9 +513,11 @@ function render() {
     return;
   }
 
+  // Single pass: stats counters, hover stats, marker collection.
+  // Card DOM is built separately by renderList (windowed).
   let pending=0, win=0, loss=0, mixed=0;
+  _stateHoverStats = {};
   const markersToAdd = [];
-  const fragment = document.createDocumentFragment();
 
   visible.forEach(({ r, i })=>{
     const marker = leafletMarkers[i];
@@ -461,6 +529,38 @@ function render() {
     else if(outcome === 'mixed') mixed++;
     else pending++;
 
+    const stName = normStateName(r['State']);
+    if (stName) {
+      const s = _stateHoverStats[stName] || (_stateHoverStats[stName] = {bl:0,ap:0,pe:0,mx:0,total:0});
+      s.total++;
+      if (outcome==='win') s.bl++;
+      else if (outcome==='loss') s.ap++;
+      else if (outcome==='mixed') s.mx++;
+      else s.pe++;
+    }
+  });
+
+  renderList();
+  if (markersToAdd.length) clusterGroup.addLayers(markersToAdd);
+
+  document.getElementById('cAll').textContent     = visible.length.toLocaleString();
+  document.getElementById('cPending').textContent = pending.toLocaleString();
+  document.getElementById('cWin').textContent     = win.toLocaleString();
+  document.getElementById('cLoss').textContent    = loss.toLocaleString();
+  const mixedEl = document.getElementById('cMixed'); if (mixedEl) mixedEl.textContent = mixed.toLocaleString();
+  renderOutcomeSummary(pending, win, loss, mixed);
+  updateFilterPills();
+}
+
+function renderList() {
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+  cardRefs = [];
+  const fragment = document.createDocumentFragment();
+  const slice = _visibleCache.slice(0, _listLimit);
+
+  slice.forEach(({ r, i })=>{
+    const marker = leafletMarkers[i];
     const card = document.createElement('div');
     card.className = 'card oc-' + ((r['Community Outcome']||'pending').toLowerCase());
     const srcUrl = r['Source URL']||r['Opposition Website']||'';
@@ -487,16 +587,22 @@ function render() {
     fragment.appendChild(card);
   });
 
-  list.appendChild(fragment);
-  if (markersToAdd.length) clusterGroup.addLayers(markersToAdd);
+  const remaining = _visibleCache.length - slice.length;
+  if (remaining > 0) {
+    const btn = document.createElement('button');
+    btn.className = 'tool-btn';
+    btn.style.cssText = 'width:100%;margin-top:4px;padding:9px';
+    btn.textContent = `Show ${Math.min(LIST_CHUNK, remaining)} more (${remaining.toLocaleString()} remaining)`;
+    btn.onclick = showMoreCards;
+    fragment.appendChild(btn);
+  }
 
-  document.getElementById('cAll').textContent     = visible.length.toLocaleString();
-  document.getElementById('cPending').textContent = pending.toLocaleString();
-  document.getElementById('cWin').textContent     = win.toLocaleString();
-  document.getElementById('cLoss').textContent    = loss.toLocaleString();
-  const mixedEl = document.getElementById('cMixed'); if (mixedEl) mixedEl.textContent = mixed.toLocaleString();
-  renderOutcomeSummary(pending, win, loss, mixed);
-  updateFilterPills();
+  list.appendChild(fragment);
+}
+
+function showMoreCards() {
+  _listLimit += LIST_CHUNK;
+  renderList();   // list only — cluster, stats, hover stats untouched
 }
 
 function updateFilterPills() {
@@ -534,9 +640,24 @@ function clearPill(id) {
 let dt;
 function debounce() { clearTimeout(dt); dt = setTimeout(render, 280); }
 
-Papa.parse('./master_opposition.csv', {
-  download:true, header:true, skipEmptyLines:true,
-  complete: ({ data }) => {
+// CSV load with fallback chain: relative path first (works on the canonical
+// host), then the absolute GitHub Pages URL (works inside embeds/mirrors).
+function startCSVLoad(urls) {
+  if (!urls.length) {
+    mapStatus('<b>Data failed to load.</b> <code>master_opposition.csv</code> was not reachable from this page or from <code>' + DATA_BASE + '</code>.');
+    return;
+  }
+  Papa.parse(urls[0], {
+    download:true, header:true, skipEmptyLines:true,
+    error: () => startCSVLoad(urls.slice(1)),
+    complete: (res) => {
+      if (!res.data || !res.data.length) { startCSVLoad(urls.slice(1)); return; }
+      handleCSVData(res.data);
+    }
+  });
+}
+
+function handleCSVData(data) {
     const SOURCE_MAP = {
       bryce_tracker:       'ongoing_monitoring',
       historical_archive:  'historical_archive',
@@ -552,14 +673,15 @@ Papa.parse('./master_opposition.csv', {
     });
 
     const NOW = Date.now();
-    const parseDate = (v) => {
-      if (!v) return 0;
-      const d = new Date(v);
-      if (isNaN(d.getTime())) return 0;
-      return Math.min(d.getTime(), NOW);
-    };
+    // Precompute per-row: timestamp for sorting, lowercase haystack for search.
+    // Done once at load so neither happens inside render loops or comparators.
+    rows.forEach(r => {
+      const d = new Date(r['Date'] || '');
+      r._ts = isNaN(d.getTime()) ? 0 : Math.min(d.getTime(), NOW);
+      r._hay = [r['Incident'],r['Entity'],r['State'],r['County'],r['Opposition Groups'],r['Opposition Type'],r['Objective'],r['Summary'],r['Company'],r['Hyperscaler'],r['City']].join(' ').toLowerCase();
+    });
 
-    rows.sort((a, b) => parseDate(b['Date']) - parseDate(a['Date']));
+    rows.sort((a, b) => b._ts - a._ts);
 
     leafletMarkers = [];
 
@@ -621,8 +743,8 @@ Papa.parse('./master_opposition.csv', {
 
     window._oppTotal = oppRows.length;
     render();
-  }
-});
+    tryBuildChoropleth();   // builds now if GeoJSON arrived first
+}
 
 // ── CHOROPLETH ────────────────────────────────────────────────────────────────
 let choroplethLayer = null, stateCountLayer = null, currentZoomedState = null;
@@ -669,6 +791,12 @@ const ABBREV_TO_NAME = {
   TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',
   WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming',DC:'District of Columbia'
 };
+const FULL_NAME_SET = new Set(Object.values(ABBREV_TO_NAME));
+function normStateName(raw) {
+  raw = (raw || '').trim();
+  if (!raw) return '';
+  return FULL_NAME_SET.has(raw) ? raw : (ABBREV_TO_NAME[raw.toUpperCase()] || raw);
+}
 
 const OPP_STEPS = [
   {min:0,   max:0,   color:'#1f2937', opacity:0.08},
@@ -748,12 +876,10 @@ function zoomToResults(){
 function buildChoropleth(data, geoJson){
   const counts={};
   _sevSum={}; _sevCnt={};
-  const FULL_NAMES=new Set(Object.values(ABBREV_TO_NAME));
   const featureLayers=[];
   data.forEach(r=>{
     if(isRefType(r)) return;
-    const raw=(r['State']||'').trim();
-    const name=FULL_NAMES.has(raw)?raw:(ABBREV_TO_NAME[raw.toUpperCase()]||raw);
+    const name=normStateName(r['State']);
     if(name){
       counts[name]=(counts[name]||0)+1;
       const sev=+r['Severity']||1;
@@ -777,28 +903,18 @@ function buildChoropleth(data, geoJson){
         mouseover: e=>{
           if(currentZoomedState!==name) e.target.setStyle({weight:2.5,color:'#fca5a5',fillOpacity:Math.min(0.99,zoomedOpacity(densityColor(cnt).opacity)+0.08)});
           if(cnt>0){
-            if (!_cachedFilters) _cachedFilters = readFilters();
-            const stRows = rows.filter(r=>{
-              if (isRefType(r)) return false;
-              if (!match(r,_cachedFilters)) return false;
-              const raw=(r['State']||'').trim();
-              return (ABBREV_TO_NAME[raw.toUpperCase()]||raw)===name;
-            });
-            let bl=0, ap=0, pe=0, mx=0;
-            stRows.forEach(r => {
-              const o = (r['Community Outcome']||'').toLowerCase();
-              if (o==='win') bl++;
-              else if (o==='loss') ap++;
-              else if (o==='mixed') mx++;
-              else pe++;
-            });
-            const parts=[];
-            if(bl) parts.push(`🔴 ${bl} Blocked`);
-            if(ap) parts.push(`🔵 ${ap} Approved`);
-            if(pe) parts.push(`⏳ ${pe} Pending`);
-            if(mx) parts.push(`🟣 ${mx} Mixed`);
-            const filteredCnt = stRows.length;
-            document.getElementById('mapHint').textContent=`${name}: ${filteredCnt} incident${filteredCnt===1?'':'s'} — ${parts.join(' · ')} — click to zoom`;
+            // O(1) lookup — stats precomputed once per render(), filter-aware
+            const s = _stateHoverStats[name];
+            if (s && s.total > 0) {
+              const parts=[];
+              if(s.bl) parts.push(`🔴 ${s.bl} Blocked`);
+              if(s.ap) parts.push(`🔵 ${s.ap} Approved`);
+              if(s.pe) parts.push(`⏳ ${s.pe} Pending`);
+              if(s.mx) parts.push(`🟣 ${s.mx} Mixed`);
+              document.getElementById('mapHint').textContent=`${name}: ${s.total} incident${s.total===1?'':'s'} — ${parts.join(' · ')} — click to zoom`;
+            } else {
+              document.getElementById('mapHint').textContent=`${name}: no incidents match current filters`;
+            }
           } else {
             document.getElementById('mapHint').textContent=`${name}: no recorded opposition`;
           }
@@ -869,7 +985,7 @@ function updateStateCountVisibility(){
   const pane = map.getPane('stateBadgePane');
   if (!pane) return;
   const z = map.getZoom();
-  const show = !currentZoomedState && z >= STATE_BADGE_REVEAL_ZOOM && z < 7;
+  const show = getLayerMode() === 'opposition' && !currentZoomedState && z >= STATE_BADGE_REVEAL_ZOOM && z < 7;
   pane.style.opacity = show ? '1' : '0';
 }
 
@@ -879,8 +995,8 @@ function choroZoomIn(feat,layer,stateName){
   layer.setStyle({weight:2.5,color:'#ffb3ad',fillOpacity:0.18});
   map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:1.0,easeLinearity:0.15});
   document.getElementById('choroBack').style.display='block';
-  if (!_cachedFilters) _cachedFilters = readFilters();
-  const filteredStateCnt = rows.filter(r=>match(r,_cachedFilters)&&(ABBREV_TO_NAME[(r['State']||'').trim().toUpperCase()]||(r['State']||'').trim())===stateName).length;
+  // O(1): _stateHoverStats is filter-aware and rebuilt each render
+  const filteredStateCnt = _stateHoverStats[stateName]?.total || 0;
   document.getElementById('mapHint').textContent=filteredStateCnt>0?`${stateName}: ${filteredStateCnt} incident${filteredStateCnt===1?'':'s'} — zoom in or click a county`:`${stateName}: no recorded opposition`;
   setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
   history.replaceState(null,'','#'+encodeURIComponent(stateName.toLowerCase().replace(/ /g,'-')));
@@ -895,12 +1011,23 @@ function choroZoomOut(){
   history.replaceState(null,'',location.href.replace(/#.*/,''));
 }
 
+// Direct coordination: build the choropleth as soon as both inputs exist.
+// Replaces the old setInterval poll.
+let _geoJsonCache = null, _choroBuilt = false;
+function tryBuildChoropleth() {
+  if (_choroBuilt || !_geoJsonCache || !rows.length) return;
+  _choroBuilt = true;
+  buildChoropleth(rows, _geoJsonCache);
+}
+
 fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
   .then(r=>r.json())
-  .then(geo=>{
-    const poll=setInterval(()=>{ if(rows.length>0){clearInterval(poll);buildChoropleth(rows,geo);} },100);
-  })
-  .catch(e=>console.warn('GeoJSON failed',e));
+  .then(geo=>{ _geoJsonCache = geo; tryBuildChoropleth(); })
+  .catch(e=>{
+    console.warn('GeoJSON failed',e);
+    mapStatus('State boundaries failed to load — shading unavailable, pins still work.');
+    setTimeout(()=>mapStatus(''),5000);
+  });
 
 let _choroplethDebounce = null;
 map.on('zoomend', () => {
@@ -969,15 +1096,16 @@ let matrixLayer   = null;
 let stateVoteAgg = {};
 
 async function loadVoteData() {
+  buildStateVoteAgg();              // embedded state margins, always available
   if (voteData) return true;
   try {
     const vr = await fetch('./data/county_votes.json');
     if (!vr.ok) throw new Error('fetch failed');
     voteData = await vr.json();
-    buildStateVoteAgg();
+    detectVoteDataScale();
     return true;
   } catch(e) {
-    console.error('Failed to load vote data:', e);
+    console.warn('county_votes.json unavailable; using embedded state margins only:', e);
     return false;
   }
 }
@@ -1010,22 +1138,54 @@ const STATE_2024_MARGIN = {
   Virginia:4.9, Washington:18.2, "West Virginia":-41.5, Wisconsin:-0.9, Wyoming:-46.1
 };
 
-// ── FIX: single clean buildStateVoteAgg — no orphaned code ──────────────────
+// ── FIX: margins must be fractions in [-1,1] for color/opacity/tooltip math.
+// STATE_2024_MARGIN stores percentage points (11.4 = D+11.4), so always /100.
+// Per-value magnitude detection is unsafe: Wisconsin at R+0.9 points would
+// misread as a 90% fraction. County data gets dataset-level detection instead.
 function buildStateVoteAgg() {
-  stateVoteAgg = { ...STATE_2024_MARGIN };
+  stateVoteAgg = {};
+  for (const [name, m] of Object.entries(STATE_2024_MARGIN)) {
+    stateVoteAgg[name] = m / 100;
+  }
+}
+
+// Detected once after county_votes.json loads: 1 if values are fractions,
+// 0.01 if percentage points. A whole dataset where every county is within
+// ±1 point does not exist, so max-magnitude detection is reliable.
+let voteDataScale = 1;
+function detectVoteDataScale() {
+  if (!voteData) return;
+  let maxAbs = 0;
+  for (const entry of Object.values(voteData)) {
+    const v = Math.abs(+entry?.['2024'] || 0);
+    if (v > maxAbs) maxAbs = v;
+  }
+  voteDataScale = maxAbs > 1 ? 0.01 : 1;
 }
 
 function getMarginForFips(fips) {
   const entry = voteData?.[fips];
-  return entry?.['2024'] ?? null;
+  const v = entry?.['2024'];
+  return v === undefined || v === null ? null : +v * voteDataScale;
 }
 
+// Diverging ramp: D blue (#1d4ed8) <- neutral slate (#475569) -> R red (#b91c1c).
+// Saturates at ±40 points so the 0-15 point band where most contested states
+// live gets real visual differentiation instead of clamping to max.
 function voteColor(margin) {
   if (margin === null) return null;
-  const abs = Math.abs(margin);
-  const opacity = Math.min(0.85, 0.15 + abs * 1.4);
-  const color = margin < 0 ? '#b91c1c' : '#1d4ed8';
-  return { color, opacity };
+  const t = Math.max(-1, Math.min(1, margin / 0.40));
+  const lerp = (a, b, u) => Math.round(a + (b - a) * u);
+  let c;
+  if (t < 0) {
+    const u = -t;                                      // toward R red
+    c = [lerp(71,185,u), lerp(85,28,u), lerp(105,28,u)];
+  } else {
+    const u = t;                                       // toward D blue
+    c = [lerp(71,29,u), lerp(85,78,u), lerp(105,216,u)];
+  }
+  const opacity = 0.45 + 0.40 * Math.abs(t);
+  return { color:`rgb(${c[0]},${c[1]},${c[2]})`, opacity };
 }
 
 function matrixColor(oppScore, margin) {
@@ -1057,8 +1217,25 @@ function getCountyOppScore(countyName, stateName) {
   return (_countyOppMap[key] || 0) / _maxCountyOpp;
 }
 
+// Shared margin label: "D +11.4" / "R +13.1" / "Even"
+function marginLabel(margin) {
+  if (margin === null) return 'No data';
+  const pts = Math.abs(margin * 100);
+  if (pts < 0.05) return 'Even';
+  return `${margin < 0 ? 'R' : 'D'} +${pts.toFixed(1)}`;
+}
+
+// Click-to-zoom shared by political layers, mirrors choropleth behavior
+function politicalZoomIn(layer, name) {
+  currentZoomedState = name;
+  map.flyToBounds(layer.getBounds(), {padding:[30,30], maxZoom:9, duration:1.0, easeLinearity:0.15});
+  document.getElementById('choroBack').style.display = 'block';
+  setTimeout(()=>{updateMarkerVisibility();updateStateCountVisibility();},120);
+}
+
 function buildVotingLayer(geoFeatures, isCounty) {
-  if (!voteData) return null;
+  // state-level margins are embedded; county json only needed for isCounty mode
+  if (!voteData && isCounty) return null;
   const marginCache = new Map();
   geoFeatures.forEach(feat => {
     const margin = isCounty
@@ -1066,33 +1243,37 @@ function buildVotingLayer(geoFeatures, isCounty) {
       : (stateVoteAgg[feat.properties.name || feat.properties.NAME] ?? null);
     marginCache.set(feat, margin);
   });
-  return L.geoJSON({ type:'FeatureCollection', features: geoFeatures }, {
+  const lyr = L.geoJSON({ type:'FeatureCollection', features: geoFeatures }, {
     style(feat) {
       const vc = voteColor(marginCache.get(feat) ?? null);
       return vc
-        ? { color:'transparent', weight:0, fillColor:vc.color, fillOpacity:vc.opacity }
-        : { fillOpacity:0, weight:0 };
+        ? { color:'#2c3544', weight:0.8, opacity:1, fillColor:vc.color, fillOpacity:vc.opacity }
+        : { fillOpacity:0, color:'#2c3544', weight:0.8 };
     },
     onEachFeature(feat, layer) {
       const margin = marginCache.get(feat) ?? null;
       const name = feat.properties.NAME || feat.properties.name || '';
-      const stateRef = isCounty ? ` (${feat.properties.STATE || feat.properties.state || ''})` : '';
-      const mLabel = margin === null ? 'No data'
-        : `${Math.abs(margin * 100).toFixed(1)}% ${margin < 0 ? 'R' : 'D'} lean`;
       layer.bindTooltip(
-        `<b>${name}${stateRef}</b><br>2024 Presidential Results: ${mLabel}`,
+        `<b>${name}</b><br>2024: ${marginLabel(margin)}`,
         { sticky:true, className:'pin-tooltip' }
       );
+      layer.on({
+        mouseover: e => e.target.setStyle({ weight:2, color:'#cbd5e1' }),
+        mouseout:  e => lyr.resetStyle(e.target),
+        click:     () => politicalZoomIn(layer, name)
+      });
     }
   });
+  return lyr;
 }
 
 function buildMatrixLayer(geoFeatures, isCounty) {
-  if (!voteData) return null;
+  // state-level margins are embedded; county json only needed for isCounty mode
+  if (!voteData && isCounty) return null;
   const stateCounts = {};
-  rows.forEach(r => { const s=r['State']; if(s) stateCounts[s]=(stateCounts[s]||0)+1; });
+  rows.forEach(r => { if(isRefType(r)) return; const s=r['State']; if(s) stateCounts[s]=(stateCounts[s]||0)+1; });
   const maxState = Math.max(1, ...Object.values(stateCounts));
-  return L.geoJSON({ type:'FeatureCollection', features: geoFeatures }, {
+  const lyr = L.geoJSON({ type:'FeatureCollection', features: geoFeatures }, {
     style(feat) {
       let margin = null, oppScore = 0;
       if (isCounty) {
@@ -1108,60 +1289,78 @@ function buildMatrixLayer(geoFeatures, isCounty) {
       }
       const mc = matrixColor(oppScore, margin);
       return mc
-        ? { color:'transparent', weight:0, fillColor:mc.color, fillOpacity:mc.opacity }
-        : { fillOpacity:0, weight:0 };
+        ? { color:'#2c3544', weight:0.8, opacity:1, fillColor:mc.color, fillOpacity:mc.opacity }
+        : { fillOpacity:0, color:'#2c3544', weight:0.8 };
+    },
+    onEachFeature(feat, layer) {
+      const name = feat.properties.NAME || feat.properties.name || '';
+      const cnt = stateCounts[name] || 0;
+      const margin = stateVoteAgg[name] ?? null;
+      layer.bindTooltip(
+        `<b>${name}</b><br>${cnt} opposition incident${cnt===1?'':'s'} · 2024: ${marginLabel(margin)}`,
+        { sticky:true, className:'pin-tooltip' }
+      );
+      layer.on({
+        mouseover: e => e.target.setStyle({ weight:2, color:'#cbd5e1' }),
+        mouseout:  e => lyr.resetStyle(e.target),
+        click:     () => politicalZoomIn(layer, name)
+      });
     }
   });
+  return lyr;
+}
+
+function getLayerMode() {
+  const el = document.querySelector('input[name="layerMode"]:checked');
+  return el ? el.value : 'opposition';
 }
 
 async function updateLayers() {
-  const showOpp    = document.getElementById('layerOpposition')?.checked;
-  const showVoting = document.getElementById('layerVoting')?.checked;
-  const showMatrix = document.getElementById('layerMatrix')?.checked;
+  const mode = getLayerMode();
 
-  const matrixWrap = document.getElementById('layerMatrixWrap');
-  if (showOpp && showVoting) {
-    matrixWrap.style.opacity = '1';
-    matrixWrap.style.pointerEvents = 'auto';
-  } else {
-    matrixWrap.style.opacity = '.4';
-    matrixWrap.style.pointerEvents = 'none';
-    if (document.getElementById('layerMatrix')) document.getElementById('layerMatrix').checked = false;
-  }
-
+  // Opposition choropleth + count badges: only in opposition mode
+  const showOpp = mode === 'opposition';
   if (choroplethLayer) {
-    if (showOpp) { if (!map.hasLayer(choroplethLayer)) map.addLayer(choroplethLayer); }
-    else         { if ( map.hasLayer(choroplethLayer)) map.removeLayer(choroplethLayer); }
+    if (showOpp && !map.hasLayer(choroplethLayer)) map.addLayer(choroplethLayer);
+    if (!showOpp && map.hasLayer(choroplethLayer)) map.removeLayer(choroplethLayer);
   }
   if (stateCountLayer) {
-    if (showOpp) { if (!map.hasLayer(stateCountLayer)) map.addLayer(stateCountLayer); }
-    else         { if ( map.hasLayer(stateCountLayer)) map.removeLayer(stateCountLayer); }
+    if (showOpp && !map.hasLayer(stateCountLayer)) map.addLayer(stateCountLayer);
+    if (!showOpp && map.hasLayer(stateCountLayer)) map.removeLayer(stateCountLayer);
   }
 
-  document.getElementById('legendVoting').style.display = showVoting ? 'block' : 'none';
-  document.getElementById('legendMatrix').style.display = (showOpp && showVoting && showMatrix) ? 'block' : 'none';
+  // Legend sections track the active mode
+  const oppLegend = document.getElementById('legendOppActivity');
+  if (oppLegend) oppLegend.style.display = showOpp ? 'block' : 'none';
+  document.getElementById('legendVoting').style.display = mode === 'voting' ? 'block' : 'none';
+  document.getElementById('legendMatrix').style.display = mode === 'matrix' ? 'block' : 'none';
 
-  if (!showVoting && !showMatrix) {
+  if (mode === 'opposition') {
     if (votingLayer) { map.removeLayer(votingLayer); votingLayer = null; }
     if (matrixLayer) { map.removeLayer(matrixLayer); matrixLayer = null; }
+    updateChoroplethVisuals();
+    updateStateCountVisibility();
     return;
   }
 
+  // voting or matrix mode needs the vote data
   const ok = await loadVoteData();
-  if (!ok) { alert('Could not load political data. Make sure county_votes.json is in ./data/'); return; }
+  if (!ok) {
+    mapStatus('<b>Political data unavailable.</b> county_votes.json was not reachable; state-level 2024 margins are embedded and will still render.');
+    setTimeout(() => mapStatus(''), 5000);
+  }
 
   buildCountyOppMap();
   await renderPoliticalLayers();
-  if (showMatrix) drawMatrixLegend();
+  if (mode === 'matrix') drawMatrixLegend();
 }
 
 async function renderPoliticalLayers() {
   if (votingLayer) { map.removeLayer(votingLayer); votingLayer = null; }
   if (matrixLayer) { map.removeLayer(matrixLayer); matrixLayer = null; }
 
-  const showVoting = document.getElementById('layerVoting')?.checked;
-  const showMatrix = document.getElementById('layerMatrix')?.checked;
-  if (!showVoting && !showMatrix) return;
+  const mode = getLayerMode();
+  if (mode === 'opposition') return;
 
   let features = _choroplethFeatures || [];
   if (!features.length) {
@@ -1177,11 +1376,10 @@ async function renderPoliticalLayers() {
     });
   }
 
-  if (showVoting) {
+  if (mode === 'voting') {
     votingLayer = buildVotingLayer(features, false);
     if (votingLayer) { votingLayer.addTo(map); votingLayer.bringToBack(); }
-  }
-  if (showMatrix && document.getElementById('layerOpposition')?.checked) {
+  } else if (mode === 'matrix') {
     matrixLayer = buildMatrixLayer(features, false);
     if (matrixLayer) { matrixLayer.addTo(map); matrixLayer.bringToBack(); }
   }
@@ -1214,10 +1412,14 @@ function drawMatrixLegend() {
 }
 
 map.on('zoomend', () => {
-  if (document.getElementById('layerVoting')?.checked || document.getElementById('layerMatrix')?.checked) {
+  if (getLayerMode() !== 'opposition') {
     renderPoliticalLayers();
   }
 });
+
+// Kick off data load LAST so every let/const above is initialized even if a
+// parser implementation invokes complete() synchronously.
+startCSVLoad(['./master_opposition.csv', DATA_BASE + '/master_opposition.csv']);
 </script>
 </body>
 </html>
