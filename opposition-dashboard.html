@@ -19,17 +19,17 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
 h2 { font-weight:700; margin-bottom:14px; color:var(--text) }
 .page-header { margin-bottom:20px }
 
-/* KPI strip */
+/* KPI strip — 6 tiles (reference KPI removed) */
 .kpis { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-bottom:20px }
-.kpi { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:14px 12px; min-width:0 }
-.kpi b { display:block; font-weight:800; margin-bottom:3px }
-.kpi span { color:var(--muted) }
+.kpi { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:18px 16px; min-width:0 }
+.kpi b { display:block; font-weight:800; font-size:28px; margin-bottom:3px }
+.kpi span { color:var(--muted); font-size:13px; line-height:1.4 }
 .kpi.k-total b { color:var(--atlas) }
 .kpi.k-pending b { color:var(--pending) }
 .kpi.k-win b { color:var(--win) }
 .kpi.k-loss b { color:var(--loss) }
 .kpi.k-states b { color:#a78bfa }
-.kpi.k-ref b { color:var(--ref-text) }
+.kpi.k-mixed b { color:var(--mixed) }
 
 /* Charts grid */
 .charts { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px }
@@ -38,6 +38,15 @@ h2 { font-weight:700; margin-bottom:14px; color:var(--text) }
 .chart-wrap { position:relative; height:220px }
 .chart-wrap.tall { height:300px }
 
+/* Normalization controls for state chart */
+.chart-header { display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap }
+.chart-header h2 { margin-bottom:0; flex:1; min-width:0 }
+.norm-select { padding:6px 10px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--text); font-size:12px; outline:none; white-space:nowrap; cursor:pointer }
+.norm-select:focus { border-color:var(--atlas) }
+.norm-badge { display:inline-block; padding:2px 7px; border-radius:5px; font-size:10px; font-weight:700; background:#1a2535; color:var(--atlas); border:1px solid var(--border); white-space:nowrap }
+.norm-loading { font-size:11px; color:var(--muted); display:none }
+.norm-loading.active { display:inline }
+
 /* Filters */
 .table-controls { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px; margin-bottom:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center }
 .search-wrap { position:relative; flex:1; min-width:200px }
@@ -45,18 +54,20 @@ h2 { font-weight:700; margin-bottom:14px; color:var(--text) }
 .search-wrap input { padding-left:32px; width:100% }
 input, select { border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--text); outline:none }
 input:focus, select:focus { border-color:var(--atlas) }
-.tbl-meta { font-size:11px; color:var(--muted); margin-left:auto }
+input, select { padding:9px 12px; font-size:13px }
+.tbl-meta { font-size:13px; font-weight:500; color:var(--muted) }
+.tbl-meta b { color:var(--text) }
 
 /* Table */
 .table-wrap { background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden }
 table { width:100%; border-collapse:collapse; font-size:12px }
-thead th { background:var(--panel2); padding:10px 12px; text-align:left; font-weight:600; color:var(--muted); font-size:11px; cursor:pointer; user-select:none; text-transform:uppercase; letter-spacing:.4px; white-space:nowrap }
+thead th { background:var(--panel2); padding:12px 14px; text-align:left; font-weight:600; color:var(--muted); font-size:12px; cursor:pointer; user-select:none; text-transform:uppercase; letter-spacing:.4px; white-space:nowrap }
 thead th:hover { color:var(--text) }
 thead th.sorted-asc::after { content:' ↑' }
 thead th.sorted-desc::after { content:' ↓' }
 tbody tr { border-top:1px solid var(--border) }
 tbody tr:hover { background:#131a23 }
-tbody td { vertical-align:top; line-height:1.4 }
+tbody td { padding:12px 14px; font-size:13px; vertical-align:top; line-height:1.4 }
 .td-incident { font-weight:600; max-width:180px }
 .td-summary { max-width:260px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
 .td-link a { color:var(--atlas); text-decoration:none; font-size:11px }
@@ -76,7 +87,6 @@ tbody td { vertical-align:top; line-height:1.4 }
 .src-dcw  { background:#2d1a42; color:#c084fc }
 .src-dco  { background:#1a2a1a; color:#86efac }
 
-/* Reference row styling */
 tbody tr.ref-row { opacity:.75 }
 tbody tr.ref-row:hover { opacity:1; background:#111e2a }
 .ref-notice {
@@ -86,14 +96,25 @@ tbody tr.ref-row:hover { opacity:1; background:#111e2a }
 .ref-notice strong { color:var(--text) }
 
 /* Pagination */
-.pagination { display:flex; align-items:center; gap:8px; padding:12px 14px; border-top:1px solid var(--border); font-size:12px; color:var(--muted) }
-.pagination button { border-radius:7px; border:1px solid var(--border); background:#0c1018; color:var(--text); cursor:pointer }
+.pagination { display:flex; align-items:center; gap:8px; padding:12px 14px; border-top:1px solid var(--border); font-size:13px; color:var(--muted) }
+.pagination button { border-radius:7px; border:1px solid var(--border); background:#0c1018; color:var(--text); cursor:pointer; padding:7px 14px; font-size:13px }
 .pagination button:hover { border-color:var(--atlas) }
 .pagination button:disabled { opacity:.35; cursor:default }
 .page-info { margin:0 auto }
 
-/* export-all-btn used in filter bar */
 .export-all-btn:hover { border-color:var(--atlas) !important; color:var(--text) !important }
+.reset-btn { padding:8px 14px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--muted); font-size:13px; cursor:pointer; transition:all .18s }
+.reset-btn:hover  { border-color:var(--atlas); color:var(--text) }
+.reset-btn.active { border-color:#e67e22 !important; color:#e67e22 !important; background:#2a1a08 !important }
+
+.src-tag { position:relative; cursor:help }
+.src-tag .src-tip { display:none; position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#1c2535; border:1px solid var(--border); border-radius:7px; padding:6px 10px; font-size:11px; color:var(--text); white-space:nowrap; z-index:99; pointer-events:none; font-weight:400 }
+.src-tag:hover .src-tip { display:block }
+
+.outcome-strip { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:16px; padding:12px 16px; background:var(--panel); border:1px solid var(--border); border-radius:10px; font-size:13px; align-items:center }
+.outcome-strip b { font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted) }
+.os-item { display:flex; align-items:center; gap:6px }
+.os-dot  { width:10px; height:10px; border-radius:50%; flex-shrink:0 }
 
 @media (max-width:1100px) {
   .kpis { grid-template-columns:repeat(2,minmax(0,1fr)) }
@@ -104,62 +125,27 @@ tbody tr.ref-row:hover { opacity:1; background:#111e2a }
 @media (max-width:700px) {
   body { padding:14px }
   .kpis { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px }
-  .kpi { padding:14px 12px }
-  .kpi b { font-size:24px }
-  .kpi span { font-size:12px }
   .charts { grid-template-columns:1fr }
-  .chart-card.wide { grid-column:1 }
-  .table-controls { padding:12px; gap:8px }
+  .chart-header { flex-direction:column; align-items:flex-start }
 }
-
-/* ── Accessibility pass ── */
-body { font-size:14px }
-h2   { font-size:16px }
-.page-header h1 { font-size:24px; font-weight:800; margin-bottom:6px }
-.page-header p  { font-size:13px; color:var(--muted); line-height:1.6; max-width:740px }
-.kpi b    { font-size:28px; font-weight:800 }
-.kpi span { font-size:13px; line-height:1.4 }
-.kpi      { padding:18px 16px }
-input, select { padding:9px 12px; font-size:13px }
-thead th  { font-size:12px; padding:12px 14px }
-tbody td  { padding:12px 14px; font-size:13px }
-.tbl-meta { font-size:13px; font-weight:500 }
-.tbl-meta b { color:var(--text) }
-.pagination button { padding:7px 14px; font-size:13px }
-.pagination { font-size:13px }
-.chart-card h2 { font-size:15px }
-/* Reset btn */
-.reset-btn { padding:8px 14px; border-radius:8px; border:1px solid var(--border); background:#0c1018; color:var(--muted); font-size:13px; cursor:pointer; transition:all .18s }
-.reset-btn:hover  { border-color:var(--atlas); color:var(--text) }
-.reset-btn.active { border-color:#e67e22 !important; color:#e67e22 !important; background:#2a1a08 !important }
-/* Source tag tooltips */
-.src-tag { position:relative; cursor:help }
-.src-tag .src-tip { display:none; position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#1c2535; border:1px solid var(--border); border-radius:7px; padding:6px 10px; font-size:11px; color:var(--text); white-space:nowrap; z-index:99; pointer-events:none; font-weight:400 }
-.src-tag:hover .src-tip { display:block }
-/* Outcome legend strip */
-.outcome-strip { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:16px; padding:12px 16px; background:var(--panel); border:1px solid var(--border); border-radius:10px; font-size:13px; align-items:center }
-.outcome-strip b { font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted) }
-.os-item { display:flex; align-items:center; gap:6px }
-.os-dot  { width:10px; height:10px; border-radius:50%; flex-shrink:0 }
 </style>
 </head>
 <body>
 
 <div class="page-header">
-  <h1>Data Center Opposition Tracker</h1>
-  <p>Tracking community resistance, legislation, and legal challenges to data center development across the US. Data sourced from DataCenterTracker.org (2014–2025) and ongoing monitoring. Charts update automatically.</p>
+  <h1 style="font-size:24px;font-weight:800;margin-bottom:6px">Data Center Opposition Tracker</h1>
+  <p style="font-size:13px;color:var(--muted);line-height:1.6;max-width:740px">Tracking community resistance, legislation, and legal challenges to data center development across the US. Data sourced from DataCenterTracker.org (2014–2025) and ongoing monitoring. Charts update automatically.</p>
   <p id="dataFreshness" style="font-size:11px;color:var(--muted);margin-top:4px"></p>
 </div>
 
-<!-- KPIs -->
+<!-- KPIs — 6 tiles, reference KPI removed -->
 <div class="kpis">
   <div class="kpi k-total"><b id="kTotal">—</b><span>Total incidents tracked</span></div>
   <div class="kpi k-states"><b id="kStates">—</b><span>States with opposition</span></div>
   <div class="kpi k-win"><b id="kWin">—</b><span>Projects blocked</span></div>
   <div class="kpi k-loss"><b id="kLoss">—</b><span>Projects approved</span></div>
   <div class="kpi k-pending"><b id="kPending">—</b><span>Pending / active cases</span></div>
-  <div class="kpi" style="--kc:var(--mixed)"><b id="kMixed" style="color:var(--mixed)">—</b><span>Mixed / contested</span></div>
-  <div class="kpi k-ref"><b id="kRef">—</b><span>Reference docs (not counted)</span></div>
+  <div class="kpi k-mixed"><b id="kMixed">—</b><span>Mixed / contested</span></div>
 </div>
 
 <!-- Outcome legend -->
@@ -173,8 +159,19 @@ tbody td  { padding:12px 14px; font-size:13px }
 
 <!-- Charts -->
 <div class="charts">
+  <!-- State chart — wide, with normalization dropdown -->
   <div class="chart-card wide">
-    <h2>Which States Have the Most Opposition? (Top 25)</h2>
+    <div class="chart-header">
+      <h2>Which States Have the Most Opposition?</h2>
+      <select id="normMode" class="norm-select" onchange="rebuildStateChart()" title="Compare opposition counts normalized by a denominator">
+        <option value="raw">Raw count (Top 25)</option>
+        <option value="percapita">Per million residents</option>
+        <option value="perdatacenter">Per active data center proposal</option>
+        <option value="permw">Per 100 MW proposed</option>
+      </select>
+      <span class="norm-badge" id="normBadge" style="display:none"></span>
+      <span class="norm-loading" id="normLoading">Loading proposals…</span>
+    </div>
     <div class="chart-wrap" style="height:480px"><canvas id="cStateLarge"></canvas></div>
   </div>
   <div class="chart-card">
@@ -213,15 +210,14 @@ tbody td  { padding:12px 14px; font-size:13px }
     <option value="exclude">Opposition only (excl. reference)</option>
     <option value="only">Reference docs only</option>
   </select>
-  <button class="export-all-btn" id="exportAllBtn" onclick="exportAllCSV()" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:#0c1018;color:var(--muted);font-size:13px;cursor:pointer;white-space:nowrap">Export CSV</button>
+  <button class="export-all-btn" onclick="exportAllCSV()" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:#0c1018;color:var(--muted);font-size:13px;cursor:pointer;white-space:nowrap">Export CSV</button>
   <button class="reset-btn" id="tResetBtn" onclick="tResetFilters()">Reset filters</button>
   <span class="tbl-meta" id="tMeta"></span>
 </div>
 
-<!-- Reference notice (shown when reference filter active) -->
 <div id="refNotice" style="display:none">
   <div class="ref-notice">
-    <strong>Reference documents</strong> — Studies, reports, and background analyses. These do <em>not</em> represent active opposition events or litigation and are excluded from all opposition intensity counts by default.
+    <strong>Reference documents</strong> — Studies, reports, and background analyses. These do <em>not</em> represent active opposition events and are excluded from opposition intensity counts by default.
   </div>
 </div>
 
@@ -252,7 +248,7 @@ tbody td  { padding:12px 14px; font-size:13px }
 
 
 <script>
-// ── Reference type detection ──────────────────────────────────────────────
+// ── Reference type detection ──────────────────────────────────────────────────
 const REFERENCE_TYPES = new Set([
   'study','report','study or report','study_or_report','study/report',
   'background study','white paper','whitepaper',
@@ -262,15 +258,11 @@ const REFERENCE_TYPES = new Set([
 ]);
 
 function isRefType(r) {
-  // Only check dedicated Record Type field — never fall back to Opposition Type
-  // (values like lawsuit, ordinance, regulatory_action are NOT reference docs)
   const rt = String(r['Record Type'] || '').trim().toLowerCase();
   const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
   return (rt !== '' && REFERENCE_TYPES.has(rt)) || outcome === 'reference';
 }
 
-// research_tool: study/report actively used in an opposition campaign
-// Set record_subtype = 'research_tool' (or any RESEARCH_TOOL_TYPES value) in the CSV.
 const RESEARCH_TOOL_TYPES = new Set(['research_tool','commissioned_study','opposition_study','campaign_research','expert_report','impact_assessment']);
 function isResearchTool(r) {
   const sub = String(r['record_subtype']||'').trim().toLowerCase();
@@ -278,7 +270,86 @@ function isResearchTool(r) {
   return RESEARCH_TOOL_TYPES.has(sub) || RESEARCH_TOOL_TYPES.has(rt);
 }
 
-// ── Utilities ─────────────────────────────────────────────────────────────
+// ── US state populations (2023 Census estimates) ─────────────────────────────
+// Keyed by 2-letter abbreviation AND full name for flexible lookup
+const STATE_POP = {
+  AL:5074296, AK:733391,  AZ:7431344, AR:3045637, CA:38965193,
+  CO:5877610, CT:3617176, DE:1031890, FL:22610726, GA:11029227,
+  HI:1435138, ID:1939033, IL:12549689,IN:6833037, IA:3207004,
+  KS:2940865, KY:4526154, LA:4573749, ME:1395722, MD:6164660,
+  MA:7001399, MI:10037261,MN:5737915, MS:2940057, MO:6177957,
+  MT:1122867, NE:1967923, NV:3194176, NH:1395231, NJ:9290841,
+  NM:2114371, NY:19571216,NC:10698973,ND:779261,  OH:11785935,
+  OK:4053824, OR:4233358, PA:12961683,RI:1094572, SC:5282634,
+  SD:919318,  TN:7126489, TX:30503301,UT:3417734, VT:647464,
+  VA:8715698, WA:7812880, WV:1775156, WI:5910955, WY:584057,
+  DC:678972
+};
+const ABBREV_FROM_NAME = {
+  Alabama:'AL', Alaska:'AK', Arizona:'AZ', Arkansas:'AR', California:'CA',
+  Colorado:'CO', Connecticut:'CT', Delaware:'DE', Florida:'FL', Georgia:'GA',
+  Hawaii:'HI', Idaho:'ID', Illinois:'IL', Indiana:'IN', Iowa:'IA', Kansas:'KS',
+  Kentucky:'KY', Louisiana:'LA', Maine:'ME', Maryland:'MD', Massachusetts:'MA',
+  Michigan:'MI', Minnesota:'MN', Mississippi:'MS', Missouri:'MO', Montana:'MT',
+  Nebraska:'NE', Nevada:'NV', 'New Hampshire':'NH', 'New Jersey':'NJ',
+  'New Mexico':'NM', 'New York':'NY', 'North Carolina':'NC', 'North Dakota':'ND',
+  Ohio:'OH', Oklahoma:'OK', Oregon:'OR', Pennsylvania:'PA', 'Rhode Island':'RI',
+  'South Carolina':'SC', 'South Dakota':'SD', Tennessee:'TN', Texas:'TX',
+  Utah:'UT', Vermont:'VT', Virginia:'VA', Washington:'WA', 'West Virginia':'WV',
+  Wisconsin:'WI', Wyoming:'WY', 'District of Columbia':'DC'
+};
+
+function getStatePop(abbrev) {
+  // Try abbrev directly, then try as full name
+  if (STATE_POP[abbrev]) return STATE_POP[abbrev];
+  const ab2 = ABBREV_FROM_NAME[abbrev];
+  return ab2 ? (STATE_POP[ab2] || null) : null;
+}
+
+// ── Proposals data (from data/proposals.csv scraped daily) ───────────────────
+// Counts keyed by state abbreviation: { DC_count, total_mw }
+let proposalsByState = null; // null = not yet loaded; {} = loaded
+let proposalsLoading = false;
+
+async function loadProposals() {
+  if (proposalsByState !== null) return;
+  if (proposalsLoading) return;
+  proposalsLoading = true;
+  document.getElementById('normLoading').classList.add('active');
+  try {
+    await new Promise((resolve) => {
+      Papa.parse('./data/proposals.csv', {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete({ data }) {
+          const byState = {};
+          data.forEach(r => {
+            const st = (r['state'] || '').trim().toUpperCase();
+            if (!st) return;
+            if (!byState[st]) byState[st] = { count: 0, mw: 0 };
+            byState[st].count++;
+            const mw = parseFloat(r['capacity_mw']) || 0;
+            byState[st].mw += mw;
+          });
+          proposalsByState = byState;
+          resolve();
+        },
+        error() {
+          proposalsByState = {}; // mark as attempted even on failure
+          resolve();
+        }
+      });
+    });
+  } catch(e) {
+    proposalsByState = {};
+  } finally {
+    proposalsLoading = false;
+    document.getElementById('normLoading').classList.remove('active');
+  }
+}
+
+// ── Utilities ─────────────────────────────────────────────────────────────────
 const esc = s => String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
 function friendlyOutcome(v) {
@@ -316,9 +387,7 @@ let allRows = [];
 let tFiltered = [], tSortCol = 'Date', tSortDir = -1, tPage = 0;
 const PAGE_SIZE = 50;
 
-
-
-// ── Charts ─────────────────────────────────────────────────────────────────
+// ── State chart (normalization-aware) ─────────────────────────────────────────
 let chartInstances = {};
 
 function destroyCharts() {
@@ -326,19 +395,121 @@ function destroyCharts() {
   chartInstances = {};
 }
 
-function buildCharts(rows) {
-  destroyCharts();
-  // Exclude reference docs from all charts
-  const opp = rows.filter(r => !isRefType(r));
+async function rebuildStateChart() {
+  const mode = document.getElementById('normMode').value;
+  const opp = allRows.filter(r => !isRefType(r));
 
-  const stateLarge = {};
-  opp.forEach(r => { if(r['State']) stateLarge[r['State']] = (stateLarge[r['State']]||0)+1; });
-  const stateLargeSorted = Object.entries(stateLarge).sort((a,b)=>b[1]-a[1]).slice(0,25);
+  // Raw count always available
+  const rawCounts = {};
+  opp.forEach(r => { if(r['State']) rawCounts[r['State']] = (rawCounts[r['State']]||0)+1; });
+
+  const badge = document.getElementById('normBadge');
+
+  if (mode === 'raw') {
+    badge.style.display = 'none';
+    const sorted = Object.entries(rawCounts).sort((a,b)=>b[1]-a[1]).slice(0,25);
+    renderStateBar(sorted, 'Actions', 'Opposition incidents');
+    return;
+  }
+
+  // Non-raw modes may need proposals.csv
+  if (mode === 'perdatacenter' || mode === 'permw') {
+    await loadProposals();
+  }
+
+  const normData = {};
+
+  if (mode === 'percapita') {
+    badge.style.display = 'inline';
+    badge.textContent = 'per million residents';
+    Object.entries(rawCounts).forEach(([st, cnt]) => {
+      const pop = getStatePop(st);
+      if (pop) normData[st] = (cnt / pop) * 1_000_000;
+    });
+  } else if (mode === 'perdatacenter') {
+    badge.style.display = 'inline';
+    badge.textContent = 'per active DC proposal';
+    if (!proposalsByState || Object.keys(proposalsByState).length === 0) {
+      badge.textContent = 'proposals.csv not found — showing raw';
+      const sorted = Object.entries(rawCounts).sort((a,b)=>b[1]-a[1]).slice(0,25);
+      renderStateBar(sorted, 'Actions', 'Opposition incidents (proposals.csv unavailable)');
+      return;
+    }
+    Object.entries(rawCounts).forEach(([st, cnt]) => {
+      const dcCount = proposalsByState[st]?.count || 0;
+      if (dcCount > 0) normData[st] = cnt / dcCount;
+    });
+  } else if (mode === 'permw') {
+    badge.style.display = 'inline';
+    badge.textContent = 'per 100 MW proposed';
+    if (!proposalsByState || Object.keys(proposalsByState).length === 0) {
+      badge.textContent = 'proposals.csv not found — showing raw';
+      const sorted = Object.entries(rawCounts).sort((a,b)=>b[1]-a[1]).slice(0,25);
+      renderStateBar(sorted, 'Actions', 'Opposition incidents (proposals.csv unavailable)');
+      return;
+    }
+    Object.entries(rawCounts).forEach(([st, cnt]) => {
+      const mw = proposalsByState[st]?.mw || 0;
+      if (mw > 0) normData[st] = (cnt / mw) * 100;
+    });
+  }
+
+  const sorted = Object.entries(normData).sort((a,b)=>b[1]-a[1]).slice(0,25);
+  const labels = {
+    percapita: 'Incidents per million residents',
+    perdatacenter: 'Incidents per active proposal',
+    permw: 'Incidents per 100 MW proposed',
+  };
+  renderStateBar(sorted, labels[mode] || 'Value', labels[mode] || '');
+}
+
+function renderStateBar(sorted, datasetLabel, chartTitle) {
+  if (chartInstances.stateLarge) {
+    chartInstances.stateLarge.destroy();
+    delete chartInstances.stateLarge;
+  }
   chartInstances.stateLarge = new Chart(document.getElementById('cStateLarge'), {
     type:'bar',
-    data:{ labels:stateLargeSorted.map(x=>x[0]), datasets:[{ label:'Actions', data:stateLargeSorted.map(x=>x[1]), backgroundColor:stateLargeSorted.map((_,i)=>CHART_COLORS[i%CHART_COLORS.length]), borderRadius:4 }] },
-    options:{ ...chartDefaults, indexAxis:'y', scales:{ x:{ ticks:TICK, grid:GRID, beginAtZero:true }, y:{ ticks:{...TICK, font:{size:12}}, grid:{display:false} } }, plugins:{...chartDefaults.plugins, legend:{display:false}} }
+    data:{
+      labels: sorted.map(x=>x[0]),
+      datasets:[{
+        label: datasetLabel,
+        data: sorted.map(x => +x[1].toFixed(2)),
+        backgroundColor: sorted.map((_,i)=>CHART_COLORS[i%CHART_COLORS.length]),
+        borderRadius:4
+      }]
+    },
+    options:{
+      ...chartDefaults,
+      indexAxis:'y',
+      scales:{
+        x:{ ticks:TICK, grid:GRID, beginAtZero:true },
+        y:{ ticks:{...TICK, font:{size:12}}, grid:{display:false} }
+      },
+      plugins:{...chartDefaults.plugins, legend:{display:false},
+        tooltip:{
+          callbacks:{
+            label(ctx) {
+              const v = ctx.parsed.x;
+              return `${datasetLabel}: ${v % 1 === 0 ? v : v.toFixed(2)}`;
+            }
+          }
+        }
+      }
+    }
   });
+}
+
+function buildCharts(rows) {
+  if (chartInstances.stateLarge) { chartInstances.stateLarge.destroy(); delete chartInstances.stateLarge; }
+  if (chartInstances.types)      { chartInstances.types.destroy(); delete chartInstances.types; }
+  if (chartInstances.outcomes)   { chartInstances.outcomes.destroy(); delete chartInstances.outcomes; }
+  if (chartInstances.issues)     { chartInstances.issues.destroy(); delete chartInstances.issues; }
+
+  const opp = rows.filter(r => !isRefType(r));
+
+  // State chart — uses current normMode setting
+  rebuildStateChart();
 
   const byType = {};
   opp.forEach(r => { const t=r['Opposition Type']||'unknown'; byType[t]=(byType[t]||0)+1; });
@@ -371,12 +542,12 @@ function buildCharts(rows) {
   });
 }
 
-// ── KPIs ───────────────────────────────────────────────────────────────────
+// ── KPIs ───────────────────────────────────────────────────────────────────────
 function buildKPIs(rows) {
-  let pending=0, win=0, loss=0, mixed=0, refCount=0;
+  let pending=0, win=0, loss=0, mixed=0;
   const stateSet = new Set();
   rows.forEach(r => {
-    if (isRefType(r)) { refCount++; return; }
+    if (isRefType(r)) return;
     const o = (r['Community Outcome']||'').toLowerCase();
     if (o==='win') win++;
     else if (o==='loss') loss++;
@@ -384,15 +555,14 @@ function buildKPIs(rows) {
     else pending++;
     if (r['State']) stateSet.add(r['State']);
   });
-  const opp = rows.filter(r => !isRefType(r)); // needed for maxDate reduce below
-  const states = stateSet.size;
-  document.getElementById('kTotal').textContent   = (rows.length - refCount).toLocaleString();
-  document.getElementById('kStates').textContent  = states.toLocaleString();
+  const opp = rows.filter(r => !isRefType(r));
+  document.getElementById('kTotal').textContent   = opp.length.toLocaleString();
+  document.getElementById('kStates').textContent  = stateSet.size.toLocaleString();
   document.getElementById('kWin').textContent     = win.toLocaleString();
   document.getElementById('kLoss').textContent    = loss.toLocaleString();
   document.getElementById('kPending').textContent = pending.toLocaleString();
-  const kMixedEl = document.getElementById('kMixed'); if(kMixedEl) kMixedEl.textContent = mixed.toLocaleString();
-  document.getElementById('kRef').textContent     = refCount.toLocaleString();
+  document.getElementById('kMixed').textContent   = mixed.toLocaleString();
+
   const _now = new Date();
   const maxDate = opp.reduce((max,r)=>{
     const d=new Date(r['Date']); return (!isNaN(d)&&d>max&&d<=_now)?d:max;
@@ -404,8 +574,7 @@ function buildKPIs(rows) {
   }
 }
 
-// ── Table filter ───────────────────────────────────────────────────────────
-// tmatch accepts a pre-read filter snapshot to avoid repeated DOM reads per row
+// ── Table filter ──────────────────────────────────────────────────────────────
 function tmatch(r, tf) {
   const isRef = isRefType(r);
   if (tf.fr === 'exclude' && isRef) return false;
@@ -479,7 +648,7 @@ function trender() {
     </tr>`;
   }).join('');
 
-  document.getElementById('tMeta').textContent = `${tFiltered.length.toLocaleString()} rows · page ${tPage+1} of ${Math.ceil(tFiltered.length/PAGE_SIZE)||1}`;
+  document.getElementById('tMeta').innerHTML = `<b>${tFiltered.length.toLocaleString()}</b> rows · page ${tPage+1} of ${Math.ceil(tFiltered.length/PAGE_SIZE)||1}`;
   document.getElementById('btnPrev').disabled = tPage===0;
   document.getElementById('btnNext').disabled = end>=tFiltered.length;
   document.getElementById('pageInfo').textContent = `${start+1}–${Math.min(end,tFiltered.length)} of ${tFiltered.length.toLocaleString()}`;
@@ -492,7 +661,6 @@ function tdebounce() { clearTimeout(tdt); tdt=setTimeout(()=>{tPage=0;trender();
 const _parseDateMs = v => { const d=new Date(v||''); return isNaN(d)?0:Math.min(d.getTime(),Date.now()); };
 
 function exportAllCSV() {
-  // Export the currently filtered table rows (respects all active filters)
   const rows = tFiltered;
   if (!rows.length) return;
   const headers = [...new Set(rows.flatMap(r => Object.keys(r)))];
@@ -507,21 +675,19 @@ function exportAllCSV() {
   document.body.appendChild(a); a.click(); a.remove();
 }
 
-// ── Init ───────────────────────────────────────────────────────────────────
+// ── Init ───────────────────────────────────────────────────────────────────────
 Papa.parse('./master_opposition.csv', {
   download:true, header:true, skipEmptyLines:true,
   complete({ data }) {
     allRows = data;
 
     const _initNow = Date.now();
-    const parseDate = (v) => {
-      if (!v) return 0;
-      const d = new Date(v);
-      if (isNaN(d.getTime())) return 0;
-      return Math.min(d.getTime(), _initNow);
-    };
-
-    allRows.sort((a, b) => parseDate(b['Date']) - parseDate(a['Date']));
+    allRows.sort((a, b) => {
+      const da = new Date(a['Date']||''), db = new Date(b['Date']||'');
+      const ta = isNaN(da)?0:Math.min(da.getTime(),_initNow);
+      const tb = isNaN(db)?0:Math.min(db.getTime(),_initNow);
+      return tb - ta;
+    });
 
     buildKPIs(allRows);
     buildCharts(allRows);
@@ -530,15 +696,13 @@ Papa.parse('./master_opposition.csv', {
       const el=document.getElementById(id);
       [...new Set(vals.filter(Boolean))].sort().forEach(v=>el.insertAdjacentHTML('beforeend',`<option value="${esc(v)}">${esc(v)}</option>`));
     };
-    // Populate dropdowns from opposition-only rows to avoid cluttering with reference noise
     const oppRows = allRows.filter(r => !isRefType(r));
-    pop('tf-state',   oppRows.map(r=>r['State']));
-    // tf-outcome: show friendly labels, match on raw values
+    pop('tf-state', oppRows.map(r=>r['State']));
     const tfOutcomeEl = document.getElementById('tf-outcome');
     [...new Set(oppRows.map(r=>r['Community Outcome']).filter(Boolean))].sort().forEach(v=>{
       const opt=document.createElement('option'); opt.value=v; opt.textContent=friendlyOutcome(v); tfOutcomeEl.appendChild(opt);
     });
-    pop('tf-type',    oppRows.map(r=>r['Opposition Type']));
+    pop('tf-type', oppRows.map(r=>r['Opposition Type']));
 
     tSortCol = 'Date';
     tSortDir = -1;
@@ -555,11 +719,10 @@ function tResetFilters() {
 
 function updateResetBtn() {
   const tf = readTFilters();
-  const q = tf.q;
-  const anyFilter = !!(tf.fs || tf.fo || tf.ft || tf.fc);
+  const anyFilter = !!(tf.q || tf.fs || tf.fo || tf.ft || tf.fc);
   const refNonDefault = tf.fr !== 'include';
   const btn = document.getElementById('tResetBtn');
-  if(btn) btn.classList.toggle('active', !!(q || anyFilter || refNonDefault));
+  if(btn) btn.classList.toggle('active', !!(anyFilter || refNonDefault));
 }
 </script>
 </body>
