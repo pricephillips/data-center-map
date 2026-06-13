@@ -40,13 +40,19 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .chk { display:flex; align-items:center; gap:7px; font-size:11px; color:var(--muted); cursor:pointer }
 .chk input[type=checkbox] { width:auto; accent-color:#5aa9e6 }
 .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:5px }
-.stat { padding:8px 6px; border:1px solid var(--border); border-radius:8px; background:#0c1018; text-align:center }
+.stat { padding:8px 6px; border:1px solid var(--border); border-radius:8px; background:#0c1018; text-align:center; cursor:pointer; transition:border-color .15s, background .15s }
+.stat:hover { border-color:#4a5a72 }
+.stat.active { border-color:var(--atlas); background:#0e1822 }
+/* Loading skeleton shown until the CSV arrives */
+.skel { background:#0c1018; border:1px solid var(--border); border-radius:10px; height:92px; margin-bottom:7px; position:relative; overflow:hidden }
+.skel::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent); animation:shimmer 1.2s infinite }
+@keyframes shimmer { from{transform:translateX(-100%)} to{transform:translateX(100%)} }
 .stat b { display:block; font-size:16px; font-weight:700 }
 .stat span { font-size:10px; color:var(--muted) }
 .stat.s-pending b { color:var(--pending) }
 .stat.s-win b { color:var(--win) }
 .stat.s-loss b { color:var(--loss) }
-.card { padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:#0c1018; margin-bottom:7px; cursor:pointer; transition:border-color 0.15s }
+.card { padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:#0c1018; margin-bottom:7px; cursor:pointer; transition:border-color 0.15s; content-visibility:auto; contain-intrinsic-size:auto 150px }
 .card:hover { border-color:#4a5a72 }
 .card-title { font-size:13px; font-weight:600; line-height:1.3; margin-bottom:4px }
 .card-meta { font-size:11px; color:var(--muted); display:flex; gap:0; flex-wrap:wrap; margin-bottom:4px }
@@ -193,6 +199,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
         <h1>Developer Risk: Opposition Tracker</h1>
       </div>
       <div class="sub">Community resistance, legislation, and legal challenges to data center development. Click a state to zoom in; click a pin for details.</div>
+      <div class="sub" id="dataThrough" style="margin-top:3px;color:#5f6c7b"></div>
     </div>
     <div class="filters">
       <div class="search-wrap">
@@ -227,11 +234,11 @@ input:focus, select:focus { border-color:#5aa9e6 }
         </div>
       </div>
       <div class="stats" style="grid-template-columns:repeat(5,1fr)">
-        <div class="stat"><b id="cAll">—</b><span>Total</span></div>
-        <div class="stat s-pending"><b id="cPending">—</b><span>Pending</span></div>
-        <div class="stat s-win"><b id="cWin">—</b><span>Blocked</span></div>
-        <div class="stat s-loss"><b id="cLoss">—</b><span>Approved</span></div>
-        <div class="stat" style="--c:var(--mixed)"><b id="cMixed" style="color:var(--mixed)">—</b><span>Mixed</span></div>
+        <div class="stat" id="statAll" onclick="statFilter('')" title="Clear outcome filter"><b id="cAll">—</b><span>Total</span></div>
+        <div class="stat s-pending" id="statPending" onclick="statFilter('pending')" title="Filter to pending and active"><b id="cPending">—</b><span>Pending</span></div>
+        <div class="stat s-win" id="statWin" onclick="statFilter('win')" title="Filter to blocked projects"><b id="cWin">—</b><span>Blocked</span></div>
+        <div class="stat s-loss" id="statLoss" onclick="statFilter('loss')" title="Filter to approved projects"><b id="cLoss">—</b><span>Approved</span></div>
+        <div class="stat" id="statMixed" style="--c:var(--mixed)" onclick="statFilter('mixed')" title="Filter to mixed outcomes"><b id="cMixed" style="color:var(--mixed)">—</b><span>Mixed</span></div>
       </div>
       <label class="chk"><input type="checkbox" id="activeOnly" onchange="render()"/> Active &amp; pending only</label>
       <div id="outcomeSummary"></div>
@@ -245,14 +252,17 @@ input:focus, select:focus { border-color:#5aa9e6 }
       </div>
     </div>
     <div class="card-count" id="cardCount"></div>
-    <div id="list" class="list"></div>
+    <div id="list" class="list">
+      <div style="padding:6px 0 10px;color:var(--muted);font-size:12px;text-align:center">Loading incident data…</div>
+      <div class="skel"></div><div class="skel"></div><div class="skel"></div>
+    </div>
   </aside>
 
   <div class="mapwrap">
     <div id="map"></div>
     <div class="map-status" id="mapStatus"></div>
     <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
-    <div class="map-hint" id="mapHint">Click any state to zoom in and reveal county-level opposition</div>
+    <div class="map-hint" id="mapHint">Click any state to zoom in · toggle map shading below</div>
     <div class="legend">
       <b>Outcome</b>
       <div class="legend-row"><span class="lsw" style="background:var(--pending)"></span>Pending / Active</div>
@@ -317,6 +327,18 @@ window.addEventListener('resize', () => map.invalidateSize());
 // Embed hosts (Notion iframes) often size the frame after load — track it
 if (window.ResizeObserver) {
   new ResizeObserver(() => map.invalidateSize()).observe(document.querySelector('.mapwrap'));
+}
+
+// Respect prefers-reduced-motion: jump instead of animating flights
+const PREFERS_REDUCED_MOTION = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+function navToBounds(bounds, opts) {
+  opts = opts || {};
+  if (PREFERS_REDUCED_MOTION) map.fitBounds(bounds, { padding: opts.padding || [30,30], maxZoom: opts.maxZoom });
+  else map.flyToBounds(bounds, opts);
+}
+function navToView(center, zoom, opts) {
+  if (PREFERS_REDUCED_MOTION) map.setView(center, zoom);
+  else map.flyTo(center, zoom, opts);
 }
 
 // Basemap with automatic fallback: if Carto CDN is blocked, switch to OSM
@@ -427,12 +449,14 @@ function buildPopup(r) {
     r['Opposition Website']  ? `<a class="p-link" href="${esc(r['Opposition Website'])}"  target="_blank" rel="noopener">Org ↗</a>` : '',
     r['Petition URL']        ? `<a class="p-link" href="${esc(r['Petition URL'])}"        target="_blank" rel="noopener">Petition ↗</a>` : '',
     r['Opposition Facebook'] ? `<a class="p-link" href="${esc(r['Opposition Facebook'])}" target="_blank" rel="noopener">Facebook ↗</a>` : '',
+    r['Opposition Twitter']  ? `<a class="p-link" href="${esc(r['Opposition Twitter'])}"  target="_blank" rel="noopener">Twitter/X ↗</a>` : '',
+    r['Opposition Instagram'] ? `<a class="p-link" href="${esc(r['Opposition Instagram'])}" target="_blank" rel="noopener">Instagram ↗</a>` : '',
   ].filter(Boolean).join('');
   const mw  = r['Megawatts'] ? r['Megawatts']+' MW' : '—';
   const inv = r['Investment Million USD'] ? '$'+Number(r['Investment Million USD']).toLocaleString()+'M' : '—';
   const sigs = r['Petition Signatures'] && +r['Petition Signatures']>0 ? Number(r['Petition Signatures']).toLocaleString()+' sigs' : '';
   return `
-    <div class="p-title">${esc(r['Incident'])} ${srcTagFull(r['data_source'])}</div>
+    <div class="p-title">${esc(r['Incident'])}${r['Project Name']&&r['Project Name']!==r['Incident']?`<span style="font-weight:400;font-size:11px;color:var(--muted);margin-left:4px">${esc(r['Project Name'])}</span>`:''} ${srcTagFull(r['data_source'])}</div>
     ${badge(r['Community Outcome'])} ${sevDotsLabeled(+r['Severity']||2)}
     <div class="p-grid">
       <span class="p-label">Date</span>       <span class="p-val">${formatDate(r['Date'])}</span>
@@ -443,7 +467,10 @@ function buildPopup(r) {
       ${r['Issue Category'] ? `<span class="p-label">Issue</span><span class="p-val">${esc(r['Issue Category'])}</span>` : ''}
       ${r['Authority Level'] ? `<span class="p-label">Authority</span><span class="p-val">${esc(r['Authority Level'])}</span>` : ''}
       ${mw!=='—' ? `<span class="p-label">Power</span><span class="p-val">${mw}</span>` : ''}
+      ${r['Acreage'] ? `<span class="p-label">Acreage</span><span class="p-val">${Number(r['Acreage']).toLocaleString()} ac</span>` : ''}
       ${inv!=='—' ? `<span class="p-label">Investment</span><span class="p-val">${inv}</span>` : ''}
+      ${r['building_sq_ft'] ? `<span class="p-label">Building</span><span class="p-val">${Number(r['building_sq_ft']).toLocaleString()} sq ft</span>` : ''}
+      ${r['water_usage_gallons_per_day'] ? `<span class="p-label">Water/day</span><span class="p-val">${Number(r['water_usage_gallons_per_day']).toLocaleString()} gal</span>` : ''}
       ${sigs ? `<span class="p-label">Petition</span><span class="p-val">${sigs}</span>` : ''}
       ${r['Opposition Groups'] ? `<span class="p-label">Groups</span><span class="p-val">${esc(r['Opposition Groups'])}</span>` : ''}
     </div>
@@ -455,7 +482,14 @@ function buildPopup(r) {
 function match(r, f) {
   if (f.fSt && r['State'] !== f.fSt) return false;
   if (f.fTy && r['Opposition Type'] !== f.fTy) return false;
-  if (f.fOc && r['Community Outcome'] !== f.fOc) return false;
+  if (f.fOc) {
+    // 'pending' acts as a catch-all (pending, active, blank) so its count
+    // matches the Pending stat box, which counts everything not win/loss/mixed
+    if (f.fOc === 'pending') {
+      const k = (r['Community Outcome']||'').trim().toLowerCase();
+      if (k === 'win' || k === 'loss' || k === 'mixed') return false;
+    } else if (r['Community Outcome'] !== f.fOc) return false;
+  }
   if (f.fIs) {
     const tokens = (r['Issue Category']||'').split(/;\s*/).map(s=>s.trim().toLowerCase());
     if (!tokens.includes(f.fIs.toLowerCase())) return false;
@@ -493,6 +527,7 @@ function render() {
   _cachedFilters = null;
   _listLimit = LIST_CHUNK;            // new filter state — reset the window
   clusterGroup.clearLayers();
+  document.getElementById('list').scrollTop = 0;
   const visible = [];
   const f = readFilters();
   rows.forEach((r,i) => { if(!isRefType(r) && match(r, f)) visible.push({r,i}); });
@@ -510,6 +545,7 @@ function render() {
     const mixedEl=document.getElementById('cMixed'); if(mixedEl) mixedEl.textContent='0';
     renderOutcomeSummary(0,0,0,0);
     updateFilterPills();
+    updateStatActive();
     return;
   }
 
@@ -550,14 +586,26 @@ function render() {
   const mixedEl = document.getElementById('cMixed'); if (mixedEl) mixedEl.textContent = mixed.toLocaleString();
   renderOutcomeSummary(pending, win, loss, mixed);
   updateFilterPills();
+    updateStatActive();
 }
 
-function renderList() {
+let _renderedCount = 0;
+let _showMoreBtn = null;
+
+function renderList(reset = true) {
   const list = document.getElementById('list');
-  list.innerHTML = '';
-  cardRefs = [];
+  if (reset) {
+    list.innerHTML = '';
+    cardRefs = [];
+    _renderedCount = 0;
+    _showMoreBtn = null;
+  }
+  // Append mode: drop the old button, add only the NEW slice.
+  // Existing cards stay in the DOM, so the viewer's scroll position holds.
+  if (_showMoreBtn) { _showMoreBtn.remove(); _showMoreBtn = null; }
+
   const fragment = document.createDocumentFragment();
-  const slice = _visibleCache.slice(0, _listLimit);
+  const slice = _visibleCache.slice(_renderedCount, _listLimit);
 
   slice.forEach(({ r, i })=>{
     const marker = leafletMarkers[i];
@@ -587,7 +635,8 @@ function renderList() {
     fragment.appendChild(card);
   });
 
-  const remaining = _visibleCache.length - slice.length;
+  _renderedCount = Math.min(_listLimit, _visibleCache.length);
+  const remaining = _visibleCache.length - _renderedCount;
   if (remaining > 0) {
     const btn = document.createElement('button');
     btn.className = 'tool-btn';
@@ -595,6 +644,7 @@ function renderList() {
     btn.textContent = `Show ${Math.min(LIST_CHUNK, remaining)} more (${remaining.toLocaleString()} remaining)`;
     btn.onclick = showMoreCards;
     fragment.appendChild(btn);
+    _showMoreBtn = btn;
   }
 
   list.appendChild(fragment);
@@ -602,7 +652,7 @@ function renderList() {
 
 function showMoreCards() {
   _listLimit += LIST_CHUNK;
-  renderList();   // list only — cluster, stats, hover stats untouched
+  renderList(false);   // append only — scroll position, cluster, stats untouched
 }
 
 function updateFilterPills() {
@@ -637,14 +687,21 @@ function clearPill(id) {
   render();
 }
 
-let dt;
-function debounce() { clearTimeout(dt); dt = setTimeout(render, 280); }
+let dt, _debounceActive = false;
+function debounce() {
+  // Lead edge: fire immediately on the first keypress, then debounce the rest
+  if (!_debounceActive) { _debounceActive = true; render(); }
+  clearTimeout(dt);
+  dt = setTimeout(() => { _debounceActive = false; render(); }, 320);
+}
 
 // CSV load with fallback chain: relative path first (works on the canonical
 // host), then the absolute GitHub Pages URL (works inside embeds/mirrors).
 function startCSVLoad(urls) {
   if (!urls.length) {
     mapStatus('<b>Data failed to load.</b> <code>master_opposition.csv</code> was not reachable from this page or from <code>' + DATA_BASE + '</code>.');
+    const listEl = document.getElementById('list');
+    if (listEl) listEl.innerHTML = '<div style="padding:24px 12px;text-align:center;color:#fca5a5;font-size:12px;line-height:1.6">Incident data failed to load.<br>Check the data source and reload.</div>';
     return;
   }
   Papa.parse(urls[0], {
@@ -678,7 +735,7 @@ function handleCSVData(data) {
     rows.forEach(r => {
       const d = new Date(r['Date'] || '');
       r._ts = isNaN(d.getTime()) ? 0 : Math.min(d.getTime(), NOW);
-      r._hay = [r['Incident'],r['Entity'],r['State'],r['County'],r['Opposition Groups'],r['Opposition Type'],r['Objective'],r['Summary'],r['Company'],r['Hyperscaler'],r['City']].join(' ').toLowerCase();
+      r._hay = [r['Incident'],r['Entity'],r['State'],r['County'],r['Opposition Groups'],r['Opposition Type'],r['Objective'],r['Summary'],r['Company'],r['Hyperscaler'],r['City'],r['Project Name'],r['Issue Category']].join(' ').toLowerCase();
     });
 
     rows.sort((a, b) => b._ts - a._ts);
@@ -742,6 +799,15 @@ function handleCSVData(data) {
     );
 
     window._oppTotal = oppRows.length;
+
+    // Data freshness signal: newest clamped timestamp across the dataset
+    const newestTs = rows.reduce((m, r) => Math.max(m, r._ts || 0), 0);
+    const dtEl = document.getElementById('dataThrough');
+    if (dtEl && newestTs > 0) {
+      const label = new Date(newestTs).toLocaleDateString('en-US', { month:'long', year:'numeric' });
+      dtEl.textContent = `Data through ${label} · ${oppRows.length.toLocaleString()} incidents tracked`;
+    }
+
     render();
     tryBuildChoropleth();   // builds now if GeoJSON arrived first
 }
@@ -858,19 +924,53 @@ function renderOutcomeSummary(p, w, l, mx){
 }
 function highlightCard(idx){
   if(idx < 0 || idx == null) return;
+  // If the card sits beyond the current window, extend the window to reach it
+  if (!cardRefs[idx]) {
+    const pos = _visibleCache.findIndex(v => v.i === idx);
+    if (pos >= 0 && pos >= _renderedCount) {
+      _listLimit = (Math.floor(pos / LIST_CHUNK) + 1) * LIST_CHUNK;
+      renderList(false);
+    }
+  }
   cardRefs.forEach(c=>c&&c.classList.remove('active'));
   if(cardRefs[idx]){cardRefs[idx].classList.add('active');cardRefs[idx].scrollIntoView({block:'nearest',behavior:'smooth'});}
 }
+// Stat boxes act as one-click outcome filters; clicking again clears
+function statFilter(v) {
+  const el = document.getElementById('fOutcome');
+  if (!v || el.value === v) {
+    el.value = '';
+  } else {
+    if (![...el.options].some(o => o.value === v)) {
+      const o = document.createElement('option');
+      o.value = v; o.textContent = friendlyOutcome(v);
+      el.appendChild(o);
+    }
+    el.value = v;
+  }
+  render();
+}
+
+function updateStatActive() {
+  const v = document.getElementById('fOutcome').value;
+  const activeId = { pending:'statPending', win:'statWin', loss:'statLoss', mixed:'statMixed' }[v];
+  ['statPending','statWin','statLoss','statMixed'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('active', id === activeId);
+  });
+}
+
 function resetFilters(){
   document.getElementById('q').value='';
   ['fState','fType','fOutcome','fIssue','fScope','fAuthority','fSource'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('activeOnly').checked=false;
+  ['statPending','statWin','statLoss','statMixed'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active');});
   render();
 }
 function zoomToResults(){
   const pts=[];
   const _f=readFilters(); rows.forEach(r=>{if(!match(r,_f))return;const lat=+r.lat,lon=+r.lon;if(!isNaN(lat)&&!isNaN(lon))pts.push([lat,lon]);});
-  if(pts.length) map.flyToBounds(pts,{padding:[30,30],maxZoom:8,duration:1.0,easeLinearity:0.15});
+  if(pts.length) navToBounds(pts,{padding:[30,30],maxZoom:8,duration:1.0,easeLinearity:0.15});
 }
 
 function buildChoropleth(data, geoJson){
@@ -971,7 +1071,7 @@ function buildStateCountLayer(featureLayers){
         icon,
         pane: 'stateBadgePane',
         keyboard: false,
-        interactive: false,
+        interactive: true,
         zIndexOffset: 0
       })
     );
@@ -993,9 +1093,8 @@ function choroZoomIn(feat,layer,stateName){
   currentZoomedState=stateName;
   choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
   layer.setStyle({weight:2.5,color:'#ffb3ad',fillOpacity:0.18});
-  map.flyToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:1.0,easeLinearity:0.15});
+  navToBounds(layer.getBounds(),{padding:[30,30],maxZoom:9,duration:1.0,easeLinearity:0.15});
   document.getElementById('choroBack').style.display='block';
-  // O(1): _stateHoverStats is filter-aware and rebuilt each render
   const filteredStateCnt = _stateHoverStats[stateName]?.total || 0;
   document.getElementById('mapHint').textContent=filteredStateCnt>0?`${stateName}: ${filteredStateCnt} incident${filteredStateCnt===1?'':'s'} — zoom in or click a county`:`${stateName}: no recorded opposition`;
   setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
@@ -1004,7 +1103,7 @@ function choroZoomIn(feat,layer,stateName){
 function choroZoomOut(){
   currentZoomedState=null;
   if(choroplethLayer) choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
-  map.flyTo([39.5,-98.35],4,{duration:1.0,easeLinearity:0.15});
+  navToView([39.5,-98.35],4,{duration:1.0,easeLinearity:0.15});
   document.getElementById('choroBack').style.display='none';
   document.getElementById('mapHint').textContent='Click any state to zoom in and reveal county-level opposition';
   setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
@@ -1048,7 +1147,10 @@ function updateCardCount(vis, tot) {
   const el = document.getElementById('cardCount');
   if (!el) return;
   const oppTot = window._oppTotal || tot;
-  el.innerHTML = vis === oppTot ? `<b>${oppTot}</b> incidents` : `Showing <b>${vis}</b> of <b>${oppTot}</b> incidents`;
+  if (!oppTot) { el.innerHTML = '<span style="color:var(--muted)">Loading…</span>'; return; }
+  el.innerHTML = vis === oppTot
+    ? `<b>${oppTot.toLocaleString()}</b> incidents`
+    : `<b>${vis.toLocaleString()}</b> of <b>${oppTot.toLocaleString()}</b> incidents match filters`;
 }
 function srcTagFull(s) {
   const tags = {
@@ -1083,11 +1185,18 @@ function showHowToUse() {
         <li><span class="ico">📌</span><div><b>Click a pin</b> to see details about that specific opposition event.</div></li>
         <li><span class="ico">🔍</span><div><b>Use the filters</b> on the left to narrow by state, result, type, or concern.</div></li>
       </ul>
-      <button class="close-btn" onclick="document.getElementById('htuWrap').remove()">Got it →</button>
+      <button class="close-btn" onclick="_htuMark();document.getElementById('htuWrap').remove()">Got it →</button>
     </div>`;
   document.querySelector('.app').appendChild(wrap);
 }
-window.addEventListener('load', () => setTimeout(showHowToUse, 700));
+function _htuSeen() {
+  try { return window.localStorage && localStorage.getItem('dctracker_htu') === '1'; }
+  catch(e) { return false; }   // storage blocked (e.g. partitioned iframe) — show modal
+}
+function _htuMark() {
+  try { localStorage.setItem('dctracker_htu', '1'); } catch(e) {}
+}
+window.addEventListener('load', () => { if (!_htuSeen()) setTimeout(showHowToUse, 700); });
 
 // ── POLITICAL LAYER MODULE ────────────────────────────────────────────────────
 let voteData   = null;
@@ -1193,13 +1302,13 @@ function matrixColor(oppScore, margin) {
   const t = Math.max(0, Math.min(1, oppScore));
   const p = Math.max(-1, Math.min(1, margin));
   const pNorm = (p + 1) / 2;
-  const hLow  = 28 + pNorm * (200 - 28);
-  const hHigh = 2  + pNorm * (225 - 2);
+  const hLow  = 30  + pNorm * (195 - 30);
+  const hHigh = 5   + pNorm * (220 - 5);
   const h = hLow + t * (hHigh - hLow);
-  const s = 68 + t * 24;
-  const l = 34 - t * 8;
-  const opacity = 0.26 + t * 0.48 + Math.abs(p) * 0.14;
-  return { color: `hsl(${Math.round(h)},${Math.round(s)}%,${Math.round(l)}%)`, opacity: Math.min(0.86, opacity) };
+  const s = 62 + t * 18;
+  const l = 38 - t * 5;
+  const opacity = 0.25 + t * 0.50 + Math.abs(p) * 0.15;
+  return { color: `hsl(${Math.round(h)},${Math.round(s)}%,${Math.round(l)}%)`, opacity: Math.min(0.88, opacity) };
 }
 
 let _maxCountyOpp = 1;
@@ -1228,7 +1337,7 @@ function marginLabel(margin) {
 // Click-to-zoom shared by political layers, mirrors choropleth behavior
 function politicalZoomIn(layer, name) {
   currentZoomedState = name;
-  map.flyToBounds(layer.getBounds(), {padding:[30,30], maxZoom:9, duration:1.0, easeLinearity:0.15});
+  navToBounds(layer.getBounds(), {padding:[30,30], maxZoom:9, duration:1.0, easeLinearity:0.15});
   document.getElementById('choroBack').style.display = 'block';
   setTimeout(()=>{updateMarkerVisibility();updateStateCountVisibility();},120);
 }
@@ -1271,11 +1380,7 @@ function buildMatrixLayer(geoFeatures, isCounty) {
   // state-level margins are embedded; county json only needed for isCounty mode
   if (!voteData && isCounty) return null;
   const stateCounts = {};
-  rows.forEach(r => {
-    if (isRefType(r)) return;
-    const s = normStateName(r['State']);
-    if (s) stateCounts[s] = (stateCounts[s] || 0) + 1;
-  });
+  rows.forEach(r => { if(isRefType(r)) return; const s=r['State']; if(s) stateCounts[s]=(stateCounts[s]||0)+1; });
   const maxState = Math.max(1, ...Object.values(stateCounts));
   const lyr = L.geoJSON({ type:'FeatureCollection', features: geoFeatures }, {
     style(feat) {
