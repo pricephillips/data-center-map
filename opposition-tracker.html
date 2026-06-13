@@ -1193,13 +1193,13 @@ function matrixColor(oppScore, margin) {
   const t = Math.max(0, Math.min(1, oppScore));
   const p = Math.max(-1, Math.min(1, margin));
   const pNorm = (p + 1) / 2;
-  const hLow  = 30  + pNorm * (195 - 30);
-  const hHigh = 5   + pNorm * (220 - 5);
+  const hLow  = 28 + pNorm * (200 - 28);
+  const hHigh = 2  + pNorm * (225 - 2);
   const h = hLow + t * (hHigh - hLow);
-  const s = 62 + t * 18;
-  const l = 38 - t * 5;
-  const opacity = 0.25 + t * 0.50 + Math.abs(p) * 0.15;
-  return { color: `hsl(${Math.round(h)},${Math.round(s)}%,${Math.round(l)}%)`, opacity: Math.min(0.88, opacity) };
+  const s = 68 + t * 24;
+  const l = 34 - t * 8;
+  const opacity = 0.26 + t * 0.48 + Math.abs(p) * 0.14;
+  return { color: `hsl(${Math.round(h)},${Math.round(s)}%,${Math.round(l)}%)`, opacity: Math.min(0.86, opacity) };
 }
 
 let _maxCountyOpp = 1;
@@ -1271,7 +1271,11 @@ function buildMatrixLayer(geoFeatures, isCounty) {
   // state-level margins are embedded; county json only needed for isCounty mode
   if (!voteData && isCounty) return null;
   const stateCounts = {};
-  rows.forEach(r => { if(isRefType(r)) return; const s=r['State']; if(s) stateCounts[s]=(stateCounts[s]||0)+1; });
+  rows.forEach(r => {
+    if (isRefType(r)) return;
+    const s = normStateName(r['State']);
+    if (s) stateCounts[s] = (stateCounts[s] || 0) + 1;
+  });
   const maxState = Math.max(1, ...Object.values(stateCounts));
   const lyr = L.geoJSON({ type:'FeatureCollection', features: geoFeatures }, {
     style(feat) {
