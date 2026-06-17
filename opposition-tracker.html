@@ -290,11 +290,11 @@ input:focus, select:focus { border-color:#5aa9e6 }
       </div>
       <div id="legendOppActivity" style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
         <b style="font-size:11px;color:var(--muted);font-weight:600">Opposition Activity</b>
-        <div class="legend-row"><span class="lsw" style="background:#78350f;opacity:.75;border-radius:2px"></span>1–2</div>
-        <div class="legend-row"><span class="lsw" style="background:#92400e;border-radius:2px"></span>3–7</div>
-        <div class="legend-row"><span class="lsw" style="background:#b45309;border-radius:2px"></span>8–15</div>
-        <div class="legend-row"><span class="lsw" style="background:#d97706;border-radius:2px"></span>16–30</div>
-        <div class="legend-row"><span class="lsw" style="background:#f59e0b;border-radius:2px"></span>31+</div>
+        <div class="legend-row"><span class="lsw" style="background:#1e3a5f;opacity:.6;border-radius:2px"></span>None</div>
+        <div class="legend-row"><span class="lsw" style="background:#2563eb;border-radius:2px"></span>1–2</div>
+        <div class="legend-row"><span class="lsw" style="background:#7c3aed;border-radius:2px"></span>3–7</div>
+        <div class="legend-row"><span class="lsw" style="background:#dc2626;border-radius:2px"></span>8–15</div>
+        <div class="legend-row"><span class="lsw" style="background:#fbbf24;border-radius:2px"></span>16+</div>
       </div>
     </div>
   </div>
@@ -426,24 +426,24 @@ function isResearchTool(r) {
 // Icon cache: outcome x source x severity yields at most ~120 distinct icons.
 // L.divIcon instances are plain option objects — safe to share across markers.
 const _iconCache = new Map();
-function iconFor(r) {
+function iconFor(r, usedCentroid=false) {
   const o = (r['Community Outcome']||'').toLowerCase();
   const fillColor = isResearchTool(r) ? '#0d9488' : (OUTCOME_COLORS[o] || '#f39c12');
   const strokeColor = SOURCE_COLORS[r['data_source']] || '#5aa9e6';
   const n = Number(r['Severity']||2);
-  const key = fillColor + '|' + strokeColor + '|' + n;
+  const key = fillColor + '|' + strokeColor + '|' + n + '|' + (usedCentroid ? 'c' : 'p');
   let icon = _iconCache.get(key);
   if (!icon) {
     const s = 11 + n*3;
     icon = L.divIcon({ className:'', iconSize:[s,s], iconAnchor:[s/2,s/2],
-      html:`<svg width="${s}" height="${s}" viewBox="0 0 ${s} ${s}"><rect x="1.5" y="1.5" width="${s-3}" height="${s-3}" rx="2" fill="${fillColor}" fill-opacity="0.88" stroke="${strokeColor}" stroke-width="2"/></svg>`
+      html:`<svg width="${s}" height="${s}" viewBox="0 0 ${s} ${s}"><rect x="1.5" y="1.5" width="${s-3}" height="${s-3}" rx="2" fill="${fillColor}" fill-opacity="0.88" stroke="${strokeColor}" stroke-width="2" ${usedCentroid ? 'stroke-dasharray="3,2"' : ''}/></svg>`
     });
     _iconCache.set(key, icon);
   }
   return icon;
 }
 
-function buildPopup(r) {
+function buildPopup(r, usedCentroid=false) {
   const links = [
     r['Source URL']          ? `<a class="p-link" href="${esc(r['Source URL'])}"          target="_blank" rel="noopener">Source ↗</a>` : '',
     r['Opposition Website']  ? `<a class="p-link" href="${esc(r['Opposition Website'])}"  target="_blank" rel="noopener">Org ↗</a>` : '',
@@ -455,9 +455,10 @@ function buildPopup(r) {
   const mw  = r['Megawatts'] ? r['Megawatts']+' MW' : '—';
   const inv = r['Investment Million USD'] ? '$'+Number(r['Investment Million USD']).toLocaleString()+'M' : '—';
   const sigs = r['Petition Signatures'] && +r['Petition Signatures']>0 ? Number(r['Petition Signatures']).toLocaleString()+' sigs' : '';
+  const centroidNote = usedCentroid ? `<div style="font-size:10px;color:#f39c12;margin-bottom:6px;padding:3px 6px;background:rgba(243,156,18,0.12);border-radius:4px;border:1px solid rgba(243,156,18,0.3)">Approximate location placed at state centroid</div>` : '';
   return `
     <div class="p-title">${esc(r['Incident'])}${r['Project Name']&&r['Project Name']!==r['Incident']?`<span style="font-weight:400;font-size:11px;color:var(--muted);margin-left:4px">${esc(r['Project Name'])}</span>`:''} ${srcTagFull(r['data_source'])}</div>
-    ${badge(r['Community Outcome'])} ${sevDotsLabeled(+r['Severity']||2)}
+    ${badge(r['Community Outcome'])} ${sevDotsLabeled(+r['Severity']||2)}${centroidNote}
     <div class="p-grid">
       <span class="p-label">Date</span>       <span class="p-val">${formatDate(r['Date'])}</span>
       <span class="p-label">Entity</span>     <span class="p-val">${esc(r['Entity'])}</span>
@@ -745,16 +746,23 @@ function handleCSVData(data) {
     rows.forEach(r => {
       if (isRefType(r)) { leafletMarkers.push(null); return; }
 
-      const mlat = parseFloat(r.lat);
-      const mlon = parseFloat(r.lon);
+      let mlat = parseFloat(r.lat);
+      let mlon = parseFloat(r.lon);
+      let usedCentroid = false;
 
       if (isNaN(mlat) || isNaN(mlon) || mlat === 0 || mlon === 0) {
-        leafletMarkers.push(null);
-        return;
+        const stateKey = normStateName(r['State'] || '');
+        const centroid = STATEBADGECENTERS[stateKey];
+        if (!centroid) {
+          leafletMarkers.push(null);
+          return;
+        }
+        [mlat, mlon] = centroid;
+        usedCentroid = true;
       }
 
-      const m = L.marker([mlat, mlon], { icon: iconFor(r) })
-        .bindPopup(() => buildPopup(r), { maxWidth: 340 })
+      const m = L.marker([mlat, mlon], { icon: iconFor(r, usedCentroid) })
+        .bindPopup(() => buildPopup(r, usedCentroid), { maxWidth: 340 })
         .bindTooltip(
           `<b>${esc((r['Incident'] || '').slice(0, 50))}</b><br>${esc(r['State'] || '')} • ${esc(friendlyOutcome(r['Community Outcome']))}`,
           { direction: 'top', className: 'pin-tooltip' }
@@ -865,12 +873,11 @@ function normStateName(raw) {
 }
 
 const OPP_STEPS = [
-  {min:0,   max:0,   color:'#1f2937', opacity:0.08},
-  {min:1,   max:2,   color:'#78350f', opacity:0.38},
-  {min:3,   max:7,   color:'#92400e', opacity:0.55},
-  {min:8,   max:15,  color:'#b45309', opacity:0.68},
-  {min:16,  max:30,  color:'#d97706', opacity:0.80},
-  {min:31,  max:9999,color:'#f59e0b', opacity:0.90},
+  {min:0,   max:0,    color:'#1e3a5f', opacity:0.10},
+  {min:1,   max:2,    color:'#2563eb', opacity:0.50},
+  {min:3,   max:7,    color:'#7c3aed', opacity:0.65},
+  {min:8,   max:15,   color:'#dc2626', opacity:0.78},
+  {min:16,  max:9999, color:'#fbbf24', opacity:0.92},
 ];
 function densityColor(n){ return OPP_STEPS.find(s=>n>=s.min&&n<=s.max)||OPP_STEPS[0]; }
 
