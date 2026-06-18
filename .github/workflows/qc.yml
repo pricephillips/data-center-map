@@ -1,0 +1,54 @@
+name: Opposition QC Gate
+
+# Runs the QC self-test, pulls the database, runs the gate, and posts a summary.
+# A red run means at least one record was blocked.
+# Code lives in data-center-map/qc/; this file lives at .github/workflows/qc.yml.
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "qc/qc_pipeline.py"
+      - "qc/legislative_outcome.py"
+      - "qc/stage_ladder.csv"
+  schedule:
+    - cron: "0 10 * * 1-5"   # ~5-6am ET, weekdays
+
+jobs:
+  qc:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: qc      # all run steps execute inside data-center-map/qc/
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Self-test the gate
+        run: python qc_pipeline.py --selftest
+
+      - name: Pull the database
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+        run: python fetch_notion.py --out records.json
+
+      - name: Run the QC gate
+        run: python qc_pipeline.py --records records.json --out qc_out
+
+      - name: Post report to summary
+        if: always()
+        run: cat qc_out/qc_report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload feed and quarantine
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qc-output
+          path: |
+            qc/qc_out/clean_export.json
+            qc/qc_out/quarantine.json
+            qc/qc_out/qc_report.json
