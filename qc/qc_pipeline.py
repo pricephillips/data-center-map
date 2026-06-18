@@ -58,6 +58,7 @@ from dataclasses import asdict, dataclass, field
 
 import legislative_outcome as L          # used for _as_text, looks_legislative, _BILL_RE
 import schema_adapter as A
+import enrichment as E
 
 # ===========================================================================
 # Config
@@ -368,23 +369,19 @@ def check_coordinates(record: dict) -> list[Issue]:
 def check_statewide_attribution(record: dict) -> list[Issue]:
     if not is_statewide(record):
         return []
+    # The only genuine map corruption is a city/coordinate pin sitting on the
+    # capital. That stays HIGH (blocking).
+    if pinned_to_capital(record):
+        return [Issue("HIGH", "STATEWIDE_CAPITAL_SINK", "Geography",
+                      f"Statewide record pinned to capital city {city_of(record)}. This places a dot on "
+                      "the capital and inflates it; clear the city or plot as statewide.")]
+    # A county or district tag (including the capital county) on a statewide
+    # record is a labeling issue, not corruption. Keep the record in the feed and
+    # flag it: downstream should rely on qc_jurisdiction_level == 'state' to avoid
+    # pinning it, or the county should be cleared.
+    minor: list[str] = []
     county = text(record, "County")
     district = text(record, "Congressional District", "District")
-    state = state_of(record)
-    cap_county = CAPITAL_COUNTIES.get(state, "")
-
-    capital_problems: list[str] = []
-    if pinned_to_capital(record):
-        capital_problems.append(f"pinned to capital city {city_of(record)}")
-    if cap_county and county and county.lower() == cap_county.lower():
-        capital_problems.append(f"assigned the capital county {county}")
-
-    if capital_problems:
-        return [Issue("HIGH", "STATEWIDE_CAPITAL_SINK", "Geography",
-                      "Statewide record " + "; ".join(capital_problems)
-                      + ". This inflates the capital on the map; plot it as statewide with no city pin.")]
-
-    minor: list[str] = []
     if county and county.lower() != "statewide":
         minor.append(f"County = '{county}'")
     if district:
@@ -392,7 +389,7 @@ def check_statewide_attribution(record: dict) -> list[Issue]:
     if minor:
         return [Issue("MEDIUM", "STATEWIDE_GEO_TAG", "Geography",
                       "Statewide record carries local geography: " + "; ".join(minor)
-                      + ". Confirm whether this should be a local record or have the geography cleared.")]
+                      + ". Clear it, or have the map skip pins where qc_jurisdiction_level is 'state'.")]
     return []
 
 
@@ -434,7 +431,24 @@ def check_outcome_status_logic(record: dict) -> list[Issue]:
     return []
 
 
-EVENT_OUTCOME_CHECKS = [check_outcome_value, check_outcome_status_logic]
+def check_outcome_mechanism_consistency(record: dict) -> list[Issue]:
+    """Flag a 'win' recorded on an action that constrains rather than blocks
+    (e.g., a conditional zoning ordinance like Linn County). Non-blocking: it
+    highlights a nuance for review, it does not remove the record."""
+    enr = E.enrich_record(record)
+    if enr["qc_is_block"] is None:        # legislation / stance-ambiguous: skip
+        return []
+    outcome = normalize_outcome(text(record, "Outcome"))
+    strength = enr["qc_restriction_strength"] or 0
+    if outcome == "win" and enr["qc_is_block"] is False and strength >= 2:
+        return [Issue("MEDIUM", "OUTCOME_OVERSTATED", "Outcome",
+                      f"Recorded 'win' (a block), but this is a {enr['qc_strength_label']} action "
+                      f"({enr['qc_mechanism']}) that constrains rather than halts data centers. "
+                      "Consider 'mixed' or a partial-effect note; highlighted, not a block.")]
+    return []
+
+
+EVENT_OUTCOME_CHECKS = [check_outcome_value, check_outcome_status_logic, check_outcome_mechanism_consistency]
 
 
 def check_mappable_coords(record: dict) -> list[Issue]:
@@ -525,9 +539,10 @@ def infer_local_action(notes: str) -> MorMatch | None:
         return MorMatch("win", win, "")
     if loss:
         return MorMatch("loss", loss, "")
-    cue = next((c for c in _PENDING_CUES if c in t), None)
-    if cue:
-        return MorMatch("pending", cue, "")
+    # No reliable enactment or defeat signal next to 'moratorium'. Do NOT guess
+    # 'pending' from words like 'proposed' or 'public hearing': summaries that
+    # narrate the full arc (proposed -> hearing -> passed) would trip that and
+    # flag genuine wins. Infer nothing instead.
     return None
 
 
@@ -549,26 +564,40 @@ def _mor_severity(recorded: str, inferred: str) -> str | None:
 
 def check_moratorium_outcome(record: dict) -> list[Issue]:
     match = infer_local_action(text(record, "Notes"))
-    if match is None:
+    if match is None or match.outcome == "pending":
         return []
     recorded = normalize_outcome(text(record, "Outcome"))
-    if recorded is None:
+    if recorded is None or recorded == match.outcome:
         return []
-    sev = _mor_severity(recorded, match.outcome)
-    if sev is None:
-        return []
-    extra = f" ({match.note})" if match.note else ""
-    return [Issue(sev, "MORATORIUM_OUTCOME_CONFLICT", "Outcome",
-                  f"Outcome conflict: recorded '{text(record, 'Outcome')}', but notes describe a local "
-                  f"action that should be '{match.outcome}'{extra}. Matched on \"{match.matched_phrase}\".")]
+    verb = {"win": "enacted", "loss": "defeated", "mixed": "split"}.get(match.outcome, match.outcome)
+    # Review-only (MEDIUM, non-blocking): a moratorium can pass and later expire
+    # or be repealed, so a differing recorded value is not automatically an error.
+    return [Issue("MEDIUM", "MORATORIUM_OUTCOME_REVIEW", "Outcome",
+                  f"Recorded '{text(record, 'Outcome')}', but the notes describe a moratorium that was "
+                  f"{verb} (\"{match.matched_phrase}\"). Confirm the final outcome; it may have later "
+                  "expired or been repealed.")]
+
+
+def _has_coords(record: dict) -> bool:
+    lat, lon = text(record, "Latitude", "lat"), text(record, "Longitude", "lon")
+    try:
+        la, lo = float(lat), float(lon)
+    except ValueError:
+        return False
+    return abs(la) <= 90 and abs(lo) <= 180 and not (la == 0 and lo == 0)
+
+
+def _placeable(record: dict) -> bool:
+    """A record can be mapped if it has a county, a city, or valid coordinates."""
+    return bool(text(record, "County") or city_of(record) or _has_coords(record))
 
 
 def check_local_geography(record: dict) -> list[Issue]:
     if is_statewide(record):
         return []                            # a statewide moratorium effort is plausible
-    if not text(record, "County"):
-        return [Issue("HIGH", "LOCAL_NO_COUNTY", "County",
-                      "Local action has no county; it cannot be placed on the map.")]
+    if not _placeable(record):
+        return [Issue("HIGH", "UNPLACEABLE", "County/City",
+                      "Local action has no county, city, or coordinates; it cannot be placed on the map.")]
     return []
 
 
@@ -590,9 +619,9 @@ MORATORIUM_CHECKS = EVENT_OUTCOME_CHECKS + [
 # ===========================================================================
 
 def check_project_location(record: dict) -> list[Issue]:
-    if not text(record, "County") and not city_of(record):
-        return [Issue("HIGH", "PROJECT_NO_LOCATION", "County/City",
-                      "Project record has no county or city; it cannot be placed.")]
+    if not _placeable(record):
+        return [Issue("HIGH", "UNPLACEABLE", "County/City",
+                      "Project record has no county, city, or coordinates; it cannot be placed.")]
     return []
 
 
@@ -705,7 +734,7 @@ def check_content_duplicates(records: list[dict]):
         if L.looks_legislative(rec):
             key = ("leg", name, date)
         else:
-            key = ("loc", name, _norm(text(rec, "County")), date)
+            key = ("loc", E.jurisdiction_key(rec), name, date)
         groups[key].append(i)
     for idxs in groups.values():
         if len(idxs) > 1:
@@ -779,11 +808,12 @@ def run(records: list[dict], dataset_checks=None, block_at: set[str] = BLOCK_AT)
         verdicts.append(RecordVerdict(record_id(nrec), record_name(nrec), brain_by_idx[i],
                                       max_sev, blocked, issues))
         if blocked:
-            quarantine.append({"record": original, "brain": brain_by_idx[i],
+            quarantine.append({"record": original, "enrichment": E.enrich_record(nrec),
+                               "brain": brain_by_idx[i],
                                "reasons": [asdict(x) for x in issues if x.severity in block_at],
                                "all_issues": [asdict(x) for x in issues]})
         else:
-            clean.append(original)
+            clean.append({**original, **E.enrich_record(nrec)})
     return PipelineResult(verdicts, clean, quarantine, dataset_findings)
 
 
@@ -873,8 +903,14 @@ def selftest() -> bool:
     r = run([{"Name": "Some county", "Opposition Type": "moratorium", "Outcome": "loss",
               "County": "X", "Date": "2026-01-01", "Source URL": "https://www.kcrg.com/x",
               "Notes": "The county adopted a one-year moratorium on new data center construction countywide."}])
-    expect(any(i.code == "MORATORIUM_OUTCOME_CONFLICT" and i.severity == "CRITICAL"
-               for i in r.verdicts[0].issues), "adopted moratorium recorded as loss -> CRITICAL")
+    expect(any(i.code == "MORATORIUM_OUTCOME_REVIEW" and i.severity == "MEDIUM"
+               for i in r.verdicts[0].issues) and not r.verdicts[0].blocked,
+           "adopted moratorium recorded as loss -> MEDIUM review, not blocked")
+    r = run([{"Name": "Proposed only", "Opposition Type": "moratorium", "Outcome": "win",
+              "County": "Y", "Date": "2026-01-01", "Source URL": "https://www.kcrg.com/y",
+              "Notes": "A data center moratorium was proposed and a public hearing was scheduled for next month."}])
+    expect(not any(i.code.startswith("MORATORIUM_OUTCOME") for i in r.verdicts[0].issues),
+           "proposed/hearing language no longer produces a false 'should be pending' flag")
 
     # legislative bill-lifecycle check is OFF
     r = run([{"Name": "HF 2690", "Opposition Type": "legislation", "Outcome": "loss",
@@ -899,6 +935,50 @@ def selftest() -> bool:
     r = run([tx])
     expect(any(i.code == "STATEWIDE_CAPITAL_SINK" for i in r.verdicts[0].issues),
            "statewide pinned to 'City of Austin' caught as capital sink")
+
+    # enrichment: conditional ordinance is not a block, win on it is flagged as overstated
+    linn = {"Name": "Linn County ordinance", "Opposition Type": "zoning_restriction", "State": "IA",
+            "County": "Linn County", "Authority Level": "county_commission", "Community Outcome": "win",
+            "Status": "passed", "Date": "2026-02-01", "Source URL": "https://insideclimatenews.org/x",
+            "Summary": "The county approved a zoning ordinance with 1,000-foot setbacks, a water-use agreement, and noise and light limits."}
+    enr = E.enrich_record(A.normalize_record(linn))
+    expect(enr["qc_mechanism"] == "conditional_zoning" and enr["qc_is_block"] is False and enr["qc_highlight"],
+           "conditional ordinance -> not a block, highlighted")
+    r = run([linn])
+    expect(any(i.code == "OUTCOME_OVERSTATED" for i in r.verdicts[0].issues) and not r.verdicts[0].blocked,
+           "win on a conditional ordinance -> MEDIUM overstated, not blocked")
+    expect("qc_mechanism" in r.clean[0], "enrichment fields attached to clean export")
+
+    # county vs city with the same name are not merged
+    pair = [
+        {"Name": "Springfield moratorium", "Opposition Type": "moratorium", "State": "OH",
+         "County": "Clark County", "Authority Level": "county_commission", "Community Outcome": "win",
+         "Status": "passed", "Date": "2026-03-01", "Source URL": "https://www.reuters.com/a",
+         "Notes": "The county adopted a moratorium on new data center construction across the county."},
+        {"Name": "Springfield moratorium", "Opposition Type": "moratorium", "State": "OH",
+         "City": "Springfield", "Authority Level": "city_council", "Community Outcome": "win",
+         "Status": "passed", "Date": "2026-03-01", "Source URL": "https://www.reuters.com/b",
+         "Notes": "The city council adopted a moratorium on new data center construction within city limits."}]
+    r = run(pair)
+    expect(not any(i.code == "DUPLICATE" for v in r.verdicts for i in v.issues),
+           "same-name county and city actions are not flagged as duplicates")
+
+    # placeability: a city alone (or a county sitting in the city field) is mappable
+    r = run([{"Incident": "Prince William County", "City": "Prince William County",
+              "Opposition Type": "moratorium", "State": "VA", "Date": "2026-02-01",
+              "Source URL": "https://www.reuters.com/z", "Notes": "A data center moratorium was proposed."}])
+    expect(not r.verdicts[0].blocked, "county name in the city field is placeable, not blocked")
+    r = run([{"Incident": "Flint City Council passes 12-month moratorium on data centers",
+              "Opposition Type": "moratorium", "Date": "2026-02-01",
+              "Source URL": "https://www.mlive.com/z", "Notes": "City council passed it."}])
+    expect(not r.verdicts[0].blocked and A.normalize_record(
+               {"Incident": "Flint City Council passes 12-month moratorium on data centers"}).get("City") == "Flint",
+           "headline with a city is recovered and placeable")
+    r = run([{"Incident": "Most Americans Want a National Data Center Moratorium",
+              "Opposition Type": "moratorium", "Date": "2026-02-01", "Source URL": "https://www.reuters.com/n",
+              "Notes": "National poll."}])
+    expect(any(i.code == "UNPLACEABLE" for i in r.verdicts[0].issues),
+           "national headline with no place stays UNPLACEABLE")
 
     print("\nALL SELFTESTS PASS" if ok else "\nSOME SELFTESTS FAILED")
     return ok
