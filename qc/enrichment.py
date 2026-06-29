@@ -63,8 +63,12 @@ MECHANISMS = [
         "permanent ban", "permanently ban", "indefinite ban", "indefinitely ban",
         "outright ban", "ban on data cent", "banned data cent", "ban on new data",
         "prohibition on data", "prohibit data cent", "prohibits data cent",
+        "prohibiting data", "prohibit data", "initiative to ban", "constitutional amendment",
+        "ordinance prohibit",
     ]),
-    ("moratorium", 4, True, ["moratorium", "moratoria"]),
+    ("moratorium", 4, True, ["moratorium", "moratoria", "pause on data", "puts a hold",
+        "hits pause", "pushes pause", "hold on data center", "temporary pause",
+        "pushing pause", "puts a pause", "hold on new data", "freeze on data"]),
     ("project_denial", 4, True, [
         "project_withdrawal", "denied the rezoning", "denied the application",
         "rejected the application", "denied the permit", "denied the special use",
@@ -77,7 +81,13 @@ MECHANISMS = [
         "noise", "decibel", "light pollution", "buffer", "screening", "height limit",
         "unified development ordinance", " udo", "conditional use", "special use permit requirement",
         "overlay district", "sound limit", "waste management plan", "infrastructure cost",
-        "community betterment", "road damage", "decommissioning",
+        "community betterment", "road damage", "decommissioning", "zoning amendment",
+        "zoning ordinance", "limiting data center zoning", "limit data center zoning",
+        "revise zoning", "ordinance regulating", "ordinance making data", "zoning code",
+    ]),
+    ("infrastructure_opposition", 3, False, [
+        "transmission line", "transmission corridor", "powerline", "power line",
+        "substation", "pipeline", "67-mile", "transmission project",
     ]),
     ("cost_allocation", 2, False, [
         "ratepayer", "utility cost", "large load tariff", "large-load tariff", "tariff",
@@ -90,6 +100,10 @@ MECHANISMS = [
         "eliminate the incentive", "revoke the incentive", "repeal the incentive",
         "eliminating certain tax", "remove tax",
     ]),
+    ("community_benefit", 2, False, [
+        "community benefit agreement", "community_benefit_agreement", "host agreement",
+        "host community agreement", "property tax to surrounding", "neighborhood fund",
+    ]),
     ("disclosure", 2, False, [
         "disclosure", "transparency", "reporting requirement", "report annually",
         "public reporting", "water usage reporting", "energy usage reporting", "annual report",
@@ -98,9 +112,16 @@ MECHANISMS = [
         "lawsuit", " sued ", "litigation", "filed suit", "filed a suit", "injunction",
         "appeal", "court challenge", "legal challenge", "petition for review",
     ]),
+    ("study", 1, False, [
+        "study_or_report", "quantify damages", "quantify monetary", "feasibility study",
+        "impact study", "commission a study", "research report", "explores limiting",
+    ]),
     ("public_pressure", 1, False, [
         "public_comment", "public comment", "petition", "rally", "protest", "residents objected",
         "packed the", "spoke against", "opposition group", "town hall", "listening session",
+        "pack the courthouse", "packed the courthouse", "group forms", "group formed",
+        "backlash", "elect anti", "anti-data-center", "residents continue", "residents pack",
+        "fight", "oppose", "resign amid",
     ]),
 ]
 
