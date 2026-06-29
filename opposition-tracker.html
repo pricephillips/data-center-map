@@ -232,6 +232,20 @@ input:focus, select:focus { border-color:#5aa9e6 }
             <option value="dc_opposition_site">DC Opposition Site</option>
           </select>
         </div>
+        <div class="row3" style="margin-top:7px">
+          <select id="fMechanism" onchange="render()"><option value="">Any mechanism</option></select>
+          <select id="fBlock" onchange="render()">
+            <option value="">Block &amp; conditional</option>
+            <option value="true">Blocks only (halt/ban/denial)</option>
+            <option value="false">Conditional restrictions</option>
+            <option value="ambiguous">Stance-ambiguous bills</option>
+          </select>
+          <select id="fEra" onchange="render()">
+            <option value="">All eras</option>
+            <option value="ai_dc_era_2022plus">AI data-center era (2022+)</option>
+            <option value="crypto_era_pre2022">Crypto era (pre-2022)</option>
+          </select>
+        </div>
       </div>
       <div class="stats" style="grid-template-columns:repeat(5,1fr)">
         <div class="stat" id="statAll" onclick="statFilter('')" title="Clear outcome filter"><b id="cAll">—</b><span>Total</span></div>
@@ -269,7 +283,9 @@ input:focus, select:focus { border-color:#5aa9e6 }
       <div class="legend-row"><span class="lsw" style="background:var(--win)"></span>Blocked — project stopped</div>
       <div class="legend-row"><span class="lsw" style="background:var(--loss)"></span>Approved — project advanced</div>
       <div class="legend-row"><span class="lsw" style="background:var(--mixed)"></span>Mixed</div>
-      <div class="note">Size = severity (1–5). Pin color = data source.</div>
+      <div class="note">Fill color = outcome · border = data source · size = severity (1–5).<br>
+        <b style="color:#cbd5e1">Solid</b> = block (halt/ban/denial) · <b style="color:#cbd5e1">faint</b> = conditional restriction.<br>
+        A white center dot marks a pin that stands for several records (one project). Statewide &amp; federal actions appear in the list, not as pins.</div>
       <div id="legendVoting" style="display:none;border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
         <b style="font-size:11px;color:var(--muted);font-weight:600">2024 Presidential Margin</b>
         <div style="display:flex;gap:4px;margin-top:6px;align-items:center;font-size:10px;color:var(--muted)">
@@ -431,16 +447,52 @@ function iconFor(r, usedCentroid=false) {
   const fillColor = isResearchTool(r) ? '#0d9488' : (OUTCOME_COLORS[o] || '#f39c12');
   const strokeColor = SOURCE_COLORS[r['data_source']] || '#5aa9e6';
   const n = Number(r['Severity']||2);
-  const key = fillColor + '|' + strokeColor + '|' + n + '|' + (usedCentroid ? 'c' : 'p');
+  // qc_is_block nuance: an absolute block (moratorium/ban/denial) reads solid;
+  // a conditional restriction recorded as a "win" reads softer so it isn't
+  // overstated; stance-ambiguous legislation sits in between.
+  const blk = String(r['qc_is_block']||'').trim().toLowerCase();
+  const fillOp = blk === 'false' ? 0.42 : (blk === 'true' ? 0.92 : 0.68);
+  // a pin that stands in for several records (one project_id, many rows)
+  const multi = (+(r['project_row_count']||1) > 1);
+  const key = fillColor+'|'+strokeColor+'|'+n+'|'+(usedCentroid?'c':'p')+'|'+fillOp+'|'+(multi?'m':'s');
   let icon = _iconCache.get(key);
   if (!icon) {
     const s = 11 + n*3;
+    const inner = multi
+      ? `<rect x="${s/2-2}" y="${s/2-2}" width="4" height="4" rx="1" fill="#fff" fill-opacity="0.9"/>`
+      : '';
     icon = L.divIcon({ className:'', iconSize:[s,s], iconAnchor:[s/2,s/2],
-      html:`<svg width="${s}" height="${s}" viewBox="0 0 ${s} ${s}"><rect x="1.5" y="1.5" width="${s-3}" height="${s-3}" rx="2" fill="${fillColor}" fill-opacity="0.88" stroke="${strokeColor}" stroke-width="2" ${usedCentroid ? 'stroke-dasharray="3,2"' : ''}/></svg>`
+      html:`<svg width="${s}" height="${s}" viewBox="0 0 ${s} ${s}"><rect x="1.5" y="1.5" width="${s-3}" height="${s-3}" rx="2" fill="${fillColor}" fill-opacity="${fillOp}" stroke="${strokeColor}" stroke-width="2" ${usedCentroid ? 'stroke-dasharray="3,2"' : ''}/>${inner}</svg>`
     });
     _iconCache.set(key, icon);
   }
   return icon;
+}
+
+function qcBlockLabel(r){
+  const b = String(r['qc_is_block']||'').trim().toLowerCase();
+  if (b === 'true')  return '<span style="color:#fca5a5;font-weight:700">Block</span>';
+  if (b === 'false') return '<span style="color:#fbbf24;font-weight:700">Conditional restriction</span>';
+  return '<span style="color:#9aabb7">Stance-ambiguous</span>';
+}
+
+// Drill-down list of the other records sharing this project_id.
+function projGroupHtml(r){
+  const grp = r._projGroup;
+  if (!grp || grp.length < 2) return '';
+  const sorted = grp.map(j => rows[j]).slice().sort((a,b)=>(b._ts||0)-(a._ts||0));
+  const CAP = 12;
+  const shown = sorted.slice(0, CAP);
+  const items = shown.map(rr =>
+    `<div style="display:flex;gap:8px;font-size:11px;padding:3px 0;border-top:1px solid #2c3544">
+       <span style="color:#8a96a4;white-space:nowrap;min-width:62px">${esc(formatDate(rr['Date']))}</span>
+       <span style="flex:1">${esc((rr['Incident']||'').slice(0,70))}</span>
+       <span>${badge(rr['Community Outcome'])}</span>
+     </div>`).join('');
+  const more = sorted.length > CAP ? `<div style="font-size:10px;color:#8a96a4;padding-top:4px">+ ${sorted.length-CAP} more action(s) in this project</div>` : '';
+  return `<div style="margin-top:8px">
+      <div style="font-size:11px;font-weight:700;color:#cbd5e1;margin-bottom:2px">
+        This project has ${grp.length} recorded actions</div>${items}${more}</div>`;
 }
 
 function buildPopup(r, usedCentroid=false) {
@@ -456,6 +508,8 @@ function buildPopup(r, usedCentroid=false) {
   const inv = r['Investment Million USD'] ? '$'+Number(r['Investment Million USD']).toLocaleString()+'M' : '—';
   const sigs = r['Petition Signatures'] && +r['Petition Signatures']>0 ? Number(r['Petition Signatures']).toLocaleString()+' sigs' : '';
   const centroidNote = usedCentroid ? `<div style="font-size:10px;color:#f39c12;margin-bottom:6px;padding:3px 6px;background:rgba(243,156,18,0.12);border-radius:4px;border:1px solid rgba(243,156,18,0.3)">Approximate location placed at state centroid</div>` : '';
+  const mech = r['qc_mechanism'] ? `<span class="p-label">Mechanism</span><span class="p-val">${esc(r['qc_mechanism'])}${r['qc_strength_label'] ? ' · '+esc(r['qc_strength_label']) : ''} (${qcBlockLabel(r)})</span>` : '';
+  const statusVal = r['status_clean'] ? esc(r['status_clean']) : esc(r['Status']);
   return `
     <div class="p-title">${esc(r['Incident'])}${r['Project Name']&&r['Project Name']!==r['Incident']?`<span style="font-weight:400;font-size:11px;color:var(--muted);margin-left:4px">${esc(r['Project Name'])}</span>`:''} ${srcTagFull(r['data_source'])}</div>
     ${badge(r['Community Outcome'])} ${sevDotsLabeled(+r['Severity']||2)}${centroidNote}
@@ -463,7 +517,8 @@ function buildPopup(r, usedCentroid=false) {
       <span class="p-label">Date</span>       <span class="p-val">${formatDate(r['Date'])}</span>
       <span class="p-label">Entity</span>     <span class="p-val">${esc(r['Entity'])}</span>
       <span class="p-label">Type</span>       <span class="p-val">${esc(r['Opposition Type'])}</span>
-      <span class="p-label">Status</span>     <span class="p-val">${esc(r['Status'])}</span>
+      <span class="p-label">Status</span>     <span class="p-val">${statusVal}</span>
+      ${mech}
       <span class="p-label">Location</span>   <span class="p-val">${esc(r['County'] ? r['County']+', ' : '')}${esc(r['State'])}</span>
       ${r['Issue Category'] ? `<span class="p-label">Issue</span><span class="p-val">${esc(r['Issue Category'])}</span>` : ''}
       ${r['Authority Level'] ? `<span class="p-label">Authority</span><span class="p-val">${esc(r['Authority Level'])}</span>` : ''}
@@ -476,6 +531,7 @@ function buildPopup(r, usedCentroid=false) {
       ${r['Opposition Groups'] ? `<span class="p-label">Groups</span><span class="p-val">${esc(r['Opposition Groups'])}</span>` : ''}
     </div>
     ${r['Summary'] ? `<div class="p-summary">${esc(r['Summary'].slice(0,500))}${r['Summary'].length>500?'…':''}</div>` : ''}
+    ${projGroupHtml(r)}
     ${links ? `<div class="p-links">${links}</div>` : ''}
   `;
 }
@@ -498,6 +554,13 @@ function match(r, f) {
   if (f.fSc && r['Scope'] !== f.fSc) return false;
   if (f.fAu && r['Authority Level'] !== f.fAu) return false;
   if (f.fSr && r['data_source'] !== f.fSr) return false;
+  if (f.fMech && (r['qc_mechanism']||'') !== f.fMech) return false;
+  if (f.fBlk) {
+    const b = String(r['qc_is_block']||'').trim().toLowerCase();
+    if (f.fBlk === 'ambiguous') { if (b === 'true' || b === 'false') return false; }
+    else if (b !== f.fBlk) return false;
+  }
+  if (f.fEra && (r['data_era']||'') !== f.fEra) return false;
   if (f.act && !['active','pending'].includes((r['Community Outcome']||'').toLowerCase())) return false;
   if (!f.q) return true;
   return (r._hay || '').includes(f.q);
@@ -513,6 +576,9 @@ function readFilters() {
     fSc: document.getElementById('fScope').value,
     fAu: document.getElementById('fAuthority').value,
     fSr: document.getElementById('fSource').value,
+    fMech: document.getElementById('fMechanism') ? document.getElementById('fMechanism').value : '',
+    fBlk:  document.getElementById('fBlock') ? document.getElementById('fBlock').value : '',
+    fEra:  document.getElementById('fEra') ? document.getElementById('fEra').value : '',
     act: document.getElementById('activeOnly').checked,
   };
 }
@@ -555,10 +621,11 @@ function render() {
   let pending=0, win=0, loss=0, mixed=0;
   _stateHoverStats = {};
   const markersToAdd = [];
+  const _seenMarkers = new Set();   // project markers are shared across rows; add once
 
   visible.forEach(({ r, i })=>{
     const marker = leafletMarkers[i];
-    if (marker) markersToAdd.push(marker);
+    if (marker && !_seenMarkers.has(marker)) { markersToAdd.push(marker); _seenMarkers.add(marker); }
 
     const outcome = String(r['Community Outcome'] || '').trim().toLowerCase();
     if(outcome === 'win') win++;
@@ -579,6 +646,7 @@ function render() {
 
   renderList();
   if (markersToAdd.length) clusterGroup.addLayers(markersToAdd);
+  updateCardCount(visible.length, rows.length, _seenMarkers.size);
 
   document.getElementById('cAll').textContent     = visible.length.toLocaleString();
   document.getElementById('cPending').textContent = pending.toLocaleString();
@@ -666,7 +734,10 @@ function updateFilterPills() {
       ongoing_monitoring:'Ongoing monitoring', historical_archive:'DCT Archive (2014–2025)',
       bryce_rejection_db:'Bryce Rejection DB', fractracker:'FracTracker',
       datacenter_watch:'Data Center Watch', dc_opposition_site:'DC Opposition Site'
-    }[v] || v)
+    }[v] || v),
+    fMechanism: v => v,
+    fBlock: v => ({true:'Blocks only', false:'Conditional restrictions', ambiguous:'Stance-ambiguous bills'}[v] || v),
+    fEra: v => ({ai_dc_era_2022plus:'AI era (2022+)', crypto_era_pre2022:'Crypto era (pre-2022)'}[v] || v)
   };
   const active = Object.entries(labels)
     .map(([id, fmt]) => { const el = document.getElementById(id); return el && el.value ? {id, label: fmt(el.value)} : null; })
@@ -736,45 +807,70 @@ function handleCSVData(data) {
     rows.forEach(r => {
       const d = new Date(r['Date'] || '');
       r._ts = isNaN(d.getTime()) ? 0 : Math.min(d.getTime(), NOW);
-      r._hay = [r['Incident'],r['Entity'],r['State'],r['County'],r['Opposition Groups'],r['Opposition Type'],r['Objective'],r['Summary'],r['Company'],r['Hyperscaler'],r['City'],r['Project Name'],r['Issue Category']].join(' ').toLowerCase();
+      r._hay = [r['Incident'],r['Entity'],r['State'],r['County'],r['Opposition Groups'],r['Opposition Type'],r['Objective'],r['Summary'],r['Company'],r['Hyperscaler'],r['City'],r['Project Name'],r['Issue Category'],r['location_name'],r['objective_type'],r['qc_mechanism'],r['primary_actor']].join(' ').toLowerCase();
     });
 
     rows.sort((a, b) => b._ts - a._ts);
 
-    leafletMarkers = [];
+    // ---- Project grouping: one pin per project_id -----------------------
+    // Group opposition rows by project_id so the map renders a single marker
+    // per underlying development (collapsing e.g. the 26 Southaven/xAI rows
+    // into one pin) with a drill-down list in the popup. Reference rows excluded.
+    const _projGroups = {};
+    rows.forEach((r, i) => {
+      if (isRefType(r)) return;
+      const pid = (r['project_id'] || '').trim() || ('__row' + i);
+      (_projGroups[pid] = _projGroups[pid] || []).push(i);
+    });
+    rows.forEach((r, i) => {
+      if (isRefType(r)) return;
+      const pid = (r['project_id'] || '').trim() || ('__row' + i);
+      const grp = _projGroups[pid] || [i];
+      r._projGroup = grp;
+      let prim = grp.find(j => String(rows[j]['is_primary_record']).trim().toLowerCase() === 'true');
+      if (prim === undefined) prim = grp[0];
+      r._projPrimary = prim;
+      r._isProjPrimary = (i === prim);
+    });
 
-    rows.forEach(r => {
-      if (isRefType(r)) { leafletMarkers.push(null); return; }
+    leafletMarkers = new Array(rows.length).fill(null);
+
+    // First pass: one marker per project (on its primary row). Skip statewide /
+    // federal jurisdictions so a state-level action does not drop a dot on the
+    // capital — those rows still appear in the list.
+    rows.forEach((r, i) => {
+      if (isRefType(r) || !r._isProjPrimary) return;
+
+      const jl = String(r['qc_jurisdiction_level'] || '').trim().toLowerCase();
+      if (jl === 'state' || jl === 'federal') return;
 
       let mlat = parseFloat(r.lat);
       let mlon = parseFloat(r.lon);
       let usedCentroid = false;
-
       if (isNaN(mlat) || isNaN(mlon) || mlat === 0 || mlon === 0) {
-        const stateKey = normStateName(r['State'] || '');
-        const centroid = STATEBADGECENTERS[stateKey];
-        if (!centroid) {
-          leafletMarkers.push(null);
-          return;
-        }
+        const centroid = STATEBADGECENTERS[normStateName(r['State'] || '')];
+        if (!centroid) return;
         [mlat, mlon] = centroid;
         usedCentroid = true;
       }
 
+      const idx = i;
+      const extra = r._projGroup.length > 1 ? ' • +' + (r._projGroup.length - 1) + ' more' : '';
       const m = L.marker([mlat, mlon], { icon: iconFor(r, usedCentroid) })
-        .bindPopup(() => buildPopup(r, usedCentroid), { maxWidth: 340 })
+        .bindPopup(() => buildPopup(r, usedCentroid), { maxWidth: 360 })
         .bindTooltip(
-          `<b>${esc((r['Incident'] || '').slice(0, 50))}</b><br>${esc(r['State'] || '')} • ${esc(friendlyOutcome(r['Community Outcome']))}`,
+          `<b>${esc((r['Incident'] || '').slice(0, 50))}</b><br>${esc(r['State'] || '')} • ${esc(friendlyOutcome(r['Community Outcome']))}${extra}`,
           { direction: 'top', className: 'pin-tooltip' }
         );
+      m.on('click', e => { L.DomEvent.stopPropagation(e); highlightCard(idx); });
+      leafletMarkers[i] = m;
+    });
 
-      const idx = leafletMarkers.length;
-      m.on('click', e => {
-        L.DomEvent.stopPropagation(e);
-        highlightCard(idx);
-      });
-
-      leafletMarkers.push(m);
+    // Second pass: point every non-primary row's card at its project marker so
+    // clicking any related card opens the same pin.
+    rows.forEach((r, i) => {
+      if (isRefType(r) || r._isProjPrimary) return;
+      leafletMarkers[i] = leafletMarkers[r._projPrimary] || null;
     });
 
     const pop = (id, vals) => {
@@ -796,6 +892,7 @@ function handleCSVData(data) {
       outcomeEl.appendChild(opt);
     });
     pop('fAuthority', oppRows.map(r => r['Authority Level']));
+    pop('fMechanism', oppRows.map(r => r['qc_mechanism']));
 
     const issues = [...new Set(
       oppRows.flatMap(r => (r['Issue Category'] || '').split(/;\s*/).map(x => x.trim()))
@@ -969,7 +1066,7 @@ function updateStatActive() {
 
 function resetFilters(){
   document.getElementById('q').value='';
-  ['fState','fType','fOutcome','fIssue','fScope','fAuthority','fSource'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['fState','fType','fOutcome','fIssue','fScope','fAuthority','fSource','fMechanism','fBlock','fEra'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('activeOnly').checked=false;
   ['statPending','statWin','statLoss','statMixed'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active');});
   render();
@@ -1150,14 +1247,16 @@ function toggleAdvFilters(btn) {
   el.classList.toggle('open');
   btn.querySelector('svg').style.transform = el.classList.contains('open') ? 'rotate(180deg)' : '';
 }
-function updateCardCount(vis, tot) {
+function updateCardCount(vis, tot, pins) {
   const el = document.getElementById('cardCount');
   if (!el) return;
   const oppTot = window._oppTotal || tot;
   if (!oppTot) { el.innerHTML = '<span style="color:var(--muted)">Loading…</span>'; return; }
-  el.innerHTML = vis === oppTot
+  const pinNote = (pins != null && pins !== vis)
+    ? ` <span style="color:var(--muted)">· ${pins.toLocaleString()} project pins</span>` : '';
+  el.innerHTML = (vis === oppTot
     ? `<b>${oppTot.toLocaleString()}</b> incidents`
-    : `<b>${vis.toLocaleString()}</b> of <b>${oppTot.toLocaleString()}</b> incidents match filters`;
+    : `<b>${vis.toLocaleString()}</b> of <b>${oppTot.toLocaleString()}</b> incidents match filters`) + pinNote;
 }
 function srcTagFull(s) {
   const tags = {
@@ -1535,7 +1634,15 @@ map.on('zoomend', () => {
 
 // Kick off data load LAST so every let/const above is initialized even if a
 // parser implementation invokes complete() synchronously.
-startCSVLoad(['./master_opposition.csv', DATA_BASE + '/master_opposition.csv']);
+// Prefer the gated + enriched clean feed (clean URLs, project_id, qc_* columns,
+// quarantined records already removed). Fall back to the raw CSV if the feed
+// has not been generated yet.
+startCSVLoad([
+  './master_opposition_clean.csv',
+  DATA_BASE + '/master_opposition_clean.csv',
+  './master_opposition.csv',
+  DATA_BASE + '/master_opposition.csv'
+]);
 </script>
 </body>
 </html>
