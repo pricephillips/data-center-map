@@ -35,6 +35,26 @@ jobs:
           python qc_pipeline.py --csv ../master_opposition.csv --out qc_out || true
           test -f qc_out/clean_export.json
 
+      - name: Enforce logical QC findings
+        if: always()
+        working-directory: qc
+        run: |
+          python - <<'PY'
+          import json, sys
+          from collections import Counter
+          report = json.load(open('qc_out/qc_report.json', encoding='utf-8'))
+          counts = Counter()
+          for v in report.get('verdicts', []):
+              for issue in v.get('issues', []):
+                  counts[issue.get('code')] += 1
+          gated = ['ACTION_COMPLETE_MISMATCH', 'STATUS_VOCAB']
+          bad = {k: counts[k] for k in gated if counts[k] > 0}
+          if bad:
+              print('Failing due to QC logic findings:', bad)
+              sys.exit(1)
+          print('No gated logical QC findings.')
+          PY
+
       - name: Post report to summary
         if: always()
         working-directory: qc
