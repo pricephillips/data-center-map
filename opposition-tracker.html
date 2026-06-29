@@ -848,7 +848,7 @@ function handleCSVData(data) {
       let mlon = parseFloat(r.lon);
       let usedCentroid = false;
       if (isNaN(mlat) || isNaN(mlon) || mlat === 0 || mlon === 0) {
-        const centroid = STATEBADGECENTERS[normStateName(r['State'] || '')];
+        const centroid = STATE_BADGE_CENTERS[normStateName(r['State'] || '')];
         if (!centroid) return;
         [mlat, mlon] = centroid;
         usedCentroid = true;
