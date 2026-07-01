@@ -848,7 +848,7 @@ function handleCSVData(data) {
       let mlon = parseFloat(r.lon);
       let usedCentroid = false;
       if (isNaN(mlat) || isNaN(mlon) || mlat === 0 || mlon === 0) {
-        const centroid = STATE_BADGE_CENTERS[normStateName(r['State'] || '')];
+        const centroid = STATEBADGECENTERS[normStateName(r['State'] || '')];
         if (!centroid) return;
         [mlat, mlon] = centroid;
         usedCentroid = true;
@@ -1313,26 +1313,16 @@ let stateVoteAgg = {};
 async function loadVoteData() {
   buildStateVoteAgg();              // embedded state margins, always available
   if (voteData) return true;
-
-  const urls = [
-    './data/county_votes.json',
-    `${DATA_BASE}/data/county_votes.json`
-  ];
-
-  for (const url of urls) {
-    try {
-      const vr = await fetch(url);
-      if (!vr.ok) throw new Error(`fetch failed: ${vr.status}`);
-      voteData = await vr.json();
-      detectVoteDataScale();
-      return true;
-    } catch (e) {
-      console.warn(`county_votes.json unavailable at ${url}:`, e);
-    }
+  try {
+    const vr = await fetch('./data/county_votes.json');
+    if (!vr.ok) throw new Error('fetch failed');
+    voteData = await vr.json();
+    detectVoteDataScale();
+    return true;
+  } catch(e) {
+    console.warn('county_votes.json unavailable; using embedded state margins only:', e);
+    return false;
   }
-
-  console.warn('county_votes.json unavailable; using embedded state margins only');
-  return false;
 }
 
 const FIPS_TO_STATE = {

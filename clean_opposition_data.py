@@ -86,9 +86,14 @@ STATUS_RULES = [
 
 # Procedural legislative stages, checked BEFORE the generic rules above so that
 # "approved by committee" or "passed the House" can never collapse into a
-# terminal "approved"/"passed". Order = most final first; phrases are matched as
-# substrings anywhere in the Status text. These codes line up with bill_progress.
-PROCEDURAL_STATUS_RULES = [
+# terminal "approved"/"passed". These codes line up with bill_progress.
+#
+# STACKABLE: at runtime these are MERGED with the strong phrases from the gate's
+# own stage ladder (legislative_outcome.SIGNALS / stage_ladder.csv). So a phrase
+# added to the ladder improves BOTH the gate's outcome validation and this
+# status coding — every future addition compounds across the whole pipeline,
+# from one place. The list below is the standalone fallback / gap-filler.
+_BUILTIN_PROCEDURAL_RULES = [
     ("enacted", ["signed into law", "signed by the governor", "governor signed",
                  "became law", "enacted into law", "was enacted", "now law", "chaptered"]),
     ("vetoed", ["vetoed", "governor's veto", "line-item veto"]),
@@ -111,9 +116,33 @@ PROCEDURAL_STATUS_RULES = [
                 "advanced in committee", "out of committee", "committee advanced"]),
 ]
 
+# Cross-code precedence: when text matches several stages, the furthest wins.
+_CODE_PRECEDENCE = ["enacted", "vetoed", "failed", "passed_pending_signature",
+                    "passed_one_chamber", "in_committee", "introduced"]
+_PROCEDURAL_RULES_CACHE = None
+
+def _procedural_rules():
+    """Merge the builtin rules with the gate's stage-ladder strong phrases, so
+    both systems share one growing phrase source. Cached after first build."""
+    global _PROCEDURAL_RULES_CACHE
+    if _PROCEDURAL_RULES_CACHE is not None:
+        return _PROCEDURAL_RULES_CACHE
+    by_code = {}
+    for code, phrases in _BUILTIN_PROCEDURAL_RULES:
+        by_code.setdefault(code, set()).update(phrases)
+    if _HAVE_LEGIS:
+        # STAGE_TO_PROGRESS maps each ladder stage name -> (progress, final, status code).
+        for stage_name, (_p, _f, stage_status) in STAGE_TO_PROGRESS.items():
+            sig = _L.SIGNALS.get(stage_name, {})
+            strong = sig.get("strong", [])          # strong only: unambiguous for hard coding
+            if strong:
+                by_code.setdefault(stage_status, set()).update(strong)
+    _PROCEDURAL_RULES_CACHE = [(c, sorted(by_code[c])) for c in _CODE_PRECEDENCE if c in by_code]
+    return _PROCEDURAL_RULES_CACHE
+
 def procedural_status(low):
     """Return a procedural-stage status code if the text shows one, else None."""
-    for code, phrases in PROCEDURAL_STATUS_RULES:
+    for code, phrases in _procedural_rules():
         if any(p in low for p in phrases):
             return code
     return None
@@ -364,7 +393,7 @@ STAGE_TO_PROGRESS = {
 
 # status_clean values that, for NON-legislative records, indicate the action
 # reached a final disposition.
-_NONLEG_COMPLETE = {"passed", "approved", "failed", "expired", "withdrawn", "resolved", "cancelled"}
+_NONLEG_COMPLETE = {"passed", "approved", "failed", "expired", "withdrawn", "resolved"}
 
 def infer_bill_progress(text):
     """(progress_code, is_final, stage_status, stage_name, confidence) from text,
@@ -812,30 +841,6 @@ def clean(df):
         report.append(("Legislative completion verification skipped",
                        "legislative_outcome not importable; run inside the pipeline to populate bill_progress / "
                        "action_complete / outcome_overstated."))
-
-    # ---- Deterministic action_complete reconciliation from status_clean ----
-    reconciled_action_complete = 0
-    for idx in df.index:
-        is_leg = _L.looks_legislative({
-            "Opposition Type": df.at[idx, "Opposition Type"], "Name": df.at[idx, "Incident"],
-            "Title": df.at[idx, "Project Name"], "Notes": df.at[idx, "Summary"],
-        }) if _HAVE_LEGIS else False
-        if is_leg:
-            continue
-        sc = (df.at[idx, "status_clean"] or "").strip().lower()
-        before = bool(df.at[idx, "action_complete"])
-        after = before
-        if sc in _NONLEG_COMPLETE:
-            after = True
-        elif sc in {"active", "pending", "announced", "unknown"}:
-            after = False
-        if after != before:
-            df.at[idx, "action_complete"] = after
-            log_change(idx, "action_complete", str(before), str(after))
-            reconciled_action_complete += 1
-    report.append(("Deterministic action_complete reconciliation from status_clean",
-                   f"{reconciled_action_complete} non-legislative row(s) had action_complete aligned "
-                   "to canonical status_clean — resolved statuses True, in-progress False."))
 
     # ---- 12. Judgment-assisted classifications (additive) -------------------
     # objective_type (Objective prose preserved in the original column)
