@@ -199,11 +199,6 @@ tbody tr.ref-row:hover { opacity:1; background:#111e2a }
   <select id="tf-type"    onchange="trender()"><option value="">All types</option></select>
   <select id="tf-source"  onchange="trender()">
     <option value="">All sources</option>
-    <option value="datacentertracker.org">DataCenterTracker.org</option>
-    <option value="bryce_tracker">Bryce Tracker</option>
-    <option value="fractracker">FracTracker</option>
-    <option value="datacenter_watch">Data Center Watch</option>
-    <option value="dc_opposition_site">DC Opposition Site</option>
   </select>
   <select id="tf-ref" onchange="trender()">
     <option value="include">All records (incl. reference)</option>
@@ -298,6 +293,15 @@ const ABBREV_FROM_NAME = {
   Utah:'UT', Vermont:'VT', Virginia:'VA', Washington:'WA', 'West Virginia':'WV',
   Wisconsin:'WI', Wyoming:'WY', 'District of Columbia':'DC'
 };
+const NAME_FROM_ABBREV = Object.fromEntries(Object.entries(ABBREV_FROM_NAME).map(([n,a]) => [a,n]));
+// Canonical full state name: 'VA' -> 'Virginia', 'Virginia' -> 'Virginia'.
+// Prevents one state splitting into two bars/KPI entries when the CSV mixes
+// abbreviations and full names, and makes proposals.csv lookups line up.
+function canonState(v) {
+  v = String(v || '').trim();
+  if (!v) return '';
+  return NAME_FROM_ABBREV[v.toUpperCase()] || v;
+}
 
 function getStatePop(abbrev) {
   // Try abbrev directly, then try as full name
@@ -317,30 +321,36 @@ async function loadProposals() {
   proposalsLoading = true;
   document.getElementById('normLoading').classList.add('active');
   try {
-    await new Promise((resolve) => {
-      Papa.parse('./data/proposals.csv', {
-        download: true,
-        header: true,
-        skipEmptyLines: true,
-        complete({ data }) {
-          const byState = {};
-          data.forEach(r => {
-            const st = (r['state'] || '').trim().toUpperCase();
-            if (!st) return;
-            if (!byState[st]) byState[st] = { count: 0, mw: 0 };
-            byState[st].count++;
-            const mw = parseFloat(r['capacity_mw']) || 0;
-            byState[st].mw += mw;
-          });
-          proposalsByState = byState;
-          resolve();
-        },
-        error() {
-          proposalsByState = {}; // mark as attempted even on failure
-          resolve();
-        }
+    // Relative URL works on the canonical host; raw.githubusercontent.com
+    // fallback works inside sandboxed embeds (it sends CORS headers).
+    const PROPOSAL_URLS = [
+      './data/proposals.csv',
+      'https://raw.githubusercontent.com/pricephillips/data-center-map/main/data/proposals.csv'
+    ];
+    let text = null;
+    for (const u of PROPOSAL_URLS) {
+      try {
+        const r = await fetch(u, { cache: 'no-cache' });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        text = await r.text();
+        break;
+      } catch (e) { /* try next */ }
+    }
+    if (text) {
+      const { data } = Papa.parse(text, { header: true, skipEmptyLines: true });
+      const byState = {};
+      data.forEach(r => {
+        const st = canonState(r['state']);
+        if (!st) return;
+        if (!byState[st]) byState[st] = { count: 0, mw: 0 };
+        byState[st].count++;
+        const mw = parseFloat(r['capacity_mw']) || 0;
+        byState[st].mw += mw;
       });
-    });
+      proposalsByState = byState;
+    } else {
+      proposalsByState = {}; // mark as attempted even on failure
+    }
   } catch(e) {
     proposalsByState = {};
   } finally {
@@ -676,9 +686,47 @@ function exportAllCSV() {
 }
 
 // ── Init ───────────────────────────────────────────────────────────────────────
-Papa.parse('./master_opposition.csv', {
-  download:true, header:true, skipEmptyLines:true,
-  complete({ data }) {
+// Fallback chain mirrors opposition-tracker.html so both embeds render the
+// SAME dataset (clean feed first, raw master as last resort). Relative and
+// GitHub Pages URLs fail inside sandboxed embed iframes (Notion, mirrors)
+// because Pages sends no CORS headers; raw.githubusercontent.com sends
+// Access-Control-Allow-Origin: * and works from any embed origin.
+const CSV_CHAIN = [
+  './master_opposition_clean.csv',
+  'https://raw.githubusercontent.com/pricephillips/data-center-map/main/master_opposition_clean.csv',
+  './master_opposition.csv',
+  'https://raw.githubusercontent.com/pricephillips/data-center-map/main/master_opposition.csv'
+];
+
+function dashLoadFail(errs) {
+  const el = document.createElement('div');
+  el.style.cssText = 'margin:16px;padding:14px 16px;border:1px solid #7f1d1d;border-radius:10px;background:rgba(127,29,29,.15);color:#fca5a5;font-size:12px;line-height:1.6';
+  el.innerHTML = '<b>Dashboard data failed to load.</b> <code>master_opposition.csv</code> was not reachable.'
+    + (errs.length ? '<br><span style="font-size:10px;opacity:.8">' + errs.map(esc).join('<br>') + '</span>' : '');
+  document.body.prepend(el);
+}
+
+function startDashLoad(urls, _errs) {
+  const errs = _errs || [];
+  if (!urls.length) { dashLoadFail(errs); return; }
+  const url = urls[0];
+  const label = url.replace('https://raw.githubusercontent.com/pricephillips/data-center-map/main/', 'raw:').replace(/^\.\//, 'local:');
+  fetch(url, { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+    .then(text => {
+      const res = Papa.parse(text, { header: true, skipEmptyLines: true });
+      if (!res.data || !res.data.length) throw new Error('parsed 0 rows');
+      initDashboard(res.data);
+    })
+    .catch(e => {
+      errs.push(label + ' \u2014 ' + ((e && e.message) || 'unreachable'));
+      startDashLoad(urls.slice(1), errs);
+    });
+}
+startDashLoad(CSV_CHAIN);
+
+function initDashboard(data) {
+    data.forEach(r => { r['State'] = canonState(r['State']); });
     allRows = data;
 
     const _initNow = Date.now();
@@ -703,12 +751,18 @@ Papa.parse('./master_opposition.csv', {
       const opt=document.createElement('option'); opt.value=v; opt.textContent=friendlyOutcome(v); tfOutcomeEl.appendChild(opt);
     });
     pop('tf-type', oppRows.map(r=>r['Opposition Type']));
+    // Source options come from the data itself; hardcoded values that never
+    // appear in the feed made every selection return zero rows.
+    const SRC_LABELS = { historical_archive:'Historical archive', ongoing_monitoring:'Ongoing monitoring', fractracker:'FracTracker', bryce_rejection_db:'Bryce Rejection DB', datacenter_watch:'Data Center Watch', dc_opposition_site:'DC Opposition Site' };
+    const srcEl = document.getElementById('tf-source');
+    [...new Set(allRows.map(r=>String(r['data_source']||'').trim()).filter(Boolean))].sort().forEach(v=>{
+      const opt=document.createElement('option'); opt.value=v; opt.textContent=SRC_LABELS[v]||v; srcEl.appendChild(opt);
+    });
 
     tSortCol = 'Date';
     tSortDir = -1;
     trender();
-  }
-});
+}
 
 function tResetFilters() {
   document.getElementById('tq').value = '';

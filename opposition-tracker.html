@@ -446,7 +446,7 @@ function iconFor(r, usedCentroid=false) {
   const o = (r['Community Outcome']||'').toLowerCase();
   const fillColor = isResearchTool(r) ? '#0d9488' : (OUTCOME_COLORS[o] || '#f39c12');
   const strokeColor = SOURCE_COLORS[r['data_source']] || '#5aa9e6';
-  const n = Number(r['Severity']||2);
+  const n = Math.min(5, Math.max(1, Number(r['Severity']) || 2));
   // qc_is_block nuance: an absolute block (moratorium/ban/denial) reads solid;
   // a conditional restriction recorded as a "win" reads softer so it isn't
   // overstated; stance-ambiguous legislation sits in between.
@@ -769,21 +769,34 @@ function debounce() {
 
 // CSV load with fallback chain: relative path first (works on the canonical
 // host), then the absolute GitHub Pages URL (works inside embeds/mirrors).
-function startCSVLoad(urls) {
+function startCSVLoad(urls, _errs) {
+  const errs = _errs || [];
   if (!urls.length) {
-    mapStatus('<b>Data failed to load.</b> <code>master_opposition.csv</code> was not reachable from this page or from <code>' + DATA_BASE + '</code>.');
+    mapStatus('<b>Data failed to load.</b> <code>master_opposition.csv</code> was not reachable from this page or from <code>' + DATA_BASE + '</code>.'
+      + (errs.length ? '<br><span style="font-size:10px;opacity:.8">' + errs.map(esc).join('<br>') + '</span>' : ''));
     const listEl = document.getElementById('list');
     if (listEl) listEl.innerHTML = '<div style="padding:24px 12px;text-align:center;color:#fca5a5;font-size:12px;line-height:1.6">Incident data failed to load.<br>Check the data source and reload.</div>';
     return;
   }
-  Papa.parse(urls[0], {
-    download:true, header:true, skipEmptyLines:true,
-    error: () => startCSVLoad(urls.slice(1)),
-    complete: (res) => {
-      if (!res.data || !res.data.length) { startCSVLoad(urls.slice(1)); return; }
+  if (!_errs) mapStatus('Loading incident data\u2026');
+  const url = urls[0];
+  const label = url.replace(/^https:\/\/raw\.githubusercontent\.com\/[^/]+\/[^/]+\/[^/]+\//, 'raw:').replace(DATA_BASE, 'pages:').replace(/^\.\//, 'local:');
+  // fetch + Papa.parse(text) instead of Papa's XHR download. GitHub Pages
+  // sends no CORS headers, so pages: and local: URLs fail inside sandboxed
+  // embed iframes (Notion strips the frame's origin); raw.githubusercontent.com
+  // sends Access-Control-Allow-Origin: * and works from any embed host.
+  fetch(url, { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+    .then(text => {
+      const res = Papa.parse(text, { header: true, skipEmptyLines: true });
+      if (!res.data || !res.data.length) throw new Error('parsed 0 rows');
+      mapStatus('');
       handleCSVData(res.data);
-    }
-  });
+    })
+    .catch(e => {
+      errs.push(label + ' \u2014 ' + ((e && e.message) || 'unreachable'));
+      startCSVLoad(urls.slice(1), errs);
+    });
 }
 
 function handleCSVData(data) {
@@ -798,7 +811,12 @@ function handleCSVData(data) {
     };
     rows = data.map(r => {
       const raw = String(r['data_source']||'').trim();
-      return { ...r, data_source: SOURCE_MAP[raw] || (raw ? raw : 'historical_archive') };
+      // Canonicalize State once at ingest ('VA' and 'Virginia' become one
+      // value) so the state filter, badge counts, and county keys never split
+      // a state across abbreviation/full-name variants.
+      return { ...r,
+        data_source: SOURCE_MAP[raw] || (raw ? raw : 'historical_archive'),
+        State: normStateName(r['State'] || '') };
     });
 
     const NOW = Date.now();
@@ -1313,16 +1331,23 @@ let stateVoteAgg = {};
 async function loadVoteData() {
   buildStateVoteAgg();              // embedded state margins, always available
   if (voteData) return true;
-  try {
-    const vr = await fetch('./data/county_votes.json');
-    if (!vr.ok) throw new Error('fetch failed');
-    voteData = await vr.json();
-    detectVoteDataScale();
-    return true;
-  } catch(e) {
-    console.warn('county_votes.json unavailable; using embedded state margins only:', e);
-    return false;
+  // Relative URL works on the canonical host; raw.githubusercontent.com
+  // fallback works inside sandboxed embeds (it sends CORS headers).
+  const VOTE_URLS = [
+    './data/county_votes.json',
+    'https://raw.githubusercontent.com/pricephillips/data-center-map/main/data/county_votes.json'
+  ];
+  for (const u of VOTE_URLS) {
+    try {
+      const vr = await fetch(u, { cache: 'no-cache' });
+      if (!vr.ok) throw new Error('HTTP ' + vr.status);
+      voteData = await vr.json();
+      detectVoteDataScale();
+      return true;
+    } catch(e) { /* try next */ }
   }
+  console.warn('county_votes.json unavailable; using embedded state margins only');
+  return false;
 }
 
 const FIPS_TO_STATE = {
@@ -1640,8 +1665,13 @@ map.on('zoomend', () => {
 startCSVLoad([
   './master_opposition_clean.csv',
   DATA_BASE + '/master_opposition_clean.csv',
+  // raw.githubusercontent.com fallbacks: the only URLs that send CORS headers,
+  // so they are the ones that succeed inside Notion embeds and site mirrors
+  // where GitHub Pages fetches are blocked.
+  'https://raw.githubusercontent.com/pricephillips/data-center-map/main/master_opposition_clean.csv',
   './master_opposition.csv',
-  DATA_BASE + '/master_opposition.csv'
+  DATA_BASE + '/master_opposition.csv',
+  'https://raw.githubusercontent.com/pricephillips/data-center-map/main/master_opposition.csv'
 ]);
 </script>
 </body>
