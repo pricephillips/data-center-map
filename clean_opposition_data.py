@@ -69,7 +69,7 @@ RAW_URL = "https://raw.githubusercontent.com/pricephillips/data-center-map/main/
 # Order matters: first matching rule wins.
 STATUS_RULES = [
     ("failed",    {"defeated", "dead", "died", "died-sine-die", "died-in-committee",
-                   "failed", "denied", "cancelled", "tabled", "rejected", "postponed"}),
+                   "failed", "denied", "cancelled", "tabled", "rejected"}),
     ("expired",   {"expired", "superseded"}),
     ("withdrawn", {"withdrawn", "relocated"}),
     ("approved",  {"approved", "wells approved", "permit granted", "signed"}),
@@ -80,7 +80,7 @@ STATUS_RULES = [
     ("active",    {"active", "ongoing", "organizing", "exploratory", "litigation",
                    "protest", "held", "amended complaint filed; active litigation"}),
     ("pending",   {"pending", "filed", "proposed", "introduced", "hearing", "delayed",
-                   "first_reading", "second_reading", "recommended",
+                   "first_reading", "second_reading", "recommended", "postponed",
                    "interim-committee-discussion"}),
 ]
 
@@ -445,7 +445,8 @@ def classify_objective(s):
                             "rezoning", "rezone", "zoning", "end ", "prohibit", "ratepayer",
                             "pass-through", "shifting cost", "shift cost", "cost to resident",
                             "tariff", "large-load", "large load", "permitted use", "redevelopment plan",
-                            "demand response", "rate", "require", "mandate"]):
+                            "demand response", "rate increase", "rate hike", "rate impact",
+                            "utility rate"]) or re.search(r"\b(require|mandate)\b", t):
         return "restrict"
     return "other"
 

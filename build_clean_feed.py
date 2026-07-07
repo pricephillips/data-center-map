@@ -46,6 +46,14 @@ import pandas as pd
 
 import clean_opposition_data as cleaner
 
+try:
+    import outcome_defensibility as _OD
+    _HAVE_DEFENSIBILITY = True
+except Exception as _e:
+    print(f"  ! outcome_defensibility unavailable ({_e.__class__.__name__}: {_e}); "
+          "graded-outcome columns will be skipped.")
+    _HAVE_DEFENSIBILITY = False
+
 
 def gate_available():
     try:
@@ -125,6 +133,12 @@ def main():
                 has_coords = False
             r["map_pinnable"] = bool(prim and has_coords and jl not in ("state", "federal"))
 
+        # Defensibility layer: graded outcome ladder + enactment-gated blocks
+        if _HAVE_DEFENSIBILITY:
+            dsum = _OD.apply_defensibility(result.clean)
+            print(f"  Defensibility: {dsum['grades']}")
+            print(f"  Block status : {dsum['block_status']}  |  conflicts flagged: {dsum['conflicts']}")
+
         clean_path = os.path.join(args.outdir, os.path.basename(args.out))
         cols = records_to_csv(result.clean, cleaned_cols, clean_path)
         json.dump(result.quarantine,
@@ -140,8 +154,14 @@ def main():
         print(f"  Wrote quarantine.json, qc_report.md")
     else:
         clean_path = os.path.join(args.outdir, os.path.basename(args.out))
+        if _HAVE_DEFENSIBILITY:
+            recs = cleaned.to_dict("records")
+            dsum = _OD.apply_defensibility(recs)   # computes enrichment itself
+            cleaned = pd.DataFrame(recs)
+            print(f"  Defensibility: {dsum['grades']}")
+            print(f"  Block status : {dsum['block_status']}  |  conflicts flagged: {dsum['conflicts']}")
         cleaned.to_csv(clean_path, index=False, quoting=csv.QUOTE_MINIMAL)
-        print(f"\nCleaner-only output written: {clean_path} ({len(cleaned_cols)} columns)")
+        print(f"\nCleaner-only output written: {clean_path} ({len(cleaned.columns)} columns)")
         print("  (gate skipped — see message above)")
 
     # Always write the cleaner's own change report alongside
