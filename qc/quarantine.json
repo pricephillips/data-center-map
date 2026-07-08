@@ -42,12 +42,13 @@
         "legislation",
         "cost_allocation"
       ],
+      "qc_concerns": "energy_cost",
       "qc_restriction_strength": null,
       "qc_strength_label": "stance-ambiguous",
       "qc_is_block": null,
       "qc_highlight": false,
-      "qc_jurisdiction_level": "state",
-      "qc_jurisdiction_key": "oklahoma::canadian::state"
+      "qc_jurisdiction_level": "county",
+      "qc_jurisdiction_key": "oklahoma::canadian::county"
     },
     "brain": "legislative",
     "reasons": [
@@ -117,6 +118,7 @@
         "cost_allocation",
         "disclosure"
       ],
+      "qc_concerns": "energy_cost; environment",
       "qc_restriction_strength": null,
       "qc_strength_label": "stance-ambiguous",
       "qc_is_block": null,
@@ -191,6 +193,7 @@
         "legislation",
         "moratorium"
       ],
+      "qc_concerns": "water",
       "qc_restriction_strength": null,
       "qc_strength_label": "stance-ambiguous",
       "qc_is_block": null,
@@ -264,6 +267,7 @@
       "qc_mechanisms": [
         "legislation"
       ],
+      "qc_concerns": "water; grid_strain",
       "qc_restriction_strength": null,
       "qc_strength_label": "stance-ambiguous",
       "qc_is_block": null,
@@ -339,6 +343,7 @@
         "cost_allocation",
         "disclosure"
       ],
+      "qc_concerns": "energy_cost",
       "qc_restriction_strength": null,
       "qc_strength_label": "stance-ambiguous",
       "qc_is_block": null,
@@ -408,6 +413,7 @@
         "moratorium",
         "cost_allocation"
       ],
+      "qc_concerns": "energy_cost; environment",
       "qc_restriction_strength": null,
       "qc_strength_label": "stance-ambiguous",
       "qc_is_block": null,
@@ -481,9 +487,9 @@
       "qc_mechanisms": [
         "moratorium",
         "incentive_repeal",
-        "study",
-        "public_pressure"
+        "study"
       ],
+      "qc_concerns": "grid_strain; environment",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -547,13 +553,14 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "moratorium",
+      "qc_mechanism": "other",
       "qc_mechanisms": [
-        "moratorium"
+        "other"
       ],
-      "qc_restriction_strength": 4,
-      "qc_strength_label": "halt",
-      "qc_is_block": true,
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "local",
       "qc_jurisdiction_key": "::updates on the cloud: more moratoriums on data cen::local"
@@ -630,6 +637,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -709,6 +717,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -788,6 +797,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -867,6 +877,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -946,6 +957,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -1025,6 +1037,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -1104,6 +1117,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -1183,6 +1197,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -1262,6 +1277,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -1339,9 +1355,9 @@
     "enrichment": {
       "qc_mechanism": "moratorium",
       "qc_mechanisms": [
-        "moratorium",
-        "public_pressure"
+        "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -1421,6 +1437,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -1512,6 +1529,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -1591,6 +1609,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -1670,6 +1689,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -1750,6 +1770,7 @@
         "moratorium",
         "litigation"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -1829,6 +1850,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -1908,6 +1930,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -1985,9 +2008,9 @@
     "enrichment": {
       "qc_mechanism": "moratorium",
       "qc_mechanisms": [
-        "moratorium",
-        "public_pressure"
+        "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -2067,6 +2090,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -2146,6 +2170,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -2225,6 +2250,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -2304,6 +2330,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -2383,6 +2410,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -2462,6 +2490,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -2541,6 +2570,7 @@
       "qc_mechanisms": [
         "public_pressure"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 1,
       "qc_strength_label": "procedural/advocacy",
       "qc_is_block": false,
@@ -2620,6 +2650,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -2699,6 +2730,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -2778,6 +2810,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -2857,6 +2890,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -2936,6 +2970,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -3011,13 +3046,14 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "moratorium",
+      "qc_mechanism": "other",
       "qc_mechanisms": [
-        "moratorium"
+        "other"
       ],
-      "qc_restriction_strength": 4,
-      "qc_strength_label": "halt",
-      "qc_is_block": true,
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "local",
       "qc_jurisdiction_key": "maine::maine municipal leaders to vote on data center mor::local"
@@ -3094,6 +3130,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -3173,6 +3210,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -3248,13 +3286,14 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "moratorium",
+      "qc_mechanism": "other",
       "qc_mechanisms": [
-        "moratorium"
+        "other"
       ],
-      "qc_restriction_strength": 4,
-      "qc_strength_label": "halt",
-      "qc_is_block": true,
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "local",
       "qc_jurisdiction_key": "::slc legislators urging towns and villages to adopt::local"
@@ -3331,6 +3370,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -3410,6 +3450,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -3490,6 +3531,7 @@
         "moratorium",
         "public_pressure"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -3569,6 +3611,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -3649,6 +3692,7 @@
         "moratorium",
         "public_pressure"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -3724,13 +3768,14 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "moratorium",
+      "qc_mechanism": "other",
       "qc_mechanisms": [
-        "moratorium"
+        "other"
       ],
-      "qc_restriction_strength": 4,
-      "qc_strength_label": "halt",
-      "qc_is_block": true,
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "local",
       "qc_jurisdiction_key": "north carolina::a growing number of north carolina communities are::local"
@@ -3807,6 +3852,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -3886,6 +3932,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -3965,6 +4012,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -4044,6 +4092,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -4119,12 +4168,13 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "public_pressure",
+      "qc_mechanism": "other",
       "qc_mechanisms": [
-        "public_pressure"
+        "other"
       ],
-      "qc_restriction_strength": 1,
-      "qc_strength_label": "procedural/advocacy",
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
       "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "county",
@@ -4202,6 +4252,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -4281,6 +4332,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -4360,6 +4412,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -4439,6 +4492,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -4518,6 +4572,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -4597,6 +4652,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -4676,6 +4732,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -4755,6 +4812,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -4834,6 +4892,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -4913,6 +4972,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -4992,6 +5052,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -5067,12 +5128,13 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "public_pressure",
+      "qc_mechanism": "other",
       "qc_mechanisms": [
-        "public_pressure"
+        "other"
       ],
-      "qc_restriction_strength": 1,
-      "qc_strength_label": "procedural/advocacy",
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
       "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "local",
@@ -5150,6 +5212,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -5225,12 +5288,13 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "public_pressure",
+      "qc_mechanism": "other",
       "qc_mechanisms": [
-        "public_pressure"
+        "other"
       ],
-      "qc_restriction_strength": 1,
-      "qc_strength_label": "procedural/advocacy",
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
       "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "local",
@@ -5308,6 +5372,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -5387,6 +5452,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -5466,6 +5532,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -5545,6 +5612,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -5624,6 +5692,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -5703,6 +5772,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -5782,6 +5852,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -5861,6 +5932,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -5940,6 +6012,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -6019,6 +6092,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -6094,13 +6168,14 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "moratorium",
+      "qc_mechanism": "other",
       "qc_mechanisms": [
-        "moratorium"
+        "other"
       ],
-      "qc_restriction_strength": 4,
-      "qc_strength_label": "halt",
-      "qc_is_block": true,
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "local",
       "qc_jurisdiction_key": "::state data center moratoriums stall despite local::local"
@@ -6177,6 +6252,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -6256,6 +6332,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -6335,6 +6412,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -6414,6 +6492,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -6493,6 +6572,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -6572,6 +6652,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -6651,6 +6732,7 @@
       "qc_mechanisms": [
         "public_pressure"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 1,
       "qc_strength_label": "procedural/advocacy",
       "qc_is_block": false,
@@ -6730,6 +6812,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -6809,6 +6892,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -6888,6 +6972,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -6967,6 +7052,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -7046,6 +7132,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -7125,6 +7212,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -7204,6 +7292,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -7283,6 +7372,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -7362,6 +7452,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -7442,6 +7533,7 @@
         "moratorium",
         "litigation"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -7521,6 +7613,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -7600,6 +7693,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -7686,6 +7780,7 @@
         "moratorium",
         "disclosure"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -7765,6 +7860,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -7844,6 +7940,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -7923,6 +8020,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -8003,6 +8101,7 @@
         "moratorium",
         "infrastructure_opposition"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -8082,6 +8181,7 @@
       "qc_mechanisms": [
         "public_pressure"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 1,
       "qc_strength_label": "procedural/advocacy",
       "qc_is_block": false,
@@ -8161,6 +8261,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -8240,6 +8341,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -8315,13 +8417,14 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "moratorium",
+      "qc_mechanism": "other",
       "qc_mechanisms": [
-        "moratorium"
+        "other"
       ],
-      "qc_restriction_strength": 4,
-      "qc_strength_label": "halt",
-      "qc_is_block": true,
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "local",
       "qc_jurisdiction_key": "tennessee::tennessee cities considering data center moratoriu::local"
@@ -8398,6 +8501,7 @@
       "qc_mechanisms": [
         "public_pressure"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 1,
       "qc_strength_label": "procedural/advocacy",
       "qc_is_block": false,
@@ -8477,6 +8581,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -8556,6 +8661,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -8631,13 +8737,14 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "moratorium",
+      "qc_mechanism": "other",
       "qc_mechanisms": [
-        "moratorium"
+        "other"
       ],
-      "qc_restriction_strength": 4,
-      "qc_strength_label": "halt",
-      "qc_is_block": true,
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "local",
       "qc_jurisdiction_key": "oklahoma::luther joins growing list of oklahoma communities::local"
@@ -8710,14 +8817,14 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "moratorium",
+      "qc_mechanism": "public_pressure",
       "qc_mechanisms": [
-        "moratorium",
         "public_pressure"
       ],
-      "qc_restriction_strength": 4,
-      "qc_strength_label": "halt",
-      "qc_is_block": true,
+      "qc_concerns": "",
+      "qc_restriction_strength": 1,
+      "qc_strength_label": "procedural/advocacy",
+      "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "local",
       "qc_jurisdiction_key": "maine::data centers face growing regulatory backlash as m::local"
@@ -8794,6 +8901,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -8871,9 +8979,9 @@
     "enrichment": {
       "qc_mechanism": "moratorium",
       "qc_mechanisms": [
-        "moratorium",
-        "public_pressure"
+        "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -8953,6 +9061,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -9032,6 +9141,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -9107,12 +9217,13 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "public_pressure",
+      "qc_mechanism": "other",
       "qc_mechanisms": [
-        "public_pressure"
+        "other"
       ],
-      "qc_restriction_strength": 1,
-      "qc_strength_label": "procedural/advocacy",
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
       "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "local",
@@ -9190,6 +9301,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -9269,6 +9381,7 @@
       "qc_mechanisms": [
         "public_pressure"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 1,
       "qc_strength_label": "procedural/advocacy",
       "qc_is_block": false,
@@ -9348,6 +9461,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -9427,6 +9541,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -9506,6 +9621,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -9581,12 +9697,13 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "public_pressure",
+      "qc_mechanism": "other",
       "qc_mechanisms": [
-        "public_pressure"
+        "other"
       ],
-      "qc_restriction_strength": 1,
-      "qc_strength_label": "procedural/advocacy",
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
       "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "local",
@@ -9664,6 +9781,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -9743,6 +9861,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -9822,6 +9941,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -9901,6 +10021,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -9980,6 +10101,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -10059,6 +10181,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -10138,6 +10261,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -10213,12 +10337,13 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "public_pressure",
+      "qc_mechanism": "other",
       "qc_mechanisms": [
-        "public_pressure"
+        "other"
       ],
-      "qc_restriction_strength": 1,
-      "qc_strength_label": "procedural/advocacy",
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
       "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "county",
@@ -10296,6 +10421,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -10376,6 +10502,7 @@
         "moratorium",
         "public_pressure"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -10455,6 +10582,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -10534,6 +10662,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -10609,13 +10738,14 @@
       "lon": ""
     },
     "enrichment": {
-      "qc_mechanism": "moratorium",
+      "qc_mechanism": "other",
       "qc_mechanisms": [
-        "moratorium"
+        "other"
       ],
-      "qc_restriction_strength": 4,
-      "qc_strength_label": "halt",
-      "qc_is_block": true,
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
       "qc_highlight": false,
       "qc_jurisdiction_level": "local",
       "qc_jurisdiction_key": "::the 300-plus bans and moratoriums threatening the::local"
@@ -10692,6 +10822,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -10771,6 +10902,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -10850,6 +10982,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -10929,6 +11062,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -11008,6 +11142,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -11087,6 +11222,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -11166,6 +11302,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -11245,6 +11382,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -11324,6 +11462,7 @@
       "qc_mechanisms": [
         "public_pressure"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 1,
       "qc_strength_label": "procedural/advocacy",
       "qc_is_block": false,
@@ -11403,6 +11542,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -11482,6 +11622,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -11561,6 +11702,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -11640,6 +11782,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -11719,6 +11862,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -11810,6 +11954,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -11889,6 +12034,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -11968,6 +12114,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -12047,6 +12194,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -12126,6 +12274,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -12205,6 +12354,7 @@
       "qc_mechanisms": [
         "other"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 0,
       "qc_strength_label": "none/unknown",
       "qc_is_block": false,
@@ -12284,6 +12434,7 @@
       "qc_mechanisms": [
         "moratorium"
       ],
+      "qc_concerns": "",
       "qc_restriction_strength": 4,
       "qc_strength_label": "halt",
       "qc_is_block": true,
@@ -12318,6 +12469,2407 @@
         "code": "UNPLACEABLE",
         "field": "County/City",
         "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Amid stark opposition, data center developers thin",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPd203bm0yZE5PTUpiRjI5UWRzekdTRHNzdHEwZnQ4LUZueTdCcFhwcHoweDFzQmJ5WXp6amNJQkp3cHRaai11bmdIZFhhVF84LUlaWGxNM1h0Rll6MHJtd1NSLXVpZmFpWE5PQ2RlbVZ3b21Wem56QnEwX1o0WlhBU1Q5ejFVaVV6eG9yNUpuMHVkam15WWk4Y0gzLW1aWFJ1cXZiTWRn?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Amid stark opposition, data center developers think twice about Florida - E&E News by POLITICO",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "florida::amid stark opposition, data center developers thin::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Pa. lawmakers must pass a full moratorium on hyper",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOVDRKS1AwekRkbUd1WFFvNjE2a2ZzSDhUUldfal9wMVRKUm50enZLMV8xUXRfcTJoU3pSRS1CczZPLW14N2tNQkQ5UDloVHZVTFdidTFCNjBfLW5SdHByM0lEV3d5N3pZZkFzYmdRVEM4MWhLSG9YVVF1YTRSWUVXbExpaVdhb2dCU1g2UWttUDM0OURET0Yya1pSd24tN3RZLTllcFJDSGtjQkhxYUVENEhPYw?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Pa. lawmakers must pass a full moratorium on hyperscale data centers - Inquirer.com",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "moratorium",
+      "qc_mechanisms": [
+        "moratorium"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 4,
+      "qc_strength_label": "halt",
+      "qc_is_block": true,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::pa. lawmakers must pass a full moratorium on hyper::local"
+    },
+    "brain": "moratorium",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Zoning Webinar Outlines Overlooked Front in Data C",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPZC1vNlZOMkpRZ21SV1FsXy1TWjJnRXppbnZETXBpcG9YOXVKWEhKTm5ZSWRUYWRuR284aXExNDdTTm1HMVQxWkRub2xmb3RIM3ZOclVhR0NvS1Q3cjh3anZQN1lLbGZSaGZ2MjdtckZ1ajBkV1JMSVJtX3JmTkNVSmhCZER6Nm54cTN5bUQ0LXpoRFZIZlc4MzFBTWxYWjNuZG8tV0d6SHg?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Zoning Webinar Outlines Overlooked Front in Data Center Permitting Fights - Broadband Breakfast",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::zoning webinar outlines overlooked front in data c::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Wakulla becomes latest Florida county to restrict ",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPMGkyVG1kWExaVVMyMDZOVmE5VlM5VTFweGZXLVNGNEw1Q0xvbThZcVhoLVpaQXdZc1I5TDBPWl9aQ29mckx1Rlp5YkVodzNZUzl6TC1xeURCQTEybjg4QS04OXlScDcyQjVQU3dtZGY3UjEyVVN5enhTQk41Q1o4T29nMmJaei01RTNCUWtLYnZxNlZ1Mkx0bmJVVUpBWWhaMUwxTjRGMGIzbV8yZ3ZBOUxuZXliWGdSMENB?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Wakulla becomes latest Florida county to restrict data center construction - Florida Politics",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "county",
+      "qc_jurisdiction_key": "florida::wakulla becomes latest florida to restrict::county"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Climate Activists Target Data Centers in Michigan ",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOZU9yblVpemtjQ2pVMnJVclRtMlczU2s5eUdTaUFHTk5HZ0t3S2ZoOVdlZ0dKeElRTV94aG01UV9zUzN4OHljdEh4SHJSdXV4cTVNTWZ1QTlKUGtuT2NCME1LdTRqXzJ2c1FwT1dycUJVcXFGX0pPUXJOSGRPa081UnlkNUNOdXVURUY0d011QkN3SmVBT21Hcw?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Climate Activists Target Data Centers in Michigan Swing Race - The Tech Buzz",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "michigan::climate activists target data centers in michigan::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "The fight over data centers was front and center i",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQUHAxeTJJSExMX3ctcm5wMzdDamRsdEotdkVrWEEzaXUxYjV0T0dLLVM3TG5nR2Y4NkFqa2dPMGtYc2pMMmVTV2Q3ZGtuWE45UFpMWEotVWlfdm00Z01sSEtIdEg3aGRiak1fb0NhVXdqYjZCVDFQOFl6YV9wYlhobVV4b3JqMkp3U0FSX2ZCNjNjR1dKNDMwNE5HVzBURmpzN2t2Nzd4bXdobjhNc201TWZ1WjdRYjhaRWMwTA?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "The fight over data centers was front and center in local Kentucky primary elections - Louisville Public Media",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "kentucky::the fight over data centers was front and center i::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "The 8 data centers that could transform one Texas ",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQQ19YVk5BejJ5ZDE3TWdBU3puSkJyWGVoWDJjVVYtV05oa3pZMFBCb2R0WXJBMDZXazJmZ1hidHAyNmF6VThuZ0hON01GTFRkemdrUE04SVpVZm80SGVRNnQ2YWZnMmgzQ1hTYXJvNjUzbk5NYWZRY0M1TGZ6SUowSUtGMEFrQVNTM1A4YTBPM2YtLS12a3JudTBKbGo3ZkNfRlRSMERR?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "The 8 data centers that could transform one Texas county - The Texas Tribune",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "texas::the 8 data centers that could transform one texas::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Bipartisan Michigan rally calls for moratorium on ",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQVzZZVUtMSVUxT05WQ25mNXBObnZ1ektEc2Z5NWs1LUJhMWtQeXliLU42VU1fVG5vaWx3TnRsTVNGWkZRNk11NFB2cHVwVmpfMm1BRTdURkJldFhDZUJHcDMtYUJRYW9vTVhtVm05Q3h6Q2hqUjRpM0UtQ2NnUFFYRklYWHBMRmVKNUtIcU5ybw?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Bipartisan Michigan rally calls for moratorium on data centers - AOL.com",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "moratorium",
+      "qc_mechanisms": [
+        "moratorium",
+        "public_pressure"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 4,
+      "qc_strength_label": "halt",
+      "qc_is_block": true,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "michigan::bipartisan michigan rally calls for moratorium on::local"
+    },
+    "brain": "moratorium",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Proposal would prohibit large data centers in Milw",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPdkJzUFdISmhtdmF6cXVvZl8yRU93S0UzSHJ0UnBTa1l0ald1WVduODd2ZXQ4R2tXSWNpcm5BemswS1NoZFhiRjhaSmJyMms4cHhNdUg0VlUwalBiZS1DLXplY20wZTByRFZhajU5RmV0OWhqZzBLSDVlR1FFYVlvWm41eWE1MXRld2dYSjl1c3ptVFctaGQ5MXBESXMwMm9pNFRfaGpQS084c1ZL?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Proposal would prohibit large data centers in Milwaukee, regulate small data centers - WPR",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::proposal would prohibit large data centers in milw::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Voters signal opposition to AI data centers in loc",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOaDNHUTdjY2RIVnp5NTRFR3dwdnRlX185OGtGQVdTVGY4YklqTWRYUmQ5bDZCbFlwa0dwdTd6WDFVWEZQTl9ZeFdzSzc2bkZnaUJuMXlLUGhwSFRMZzB6RlFUS0lpQUF2X3Z2VlZiR2tpTERnNFpCNzJhalFsZlFmLUdSTUVhNlll0gGiAUFVX3lxTFA2TUhUWFV5NzZSQmJheWVIVy1FSVFIVG1zd0NfTTV6UnJGd3JxT1JMcHFzVXVwak9fSU1CWjREbGJoU3lHLUdiY1hCRk15ekdUcXkyU2pxZEJENGQ2V09xWVIwNVpkaXFUNnRuWTVvYk1IQ3JLQVZ2bFhQTzU3ZlNTR1Q2cHpqMmtMZVV5Zk0xeEFlQVpHWkNhVTNnNUY0QU9yZw?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Voters signal opposition to AI data centers in local primaries - The Christian Science Monitor",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::voters signal opposition to ai data centers in loc::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Board signals opposition to data centers; trustees",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMigAJBVV95cUxNNUVmU0FrTGlqVXpRSmM0N2NHTzN0c3VEVlBtYlozaldHQ2NsN0NSanhmZEg2OFdpY3hmbEI4NE5iSjJaaFJMV2s4QkxQbFl6bnM2eVFpcVVRcjA4dEIwbjYzZ3dTYzRGeTlRZ0tXZmxLd2o1aW9OQk96VzNKcjFOWkQzb1hwQ01kYjdsanFZM3lpaHU0V2dRS0NhMmhGY1N4LTlFSzZyYzhXZG5HekNobHBXM2J4YmI1eE5WUjFReVhQQ0lRYmtlbU9tTmtRV1VrWnJzeTBlN0Z3T1ZTU3dfRW11WFRMQlJYT3cwWnNXZXg5aTlFbEx1b2hJMC0xWWp2?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Board signals opposition to data centers; trustees discuss moratorium and ban - Citizen Portal AI",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "moratorium",
+      "qc_mechanisms": [
+        "moratorium"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 4,
+      "qc_strength_label": "halt",
+      "qc_is_block": true,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::board signals opposition to data centers; trustees::local"
+    },
+    "brain": "moratorium",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Amazon Investigating Its Own Employees for Daring ",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMilwFBVV95cUxORUNjMzFEUlA3YU9OWmxvemtSWnpNZVg5ZnluWEpWQ3JsVzJqeUM4SFhuWXJZN3pzUnhMNVk0SDN0R0ZKV193VF9ZZ1I0anRkT3ZiQmlZR1pmanh6aU1vYUZzMWVTTU90dFZWYUNqNUlXdjNVd2xOVWFaUWdmTlc4UG9tQUhRT2hUTEpuMTVidXFZdXdrLXdn?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Amazon Investigating Its Own Employees for Daring to Oppose AI Data Center - Futurism",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::amazon investigating its own employees for daring::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Indianapolis rebuffs calls for data center morator",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNOVN6ZkxYT2JjZXVwZVJBWXB4amlQZjNoUDJKMFNPR3FGNkNWR3NlcUV6WUhIZWhfX1dleGFhN3FpS1prazI4RW9yMURvV1E5WlNFa2dHbnluWmJNUjM1cUhpUW53T2NiT3JtcWpBR3I4d29DdGlpbmF3Z0h6RmtJTlVuQ0FyNXNOOTFQVHRTS3A1UUJJUHREMnBBbWhBVnVoSjNkdjVnWjlrdjU3cE5md3ItMkRJQXFDaGVKTktOZ9IBxAFBVV95cUxPY3NYTHQ3MktKd2RBTzFQODZYMUhIRC1WM0t6WVJlR0lfM1lmVURBM1h4STFmQzA1eF9vNHJTeE84cVRXX0ZQb2E1S2pBWVFiSnBZdTVGUTlqQ0RrR21EdFdqSTM2UXg5aDU2ZzJqbHg3cjdoRFJ6enNILWJCSnhCSTlFdDk3cUNGQ1Zid0ExZkd4T3RvV2txc3lKMTQ4MTBhTlRyaXVmN1MxcThCcHcxVEp2RFhHNXZBRWhQeFEyd1lJRUZh?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Indianapolis rebuffs calls for data center moratorium and advances special zoning district - Fox 59",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "moratorium",
+      "qc_mechanisms": [
+        "moratorium"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 4,
+      "qc_strength_label": "halt",
+      "qc_is_block": true,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::indianapolis rebuffs calls for data center morator::local"
+    },
+    "brain": "moratorium",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Small northern New Mexico city postpones decision ",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNYUxHM3U1anlsYy1mOGpKMlhDcFJWc180R1AwVnhsWVdGenB1ejdDMGVBQ2VReDFzcncxR05CS3oyMWJGdl9TSEJWeHBLQnVYMW1mdGN6Q1AtNTZBbEs2a1ozOVJCbWZKN2hXX1R3UTBwTnhxUExRS0RMbVpEbjdSTGs5UDB6ZF9TdUVIYzEtbmhXODJSR0xzbWJmZkVjek91T2dfMjVLZHdwMklR?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Small northern New Mexico city postpones decision on data center moratorium - Source New Mexico",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "moratorium",
+      "qc_mechanisms": [
+        "moratorium"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 4,
+      "qc_strength_label": "halt",
+      "qc_is_block": true,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "city",
+      "qc_jurisdiction_key": "new mexico::small northern new mexico postpones decision::city"
+    },
+    "brain": "moratorium",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Fayetteville Council Revives Data Center Ordinance",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPLUlnRmV5UFlNbW9sMDFXZEFUOUE2X0MyMmEyZEl3MkRELXhCcG5HcUJvVDM2ZGp5dFdaOG9kRXlKRHVGWThWS3FJcVFlVU9DSUZIVU54QWdkNlRfcWVoMmYtVVd0MmZYZ0FKRk5wNUR0UmJncDBPOUN1dlB2U0JELXNvTFR4SmtkU0NKaTVKcGc1T0JPVklLUkJfN05pQTdiaTBWVWRwaDd1QkpZSF93?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Fayetteville Council Revives Data Center Ordinance Despite Public Pushback - CityView NC",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::fayetteville council revives data center ordinance::local"
+    },
+    "brain": "moratorium",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "News | Voters have started to ban data centers. De",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNMlRwazBtS01zUFlRcm9OWldiMzVsS2llc3Rpd0tDenBPQ05VWHB1aF9DbzdmWGgwbkVmWjNveDM1ODBMcXBTSGF5bmx5WG9VcjFvXzJHMFpXQmlXN2tWZWQ4c01SUmJtcUZMRFQxNm1RRE4zSmMxOWNJX1BRQlNzb3d3RWRXYUh1WlZLaS1GbzVSYjkyYkNGaFpxMy1oNG1OOTdua0JLdXNKU1U?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "News | Voters have started to ban data centers. Developers are responding. - CoStar",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::news | voters have started to ban data centers. de::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Process starts for moratorium on new data centers ",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOV3VReXhtVlItMFBvQlFzV0RqdUxESEJoMGM0Y2pVTUJIM1oxbnRGMVN6TDdYVUVyM3Bwcm91V1pGdl9FV3U5d19qX0FSNHphSHZ4QWhGcVgtM0s4ZUxYSFpwNEJrS2luekNnRFdiWDdGRlF1c1pvX1hyT3I4bzA5OXJnbFhveUtCWjRyYW9JV3dDZzhwVkpPbjA2MFJXVnFKUmZKLUpUQXZ3ancyRkRJalVIT3c2R3A1QVhQcnhxTHgwUmM3b1F3LTYwYzF5NWQ2NXJR?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Process starts for moratorium on new data centers in Lubbock \u2013 what it would do, who supports it, what critics say - lubbocklights.com",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "moratorium",
+      "qc_mechanisms": [
+        "moratorium"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 4,
+      "qc_strength_label": "halt",
+      "qc_is_block": true,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::process starts for moratorium on new data centers::local"
+    },
+    "brain": "moratorium",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Nebraskans are taking a hard look at data centers ",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQOWEtODNKX1JfMEZDcUNoRXVQVmdNUHRpeGFrUk9yNXNBaklFWmJ2dll2U002aTY4OExXeVlxYjdtekdZbjRxX1N3MlphRkN1WDV0YzdYWk45dERhVlBEa2YxREczQXhzRFNOQ2F1eHZIWkFVZVc3ZnppSmtEb1ktVg?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Nebraskans are taking a hard look at data centers - grist.org",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::nebraskans are taking a hard look at data centers::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Indy Rejects Data Center Moratorium, Moves Zoning ",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMijwFBVV95cUxObEREcjVpSTdVNXY0aHJTbURtbFZyYlpMVlJ3MXB6QTBTV2V1UDY0RkxJZ20tUG5xc04xeXJ5UFdOY0twa2taTDl6Y2VORXB2Q0NXUkR3OWNiaWpmaGl2WjFoM19QREktYkNGQ3VGZmhCNnJhNmNtaWlkdlROdDM5ZkhEWGJ5MlJxblFwSzlUdw?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Indy Rejects Data Center Moratorium, Moves Zoning Plan Forward - WIBC 93.1 FM",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "moratorium",
+      "qc_mechanisms": [
+        "moratorium"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 4,
+      "qc_strength_label": "halt",
+      "qc_is_block": true,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::indy rejects data center moratorium, moves zoning::local"
+    },
+    "brain": "moratorium",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Echoes of the Past in Pennsylvania Coal Towns\u2019 Fig",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOT3UzMFpCNWVmYWRyWERXMURfUU11cG8yZ3hRaDQ2MDF3TGZURktxaXRQSm5QZk9LOXpyR1JaaElRdHQyb19BWkNiNFZjMTVNUkRrV0pzRjRRVXlXRHk3eUtzeklOYndZYVhTOUFySE5hV1NsT3RCemJVaXVpbVZXejRDMzkzX3hCcEQ4OUtyckRQOWlq?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Echoes of the Past in Pennsylvania Coal Towns\u2019 Fight Against Data Centers - Inside Climate News",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "pennsylvania::echoes of the past in pennsylvania coal towns\u2019 fig::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Data center moratorium fever grows across North Ca",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPSjFPcDBvd2g4NjNvR29NclJRM0Q5VUVleVdnOXRNaGpYY0NzWkRvWk5Qc0hvT2dtUVFSMnhrajMyTk55bnhOYWVfcXRJcm51Q2g1ZUhDcTlVZ2sxVVhNZlZJWG8wY29pOVNxa3F0Z1FXQllXU1hFbXdTb08tVGxCOGJHZ3BoeHVaTEV6eGtjUlZwNWtKaTFZUkE2TVR4d3dNZVZwUGVLWWJtTlozcE9nRU8wQndOREJ0MEE?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Data center moratorium fever grows across North Carolina - The Charlotte Post",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "moratorium",
+      "qc_mechanisms": [
+        "moratorium"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 4,
+      "qc_strength_label": "halt",
+      "qc_is_block": true,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "north carolina::data center moratorium fever grows across north ca::local"
+    },
+    "brain": "moratorium",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Lansing moves toward temporary data center morator",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQVzFHanhXbVBvaEpQWTlZc2dCTDBFUDBuaVpMY3pHaEc0S1d5ME9ra0o1SmhlMFRLWHl2WHVpb1R0Y0RMbDBYNHl3SWVudUdmSXUwSlg4b09NdUd0Tjh1dUNSNjJNM0hxZWtFdGFyTF9pZTBzd1Z5OGVMTm1FNThka2Nld1I4TGg2bHFFWklQTdIBowFBVV95cUxOVG0xeFhUcEprdmg5OUM0dm5OR25RRERNTjZnVTdxT1loM3EzaDdzSWw1SHVDbFhCNTNUSFNlMk5OMGY2MENRcFVhcXJDZnhVUUcwbnNXOFpIZ3lTc1U4WTFEay1NN3ZNeXJ3bHR3MXpCQ2JIcVNLQmdTcHlGRG5MV1lHd0VPSkxKczRUM2UyNmh1TDRZNGRkckJQenpnbXhpVk00?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Lansing moves toward temporary data center moratorium - WILX",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "moratorium",
+      "qc_mechanisms": [
+        "moratorium"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 4,
+      "qc_strength_label": "halt",
+      "qc_is_block": true,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::lansing moves toward temporary data center morator::local"
+    },
+    "brain": "moratorium",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Opposition to data center near Nashville Zoo grows",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPei1fLWV4ajFUZlRnOVdhZ3dCQXR1MmlsYlJveXJwT25BSGhWcUltb0NvajlFeGFjbWRKUWZHazJhTWNGRjlXTVV6RTVKWWs1Z3M4NGdncFRmZ0hFMGJHSVVwQlZCU2lFdjBDaDVXVE80U3VEb3RCX0NuYnp6LVlUMWQxc2RKU3pfS1lwZV9PclhUcWM3X3h3SUlzN2FIci15YjhFdFZZWlltUGotek1DNHdndUM4RnJFcEFaYTBhaw?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Opposition to data center near Nashville Zoo grows as city plays catch-up - Axios",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::opposition to data center near nashville zoo grows::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "AI data center proposal in Raton draws opposition ",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxQaUVYdzVnWTVaWUIxQnlrUjJXN29JVjNEOWtfb3BmNXI0bThERlBJczg0OEh1a2Z4eDlUcGNZdlZTVk9MWXgzTEdwMFZtSTdfR3J3c0F6b1p1bl9vcnFLUWxfcGNsdG5mWDlOODA5bGxpT2xUZHhtTVV1LTJsSXc1WWpSbEZCUGNkTEgyb2RFTDQzOTBLVVJUTjZ6X2U5ZnR2VTFCNWQ2LWZYRFV6MGI4eVF4VW16T1BDb1g1XzZiSFAyZmUtanB0dThaYUJqOHhFVkFrVTRyTWY4al9XaFJuTw?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "AI data center proposal in Raton draws opposition - Santa Fe New Mexican",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::ai data center proposal in raton draws opposition::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Molitor: state data center delay is hypocritical |",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQY0hpYzJMUFdmWVh4OEk5N2steUZyZkM3aUF1THIxTXluNno5SGRoTzNzcHJnSHhSbTM0UWhVRmVwWWtSRDRGTjVXa0VFcTQyNjVXSWVGazRVRS1ESXh6UmRjQ0VDRXVidVVBaEFpSHNFcjNtcXI2aGpiTHZ5N2hHZE1WaXNZWFVFZ1hZR3Y4NkNQSm85dFRoRE5XOE10UDE3Y1pCMlBn?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Molitor: state data center delay is hypocritical | News, Sports, Jobs - observertoday.com",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::molitor: state data center delay is hypocritical |::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Spokane weighs moratorium amid talks over potentia",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNM2VBMWVTcXFManBqQU5Iazc0R20tbEVOWXNBbllYbzlkX1laZmdSYnhMRlF5VjR4b1QyWjF5T1l6TDhJUDQ1UlFuWnRoWVppaUt1RkM2MWFNNjUwZ3JZMVB1d3M4WHZyUUJuUWtkTFVjVUZaN3RqbUphYVBId1JFNG84aUtjNjJSeFlKb0Z3RDdxMHo3ckhj0gGcAUFVX3lxTE5rT0pfRlVaLWdQZDhDeGJweHZlOTI5ZjhzOUhRMy1tY0d1RXd3RkwxTDFlVjItV0dJTWJIUlhlYlpGbkVKYUJXd2toMF95aURJbndKTDdnR0hOdVBQM0VxcVhKdldNS2Rjb204akVLZ0puV0V3bDNpb0NxMlJWRG5rS1NrNDR1TXcwV24xUFpGOTAxdV9kcFcxNVlmTg?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Spokane weighs moratorium amid talks over potential data center - The Center Square",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "moratorium",
+      "qc_mechanisms": [
+        "moratorium"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 4,
+      "qc_strength_label": "halt",
+      "qc_is_block": true,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::spokane weighs moratorium amid talks over potentia::local"
+    },
+    "brain": "moratorium",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Local action has no county, city, or coordinates; it cannot be placed on the map."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Growing Backlash Against AI Data Centers Spells Tr",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5jM0g3ZXJLbmx4Nlh2MVlyVjF2M1pzSWFnWG9nRWdFMXVIM3RfcGZDZzc2MUhSM3d4cHY2QzI1WkpqS21EZWxXdW9YY0E1YkxiSEc3SmtsS1Mxd3lWelVCX1BwOUEzajlBbEpGNlBMblMwV25lUW82ZW5Rc1VkZw?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Growing Backlash Against AI Data Centers Spells Trouble for Tech Stocks - Barron's",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "public_pressure",
+      "qc_mechanisms": [
+        "public_pressure"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 1,
+      "qc_strength_label": "procedural/advocacy",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "::growing backlash against ai data centers spells tr::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Jackson residents pack City Hall to oppose data ce",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNd2dWblNjQU9aZ1RLbVpER01mdmJlU1hlQks5UEVzUHcwMGo5Rk1HZ2tNOTVLWVRQQTh4ZEd2TTdZc0hJRURLcTIwcTBEUi1oSXdjbHlmZ2tmMHhtaUdhRDZGV3JGUG1wWFpFUHRkdkZLcVRZOS00SEkxSXhKS21oaHRNbzRRZS04UTNldDlB0gGiAUFVX3lxTE9YaFM2SC1mZnR0M251Y1pVQk9pUGI5SUhPc1REZThHV1R1anYtUFJUWm1hTk1ORGp3OVhpckdldzhPNUVscjZrLVRQc2lXX3lUZHFmZEVFTGRReVJvX2Zvd1RmVW9VckdScEw2MEo2V3o2Z2diR2E5aHBPZ3I1Zk8yZVRLQjZlNTNQcERqMlNfRWVMbGk1RThiV0Z6cWw3bUd2UQ?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Jackson residents pack City Hall to oppose data centers - WLBT",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "public_pressure",
+      "qc_mechanisms": [
+        "public_pressure"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 1,
+      "qc_strength_label": "procedural/advocacy",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "city",
+      "qc_jurisdiction_key": "::jackson residents pack hall to oppose data ce::city"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Union leader issues data center ultimatum to Kansa",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOU2Z3S25NbUdYa3Z2NFJVUE1DNW1uUHVxUzdYZjZFYlUzQ3d2RTJkRTMxWTIzcW9lelkzdEFmaGEzTG5WR2ktWHhlcGFiV0M4R2pwVnpTZjRDem1EbEFEaWxIUHUwT3NweFRuUW04dV9pU2ZUYnpYSlV6ZzBoelloVFJNcHNnU2ptWXdia1JaM1lrS1o1Zy1pSzZYMFYyemk4cFdzMHBVaElvUTRLekhwdW83ZkdLSXdRd2d1NTNhTDl6MHVyRkNuRFRCSGRndzZBVWdtb3RZUHFyMGs?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Union leader issues data center ultimatum to Kansas political candidates - The Topeka Capital-Journal",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "kansas::union leader issues data center ultimatum to kansa::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "Nearly a third of Indiana counties have moved to r",
+      "City": "",
+      "Date": "",
+      "Entity": "Unknown",
+      "Location": "",
+      "Opposition Type": "",
+      "Severity": "1",
+      "Source URL": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPMWVaRlMtb2d1WW5VM0EybWdlWDktZzgxZzJQZnNlWWNUOGI3TmdONzV5R2E4UEpZcEcydEtQMDNCOFJNd1U3MlVma2VjaHQ3ZWdUZlNVV3J3VmlZWmZsSGRXbllMZ2NONDJfekphWl83d0RaaTNFUUktd2ZVamd6SWU3YTFVbDJPazNCWFNCcXlsQXFtVmZZ?oc=5",
+      "State": "",
+      "County": "",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "ongoing",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "Nearly a third of Indiana counties have moved to restrict data centers - WFYI",
+      "Sources": "",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "",
+      "lat": "",
+      "lon": ""
+    },
+    "enrichment": {
+      "qc_mechanism": "other",
+      "qc_mechanisms": [
+        "other"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 0,
+      "qc_strength_label": "none/unknown",
+      "qc_is_block": false,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "local",
+      "qc_jurisdiction_key": "indiana::nearly a third of indiana counties have moved to r::local"
+    },
+    "brain": "project",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "DATE_MISSING",
+        "field": "Date",
+        "message": "No date on the record."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "HIGH",
+        "code": "UNPLACEABLE",
+        "field": "County/City",
+        "message": "Project record has no county, city, or coordinates; it cannot be placed."
       }
     ]
   }

@@ -1,13 +1,13 @@
 # Master Opposition QC Report
 
-- Records scanned: **1540**
-- Passed to feed: **1384**
-- Blocked / quarantined: **156**
+- Records scanned: **1582**
+- Passed to feed: **1396**
+- Blocked / quarantined: **186**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- UNPLACEABLE: 149
+- UNPLACEABLE: 179
 - LEG_SOURCE_WEAK: 4
 - STATEWIDE_CAPITAL_SINK: 2
 - DUPLICATE: 2
@@ -178,3 +178,33 @@
 | 14 States, Dozens Of Localities Consider Bans On D | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
 | Laramie Has No Data Center Plans, But That Doesn’t | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
 | 'We already have permits': DC Blox doubles down as | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Amid stark opposition, data center developers thin | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Pa. lawmakers must pass a full moratorium on hyper | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Zoning Webinar Outlines Overlooked Front in Data C | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Wakulla becomes latest Florida county to restrict | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Climate Activists Target Data Centers in Michigan | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| The fight over data centers was front and center i | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| The 8 data centers that could transform one Texas | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Bipartisan Michigan rally calls for moratorium on | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Proposal would prohibit large data centers in Milw | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Voters signal opposition to AI data centers in loc | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Board signals opposition to data centers; trustees | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Amazon Investigating Its Own Employees for Daring | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Indianapolis rebuffs calls for data center morator | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Small northern New Mexico city postpones decision | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Fayetteville Council Revives Data Center Ordinance | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| News | Voters have started to ban data centers. De | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Process starts for moratorium on new data centers | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Nebraskans are taking a hard look at data centers | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Indy Rejects Data Center Moratorium, Moves Zoning | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Echoes of the Past in Pennsylvania Coal Towns’ Fig | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Data center moratorium fever grows across North Ca | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Lansing moves toward temporary data center morator | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Opposition to data center near Nashville Zoo grows | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| AI data center proposal in Raton draws opposition | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Molitor: state data center delay is hypocritical | | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Spokane weighs moratorium amid talks over potentia | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Growing Backlash Against AI Data Centers Spells Tr | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Jackson residents pack City Hall to oppose data ce | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Union leader issues data center ultimatum to Kansa | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Nearly a third of Indiana counties have moved to r | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
