@@ -22,17 +22,24 @@ qc_leg_stance        restrictive | supportive | unclear  (legislation rows only)
                      (industry-favorable), disclosure/moratorium/setback
                      mandates as restrictive. Anything mixed -> unclear.
 
-outcome_defensible   The graded outcome ladder for external numbers:
-                       win_confirmed   recorded win + enacted block + final
-                       win_conditional recorded win but mechanism is a
-                                       conditional restriction, not a block
-                       win_unverified  recorded win without finality evidence
-                       loss_confirmed  recorded loss + final
-                       loss_unverified recorded loss without finality evidence
-                       mixed           recorded mixed
-                       pending         everything else
-                     External "wins" should cite win_confirmed;
-                     win_conditional and win_unverified are shown separately.
+outcome_defensible   Graded, activity-descriptive outcome ladder. The
+                     referent is the opposed project or measure - never a
+                     "side" - because a denied permit, an enacted moratorium,
+                     and a defeated bill are different events that scorekeeping
+                     words like win/loss wrongly flatten:
+                       blocked_confirmed      the opposed project/measure was
+                                              verifiably stopped (independent
+                                              finality evidence)
+                       restricted_conditional a conditional restriction was
+                                              imposed; the project was NOT stopped
+                       blocked_unverified     recorded as stopped, but without
+                                              independent finality evidence
+                       advanced_confirmed     the project/measure verifiably advanced
+                       advanced_unverified    recorded as advanced, unverified
+                       mixed / pending        as recorded / everything else
+                     External numbers cite blocked_confirmed; the other grades
+                     are always reported separately, paired with qc_mechanism
+                     so dissimilar actions are never lumped together.
 
 outcome_conflict     True when the recorded outcome claims more than the
                      mechanism/finality evidence supports, with the reason in
@@ -73,7 +80,7 @@ _RESTRICTIVE = re.compile(
     r"protect ratepayers|cost.?allocation|large.?load tariff|"
     r"water.?use (limit|reporting)|noise limit|impact stud|"
     r"environmental review requirement|require.{0,30}permit|restrict|"
-    r"limit data center|community benefit|oppose|denial|deny|reject|stop\b|halt)\b", re.I)
+    r"limit data center|community benefit|oppose|denial|deny|reject|stop|halt)\b", re.I)
 _SUPPORTIVE = re.compile(
     r"\b(preempt|pre-empt|prohibit(s|ing)? (local|counties|cities|municipalit)|"
     r"strip.{0,20}local|override.{0,20}local|streamlin|fast.?track|expedite|"
@@ -105,12 +112,26 @@ def _truthy(v) -> bool:
     return str(v).strip().lower() == "true" or v is True
 
 
-def _is_final(rec: dict) -> bool:
-    if _truthy(rec.get("action_complete")):
-        return True
+def finality_evidence(rec: dict) -> str:
+    """What independently confirms the outcome. 'outcome_label_only' means the
+    action_complete flag was set purely because an outcome was recorded (the
+    cleaner does this for non-legislative rows) - that is circular and never
+    sufficient for a *_confirmed grade."""
     if str(rec.get("bill_progress", "") or "").strip() in _TERMINAL_PROGRESS:
-        return True
-    return str(rec.get("status_clean", "") or "").strip() in _TERMINAL_STATUS
+        return "bill_stage"
+    if str(rec.get("status_clean", "") or "").strip() in _TERMINAL_STATUS:
+        return "terminal_status"
+    if _truthy(rec.get("action_complete")):
+        return "outcome_label_only"
+    return "none"
+
+
+def _is_final(rec: dict) -> bool:
+    return finality_evidence(rec) != "none"
+
+
+def _independent_final(rec: dict) -> bool:
+    return finality_evidence(rec) in ("bill_stage", "terminal_status")
 
 
 def _block_confirmed(rec: dict) -> bool:
@@ -126,9 +147,9 @@ def _block_confirmed(rec: dict) -> bool:
         return True
     if sc in _BLOCK_CONFIRMING_STATUS:
         return True
-    # outcome says win AND the row is final — accept, the win refers to the block
-    return _truthy(rec.get("action_complete")) and \
-        str(rec.get("Community Outcome", "") or "").strip().lower() == "win"
+    # No independent disposition evidence: a recorded win alone is circular
+    # and never confirms the block.
+    return False
 
 
 # ── Main API ─────────────────────────────────────────────────────────────────
@@ -147,7 +168,8 @@ def classify_record(rec: dict) -> dict:
     mech = str(rec.get("qc_mechanism", "") or "")
     is_block = str(rec.get("qc_is_block", "")).strip().lower()
     outcome = str(rec.get("Community Outcome", "") or "").strip().lower()
-    final = _is_final(rec)
+    evidence = finality_evidence(rec)
+    final = evidence in ("bill_stage", "terminal_status")
 
     # qc_block_status
     if mech == "legislation":
@@ -172,37 +194,41 @@ def classify_record(rec: dict) -> dict:
             or sc in ("failed", "vetoed", "withdrawn", "expired")
         bill_law = bp == "signed_into_law" or sc == "enacted"
         if stance == "supportive" and bill_dead:
-            grade = "win_confirmed"            # opposition defeated an industry-favorable bill
+            grade = "blocked_confirmed"            # the industry-favorable measure was defeated
         elif stance == "restrictive" and bill_law:
-            grade = "win_confirmed"            # restrictive measure became law
+            grade = "blocked_confirmed"            # restrictive measure became law
         elif stance == "restrictive" and bill_dead:
-            grade = "win_unverified"
-            conflict, reason = True, "recorded win but the restrictive bill failed - verify what the win refers to"
+            grade = "blocked_unverified"
+            conflict, reason = True, "recorded outcome 'win' but the restrictive bill failed - verify what event the record refers to"
         elif final:
-            grade = "win_unverified"
-            conflict, reason = True, "legislative win at terminal status but stage/stance not confirmable"
+            grade = "blocked_unverified"
+            conflict, reason = True, "recorded outcome 'win' on legislation at terminal status, but stage/stance not confirmable"
         else:
-            grade = "win_unverified"
-            conflict, reason = True, "recorded win on in-progress legislation"
+            grade = "blocked_unverified"
+            conflict, reason = True, "recorded outcome 'win' on in-progress legislation"
     elif outcome == "win":
         if is_block == "false" and mech in ("conditional_zoning", "cost_allocation",
                                             "incentive_repeal", "disclosure",
                                             "community_benefit", "infrastructure_opposition"):
-            grade = "win_conditional"
-            conflict, reason = True, f"recorded win but mechanism is {mech} (conditional restriction, not a block)"
+            grade = "restricted_conditional"
+            conflict, reason = True, f"recorded outcome 'win' but mechanism is {mech} - a conditional restriction; the project was not stopped"
         elif block_status == "enacted_block" and final:
-            grade = "win_confirmed"
+            grade = "blocked_confirmed"
         elif final:
-            grade = "win_confirmed" if mech in ("project_denial",) else "win_unverified"
-            if grade == "win_unverified":
-                conflict, reason = True, "recorded win reached a disposition but block not confirmable from mechanism/status"
+            grade = "blocked_confirmed" if mech in ("project_denial",) else "blocked_unverified"
+            if grade == "blocked_unverified":
+                conflict, reason = True, "recorded outcome 'win' reached a disposition, but no stoppage is confirmable from mechanism/status"
+        elif evidence == "outcome_label_only":
+            grade = "blocked_unverified"
+            conflict, reason = True, "finality rests on the recorded outcome alone (no independent status/stage evidence)"
         else:
-            grade = "win_unverified"
-            conflict, reason = True, "recorded win without finality evidence (action still in progress)"
+            grade = "blocked_unverified"
+            conflict, reason = True, "recorded outcome 'win' without finality evidence (action still in progress)"
     elif outcome == "loss":
-        grade = "loss_confirmed" if final else "loss_unverified"
-        if grade == "loss_unverified":
-            conflict, reason = True, "recorded loss without finality evidence"
+        grade = "advanced_confirmed" if final else "advanced_unverified"
+        if grade == "advanced_unverified":
+            conflict, reason = (True, "finality rests on the recorded outcome alone (no independent status/stage evidence)") \
+                if evidence == "outcome_label_only" else (True, "recorded outcome 'loss' without finality evidence")
     elif outcome == "mixed":
         grade = "mixed"
     else:
@@ -211,6 +237,7 @@ def classify_record(rec: dict) -> dict:
     return {
         "qc_block_status": block_status,
         "qc_leg_stance": stance,
+        "finality_evidence": evidence,
         "outcome_defensible": grade,
         "outcome_conflict": conflict,
         "outcome_conflict_reason": reason,
