@@ -33,10 +33,18 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
+# legislative_outcome owns the one true looks_legislative(). It lives in qc/;
+# probe that directory so root-level runs resolve it instead of falling back
+# to a divergent inline copy.
+import os as _os
+import sys as _sys
+_QC = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "qc")
+if _os.path.isdir(_QC) and _QC not in _sys.path:
+    _sys.path.append(_QC)
 try:
     import legislative_outcome as L
     _looks_legislative = L.looks_legislative
-except Exception:                       # keep enrichment usable standalone
+except Exception:                       # last resort only (module truly absent)
     _BILL_RE = re.compile(r"\b(?:HF|SF|HB|SB|AB|LB|LD)\s?\d{1,5}\b", re.IGNORECASE)
     def _looks_legislative(rec):        # type: ignore
         blob = " ".join(str(rec.get(k, "")) for k in ("Opposition Type", "Type", "Name", "Title", "Notes"))
@@ -76,14 +84,19 @@ MECHANISMS = [
         "proposal was withdrawn", "project was withdrawn", "denied the conditional use",
         "rejected the rezoning", "denied rezoning",
     ]),
+    # Requires evidence of a zoning INSTRUMENT (ordinance, setback, overlay,
+    # permit condition). Bare concern words (noise, water, light) moved to the
+    # CONCERNS extractor — a grievance is not an imposed condition.
     ("conditional_zoning", 3, False, [
-        "zoning_restriction", "setback", "water study", "water-use agreement", "water use agreement",
-        "noise", "decibel", "light pollution", "buffer", "screening", "height limit",
-        "unified development ordinance", " udo", "conditional use", "special use permit requirement",
-        "overlay district", "sound limit", "waste management plan", "infrastructure cost",
-        "community betterment", "road damage", "decommissioning", "zoning amendment",
-        "zoning ordinance", "limiting data center zoning", "limit data center zoning",
-        "revise zoning", "ordinance regulating", "ordinance making data", "zoning code",
+        "zoning_restriction", "setback", "water-use agreement", "water use agreement",
+        "noise limit", "noise ordinance", "decibel limit", "buffer", "screening requirement",
+        "height limit", "unified development ordinance", " udo", "conditional use",
+        "special use permit requirement", "overlay district", "sound limit",
+        "waste management plan", "community betterment", "decommissioning",
+        "zoning amendment", "zoning ordinance", "limiting data center zoning",
+        "limit data center zoning", "revise zoning", "ordinance regulating",
+        "ordinance making data", "zoning code", "zoning condition", "permit condition",
+        "development standards", "performance standards",
     ]),
     ("infrastructure_opposition", 3, False, [
         "transmission line", "transmission corridor", "powerline", "power line",
@@ -116,12 +129,14 @@ MECHANISMS = [
         "study_or_report", "quantify damages", "quantify monetary", "feasibility study",
         "impact study", "commission a study", "research report", "explores limiting",
     ]),
+    # "fight"/"oppose" removed: every record in an opposition dataset contains
+    # them, so they carried zero signal and polluted the multi-label output.
     ("public_pressure", 1, False, [
         "public_comment", "public comment", "petition", "rally", "protest", "residents objected",
         "packed the", "spoke against", "opposition group", "town hall", "listening session",
         "pack the courthouse", "packed the courthouse", "group forms", "group formed",
         "backlash", "elect anti", "anti-data-center", "residents continue", "residents pack",
-        "fight", "oppose", "resign amid",
+        "resign amid", "yard signs", "door-knocking", "organized against",
     ]),
 ]
 
@@ -135,6 +150,50 @@ def _blob(record: dict) -> str:
                      "Objective", "Name", "Title", "Project Name", "Notes", "Summary")).lower()
 
 
+# Compile each mechanism pattern with word boundaries on alphabetic edges so
+# substrings inside longer words never fire ("fight" in "firefighter",
+# "appeal" in "appealing to residents", "rate" in "corporate").
+_PATTERN_CACHE: dict[str, re.Pattern] = {}
+
+def _match(pattern: str, blob: str) -> bool:
+    rx = _PATTERN_CACHE.get(pattern)
+    if rx is None:
+        esc = re.escape(pattern.strip())
+        pre = r"\b" if pattern[:1].isalnum() else ""
+        post = r"\b" if pattern.rstrip()[-1:].isalnum() else ""
+        rx = _PATTERN_CACHE.setdefault(pattern, re.compile(pre + esc + post))
+    return bool(rx.search(blob))
+
+
+# ---------------------------------------------------------------------------
+# Concerns (grievances) — extracted SEPARATELY from mechanisms. A summary that
+# says residents worried about noise and water describes WHY people object;
+# it is not evidence that a zoning condition was imposed. Keeping the two
+# apart prevents protest records from being coded conditional_zoning.
+# ---------------------------------------------------------------------------
+CONCERNS = [
+    ("noise",          ["noise", "decibel", "sound limit", "loud", "hum "]),
+    ("water",          ["water usage", "water use", "water consumption", "aquifer",
+                        "groundwater", "wells", "water supply", "water study",
+                        "water-use", "million gallons"]),
+    ("light",          ["light pollution", "lighting", "glare"]),
+    ("energy_cost",    ["ratepayer", "utility cost", "electric bill", "energy cost",
+                        "rate increase", "rate hike", "raising utility", "power bill"]),
+    ("grid_strain",    ["grid", "power demand", "electricity demand", "load growth",
+                        "transmission", "substation", "capacity strain"]),
+    ("environment",    ["environmental", "emissions", "diesel generator", "air quality",
+                        "wetland", "habitat", "pollution", "carbon"]),
+    ("land_use",       ["farmland", "agricultural land", "rural character", "green space",
+                        "open space", "prime farm", "rezon"]),
+    ("property_value", ["property value", "home value", "property tax burden"]),
+    ("traffic",        ["traffic", "road damage", "truck"]),
+    ("health",         ["health", "asthma", "cancer"]),
+]
+
+def extract_concerns(blob: str) -> list[str]:
+    return [name for name, pats in CONCERNS if any(_match(p, blob) for p in pats)]
+
+
 def classify_mechanism(record: dict) -> tuple[str, list[str], int | None, bool | None]:
     """Return (primary_mechanism, all_mechanisms, strength, is_block)."""
     blob = _blob(record)
@@ -146,12 +205,12 @@ def classify_mechanism(record: dict) -> tuple[str, list[str], int | None, bool |
         # Still surface a sub-mechanism if the bill is clearly one of these.
         subs = [name for name, _s, _b, pats in MECHANISMS
                 if name in ("cost_allocation", "incentive_repeal", "disclosure", "moratorium")
-                and any(p in blob for p in pats)]
+                and any(_match(p, blob) for p in pats)]
         return ("legislation", ["legislation"] + subs, None, None)
 
     detected: list[tuple[str, int, bool]] = []
     for name, strength, is_block, pats in MECHANISMS:
-        if any(p in blob for p in pats):
+        if any(_match(p, blob) for p in pats):
             detected.append((name, strength, is_block))
 
     if not detected:
@@ -198,7 +257,9 @@ def jurisdiction_level(record: dict) -> str:
         if any(k in auth for k in keys):
             return level
     # planning_commission / voters / developer / advocacy_org / blank -> infer from fields
-    if _looks_legislative(record):
+    # A city ordinance can read as "legislative" (bill-style numbering); only
+    # default to state when the record isn't explicitly local in scope.
+    if _looks_legislative(record) and str(record.get("Scope", "") or "").strip().lower() != "local":
         return "state"
     name = str(record.get("Name", "") or record.get("Incident", "") or "").lower()
     county = str(record.get("County", "") or "").strip()
@@ -231,6 +292,7 @@ def enrich_record(record: dict) -> dict:
     return {
         "qc_mechanism": primary,
         "qc_mechanisms": mechanisms,
+        "qc_concerns": "; ".join(extract_concerns(_blob(record))),
         "qc_restriction_strength": strength,
         "qc_strength_label": (STRENGTH_LABEL.get(strength) if strength is not None else "stance-ambiguous"),
         "qc_is_block": is_block,
