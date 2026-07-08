@@ -33,10 +33,18 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
+# legislative_outcome owns the one true looks_legislative(). It lives in qc/;
+# probe that directory so root-level runs resolve it instead of falling back
+# to a divergent inline copy.
+import os as _os
+import sys as _sys
+_QC = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "qc")
+if _os.path.isdir(_QC) and _QC not in _sys.path:
+    _sys.path.append(_QC)
 try:
     import legislative_outcome as L
     _looks_legislative = L.looks_legislative
-except Exception:                       # keep enrichment usable standalone
+except Exception:                       # last resort only (module truly absent)
     _BILL_RE = re.compile(r"\b(?:HF|SF|HB|SB|AB|LB|LD)\s?\d{1,5}\b", re.IGNORECASE)
     def _looks_legislative(rec):        # type: ignore
         blob = " ".join(str(rec.get(k, "")) for k in ("Opposition Type", "Type", "Name", "Title", "Notes"))
