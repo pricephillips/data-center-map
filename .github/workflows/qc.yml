@@ -5,11 +5,14 @@ name: Opposition QC Gate
 # gate reads it directly. A red run means at least one record was blocked.
 # Code lives in data-center-map/qc/; this file lives at .github/workflows/qc.yml.
 
+# Data pushes are handled by pipeline.yml (which runs the same gate and
+# commits the feed). Running both on master_opposition.csv duplicated the
+# gate and raced two auto-commits on one push; this workflow now validates
+# gate-code changes only.
 on:
   workflow_dispatch:
   push:
     paths:
-      - "master_opposition.csv"
       - "qc/**"
 
 permissions:
