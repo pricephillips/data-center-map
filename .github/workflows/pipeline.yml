@@ -37,7 +37,7 @@ jobs:
           echo "Cleaner self-tests:"
           python clean_opposition_data.py --selftest
           echo "QC gate self-tests:"
-          python qc_pipeline.py --selftest
+          python qc/qc_pipeline.py --selftest || (cd qc && python qc_pipeline.py --selftest)
 
       - name: Run pipeline (clean -> gate -> clean feed)
         run: python build_clean_feed.py --in master_opposition.csv --out master_opposition_clean.csv
@@ -46,8 +46,11 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add master_opposition_clean.csv master_opposition_cleaned.csv \
-                  quarantine.json qc_report.md data_quality_report.md change_log.csv 2>/dev/null || true
+          git add master_opposition_clean.csv \
+                  quarantine.json qc_report.md data_quality_report.md change_log.csv \
+                  review_conflicts.csv review_stale_pending.csv group_registry.csv \
+                  date_recovery_report.csv snapshots/manifest.csv \
+                  validation_sample.csv headline_metrics.md CODEBOOK.md 2>/dev/null || true
           git diff --staged --quiet || git commit -m "Auto-build clean feed from master_opposition.csv [skip ci]"
           git push
 
