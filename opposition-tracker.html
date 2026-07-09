@@ -184,7 +184,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .how-to-use li:last-child { border:none }
 .how-to-use li .ico { font-size:18px; line-height:1; flex-shrink:0 }
 .how-to-use .close-btn { width:100%; padding:10px; border-radius:8px; border:none; background:#1a3a5c;border:1px solid #5aa9e6;color:#fff; font-size:14px; font-weight:700; cursor:pointer }
-.layer-toggles { border-top:1px solid var(--border); margin-top:10px; padding-top:10px }
+.layer-toggles { border-bottom:1px solid var(--border); margin-bottom:10px; padding-bottom:10px }
 .layer-toggle-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); margin-bottom:6px }
 .layer-chk { display:flex; align-items:center; gap:7px; font-size:12px; color:var(--text); padding:3px 0; cursor:pointer }
 .layer-chk input { width:13px; height:13px; cursor:pointer; accent-color:var(--atlas) }
@@ -202,6 +202,12 @@ input:focus, select:focus { border-color:#5aa9e6 }
       <div class="sub" id="dataThrough" style="margin-top:3px;color:#5f6c7b"></div>
     </div>
     <div class="filters">
+      <div class="layer-toggles">
+        <div class="layer-toggle-title">Map shading</div>
+        <label class="layer-chk"><input type="radio" name="layerMode" value="opposition" checked onchange="updateLayers()"> Opposition activity</label>
+        <label class="layer-chk"><input type="radio" name="layerMode" value="voting" onchange="updateLayers()"> 2024 Presidential Results</label>
+        <label class="layer-chk"><input type="radio" name="layerMode" value="matrix" onchange="updateLayers()"> Opposition × 2024 Politics matrix</label>
+      </div>
       <div class="search-wrap">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <input id="q" type="text" placeholder="Incident, entity, state, group…" oninput="debounce()"/>
@@ -252,12 +258,6 @@ input:focus, select:focus { border-color:#5aa9e6 }
       <div id="outcomeSummary"></div>
       <div id="filterPills" class="filter-pills"></div>
       <div class="toolbar-row"><button class="tool-btn" onclick="resetFilters()">Reset filters</button><button class="tool-btn show-map" onclick="zoomToResults()">Show on map →</button></div>
-      <div class="layer-toggles">
-        <div class="layer-toggle-title">Map shading</div>
-        <label class="layer-chk"><input type="radio" name="layerMode" value="opposition" checked onchange="updateLayers()"> Opposition activity</label>
-        <label class="layer-chk"><input type="radio" name="layerMode" value="voting" onchange="updateLayers()"> 2024 Presidential Results</label>
-        <label class="layer-chk"><input type="radio" name="layerMode" value="matrix" onchange="updateLayers()"> Opposition × 2024 Politics matrix</label>
-      </div>
     </div>
     <div class="card-count" id="cardCount"></div>
     <div id="list" class="list">
@@ -270,7 +270,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
     <div id="map"></div>
     <div class="map-status" id="mapStatus"></div>
     <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
-    <div class="map-hint" id="mapHint">Click any state to zoom in · toggle map shading below</div>
+    <div class="map-hint" id="mapHint">Click any state to zoom in · toggle map shading in the sidebar</div>
     <div class="legend">
       <b>Outcome</b>
       <div class="legend-row"><span class="lsw" style="background:var(--pending)"></span>Pending / Active</div>
