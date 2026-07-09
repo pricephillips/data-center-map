@@ -134,7 +134,7 @@ tbody tr.ref-row:hover { opacity:1; background:#111e2a }
 
 <div class="page-header">
   <h1 style="font-size:24px;font-weight:800;margin-bottom:6px">Data Center Opposition Tracker</h1>
-  <p style="font-size:13px;color:var(--muted);line-height:1.6;max-width:740px">Tracking community resistance, legislation, and legal challenges to data center development across the US. Data sourced from DataCenterTracker.org (2014–2025) and ongoing monitoring. Charts update automatically.</p>
+  <p style="font-size:13px;color:var(--muted);line-height:1.6;max-width:740px"></p>
   <p id="dataFreshness" style="font-size:11px;color:var(--muted);margin-top:4px"></p>
 </div>
 
@@ -189,22 +189,39 @@ tbody tr.ref-row:hover { opacity:1; background:#111e2a }
 </div>
 
 <!-- Table controls -->
-<div class="table-controls">
+<div class="table-controls" style="flex-wrap: wrap;">
   <div class="search-wrap">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     <input id="tq" type="text" placeholder="Search by location, company, or issue…" oninput="tdebounce()"/>
   </div>
   <select id="tf-state"   onchange="trender()"><option value="">All states</option></select>
   <select id="tf-outcome" onchange="trender()"><option value="">All outcomes</option></select>
-  <select id="tf-type"    onchange="trender()"><option value="">All types</option></select>
-  <select id="tf-source"  onchange="trender()">
-    <option value="">All sources</option>
+  <select id="tf-type"    onchange="trender()"><option value="">All action types</option></select>
+  <select id="tf-issue"   onchange="trender()"><option value="">All concerns</option></select>
+
+  <select id="tf-scope"     onchange="trender()"><option value="">Any geographic level</option><option value="local">Local</option><option value="statewide">Statewide</option><option value="federal">Federal</option></select>
+  <select id="tf-authority" onchange="trender()"><option value="">Any decision maker</option></select>
+  <select id="tf-source"  onchange="trender()"><option value="">All sources</option></select>
+
+  <select id="tf-mechanism" onchange="trender()"><option value="">Any mechanism</option></select>
+  <select id="tf-block" onchange="trender()">
+    <option value="">Block &amp; conditional</option>
+    <option value="true">Blocks only (halt/ban/denial)</option>
+    <option value="false">Conditional restrictions</option>
+    <option value="ambiguous">Stance-ambiguous bills</option>
+  </select>
+  <select id="tf-era" onchange="trender()">
+    <option value="">All eras</option>
+    <option value="ai_dc_era_2022plus">AI data-center era (2022+)</option>
+    <option value="crypto_era_pre2022">Crypto era (pre-2022)</option>
   </select>
   <select id="tf-ref" onchange="trender()">
     <option value="include">All records (incl. reference)</option>
     <option value="exclude">Opposition only (excl. reference)</option>
     <option value="only">Reference docs only</option>
   </select>
+  <label class="chk" style="color:var(--text);font-size:13px;display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="tf-activeOnly" onchange="trender()"/> Active &amp; pending only</label>
+
   <button class="export-all-btn" onclick="exportAllCSV()" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:#0c1018;color:var(--muted);font-size:13px;cursor:pointer;white-space:nowrap">Export CSV</button>
   <button class="reset-btn" id="tResetBtn" onclick="tResetFilters()">Reset filters</button>
   <span class="tbl-meta" id="tMeta"></span>
@@ -604,7 +621,56 @@ function readTFilters() {
     ft: document.getElementById('tf-type').value,
     fc: document.getElementById('tf-source').value,
     fr: document.getElementById('tf-ref').value,
+    issue: document.getElementById('tf-issue').value,
+    scope: document.getElementById('tf-scope').value,
+    auth: document.getElementById('tf-authority').value,
+    mech: document.getElementById('tf-mechanism').value,
+    block: document.getElementById('tf-block').value,
+    era: document.getElementById('tf-era').value,
+    activeOnly: document.getElementById('tf-activeOnly').checked
   };
+}
+
+function tmatch(r, tf) {
+  const isRef = isRefType(r);
+  if (tf.fr === 'exclude' && isRef) return false;
+  if (tf.fr === 'only' && !isRef) return false;
+
+  if (tf.activeOnly) {
+    const k = (r['Community Outcome']||'').trim().toLowerCase();
+    if (k === 'win' || k === 'loss' || k === 'mixed') return false;
+  }
+
+  if (tf.fs && r['State'] !== tf.fs) return false;
+  if (tf.fo) {
+    if (tf.fo === 'pending') {
+      const k = (r['Community Outcome']||'').trim().toLowerCase();
+      if (k === 'win' || k === 'loss' || k === 'mixed') return false;
+    } else if (r['Community Outcome'] !== tf.fo) return false;
+  }
+  if (tf.ft && r['Opposition Type'] !== tf.ft) return false;
+
+  if (tf.issue) {
+    const tokens = (r['Issue Category']||'').split(';').map(s=>s.trim().toLowerCase());
+    if (!tokens.includes(tf.issue.toLowerCase())) return false;
+  }
+
+  if (tf.scope && r['Scope'] !== tf.scope) return false;
+  if (tf.auth && r['Authority Level'] !== tf.auth) return false;
+  if (tf.fc && r['data_source'] !== tf.fc) return false;
+  if (tf.mech && (r['qc_mechanism']||'') !== tf.mech) return false;
+
+  if (tf.block) {
+    const b = String(r['qc_is_block']||'').trim().toLowerCase();
+    if (tf.block === 'ambiguous') { 
+      if (b === 'true' || b === 'false') return false; 
+    } else if (b !== tf.block) return false;
+  }
+
+  if (tf.era && (r['data_era']||'') !== tf.era) return false;
+
+  if (!tf.q) return true;
+  return [r['Incident'],r['Entity'],r['State'],r['County'],r['Opposition Groups'],r['Opposition Type'],r['Company'],r['Summary'],r['Objective'],r['Issue Category'],r['qc_mechanism'],r['Authority Level']].join(' ').toLowerCase().includes(tf.q);
 }
 
 function tsort(col) {
@@ -751,6 +817,10 @@ function initDashboard(data) {
       const opt=document.createElement('option'); opt.value=v; opt.textContent=friendlyOutcome(v); tfOutcomeEl.appendChild(opt);
     });
     pop('tf-type', oppRows.map(r=>r['Opposition Type']));
+    pop('tf-issue', [...new Set(oppRows.flatMap(r=>(r['Issue Category']||'').split(';').map(s=>s.trim())))].filter(Boolean));
+    pop('tf-authority', oppRows.map(r=>r['Authority Level']));
+    pop('tf-mechanism', oppRows.map(r=>r['qc_mechanism']));
+
     // Source options come from the data itself; hardcoded values that never
     // appear in the feed made every selection return zero rows.
     const SRC_LABELS = { historical_archive:'Historical archive', ongoing_monitoring:'Ongoing monitoring', fractracker:'FracTracker', bryce_rejection_db:'Bryce Rejection DB', datacenter_watch:'Data Center Watch', dc_opposition_site:'DC Opposition Site' };
@@ -766,14 +836,15 @@ function initDashboard(data) {
 
 function tResetFilters() {
   document.getElementById('tq').value = '';
-  ['tf-state','tf-outcome','tf-type','tf-source'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+  ['tf-state','tf-outcome','tf-type','tf-source','tf-issue','tf-scope','tf-authority','tf-mechanism','tf-block','tf-era'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
   document.getElementById('tf-ref').value = 'include';
+  document.getElementById('tf-activeOnly').checked = false;
   tPage = 0; trender();
 }
 
 function updateResetBtn() {
   const tf = readTFilters();
-  const anyFilter = !!(tf.q || tf.fs || tf.fo || tf.ft || tf.fc);
+  const anyFilter = !!(tf.q || tf.fs || tf.fo || tf.ft || tf.fc || tf.issue || tf.scope || tf.auth || tf.mech || tf.block || tf.era || tf.activeOnly);
   const refNonDefault = tf.fr !== 'include';
   const btn = document.getElementById('tResetBtn');
   if(btn) btn.classList.toggle('active', !!(anyFilter || refNonDefault));
