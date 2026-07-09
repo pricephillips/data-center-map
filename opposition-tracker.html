@@ -220,16 +220,10 @@ input:focus, select:focus { border-color:#5aa9e6 }
       </button>
       <div class="advanced-filters" id="advFilters">
         <div class="row3" style="margin-top:6px">
-          <select id="fScope"     onchange="render()"><option value="">Any geographic level</option><option value="local">Local</option><option value="state">State</option><option value="federal">Federal</option></select>
+          <select id="fScope"     onchange="render()"><option value="">Any geographic level</option><option value="local">Local</option><option value="statewide">Statewide</option><option value="federal">Federal</option></select>
           <select id="fAuthority" onchange="render()"><option value="">Any decision maker</option></select>
           <select id="fSource" onchange="render()">
             <option value="">All sources</option>
-            <option value="historical_archive">DCT Archive (2014–2025)</option>
-            <option value="ongoing_monitoring">Ongoing monitoring</option>
-            <option value="bryce_rejection_db">Bryce Rejection DB</option>
-            <option value="fractracker">FracTracker</option>
-            <option value="datacenter_watch">Data Center Watch</option>
-            <option value="dc_opposition_site">DC Opposition Site</option>
           </select>
         </div>
         <div class="row3" style="margin-top:7px">
@@ -561,7 +555,10 @@ function match(r, f) {
     else if (b !== f.fBlk) return false;
   }
   if (f.fEra && (r['data_era']||'') !== f.fEra) return false;
-  if (f.act && !['active','pending'].includes((r['Community Outcome']||'').toLowerCase())) return false;
+  if (f.act) {
+    const k = (r['Community Outcome']||'').trim().toLowerCase();
+    if (k === 'win' || k === 'loss' || k === 'mixed') return false;
+  }
   if (!f.q) return true;
   return (r._hay || '').includes(f.q);
 }
@@ -791,7 +788,13 @@ function startCSVLoad(urls, _errs) {
       const res = Papa.parse(text, { header: true, skipEmptyLines: true });
       if (!res.data || !res.data.length) throw new Error('parsed 0 rows');
       mapStatus('');
-      handleCSVData(res.data);
+      try { handleCSVData(res.data); }
+      catch (e) {
+        // Data arrived fine; rendering threw. Report it as a render error
+        // instead of retrying other URLs (which would repeat the same error).
+        console.error(e);
+        mapStatus('<b>Data loaded but rendering failed.</b> ' + esc((e && e.message) || String(e)));
+      }
     })
     .catch(e => {
       errs.push(label + ' \u2014 ' + ((e && e.message) || 'unreachable'));
@@ -866,7 +869,7 @@ function handleCSVData(data) {
       let mlon = parseFloat(r.lon);
       let usedCentroid = false;
       if (isNaN(mlat) || isNaN(mlon) || mlat === 0 || mlon === 0) {
-        const centroid = STATEBADGECENTERS[normStateName(r['State'] || '')];
+        const centroid = STATE_BADGE_CENTERS[normStateName(r['State'] || '')];
         if (!centroid) return;
         [mlat, mlon] = centroid;
         usedCentroid = true;
@@ -911,6 +914,12 @@ function handleCSVData(data) {
     });
     pop('fAuthority', oppRows.map(r => r['Authority Level']));
     pop('fMechanism', oppRows.map(r => r['qc_mechanism']));
+    // Source options come from the data itself so no selection can dead-end
+    const SRC_LABELS = { historical_archive:'DCT Archive (2014\u20132025)', ongoing_monitoring:'Ongoing monitoring', bryce_rejection_db:'Bryce Rejection DB', fractracker:'FracTracker', datacenter_watch:'Data Center Watch', dc_opposition_site:'DC Opposition Site' };
+    const srcSel = document.getElementById('fSource');
+    if (srcSel) [...new Set(oppRows.map(r => String(r['data_source']||'').trim()).filter(Boolean))].sort().forEach(v => {
+      const opt = document.createElement('option'); opt.value = v; opt.textContent = SRC_LABELS[v] || v; srcSel.appendChild(opt);
+    });
 
     const issues = [...new Set(
       oppRows.flatMap(r => (r['Issue Category'] || '').split(/;\s*/).map(x => x.trim()))
