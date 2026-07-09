@@ -300,11 +300,11 @@ input:focus, select:focus { border-color:#5aa9e6 }
       </div>
       <div id="legendOppActivity" style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
         <b style="font-size:11px;color:var(--muted);font-weight:600">Opposition Activity</b>
-        <div class="legend-row"><span class="lsw" style="background:#1e3a5f;opacity:.6;border-radius:2px"></span>None</div>
-        <div class="legend-row"><span class="lsw" style="background:#2563eb;border-radius:2px"></span>1–2</div>
-        <div class="legend-row"><span class="lsw" style="background:#7c3aed;border-radius:2px"></span>3–7</div>
-        <div class="legend-row"><span class="lsw" style="background:#dc2626;border-radius:2px"></span>8–15</div>
-        <div class="legend-row"><span class="lsw" style="background:#fbbf24;border-radius:2px"></span>16+</div>
+        <div class="legend-row"><span class="lsw" style="background:#1e3a5f;opacity:.35;border-radius:2px"></span><span id="legendLabel0">None</span></div>
+        <div class="legend-row"><span class="lsw" style="background:#2563eb;opacity:.55;border-radius:2px"></span><span id="legendLabel1">&#8212;</span></div>
+        <div class="legend-row"><span class="lsw" style="background:#7c3aed;opacity:.65;border-radius:2px"></span><span id="legendLabel2">&#8212;</span></div>
+        <div class="legend-row"><span class="lsw" style="background:#dc2626;opacity:.75;border-radius:2px"></span><span id="legendLabel3">&#8212;</span></div>
+        <div class="legend-row"><span class="lsw" style="background:#fbbf24;opacity:.85;border-radius:2px"></span><span id="legendLabel4">&#8212;</span></div>
       </div>
     </div>
   </div>
@@ -610,6 +610,8 @@ function render() {
     renderOutcomeSummary(0,0,0,0);
     updateFilterPills();
     updateStatActive();
+    _statsReady = true;
+    syncChoroplethToFilters();
     return;
   }
 
@@ -632,8 +634,9 @@ function render() {
 
     const stName = normStateName(r['State']);
     if (stName) {
-      const s = _stateHoverStats[stName] || (_stateHoverStats[stName] = {bl:0,ap:0,pe:0,mx:0,total:0});
+      const s = _stateHoverStats[stName] || (_stateHoverStats[stName] = {bl:0,ap:0,pe:0,mx:0,total:0,sevSum:0,sevCnt:0});
       s.total++;
+      const _sv = +r['Severity']||1; s.sevSum += _sv; s.sevCnt++;
       if (outcome==='win') s.bl++;
       else if (outcome==='loss') s.ap++;
       else if (outcome==='mixed') s.mx++;
@@ -653,6 +656,8 @@ function render() {
   renderOutcomeSummary(pending, win, loss, mixed);
   updateFilterPills();
     updateStatActive();
+  _statsReady = true;
+  syncChoroplethToFilters();
 }
 
 let _renderedCount = 0;
@@ -996,14 +1001,56 @@ function normStateName(raw) {
   return FULL_NAME_SET.has(raw) ? raw : (ABBREV_TO_NAME[raw.toUpperCase()] || raw);
 }
 
-const OPP_STEPS = [
-  {min:0,   max:0,    color:'#1e3a5f', opacity:0.10},
-  {min:1,   max:2,    color:'#2563eb', opacity:0.50},
-  {min:3,   max:7,    color:'#7c3aed', opacity:0.65},
-  {min:8,   max:15,   color:'#dc2626', opacity:0.78},
-  {min:16,  max:9999, color:'#fbbf24', opacity:0.92},
+// ── Dynamic choropleth scale ──────────────────────────────────────────────
+// Break thresholds adapt to the actual max state count at build time (geometric
+// spacing suits the skewed distribution), so the top bucket never swallows the map.
+// Base opacities lowered for semi-transparent fills; zoomedOpacity() still applies.
+const OPP_RAMP = [
+  {color:'#1e3a5f', opacity:0.08},  // 0 (none)
+  {color:'#2563eb', opacity:0.35},  // bucket 1
+  {color:'#7c3aed', opacity:0.46},  // bucket 2
+  {color:'#dc2626', opacity:0.56},  // bucket 3
+  {color:'#fbbf24', opacity:0.68},  // bucket 4 (top)
 ];
-function densityColor(n){ return OPP_STEPS.find(s=>n>=s.min&&n<=s.max)||OPP_STEPS[0]; }
+let _activityBreaks = [2,7,15];  // upper bounds of buckets 1–3; overwritten at build
+
+// Quantile-based breaks: b1/b2/b3 = 25th/50th/75th percentile of nonzero state
+// counts (b2 is the median), so each color bucket holds ~a quarter of active
+// states and no single color can dominate more than half the map.
+function computeActivityBreaks(stateCounts){
+  const vals = (stateCounts||[]).filter(v=>v>0).sort((a,b)=>a-b);
+  if(!vals.length){ _activityBreaks=[1,2,3]; updateLegendLabels(); return; }
+  const max = vals[vals.length-1];
+  const q = p => vals[Math.min(vals.length-1, Math.floor(p*vals.length))];
+  let b1 = Math.max(1, q(0.25));
+  let b2 = Math.max(b1+1, q(0.50));
+  let b3 = Math.max(b2+1, q(0.75));
+  // keep the top bucket non-empty; repair ordering if the cap collides
+  if (b3 >= max) b3 = Math.max(3, max-1);
+  if (b2 >= b3)  b2 = b3 - 1;
+  if (b1 >= b2)  b1 = Math.max(1, b2 - 1);
+  _activityBreaks = [b1, b2, b3];
+  updateLegendLabels();
+}
+
+function densityColor(n){
+  const B = _activityBreaks;
+  if (n <= 0)    return OPP_RAMP[0];
+  if (n <= B[0]) return OPP_RAMP[1];
+  if (n <= B[1]) return OPP_RAMP[2];
+  if (n <= B[2]) return OPP_RAMP[3];
+  return OPP_RAMP[4];
+}
+
+function updateLegendLabels(){
+  const B = _activityBreaks;
+  const rng = (lo,hi)=> lo===hi ? String(lo) : `${lo}\u2013${hi}`;
+  const labels = ['None', rng(1,B[0]), rng(B[0]+1,B[1]), rng(B[1]+1,B[2]), `${B[2]+1}+`];
+  labels.forEach((t,i)=>{
+    const el = document.getElementById('legendLabel'+i);
+    if (el) el.textContent = t;
+  });
+}
 
 function zoomedOpacity(base){
   const z=map.getZoom();
@@ -1016,9 +1063,31 @@ function zoomedOpacity(base){
 function zoomedWeight(){
   const z=map.getZoom(); return z<=4?2.2:z<=5?1.8:z<=6?1.4:1.0;
 }
+// ── Filter-sync layer ─────────────────────────────────────────────────────
+// Re-derives choropleth counts from _stateHoverStats (rebuilt per render(),
+// so it reflects ALL active filters — results, action type, concerns, search),
+// then recomputes quantile breaks and refreshes fills, legend, and badges.
+let _statsReady = false;
+function syncChoroplethToFilters(){
+  if(!choroplethLayer || !_statsReady) return;
+  const totals = {};
+  Object.keys(_stateHoverStats).forEach(n => { totals[n] = _stateHoverStats[n].total || 0; });
+  choroplethLayer.eachLayer(l=>{
+    const f=l.feature; if(!f) return;
+    const name=f.properties.NAME||f.properties.name||'';
+    f.properties._count = totals[name]||0;
+  });
+  computeActivityBreaks(Object.values(totals));
+  updateChoroplethVisuals();
+  updateStateCountBadges(totals);
+}
+
 function updateChoroplethVisuals(){
   if(!choroplethLayer) return;
+  updateLegendLabels();
   choroplethLayer.eachLayer(layer=>{
+    const nm = layer.feature?.properties?.NAME || layer.feature?.properties?.name || '';
+    if (currentZoomedState && nm === currentZoomedState) return;  // keep zoom highlight intact
     const cnt=layer.feature?.properties?._count||0;
     const s=densityColor(cnt);
     layer.setStyle({fill:true,fillColor:s.color,fillOpacity:zoomedOpacity(s.opacity),color:'#374151',weight:zoomedWeight(),opacity:1});
@@ -1118,10 +1187,12 @@ function buildChoropleth(data, geoJson){
       _sevCnt[name]=(_sevCnt[name]||0)+1;
     }
   });
+  computeActivityBreaks(Object.values(counts));
   choroplethLayer=L.geoJSON(geoJson,{
     style: feat=>{
       const name=feat.properties.NAME||feat.properties.name||'';
-      const cnt=counts[name]||0;
+      // Prefer live (filter-synced) count; fall back to build-time count once.
+      const cnt = feat.properties._count!=null ? feat.properties._count : (counts[name]||0);
       feat.properties._count=cnt;
       const s=densityColor(cnt);
       return {fill:true, fillColor:s.color, fillOpacity:zoomedOpacity(s.opacity), color:'#374151', weight:zoomedWeight(), opacity:1};
@@ -1132,8 +1203,9 @@ function buildChoropleth(data, geoJson){
       featureLayers.push({name, count: cnt, layer, feature: feat});
       layer.on({
         mouseover: e=>{
-          if(currentZoomedState!==name) e.target.setStyle({weight:2.5,color:'#fca5a5',fillOpacity:Math.min(0.99,zoomedOpacity(densityColor(cnt).opacity)+0.08)});
-          if(cnt>0){
+          const liveCnt = feat.properties._count||0;
+          if(currentZoomedState!==name) e.target.setStyle({weight:2.5,color:'#fca5a5',fillOpacity:Math.min(0.99,zoomedOpacity(densityColor(liveCnt).opacity)+0.08)});
+          if(liveCnt>0){
             // O(1) lookup — stats precomputed once per render(), filter-aware
             const s = _stateHoverStats[name];
             if (s && s.total > 0) {
@@ -1147,7 +1219,9 @@ function buildChoropleth(data, geoJson){
               document.getElementById('mapHint').textContent=`${name}: no incidents match current filters`;
             }
           } else {
-            document.getElementById('mapHint').textContent=`${name}: no recorded opposition`;
+            document.getElementById('mapHint').textContent = (counts[name]||0) > 0
+              ? `${name}: no incidents match current filters`
+              : `${name}: no recorded opposition`;
           }
         },
         mouseout: e=>{
@@ -1164,10 +1238,22 @@ function buildChoropleth(data, geoJson){
   choroplethLayer.bringToBack();
   buildStateCountLayer(featureLayers);
   updateChoroplethVisuals();
+  syncChoroplethToFilters();  // if render() already ran with active filters, reconcile
 }
+
+function sevBadgeBg(avgSev){
+  return avgSev >= 3.5 ? 'rgba(15,118,110,0.97)'
+       : avgSev >= 2.5 ? 'rgba(20,148,132,0.94)'
+       : avgSev >= 1.5 ? 'rgba(45,122,122,0.91)'
+       : 'rgba(71,85,105,0.88)';
+}
+function badgeWidth(count){ const d=String(count).length; return d>=3?36:d===2?30:26; }
+
+let _stateBadgeMarkers = {};  // name -> L.marker (persistent; updated in place)
 
 function buildStateCountLayer(featureLayers){
   if (stateCountLayer) stateCountLayer.remove();
+  _stateBadgeMarkers = {};
 
   if (!map.getPane('stateBadgePane')) {
     const pane = map.createPane('stateBadgePane');
@@ -1179,37 +1265,54 @@ function buildStateCountLayer(featureLayers){
   stateCountLayer = L.layerGroup();
 
   featureLayers.forEach(({name, count, layer}) => {
-    if (!count) return;
+    if (!count) return;  // filtered counts are a subset, so build-time count>0 covers every possible badge
     const center = getStateBadgeCenter(name, layer);
-    const digits = String(count).length;
-    const w = digits >= 3 ? 36 : digits === 2 ? 30 : 26;
+    const w = badgeWidth(count);
     const h = 22;
 
     const avgSev = _sevCnt[name] ? (_sevSum[name]||0)/_sevCnt[name] : 0;
-    const badgeBg = avgSev >= 3.5 ? 'rgba(15,118,110,0.97)'
-                  : avgSev >= 2.5 ? 'rgba(20,148,132,0.94)'
-                  : avgSev >= 1.5 ? 'rgba(45,122,122,0.91)'
-                  : 'rgba(71,85,105,0.88)';
     const icon = L.divIcon({
       className: 'leaflet-div-icon-clean',
       iconSize: [w, h],
       iconAnchor: [w / 2, h / 2],
-      html: `<div class="state-count-badge" style="width:${w}px;height:${h}px;box-sizing:border-box;background:${badgeBg}" title="Avg severity: ${avgSev.toFixed(1)}">${count}</div>`
+      html: `<div class="state-count-badge" style="width:${w}px;height:${h}px;box-sizing:border-box;background:${sevBadgeBg(avgSev)}" title="Avg severity: ${avgSev.toFixed(1)}">${count}</div>`
     });
 
-    stateCountLayer.addLayer(
-      L.marker(center, {
-        icon,
-        pane: 'stateBadgePane',
-        keyboard: false,
-        interactive: true,
-        zIndexOffset: 0
-      })
-    );
+    const m = L.marker(center, {
+      icon,
+      pane: 'stateBadgePane',
+      keyboard: false,
+      interactive: true,
+      zIndexOffset: 0
+    });
+    _stateBadgeMarkers[name] = m;
+    stateCountLayer.addLayer(m);
   });
 
   stateCountLayer.addTo(map);
   updateStateCountVisibility();
+}
+
+// In-place badge refresh — no layer teardown, no flicker. Count comes from the
+// filtered totals; severity color/title come from the filter-aware stats so the
+// badge never mixes filtered counts with unfiltered severity.
+function updateStateCountBadges(totals){
+  Object.keys(_stateBadgeMarkers).forEach(name=>{
+    const m = _stateBadgeMarkers[name];
+    const root = m.getElement && m.getElement();
+    if (!root) return;
+    const t = totals[name]||0;
+    if (!t) { root.style.display='none'; return; }
+    root.style.display='';
+    const div = root.querySelector('.state-count-badge');
+    if (!div) return;
+    const st = _stateHoverStats[name];
+    const avgSev = (st && st.sevCnt) ? st.sevSum/st.sevCnt : 0;
+    div.textContent = t;
+    div.style.width = badgeWidth(t)+'px';
+    div.style.background = sevBadgeBg(avgSev);
+    div.title = `Avg severity: ${avgSev.toFixed(1)}`;
+  });
 }
 
 function updateStateCountVisibility(){
