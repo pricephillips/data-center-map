@@ -51,6 +51,8 @@ PROPOSALS_CSV = os.environ.get("PR_PROPOSALS", os.path.join(ROOT, "data", "propo
 OUT_LINKS = os.environ.get("PR_OUT_LINKS", os.path.join(ROOT, "data", "project_links.csv"))
 OUT_LIFECYCLES = os.environ.get("PR_OUT_LIFE", os.path.join(ROOT, "data", "project_lifecycles.csv"))
 OUT_REVIEW = os.environ.get("PR_OUT_REVIEW", os.path.join(ROOT, "data", "project_link_review.csv"))
+MANUAL_LINKS = os.environ.get("PR_MANUAL_LINKS", os.path.join(ROOT, "data", "project_links_manual.csv"))
+MANUAL_DATES = os.environ.get("PR_MANUAL_DATES", os.path.join(ROOT, "data", "project_decision_dates.csv"))
 
 # ---------------------------------------------------------------------------
 # Vocabulary (activity-descriptive ladder; no scorekeeping terms)
@@ -377,8 +379,107 @@ def resolve(events: list[dict], projects: list[dict]):
 
 
 # ---------------------------------------------------------------------------
-# Outputs
+# Manual overrides (human triage of the review worklist)
+#
+# data/project_links_manual.csv     opp_id, project_id, action(confirm|reject), note
+#   confirm: force-link the event to the project (tier manual_confirm)
+#   reject:  suppress that auto-link/candidate pair permanently
+#
+# data/project_decision_dates.csv   project_id, decision_date, decision_date_source, source_url, note
+#   Supplies the verifiable decision date for a terminal project. Rows here
+#   clear the corresponding DATE_RECOVERY flag. decision_date must be
+#   YYYY-MM-DD; anything else is reported and ignored (never guessed).
 # ---------------------------------------------------------------------------
+
+def load_manual_links(path: str) -> tuple[dict[tuple[str, str], dict], list[str]]:
+    """Return ({(opp_id, project_id): row}, problems)."""
+    out: dict[tuple[str, str], dict] = {}
+    problems: list[str] = []
+    if not os.path.exists(path):
+        return out, problems
+    for i, r in enumerate(load_csv(path), 2):
+        oid = (r.get("opp_id") or "").strip()
+        pid = (r.get("project_id") or "").strip()
+        action = (r.get("action") or "").strip().lower()
+        if not oid or not pid or action not in {"confirm", "reject"}:
+            problems.append(f"{os.path.basename(path)} line {i}: needs opp_id, "
+                            f"project_id, action=confirm|reject")
+            continue
+        out[(oid, pid)] = {"action": action, "note": (r.get("note") or "").strip()}
+    return out, problems
+
+
+def load_manual_dates(path: str) -> tuple[dict[str, dict], list[str]]:
+    """Return ({project_id: row}, problems). Dates must be full ISO days."""
+    out: dict[str, dict] = {}
+    problems: list[str] = []
+    if not os.path.exists(path):
+        return out, problems
+    for i, r in enumerate(load_csv(path), 2):
+        pid = (r.get("project_id") or "").strip()
+        d = (r.get("decision_date") or "").strip()
+        src = (r.get("decision_date_source") or "").strip()
+        if not pid:
+            problems.append(f"{os.path.basename(path)} line {i}: missing project_id")
+            continue
+        if not re.match(r"^\d{4}-\d{2}-\d{2}$", d):
+            problems.append(f"{os.path.basename(path)} line {i}: decision_date "
+                            f"'{d}' is not YYYY-MM-DD; row ignored")
+            continue
+        try:
+            date.fromisoformat(d)
+        except ValueError:
+            problems.append(f"{os.path.basename(path)} line {i}: decision_date "
+                            f"'{d}' is not a real date; row ignored")
+            continue
+        if not src:
+            problems.append(f"{os.path.basename(path)} line {i}: "
+                            f"decision_date_source is required (defensibility); row ignored")
+            continue
+        out[pid] = {"decision_date": d, "decision_date_source": src,
+                    "source_url": (r.get("source_url") or "").strip(),
+                    "note": (r.get("note") or "").strip()}
+    return out, problems
+
+
+def apply_manual_links(links: list[dict], review: list[dict],
+                       manual: dict[tuple[str, str], dict],
+                       events: list[dict], projects: list[dict]):
+    """Apply confirm/reject overrides. Returns (links, review, unresolved)."""
+    if not manual:
+        return links, review, []
+    ev_by_id = {e["opp_id"]: e for e in events}
+    pr_by_id = {p["project_id"]: p for p in projects}
+
+    rejects = {k for k, v in manual.items() if v["action"] == "reject"}
+    confirms = {k: v for k, v in manual.items() if v["action"] == "confirm"}
+
+    links = [lk for lk in links
+             if (lk["event"]["opp_id"], lk["project"]["project_id"]) not in rejects]
+    review = [rv for rv in review
+              if (rv["event"]["opp_id"], rv["project"]["project_id"]) not in rejects]
+
+    linked_pairs = {(lk["event"]["opp_id"], lk["project"]["project_id"]) for lk in links}
+    unresolved: list[str] = []
+    for (oid, pid), v in confirms.items():
+        if (oid, pid) in linked_pairs:
+            continue                                   # already auto-linked
+        ev, pr = ev_by_id.get(oid), pr_by_id.get(pid)
+        if ev is None or pr is None:
+            unresolved.append(f"manual confirm {oid} -> {pid}: "
+                              f"{'unknown opp_id' if ev is None else 'unknown project_id'}")
+            continue
+        links.append({"event": ev, "project": pr, "evidence": {
+            "confirmed": True, "tier": "manual_confirm", "rank": 99.0,
+            "distance_km": "", "company_jaccard": "", "name_jaccard": "",
+            "county_match": "", "signals": f"manual: {v['note']}" if v["note"] else "manual",
+        }})
+        review = [rv for rv in review if rv["event"]["opp_id"] != oid
+                  or rv["project"]["project_id"] != pid]
+    return links, review, unresolved
+
+
+
 
 def write_links(links: list[dict], path: str) -> None:
     cols = ["opp_id", "project_id", "project_name", "match_tier", "signals",
@@ -435,14 +536,17 @@ def write_review(review: list[dict], date_recovery: list[dict], path: str) -> No
             w.writerow(dr)
 
 
-def build_lifecycles(projects: list[dict], links: list[dict], path: str) -> list[dict]:
+def build_lifecycles(projects: list[dict], links: list[dict], path: str,
+                     manual_dates: dict[str, dict] | None = None) -> list[dict]:
+    manual_dates = manual_dates or {}
     per_project: dict[str, list[dict]] = defaultdict(list)
     for lk in links:
         per_project[lk["project"]["project_id"]].append(lk["event"])
 
     cols = ["project_id", "project_name", "state", "county", "phase",
             "lifecycle_outcome", "decided", "announced_date", "announced_precision",
-            "decision_date", "decision_date_source", "last_status_update",
+            "decision_date", "decision_date_source", "days_announced_to_decision",
+            "last_status_update",
             "capacity_mw", "size_acres",
             "n_opposition_events", "first_opposition_date", "last_opposition_date",
             "opposition_span_days", "days_announced_to_first_opposition",
@@ -467,6 +571,14 @@ def build_lifecycles(projects: list[dict], links: list[dict], path: str) -> list
             groups = {g.strip() for e in evs
                       for g in (e["raw"].get("Opposition Groups") or "").split(";") if g.strip()}
             decided = pr["lifecycle_outcome"] in {"advanced_confirmed", "blocked_confirmed"}
+            md = manual_dates.get(pr["project_id"])
+            decision_date = md["decision_date"] if md else ""
+            decision_src = md["decision_date_source"] if md else ""
+            delay_days = ""
+            if (decision_date and pr["announced_date"]
+                    and pr["announced_precision"] == "day"):
+                delay_days = str((date.fromisoformat(decision_date)
+                                  - date.fromisoformat(pr["announced_date"])).days)
             w.writerow({
                 "project_id": pr["project_id"],
                 "project_name": pr["name"],
@@ -477,8 +589,9 @@ def build_lifecycles(projects: list[dict], links: list[dict], path: str) -> list
                 "decided": "yes" if decided else "no",
                 "announced_date": pr["announced_date"],
                 "announced_precision": pr["announced_precision"],
-                "decision_date": "",          # never inferred; filled via date recovery
-                "decision_date_source": "",
+                "decision_date": decision_date,   # manual, sourced; never inferred
+                "decision_date_source": decision_src,
+                "days_announced_to_decision": delay_days,
                 "last_status_update": pr["last_status_update"],
                 "capacity_mw": pr["raw"].get("capacity_mw", ""),
                 "size_acres": pr["raw"].get("size_acres", ""),
@@ -491,7 +604,7 @@ def build_lifecycles(projects: list[dict], links: list[dict], path: str) -> list
                 "n_opposition_groups": len(groups),
                 "has_lawsuit": "yes" if any("lawsuit" in t for t in types) else "no",
             })
-            if decided:
+            if decided and not decision_date:
                 date_recovery_rows.append({
                     "review_type": "DATE_RECOVERY",
                     "opp_id": "",
@@ -532,8 +645,16 @@ def main() -> int:
     events = [prep_event(r) for r in opp_rows]
 
     links, review = resolve(events, projects)
+
+    manual_links, link_problems = load_manual_links(MANUAL_LINKS)
+    manual_dates, date_problems = load_manual_dates(MANUAL_DATES)
+    links, review, unresolved = apply_manual_links(links, review, manual_links,
+                                                   events, projects)
+    for msg in link_problems + date_problems + unresolved:
+        print(f"MANUAL OVERRIDE WARNING: {msg}")
+
     write_links(links, OUT_LINKS)
-    date_recovery = build_lifecycles(projects, links, OUT_LIFECYCLES)
+    date_recovery = build_lifecycles(projects, links, OUT_LIFECYCLES, manual_dates)
     write_review(review, date_recovery, OUT_REVIEW)
 
     n_linked_projects = len({lk["project"]["project_id"] for lk in links})

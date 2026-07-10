@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Lifecycles</title>
+<style>
+:root {
+  --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
+  --muted:#8a96a4; --border:#2c3544;
+  --advanced:#2563eb; --blocked:#dc2626; --pending:#f39c12;
+  --atlas:#4f98a3;
+}
+* { box-sizing:border-box; margin:0; padding:0 }
+body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(--text); padding:20px; min-height:100vh }
+h2 { font-weight:700; margin-bottom:4px }
+.sub { color:var(--muted); font-size:13px; margin-bottom:16px }
+
+#error-banner { display:none; background:#3a1520; border:1px solid #7a2535; color:#ffb4c0;
+  padding:12px 14px; border-radius:10px; margin-bottom:14px; font-size:13px }
+
+.kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:16px }
+.kpi { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:14px 16px }
+.kpi b { display:block; font-size:24px; margin-bottom:2px; color:var(--atlas) }
+.kpi.k-advanced b { color:var(--advanced) }
+.kpi.k-blocked b { color:var(--blocked) }
+.kpi.k-pending b { color:var(--pending) }
+.kpi span { color:var(--muted); font-size:12px; line-height:1.4 }
+
+.controls { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; align-items:center }
+.norm-select, .search-box { padding:6px 10px; border-radius:8px; border:1px solid var(--border);
+  background:#0c1018; color:var(--text); font-size:12px; outline:none }
+.norm-select:focus, .search-box:focus { border-color:var(--atlas) }
+.search-box { min-width:200px }
+.toggle { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); cursor:pointer;
+  padding:6px 10px; border:1px solid var(--border); border-radius:8px; background:#0c1018; user-select:none }
+.toggle input { accent-color:var(--atlas) }
+.count-note { font-size:12px; color:var(--muted); margin-left:auto }
+
+.table-card { background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden }
+table { width:100%; border-collapse:collapse; font-size:13px }
+th { text-align:left; padding:10px 12px; color:var(--muted); font-size:11px; text-transform:uppercase;
+  letter-spacing:.04em; border-bottom:1px solid var(--border); background:var(--panel2); cursor:pointer; white-space:nowrap }
+th .arrow { font-size:9px; margin-left:3px }
+td { padding:10px 12px; border-bottom:1px solid #1d2530; vertical-align:top }
+tr:last-child td { border-bottom:none }
+tr:hover td { background:#1a212c }
+
+.badge { display:inline-block; padding:2px 8px; border-radius:5px; font-size:11px; font-weight:600; white-space:nowrap }
+.badge.advanced_confirmed { background:rgba(37,99,235,.15); color:#7aa8f5; border:1px solid rgba(37,99,235,.4) }
+.badge.blocked_confirmed  { background:rgba(220,38,38,.15); color:#f08a8a; border:1px solid rgba(220,38,38,.4) }
+.badge.pending            { background:rgba(243,156,18,.13); color:#f3b95a; border:1px solid rgba(243,156,18,.4) }
+
+.pname { font-weight:600 }
+.psub { color:var(--muted); font-size:11px; margin-top:2px }
+.mono { font-variant-numeric:tabular-nums; color:var(--muted); font-size:12px }
+.mono b { color:var(--text); font-weight:600 }
+
+.timeline { position:relative; height:22px; min-width:170px }
+.timeline .track { position:absolute; top:10px; left:0; right:0; height:2px; background:#2c3544; border-radius:2px }
+.timeline .dot { position:absolute; top:6px; width:10px; height:10px; border-radius:50%; border:2px solid var(--bg) }
+.timeline .dot.announced { background:var(--atlas) }
+.timeline .dot.opp { background:var(--pending) }
+.timeline .dot.decision.advanced_confirmed { background:var(--advanced) }
+.timeline .dot.decision.blocked_confirmed { background:var(--blocked) }
+.timeline .span { position:absolute; top:9px; height:4px; background:rgba(243,156,18,.45); border-radius:2px }
+.tl-caption { font-size:10px; color:var(--muted); margin-top:2px; white-space:nowrap }
+
+.legend { display:flex; gap:14px; margin:10px 2px 0; font-size:11px; color:var(--muted); flex-wrap:wrap }
+.legend .sw { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:4px; vertical-align:-1px }
+
+.empty { padding:28px; text-align:center; color:var(--muted); font-size:13px }
+</style>
+</head>
+<body>
+
+<h2>Project Lifecycles</h2>
+<div class="sub">Projects from the proposals registry linked to opposition activity. Outcomes use the activity-descriptive ladder; "decided" means terminal dispositions only. Decision dates appear only when manually verified and sourced.</div>
+
+<div id="error-banner"></div>
+
+<div class="kpis">
+  <div class="kpi"><b id="kpi-total">–</b><span>Projects tracked</span></div>
+  <div class="kpi k-advanced"><b id="kpi-advanced">–</b><span>Advanced (confirmed)</span></div>
+  <div class="kpi k-blocked"><b id="kpi-blocked">–</b><span>Blocked (confirmed)</span></div>
+  <div class="kpi k-pending"><b id="kpi-pending">–</b><span>Pending</span></div>
+  <div class="kpi"><b id="kpi-opposed">–</b><span>With linked opposition</span></div>
+  <div class="kpi"><b id="kpi-seed">–</b><span>Decided + opposed</span></div>
+</div>
+
+<div class="controls">
+  <input class="search-box" id="f-search" type="text" placeholder="Search project, company, county…">
+  <select class="norm-select" id="f-state"><option value="">All states</option></select>
+  <select class="norm-select" id="f-outcome">
+    <option value="">All outcomes</option>
+    <option value="advanced_confirmed">Advanced (confirmed)</option>
+    <option value="blocked_confirmed">Blocked (confirmed)</option>
+    <option value="pending">Pending</option>
+  </select>
+  <label class="toggle"><input type="checkbox" id="f-opposed"> Opposed only</label>
+  <label class="toggle"><input type="checkbox" id="f-decided-opposed"> Decided + opposed</label>
+  <span class="count-note" id="count-note"></span>
+</div>
+
+<div class="table-card">
+  <table>
+    <thead>
+      <tr>
+        <th data-sort="project_name">Project<span class="arrow"></span></th>
+        <th data-sort="state">Location<span class="arrow"></span></th>
+        <th data-sort="lifecycle_outcome">Lifecycle<span class="arrow"></span></th>
+        <th data-sort="capacity_mw">MW<span class="arrow"></span></th>
+        <th data-sort="n_opposition_events">Opp. events<span class="arrow"></span></th>
+        <th data-sort="opposition_span_days">Opp. span<span class="arrow"></span></th>
+        <th>Timeline</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="empty" id="empty" style="display:none">No projects match the current filters.</div>
+</div>
+
+<div class="legend">
+  <span><span class="sw" style="background:var(--atlas)"></span>Announced</span>
+  <span><span class="sw" style="background:var(--pending)"></span>Opposition first/last</span>
+  <span><span class="sw" style="background:var(--advanced)"></span>Decision — advanced</span>
+  <span><span class="sw" style="background:var(--blocked)"></span>Decision — blocked</span>
+</div>
+
+<script>
+// GitHub Pages sends no CORS headers, so raw.githubusercontent.com must come
+// FIRST in the fallback chain or embedded iframes (Notion/Simple.ink) fail
+// silently. Relative URL second for the canonical host.
+const DATA_URLS = [
+  'https://raw.githubusercontent.com/pricephillips/data-center-map/main/data/project_lifecycles.csv',
+  'data/project_lifecycles.csv'
+];
+
+function showError(msg) {
+  const b = document.getElementById('error-banner');
+  b.textContent = msg;
+  b.style.display = 'block';
+}
+
+// Minimal RFC-4180-ish CSV parser (quoted fields, embedded commas/newlines).
+function parseCSV(text) {
+  const rows = []; let row = [], field = '', inQ = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQ) {
+      if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else inQ = false; }
+      else field += c;
+    } else if (c === '"') inQ = true;
+    else if (c === ',') { row.push(field); field = ''; }
+    else if (c === '\n' || c === '\r') {
+      if (c === '\r' && text[i+1] === '\n') i++;
+      row.push(field); field = '';
+      if (row.length > 1 || row[0] !== '') rows.push(row);
+      row = [];
+    } else field += c;
+  }
+  if (field !== '' || row.length) { row.push(field); rows.push(row); }
+  if (!rows.length) return [];
+  const head = rows[0];
+  return rows.slice(1).map(r => Object.fromEntries(head.map((h, j) => [h, r[j] ?? ''])));
+}
+
+async function loadData() {
+  let lastErr = null;
+  for (const url of DATA_URLS) {
+    try {
+      const resp = await fetch(url, { cache: 'no-store' });
+      if (!resp.ok) { lastErr = `${url}: HTTP ${resp.status}`; continue; }
+      return parseCSV(await resp.text());
+    } catch (e) { lastErr = `${url}: ${e.message}`; }
+  }
+  showError(`Could not load project_lifecycles.csv. Last error — ${lastErr}. ` +
+            `The file is generated by project_resolution.py in the build pipeline.`);
+  return null;
+}
+
+let DATA = [], sortKey = 'n_opposition_events', sortDir = -1;
+const NUMERIC = new Set(['capacity_mw','n_opposition_events','opposition_span_days',
+                         'days_announced_to_decision','n_opposition_groups','size_acres']);
+
+function fmtDays(d) {
+  if (d === '' || d === undefined) return '';
+  const n = +d;
+  if (!isFinite(n)) return '';
+  if (n < 60) return n + 'd';
+  return (n / 30.44).toFixed(1).replace(/\.0$/, '') + 'mo';
+}
+
+function timelineHTML(p) {
+  const pts = [];
+  if (p.announced_date) pts.push({ d: p.announced_date, cls: 'announced', label: 'ann' });
+  if (p.first_opposition_date) pts.push({ d: p.first_opposition_date, cls: 'opp', label: 'opp' });
+  if (p.last_opposition_date && p.last_opposition_date !== p.first_opposition_date)
+    pts.push({ d: p.last_opposition_date, cls: 'opp', label: '' });
+  if (p.decision_date) pts.push({ d: p.decision_date, cls: 'decision ' + p.lifecycle_outcome, label: 'dec' });
+  const dated = pts.filter(x => /^\d{4}-\d{2}-\d{2}$/.test(x.d));
+  if (dated.length < 2) {
+    return `<div class="tl-caption">${dated.length === 1 ? dated[0].label + ' ' + dated[0].d : 'insufficient dates'}</div>`;
+  }
+  const ts = dated.map(x => +new Date(x.d));
+  const min = Math.min(...ts), max = Math.max(...ts), rng = Math.max(max - min, 1);
+  const pos = t => 4 + 92 * (t - min) / rng;
+  let dots = '', span = '';
+  const oppTs = dated.filter(x => x.cls === 'opp').map(x => +new Date(x.d));
+  if (oppTs.length >= 2) {
+    const a = pos(Math.min(...oppTs)), b = pos(Math.max(...oppTs));
+    span = `<div class="span" style="left:${a}%;width:${Math.max(b - a, 1)}%"></div>`;
+  }
+  for (const x of dated) dots += `<div class="dot ${x.cls}" style="left:calc(${pos(+new Date(x.d))}% - 5px)" title="${x.label} ${x.d}"></div>`;
+  const capL = dated[0], capR = dated[dated.length - 1];
+  return `<div class="timeline"><div class="track"></div>${span}${dots}</div>
+          <div class="tl-caption">${capL.d} → ${capR.d}</div>`;
+}
+
+function esc(s) { return String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function render() {
+  const q = document.getElementById('f-search').value.trim().toLowerCase();
+  const st = document.getElementById('f-state').value;
+  const oc = document.getElementById('f-outcome').value;
+  const opposedOnly = document.getElementById('f-opposed').checked;
+  const seedOnly = document.getElementById('f-decided-opposed').checked;
+
+  let rows = DATA.filter(p => {
+    if (st && p.state !== st) return false;
+    if (oc && p.lifecycle_outcome !== oc) return false;
+    if (opposedOnly && !(+p.n_opposition_events > 0)) return false;
+    if (seedOnly && !(p.decided === 'yes' && +p.n_opposition_events > 0)) return false;
+    if (q) {
+      const blob = (p.project_name + ' ' + p.county + ' ' + p.state + ' ' + p.opposition_types).toLowerCase();
+      if (!blob.includes(q)) return false;
+    }
+    return true;
+  });
+
+  rows.sort((a, b) => {
+    let x = a[sortKey] ?? '', y = b[sortKey] ?? '';
+    if (NUMERIC.has(sortKey)) { x = +x || 0; y = +y || 0; }
+    return (x < y ? -1 : x > y ? 1 : 0) * sortDir;
+  });
+
+  const tb = document.getElementById('rows');
+  tb.innerHTML = rows.map(p => {
+    const dec = p.decision_date
+      ? `decided ${esc(p.decision_date)}${p.days_announced_to_decision ? ' · ' + fmtDays(p.days_announced_to_decision) + ' after announcement' : ''}`
+      : (p.decided === 'yes' ? 'decision date pending recovery' : '');
+    return `<tr>
+      <td><div class="pname">${esc(p.project_name)}</div>
+          <div class="psub">${esc(p.phase)}${dec ? ' · ' + dec : ''}</div></td>
+      <td><div>${esc(p.state)}</div><div class="psub">${esc(p.county)}</div></td>
+      <td><span class="badge ${esc(p.lifecycle_outcome)}">${esc(p.lifecycle_outcome.replace('_', ' '))}</span></td>
+      <td class="mono">${esc(p.capacity_mw)}</td>
+      <td class="mono"><b>${esc(p.n_opposition_events)}</b>${+p.n_opposition_groups ? ' · ' + esc(p.n_opposition_groups) + ' grp' : ''}${p.has_lawsuit === 'yes' ? ' · suit' : ''}</td>
+      <td class="mono">${fmtDays(p.opposition_span_days)}</td>
+      <td>${timelineHTML(p)}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('empty').style.display = rows.length ? 'none' : 'block';
+  document.getElementById('count-note').textContent = `${rows.length} of ${DATA.length} projects`;
+}
+
+function initKPIs() {
+  const n = k => DATA.filter(k).length;
+  document.getElementById('kpi-total').textContent = DATA.length;
+  document.getElementById('kpi-advanced').textContent = n(p => p.lifecycle_outcome === 'advanced_confirmed');
+  document.getElementById('kpi-blocked').textContent = n(p => p.lifecycle_outcome === 'blocked_confirmed');
+  document.getElementById('kpi-pending').textContent = n(p => p.lifecycle_outcome === 'pending');
+  document.getElementById('kpi-opposed').textContent = n(p => +p.n_opposition_events > 0);
+  document.getElementById('kpi-seed').textContent = n(p => p.decided === 'yes' && +p.n_opposition_events > 0);
+}
+
+function initControls() {
+  const states = [...new Set(DATA.map(p => p.state).filter(Boolean))].sort();
+  const sel = document.getElementById('f-state');
+  for (const s of states) { const o = document.createElement('option'); o.value = o.textContent = s; sel.appendChild(o); }
+  for (const id of ['f-search','f-state','f-outcome','f-opposed','f-decided-opposed'])
+    document.getElementById(id).addEventListener('input', render);
+  document.querySelectorAll('th[data-sort]').forEach(th => th.addEventListener('click', () => {
+    const k = th.dataset.sort;
+    if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = NUMERIC.has(k) ? -1 : 1; }
+    document.querySelectorAll('th .arrow').forEach(a => a.textContent = '');
+    th.querySelector('.arrow').textContent = sortDir === 1 ? '▲' : '▼';
+    render();
+  }));
+}
+
+(async () => {
+  const data = await loadData();
+  if (!data) return;
+  DATA = data;
+  initKPIs();
+  initControls();
+  render();
+})();
+</script>
+</body>
+</html>
