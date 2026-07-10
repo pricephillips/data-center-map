@@ -109,6 +109,23 @@ tbody td  { padding:12px 14px; font-size:13px }
 </head>
 <body>
 
+<nav id="site-nav" style="display:none;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+  <a href="index.html" class="nav-pill">Atlas Map</a>
+  <a href="opposition-tracker.html" class="nav-pill">Opposition Tracker</a>
+  <a href="opposition-dashboard.html" class="nav-pill">Opposition Dashboard</a>
+  <a href="developments-dashboard.html" class="nav-pill active">Developments</a>
+  <a href="project-lifecycles.html" class="nav-pill">Projects</a>
+</nav>
+<style>
+.nav-pill { padding:6px 12px; border-radius:999px; border:1px solid var(--border);
+  background:var(--panel); color:var(--muted); font-size:12px; text-decoration:none }
+.nav-pill:hover { color:var(--text); border-color:var(--atlas) }
+.nav-pill.active { color:var(--atlas); border-color:var(--atlas); background:var(--panel2) }
+</style>
+<script>
+  try { if (window.self === window.top) document.getElementById('site-nav').style.display = 'flex'; }
+  catch (e) { /* embedded in a cross-origin iframe; keep nav hidden */ }
+</script>
 <div class="page-header">
   <h1>Data Center Development Tracker</h1>
   <p>Tracking existing US data centers using the OSTI IM3 Open Source Atlas, plus major hyperscale AI sites. Use the charts and table below to explore facility concentration, ownership, and power capacity.</p>
