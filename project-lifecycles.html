@@ -74,6 +74,26 @@ tr:hover td { background:#1a212c }
 </head>
 <body>
 
+<!-- Site nav: visible on direct visits, auto-hidden inside iframe embeds
+     (Notion/Simple.ink) so embedded views stay clean. -->
+<nav id="site-nav" style="display:none;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+  <a href="index.html" class="nav-pill">Atlas Map</a>
+  <a href="opposition-tracker.html" class="nav-pill">Opposition Tracker</a>
+  <a href="opposition-dashboard.html" class="nav-pill">Opposition Dashboard</a>
+  <a href="developments-dashboard.html" class="nav-pill">Developments</a>
+  <a href="project-lifecycles.html" class="nav-pill active">Projects</a>
+</nav>
+<style>
+.nav-pill { padding:6px 12px; border-radius:999px; border:1px solid var(--border);
+  background:var(--panel); color:var(--muted); font-size:12px; text-decoration:none }
+.nav-pill:hover { color:var(--text); border-color:var(--atlas) }
+.nav-pill.active { color:var(--atlas); border-color:var(--atlas); background:var(--panel2) }
+</style>
+<script>
+  try { if (window.self === window.top) document.getElementById('site-nav').style.display = 'flex'; }
+  catch (e) { /* cross-origin frame access throws -> we are embedded; keep hidden */ }
+</script>
+
 <h2>Project Lifecycles</h2>
 <div class="sub">Projects from the proposals registry linked to opposition activity. Outcomes use the activity-descriptive ladder; "decided" means terminal dispositions only. Decision dates appear only when manually verified and sourced.</div>
 
