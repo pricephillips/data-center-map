@@ -76,7 +76,7 @@ jobs:
           # GITHUB_TOKEN cannot trigger workflows in another repository).
           # Create a fine-grained or classic PAT and store it as
           # IOWA_DISPATCH_TOKEN in this repo's Actions secrets.
-          github-token: ${{ secrets.IOWA_DISPATCH_TOKEN }}
+          github-token: ${{ secrets.IOWA_DISPATCH_TOKEN || secrets.REPO_DISPATCH_TOKEN }}
           script: |
             await github.rest.repos.createDispatchEvent({
               owner: 'pricephillips',
