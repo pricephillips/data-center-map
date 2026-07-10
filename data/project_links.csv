@@ -1,0 +1,250 @@
+opp_id,project_id,project_name,match_tier,signals,distance_km,company_jaccard,name_jaccard,county_match,opp_incident,opp_date,opp_type,opp_state,opp_county
+opp_f8d57486f721,prj_17,Millstone Nuclear Power Station Data Center,geo_company,geo:8.6km; company:0.33; county,8.6,0.33,0.00,yes,Town of Groton,2022-06-15,moratorium,CT,new london
+opp_660194b23c81,prj_17,Millstone Nuclear Power Station Data Center,geo_company,geo:5.9km; company:0.33; county,5.9,0.33,0.00,yes,Waterford / East Lyme,2024-01-09,zoning_restriction,CT,new london
+opp_fc900da0efeb,prj_46,Applied Digital Adair,geo_company,geo:19.4km; company:1.00; county,19.4,1.00,0.25,yes,Adair County,2024-04-24,zoning_restriction,IA,adair
+opp_20b5ac3fa00e,prj_73,Westfield Data Center Campus,geo_company,geo:3.8km; company:1.00; name:1.00; county,3.8,1.00,1.00,yes,Westfield,2024-11-01,project_withdrawal,MA,hampden
+opp_566cc762af35,prj_312,Applied Digital Oliver County,geo_company,geo:1.1km; company:0.18; name:0.50; county,1.1,0.18,0.50,yes,Oliver County,2024-12-12,moratorium,ND,oliver
+opp_f218f9644211,prj_124,STAMP Data Center,geo_company,geo:12.1km; company:1.00; name:1.00; county,12.1,1.00,1.00,yes,Genesee County (STAMP),2025-02-01,lawsuit; public_comment,NY,genesee
+opp_5ebb98c62ead,prj_117,Princeton Nurseries Data Center,geo_company,geo:6.9km; company:0.14; county,6.9,0.14,0.00,yes,South Brunswick,2025-03-01,public_comment,NJ,middlesex
+opp_db269fd6710c,prj_35,Hancock County MegaSite,geo_company,geo:9.3km; company:1.00; name:1.00; county,9.3,1.00,1.00,yes,Hancock County,2025-06-01,zoning_restriction,IN,hancock
+opp_1704aa7c2eb5,prj_12,Project Leo,geo_company,geo:15.2km; company:1.00; name:1.00; county,15.2,1.00,1.00,yes,Little Rock,2025-06-01,zoning_restriction,AR,pulaski
+opp_577c1410331e,prj_81,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,geo_company,geo:5.6km; company:0.27; county,5.6,0.27,0.10,yes,Ypsilanti Township,2025-06-01,public_comment,MI,washtenaw
+opp_26baf5c8d1fa,prj_57,Project Lincoln,geo_company,geo:3.0km; company:1.00; name:1.00; county,3.0,1.00,1.00,yes,City of La Grange,2025-06-02,moratorium,KY,oldham
+opp_b4471ed4359e,prj_34,Project Louie,geo_company,geo:2.5km; company:1.00; county,2.5,1.00,0.00,yes,Monrovia (Morgan County),2025-07-01,lawsuit,IN,morgan
+opp_2b6be26aa1f0,prj_57,Project Lincoln,geo_company,geo:4.0km; company:1.00; name:0.50; county,4.0,1.00,0.50,yes,Oldham County,2025-07-02,moratorium,KY,oldham
+opp_448c558fcee6,prj_115,Project Cumulus,geo_company,geo:5.3km; company:0.50; name:1.00; county,5.3,0.50,1.00,yes,St. Charles (Permanent Ban),2026-05-19,moratorium; lawsuit,MO,st. charles
+opp_8ca0a58a3763,prj_158,Natelli Investments New Hill Digital Campus,name_state,company:0.33; name:0.60,37.7,0.33,0.60,no,Wake County,2025-08-01,moratorium; project_withdrawal,NC,wake
+opp_cde1d1f4d6f6,prj_2,Project Marvel,geo_company,geo:10.1km; company:1.00; name:1.00; county,10.1,1.00,1.00,yes,Bessemer,2025-11-18,zoning_restriction,AL,jefferson
+opp_9821df442512,prj_277,Colossus 2,geo_company,geo:9.6km; company:1.00; county,9.6,1.00,0.00,yes,Memphis,2025-08-01,lawsuit,TN,shelby
+opp_b873b14db606,prj_159,Tract Mooresville Technology Park,geo_company,geo:9.1km; company:0.20; county,9.1,0.20,0.33,yes,Mooresville,2025-08-13,zoning_restriction,NC,iredell
+opp_3827c952a67d,prj_318,Project Domino,geo_company,geo:6.2km; company:1.00; county,6.2,1.00,0.00,yes,Lebanon (Boone County),2025-08-01,zoning_restriction; public_comment,IN,boone
+opp_33aa29e22df3,prj_311,Polaris Forge 2,geo_company,geo:19.9km; company:0.22; name:1.00; county,19.9,0.22,1.00,yes,Harwood,2025-08-25,public_comment,ND,cass
+opp_0c8866392928,prj_67,Brightseat Tech Park Data Center Development,geo_company,geo:10.1km; company:0.50; name:1.00; county,10.1,0.50,1.00,yes,Prince George's County (Landover),2025-09-01,moratorium,MD,prince george's
+opp_d1ee219f0158,prj_143,Statesville Data Center Campus,geo_company,geo:7.3km; company:0.10; name:1.00; county,7.3,0.10,1.00,yes,Statesville,2025-09-08,public_comment,NC,iredell
+opp_63921ce13feb,prj_103,Armory Innovation Data Center,geo_company,geo:3.5km; company:0.25; name:0.50,3.5,0.25,0.50,no,St. Louis,2026-04-21,moratorium,MO,st. louis (independent city)
+opp_67b9f85e24c9,prj_244,NorthPoint Spring Mountain Data Center,geo_company,geo:6.6km; company:1.00; county,6.6,1.00,0.00,yes,Packer Township / Banks Township,2025-09-01,public_comment,PA,carbon
+opp_9ea75486a88e,prj_93,Project Taurus,geo_company,geo:2.6km; company:0.67; name:1.00; county,2.6,0.67,1.00,yes,Brandon,2025-09-01,public_comment,MS,rankin
+opp_358dc4dc4321,prj_286,"Adams Fork Harless Data Center Energy Campus, Holden",geo_company,geo:14.4km; company:1.00; name:0.60; county,14.4,1.00,0.60,yes,Logan County,2025-09-02,lawsuit,WV,logan
+opp_29f4866c4a53,prj_180,Project Cosmos,geo_company,geo:10.7km; company:0.33; county,10.7,0.33,0.00,yes,Jerome Township,2025-09-03,moratorium,OH,union
+opp_2ace1e385353,prj_282,RadiusDC Nashville I / Trinity Hills Colocation Data Center,geo_company,geo:3.0km; company:1.00; county,3.0,1.00,0.20,yes,Nashville,2025-09-09,public_comment,TN,davidson
+opp_421797d2b31d,prj_56,PowerHouse Louisville,geo_company,geo:9.0km; company:0.43; name:0.50; county,9.0,0.43,0.50,yes,Louisville,2025-09-11,moratorium,KY,jefferson
+opp_83d204607b21,prj_206,Blakely AI Data Center,geo_company,geo:0.8km; company:0.75; name:1.00; county,0.8,0.75,1.00,yes,Blakely,2025-09-12,zoning_restriction,PA,lackawanna
+opp_2aca64b4ff8e,prj_136,Tarboro Data Center Campus,geo_company,geo:5.1km; company:0.33; name:0.50; county,5.1,0.33,0.50,yes,Town of Tarboro,2025-09-15,zoning_restriction,NC,edgecombe
+opp_702f24f08f0d,prj_36,Project Flo,geo_company,geo:7.9km; company:1.00; name:1.00; county,7.9,1.00,1.00,yes,Franklin Township (Indianapolis),2025-09-22,project_withdrawal,IN,marion
+opp_5309f49a1a14,prj_125,Cayuga Data Campus,geo_company,geo:8.9km; company:1.00; county,8.9,1.00,0.00,yes,Lansing,2025-09-24,public_comment; lawsuit,NY,tompkins
+opp_940f4bf80f61,prj_166,Project Mila / Trenton Industrial Park Data Center,geo_company,geo:2.9km; company:1.00; name:0.50; county,2.9,1.00,0.50,yes,City of Trenton,2026-03-30,public_comment,OH,butler
+opp_26d3ad70af7e,prj_298,Maysville Data Center,geo_company,geo:8.2km; company:0.25; county,8.2,0.25,0.00,yes,Mason County,2026-03-27,public_comment; zoning_restriction; lawsuit,KY,mason
+opp_21e13b0a70be,prj_255,Lower Mount Bethel Technology Center,geo_company,geo:7.7km; company:0.50; name:0.40; county,7.7,0.50,0.40,yes,Lower Mt. Bethel Township,2025-10-01,public_comment,PA,northampton
+opp_f60e4a1ca6fa,prj_101,Wildwood Ranch AI Data Center,geo_company,geo:6.4km; company:0.50; name:1.00; county,6.4,0.50,1.00,yes,Joplin,2025-10-01,public_comment,MO,jasper
+opp_b657a2b9d374,prj_40,Hobart Tech Park,geo_company,geo:3.9km; company:0.25; county,3.9,0.25,0.33,yes,Hobart,2025-10-01,public_comment,IN,lake
+opp_fb11da4e8a3a,prj_175,Lordstown Data Center,geo_company,geo:3.5km; company:0.75; name:1.00,3.5,0.75,1.00,no,Lordstown,2025-10-01,moratorium,OH,trumbull
+opp_b2e25d5db5cb,prj_229,Pennhurst Data Center,geo_name,geo:2.7km; name:1.00; county,2.7,0.00,1.00,yes,East Vincent Township (Pennhurst),2025-10-01,zoning_restriction; permit_denial,PA,chester
+opp_84d00120eb6f,prj_13,Project Pyramid,geo_company,geo:5.1km; company:1.00; name:1.00; county,5.1,1.00,1.00,yes,West Memphis,2025-10-01,public_comment,AR,crittenden
+opp_43198f4163a4,prj_83,Project Ironwood,geo_company,geo:4.1km; company:1.00; county,4.1,1.00,0.00,yes,Dundee Township,2025-10-02,moratorium,MI,monroe
+opp_78f2befc3676,prj_209,Project Gold,county_company,company:0.12; county,27.1,0.12,0.00,yes,Archbald,2025-11-01,lawsuit,PA,lackawanna
+opp_1302073d609e,prj_109,Oppidan Foristell Data Center Sites,geo_company,geo:4.3km; company:0.25,4.3,0.25,0.33,no,Foristell,2026-03-16,public_comment,MO,st. charles
+opp_85267c1283be,prj_226,Zediker Station Data Center,geo_company,geo:5.1km; company:0.11; county,5.1,0.11,0.00,yes,South Strabane Township,2025-11-01,zoning_restriction,PA,washington
+opp_9757e2aee322,prj_137,Fayetteville Data Center Campus,county_company,company:0.22; county,8997.3,0.22,0.00,yes,Cumberland County,2025-11-01,public_comment; moratorium,NC,cumberland
+opp_caecccbb73b8,prj_167,Hamilton Data Center,geo_company,geo:19.1km; company:0.50; name:0.50; county,19.1,0.50,0.50,yes,City of Hamilton,2025-11-12,public_comment,OH,butler
+opp_46e242249573,prj_92,Vicksburg Amazon Data Center,geo_company,geo:9.0km; company:0.33; name:0.50; county,9.0,0.33,0.50,yes,Vicksburg,2025-11-20,public_comment,MS,warren
+opp_ee35655810b9,prj_14,Clarksville Data Center,geo_company,geo:2.6km; company:1.00; county,2.6,1.00,0.33,yes,Clarksville,2025-11-25,public_comment,AR,johnson
+opp_54cd11eb867a,prj_192,AWS Wilmington Data Center,geo_company,geo:2.7km; company:0.33; name:0.50; county,2.7,0.33,0.50,yes,Wilmington,2025-11-26,zoning_restriction; lawsuit,OH,clinton
+opp_562b07d09700,prj_161,Kingsboro Data Center,geo_company,geo:6.5km; company:0.33; name:0.50; county,6.5,0.33,0.50,yes,Edgecombe County,2025-12-01,public_comment,NC,edgecombe
+opp_72307cd2472f,prj_33,Decatur Technology Park,geo_company,geo:5.4km; company:0.33; county,5.4,0.33,0.25,yes,Decatur Township (Indianapolis),2026-04-20,lawsuit,IN,marion
+opp_6b3fb33f15de,prj_308,Gemini Sioux Falls Data Center,geo_company,geo:9.1km; company:0.43; name:0.67; county,9.1,0.43,0.67,yes,Sioux Falls,2025-12-01,zoning_restriction,SD,minnehaha
+opp_4505ce08e0c3,prj_182,Strata Expanse AI Center of Excellence,geo_company,geo:19.8km; company:1.00; name:1.00; county,19.8,1.00,1.00,yes,Lawrence County,2025-12-01,moratorium,OH,lawrence
+opp_634c0bbef377,prj_123,Monroe Township Data Center,geo_company,geo:11.2km; company:1.00; county,11.2,1.00,0.25,yes,Monroe Township (Gloucester County),2026-04-08,zoning_restriction,NJ,gloucester
+opp_ba5d10dcaa92,prj_62,Bates Mill No. 3. Data Center,geo_name,geo:0.7km; name:1.00; county,0.7,0.00,1.00,yes,Lewiston,2025-12-16,zoning_restriction,ME,androscoggin
+opp_51f291f5e0d7,prj_79,Microsoft Gaines Township Data Center,geo_company,geo:19.8km; company:1.00; county,19.8,1.00,0.25,yes,Lowell Township,2025-12-18,zoning_restriction,MI,kent
+opp_541232306275,prj_169,Ashville Data Center,geo_company,geo:2.8km; company:1.00; county,2.8,1.00,0.00,yes,South Bloomfield,2025-12-19,moratorium,OH,pickaway
+opp_162ebed407c4,prj_116,DataOne Vineland,geo_company,geo:6.6km; company:0.27; name:0.50; county,6.6,0.27,0.50,yes,Vineland,2025-12-23,zoning_restriction,NJ,cumberland
+opp_cf18ec496647,prj_69,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,geo_company,geo:10.5km; company:0.55; county,10.5,0.55,0.30,yes,Frederick County,2025-12-24,zoning_restriction,MD,frederick
+opp_817a1cbf96bd,prj_75,Project Cannoli,geo_company,geo:3.6km; company:0.25; name:1.00; county,3.6,0.25,1.00,yes,Van Buren Township,2026-06-17,public_comment,MI,wayne
+opp_b6fe898298f5,prj_235,Linfield Data Center,geo_company,geo:5.3km; company:1.00; county,5.3,1.00,0.25,yes,Limerick Township (Linfield),2026-01-01,public_comment,PA,montgomery
+opp_577b41b41c55,prj_252,Conewago Township Data Center Land Considerations,geo_name,geo:5.9km; name:0.50; county,5.9,0.00,0.50,yes,Conewago Township (York County),2026-01-01,zoning_restriction,PA,york
+opp_16e0d24cafe8,prj_79,Microsoft Gaines Township Data Center,geo_company,geo:17.9km; company:1.00,17.9,1.00,0.25,no,Dorr Township,2026-01-01,moratorium,MI,allegan
+opp_c511720b75b1,prj_240,Project Phoenix,geo_name,geo:1.2km; name:1.00; county,1.2,0.00,1.00,yes,Shippingport,2026-01-28,zoning_restriction,PA,beaver
+opp_65a4db626460,prj_297,Jailhouse Studios,geo_company,geo:0.4km; company:1.00; name:1.00; county,0.4,1.00,1.00,yes,Chattanooga (Hamilton County),2026-01-01,public_comment,TN,hamilton
+opp_e397c11ee85e,prj_185,Meta Bowling Green Data Center,geo_company,geo:9.8km; company:1.00; county,9.8,1.00,0.29,yes,Wood County (Bowling Green area),2026-01-06,moratorium,OH,wood
+opp_ed5b0f6cb94c,prj_182,Strata Expanse AI Center of Excellence,geo_company,geo:9.3km; company:1.00; county,9.3,1.00,0.33,yes,Ironton,2026-01-09,moratorium,OH,lawrence
+opp_95e066996918,prj_74,Project Mitten / The Barn,geo_company,geo:9.9km; company:1.00; county,9.9,1.00,0.33,yes,Saline Township,2026-01-12,moratorium,MI,washtenaw
+opp_26c141da5be5,prj_141,Project Delta,county_company,company:0.08; name:1.00; county,26.3,0.08,1.00,yes,Stokes County,2026-01-12,zoning_restriction; lawsuit; project_withdrawal,NC,stokes
+opp_6e2a72621942,prj_1,Project Nebius,geo_company,geo:12.7km; company:1.00; county,12.7,1.00,0.00,yes,Birmingham,2026-03-03,moratorium,AL,jefferson
+opp_fd3799ad2d1e,prj_89,Clinton Amazon Data Center,geo_company,geo:4.3km; company:0.33; name:0.50; county,4.3,0.33,0.50,yes,Clinton,2026-01-15,public_comment,MS,hinds
+opp_b5b951136611,prj_97,Nebius Independence Hyperscale Campus,county_company,company:0.20; county,23.3,0.20,0.00,yes,Kansas City,2026-01-16,zoning_restriction,MO,jackson
+opp_7612f64a4a41,prj_238,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,geo_company,geo:1.7km; company:0.50; name:0.50; county,1.7,0.50,0.50,yes,South Whitehall Township,2026-01-20,public_comment,PA,lehigh
+opp_905c225d4cd3,prj_58,Franklin–Simpson Data Storage and Service Center,geo_company,geo:8.6km; company:1.00; name:1.00; county,8.6,1.00,1.00,yes,Simpson County,2026-01-28,lawsuit,KY,simpson
+opp_750ae52f955d,prj_32,Surge Development Knightstown Data Center,geo_company,geo:6.1km; company:1.00; county,6.1,1.00,0.25,yes,Henry County (Knightstown),2026-01-28,public_comment,IN,henry
+opp_21594d5addcb,prj_195,Killen Revitilization Project,geo_company,geo:17.2km; company:0.29; county,17.2,0.29,0.00,yes,Adams County,2026-02-01,public_comment,OH,adams
+opp_dd0ba1819d24,prj_190,Urbana Data Center,geo_company,geo:2.3km; company:1.00; county,2.3,1.00,0.00,yes,Champaign County,2026-03-03,moratorium,OH,champaign
+opp_ed4d5676f5af,prj_72,Atmosphere Dickerson Data Center,geo_company,geo:2.9km; company:0.60; county,2.9,0.60,0.25,yes,Dickerson (Montgomery County),2026-02-01,moratorium,MD,montgomery
+opp_e9134c28c41c,prj_72,Atmosphere Dickerson Data Center,geo_company,geo:19.4km; company:0.60; name:0.50; county,19.4,0.60,0.50,yes,Montgomery County,2026-02-02,zoning_restriction,MD,montgomery
+opp_fd646649633f,prj_66,Woodlawn Data Center,geo_company,geo:15.3km; company:1.00; county,15.3,1.00,0.00,yes,Baltimore County,2026-02-02,moratorium,MD,baltimore
+opp_b0bb4faffd4d,prj_185,Meta Bowling Green Data Center,geo_company,geo:10.6km; company:0.12,10.6,0.12,0.00,no,Maumee,2026-02-02,moratorium,OH,lucas
+opp_ed7d3e9acc58,prj_169,Ashville Data Center,geo_company,geo:2.8km; company:1.00; county,2.8,1.00,0.33,yes,Ashville (Pickaway County),2026-02-02,zoning_restriction,OH,pickaway
+opp_ed42ddb3c869,prj_60,TeraWulf Hawesville Data Center,geo_company,geo:5.4km; company:1.00; county,5.4,1.00,0.25,yes,Hancock County (Hawesville),2026-02-02,zoning_restriction,KY,hancock
+opp_27089c8e0cf3,prj_22,Project Washington,geo_company,geo:10.3km; company:1.00; name:1.00; county,10.3,1.00,1.00,yes,New Castle County,2026-02-04,zoning_restriction,DE,new castle
+opp_a7143b0091c7,prj_193,Mt. Orab Mega Site,geo_company,geo:2.6km; company:0.08; name:1.00; county,2.6,0.08,1.00,yes,Mt. Orab,2026-02-04,moratorium,OH,brown
+opp_7de6ee15c1da,prj_38,Pike Township Data Center,geo_company,geo:4.2km; company:1.00; name:0.50; county,4.2,1.00,0.50,yes,Pike Township (Indianapolis withdrawal),2026-02-02,zoning_restriction,IN,marion
+opp_c05cca779e9b,prj_285,Ridgeline Facility,leg_name_plus,geo:9.4km; company:1.00; name:1.00; county,9.4,1.00,1.00,yes,Tucker County,2026-02-07,legislation,WV,tucker
+opp_1381a591d26e,prj_247,Talen Energy Rezone Request for Possible Data Center in Montour County,geo_company,geo:7.0km; company:0.50; county,7.0,0.50,0.22,yes,Montour County,2026-02-10,zoning_restriction,PA,montour
+opp_444c90a91fc1,prj_97,Nebius Independence Hyperscale Campus,geo_company,geo:9.3km; company:1.00; county,9.3,1.00,0.33,yes,Independence,2026-02-10,public_comment; lawsuit,MO,jackson
+opp_4b69bebf2301,prj_84,Project Flex,geo_company,geo:5.5km; company:1.00; county,5.5,1.00,0.00,yes,City of South Lyon,2026-02-10,moratorium,MI,oakland
+opp_531c0b6ca3ae,prj_82,Project Cherry Blossom,geo_company,geo:19.9km; company:1.00; county,19.9,1.00,0.00,yes,Erie Township,2026-02-10,moratorium,MI,monroe
+opp_33b8dbbe1bac,prj_192,AWS Wilmington Data Center,geo_company,geo:19.3km; company:0.33; county,19.3,0.33,0.14,yes,Blanchester,2026-02-12,moratorium,OH,clinton
+opp_f65b986d4fd8,prj_31,Martindale Indianapolis Metrobloks Data Center,geo_company,geo:2.6km; company:1.00; name:0.50,2.6,1.00,0.50,no,Martindale-Brightwood (Indianapolis),2026-02-12,lawsuit,IN,marion
+opp_66c659e5fd34,prj_87,Sansone York Township Data Center,geo_company,geo:4.7km; company:1.00; name:0.67; county,4.7,1.00,0.67,yes,York Township,2026-02-12,moratorium,MI,washtenaw
+opp_24a68fe9d847,prj_232,Dickson City Data Centers,geo_company,geo:2.3km; company:1.00; name:1.00; county,2.3,1.00,1.00,yes,Dickson City,2026-02-13,zoning_restriction,PA,lackawanna
+opp_a47b9dd1d9d5,prj_172,Google Franklin Furnace Data Center,county_company,company:1.00; county,20.8,1.00,0.00,yes,Scioto County (Open Meetings lawsuit),2026-02-15,lawsuit,OH,scioto
+opp_3a7e650bca36,prj_98,Project Green,geo_company,geo:9.6km; company:0.25; name:1.00; county,9.6,0.25,1.00,yes,Montgomery County,2026-02-16,lawsuit,MO,montgomery
+opp_e7274260072c,prj_185,Meta Bowling Green Data Center,geo_company,geo:17.8km; company:0.25,17.8,0.25,0.00,no,Richfield Township,2026-02-17,moratorium,OH,lucas
+opp_4bd47c1c0837,prj_96,xAI MACROHARDRR,geo_company,geo:5.7km; company:1.00; name:0.50; county,5.7,1.00,0.50,yes,Southaven,2026-02-18,lawsuit,MS,desoto
+opp_ad6be939708d,prj_185,Meta Bowling Green Data Center,geo_company,geo:14.2km; company:0.25,14.2,0.25,0.00,no,Monclova Township,2026-02-18,moratorium,OH,lucas
+opp_8ae33471f7c0,prj_185,Meta Bowling Green Data Center,geo_company,geo:5.1km; company:1.00; county,5.1,1.00,0.00,yes,Middleton Township,2025-04-01,moratorium,OH,wood
+opp_7d9978b076ae,prj_119,New Brunswick Data Center,geo_name,geo:0.5km; name:1.00; county,0.5,0.00,1.00,yes,New Brunswick,2026-02-19,zoning_restriction,NJ,middlesex
+opp_956c7c8216dd,prj_59,Harrodsburg Data Center,geo_company,geo:9.3km; company:0.25; county,9.3,0.25,0.00,yes,Mercer County (moratorium),2026-02-19,zoning_restriction; moratorium,KY,mercer
+opp_a3255b50d3d4,prj_125,Cayuga Data Campus,county_company,company:1.00; name:1.00; county,29.8,1.00,1.00,yes,Town of Dryden,2026-02-19,zoning_restriction,NY,tompkins
+opp_8ea61ba234be,prj_258,North Coventry Township Data Center,geo_company,geo:4.7km; company:1.00; name:1.00; county,4.7,1.00,1.00,yes,North Coventry Township,2026-02-23,zoning_restriction,PA,chester
+opp_85c341ac84b7,prj_256,Sellersville / West Rockhill Township Data Center,geo_name,geo:4.4km; name:0.50; county,4.4,0.00,0.50,yes,West Rockhill Township (Bucks County),2026-04-15,ordinance; zoning_restriction,PA,bucks
+opp_8674462ce4e8,prj_110,Meramec Valley Technology Park,geo_company,geo:5.5km; company:0.67; name:1.00; county,5.5,0.67,1.00,yes,Pacific,2026-02-25,zoning_restriction,MO,franklin
+opp_dc216f927839,prj_154,T5 Data Centers Kings Mountain,geo_company,geo:5.0km; company:0.23; name:0.50,5.0,0.23,0.50,no,City of Kings Mountain,2026-02-26,moratorium,NC,cleveland
+opp_5be96f62ca1f,prj_228,Former Air Products Headquarters Data Center,geo_company,geo:3.2km; company:1.00; county,3.2,1.00,0.00,yes,Upper Macungie Township,2026-02-26,lawsuit,PA,lehigh
+opp_fcea9e266046,prj_210,East Whiteland Township Data Center,geo_name,geo:4.1km; name:0.60; county,4.1,0.00,0.60,yes,East Whiteland Township (Curative Amendment),2026-02-26,zoning_restriction,PA,chester
+opp_7f43ef5e9f13,prj_237,Ransom Township Data Center,geo_company,geo:2.7km; company:1.00; name:1.00; county,2.7,1.00,1.00,yes,Ransom Township,2026-02-27,lawsuit,PA,lackawanna
+opp_72c3d2ed622a,prj_91,Canton Amazon Data Center,geo_company,geo:5.8km; company:0.33; name:1.00; county,5.8,0.33,1.00,yes,Canton,2026-03-01,public_comment,MS,madison
+opp_875db5d22dba,prj_42,Google Cedar Rapids,geo_company,geo:17.3km; company:1.00; county,17.3,1.00,0.00,yes,Linn County,2026-03-01,zoning_restriction,IA,linn
+opp_8f0bd4f97dcc,prj_215,PAX – Pennsylvania Digital I,geo_company,geo:5.9km; company:0.33; name:1.00; county,5.9,0.33,1.00,yes,Middlesex Township,2026-03-01,public_comment,PA,cumberland
+opp_77983677a720,prj_222,Hollenback Township Data Center Development Zoning Application,geo_company,geo:2.6km; company:0.22; name:0.50; county,2.6,0.22,0.50,yes,Hollenback Township,2026-03-02,lawsuit,PA,luzerne
+opp_e5964784a59c,prj_29,Decennial Group Akron Data Center,geo_company,geo:19.6km; company:1.00; county,19.6,1.00,0.00,yes,Fulton County,2026-03-03,moratorium,IN,fulton
+opp_5ce6c45b48e8,prj_84,Project Flex,geo_company,geo:4.2km; company:1.00; county,4.2,1.00,0.00,yes,Lyon Township,2026-03-03,moratorium,MI,oakland
+opp_9ef3a8c81c50,prj_81,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,geo_company,geo:6.5km; company:0.43; county,6.5,0.43,0.12,yes,City of Ypsilanti,2026-03-03,moratorium,MI,washtenaw
+opp_f05c5219c03a,prj_246,Tobyhanna Township / Blakeslee Data Center,geo_name,geo:16.9km; name:0.67; county,16.9,0.00,0.67,yes,Tobyhanna Township,2026-03-03,lawsuit,PA,monroe
+opp_1e5751b0f045,prj_245,Penn Forest Township Data Center,geo_company,geo:9.8km; company:1.00; name:0.60; county,9.8,1.00,0.60,yes,Penn Forest Township (Carbon County),2026-03-03,zoning_restriction,PA,carbon
+opp_27a9926da3d0,prj_313,River Run Energy Center,county_company,company:0.33; county,25.3,0.33,0.00,yes,Mercer County,2026-03-03,moratorium,ND,mercer
+opp_dcf38bd69fc7,prj_190,Urbana Data Center,geo_company,geo:2.3km; company:1.00; name:1.00; county,2.3,1.00,1.00,yes,Urbana,2026-06-17,moratorium,OH,champaign
+opp_777db27aa1d1,prj_42,Google Cedar Rapids,geo_company,geo:18.0km; company:1.00; county,18.0,1.00,0.14,yes,Palo (Google annexation bypass),2026-06-15,zoning_restriction,IA,linn
+opp_99cd9e1c93f2,prj_56,PowerHouse Louisville,geo_company,geo:2.9km; company:0.60; county,2.9,0.60,0.33,yes,Louisville (Shively),2026-03-05,public_comment,KY,jefferson
+opp_96b5ebffece9,prj_197,Buck Canyon Properties Data Center,geo_company,geo:6.4km; company:0.12; county,6.4,0.12,0.00,yes,Sprigg Township (Adams County),2026-03-02,moratorium,OH,adams
+opp_a91d1e83c128,prj_199,Project BOSC,geo_company,geo:6.3km; company:0.33; county,6.3,0.33,0.00,yes,Lima / Allen County,2026-03-07,public_comment,OH,allen
+opp_59b4b17c805e,prj_85,Deep Green Lansing Data Center,geo_company,geo:1.2km; company:1.00; county,1.2,1.00,0.33,yes,Lansing,2026-04-06,project_withdrawal,MI,ingham
+opp_a16c9fb77bf3,prj_213,CoreWeave Lancaster AI Campuses,geo_company,geo:4.5km; company:0.20; county,4.5,0.20,0.25,yes,Lancaster City,2025-10-06,zoning_restriction,PA,lancaster
+opp_fdc90b5fee1f,prj_203,Project Hazelnut,geo_company,geo:4.7km; company:1.00; county,4.7,1.00,0.00,yes,Hazle Township,2025-11-18,zoning_restriction,PA,luzerne
+opp_615a7d08e835,prj_267,New Castle Data Center,geo_company,geo:0.8km; company:1.00; name:0.40; county,0.8,1.00,0.40,yes,New Castle Township (Frackville area),2025-09-10,zoning_restriction,PA,schuylkill
+opp_945600d23a7d,prj_249,Dorrance Township Data Center Zoning Ordinance Challenge,geo_company,geo:8.1km; company:1.00; name:0.40; county,8.1,1.00,0.40,yes,Dorrance Township,2025-08-11,moratorium,PA,luzerne
+opp_b9d4c7bc5b09,prj_7,Childersburg Data Center,geo_name,geo:7.5km; name:1.00; county,7.5,0.00,1.00,yes,Childersburg,2026-01-23,public_comment,AL,talladega
+opp_9ca85dbd5324,prj_94,Meridian Compass Data Center,geo_company,geo:8.2km; company:1.00; county,8.2,1.00,0.25,yes,Meridian (Lauderdale County),2025-12-29,public_comment,MS,lauderdale
+opp_19edcda994cb,prj_79,Microsoft Gaines Township Data Center,geo_company,geo:5.6km; company:1.00; name:0.50; county,5.6,1.00,0.50,yes,Gaines Charter Township,2026-03-03,zoning_restriction,MI,kent
+opp_e3b11071a95a,prj_96,xAI MACROHARDRR,geo_company,geo:5.6km; company:0.33; county,5.6,0.33,0.17,yes,Southaven (xAI air permit approval),2026-03-10,public_comment; lawsuit,MS,desoto
+opp_d09a7f2c08d5,prj_158,Natelli Investments New Hill Digital Campus,geo_company,geo:13.1km; company:0.33,13.1,0.33,0.00,no,Town of Apex,2026-03-10,moratorium,NC,wake
+opp_491c11a25b10,prj_285,Ridgeline Facility,geo_company,geo:9.9km; company:1.00; county,9.9,1.00,0.00,yes,Tucker County,2026-03-06,lawsuit,WV,tucker
+opp_c87e31bc51d3,prj_100,Crusoe Warrenton AI Data Center,geo_company,geo:4.1km; company:0.25; name:0.50; county,4.1,0.25,0.50,yes,Warrenton,2026-01-20,zoning_restriction,MO,warren
+opp_0f01cb4fa3f5,prj_197,Buck Canyon Properties Data Center,geo_company,geo:6.4km; company:0.12; county,6.4,0.12,0.00,yes,Sprigg Township,2026-02-24,moratorium,OH,adams
+opp_1489eff31db4,prj_169,Ashville Data Center,geo_company,geo:3.2km; company:1.00; name:1.00; county,3.2,1.00,1.00,yes,Ashville,2025-12-20,moratorium,OH,pickaway
+opp_d6abd19bc3fe,prj_212,AWS Keystone Trade Center Campus,geo_company,geo:3.0km; company:0.33; county,3.0,0.33,0.00,yes,Falls Township,2026-02-20,zoning_restriction,PA,bucks
+opp_1d7edfdbb868,prj_95,Clarksdale Data Center,geo_name,geo:3.1km; name:1.00; county,3.1,0.00,1.00,yes,Clarksdale,2026-03-24,public_comment,MS,coahoma
+opp_33d3512e3bb1,prj_196,Marysville South Data Center,geo_company,geo:19.7km; company:0.06,19.7,0.06,0.00,no,Washington Township,2025-12-08,moratorium,OH,franklin
+opp_86c27a811e14,prj_2,Project Marvel,geo_company,geo:10.1km; company:0.50; name:0.50; county,10.1,0.50,0.50,yes,Bessemer (900-acre expansion),2026-04-21,zoning_restriction; lawsuit,AL,jefferson
+opp_039ab1e1e6fd,prj_264,Champion Data Center Project,county_company,company:0.60; county,53.3,0.60,0.00,yes,West Finley Township,2026-03-12,public_comment,PA,washington
+opp_cb00ae6654e0,prj_137,Fayetteville Data Center Campus,name_state,name:1.00; county,8997.3,0.00,1.00,yes,Fayetteville,2026-03-05,zoning_restriction; moratorium,NC,cumberland
+opp_e85d635f682f,prj_77,32 Mile Road Technical Campus,geo_company,geo:7.0km; company:1.00; county,7.0,1.00,0.00,yes,Washington Township (Macomb County),2026-03-11,zoning_restriction,MI,macomb
+opp_5dec2bfaaf5b,prj_226,Zediker Station Data Center,geo_company,geo:7.2km; company:0.12; county,7.2,0.12,0.00,yes,Washington County (protest),2026-03-12,public_comment,PA,washington
+opp_663efe0e1304,prj_236,Kline Township Data Center,geo_company,geo:3.0km; company:0.33; name:1.00; county,3.0,0.33,1.00,yes,Kline Township,2026-01-17,public_comment,PA,schuylkill
+opp_8ab6aa474736,prj_269,Project Triboro,geo_company,geo:4.0km; company:0.25; county,4.0,0.25,0.00,yes,Olyphant Borough,2026-04-14,zoning_restriction; ordinance,PA,lackawanna
+opp_634fa6fff5c1,prj_219,Panther Creek (Nesquehoning) HPC/AI Conversion,geo_company,geo:4.8km; company:0.33; county,4.8,0.33,0.17,yes,Nesquehoning Borough,2026-01-01,public_comment,PA,carbon
+opp_65d971d4be2c,prj_316,4-3 Salem Township Data Center,geo_name,geo:2.6km; name:1.00; county,2.6,0.00,1.00,yes,Salem Township,2026-03-17,public_comment,PA,luzerne
+opp_0c2b8287973b,prj_237,Ransom Township Data Center,geo_company,geo:5.4km; company:1.00; county,5.4,1.00,0.00,yes,City of Scranton,2026-03-17,zoning_restriction,PA,lackawanna
+opp_674add07c321,prj_82,Project Cherry Blossom,geo_company,geo:2.7km; company:1.00; county,2.7,1.00,0.00,yes,Frenchtown Township,2025-11-17,public_comment,MI,monroe
+opp_c8cd187470a4,prj_88,Metrobloks Southfield Data Center,geo_company,geo:8.0km; company:1.00; name:0.50; county,8.0,1.00,0.50,yes,Southfield,2025-12-15,public_comment,MI,oakland
+opp_2f62a1b1146b,prj_111,Gateway Digital Campus,geo_company,geo:19.5km; company:0.60; county,19.5,0.60,0.00,yes,Franklin County (county-wide regulations),2026-03-17,zoning_restriction,MO,franklin
+opp_e9e42ae8409e,prj_160,Project Accelerate,county_company,company:0.18; name:1.00; county,9165.0,0.18,1.00,yes,Matthews,2025-09-01,project_withdrawal,NC,mecklenburg
+opp_7d6fb83609d4,prj_44,Meta Davenport Data Center,geo_company,geo:11.0km; company:1.00; name:0.50; county,11.0,1.00,0.50,yes,Davenport,2024-05-01,public_comment,IA,scott
+opp_d7b014beb2ea,prj_268,Watts Township Data Center,geo_company,geo:2.5km; company:0.40; name:1.00; county,2.5,0.40,1.00,yes,Watts Township,2026-04-01,public_comment,PA,perry
+opp_e86a230fe959,prj_25,Project Zodiac,geo_company,geo:9.2km; company:0.33; county,9.2,0.33,0.00,yes,Allen County / Fort Wayne,2023-10-01,public_comment,IN,allen
+opp_31c0843b45fe,prj_300,Microsoft La Porte Data Center,geo_company,geo:5.4km; company:1.00; county,5.4,1.00,0.00,yes,LaPorte County,2026-04-13,public_comment,IN,laporte
+opp_1566ddd3f76f,prj_78,Benton Charter Township Data Center,geo_name,geo:3.8km; name:0.40; county,3.8,0.00,0.40,yes,Berrien County (Benton Township),2025-11-01,public_comment,MI,berrien
+opp_bb9815f66d13,prj_80,Rocklocker Kalkaska Data Center,geo_company,geo:5.8km; company:1.00; county,5.8,1.00,0.33,yes,Kalkaska County,2025-11-01,project_withdrawal,MI,kalkaska
+opp_08ec2eb3c157,prj_170,Piqua Data Center,geo_company,geo:3.6km; company:0.50; county,3.6,0.50,0.33,yes,Miami County (Piqua),2025-11-01,public_comment,OH,miami
+opp_e2e896f84f0d,prj_200,Perry Township Data Center,geo_company,geo:4.2km; company:0.12; name:0.50; county,4.2,0.12,0.50,yes,Perry Township (Stark County),2025-08-01,public_comment,OH,stark
+opp_dd042ee8368b,prj_40,Hobart Tech Park,geo_company,geo:11.9km; company:0.25,11.9,0.25,0.00,no,Crown Point (Northwest Indiana),2025-11-01,public_comment,IN,
+opp_79ee91d3a271,prj_124,STAMP Data Center,geo_company,geo:13.8km; company:0.43; county,13.8,0.43,0.33,yes,Town of Alabama (Genesee County),2026-05-04,public_comment; other_opposition,NY,genesee
+opp_81d7cb4b7593,prj_140,Rowan County Data Center,geo_company,geo:15.2km; company:0.14; name:1.00; county,15.2,0.14,1.00,yes,Rowan County,2026-03-17,public_comment,NC,rowan
+opp_4178542bc45d,prj_227,Archbald I LLC Data Center Campuses,geo_company,geo:3.4km; company:0.50; county,3.4,0.50,0.20,yes,Archbald Borough,2026-03-27,zoning_restriction,PA,lackawanna
+opp_0f9c5e6b0f52,prj_102,CRG Festus Data Center,geo_company,geo:4.0km; company:0.50; county,4.0,0.50,0.25,yes,City of Festus,2026-04-10,lawsuit,MO,jefferson
+opp_3ce0e3356b0f,prj_105,Metrobloks Liberty Data Center Campus,geo_company,geo:5.3km; company:0.50; county,5.3,0.50,0.33,yes,City of Liberty,2026-03-24,zoning_restriction,MO,clay
+opp_8b687f3cfb78,prj_140,Rowan County Data Center,geo_company,geo:15.3km; company:1.00; name:0.40; county,15.3,1.00,0.40,yes,Rowan County (Duke Energy hearing),2026-03-25,public_comment,NC,rowan
+opp_91b0e9c4a7da,prj_12,Project Leo,geo_company,geo:15.2km; company:0.67; county,15.2,0.67,0.17,yes,Pulaski County (Little Rock area),2026-03-14,public_comment,AR,pulaski
+opp_dbe4be37b29d,prj_125,Cayuga Data Campus,geo_company,geo:8.9km; company:1.00; county,8.9,1.00,0.00,yes,Town of Lansing (Article 78 Lawsuit),2026-01-20,public_comment; lawsuit,NY,tompkins
+opp_226c26d5fb53,prj_263,Starpointe Data Center Project,geo_name,geo:9.6km; name:0.50; county,9.6,0.00,0.50,yes,Hanover Township,2026-03-31,zoning_restriction,PA,washington
+opp_ed02cb0aded6,prj_22,Project Washington,leg_name_plus,geo:10.3km; company:1.00; name:1.00; county,10.3,1.00,1.00,yes,Delaware (Coastal Zone Appeal),2026-03-26,zoning_restriction,DE,new castle
+opp_1ce5c397c32b,prj_35,Hancock County MegaSite,leg_name_plus,geo:12.4km; name:0.67; county,12.4,0.00,0.67,yes,Hancock County,2026-03-29,legislation,IN,hancock
+opp_dc2e8e8ec589,prj_15,Port of Little Rock Data Center,geo_company,geo:8.8km; company:0.50; county,8.8,0.50,0.29,yes,Army Corps of Engineers (Google Little Rock),2026-04-06,public_comment,AR,pulaski
+opp_dddb87d7233c,prj_120,East Greenwich Township Data Center,geo_company,geo:2.2km; company:1.00; name:1.00; county,2.2,1.00,1.00,yes,East Greenwich Township,2026-04-21,public_comment,NJ,gloucester
+opp_8f0f994b05eb,prj_275,Smithfield Data Center,geo_company,geo:2.8km; company:0.83; name:1.00; county,2.8,0.83,1.00,yes,Smithfield,2026-04-01,ordinance,RI,providence
+opp_748145a067f7,prj_58,Franklin–Simpson Data Storage and Service Center,geo_company,geo:6.2km; company:1.00; county,6.2,1.00,0.33,yes,Franklin (Simpson County),2026-04-14,lawsuit,KY,simpson
+opp_7082d0e9f88f,prj_96,xAI MACROHARDRR,geo_company,geo:4.3km; company:0.33; county,4.3,0.33,0.00,yes,Southaven (NAACP federal Clean Air Act lawsuit),2026-06-15,lawsuit,MS,desoto
+opp_9514c59ae274,prj_140,Rowan County Data Center,geo_name,geo:11.8km; name:1.00; county,11.8,0.00,1.00,yes,Rowan County,2026-04-21,moratorium,NC,rowan
+opp_66d8b11187b9,prj_124,STAMP Data Center,geo_company,geo:13.8km; company:0.43; county,13.8,0.43,0.00,yes,Genesee County Economic Development Center (GCEDC),2026-04-16,public_comment,NY,genesee
+opp_64bdcdf8bd65,prj_277,Colossus 2,leg_name_plus,geo:10.3km; company:0.33; name:1.00; county,10.3,0.33,1.00,yes,Shelby County Health Department (xAI enforcement letter),2024-08-26,public_comment; regulatory_action,TN,shelby
+opp_ff2f842fb285,prj_277,Colossus 2,leg_name_plus,geo:10.3km; company:0.33; name:1.00; county,10.3,0.33,1.00,yes,EPA Region 4 (xAI Memphis inquiry),2024-11-01,regulatory_action,TN,shelby
+opp_7989cc6d9520,prj_277,Colossus 2,leg_name_plus,geo:10.3km; company:0.33; name:1.00; county,10.3,0.33,1.00,yes,Tennessee Valley Authority (xAI 150 MW supply),2024-11-07,utility_regulation,TN,shelby
+opp_d8acbb28f73c,prj_277,Colossus 2,leg_name_plus,geo:10.3km; company:0.33; name:1.00; county,10.3,0.33,1.00,yes,Shelby County Health Department (xAI 15-turbine air permit application),2025-01-15,regulatory_action,TN,shelby
+opp_8ec0ed3f2568,prj_277,Colossus 2,geo_company,geo:10.3km; company:1.00; county,10.3,1.00,0.25,yes,Memphis City Council (Colossus Water Recycle Plant land sale),2025-03-04,zoning_restriction; other_opposition,TN,shelby
+opp_e049359a3277,prj_277,Colossus 2,leg_name_plus,geo:17.4km; company:0.33; name:1.00; county,17.4,0.33,1.00,yes,Shelby County Commission (xAI public hearing resolution),2025-04-01,other_opposition; regulatory_action,TN,shelby
+opp_d3a1043dd652,prj_277,Colossus 2,leg_name_plus,geo:10.3km; company:0.33; name:1.00; county,10.3,0.33,1.00,yes,Shelby County Health Department (SELC second xAI letter),2025-04-09,public_comment; regulatory_action,TN,shelby
+opp_0e4c335737e1,prj_277,Colossus 2,geo_company,geo:10.3km; company:0.33; name:1.00; county,10.3,0.33,1.00,yes,Memphis (SCHD public hearing — Fairley High School),2025-04-25,public_comment,TN,shelby
+opp_9901ad833120,prj_277,Colossus 2,leg_name_plus,geo:10.3km; company:1.00; name:1.00; county,10.3,1.00,1.00,yes,EPA (Memphis ozone non-attainment petition),2025-06-05,regulatory_action; public_comment,TN,shelby
+opp_694458bf138a,prj_277,Colossus 2,geo_company,geo:10.3km; company:0.33; name:1.00; county,10.3,0.33,1.00,yes,Memphis (NAACP/SELC 60-day NOI to sue xAI Colossus 1),2025-06-17,lawsuit,TN,shelby
+opp_7455a1e39a1e,prj_277,Colossus 2,leg_name_plus,geo:10.3km; company:0.33; name:1.00; county,10.3,0.33,1.00,yes,Shelby County Health Department (xAI 15-turbine permit issuance),2025-07-02,regulatory_action,TN,shelby
+opp_f5b1e160deb4,prj_277,Colossus 2,leg_name_plus,geo:10.3km; company:0.33; name:1.00; county,10.3,0.33,1.00,yes,Memphis & Shelby County Air Pollution Control Board (xAI appeal filing),2025-07-15,lawsuit; regulatory_action,TN,shelby
+opp_2e7b25d60ea2,prj_277,Colossus 2,geo_company,geo:10.3km; company:1.00; name:1.00; county,10.3,1.00,1.00,yes,Memphis City Council (xAI Community Benefit Ordinance),2025-08-01,ordinance; community_benefit_agreement,TN,shelby
+opp_497fd5c532a7,prj_96,xAI MACROHARDRR,geo_company,geo:2.5km; company:0.33; county,2.5,0.33,0.00,yes,"Southaven, DeSoto County (Safe and Sound Coalition launch)",2025-11-24,other_opposition,MS,desoto
+opp_6b8a649077ec,prj_277,Colossus 2,leg_name_plus,geo:10.3km; company:0.33; name:1.00; county,10.3,0.33,1.00,yes,Memphis & Shelby County Air Pollution Control Board (xAI appeal dismissed),2025-12-16,regulatory_action,TN,shelby
+opp_163684cd2c66,prj_277,Colossus 2,leg_name_plus,company:1.00; name:1.00,321.7,1.00,1.00,no,Tennessee Legislature (HB1847/SB2128 data-center self-generation),2026-01-26,legislation,TN,
+opp_3d338028f9c3,prj_277,Colossus 2,leg_name_plus,geo:10.3km; company:0.33; name:1.00; county,10.3,0.33,1.00,yes,Tennessee Valley Authority (xAI additional 150 MW),2026-02-11,utility_regulation,TN,shelby
+opp_db2ce51b1acd,prj_277,Colossus 2,leg_name_plus,company:1.00; name:1.00,,1.00,1.00,no,U.S. House Rep. Steve Cohen (xAI emissions transparency),2026-02-13,regulatory_action; public_comment,,
+opp_eebe9464f38a,prj_277,Colossus 2,geo_company,geo:10.3km; company:1.00; county,10.3,1.00,0.25,yes,Memphis (xAI Colossus Water Recycle Plant indefinite pause),2026-04-09,project_withdrawal,TN,shelby
+opp_112e9c2fa247,prj_277,Colossus 2,leg_name_plus,company:1.00; name:1.00,,1.00,1.00,no,U.S. Senate EPW (Whitehouse xAI-specific probe),2026-04-17,regulatory_action; public_comment,,
+opp_606f388b9a84,prj_277,Colossus 2,leg_name_plus,company:1.00; name:1.00,,1.00,1.00,no,U.S. Senate (Markey letter to EPA on NSR pre-construction),2025-09-25,regulatory_action; public_comment,,
+opp_11fa1ec005e1,prj_74,Project Mitten / The Barn,geo_company,geo:9.6km; company:0.75; county,9.6,0.75,0.33,yes,Saline Township Planning Commission,2025-08-12,zoning_restriction; permit_denial,MI,washtenaw
+opp_9f706f5b61eb,prj_74,Project Mitten / The Barn,geo_company,geo:9.6km; company:0.75; county,9.6,0.75,0.33,yes,Saline Township Board (rezoning denial),2025-09-10,zoning_restriction; permit_denial,MI,washtenaw
+opp_681e92a6ba82,prj_74,Project Mitten / The Barn,county_company,company:0.75; county,21.3,0.75,0.33,yes,Washtenaw County Circuit Court (Related Digital v. Saline Township),2025-09-12,lawsuit,MI,washtenaw
+opp_a6804867fd59,prj_74,Project Mitten / The Barn,county_company,company:0.75; county,21.3,0.75,0.33,yes,Washtenaw County Circuit Court (Haushalter intervention motion),2025-12-13,lawsuit,MI,washtenaw
+opp_d7d9ccda1603,prj_74,Project Mitten / The Barn,geo_company,geo:9.6km; company:0.75; county,9.6,0.75,0.33,yes,Saline Township Board (I-1 to A-1 rescission),2026-01-28,zoning_restriction,MI,washtenaw
+opp_079ba18862cf,prj_74,Project Mitten / The Barn,county_company,company:0.75; county,21.3,0.75,0.33,yes,Washtenaw County Circuit Court (Haushalter intervention denied),2026-02-20,lawsuit,MI,washtenaw
+opp_885b5a2dd450,prj_176,Bitdeer Weathersfield Project,geo_company,geo:2.4km; company:0.33; county,2.4,0.33,0.33,yes,Niles,2026-04-20,project_withdrawal,OH,trumbull
+opp_a07a908a8fee,prj_146,Charlotte University City Data Center,geo_company,geo:12.6km; company:0.08; county,12.6,0.08,0.11,yes,Charlotte,2026-04-23,other_opposition; public_comment,NC,mecklenburg
+opp_007362ac6379,prj_173,Van Wert Mega Site,geo_company,geo:3.5km; company:1.00; county,3.5,1.00,0.33,yes,"Van Wert City Council, OH",2026-05-11,zoning_restriction,OH,van wert
+opp_b9342d9410a8,prj_175,Lordstown Data Center,geo_company,geo:3.3km; company:1.00,3.3,1.00,0.25,no,"Lordstown Village Council, OH",2026-06-16,moratorium,OH,trumbull
+opp_b20bf1a74322,prj_31,Martindale Indianapolis Metrobloks Data Center,geo_company,geo:2.9km; company:1.00,2.9,1.00,0.33,no,"Indianapolis City-County Council (Metrobloks Martindale-Brightwood rezoning), IN",2026-05-04,zoning_restriction,IN,marion
+opp_e84d6893cfc1,prj_31,Martindale Indianapolis Metrobloks Data Center,geo_company,geo:2.9km; company:0.17,2.9,0.17,0.13,no,"Marion County Superior Court (Hoosier Environmental Council / Protect Martindale-Brightwood v. Metrobloks et al.), IN",2026-05-12,lawsuit,IN,marion
+opp_f172e6ccdadb,prj_84,Project Flex,geo_company,geo:3.9km; company:1.00; county,3.9,1.00,0.09,yes,"Lyon Township (Oakland County) trustee recall campaign over Verrus Project Flex, MI",2026-04-27,other_opposition,MI,oakland
+opp_978f916fcce4,prj_74,Project Mitten / The Barn,geo_company,geo:9.9km; company:1.00; county,9.9,1.00,0.08,yes,"Saline Township (Washtenaw County) — OpenAI Stargate 'The Barn' construction-despite-rejection, MI",2026-05-06,lawsuit; other_opposition,MI,washtenaw
+opp_14dc021dc16b,prj_114,Marshfield Webster Data Center,geo_company,geo:3.4km; company:1.00; county,3.4,1.00,0.20,yes,"Webster County / Marshfield (Lumon Solutions Tier III AI facility town hall), MO",2026-05-11,public_comment,MO,webster
+opp_771128642427,prj_96,xAI MACROHARDRR,geo_company,geo:2.0km; company:0.25; county,2.0,0.25,0.06,yes,US District Court Northern District of Mississippi (NAACP preliminary injunction motion vs xAI Southaven gas-turbine plant),2026-06-16,lawsuit,MS,desoto
+opp_254d8776189c,prj_277,Colossus 2,geo_company,geo:9.8km; company:1.00; county,9.8,1.00,0.10,yes,"Memphis (Boxtown protest at xAI Colossus 1, 3231 Paul R. Lowry Rd), TN",2026-05-01,other_opposition,TN,shelby
+opp_dd33968e7b3e,prj_121,CoreWeave Kenilworth,geo_company,geo:1.4km; company:1.00; county,1.4,1.00,0.15,yes,"Kenilworth Borough (Union County — community rally against $1.8B CoreWeave data center on former NEST campus), NJ",2026-05-07,other_opposition,NJ,union
+opp_faafd092eda8,prj_79,Microsoft Gaines Township Data Center,county_company,company:1.00; county,21.5,1.00,0.14,yes,"Lowell Township (Kent County — 6-month moratorium rejected; recall threat over Microsoft DC), MI",2026-05-18,moratorium; other_opposition,MI,kent
+opp_90355a84d644,prj_172,Google Franklin Furnace Data Center,geo_company,geo:3.4km; company:0.33; name:0.67; county,3.4,0.33,0.67,yes,Franklin Furnace,2026-05-06,public_comment,OH,scioto
+opp_ce83e374fc4f,prj_300,Microsoft La Porte Data Center,geo_company,geo:5.2km; company:1.00; county,5.2,1.00,0.00,yes,LaPorte,2026-05-18,zoning_restriction; public_comment,IN,laporte
+opp_f540cfe3c350,prj_121,CoreWeave Kenilworth,geo_company,geo:2.4km; company:1.00; county,2.4,1.00,0.00,yes,Union Township,2026-05-19,ordinance,NJ,union
+opp_e283a61dbf27,prj_126,Lysander Data Center,geo_name,geo:6.9km; name:1.00; county,6.9,0.00,1.00,yes,Lysander,2026-05-07,moratorium,NY,onondaga
+opp_6719b620e318,prj_265,South Annville Township Data Center,geo_company,geo:1.4km; company:1.00; name:1.00; county,1.4,1.00,1.00,yes,South Annville Township,2026-05-13,project_withdrawal,PA,lebanon
+opp_a7fbd0f64633,prj_249,Dorrance Township Data Center Zoning Ordinance Challenge,geo_company,geo:10.2km; company:1.00; name:0.40; county,10.2,1.00,0.40,yes,Dorrance Township,2026-05-06,lawsuit,PA,luzerne
+opp_e56a1f96e77b,prj_265,South Annville Township Data Center,geo_name,geo:6.8km; name:0.50; county,6.8,0.00,0.50,yes,South Londonderry Township,2026-05-14,ordinance,PA,lebanon
+opp_dec2b8e1481c,prj_238,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,geo_name,geo:7.9km; name:0.50; county,7.9,0.00,0.50,yes,South Whitehall Township,2026-05-12,other_opposition; public_comment,PA,lehigh
+opp_db8e7e87ad3e,prj_275,Smithfield Data Center,geo_name,geo:2.7km; name:1.00; county,2.7,0.00,1.00,yes,Smithfield,2026-05-07,ordinance,RI,providence
+opp_824080a7cea0,prj_145,CLT10 Uptown Expansion,geo_company,geo:0.9km; company:0.33; county,0.9,0.33,0.00,yes,"Charlotte (citywide 150-day data center moratorium — public hearing), NC",2026-06-08,moratorium; public_comment,NC,mecklenburg
+opp_73d68a6442be,prj_5,DC BLOX Birmingham,geo_company,geo:2.2km; company:0.08; county,2.2,0.08,0.13,yes,"Birmingham (amended class action alleging city-developer conspiracy to evade DC moratorium), AL",2026-05-25,lawsuit,AL,jefferson
+opp_11176d608380,prj_12,Project Leo,geo_company,geo:15.2km; company:1.00; county,15.2,1.00,0.00,yes,"Pulaski County Quorum Court (data center moratorium ordinance — failed on clerk miscount), AR",2026-05-26,moratorium,AR,pulaski
+opp_61a5f8ea3716,prj_127,Niagara Digital Campus Data Center Development,geo_company,geo:1.8km; company:0.75; name:1.00; county,1.8,0.75,1.00,yes,"City of Niagara Falls (council approves NFR settlement clearing $1.48B data center), NY",2026-06-03,other_opposition,NY,niagara
+opp_4ece49c58a1e,prj_121,CoreWeave Kenilworth,geo_company,geo:3.0km; company:1.00; county,3.0,1.00,0.00,yes,"Cranford Township (ban amendment to be introduced), NJ",2026-06-09,ordinance; zoning_restriction,NJ,union
+opp_cbdfb8639b4a,prj_260,Switch Data Center at Former Pitt Race Complex,geo_company,geo:1.6km; company:0.25; county,1.6,0.25,0.07,yes,"Big Beaver Borough (Switch $1.4B campus town hall amid opposition), PA",2026-06-02,public_comment; other_opposition,PA,beaver
+opp_ec4f6cfec3e8,prj_306,Muskie Data Campus,geo_company,geo:10.5km; company:1.00; name:1.00,10.5,1.00,1.00,no,"Boyd County (TeraWulf ""Muskie"" data campus opposition), KY",2026-06-02,public_comment; other_opposition,KY,boyd
+opp_aef978ee8d04,prj_304,DartPoints Former Lexmark Data Center Redevelopment,geo_company,geo:4.1km; company:0.50; county,4.1,0.50,0.07,yes,"Lexington-Fayette Urban County (no incentives for DartPoints + council moratorium), KY",2026-06-08,other_opposition; moratorium,KY,fayette
+opp_60d0a6f70af7,prj_166,Project Mila / Trenton Industrial Park Data Center,geo_company,geo:10.5km; company:1.00; county,10.5,1.00,0.33,yes,"Liberty Township, Butler County (data center PUD-review requirement), OH",2026-06-15,zoning_restriction,OH,butler
+opp_6c92333780b0,prj_317,Holyoke Data Center,geo_company,geo:1.5km; company:0.75; name:0.50; county,1.5,0.75,0.50,yes,City of Holyoke,2026-06-18,ordinance; zoning_restriction,MA,hampden
+opp_c4939d76e390,prj_166,Project Mila / Trenton Industrial Park Data Center,geo_company,geo:10.9km; company:1.00; county,10.9,1.00,0.00,yes,Butler County,2026-06-16,moratorium,OH,butler
+opp_3322a7235054,prj_57,Project Lincoln,geo_company,geo:3.3km; company:1.00; name:1.00; county,3.3,1.00,1.00,yes,Oldham County Fiscal Court (moratorium blocking 'Project Lincoln'),2026-07-01,moratorium,KY,oldham
+opp_d550f074a001,prj_125,Cayuga Data Campus,geo_company,geo:5.5km; company:1.00; county,5.5,1.00,0.20,yes,Town of Lansing (TeraWulf 'Cayuga Data Campus' petition),2026-06-17,public_comment,NY,tompkins
+opp_04092e1aeef4,prj_261,Allenwood Data Center,geo_company,geo:9.1km; company:1.00; county,9.1,1.00,0.00,yes,Gregg Township / Union County (PNK Group data center retrofit),2026-07-04,public_comment,PA,union
+opp_19f0e90e2ecc,prj_73,Westfield Data Center Campus,geo_company,geo:3.8km; company:0.33; county,3.8,0.33,0.17,yes,"City of Westfield (1-year data center moratorium, final vote)",2026-07-06,moratorium,MA,hampden
