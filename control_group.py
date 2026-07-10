@@ -65,6 +65,7 @@ OUT_NOTES = P("data", "control_group_notes.md")
 
 K_CONTROLS = 3               # comparables per opposed project
 CONTAMINATION_KM = 15.0      # baseline within this of an opposed site is excluded
+MARGIN_CALIPER = 0.10        # max |county margin difference| for calipered stages
 OUT_OF_STATE_PENALTY = 1.5   # added to distance when no in-state candidate pool
 TIER_PENALTY = {"proposals_unopposed": 0.0, "ai_centers": 0.35, "atlas": 0.7}
 
@@ -231,13 +232,41 @@ def build_universe(cov: Covariates):
 
 
 def match_controls(records: list[dict], opposed_life: list[dict]):
-    """k-nearest unopposed comparables per opposed project (auditable)."""
+    """k-nearest unopposed comparables per opposed project.
+
+    Selection uses a relaxation ladder so the closest-comparable definition
+    is as strict as the pool allows, and every match records which stage
+    produced it (`match_relaxation`):
+
+      1 state+tercile+caliper  in-state, same margin tercile, |margin diff| <= caliper
+      2 state+caliper          in-state, |margin diff| <= caliper
+      3 state                  in-state, no margin constraint
+      4 national+caliper       any state, |margin diff| <= caliper (penalized)
+      5 national               any state (penalized)
+
+    The caliper directly bounds per-pair margin disparity, which is what the
+    balance diagnostic (control_comparison.py) measures.
+    """
     pool = [r for r in records if r["opposed_flag"] == "no"
             and not r["exclusion_reason"] and r["source"] != "proposals_opposed"]
     by_state = defaultdict(list)
     for r in pool:
         by_state[r["state"]].append(r)
     by_id = {r["universe_id"]: r for r in records}
+
+    # margin terciles over the eligible pool (the sampling frame for controls)
+    pool_margins = sorted(m for m in (parse_float(r["county_margin_2024"]) for r in pool)
+                          if m is not None)
+    if len(pool_margins) >= 3:
+        t1 = pool_margins[len(pool_margins) // 3]
+        t2 = pool_margins[2 * len(pool_margins) // 3]
+    else:
+        t1 = t2 = None
+
+    def tercile(margin: float | None) -> str:
+        if margin is None or t1 is None:
+            return ""
+        return "T1" if margin <= t1 else ("T2" if margin <= t2 else "T3")
 
     def dist(op: dict, ct: dict) -> tuple[float, str]:
         parts, notes = [], []
@@ -255,24 +284,58 @@ def match_controls(records: list[dict], opposed_life: list[dict]):
         base += TIER_PENALTY[ct["source"]]
         return base, "+".join(notes)
 
+    def stages(op: dict):
+        """Yield (stage_label, candidates, penalized) strictest-first."""
+        om = parse_float(op["county_margin_2024"])
+        ot = tercile(om)
+        in_state = by_state.get(op["state"], [])
+
+        def calipered(cands):
+            if om is None:
+                return []
+            out = []
+            for c in cands:
+                cm = parse_float(c["county_margin_2024"])
+                if cm is not None and abs(om - cm) <= MARGIN_CALIPER:
+                    out.append(c)
+            return out
+
+        st_cal = calipered(in_state)
+        if ot:
+            yield ("state+tercile+caliper",
+                   [c for c in st_cal if tercile(parse_float(c["county_margin_2024"])) == ot],
+                   False)
+        yield ("state+caliper", st_cal, False)
+        # margin-comparable out-of-state controls are preferred over
+        # margin-distant in-state ones: the caliper is what the balance
+        # diagnostic measures, and out-of-state picks stay penalized+labeled
+        yield ("national+caliper", calipered(pool), True)
+        yield ("state", in_state, False)
+        yield ("national", pool, True)
+
     rows = []
     for lr in opposed_life:
         op = by_id.get(lr["project_id"])
         if op is None:
             continue
-        cands = by_state.get(op["state"], [])
-        scope = "in_state"
-        if len(cands) < K_CONTROLS:
-            cands = pool
-            scope = "national_fallback"
-        scored = []
-        for ct in cands:
-            d, basis = dist(op, ct)
-            if scope == "national_fallback" and ct["state"] != op["state"]:
-                d += OUT_OF_STATE_PENALTY
-            scored.append((d, basis, ct))
-        scored.sort(key=lambda x: x[0])
-        for rank, (d, basis, ct) in enumerate(scored[:K_CONTROLS], 1):
+        chosen: list[tuple[float, str, dict, str]] = []
+        seen: set[str] = set()
+        for stage, cands, penalized in stages(op):
+            if len(chosen) >= K_CONTROLS:
+                break
+            scored = []
+            for ct in cands:
+                if ct["universe_id"] in seen:
+                    continue
+                d, basis = dist(op, ct)
+                if penalized and ct["state"] != op["state"]:
+                    d += OUT_OF_STATE_PENALTY
+                scored.append((d, basis, ct, stage))
+            scored.sort(key=lambda x: x[0])
+            for entry in scored[:K_CONTROLS - len(chosen)]:
+                chosen.append(entry)
+                seen.add(entry[2]["universe_id"])
+        for rank, (d, basis, ct, stage) in enumerate(chosen, 1):
             rows.append({
                 "opposed_project_id": op["universe_id"],
                 "opposed_project_name": op["name"],
@@ -290,7 +353,8 @@ def match_controls(records: list[dict], opposed_life: list[dict]):
                 "control_county_margin_2024": ct["county_margin_2024"],
                 "match_distance": f"{d:.4f}",
                 "match_basis": basis,
-                "match_scope": scope,
+                "match_relaxation": stage,
+                "match_scope": "in_state" if ct["state"] == op["state"] else "national_fallback",
             })
     return rows
 
@@ -323,11 +387,17 @@ moratoriums expose the entire county). Exclusions are flagged with reasons in
 `baseline_universe.csv`, not dropped.
 
 ## Matching
-k=3 nearest comparables per opposed project. Hard preference for in-state
-candidates; national fallback is penalized and labeled. Distance covariates:
-county 2024 presidential margin, log10 capacity (when both sides have MW),
-plus the tier penalty. Matches with `match_basis = no_shared_covariates`
-rest on state/tier alone and should be down-weighted or manually reviewed.
+k=3 nearest comparables per opposed project, selected through a relaxation
+ladder recorded per match in `match_relaxation` (strictest first):
+in-state + same margin tercile + caliper (|margin diff| <= 0.10), then
+in-state + caliper, national + caliper, in-state uncalipered, national.
+Margin-comparable out-of-state controls are deliberately preferred over
+margin-distant in-state ones; out-of-state matches are penalized and
+labeled (`match_scope`), and the share of out-of-state matches is a
+sensitivity axis alongside control tier. Distance covariates: county 2024
+presidential margin, log10 capacity (when both sides have MW), plus the
+tier penalty. Matches with `match_basis = no_shared_covariates` rest on
+state/tier alone and should be down-weighted or manually reviewed.
 
 ## What this does NOT support yet
 - No causal or cost claims. This is dataset construction (roadmap Phase 2).
