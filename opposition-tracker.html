@@ -199,6 +199,23 @@ input:focus, select:focus { border-color:#5aa9e6 }
         <h1>Developer Risk: Opposition Tracker</h1>
       </div>
       <div class="sub">Community resistance, legislation, and legal challenges to data center development. Click a state to zoom in; click a pin for details.</div>
+      <nav id="site-nav" style="display:none;flex-wrap:wrap;gap:5px;margin-top:8px">
+        <a href="index.html" class="nav-pill">Atlas</a>
+        <a href="opposition-tracker.html" class="nav-pill active">Tracker</a>
+        <a href="opposition-dashboard.html" class="nav-pill">Dashboard</a>
+        <a href="developments-dashboard.html" class="nav-pill">Developments</a>
+        <a href="project-lifecycles.html" class="nav-pill">Projects</a>
+      </nav>
+      <style>
+      .nav-pill { padding:4px 10px; border-radius:999px; border:1px solid var(--border);
+        background:var(--panel2); color:var(--muted); font-size:11px; text-decoration:none }
+      .nav-pill:hover { color:var(--text); border-color:var(--atlas) }
+      .nav-pill.active { color:var(--atlas); border-color:var(--atlas) }
+      </style>
+      <script>
+        try { if (window.self === window.top) document.getElementById('site-nav').style.display = 'flex'; }
+        catch (e) { /* embedded in a cross-origin iframe; keep nav hidden */ }
+      </script>
       <div class="sub" id="dataThrough" style="margin-top:3px;color:#5f6c7b"></div>
     </div>
     <div class="filters">

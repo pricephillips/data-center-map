@@ -112,6 +112,24 @@
 </head>
 <body>
 
+<nav id="site-nav" style="display:none;flex-wrap:wrap;gap:6px;padding:10px 16px 0">
+  <a href="index.html" class="nav-pill active">Atlas Map</a>
+  <a href="opposition-tracker.html" class="nav-pill">Opposition Tracker</a>
+  <a href="opposition-dashboard.html" class="nav-pill">Opposition Dashboard</a>
+  <a href="developments-dashboard.html" class="nav-pill">Developments</a>
+  <a href="project-lifecycles.html" class="nav-pill">Projects</a>
+</nav>
+<style>
+.nav-pill { padding:6px 12px; border-radius:999px; border:1px solid var(--border);
+  background:var(--surface); color:var(--muted); font-size:12px; text-decoration:none }
+.nav-pill:hover { color:var(--text); border-color:var(--accent) }
+.nav-pill.active { color:var(--accent); border-color:var(--accent) }
+</style>
+<script>
+  try { if (window.self === window.top) document.getElementById('site-nav').style.display = 'flex'; }
+  catch (e) { /* embedded in a cross-origin iframe; keep nav hidden */ }
+</script>
+
 <header>
   <div class="logo">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Data Center Atlas">
