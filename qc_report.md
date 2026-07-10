@@ -1,13 +1,13 @@
 # Master Opposition QC Report
 
-- Records scanned: **1643**
-- Passed to feed: **1451**
-- Blocked / quarantined: **192**
+- Records scanned: **1652**
+- Passed to feed: **1455**
+- Blocked / quarantined: **197**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- UNPLACEABLE: 184
+- UNPLACEABLE: 189
 - LEG_SOURCE_WEAK: 4
 - DUPLICATE: 2
 - STATEWIDE_CAPITAL_SINK: 1
@@ -213,3 +213,8 @@
 | Lakeland considers moratorium on data centers - FO | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
 | Hamilton's data centre moratorium could be a Canad | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
 | Metro Atlanta city council to vote on data center | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Manlius town board adopts moratoriums on data cent | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| UPDATE: Marietta tables data center, imposes six-m | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Minneapolis data center pause heads back to City C | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Tennessee communities are blocking data centers. N | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Data center opposition: Walker Co. plans to extend | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |

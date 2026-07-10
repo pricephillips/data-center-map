@@ -18,6 +18,6 @@ Project level, jurisdiction-cluster bootstrap 95% CI, incidents younger than 90 
 - $93B behind enacted blocks
 
 ## Data caveats attached to every use
-- 89 rows have no usable date and are absent from all temporal statistics; these skew toward the newest intake stream, so recent-period counts are floors.
+- 93 rows have no usable date and are absent from all temporal statistics; these skew toward the newest intake stream, so recent-period counts are floors.
 - Severity values in use: ['1', '2'] - the 1-5 scale is effectively binary and should not be treated as a graded intensity measure.
 - Mechanism/concern categories are keyword-classified; see validation_sample.csv workflow for measured precision before citing category-level rates externally.
