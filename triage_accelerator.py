@@ -144,8 +144,12 @@ def main() -> int:
     conf_order = {"high": 0, "medium": 1, "": 2}
     rows.sort(key=lambda r: (order[r["action"]], conf_order[r["suggestion_confidence"]]))
 
+    draft_cols = ["opp_id", "project_id", "action", "note",
+                  "suggestion_confidence", "corroborations", "red_flags",
+                  "first_pass_signals", "distance_km", "opp_incident",
+                  "opp_date", "project_name", "opp_state"]
     with open(OUT_DRAFT, "w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+        w = csv.DictWriter(fh, fieldnames=draft_cols)
         w.writeheader()
         w.writerows(rows)
 

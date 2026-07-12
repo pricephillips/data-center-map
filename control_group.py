@@ -108,6 +108,14 @@ def parse_float(v) -> float | None:
         return None
 
 
+def parse_coords(lat_v, lon_v) -> tuple[float | None, float | None]:
+    """Coordinate pair; (0, 0) is a known placeholder, treated as missing."""
+    lat, lon = parse_float(lat_v), parse_float(lon_v)
+    if lat == 0.0 and lon == 0.0:
+        return None, None
+    return lat, lon
+
+
 def haversine_km(lat1, lon1, lat2, lon2) -> float:
     r = 6371.0
     p1, p2 = math.radians(lat1), math.radians(lat2)
@@ -178,7 +186,7 @@ def build_universe(cov: Covariates):
         pid = r["project_id"]
         p = props_by_id.get(pid, {})
         is_opposed = pid in opposed_ids
-        lat, lon = parse_float(p.get("lat")), parse_float(p.get("lon"))
+        lat, lon = parse_coords(p.get("lat"), p.get("lon"))
         rec = add(
             "proposals_opposed" if is_opposed else "proposals_unopposed",
             pid, r["project_name"], p.get("companies", ""), r["state"], r["county"],
@@ -201,15 +209,17 @@ def build_universe(cov: Covariates):
         m = re.search(r",\s*([A-Za-z ]+?)(?:\s+\d{5})?\s*$", addr)
         if m:
             st = norm_state(m.group(1).strip()) or norm_state(m.group(1).strip().split()[-1])
+        aic_lat, aic_lon = parse_coords(r.get("lat"), r.get("lon"))
         add("ai_centers", f"aic_{i:04d}", r.get("Name", ""), r.get("Owner", ""),
-            st, "", parse_float(r.get("lat")), parse_float(r.get("lon")),
+            st, "", aic_lat, aic_lon,
             parse_float(r.get("Current power (MW)")), None, opposed_flag=False)
 
     # --- atlas baseline ---
     for i, r in enumerate(load_csv(ATLAS_CSV)):
+        atl_lat, atl_lon = parse_coords(r.get("lat"), r.get("lon"))
         add("atlas", f"atl_{i:05d}", r.get("name", ""), r.get("operator", ""),
             r.get("state", ""), r.get("county", ""),
-            parse_float(r.get("lat")), parse_float(r.get("lon")),
+            atl_lat, atl_lon,
             None, parse_float(r.get("sqft")), opposed_flag=False)
 
     # --- contamination exclusions on the control pool ---
@@ -425,14 +435,25 @@ def main() -> int:
     cov = Covariates()
     records, opposed_life = build_universe(cov)
 
+    universe_cols = ["universe_id", "source", "name", "operator", "state",
+                     "county", "fips", "county_margin_2024", "lat", "lon",
+                     "capacity_mw", "sqft", "opposed_flag", "lifecycle_outcome",
+                     "decided", "n_opposition_events", "exclusion_reason"]
     with open(OUT_UNIVERSE, "w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=list(records[0].keys()))
+        w = csv.DictWriter(fh, fieldnames=universe_cols)
         w.writeheader()
         w.writerows(records)
 
     matches = match_controls(records, opposed_life)
+    match_cols = ["opposed_project_id", "opposed_project_name", "opposed_state",
+                  "opposed_lifecycle_outcome", "opposed_decided",
+                  "opposed_capacity_mw", "opposed_county_margin_2024",
+                  "control_rank", "control_universe_id", "control_name",
+                  "control_source", "control_state", "control_capacity_mw",
+                  "control_county_margin_2024", "match_distance", "match_basis",
+                  "match_relaxation", "match_scope"]
     with open(OUT_MATCHES, "w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=list(matches[0].keys()))
+        w = csv.DictWriter(fh, fieldnames=match_cols)
         w.writeheader()
         w.writerows(matches)
 

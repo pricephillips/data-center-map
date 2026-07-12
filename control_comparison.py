@@ -225,8 +225,37 @@ def main() -> int:
       "rates for data center projects in general.")
     w("")
 
-    # ---- 5. Match-quality triage ----
-    w("## 5. Match-quality flags")
+    # ---- 5. Delay observables (gated: requires >=5 dated projects) ----
+    dated = [r for r in life if r["decision_date"] and r["days_announced_to_decision"]]
+    w("## 5. Delay observables (verified decision dates only)")
+    w("")
+    if len(dated) < 5:
+        w(f"Only {len(dated)} projects have verified decision dates with computable "
+          "delay; distributional statistics are withheld below n=5. Grow via the "
+          "date-recovery worklist.")
+    else:
+        vals = sorted(int(r["days_announced_to_decision"]) for r in dated)
+        med = vals[len(vals) // 2]
+        precisions = Counter(r["announced_precision"] for r in dated)
+        w(f"- {len(dated)} decided+opposed projects have verified decision dates: "
+          f"announced-to-decision spans {vals[0]}–{vals[-1]} days, median {med} days.")
+        w(f"- Announced-date precision of these rows: " +
+          ", ".join(f"{k}: {v}" for k, v in precisions.items()) +
+          ". Month-precision announced dates are floored to the 1st, so those "
+          "delays carry up to ~30 days of error each.")
+        by_outcome = {}
+        for r in dated:
+            by_outcome.setdefault(r["lifecycle_outcome"], []).append(int(r["days_announced_to_decision"]))
+        for k, v in sorted(by_outcome.items()):
+            v = sorted(v)
+            w(f"- `{k}` (n={len(v)}): {v[0]}–{v[-1]} days, median {v[len(v)//2]}.")
+        w("- These are raw spans within the opposed sample: NOT opposition-"
+          "attributable delay (that requires the matched-control comparison at "
+          "adequate n) and not client-facing.")
+    w("")
+
+    # ---- 6. Match-quality triage ----
+    w("## 6. Match-quality flags")
     w("")
     weak = [m for m in matches if m["match_basis"] == "no_shared_covariates"]
     fallback = [m for m in matches if m["match_scope"] == "national_fallback"]
@@ -241,7 +270,7 @@ def main() -> int:
     w("")
 
     # ---- 6. Limitations ----
-    w("## 6. Limitations (binding)")
+    w("## 7. Limitations (binding)")
     w("")
     w("- \"Unopposed\" = no opposition recorded in the tracker; absence of "
       "evidence, not verified absence.")

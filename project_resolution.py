@@ -176,6 +176,14 @@ def parse_float(value: str) -> float | None:
         return None
 
 
+def parse_coords(lat_v: str, lon_v: str) -> tuple[float | None, float | None]:
+    """Coordinate pair; (0, 0) is a known placeholder, treated as missing."""
+    lat, lon = parse_float(lat_v), parse_float(lon_v)
+    if lat == 0.0 and lon == 0.0:
+        return None, None
+    return lat, lon
+
+
 _DATE_PATTERNS = [
     (re.compile(r"^(\d{4})-(\d{1,2})-(\d{1,2})$"), "day"),
     (re.compile(r"^(\d{4})-(\d{1,2})$"), "month"),
@@ -249,8 +257,8 @@ def prep_projects(rows: list[dict]) -> list[dict]:
             "co_toks": company_tokens(r.get("companies", "")),
             "state": norm_state(r.get("state", "")),
             "county": norm_county(r.get("counties", "")),
-            "lat": parse_float(r.get("lat", "")),
-            "lon": parse_float(r.get("lon", "")),
+            "lat": (c := parse_coords(r.get("lat", ""), r.get("lon", "")))[0],
+            "lon": c[1],
             "phase": phase,
             "lifecycle_outcome": PHASE_TO_LIFECYCLE.get(phase, "pending"),
             "announced_date": announced,
@@ -269,8 +277,8 @@ def prep_event(r: dict) -> dict:
         "co_toks": company_tokens(" ".join([r.get("Company", ""), r.get("Hyperscaler", ""), r.get("Entity", "")])),
         "state": norm_state(r.get("State", "")),
         "county": norm_county(r.get("County", "")),
-        "lat": parse_float(r.get("lat", "")),
-        "lon": parse_float(r.get("lon", "")),
+        "lat": (c := parse_coords(r.get("lat", ""), r.get("lon", "")))[0],
+        "lon": c[1],
         "legislative": is_statewide_or_legislative(r),
         "date": (r.get("Date") or "").strip(),
     }
@@ -575,8 +583,12 @@ def build_lifecycles(projects: list[dict], links: list[dict], path: str,
             decision_date = md["decision_date"] if md else ""
             decision_src = md["decision_date_source"] if md else ""
             delay_days = ""
+            # month-precision announced dates are floored to the 1st, so the
+            # derived delay carries up to ~30 days of error; consumers must
+            # read announced_precision alongside this column. Year precision
+            # is too coarse to support a delay value.
             if (decision_date and pr["announced_date"]
-                    and pr["announced_precision"] == "day"):
+                    and pr["announced_precision"] in ("day", "month")):
                 delay_days = str((date.fromisoformat(decision_date)
                                   - date.fromisoformat(pr["announced_date"])).days)
             w.writerow({
