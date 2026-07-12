@@ -46,10 +46,10 @@ Decided means terminal dispositions only; pending and mixed cases are excluded, 
 
 ## 5. Delay observables (verified decision dates only)
 
-- 10 decided+opposed projects have verified decision dates: announced-to-decision spans 12–294 days, median 156 days.
-- Announced-date precision of these rows: month: 10. Month-precision announced dates are floored to the 1st, so those delays carry up to ~30 days of error each.
+- 12 decided+opposed projects have verified decision dates: announced-to-decision spans 12–294 days, median 119 days.
+- Announced-date precision of these rows: month: 12. Month-precision announced dates are floored to the 1st, so those delays carry up to ~30 days of error each.
 - `advanced_confirmed` (n=3): 75–294 days, median 119.
-- `blocked_confirmed` (n=7): 12–205 days, median 156.
+- `blocked_confirmed` (n=9): 12–205 days, median 98.
 - These are raw spans within the opposed sample: NOT opposition-attributable delay (that requires the matched-control comparison at adequate n) and not client-facing.
 
 ## 6. Match-quality flags
