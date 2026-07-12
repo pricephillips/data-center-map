@@ -555,10 +555,11 @@ def build_lifecycles(projects: list[dict], links: list[dict], path: str,
             "lifecycle_outcome", "decided", "announced_date", "announced_precision",
             "decision_date", "decision_date_source", "days_announced_to_decision",
             "last_status_update",
-            "capacity_mw", "size_acres",
+            "capacity_mw", "capacity_source", "size_acres",
             "n_opposition_events", "first_opposition_date", "last_opposition_date",
             "opposition_span_days", "days_announced_to_first_opposition",
             "opposition_types", "n_opposition_groups", "has_lawsuit"]
+    capacity_conflicts = []
     date_recovery_rows = []
     with open(path, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=cols)
@@ -579,6 +580,38 @@ def build_lifecycles(projects: list[dict], links: list[dict], path: str,
             groups = {g.strip() for e in evs
                       for g in (e["raw"].get("Opposition Groups") or "").split(";") if g.strip()}
             decided = pr["lifecycle_outcome"] in {"advanced_confirmed", "blocked_confirmed"}
+            # capacity: proposals registry value wins; else adopt a SINGLE
+            # consistent Megawatts value from linked opposition records
+            # (source-labeled); conflicting event values are flagged for
+            # review and never adopted.
+            capacity = pr["raw"].get("capacity_mw", "")
+            capacity_source = "proposals" if str(capacity).strip() else ""
+            if not str(capacity).strip():
+                ev_vals = set()
+                for e in evs:
+                    v = (e["raw"].get("Megawatts") or "").strip()
+                    if v:
+                        try:
+                            ev_vals.add(float(v))
+                        except ValueError:
+                            pass
+                if len(ev_vals) == 1:
+                    val = ev_vals.pop()
+                    capacity = f"{val:g}"
+                    capacity_source = "opposition_events"
+                elif len(ev_vals) > 1:
+                    capacity_conflicts.append({
+                        "review_type": "CAPACITY_CONFLICT",
+                        "opp_id": "", "project_id": pr["project_id"],
+                        "project_name": pr["name"],
+                        "review_reason": "linked_events_disagree_on_megawatts",
+                        "signals": "; ".join(f"{v:g}MW" for v in sorted(ev_vals)),
+                        "distance_km": "", "company_jaccard": "", "name_jaccard": "",
+                        "opp_incident": "", "opp_date": "", "opp_state": pr["state"],
+                        "note": "Linked opposition records carry different Megawatts "
+                                "values; resolve manually (set capacity_mw in "
+                                "proposals.csv with a source).",
+                    })
             md = manual_dates.get(pr["project_id"])
             decision_date = md["decision_date"] if md else ""
             decision_src = md["decision_date_source"] if md else ""
@@ -605,7 +638,8 @@ def build_lifecycles(projects: list[dict], links: list[dict], path: str,
                 "decision_date_source": decision_src,
                 "days_announced_to_decision": delay_days,
                 "last_status_update": pr["last_status_update"],
-                "capacity_mw": pr["raw"].get("capacity_mw", ""),
+                "capacity_mw": capacity,
+                "capacity_source": capacity_source,
                 "size_acres": pr["raw"].get("size_acres", ""),
                 "n_opposition_events": len(evs),
                 "first_opposition_date": first_opp,
@@ -630,7 +664,7 @@ def build_lifecycles(projects: list[dict], links: list[dict], path: str,
                             "decision date exists. Recover from sources before "
                             "using this project in delay models.",
                 })
-    return date_recovery_rows
+    return date_recovery_rows + capacity_conflicts
 
 
 LEAK_TERMS = re.compile(r'"(win|loss)"|\b(wins?|losses|lost)\b', re.IGNORECASE)
@@ -675,7 +709,9 @@ def main() -> int:
     print(f"projects: {len(projects)}  (decided: {decided}, pending: {len(projects) - decided})")
     print(f"opposition events: {len(events)}")
     print(f"confirmed links: {len(links)}  -> {n_linked_projects} projects with opposition")
-    print(f"review candidates: {len(review)}  |  date-recovery flags: {len(date_recovery)}")
+    n_cap = sum(1 for d in date_recovery if d["review_type"] == "CAPACITY_CONFLICT")
+    print(f"review candidates: {len(review)}  |  date-recovery flags: "
+          f"{len(date_recovery) - n_cap}  |  capacity conflicts: {n_cap}")
 
     hits = leak_audit([OUT_LINKS, OUT_LIFECYCLES, OUT_REVIEW])
     if hits:
