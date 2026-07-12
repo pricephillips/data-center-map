@@ -1,15 +1,15 @@
 # Master Opposition QC Report
 
-- Records scanned: **1652**
-- Passed to feed: **1455**
-- Blocked / quarantined: **197**
+- Records scanned: **1657**
+- Passed to feed: **1456**
+- Blocked / quarantined: **201**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- UNPLACEABLE: 189
+- UNPLACEABLE: 193
+- DUPLICATE: 4
 - LEG_SOURCE_WEAK: 4
-- DUPLICATE: 2
 - STATEWIDE_CAPITAL_SINK: 1
 - STUDY_SOURCE_WEAK: 1
 
@@ -113,7 +113,7 @@
 | Residents speak out against possible data center i | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
 | 60+ groups just called on N.J. governor to immedia | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
 | Asheville considers yearlong data center ban, will | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
-| Molitor: state data center delay is hypocritical - | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Molitor: state data center delay is hypocritical - | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.<br>**HIGH** DUPLICATE: Possible duplicate of: Molitor: State data center delay is hypocritical -. Held out of the feed until merged. |
 | Data Center Moratorium On Gov. Hochul's Desk Puts | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
 | Cave City faces lawsuit over data center moratoriu | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
 | Map Shows Where Data Center Bans Could Strike Next | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
@@ -218,3 +218,7 @@
 | Minneapolis data center pause heads back to City C | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
 | Tennessee communities are blocking data centers. N | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
 | Data center opposition: Walker Co. plans to extend | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| More Connecticut towns are banning data centers be | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
+| Marietta tables data center request; issues morato | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
+| Molitor: State data center delay is hypocritical - | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.<br>**HIGH** DUPLICATE: Possible duplicate of: Molitor: state data center delay is hypocritical -. Held out of the feed until merged. |
+| ...and 1 more | | | see quarantine.json |
