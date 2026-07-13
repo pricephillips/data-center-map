@@ -1,6 +1,6 @@
 # Data Quality Report — master_opposition.csv
 
-**Rows processed:** 1657
+**Rows processed:** 1659
 
 This pass is **backward compatible**: existing columns keep their names and meanings, values were fixed in place only where the correction is unambiguous, and all new structure was added as additional columns. The HTML map and Notion sync continue to work without modification.
 
@@ -13,10 +13,10 @@ This pass is **backward compatible**: existing columns keep their names and mean
 282 cell(s) repaired
 
 **3. Validation flag: source_url_valid (new column)**  
-1657 valid; 0 non-empty but still non-URL (flagged for review)
+1659 valid; 0 non-empty but still non-URL (flagged for review)
 
 **4. Sources — backfilled from Source URL where empty**  
-287 row(s) now have a populated Sources list (Source URL was confirmed == Sources[0] in 100% of dual-filled rows)
+289 row(s) now have a populated Sources list (Source URL was confirmed == Sources[0] in 100% of dual-filled rows)
 
 **5. Issue Category — tokens alphabetically sorted & de-duplicated**  
 540 cell(s) reordered; distinct combinations 609 -> 446 (eliminated 163 phantom duplicates from ordering)
@@ -34,10 +34,10 @@ Columns: is_air_quality, is_anti_ai, is_community_impact, is_contract_guarantees
 649 row(s) had a parenthetical descriptor extracted; Incident left intact for backward compatibility
 
 **10. project_id + project_row_count + is_primary_record (new columns)**  
-1471 distinct projects identified; 116 span multiple rows; 29 row(s) unified by manual cross-venue override. Largest clusters: xai_colossus (29), port_washington_wi (9), prince_william_county_va (8), reno_nv (6), fort_worth_tx (4). Heuristic = location_name + state, plus PROJECT_OVERRIDES for cross-venue projects.
+1473 distinct projects identified; 116 span multiple rows; 29 row(s) unified by manual cross-venue override. Largest clusters: xai_colossus (29), port_washington_wi (9), prince_william_county_va (8), reno_nv (6), fort_worth_tx (4). Heuristic = location_name + state, plus PROJECT_OVERRIDES for cross-venue projects.
 
 **11. Date enrichment: action_year + date_parseable + data_era (new columns)**  
-287 unparseable date(s) flagged; 5 row(s) tagged crypto_era_pre2022 (e.g. the lone 2014 Chelan County PUD record) so the two opposition waves can be analyzed separately
+289 unparseable date(s) flagged; 5 row(s) tagged crypto_era_pre2022 (e.g. the lone 2014 Chelan County PUD record) so the two opposition waves can be analyzed separately
 
 **12. Quantitative review flags: mw_review_flag (>3000 MW), investment_review_flag (>$10B) (new columns)**  
 7 capacity outlier(s) and 74 investment outlier(s) flagged for unit/scope verification (MW vs GW; phase vs total-campus)

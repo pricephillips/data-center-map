@@ -40,7 +40,7 @@ prj_38,Pike Township Data Center,IN,marion,withdrawn,blocked_confirmed,yes,,,,,,
 prj_39,Project Maize,IN,la porte,construction,advanced_confirmed,yes,2025-06-01,month,,,,2026-04-07,,,70,0,,,,,,0,no
 prj_40,Hobart Tech Park,IN,lake,approved,advanced_confirmed,yes,2025-01-01,year,,,,2026-05-20,,,725,2,2025-10-01,2025-11-01,31,,public_comment,2,no
 prj_41,Tract Project West,IA,warren,proposed,pending,no,2025-02-01,month,,,,2026-04-15,,,,0,,,,,,0,no
-prj_42,Google Cedar Rapids,IA,linn,approved,advanced_confirmed,yes,2024-03-01,month,,,,2026-04-15,565,opposition_events,,2,2026-03-01,2026-06-15,106,,zoning_restriction,2,no
+prj_42,Google Cedar Rapids,IA,linn,approved,advanced_confirmed,yes,2024-03-01,month,2025-01-31,Cedar Rapids City Council granted the development approvals for the Google (Big Cedar Industrial Center) data center at the end of January 2025; date set to month-end 2025-01-31 (day precision not established in sources — treat as month precision),336,2026-04-15,565,opposition_events,,2,2026-03-01,2026-06-15,106,,zoning_restriction,2,no
 prj_43,QTS Cedar Rapids,IA,linn,approved,advanced_confirmed,yes,2025-01-01,month,,,,2026-04-15,,,,0,,,,,,0,no
 prj_44,Meta Davenport Data Center,IA,scott,approved,advanced_confirmed,yes,2024-05-01,month,,,,2026-04-15,,,,1,2024-05-01,2024-05-01,0,,public_comment,1,no
 prj_45,Project Ruthenium,IA,madison,proposed,pending,no,2023-11-01,month,,,,2026-04-15,,,103,0,,,,,,0,no
@@ -113,7 +113,7 @@ prj_111,Gateway Digital Campus,MO,franklin,approved,advanced_confirmed,yes,2026-
 prj_112,Meta Kansas City Data Center,MO,clay,operational,advanced_confirmed,yes,2025-01-01,year,,,,2026-05-09,,,,0,,,,,,0,no
 prj_113,Project Mica,MO,clay,construction,advanced_confirmed,yes,2026-02-01,month,,,,2026-05-09,700,proposals,500,0,,,,,,0,no
 prj_114,Marshfield Webster Data Center,MO,webster,construction,advanced_confirmed,yes,2026-01-01,year,,,,2026-05-09,,,5,1,2026-05-11,2026-05-11,0,,public_comment,0,no
-prj_115,Project Cumulus,MO,st. charles,withdrawn,blocked_confirmed,yes,2025-03-01,month,,,,2026-05-09,,,440,1,2026-05-19,2026-05-19,0,,lawsuit; moratorium,9,yes
+prj_115,Project Cumulus,MO,st. charles,withdrawn,blocked_confirmed,yes,2025-03-01,month,2025-08-18,"CRG Cumulus LLC withdrew its conditional use permit application (Monday afternoon, day before the 2025-08-19 council meeting); web-verified (STLPR 2025-08-18, govtech/Post-Dispatch 2025-08-19, KSDK, DCD 2025-08-22)",170,2026-05-09,,,440,1,2026-05-19,2026-05-19,0,,lawsuit; moratorium,9,yes
 prj_116,DataOne Vineland,NJ,cumberland,construction,advanced_confirmed,yes,,,,,,2026-05-20,300,proposals,,1,2025-12-23,2025-12-23,0,,zoning_restriction,4,no
 prj_117,Princeton Nurseries Data Center,NJ,middlesex,proposed,pending,no,2025-01-01,year,,,,2026-02-07,,,160,1,2025-03-01,2025-03-01,0,,public_comment,1,no
 prj_118,Nutley Data Center,NJ,essex,proposed,pending,no,2025-01-01,year,,,,2026-02-07,,,11,0,,,,,,0,no
@@ -204,7 +204,7 @@ prj_202,AWS Salem Township Data Center,PA,luzerne,construction,advanced_confirme
 prj_203,Project Hazelnut,PA,luzerne,rejected,blocked_confirmed,yes,2025-05-01,month,2025-11-18,Hazle Township supervisors unanimous rejection at November 2025 meeting; source report dated 2025-11-18,201,,,,1250,1,2025-11-18,2025-11-18,0,,zoning_restriction,1,no
 prj_204,Wildcat Ridge AI Data Center,PA,lackawanna,proposed,pending,no,2025-01-01,month,,,,2026-06-15,1600,proposals,574.2,0,,,,,,0,no
 prj_205,Project Gravity,PA,lackawanna,proposed,pending,no,2025-04-01,month,,,,2026-04-23,,,195,0,,,,,,0,no
-prj_206,Blakely AI Data Center,PA,lackawanna,withdrawn,blocked_confirmed,yes,2025-08-01,month,,,,2026-04-03,400,proposals,121,1,2025-09-12,2025-09-12,0,,zoning_restriction,1,no
+prj_206,Blakely AI Data Center,PA,lackawanna,withdrawn,blocked_confirmed,yes,2025-08-01,month,2025-09-12,"Developer (attorney Michael Mey) withdrew the rezoning request in a 2025-09-12 statement, three days before the 2025-09-15 Blakely Borough Council meeting; web-verified (DCD 2026-05-07, WNEP 2025-09-13, FOX56 2025-09-16)",42,2026-04-03,400,proposals,121,1,2025-09-12,2025-09-12,0,,zoning_restriction,1,no
 prj_207,Project Boson,PA,lackawanna,proposed,pending,no,,,,,,2026-03-21,,,14.2332415,0,,,,,,0,no
 prj_208,Jessup Breaker Street Data Center,PA,lackawanna,delayed,pending,no,2025-06-01,month,,,,2026-01-20,600,proposals,131,0,,,,,,0,no
 prj_209,Project Gold,PA,lackawanna,proposed,pending,no,2025-07-01,month,,,,2026-04-08,1500,proposals,1000,1,2025-11-01,2025-11-01,0,,lawsuit,1,yes
@@ -328,3 +328,5 @@ prj_326,Project Maize / Google Michigan City Data Center,IN,laporte,construction
 prj_327,Meta Project Everest,LA,richland,proposed,pending,no,2026-03-25,day,,,,2026-07-10,5200,opposition_events,,1,2026-03-25,2026-03-25,0,0,regulatory_action; utility_regulation,3,no
 prj_328,Terra Nexus Custer Avenue Data Center,NC,cumberland,proposed,pending,no,2025-10-01,day,,,,2026-07-10,200,proposals,,0,,,,,,0,no
 prj_329,PRSM Group Cumberland County Data Center,NC,cumberland,preliminary,pending,no,2026-05-18,day,,,,2026-07-10,225,proposals,50,1,2026-06-15,2026-06-15,0,28,moratorium; public_comment,0,no
+prj_330,Project Sail Data Center,GA,coweta,approved,advanced_confirmed,yes,2024-12-01,month,2026-04-07,"Coweta County Board of Commissioners approved the rezoning 3-2 (rural conservation to industrial); web-verified (Atlanta News First 2026-04-08, The Citizen 2026-04-10, DeSmog 2026-04-07)",492,2026-07-13,900,proposals,829,1,2026-06-16,2026-06-16,0,,moratorium; zoning_restriction,3,no
+prj_331,Howell Township Data Center (Project Splitrock),MI,livingston,withdrawn,blocked_confirmed,yes,2025-09-01,month,2025-12-08,"Developer (Randee LLC/Stantec) withdrew the rezoning request and zoning text amendment ahead of the Monday 2025-12-08 Howell Township Board meeting; web-verified (Planet Detroit 2025-12-08, FracTracker 2026-01)",98,2026-07-13,,,1077,1,2025-11-20,2025-11-20,0,,moratorium,2,no
