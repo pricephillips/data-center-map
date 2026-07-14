@@ -53,17 +53,20 @@ constructs a lifecycle timeline (announced -> decided) per project.
 
 **Continuous integration.** GitHub Actions regenerates the feed on every push
 that touches `master_opposition.csv` or `data/proposals.csv`. A blocking
-self-test gate runs first; a failure stops the build.
+self-test gate runs first; a failure stops the build. A separate retraining
+workflow (`.github/workflows/retrain.yml`) re-fits the models when decided-case
+inputs change or weekly, runs the calibration gate, and promotes a model only
+when it passes — a calibration HOLD is a correct, non-failing outcome.
 
 ### Current scale
 
 | Dataset | Rows |
 |---|---|
 | Opposition events (`master_opposition.csv`) | ~1,660 |
-| Project registry (`data/proposals.csv`) | 331 |
+| Project registry (`data/proposals.csv`) | 332 |
 | Confirmed event->project links | 294 |
 | Project lifecycles | 331 |
-| Projects with a verified decision date | 19 |
+| Projects with a verified decision date | 21 |
 | Baseline universe (unopposed comparables) | ~1,840 |
 | Matched controls | ~530 |
 
@@ -79,7 +82,7 @@ Work proceeds in phases, in order. Phases 1-2 are the bulk of the difficulty.
 | 2 | Control-group construction (matched unopposed comparables) | **Complete** |
 | 3 | Outcome model + time-to-decision (survival) model | **Complete (first iterations)** |
 | 4 | Cost-translation layer (observables -> dollar ranges) | **Scaffolded** |
-| 5 | Continuous retraining with calibration gating | Not started |
+| 5 | Continuous retraining with calibration gating | **Underway (gate + CI live)** |
 
 **Phase 3 detail.** The outcome classifier (`outcome_model.py`) is an
 L2-regularized logistic regression on decided + opposed projects, validated
@@ -91,7 +94,7 @@ small-sample limitations, and neither is client-facing.
 
 The gating input for further modeling is the count of opposed projects with
 **verified decision dates**. The survival model's Cox layer unlocks at ~25
-events (currently 17); every terminal decision that resolves moves that
+events (currently 19); every terminal decision that resolves moves that
 forward. The outcome model, survival model, and cost layer all improve from
 the same input.
 
@@ -129,6 +132,7 @@ excluded from CI until Phase 5's calibration gate.
 | `outcome_model.py` | `data/outcome_model_report.md`, `outcome_model_features.csv`, `outcome_model_metrics.json` |
 | `survival_model.py` | `data/survival_model_report.md`, `survival_km_curve.csv`, `survival_model_metrics.json` |
 | `cost_translation.py` | `data/cost_anchors.csv`, `cost_translation_methodology.md`, `cost_translation_demo.csv` |
+| `calibration_gate.py` | `data/calibration_history.csv`, `calibration_gate_report.md` — promote/hold verdict (exit 0=promote, 10=hold) |
 
 ### Key data files
 

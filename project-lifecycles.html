@@ -468,12 +468,17 @@ function openEvent(proj, kind, which, date) {
       R('Elapsed', fmtDays(proj.days_announced_to_decision) + ' from announcement to decision');
   }
   let body = rows.join('');
-  // sourced decision line
+  // sourced decision line. The URL may arrive either as a dedicated
+  // source_url column (once the pipeline carries it into lifecycles) or be
+  // embedded in the prose; prefer the explicit field, fall back to a scan,
+  // and simply omit the link when neither is present (source prose still shown).
   if (kind === 'decision' && proj.decision_date_source) {
     const src = esc(proj.decision_date_source);
-    const urlMatch = (proj.decision_date_source.match(/https?:\/\/\S+/) || [])[0];
+    const explicit = (proj.source_url || proj.decision_date_url || '').trim();
+    const scanned = (proj.decision_date_source.match(/https?:\/\/\S+/) || [])[0] || '';
+    const url = explicit || scanned;
     body += `<div class="row m-src"><div class="lab">Verified source</div><div>${src}` +
-      (urlMatch ? ` <a href="${esc(urlMatch)}" target="_blank" rel="noopener">open ↗</a>` : '') + `</div></div>`;
+      (url ? ` <a href="${esc(url)}" target="_blank" rel="noopener">open ↗</a>` : '') + `</div></div>`;
   }
   document.getElementById('m-body').innerHTML = body || '<div class="row">No further detail recorded.</div>';
   document.getElementById('modal-back').classList.add('open');

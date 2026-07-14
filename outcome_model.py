@@ -212,6 +212,17 @@ def main() -> int:
             calib.append((f"{lo:.2f}-{min(hi,1.0):.2f}", int(m.sum()),
                           float(oof_pred[m].mean()), float(y[m].mean())))
 
+    # export per-project out-of-fold predictions so the calibration gate
+    # (calibration_gate.py) can assess predicted-vs-observed without refitting.
+    OUT_PRED = P("data", "outcome_model_predictions.csv")
+    with open(OUT_PRED, "w", newline="", encoding="utf-8") as fh:
+        wtr = csv.writer(fh)
+        wtr.writerow(["project_id", "project_name", "label_blocked", "oof_pred_blocked"])
+        for r, pred in zip(rows, oof_pred):
+            if not np.isnan(pred):
+                wtr.writerow([r["project_id"], r["project_name"],
+                              r["label_blocked"], f"{pred:.6f}"])
+
     imp_ranked = sorted(zip(feature_cols, importances, coefs),
                         key=lambda t: -abs(t[1]))
 

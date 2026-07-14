@@ -584,7 +584,8 @@ def build_lifecycles(projects: list[dict], links: list[dict], path: str,
 
     cols = ["project_id", "project_name", "state", "county", "phase",
             "lifecycle_outcome", "decided", "announced_date", "announced_precision",
-            "decision_date", "decision_date_source", "days_announced_to_decision",
+            "decision_date", "decision_date_source", "source_url",
+            "days_announced_to_decision",
             "last_status_update",
             "capacity_mw", "capacity_source", "size_acres",
             "n_opposition_events", "first_opposition_date", "last_opposition_date",
@@ -646,6 +647,7 @@ def build_lifecycles(projects: list[dict], links: list[dict], path: str,
             md = manual_dates.get(pr["project_id"])
             decision_date = md["decision_date"] if md else ""
             decision_src = md["decision_date_source"] if md else ""
+            decision_url = md.get("source_url", "") if md else ""
             delay_days = ""
             # month-precision announced dates are floored to the 1st, so the
             # derived delay carries up to ~30 days of error; consumers must
@@ -667,6 +669,7 @@ def build_lifecycles(projects: list[dict], links: list[dict], path: str,
                 "announced_precision": pr["announced_precision"],
                 "decision_date": decision_date,   # manual, sourced; never inferred
                 "decision_date_source": decision_src,
+                "source_url": decision_url,
                 "days_announced_to_decision": delay_days,
                 "last_status_update": pr["last_status_update"],
                 "capacity_mw": capacity,
