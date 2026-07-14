@@ -70,6 +70,35 @@ for _p in TERMINAL_BLOCKED:
 for _p in PENDING_PHASES:
     PHASE_TO_LIFECYCLE[_p] = "pending"
 
+# Outcome refinement: a project may be approved but with binding conditions
+# (a conditional-use approval, negotiated concessions, reverting rezoning,
+# etc.). That is still a terminal ADVANCE — the project may proceed — but it
+# is materially different from an unconditioned approval and belongs in its
+# own tier for modeling. It is flagged explicitly via an optional
+# `outcome_detail` column in proposals.csv (value "conditional"), never
+# inferred from prose. Absent the column, behavior is unchanged.
+#
+# Tier semantics used throughout the pipeline:
+#   advanced_confirmed     terminal, project may proceed (unconditioned)
+#   restricted_conditional terminal ADVANCE with binding conditions
+#   blocked_confirmed      terminal, project stopped (denied/withdrawn)
+#   pending                no terminal disposition yet
+# Both advanced tiers are "decided" and count on the advanced side of any
+# advanced-vs-blocked split.
+ADVANCED_OUTCOMES = {"advanced_confirmed", "restricted_conditional"}
+DECIDED_OUTCOMES = ADVANCED_OUTCOMES | {"blocked_confirmed"}
+OUTCOME_DETAIL_CONDITIONAL = "conditional"
+
+
+def refine_outcome(base_outcome: str, outcome_detail: str) -> str:
+    """Promote an unconditioned advance to restricted_conditional when the
+    project's outcome_detail explicitly marks it conditional. Only applies to
+    terminal advances; never changes blocked or pending outcomes."""
+    if (base_outcome == "advanced_confirmed"
+            and (outcome_detail or "").strip().lower() == OUTCOME_DETAIL_CONDITIONAL):
+        return "restricted_conditional"
+    return base_outcome
+
 # ---------------------------------------------------------------------------
 # Matching thresholds
 # ---------------------------------------------------------------------------
@@ -260,7 +289,9 @@ def prep_projects(rows: list[dict]) -> list[dict]:
             "lat": (c := parse_coords(r.get("lat", ""), r.get("lon", "")))[0],
             "lon": c[1],
             "phase": phase,
-            "lifecycle_outcome": PHASE_TO_LIFECYCLE.get(phase, "pending"),
+            "lifecycle_outcome": refine_outcome(
+                PHASE_TO_LIFECYCLE.get(phase, "pending"),
+                r.get("outcome_detail", "")),
             "announced_date": announced,
             "announced_precision": precision,
             "last_status_update": last_upd,
@@ -579,7 +610,7 @@ def build_lifecycles(projects: list[dict], links: list[dict], path: str,
                             for t in (e["raw"].get("Opposition Type") or "").split(";") if t.strip()})
             groups = {g.strip() for e in evs
                       for g in (e["raw"].get("Opposition Groups") or "").split(";") if g.strip()}
-            decided = pr["lifecycle_outcome"] in {"advanced_confirmed", "blocked_confirmed"}
+            decided = pr["lifecycle_outcome"] in DECIDED_OUTCOMES
             # capacity: proposals registry value wins; else adopt a SINGLE
             # consistent Megawatts value from linked opposition records
             # (source-labeled); conflicting event values are flagged for
@@ -705,7 +736,7 @@ def main() -> int:
 
     n_linked_projects = len({lk["project"]["project_id"] for lk in links})
     decided = sum(1 for pr in projects
-                  if pr["lifecycle_outcome"] in {"advanced_confirmed", "blocked_confirmed"})
+                  if pr["lifecycle_outcome"] in DECIDED_OUTCOMES)
     print(f"projects: {len(projects)}  (decided: {decided}, pending: {len(projects) - decided})")
     print(f"opposition events: {len(events)}")
     print(f"confirmed links: {len(links)}  -> {n_linked_projects} projects with opposition")

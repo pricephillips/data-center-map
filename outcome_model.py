@@ -114,7 +114,11 @@ def build_features():
         feat = {
             "project_id": pid,
             "project_name": r["project_name"],
-            "outcome": r["lifecycle_outcome"],          # label
+            "outcome": r["lifecycle_outcome"],          # full tier (3 values possible)
+            # Binary target: blocked vs not-blocked. restricted_conditional is
+            # a terminal ADVANCE, so it sits on the not-blocked (advanced) side
+            # here; multi-class treatment of the conditional tier is deferred
+            # until it has enough cases to model.
             "label_blocked": 1 if r["lifecycle_outcome"] == "blocked_confirmed" else 0,
             "n_opposition_events": int(r["n_opposition_events"]),
             "n_opposition_groups": int(r["n_opposition_groups"] or 0),
@@ -226,8 +230,12 @@ def main() -> int:
     w("")
     w("## Sample")
     w("")
+    n_conditional = sum(1 for r in rows if r["outcome"] == "restricted_conditional")
+    adv_desc = f"{n - n_blocked} advanced"
+    if n_conditional:
+        adv_desc += f" (of which {n_conditional} `restricted_conditional`)"
     w(f"- Decided + opposed projects: **{n}** "
-      f"({n - n_blocked} `advanced_confirmed`, {n_blocked} `blocked_confirmed`; "
+      f"({adv_desc}, {n_blocked} `blocked_confirmed`; "
       f"base rate of blocked = {base_rate:.2f})")
     w(f"- Labels are terminal dispositions only, per the decided-case rule.")
     w(f"- Features with missingness: county margin missing for "

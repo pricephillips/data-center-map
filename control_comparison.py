@@ -214,10 +214,18 @@ def main() -> int:
     oc = Counter(r["lifecycle_outcome"] for r in decided)
     total = len(decided)
     w(f"Of **{total}** decided + opposed projects:")
-    for k in ("advanced_confirmed", "blocked_confirmed"):
+    for k in ("advanced_confirmed", "restricted_conditional", "blocked_confirmed"):
         n = oc.get(k, 0)
+        if n == 0 and k == "restricted_conditional":
+            continue  # omit the tier entirely when no conditional cases exist yet
         pct = f"{100 * n / total:.0f}%" if total else "n/a"
         w(f"- `{k}`: {n} ({pct})")
+    w("")
+    w("`restricted_conditional` is a terminal advance carrying binding "
+      "conditions (conditional-use approval, negotiated concessions, "
+      "reverting rezoning); it counts on the advanced side of any "
+      "advanced-vs-blocked split but is tracked separately because the "
+      "conditions can carry material cost or delay.")
     w("")
     w("Decided means terminal dispositions only; pending and mixed cases are "
       "excluded, consistent with the platform's decided-case rule. These "
