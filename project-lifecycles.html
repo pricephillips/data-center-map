@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project Lifecycles</title>
+<title>Project Lifecycles · Data Center Opposition Intelligence</title>
 <style>
 :root {
   --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
@@ -66,6 +66,50 @@ tr:hover td { background:#1a212c }
 .timeline .span { position:absolute; top:9px; height:4px; background:rgba(243,156,18,.45); border-radius:2px }
 .tl-caption { font-size:10px; color:var(--muted); margin-top:2px; white-space:nowrap }
 
+/* clickable timeline dots */
+.timeline .dot { cursor:pointer; transition:transform .1s ease, box-shadow .1s ease }
+.timeline .dot:hover { transform:scale(1.5); box-shadow:0 0 0 3px rgba(79,152,163,.25); z-index:5 }
+
+/* reserved analysis strip at the top (statistical summaries land here) */
+.analysis-strip { background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border:1px solid var(--border); border-radius:12px; padding:16px 18px; margin-bottom:16px }
+.analysis-strip h3 { font-size:13px; font-weight:700; color:var(--text); margin-bottom:8px;
+  display:flex; align-items:center; gap:8px }
+.analysis-strip h3 .tag { font-size:10px; font-weight:600; color:var(--atlas);
+  border:1px solid rgba(79,152,163,.4); border-radius:5px; padding:1px 6px; text-transform:uppercase; letter-spacing:.04em }
+.analysis-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px }
+.analysis-cell { background:var(--bg); border:1px solid var(--border); border-radius:9px; padding:12px 14px }
+.analysis-cell .big { font-size:20px; font-weight:700; color:var(--atlas); font-variant-numeric:tabular-nums }
+.analysis-cell .lbl { font-size:11px; color:var(--muted); margin-top:3px; line-height:1.45 }
+.analysis-cell.placeholder { border-style:dashed; display:flex; align-items:center; justify-content:center;
+  text-align:center; color:var(--muted); font-size:11px; line-height:1.5; min-height:64px }
+
+/* "how to read the timeline" explainer */
+.tl-explainer { background:var(--panel); border:1px solid var(--border); border-radius:10px;
+  padding:12px 14px; margin:10px 2px 0; font-size:12px; color:var(--muted); line-height:1.6 }
+.tl-explainer b { color:var(--text) }
+.tl-explainer .k { display:inline-block; width:9px; height:9px; border-radius:50%; vertical-align:-1px; margin-right:3px }
+details.tl-explainer > summary { cursor:pointer; color:var(--text); font-weight:600; font-size:12px; outline:none }
+details.tl-explainer[open] > summary { margin-bottom:8px }
+
+/* event detail modal */
+#modal-back { display:none; position:fixed; inset:0; background:rgba(6,9,14,.72); z-index:50;
+  align-items:center; justify-content:center; padding:20px }
+#modal-back.open { display:flex }
+#modal { background:var(--panel); border:1px solid var(--border); border-radius:14px; max-width:440px; width:100%;
+  padding:20px 22px; box-shadow:0 20px 60px rgba(0,0,0,.5) }
+#modal .m-close { float:right; cursor:pointer; color:var(--muted); font-size:20px; line-height:1; border:none; background:none }
+#modal .m-close:hover { color:var(--text) }
+#modal .m-kind { font-size:11px; text-transform:uppercase; letter-spacing:.05em; font-weight:700; margin-bottom:2px }
+#modal .m-date { font-size:22px; font-weight:700; margin-bottom:2px; font-variant-numeric:tabular-nums }
+#modal .m-proj { color:var(--muted); font-size:12px; margin-bottom:14px }
+#modal .m-body { font-size:13px; line-height:1.6 }
+#modal .m-body .row { padding:7px 0; border-top:1px solid #1d2530 }
+#modal .m-body .row:first-child { border-top:none }
+#modal .m-body .lab { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.03em }
+#modal .m-src { margin-top:6px; word-break:break-word }
+#modal .m-src a { color:var(--atlas) }
+
 .legend { display:flex; gap:14px; margin:10px 2px 0; font-size:11px; color:var(--muted); flex-wrap:wrap }
 .legend .sw { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:4px; vertical-align:-1px }
 
@@ -98,6 +142,26 @@ tr:hover td { background:#1a212c }
 <div class="sub">Projects from the proposals registry linked to opposition activity. Outcomes use the activity-descriptive ladder; "decided" means terminal dispositions only. Decision dates appear only when manually verified and sourced.</div>
 
 <div id="error-banner"></div>
+
+<!-- Reserved analysis strip: live descriptive stats now; the calibrated
+     model outputs (block probability, expected delay, cost ranges) land in the
+     placeholder cell as they become client-ready. -->
+<div class="analysis-strip">
+  <h3>Portfolio analysis <span class="tag">descriptive</span></h3>
+  <div class="analysis-grid" id="analysis-grid">
+    <div class="analysis-cell"><div class="big" id="an-decided">–</div>
+      <div class="lbl">decided + opposed projects (terminal outcomes with linked opposition)</div></div>
+    <div class="analysis-cell"><div class="big" id="an-blockrate">–</div>
+      <div class="lbl">of decided + opposed ended <b>blocked</b> — tracked sample only, not a population rate</div></div>
+    <div class="analysis-cell"><div class="big" id="an-median-delay">–</div>
+      <div class="lbl">median announced→decision among dated projects (raw span, not opposition-attributable)</div></div>
+    <div class="analysis-cell"><div class="big" id="an-dated">–</div>
+      <div class="lbl">projects with a verified, sourced decision date</div></div>
+    <div class="analysis-cell placeholder" id="an-model">
+      Predictive layer (block probability, expected delay, cost range) appears here once calibrated and gated.
+    </div>
+  </div>
+</div>
 
 <div class="kpis">
   <div class="kpi"><b id="kpi-total">–</b><span>Projects tracked</span></div>
@@ -140,12 +204,33 @@ tr:hover td { background:#1a212c }
   <div class="empty" id="empty" style="display:none">No projects match the current filters.</div>
 </div>
 
-<div class="legend">
-  <span><span class="sw" style="background:var(--atlas)"></span>Announced</span>
-  <span><span class="sw" style="background:var(--pending)"></span>Opposition first/last</span>
-  <span><span class="sw" style="background:var(--advanced)"></span>Decision — advanced</span>
-  <span><span class="sw" style="background:var(--blocked)"></span>Decision — blocked</span>
-</div>
+<details class="tl-explainer" open>
+  <summary>How to read the timeline</summary>
+  <div>
+    Each project row plots its known milestones left-to-right on a shared time axis.
+    <b>Click any dot</b> to open the underlying event with its verified date and source.
+    <div style="margin-top:8px">
+      <span class="k" style="background:var(--atlas)"></span><b>Announced</b> — the project became public
+      (a filing, rezoning request, or company announcement).<br>
+      <span class="k" style="background:var(--pending)"></span><b>Opposition</b> — first and last recorded
+      community opposition activity; the shaded bar between them is the span over which opposition was active.<br>
+      <span class="k" style="background:var(--advanced)"></span><b>Decision — advanced</b> — a terminal approval
+      (the project may proceed).<br>
+      <span class="k" style="background:var(--blocked)"></span><b>Decision — blocked</b> — a terminal denial or withdrawal.
+    </div>
+    <div style="margin-top:8px">
+      <b>Why opposition can appear before ground is broken:</b> a data center is opposed while it is still
+      being <i>proposed</i> — during rezoning, permitting, or public hearings, well before any construction.
+      Opposition is a response to the <i>plan</i>, and it is often what determines whether the project ever
+      reaches groundbreaking. So on these timelines opposition sits between announcement and the decision that
+      resolves it; it does not imply the project was ever built.
+    </div>
+    <div style="margin-top:8px; color:var(--muted)">
+      Dates are shown only when known. A decision dot appears only when the date has been manually verified
+      and sourced. Month-only announcement dates are approximate (up to ~30 days).
+    </div>
+  </div>
+</details>
 
 <script>
 // GitHub Pages sends no CORS headers, so raw.githubusercontent.com must come
@@ -199,7 +284,7 @@ async function loadData() {
   return null;
 }
 
-let DATA = [], sortKey = 'n_opposition_events', sortDir = -1;
+let DATA = [], VIEW = [], sortKey = 'n_opposition_events', sortDir = -1;
 const NUMERIC = new Set(['capacity_mw','n_opposition_events','opposition_span_days',
                          'days_announced_to_decision','n_opposition_groups','size_acres']);
 
@@ -211,16 +296,28 @@ function fmtDays(d) {
   return (n / 30.44).toFixed(1).replace(/\.0$/, '') + 'mo';
 }
 
-function timelineHTML(p) {
+const KIND_LABEL = { announced:'Announced', opp:'Opposition activity',
+  decision:'Decision' };
+
+function timelineHTML(p, idx) {
   const pts = [];
-  if (p.announced_date) pts.push({ d: p.announced_date, cls: 'announced', label: 'ann' });
-  if (p.first_opposition_date) pts.push({ d: p.first_opposition_date, cls: 'opp', label: 'opp' });
+  if (p.announced_date) pts.push({ d: p.announced_date, cls: 'announced', kind: 'announced', label: 'ann' });
+  if (p.first_opposition_date) pts.push({ d: p.first_opposition_date, cls: 'opp', kind: 'opp', label: 'opp', which:'first' });
   if (p.last_opposition_date && p.last_opposition_date !== p.first_opposition_date)
-    pts.push({ d: p.last_opposition_date, cls: 'opp', label: '' });
-  if (p.decision_date) pts.push({ d: p.decision_date, cls: 'decision ' + p.lifecycle_outcome, label: 'dec' });
+    pts.push({ d: p.last_opposition_date, cls: 'opp', kind: 'opp', label: '', which:'last' });
+  if (p.decision_date) pts.push({ d: p.decision_date, cls: 'decision ' + p.lifecycle_outcome, kind: 'decision', label: 'dec' });
   const dated = pts.filter(x => /^\d{4}-\d{2}-\d{2}$/.test(x.d));
   if (dated.length < 2) {
-    return `<div class="tl-caption">${dated.length === 1 ? dated[0].label + ' ' + dated[0].d : 'insufficient dates'}</div>`;
+    // still make a single known dot clickable if present
+    if (dated.length === 1) {
+      const x = dated[0];
+      return `<div class="timeline"><div class="track"></div>` +
+'' +
+        `<div class="dot ${x.cls}" style="left:calc(50% - 5px)" title="${x.d}" ` +
+        `data-proj="${idx}" data-kind="${x.kind}" data-which="${x.which||''}" data-date="${x.d}"></div></div>` +
+        `<div class="tl-caption">${KIND_LABEL[x.kind]||''} ${x.d}</div>`;
+    }
+    return `<div class="tl-caption">insufficient dates</div>`;
   }
   const ts = dated.map(x => +new Date(x.d));
   const min = Math.min(...ts), max = Math.max(...ts), rng = Math.max(max - min, 1);
@@ -231,7 +328,10 @@ function timelineHTML(p) {
     const a = pos(Math.min(...oppTs)), b = pos(Math.max(...oppTs));
     span = `<div class="span" style="left:${a}%;width:${Math.max(b - a, 1)}%"></div>`;
   }
-  for (const x of dated) dots += `<div class="dot ${x.cls}" style="left:calc(${pos(+new Date(x.d))}% - 5px)" title="${x.label} ${x.d}"></div>`;
+  for (const x of dated)
+    dots += `<div class="dot ${x.cls}" style="left:calc(${pos(+new Date(x.d))}% - 5px)" ` +
+            `title="${KIND_LABEL[x.kind]||''} ${x.d} — click for detail" ` +
+            `data-proj="${idx}" data-kind="${x.kind}" data-which="${x.which||''}" data-date="${x.d}"></div>`;
   const capL = dated[0], capR = dated[dated.length - 1];
   return `<div class="timeline"><div class="track"></div>${span}${dots}</div>
           <div class="tl-caption">${capL.d} → ${capR.d}</div>`;
@@ -264,8 +364,9 @@ function render() {
     return (x < y ? -1 : x > y ? 1 : 0) * sortDir;
   });
 
+  VIEW = rows;
   const tb = document.getElementById('rows');
-  tb.innerHTML = rows.map(p => {
+  tb.innerHTML = rows.map((p, i) => {
     const dec = p.decision_date
       ? `decided ${esc(p.decision_date)}${p.days_announced_to_decision ? ' · ' + fmtDays(p.days_announced_to_decision) + ' after announcement' : ''}`
       : (p.decided === 'yes' ? 'decision date pending recovery' : '');
@@ -277,7 +378,7 @@ function render() {
       <td class="mono">${esc(p.capacity_mw)}</td>
       <td class="mono"><b>${esc(p.n_opposition_events)}</b>${+p.n_opposition_groups ? ' · ' + esc(p.n_opposition_groups) + ' grp' : ''}${p.has_lawsuit === 'yes' ? ' · suit' : ''}</td>
       <td class="mono">${fmtDays(p.opposition_span_days)}</td>
-      <td>${timelineHTML(p)}</td>
+      <td>${timelineHTML(p, i)}</td>
     </tr>`;
   }).join('');
   document.getElementById('empty').style.display = rows.length ? 'none' : 'block';
@@ -292,6 +393,19 @@ function initKPIs() {
   document.getElementById('kpi-pending').textContent = n(p => p.lifecycle_outcome === 'pending');
   document.getElementById('kpi-opposed').textContent = n(p => +p.n_opposition_events > 0);
   document.getElementById('kpi-seed').textContent = n(p => p.decided === 'yes' && +p.n_opposition_events > 0);
+
+  // ---- analysis strip (descriptive; the calibrated model layer lands in the placeholder) ----
+  const decidedOpposed = DATA.filter(p => p.decided === 'yes' && +p.n_opposition_events > 0);
+  const blocked = decidedOpposed.filter(p => p.lifecycle_outcome === 'blocked_confirmed');
+  const dated = DATA.filter(p => /^\d{4}-\d{2}-\d{2}$/.test(p.decision_date) && +p.days_announced_to_decision > 0);
+  const delays = dated.map(p => +p.days_announced_to_decision).sort((a,b) => a-b);
+  const median = delays.length ? delays[Math.floor((delays.length-1)/2)] : null;
+
+  document.getElementById('an-decided').textContent = decidedOpposed.length;
+  document.getElementById('an-blockrate').textContent = decidedOpposed.length
+    ? Math.round(100 * blocked.length / decidedOpposed.length) + '%' : '–';
+  document.getElementById('an-median-delay').textContent = median != null ? fmtDays(median) : '–';
+  document.getElementById('an-dated').textContent = dated.length;
 }
 
 function initControls() {
@@ -309,6 +423,77 @@ function initControls() {
   }));
 }
 
+function fmtPrecision(p) {
+  return p === 'month' ? ' (month approx., ±~30d)' : p === 'year' ? ' (year approx.)' : '';
+}
+
+// Build the detail card for a given project + dot kind, drawing only on
+// fields the pipeline actually provides (each verified/sourced).
+function openEvent(proj, kind, which, date) {
+  const kindName = kind === 'announced' ? 'Announced'
+    : kind === 'opp' ? 'Opposition activity' : 'Decision';
+  document.getElementById('m-kind').textContent = kindName;
+  document.getElementById('m-kind').style.color =
+    kind === 'announced' ? 'var(--atlas)'
+    : kind === 'opp' ? 'var(--pending)'
+    : (proj.lifecycle_outcome === 'blocked_confirmed' ? 'var(--blocked)' : 'var(--advanced)');
+  document.getElementById('m-date').textContent = date +
+    (kind === 'announced' ? fmtPrecision(proj.announced_precision) : '');
+  document.getElementById('m-proj').textContent =
+    proj.project_name + ' · ' + (proj.county ? proj.county + ', ' : '') + proj.state;
+
+  const rows = [];
+  const R = (lab, val) => { if (val) rows.push(`<div class="row"><div class="lab">${lab}</div><div>${esc(val)}</div></div>`); };
+
+  if (kind === 'announced') {
+    R('What this marks', 'The project became public — a filing, rezoning request, or company announcement.');
+    R('Phase at announcement', proj.phase);
+    R('Capacity', proj.capacity_mw ? proj.capacity_mw + ' MW' + (proj.capacity_source ? ' (' + proj.capacity_source.replace('_',' ') + ')' : '') : '');
+    if (proj.days_announced_to_first_opposition)
+      R('Time to first opposition', fmtDays(proj.days_announced_to_first_opposition) + ' after announcement');
+  } else if (kind === 'opp') {
+    R('What this marks', which === 'last'
+      ? 'The most recent recorded opposition activity for this project.'
+      : 'The first recorded opposition activity — this is a response to the proposal, before any construction.');
+    R('Opposition types', (proj.opposition_types || '').replace(/;/g, ', '));
+    R('Recorded events', proj.n_opposition_events + (proj.n_opposition_groups && +proj.n_opposition_groups ? ' · ' + proj.n_opposition_groups + ' group(s)' : ''));
+    R('Litigation', proj.has_lawsuit === 'yes' ? 'A lawsuit is part of this opposition' : '');
+    if (proj.opposition_span_days) R('Active span', fmtDays(proj.opposition_span_days));
+  } else { // decision
+    R('Outcome', proj.lifecycle_outcome.replace('_', ' '));
+    R('What this marks', proj.lifecycle_outcome === 'blocked_confirmed'
+      ? 'A terminal denial or withdrawal — the project was stopped.'
+      : 'A terminal approval — the project may proceed (this does not mean it is built).');
+    if (proj.days_announced_to_decision)
+      R('Elapsed', fmtDays(proj.days_announced_to_decision) + ' from announcement to decision');
+  }
+  let body = rows.join('');
+  // sourced decision line
+  if (kind === 'decision' && proj.decision_date_source) {
+    const src = esc(proj.decision_date_source);
+    const urlMatch = (proj.decision_date_source.match(/https?:\/\/\S+/) || [])[0];
+    body += `<div class="row m-src"><div class="lab">Verified source</div><div>${src}` +
+      (urlMatch ? ` <a href="${esc(urlMatch)}" target="_blank" rel="noopener">open ↗</a>` : '') + `</div></div>`;
+  }
+  document.getElementById('m-body').innerHTML = body || '<div class="row">No further detail recorded.</div>';
+  document.getElementById('modal-back').classList.add('open');
+}
+
+// event delegation: any dot click opens its event
+document.addEventListener('click', e => {
+  const dot = e.target.closest('.timeline .dot');
+  if (dot && dot.dataset.proj !== undefined) {
+    const proj = VIEW[+dot.dataset.proj];
+    if (proj) openEvent(proj, dot.dataset.kind, dot.dataset.which, dot.dataset.date);
+    return;
+  }
+  if (e.target.id === 'modal-back' || e.target.id === 'm-close')
+    document.getElementById('modal-back').classList.remove('open');
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('modal-back').classList.remove('open');
+});
+
 (async () => {
   const data = await loadData();
   if (!data) return;
@@ -318,5 +503,17 @@ function initControls() {
   render();
 })();
 </script>
+
+<!-- Event detail modal: opened by clicking any timeline dot -->
+<div id="modal-back" role="dialog" aria-modal="true">
+  <div id="modal">
+    <button class="m-close" id="m-close" aria-label="Close">×</button>
+    <div class="m-kind" id="m-kind"></div>
+    <div class="m-date" id="m-date"></div>
+    <div class="m-proj" id="m-proj"></div>
+    <div class="m-body" id="m-body"></div>
+  </div>
+</div>
+
 </body>
 </html>
