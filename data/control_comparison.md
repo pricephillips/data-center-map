@@ -1,6 +1,6 @@
 # Opposed vs. Matched Controls — Descriptive Comparison
 
-Generated 2026-07-13 by `control_comparison.py`. All figures re-derived from the current CSVs at generation time.
+Generated 2026-07-14 by `control_comparison.py`. All figures re-derived from the current CSVs at generation time.
 
 **This report is descriptive and diagnostic only.** Differences shown here are associations in an observational, selection-affected sample. Nothing in this document quantifies the effect or cost of opposition, and no figure here should appear in a client-facing deliverable.
 
@@ -41,6 +41,8 @@ Standardized mean differences across match rows. |SMD| < 0.10 = well balanced; 0
 Of **81** decided + opposed projects:
 - `advanced_confirmed`: 55 (68%)
 - `blocked_confirmed`: 26 (32%)
+
+`restricted_conditional` is a terminal advance carrying binding conditions (conditional-use approval, negotiated concessions, reverting rezoning); it counts on the advanced side of any advanced-vs-blocked split but is tracked separately because the conditions can carry material cost or delay.
 
 Decided means terminal dispositions only; pending and mixed cases are excluded, consistent with the platform's decided-case rule. These shares describe the tracked opposed sample only — they are not block rates for data center projects in general.
 
