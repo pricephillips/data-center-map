@@ -1,0 +1,94 @@
+name: Model Retrain + Calibration Gate
+
+# Phase 5 of the modeling roadmap: continuous retraining with calibration
+# gating. This workflow re-fits the outcome model on the current data,
+# then runs calibration_gate.py. The gate emits exit code 0 (PROMOTE) or
+# 10 (HOLD). Model artifacts and the calibration history are committed
+# regardless (the history log is append-only and auditable), but a
+# PROMOTE-eligible marker file (data/model_promoted.flag) is written and
+# committed ONLY when the gate passes.
+#
+# Why separate from pipeline.yml:
+#   - Different cadence: retraining runs when decided-case inputs change
+#     (data/project_decision_dates.csv, data/project_links_manual.csv) or on
+#     a weekly schedule, not on every opposition-CSV edit.
+#   - Different dependencies: needs scikit-learn (the map/dashboard pipeline
+#     does not).
+#   - The promotion decision must be independent and auditable; keeping it in
+#     its own workflow makes the gate result a first-class, visible outcome.
+#
+# Defensibility: training labels are decided cases only; the gate refuses to
+# promote on thin data or poor calibration. A HOLD is not a build failure —
+# it is the system correctly declining to promote an under-qualified model.
+
+on:
+  push:
+    paths:
+      - 'data/project_decision_dates.csv'
+      - 'data/project_links_manual.csv'
+      - 'data/proposals.csv'
+  schedule:
+    - cron: '0 7 * * 1'      # Mondays 07:00 UTC — catch newly resolved cases
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout data-center-map
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install scikit-learn lifelines pandas numpy
+
+      - name: Rebuild lifecycles (needed inputs for the models)
+        run: python project_resolution.py
+
+      - name: Fit outcome model (writes out-of-fold predictions)
+        run: python outcome_model.py
+
+      - name: Fit survival model (KM + gated Cox)
+        continue-on-error: true      # survival Cox is withheld below threshold; that is not a failure
+        run: python survival_model.py
+
+      - name: Calibration gate (exit 0 = PROMOTE, 10 = HOLD)
+        id: gate
+        continue-on-error: true      # a HOLD must not fail the build
+        run: python calibration_gate.py
+
+      - name: Record promotion decision
+        run: |
+          if [ "${{ steps.gate.outcome }}" = "success" ]; then
+            echo "Gate: PROMOTE"
+            date -u +"%Y-%m-%dT%H:%M:%SZ promoted" > data/model_promoted.flag
+          else
+            echo "Gate: HOLD (model retained, not promoted)"
+            rm -f data/model_promoted.flag
+          fi
+
+      - name: Commit model artifacts + calibration history
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/outcome_model_report.md data/outcome_model_features.csv \
+                  data/outcome_model_metrics.json data/outcome_model_predictions.csv \
+                  data/survival_model_report.md data/survival_km_curve.csv \
+                  data/survival_model_metrics.json \
+                  data/calibration_history.csv data/calibration_gate_report.md \
+                  data/model_promoted.flag 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "Retrain + calibration gate [skip ci]"
+          git push || true
+
+      - name: Surface HOLD verdict (visible, non-blocking)
+        if: steps.gate.outcome == 'failure'
+        run: |
+          echo "::warning::Calibration gate returned HOLD. Model artifacts and history were committed; the model was NOT promoted. See data/calibration_gate_report.md."
