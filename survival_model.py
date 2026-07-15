@@ -343,6 +343,20 @@ def main() -> int:
         w("")
         w("Wide CIs spanning 1.0 mean the direction is not established at this "
           "sample size. This is a scaffold that sharpens as decisions accrue.")
+        w("")
+        w("**Interpretation — the pooled model understates a real signal.** "
+          "This Cox pools two distinct exit types (blocked and advanced) into "
+          "a single \"reached a decision\" event. But the cause-specific "
+          "Kaplan-Meier medians above show blocked decisions arrive markedly "
+          "faster than advanced ones. Pooling them means the covariates are "
+          "asked to explain a mixture of two different timing processes, which "
+          "depresses discrimination (the near-chance concordance is partly an "
+          "artifact of this). A cause-specific or competing-risks Cox (separate "
+          "hazards for block vs advance) is the correct next specification; it "
+          "is deferred until the advanced-side event count is large enough to "
+          "fit its own model without overfitting. Until then the cause-specific "
+          "KM medians, not the pooled hazard ratios, are the defensible "
+          "timing summary.")
     else:
         err = cox_result.get("_error", "unknown") if cox_result else "not fit"
         w(f"Cox model did not converge cleanly ({err}); KM above stands as the "
