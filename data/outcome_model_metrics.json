@@ -1,0 +1,83 @@
+{
+  "generated": "2026-07-15",
+  "n": 78,
+  "n_blocked": 24,
+  "base_rate": 0.3077,
+  "cv": {
+    "folds": 5,
+    "repeats": 10
+  },
+  "roc_auc": {
+    "p10": 0.6816,
+    "p50": 0.8182,
+    "p90": 0.9285
+  },
+  "brier": {
+    "p10": 0.1201,
+    "p50": 0.1715,
+    "p90": 0.2353,
+    "base_rate_brier": 0.213
+  },
+  "top_features": [
+    {
+      "name": "mech_public_comment",
+      "auc_drop": 0.1885,
+      "mean_std_coef": -1.3341
+    },
+    {
+      "name": "hyperscaler_involved",
+      "auc_drop": 0.0664,
+      "mean_std_coef": -0.7957
+    },
+    {
+      "name": "capacity_missing",
+      "auc_drop": 0.0368,
+      "mean_std_coef": 0.6392
+    },
+    {
+      "name": "county_margin_2024",
+      "auc_drop": 0.0303,
+      "mean_std_coef": 0.7122
+    },
+    {
+      "name": "log10_capacity_mw",
+      "auc_drop": -0.0124,
+      "mean_std_coef": 0.0453
+    },
+    {
+      "name": "mech_legislation",
+      "auc_drop": -0.01,
+      "mean_std_coef": -0.1346
+    },
+    {
+      "name": "petition_signatures_log1p",
+      "auc_drop": -0.0092,
+      "mean_std_coef": 0.0654
+    },
+    {
+      "name": "mech_zoning_restriction",
+      "auc_drop": -0.0085,
+      "mean_std_coef": 0.0227
+    }
+  ],
+  "feature_columns": [
+    "n_opposition_events",
+    "n_opposition_groups",
+    "has_lawsuit",
+    "opposition_span_days",
+    "county_margin_2024",
+    "log10_capacity_mw",
+    "capacity_missing",
+    "petition_signatures_log1p",
+    "hyperscaler_involved",
+    "mech_moratorium",
+    "mech_zoning_restriction",
+    "mech_lawsuit",
+    "mech_public_comment",
+    "mech_legislation",
+    "mech_ordinance",
+    "mech_regulatory_action",
+    "mech_petition"
+  ],
+  "random_state": 20260710
+}
