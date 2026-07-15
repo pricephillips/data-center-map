@@ -184,6 +184,21 @@ def main() -> int:
     n_blocked_ev = sum(1 for r in rows if r["event"] and r["blocked"])
     n_adv_ev = n_events - n_blocked_ev
 
+    # Datable-outcome asymmetry (for the informative-censoring limitation):
+    # among ALL opposed projects that reached a terminal outcome, how many of
+    # each direction carry a verified discrete decision date. Computed from the
+    # full lifecycle table, not just the survival frame.
+    _life_all = load_csv(LIFECYCLES_CSV)
+    _opp_terminal = [r for r in _life_all
+                     if int(r["n_opposition_events"] or 0) > 0
+                     and r["lifecycle_outcome"] in ("advanced_confirmed", "blocked_confirmed")]
+    adv_total = sum(1 for r in _opp_terminal if r["lifecycle_outcome"] == "advanced_confirmed")
+    blocked_total = sum(1 for r in _opp_terminal if r["lifecycle_outcome"] == "blocked_confirmed")
+    adv_dated = sum(1 for r in _opp_terminal
+                    if r["lifecycle_outcome"] == "advanced_confirmed" and r["decision_date"])
+    blocked_dated = sum(1 for r in _opp_terminal
+                        if r["lifecycle_outcome"] == "blocked_confirmed" and r["decision_date"])
+
     durations = np.array([r["duration_days"] for r in rows], dtype=float)
     events = np.array([r["event"] for r in rows], dtype=int)
     blocked = np.array([r["blocked"] for r in rows], dtype=int)
@@ -369,6 +384,20 @@ def main() -> int:
     w("- Censored projects' eventual direction is unknown; by-direction KM "
       "curves estimate time-to-that-direction treating other outcomes as "
       "censored, which is standard but assumes non-informative censoring.")
+    w(f"- **Datable-outcome asymmetry (informative-censoring caution).** Among "
+      f"opposed projects that reached a terminal outcome, blocked outcomes are "
+      f"datable far more often than advanced ones: in the current data, "
+      f"{blocked_dated}/{blocked_total} blocked vs {adv_dated}/{adv_total} "
+      f"advanced carry a verified discrete decision date. This is structural, "
+      f"not a collection gap: a blocked project passes through a discrete "
+      f"denial or withdrawal that gets recorded, whereas an opposed project "
+      f"that advances often proceeds by-right (pre-zoned land, retrofits, "
+      f"incentive agreements) with no contested vote to date. The advanced "
+      f"side of any survival split is therefore both smaller and later-arriving "
+      f"than the true population, which depresses the advanced-cause hazard and "
+      f"is the main reason a cause-specific model is not yet fittable. Treat "
+      f"advanced-side timing as a lower bound on how fast advances actually "
+      f"occur.")
     w("- Announced→decision spans are raw durations within the opposed "
       "sample, NOT opposition-attributable delay (that needs the matched "
       "controls at adequate n).")
