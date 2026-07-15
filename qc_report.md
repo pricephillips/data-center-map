@@ -1,13 +1,13 @@
 # Master Opposition QC Report
 
-- Records scanned: **1659**
-- Passed to feed: **1456**
-- Blocked / quarantined: **203**
+- Records scanned: **1680**
+- Passed to feed: **1464**
+- Blocked / quarantined: **216**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- UNPLACEABLE: 195
+- UNPLACEABLE: 208
 - DUPLICATE: 4
 - LEG_SOURCE_WEAK: 4
 - STATEWIDE_CAPITAL_SINK: 1
@@ -221,4 +221,4 @@
 | More Connecticut towns are banning data centers be | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
 | Marietta tables data center request; issues morato | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
 | Molitor: State data center delay is hypocritical - | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.<br>**HIGH** DUPLICATE: Possible duplicate of: Molitor: state data center delay is hypocritical -. Held out of the feed until merged. |
-| ...and 3 more | | | see quarantine.json |
+| ...and 16 more | | | see quarantine.json |
