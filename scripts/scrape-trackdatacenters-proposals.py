@@ -103,6 +103,66 @@ def flatten(record):
     }
 
 
+
+# ---------------------------------------------------------------------------
+# Manual-work preservation (defensibility overlay)
+#
+# The scraper is authoritative for trackdatacenters fields, but the platform
+# carries manual corrections and additions the source does not know about:
+#   - data/proposals_manual_overlay.csv : field-level corrections to scraped
+#     rows (id, field, value) — e.g. a voided approval that must not show as
+#     approved, or a sourced announced-date the source lacks.
+#   - data/proposals_added.csv : projects not on trackdatacenters at all
+#     (appended verbatim).
+#   - the outcome_detail column : additive, preserved if present.
+# Without this, every nightly scrape silently destroys manual defensibility
+# work. Files are optional; absent them, behavior is the plain scrape.
+# ---------------------------------------------------------------------------
+
+OVERLAY_CSV = Path("data/proposals_manual_overlay.csv")
+ADDED_CSV = Path("data/proposals_added.csv")
+
+
+def apply_manual_preservation(rows, out_path):
+    """Apply field overlay + append manual projects. Returns (rows, fieldnames).
+    out_path is used only to resolve sibling data/ files when --out differs."""
+    base_dir = out_path.parent
+    overlay_path = base_dir / OVERLAY_CSV.name
+    added_path = base_dir / ADDED_CSV.name
+
+    fieldnames = list(CSV_FIELDS)
+
+    # 1) field-level overlay corrections, keyed by id
+    if overlay_path.exists():
+        by_id = {r["id"]: r for r in rows}
+        applied = 0
+        with open(overlay_path, newline="", encoding="utf-8-sig") as fh:
+            for o in csv.DictReader(fh):
+                tgt = by_id.get(o["id"])
+                if tgt is not None and o["field"] in tgt:
+                    tgt[o["field"]] = o["value"]
+                    applied += 1
+        print(f"manual overlay: {applied} field correction(s) applied")
+
+    # 2) append manual-added projects (not on the source)
+    if added_path.exists():
+        with open(added_path, newline="", encoding="utf-8-sig") as fh:
+            reader = csv.DictReader(fh)
+            for c in reader.fieldnames or []:
+                if c not in fieldnames:
+                    fieldnames.append(c)   # e.g. outcome_detail
+            existing_ids = {r["id"] for r in rows}
+            added = [r for r in reader if r["id"] not in existing_ids]
+        rows.extend(added)
+        print(f"manual additions: {len(added)} project(s) appended")
+
+    # 3) ensure every row has every field (outcome_detail etc.)
+    for r in rows:
+        for c in fieldnames:
+            r.setdefault(c, "")
+    return rows, fieldnames
+
+
 def scrape(out_path: Path):
     all_records = []
     cursor = 0
@@ -119,9 +179,10 @@ def scrape(out_path: Path):
                 break
             cursor = page['nextCursor']
     rows = [flatten(r) for r in all_records]
+    rows, fieldnames = apply_manual_preservation(rows, out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, 'w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=CSV_FIELDS)
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
 
