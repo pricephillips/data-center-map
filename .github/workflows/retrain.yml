@@ -65,6 +65,10 @@ jobs:
         continue-on-error: true      # survival Cox is withheld below threshold; that is not a failure
         run: python survival_model.py
 
+      - name: Refresh cost-translation demo (internal, non-client-facing)
+        continue-on-error: true      # withholds dollar output when MW unknown; never fails the build
+        run: python cost_translation.py
+
       - name: Calibration gate (exit 0 = PROMOTE, 10 = HOLD)
         id: gate
         continue-on-error: true      # a HOLD must not fail the build
@@ -88,6 +92,8 @@ jobs:
                   data/outcome_model_metrics.json data/outcome_model_predictions.csv \
                   data/survival_model_report.md data/survival_km_curve.csv \
                   data/survival_model_metrics.json \
+                  data/cost_translation_demo.csv data/cost_anchors.csv \
+                  data/cost_translation_methodology.md \
                   data/calibration_history.csv data/calibration_gate_report.md \
                   data/model_promoted.flag 2>/dev/null || true
           git diff --staged --quiet && echo "No changes to commit" && exit 0
