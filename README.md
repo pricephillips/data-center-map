@@ -55,8 +55,10 @@ constructs a lifecycle timeline (announced -> decided) per project.
 that touches `master_opposition.csv` or `data/proposals.csv`. A blocking
 self-test gate runs first; a failure stops the build. A separate retraining
 workflow (`.github/workflows/retrain.yml`) re-fits the models when decided-case
-inputs change or weekly, runs the calibration gate, and promotes a model only
-when it passes — a calibration HOLD is a correct, non-failing outcome.
+inputs change or weekly, refreshes the cost-translation demo, runs the
+calibration gate, and promotes a model only when it passes — a calibration HOLD
+is a correct, non-failing outcome. The cost layer stays internal and
+non-client-facing; see `cost_layer_notes.md` for its safe-use guardrails.
 
 ### Current scale
 
@@ -81,7 +83,7 @@ Work proceeds in phases, in order. Phases 1-2 are the bulk of the difficulty.
 | 1 | Project-level entity resolution + lifecycle dates | **Complete, in CI** |
 | 2 | Control-group construction (matched unopposed comparables) | **Complete** |
 | 3 | Outcome model + time-to-decision (survival) model | **Complete (first iterations)** |
-| 4 | Cost-translation layer (observables -> dollar ranges) | **Scaffolded** |
+| 4 | Cost-translation layer (observables -> dollar ranges) | **Scaffolded; refreshed in CI** |
 | 5 | Continuous retraining with calibration gating | **Underway (gate + CI live)** |
 
 **Phase 3 detail.** The outcome classifier (`outcome_model.py`) is an
@@ -132,6 +134,8 @@ excluded from CI until Phase 5's calibration gate.
 | `outcome_model.py` | `data/outcome_model_report.md`, `outcome_model_features.csv`, `outcome_model_metrics.json` |
 | `survival_model.py` | `data/survival_model_report.md`, `survival_km_curve.csv`, `survival_model_metrics.json` |
 | `cost_translation.py` | `data/cost_anchors.csv`, `cost_translation_methodology.md`, `cost_translation_demo.csv` |
+
+`cost_layer_notes.md` (repo root) is the operator guide for the cost layer: it is internal-only, prices the raw announced-to-decision span (not opposition's marginal effect), withholds dollar figures when MW is unknown, and keeps deferred-revenue exposure distinct from destroyed value.
 | `calibration_gate.py` | `data/calibration_history.csv`, `calibration_gate_report.md` — promote/hold verdict (exit 0=promote, 10=hold) |
 
 ### Key data files
