@@ -177,6 +177,15 @@ def build_universe(cov: Covariates):
             "lifecycle_outcome": (lifecycle_row or {}).get("lifecycle_outcome", ""),
             "decided": (lifecycle_row or {}).get("decided", ""),
             "n_opposition_events": (lifecycle_row or {}).get("n_opposition_events", ""),
+            # Dated-baseline passthrough (additive): announced date + precision
+            # give controls a time origin; decision_date (verified only) and
+            # last_status_update give an event/censor anchor. This is what lets
+            # unopposed controls enter time-to-decision analyses as observed or
+            # censored spans instead of being date-less.
+            "announced_date": (lifecycle_row or {}).get("announced_date", ""),
+            "announced_precision": (lifecycle_row or {}).get("announced_precision", ""),
+            "decision_date": (lifecycle_row or {}).get("decision_date", ""),
+            "last_status_update": (lifecycle_row or {}).get("last_status_update", ""),
             "exclusion_reason": "",
         })
         return records[-1]
@@ -438,7 +447,10 @@ def main() -> int:
     universe_cols = ["universe_id", "source", "name", "operator", "state",
                      "county", "fips", "county_margin_2024", "lat", "lon",
                      "capacity_mw", "sqft", "opposed_flag", "lifecycle_outcome",
-                     "decided", "n_opposition_events", "exclusion_reason"]
+                     "decided", "n_opposition_events",
+                     "announced_date", "announced_precision",
+                     "decision_date", "last_status_update",
+                     "exclusion_reason"]
     with open(OUT_UNIVERSE, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=universe_cols)
         w.writeheader()
