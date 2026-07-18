@@ -45,6 +45,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 P = lambda *a: os.path.join(ROOT, *a)
 
 FRAME_CSV = P("data", "baseline_dated.csv")
+MATCHES_CSV = P("data", "matched_controls.csv")
 OUT_MD = P("data", "dated_comparison.md")
 
 MIN_ARM = 20   # minimum records per arm to report anything
@@ -141,6 +142,64 @@ def main() -> int:
           "too diffuse to locate a median (decided-undated intervals are wide). "
           "More control-side verified dates would tighten this.")
     w("")
+
+    # ---- matched-subset version: same estimators, restricted to matched sets ----
+    if os.path.exists(MATCHES_CSV):
+        by_id = {r["record_id"]: r for r in rows}
+        from collections import defaultdict
+        pair_map = defaultdict(list)
+        for m in csv.DictReader(open(MATCHES_CSV, newline="", encoding="utf-8-sig")):
+            pair_map[m["opposed_project_id"]].append(m["control_universe_id"])
+        m_opp, m_ctl = [], []
+        for oid, ctl_ids in pair_map.items():
+            o = by_id.get(oid)
+            cs = [by_id[c] for c in ctl_ids if c in by_id]
+            if o and cs:
+                m_opp.append(o)
+                m_ctl.extend(cs)
+        if len(m_opp) >= MIN_ARM and len(m_ctl) >= MIN_ARM:
+            mo_dur = np.array([float(r["span_days"]) for r in m_opp])
+            mo_ev = np.array([int(r["event_observed"]) for r in m_opp])
+            km_mo = KaplanMeierFitter().fit(mo_dur, mo_ev, label="matched_opposed")
+            mo_med = km_mo.median_survival_time_
+            mo_ev_n = int(mo_ev.sum())
+            mlo, mhi = [], []
+            m_interval = 0
+            for r in m_ctl:
+                span = float(r["span_days"])
+                if r["end_kind"] == "decided_undated":
+                    mlo.append(0.5); mhi.append(span); m_interval += 1
+                else:
+                    mlo.append(span); mhi.append(math.inf)
+            km_mc = KaplanMeierFitter()
+            km_mc.fit_interval_censoring(np.array(mlo), np.array(mhi), label="matched_control")
+            mmed = km_mc.median_survival_time_
+            try:
+                mvals = [float(v) for v in mmed.iloc[0].tolist()]
+                mc_lo, mc_hi = min(mvals), max(mvals)
+            except (TypeError, AttributeError, IndexError):
+                mc_lo = mc_hi = math.nan
+            w("## Matched-subset comparison")
+            w("")
+            w(f"Same estimators, restricted to matched sets (opposed project + its "
+              f"state/capacity/margin-matched controls, both with usable spans): "
+              f"**{len(m_opp)}** opposed ({mo_ev_n} events) vs **{len(m_ctl)}** "
+              f"matched control spans ({m_interval} interval-censored).")
+            w("")
+            mo_txt = (f"**{mo_med:.0f} days**" if (mo_med is not None and math.isfinite(mo_med))
+                      else "**not reached**")
+            w(f"- Matched opposed median: {mo_txt}")
+            if math.isfinite(mc_lo):
+                mc_txt = (f"**~{mc_lo:.0f} days**" if abs(mc_hi - mc_lo) < 1
+                          else f"**{mc_lo:.0f}-{mc_hi:.0f} days**")
+                w(f"- Matched control median: {mc_txt} (interval-censored NPMLE band)")
+            else:
+                w("- Matched control median: **not identified** at this censoring density.")
+            w("")
+            w("Matching narrows the selection gap but the censoring asymmetry "
+              "between arms remains; treat any difference as descriptive.")
+            w("")
+
     w("## How to read this (binding)")
     w("")
     w("- This compares raw time-to-decision BY OPPOSITION STATUS. It is not "
