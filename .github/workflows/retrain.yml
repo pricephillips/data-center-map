@@ -69,6 +69,14 @@ jobs:
         continue-on-error: true      # withholds dollar output when MW unknown; never fails the build
         run: python cost_translation.py
 
+      - name: Build dated baseline frame
+        continue-on-error: true      # additive frame construction; never fails the build
+        run: python baseline_dated.py
+
+      - name: Opposed-vs-control timing comparison (internal)
+        continue-on-error: true      # descriptive; withholds when arms too small
+        run: python dated_comparison.py
+
       - name: Calibration gate (exit 0 = PROMOTE, 10 = HOLD)
         id: gate
         continue-on-error: true      # a HOLD must not fail the build
@@ -94,6 +102,8 @@ jobs:
                   data/survival_model_metrics.json \
                   data/cost_translation_demo.csv data/cost_anchors.csv \
                   data/cost_translation_methodology.md \
+                  data/baseline_dated.csv data/baseline_dated_notes.md \
+                  data/dated_comparison.md \
                   data/calibration_history.csv data/calibration_gate_report.md \
                   data/model_promoted.flag 2>/dev/null || true
           git diff --staged --quiet && echo "No changes to commit" && exit 0
