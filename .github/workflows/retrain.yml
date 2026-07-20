@@ -77,6 +77,10 @@ jobs:
         continue-on-error: true      # descriptive; withholds when arms too small
         run: python dated_comparison.py
 
+      - name: Attributable-delay estimator (gated; WITHHELD is normal)
+        continue-on-error: true
+        run: python attributable_delay.py
+
       - name: Calibration gate (exit 0 = PROMOTE, 10 = HOLD)
         id: gate
         continue-on-error: true      # a HOLD must not fail the build
@@ -104,6 +108,7 @@ jobs:
                   data/cost_translation_methodology.md \
                   data/baseline_dated.csv data/baseline_dated_notes.md \
                   data/dated_comparison.md \
+                  data/attributable_delay.md data/attributable_delay_metrics.json \
                   data/calibration_history.csv data/calibration_gate_report.md \
                   data/model_promoted.flag 2>/dev/null || true
           git diff --staged --quiet && echo "No changes to commit" && exit 0
