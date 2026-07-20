@@ -1,9 +1,0 @@
-{
-  "adapter": "arcgis",
-  "source": "loudoun_lola",
-  "url": "https://logis.loudoun.gov/gis/rest/services/Projects/LOLA_DATA/MapServer/0/query",
-  "where": "UPPER(PlanName) LIKE '%DATA%' OR UPPER(PlanDescription) LIKE '%DATA CENTER%'",
-  "out_fields": ["PlanNumber","PlanName","PlanApplicationDate","PlanType","PlanStatus","PlanDescription"],
-  "date_fields": ["PlanApplicationDate"],
-  "page_size": 1000
-}
