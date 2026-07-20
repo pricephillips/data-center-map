@@ -1,63 +1,63 @@
 {
-  "generated": "2026-07-15",
-  "n": 78,
-  "n_blocked": 24,
-  "base_rate": 0.3077,
+  "generated": "2026-07-20",
+  "n": 83,
+  "n_blocked": 26,
+  "base_rate": 0.3133,
   "cv": {
     "folds": 5,
     "repeats": 10
   },
   "roc_auc": {
-    "p10": 0.6816,
+    "p10": 0.7082,
     "p50": 0.8182,
-    "p90": 0.9285
+    "p90": 0.9258
   },
   "brier": {
-    "p10": 0.1201,
-    "p50": 0.1715,
-    "p90": 0.2353,
-    "base_rate_brier": 0.213
+    "p10": 0.127,
+    "p50": 0.1775,
+    "p90": 0.2388,
+    "base_rate_brier": 0.2151
   },
   "top_features": [
     {
       "name": "mech_public_comment",
-      "auc_drop": 0.1885,
-      "mean_std_coef": -1.3341
-    },
-    {
-      "name": "hyperscaler_involved",
-      "auc_drop": 0.0664,
-      "mean_std_coef": -0.7957
+      "auc_drop": 0.1973,
+      "mean_std_coef": -1.3516
     },
     {
       "name": "capacity_missing",
-      "auc_drop": 0.0368,
-      "mean_std_coef": 0.6392
+      "auc_drop": 0.0587,
+      "mean_std_coef": 0.7052
+    },
+    {
+      "name": "hyperscaler_involved",
+      "auc_drop": 0.0474,
+      "mean_std_coef": -0.6295
     },
     {
       "name": "county_margin_2024",
-      "auc_drop": 0.0303,
-      "mean_std_coef": 0.7122
-    },
-    {
-      "name": "log10_capacity_mw",
-      "auc_drop": -0.0124,
-      "mean_std_coef": 0.0453
+      "auc_drop": 0.0359,
+      "mean_std_coef": 0.5945
     },
     {
       "name": "mech_legislation",
-      "auc_drop": -0.01,
-      "mean_std_coef": -0.1346
+      "auc_drop": -0.0129,
+      "mean_std_coef": -0.1383
     },
     {
-      "name": "petition_signatures_log1p",
-      "auc_drop": -0.0092,
-      "mean_std_coef": 0.0654
+      "name": "log10_capacity_mw",
+      "auc_drop": -0.0087,
+      "mean_std_coef": -0.0221
     },
     {
-      "name": "mech_zoning_restriction",
-      "auc_drop": -0.0085,
-      "mean_std_coef": 0.0227
+      "name": "has_lawsuit",
+      "auc_drop": -0.0076,
+      "mean_std_coef": -0.1492
+    },
+    {
+      "name": "mech_lawsuit",
+      "auc_drop": -0.0076,
+      "mean_std_coef": -0.1492
     }
   ],
   "feature_columns": [

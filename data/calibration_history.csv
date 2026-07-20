@@ -1,2 +1,3 @@
 timestamp,model,n,n_positive,base_rate,brier,brier_baseline,brier_skill_score,ece,discrimination_ok,verdict,reason
 2026-07-15T16:44:29Z,outcome_model,78,24,0.3077,0.1913,0.213,0.1022,0.1348,True,PROMOTE,"PASSED: ECE 0.135 <= 0.15, Brier skill 0.102 >= 0.05, discrimination ok"
+2026-07-20T10:10:20Z,outcome_model,83,26,0.3133,0.1861,0.2151,0.1351,0.1265,True,PROMOTE,"PASSED: ECE 0.127 <= 0.15, Brier skill 0.135 >= 0.05, discrimination ok"
