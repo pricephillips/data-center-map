@@ -1,0 +1,38 @@
+name: Fetch permit candidates
+
+# Manual-dispatch acquisition of data-center permit records from public
+# open-data portals. Writes candidate CSVs for human review; nothing enters
+# the dated baseline without a reviewed permit_ingest run.
+
+on:
+  workflow_dispatch:
+    inputs:
+      config:
+        description: 'Config file under configs/ (e.g. loudoun_lola.json)'
+        required: true
+        default: 'loudoun_lola.json'
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Fetch candidates
+        run: python fetch_permits.py --config "configs/${{ github.event.inputs.config }}"
+
+      - name: Commit candidate file
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/permit_candidates_*.csv 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "Permit candidates fetched for review [skip ci]"
+          git push
