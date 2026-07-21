@@ -83,6 +83,24 @@ def build_features():
     life = load_csv(LIFECYCLES_CSV)
     uni = {r["universe_id"]: r for r in load_csv(UNIVERSE_CSV)}
     links = load_csv(LINKS_CSV)
+
+    # --- geography-history feature inputs (existing repo data only) ---
+    # Existing-DC density: built facilities per county from atlas.csv
+    from collections import Counter
+    from datetime import date as _date
+    _atlas = load_csv(P("atlas.csv")) if os.path.exists(P("atlas.csv")) else []
+    _dc_density = Counter((a.get("state", ""), (a.get("county") or "").strip().lower())
+                          for a in _atlas)
+    # Prior opposition intensity by state BEFORE this project's announcement
+    # (strictly earlier events only, to avoid outcome leakage)
+    _mo_path = P("master_opposition.csv")
+    _state_events = []          # (state, iso_date)
+    if os.path.exists(_mo_path):
+        for m in load_csv(_mo_path):
+            d = (m.get("Date") or "").strip()
+            s = (m.get("State") or "").strip()
+            if s and re.match(r"^\d{4}-\d{2}", d):
+                _state_events.append((s, d[:10]))
     opp_by_id = {}
     for r in load_csv(OPPOSITION_CSV):
         # re-derive event id the same way project_resolution does
@@ -129,6 +147,17 @@ def build_features():
             "capacity_missing": 0 if parse_float(r["capacity_mw"]) else 1,
             "petition_signatures_log1p": math.log1p(petition_sigs),
             "hyperscaler_involved": 1 if companies & HYPERSCALERS else 0,
+            # --- geography-history features (derived, pre-announcement only) ---
+            "log1p_existing_dc_in_county": math.log1p(
+                _dc_density.get((r.get("state", ""), (r.get("county") or "").strip().lower()), 0)),
+            "days_to_first_opposition": (
+                (lambda a, f: (max((_date.fromisoformat(f) - _date.fromisoformat(a)).days, 0)
+                               if a and f else None))
+                (r.get("announced_date") or "", r.get("first_opposition_date") or "")),
+            "log1p_prior_state_opposition": math.log1p(
+                sum(1 for s, d in _state_events
+                    if s == r.get("state", "") and r.get("announced_date")
+                    and d < r["announced_date"])),
         }
         for m in MECHANISMS:
             feat[f"mech_{m}"] = 1 if m in types else 0
