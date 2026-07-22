@@ -33,7 +33,15 @@ OUT_PATH = os.path.join("data", "county_census_features.csv")
 
 def _get(url):
     key = os.environ.get("CENSUS_API_KEY", "").strip()
-    if key and "api.census.gov" in url:
+    if "api.census.gov" in url:
+        if not key:
+            print(
+                "ERROR: api.census.gov requires an API key as of 2026-05-12. "
+                "Get a free key at api.census.gov/data/key_signup.html and set "
+                "it as the CENSUS_API_KEY repo secret.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
         url = url + "&key=" + key
     req = urllib.request.Request(url, headers={"User-Agent": "hawthorn-dc-pipeline"})
     with urllib.request.urlopen(req, timeout=120) as r:
@@ -52,7 +60,13 @@ def _num(v):
 
 
 def fetch_acs():
-    rows = json.loads(_get(ACS_URL).decode("utf-8"))
+    body = _get(ACS_URL).decode("utf-8", errors="replace")
+    try:
+        rows = json.loads(body)
+    except json.JSONDecodeError:
+        print("ERROR: ACS API returned non-JSON response:", file=sys.stderr)
+        print(body[:500], file=sys.stderr)
+        sys.exit(1)
     header, data = rows[0], rows[1:]
     ix = {h: i for i, h in enumerate(header)}
     out = {}
