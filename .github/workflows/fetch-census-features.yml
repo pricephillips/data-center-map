@@ -1,0 +1,27 @@
+name: Fetch Census county features
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Fetch ACS + Gazetteer
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: python fetch_census_features.py
+      - name: Commit candidate reference file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/county_census_features.csv
+          git diff --cached --quiet || git commit -m "Census county features (ACS5 2023 + Gazetteer) [reference data]"
+          git push
