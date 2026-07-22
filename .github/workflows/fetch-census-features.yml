@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -23,5 +25,15 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/county_census_features.csv
-          git diff --cached --quiet || git commit -m "Census county features (ACS5 2023 + Gazetteer) [reference data]"
-          git push
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Census county features (ACS5 2023 + Gazetteer) [reference data]"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            echo "Push attempt $i failed, retrying in 10s"
+            sleep 10
+          done
+          echo "Push failed after 3 attempts. If branch protection is enabled on main, allow github-actions[bot] to push or merge via PR."
+          exit 1
