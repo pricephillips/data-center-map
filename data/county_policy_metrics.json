@@ -45,7 +45,7 @@
         "spec": "full",
         "C": 0.1,
         "n_vars": 10,
-        "auc_median": 0.8157,
+        "auc_median": 0.8156,
         "sign_stable": false
       },
       {
@@ -94,21 +94,21 @@
         "spec": "no_shift",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.8092,
+        "auc_median": 0.8093,
         "sign_stable": true
       },
       {
         "spec": "drop_density",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.8162,
+        "auc_median": 0.8163,
         "sign_stable": false
       },
       {
         "spec": "drop_density",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.8157,
+        "auc_median": 0.8158,
         "sign_stable": false
       },
       {
@@ -122,7 +122,7 @@
         "spec": "drop_density",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.8134,
+        "auc_median": 0.8133,
         "sign_stable": false
       },
       {
@@ -178,21 +178,21 @@
         "spec": "tier1_plus_size",
         "C": 0.3,
         "n_vars": 5,
-        "auc_median": 0.8147,
+        "auc_median": 0.8148,
         "sign_stable": false
       },
       {
         "spec": "tier1_plus_size",
         "C": 0.1,
         "n_vars": 5,
-        "auc_median": 0.8137,
+        "auc_median": 0.8138,
         "sign_stable": false
       },
       {
         "spec": "tier1_plus_size",
         "C": 0.03,
         "n_vars": 5,
-        "auc_median": 0.8111,
+        "auc_median": 0.811,
         "sign_stable": false
       },
       {
@@ -244,8 +244,8 @@
     },
     "n_projects_tracked": {
       "min": 0.257,
-      "median": 0.279,
-      "max": 0.319,
+      "median": 0.278,
+      "max": 0.318,
       "sign_stable": true
     },
     "state_legislation_events": {
@@ -297,7 +297,7 @@
       "county_votes.json": "b521eb017a7acfa5",
       "atlas.csv": "7a8c78d3ed6cea2d",
       "master_opposition.csv": "1c2c3c8900ca7834",
-      "baseline_universe.csv": "aca78aee1baa623b",
+      "baseline_universe.csv": "686381e7d0f527af",
       "project_lifecycles.csv": "a63265bf9a8c80c9"
     }
   }

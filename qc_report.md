@@ -1,14 +1,14 @@
 # Master Opposition QC Report
 
-- Records scanned: **1680**
-- Passed to feed: **1464**
-- Blocked / quarantined: **216**
+- Records scanned: **1812**
+- Passed to feed: **1547**
+- Blocked / quarantined: **265**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- UNPLACEABLE: 208
-- DUPLICATE: 4
+- UNPLACEABLE: 251
+- DUPLICATE: 10
 - LEG_SOURCE_WEAK: 4
 - STATEWIDE_CAPITAL_SINK: 1
 - STUDY_SOURCE_WEAK: 1
@@ -26,6 +26,8 @@
 | Florida (SB 484 data center regulation) | legislative | HIGH | **HIGH** LEG_SOURCE_WEAK: A claim about a bill's fate is sourced only to social media. Use the legislature site or a news report. |
 | Columbus | legislative | HIGH | **HIGH** STATEWIDE_CAPITAL_SINK: Statewide record pinned to capital city Columbus. This places a dot on the capital and inflates it; clear the city or plot as statewide. |
 | Texas (State Republican Executive Committee) | legislative | HIGH | **HIGH** LEG_SOURCE_WEAK: A claim about a bill's fate is sourced only to social media. Use the legislature site or a news report. |
+| Doña Ana County, NM (Project Jupiter Bloom Energy fuel-cell microgrid announcement) | study | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Abilene, TX (Oracle/OpenAI drop flagship Stargate Abilene expansion; Meta in talks for Crusoe capacity) | project | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Governor of Florida (signed SB 484 hyperscale data center law at Florida Polytechnic University) | legislative | HIGH | **HIGH** LEG_SOURCE_WEAK: A claim about a bill's fate is sourced only to social media. Use the legislature site or a news report. |
 | Bell County (residents demand moratorium on Temple-area data center; county weighs study resolution), TX | study | HIGH | **HIGH** STUDY_SOURCE_WEAK: A study/report is sourced only to social media; cite the publication directly. |
 | Updates on the Cloud: More Moratoriums on Data Cen | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
@@ -208,6 +210,7 @@
 | Union leader issues data center ultimatum to Kansa | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
 | Nearly a third of Indiana counties have moved to r | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
 | Avemore Data Park | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Douglas County Commission | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Marietta tables data center, imposes six-month mor | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
 | Metro Council advances bills related to data cente | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
 | Lakeland considers moratorium on data centers - FO | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
@@ -218,7 +221,4 @@
 | Minneapolis data center pause heads back to City C | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
 | Tennessee communities are blocking data centers. N | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
 | Data center opposition: Walker Co. plans to extend | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
-| More Connecticut towns are banning data centers be | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed. |
-| Marietta tables data center request; issues morato | moratorium | HIGH | **HIGH** UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map. |
-| Molitor: State data center delay is hypocritical - | project | HIGH | **HIGH** UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.<br>**HIGH** DUPLICATE: Possible duplicate of: Molitor: state data center delay is hypocritical -. Held out of the feed until merged. |
-| ...and 16 more | | | see quarantine.json |
+| ...and 65 more | | | see quarantine.json |
