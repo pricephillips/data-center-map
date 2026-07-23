@@ -1,6 +1,6 @@
 # Cost-Translation Layer — Methodology (Phase 4, first iteration)
 
-Generated 2026-07-20 by `cost_translation.py`. **Internal — NOT client-facing**
+Generated 2026-07-23 by `cost_translation.py`. **Internal — NOT client-facing**
 until (1) delay measurement reaches adequate n, and (2) anchors are
 re-verified at publication time. Anchor values age; the registry records
 as-of dates.
