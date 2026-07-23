@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restriction Model</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root {
+  --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
+  --muted:#8a96a4; --border:#2c3544;
+  --accent:#ea580c; --accent2:#fbbf24; --tier1:#4f98a3; --tier2:#8a96a4; --tier3:#9b59b6;
+}
+* { box-sizing:border-box; margin:0; padding:0 }
+body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(--text); padding:20px; min-height:100vh }
+h2 { font-weight:700; margin-bottom:4px }
+.sub { color:var(--muted); font-size:13px; margin-bottom:16px }
+
+#error-banner { display:none; background:#3a1520; border:1px solid #7a2535; color:#ffb4c0;
+  padding:12px 14px; border-radius:10px; margin-bottom:14px; font-size:13px }
+
+.kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:16px }
+.kpi { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:12px 14px }
+.kpi b { display:block; font-size:20px; font-weight:700 }
+.kpi span { font-size:11px; color:var(--muted) }
+.kpi .ci { font-size:11px; color:var(--muted); margin-left:4px; font-weight:400 }
+
+.card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px 18px; margin-bottom:14px }
+.card h1 { font-size:17px; font-weight:700; margin-bottom:8px }
+.card h2 { font-size:14px; font-weight:600; margin:14px 0 6px; color:var(--text) }
+.card p { font-size:13px; line-height:1.55; color:#c6cfda; margin:6px 0 }
+.card strong { color:var(--text) }
+.card ul { margin:6px 0 6px 18px }
+.card li { font-size:13px; line-height:1.55; color:#c6cfda; margin:3px 0 }
+.card code { background:var(--panel2); border:1px solid var(--border); border-radius:4px; padding:1px 5px; font-size:12px }
+.card table { border-collapse:collapse; width:100%; margin:8px 0; font-size:12.5px }
+.card th { text-align:left; color:var(--muted); font-weight:600; border-bottom:1px solid var(--border); padding:5px 8px }
+.card td { border-bottom:1px solid var(--panel2); padding:5px 8px; color:#c6cfda }
+.card tr td:first-child { color:var(--text) }
+.disclaimer { background:var(--panel2); border-left:3px solid var(--accent); border-radius:6px;
+  padding:10px 12px; font-size:12.5px; color:#c6cfda; margin-bottom:14px; line-height:1.5 }
+.map-card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:14px }
+#scoreMap { height:440px; border-radius:8px; background:#0b0e13 }
+.map-legend { display:flex; gap:8px; align-items:center; font-size:11px; color:var(--muted); margin-top:8px; flex-wrap:wrap }
+.map-legend .ramp { flex:1; min-width:120px; max-width:260px; height:8px; border-radius:3px;
+  background:linear-gradient(to right,#1e293b,#7c2d12,#ea580c,#fbbf24) }
+.map-legend .enacted-key { display:inline-block; width:14px; height:9px; border:1.5px dashed #f8fafc; border-radius:2px; vertical-align:-1px }
+.leaflet-tooltip.score-tip { background:var(--panel2); border:1px solid var(--border); color:var(--text);
+  font-family:Inter,system-ui,sans-serif; font-size:12px; border-radius:6px; box-shadow:none }
+.leaflet-container { font-family:Inter,system-ui,sans-serif }
+.footer { color:var(--muted); font-size:11px; margin-top:6px }
+a { color:#5aa9e6 }
+@media (max-width:560px){ body{padding:12px} .kpi b{font-size:17px} }
+</style>
+</head>
+<body>
+
+<!-- Site nav: visible on direct visits, auto-hidden inside iframe embeds
+     (Notion/Simple.ink) so embedded views stay clean. -->
+<nav id="site-nav" style="display:none;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+  <a href="index.html" class="nav-pill">Atlas Map</a>
+  <a href="opposition-tracker.html" class="nav-pill">Opposition Tracker</a>
+  <a href="opposition-dashboard.html" class="nav-pill">Opposition Dashboard</a>
+  <a href="developments-dashboard.html" class="nav-pill">Developments</a>
+  <a href="project-lifecycles.html" class="nav-pill">Projects</a>
+  <a href="restriction-model.html" class="nav-pill active">Restriction Model</a>
+</nav>
+<style>
+.nav-pill { padding:6px 12px; border-radius:999px; border:1px solid var(--border);
+  background:var(--panel); color:var(--muted); font-size:12px; text-decoration:none }
+.nav-pill:hover { color:var(--text); border-color:var(--tier1) }
+.nav-pill.active { color:var(--tier1); border-color:var(--tier1); background:var(--panel2) }
+.nav-pill:focus-visible, a:focus-visible { outline:2px solid var(--tier1); outline-offset:2px }
+</style>
+<script>
+  try { if (window.self === window.top) document.getElementById('site-nav').style.display = 'flex'; }
+  catch (e) { /* cross-origin frame access throws -> we are embedded; keep hidden */ }
+</script>
+
+<h2>Restriction Model</h2>
+<div class="sub" id="stamp">County enacted-restriction model · internal diagnostic · loading current artifacts…</div>
+<div id="error-banner"></div>
+<div class="disclaimer"><b>Reading rule.</b> Associations are predictive, not causal. The calibrated score is an out-of-fold model probability that a county has an enacted restrictive data center policy (moratorium or restrictive zoning with terminal enacted status) given its profile. It is not a forecast of opposition to any specific project. County-specific opposition rates are not computable at current data density.</div>
+<div class="kpis" id="kpis">
+  <div class="kpi"><b>–</b><span>Counties in model frame</span></div>
+  <div class="kpi"><b>–</b><span>Enacted-restriction counties</span></div>
+  <div class="kpi"><b>–</b><span>ROC AUC (median, CV)</span></div>
+  <div class="kpi"><b>–</b><span>Brier score</span></div>
+  <div class="kpi"><b>–</b><span>Post-recalibration slope</span></div>
+</div>
+<div class="map-card">
+  <div id="scoreMap"></div>
+  <div class="map-legend">
+    <span>Low</span><div class="ramp"></div><span>High</span>
+    <span style="margin-left:10px"><span class="enacted-key"></span> enacted restrictive policy on record</span>
+  </div>
+</div>
+<div class="card" id="report">Loading model report…</div>
+<div class="footer">Every number above is read live from <code>county_policy_scores.csv</code>, <code>county_policy_metrics.json</code>, and <code>county_policy_report.md</code>, all regenerated by CI on data changes, so this page always reflects the current promoted model.</div>
+
+<script>
+// Fallback chains follow the frontend convention: relative path works on the
+// canonical GitHub Pages host; raw.githubusercontent.com sends CORS headers
+// and is what succeeds inside Notion / Simple.ink embeds.
+const RAW = 'https://raw.githubusercontent.com/pricephillips/data-center-map/main';
+const METRIC_URLS = ['./data/county_policy_metrics.json', RAW + '/data/county_policy_metrics.json'];
+const REPORT_URLS = ['./data/county_policy_report.md',   RAW + '/data/county_policy_report.md'];
+const SCORE_URLS  = ['./data/county_policy_scores.csv',  RAW + '/data/county_policy_scores.csv'];
+// Plotly's county GeoJSON: raw.githubusercontent.com origin (CORS headers,
+// embed-safe), feature.id is the 5-digit county FIPS.
+const COUNTY_GEO_URL = 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json';
+
+const FIPS_TO_STATE = {
+  '01':'AL','02':'AK','04':'AZ','05':'AR','06':'CA','08':'CO','09':'CT','10':'DE',
+  '11':'DC','12':'FL','13':'GA','15':'HI','16':'ID','17':'IL','18':'IN','19':'IA',
+  '20':'KS','21':'KY','22':'LA','23':'ME','24':'MD','25':'MA','26':'MI','27':'MN',
+  '28':'MS','29':'MO','30':'MT','31':'NE','32':'NV','33':'NH','34':'NJ','35':'NM',
+  '36':'NY','37':'NC','38':'ND','39':'OH','40':'OK','41':'OR','42':'PA','44':'RI',
+  '45':'SC','46':'SD','47':'TN','48':'TX','49':'UT','50':'VT','51':'VA','53':'WA',
+  '54':'WV','55':'WI','56':'WY'
+};
+
+// Sequential ramp on the calibrated probability. sqrt scaling spreads the
+// low-probability mass (base rate ~6 pct); saturates at 0.35.
+function policyColor(score) {
+  if (score === null || !Number.isFinite(score)) return null;
+  const t = Math.min(1, Math.sqrt(Math.max(0, score) / 0.35));
+  const stops = [
+    [0.00, [30, 41, 59]], [0.40, [124, 45, 18]],
+    [0.75, [234, 88, 12]], [1.00, [251, 191, 36]]
+  ];
+  let lo = stops[0], hi = stops[stops.length - 1];
+  for (let i = 0; i < stops.length - 1; i++) {
+    if (t >= stops[i][0] && t <= stops[i + 1][0]) { lo = stops[i]; hi = stops[i + 1]; break; }
+  }
+  const f = (t - lo[0]) / Math.max(1e-9, hi[0] - lo[0]);
+  const c = lo[1].map((v, i) => Math.round(v + (hi[1][i] - v) * f));
+  return { color: `rgb(${c[0]},${c[1]},${c[2]})`, opacity: 0.35 + 0.5 * t };
+}
+
+function parseScoresCsv(text) {
+  const lines = text.replace(/\r/g, '').trim().split('\n');
+  const header = lines[0].split(',');
+  const idx = Object.fromEntries(header.map((h, i) => [h, i]));
+  const out = {};
+  for (let i = 1; i < lines.length; i++) {
+    const c = lines[i].split(',');
+    const fips = String(c[idx.fips] || '').padStart(5, '0');
+    const score = parseFloat(c[idx.calibrated_score]);
+    if (fips.length === 5 && Number.isFinite(score)) {
+      out[fips] = {
+        score,
+        decile: parseInt(c[idx.score_decile], 10) || null,
+        enacted: String(c[idx.has_enacted_restrictive]) === '1'
+      };
+    }
+  }
+  return Object.keys(out).length ? out : null;
+}
+
+async function buildScoreMap() {
+  const [scoresText, geo] = await Promise.all([
+    fetchFirst(SCORE_URLS, false),
+    (async () => { try {
+      const r = await fetch(COUNTY_GEO_URL);
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return await r.json();
+    } catch (e) { return null; } })()
+  ]);
+  const scores = scoresText ? parseScoresCsv(scoresText) : null;
+  if (!scores || !geo || !Array.isArray(geo.features)) {
+    document.querySelector('.map-card').style.display = 'none';
+    banner(`<b>Score map unavailable.</b> ${!scores ? 'county_policy_scores.csv was not reachable. ' : ''}${!geo ? 'County boundary data was not reachable.' : ''} The diagnostics below load independently.`);
+    return;
+  }
+
+  const map = L.map('scoreMap', {
+    center: [39.5, -98.35], zoom: 4, minZoom: 3, maxZoom: 9,
+    attributionControl: true, zoomControl: true, scrollWheelZoom: false
+  });
+  map.attributionControl.setPrefix(false);
+  map.attributionControl.addAttribution('Scores: county_policy_model.py (calibrated, out-of-fold)');
+
+  const lyr = L.geoJSON(geo, {
+    style(feat) {
+      const e = scores[String(feat.id).padStart(5, '0')];
+      const pc = e ? policyColor(e.score) : null;
+      if (!pc) return { fillOpacity: 0, color: '#2c3544', weight: 0.4 };
+      return {
+        color: e.enacted ? '#f8fafc' : '#2c3544',
+        weight: e.enacted ? 1.3 : 0.4,
+        dashArray: e.enacted ? '3,2' : null,
+        opacity: 1, fillColor: pc.color, fillOpacity: pc.opacity
+      };
+    },
+    onEachFeature(feat, layer) {
+      const fips = String(feat.id).padStart(5, '0');
+      const e = scores[fips];
+      const name = feat.properties.NAME || feat.properties.name || '';
+      const st = FIPS_TO_STATE[fips.slice(0, 2)] || '';
+      const body = e
+        ? `Enacted-restriction score: ${(e.score * 100).toFixed(1)}%` +
+          (e.decile ? ` (decile ${e.decile}/10)` : '') +
+          (e.enacted ? '<br><span style="color:#fbbf24">Enacted restrictive policy on record</span>' : '')
+        : 'No score for this boundary (model frame uses current county definitions; PR excluded)';
+      layer.bindTooltip(`<b>${name}, ${st}</b><br>${body}`, { sticky: true, className: 'score-tip' });
+      layer.on({
+        mouseover: ev => ev.target.setStyle({ weight: 2, color: '#cbd5e1', dashArray: null }),
+        mouseout:  ev => lyr.resetStyle(ev.target)
+      });
+    }
+  }).addTo(map);
+}
+
+
+function banner(msg) {
+  const el = document.getElementById('error-banner');
+  el.style.display = 'block';
+  el.innerHTML = msg;
+}
+
+async function fetchFirst(urls, asJson) {
+  for (const u of urls) {
+    try {
+      const r = await fetch(u, { cache: 'no-cache' });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return asJson ? await r.json() : await r.text();
+    } catch (e) { /* try next */ }
+  }
+  return null;
+}
+
+function fmtPct(x, dp) { return (x * 100).toFixed(dp === undefined ? 1 : dp) + '%'; }
+
+function kpi(label, value, ci) {
+  return `<div class="kpi"><b>${value}${ci ? `<span class="ci">${ci}</span>` : ''}</b><span>${label}</span></div>`;
+}
+
+function renderKpis(m) {
+  const wrap = document.getElementById('kpis');
+  try {
+    const auc = m.roc_auc, br = m.brier, cal = m.calibration || {};
+    wrap.innerHTML =
+      kpi('Counties in model frame', m.n.toLocaleString()) +
+      kpi('Enacted-restriction counties', `${m.n_positive}`, `(${fmtPct(m.base_rate)} base)`) +
+      kpi('ROC AUC (median, CV)', auc.p50.toFixed(2), `[${auc.p10.toFixed(2)}\u2013${auc.p90.toFixed(2)}]`) +
+      kpi('Brier score', br.p50.toFixed(3), `vs ${br.base_rate_brier.toFixed(3)} base`) +
+      kpi('Post-recalibration slope', (cal.post_recalibration_slope ?? cal.post_recal_slope ?? cal.slope ?? NaN).toFixed(2));
+  } catch (e) {
+    wrap.innerHTML = '';
+    banner('<b>Metrics file loaded but could not be summarized.</b> The full report below is unaffected.');
+  }
+}
+
+// Minimal renderer for the auto-generated report: headers, bold, inline code,
+// unordered lists, pipe tables, paragraphs. Content is machine-generated in
+// this repo, so no untrusted HTML pass-through: everything is escaped first.
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function inline(s) {
+  return esc(s)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>');
+}
+function mdToHtml(md) {
+  const lines = md.replace(/\r/g, '').split('\n');
+  const out = [];
+  let list = false, table = [];
+  const flushList = () => { if (list) { out.push('</ul>'); list = false; } };
+  const flushTable = () => {
+    if (!table.length) return;
+    const rows = table.filter(r => !/^\s*\|?[\s:|-]+\|?\s*$/.test(r));
+    const cells = r => r.replace(/^\s*\|/, '').replace(/\|\s*$/, '').split('|').map(c => inline(c.trim()));
+    let html = '<table>';
+    rows.forEach((r, i) => {
+      const tag = i === 0 ? 'th' : 'td';
+      html += '<tr>' + cells(r).map(c => `<${tag}>${c}</${tag}>`).join('') + '</tr>';
+    });
+    out.push(html + '</table>');
+    table = [];
+  };
+  for (const raw of lines) {
+    const line = raw.trimEnd();
+    if (/^\s*\|.*\|\s*$/.test(line)) { flushList(); table.push(line); continue; }
+    flushTable();
+    if (!line.trim()) { flushList(); continue; }
+    let m;
+    if ((m = line.match(/^##\s+(.*)/)))      { flushList(); out.push(`<h2>${inline(m[1])}</h2>`); }
+    else if ((m = line.match(/^#\s+(.*)/)))  { flushList(); out.push(`<h1>${inline(m[1])}</h1>`); }
+    else if ((m = line.match(/^[-*]\s+(.*)/))) {
+      if (!list) { out.push('<ul>'); list = true; }
+      out.push(`<li>${inline(m[1])}</li>`);
+    }
+    else { flushList(); out.push(`<p>${inline(line)}</p>`); }
+  }
+  flushList(); flushTable();
+  return out.join('\n');
+}
+
+(async () => {
+  buildScoreMap();
+  const [metrics, report] = await Promise.all([
+    fetchFirst(METRIC_URLS, true),
+    fetchFirst(REPORT_URLS, false)
+  ]);
+
+  const failures = [];
+  if (metrics) renderKpis(metrics);
+  else { document.getElementById('kpis').innerHTML = ''; failures.push('county_policy_metrics.json'); }
+
+  if (report) document.getElementById('report').innerHTML = mdToHtml(report);
+  else { document.getElementById('report').textContent = 'Model report unavailable.'; failures.push('county_policy_report.md'); }
+
+  if (failures.length) {
+    banner(`<b>Could not load: ${failures.join(', ')}.</b> Checked the canonical host and raw.githubusercontent.com. The files regenerate with the CI pipeline; if this persists, the last run may have failed its QC gate.`);
+  }
+  document.getElementById('stamp').textContent =
+    'County enacted-restriction model · auto-generated by county_policy_model.py · loaded ' + new Date().toLocaleString();
+})();
+</script>
+</body>
+</html>
