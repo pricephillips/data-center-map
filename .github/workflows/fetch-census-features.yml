@@ -20,6 +20,8 @@ jobs:
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
         run: python fetch_census_features.py
+      - name: Spot-check against pinned reference values
+        run: python spot_check_census.py
       - name: Commit candidate reference file
         run: |
           git config user.name "github-actions[bot]"
