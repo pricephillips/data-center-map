@@ -3,6 +3,7 @@ name: Build Clean Feed
 # Runs the full data pipeline whenever the raw CSV changes:
 #   raw master_opposition.csv  ->  cleaner  ->  QC gate  ->  master_opposition_clean.csv
 #   -> project resolution (event->project links + lifecycles)
+#   -> county layer (county_aggregator -> county_policy_model)
 # then triggers the Iowa Notion sync.
 #
 # REPLACES notify-iowa-tracker.yml — this workflow now owns both the cleaning
@@ -12,12 +13,24 @@ name: Build Clean Feed
 # NON-BLOCKING for the map/dashboard: if it fails, the clean feed still
 # commits and Iowa still syncs, but the job is marked failed so the
 # regression is visible. It also runs when data/proposals.csv changes.
+#
+# County layer (added 2026-07-23): runs only if project resolution succeeded
+# (county_aggregator reads data/project_lifecycles.csv; running it against a
+# stale lifecycles file could pass QC while carrying wrong outcomes). Its
+# hard QC gate exits nonzero on failure, and the commit step stages the five
+# county artifacts ONLY when the county step succeeded, so a degraded layer
+# is never auto-committed. Like project resolution, it is non-blocking for
+# the clean feed and Iowa sync but surfaces as a job failure.
 
 on:
   push:
     paths:
       - 'master_opposition.csv'
       - 'data/proposals.csv'
+      - 'data/project_links_manual.csv'
+      - 'atlas.csv'
+      - 'data/county_census_features.csv'
+      - 'data/county_votes.json'
   workflow_dispatch:
 
 permissions:
@@ -37,7 +50,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install pandas
+        run: pip install pandas scikit-learn
 
       - name: Gate — run self-tests (BLOCKING; a failure stops the build)
         run: |
@@ -54,6 +67,12 @@ jobs:
         continue-on-error: true
         run: python project_resolution.py && python control_group.py && python control_comparison.py && python triage_accelerator.py
 
+      - name: County layer (aggregate QC gate -> enacted-restriction model)
+        id: county_layer
+        if: steps.project_resolution.outcome == 'success'
+        continue-on-error: true
+        run: python county_aggregator.py && python county_policy_model.py
+
       - name: Commit generated feed + reports
         run: |
           git config user.name  "github-actions[bot]"
@@ -68,11 +87,20 @@ jobs:
                   data/baseline_universe.csv data/matched_controls.csv \
                   data/control_group_notes.md data/control_comparison.md \
                   data/project_links_manual_draft.csv 2>/dev/null || true
+          # County artifacts are staged ONLY on a green county step, so a
+          # QC-gate or leak-audit failure can never auto-commit a degraded
+          # layer. A skipped or failed step leaves the last good layer in
+          # place untouched.
+          if [ "${{ steps.county_layer.outcome }}" = "success" ]; then
+            git add data/county_aggregate.csv data/county_aggregate_manifest.json \
+                    data/county_policy_scores.csv data/county_policy_metrics.json \
+                    data/county_policy_report.md 2>/dev/null || true
+          fi
           git diff --staged --quiet || git commit -m "Auto-build clean feed from master_opposition.csv [skip ci]"
           git push
 
       - name: Trigger Iowa Notion sync
-        if: success() || steps.project_resolution.outcome == 'failure'
+        if: success() || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure'
         uses: actions/github-script@v7
         with:
           # Cross-repo dispatch needs a PAT with repo scope (the default
@@ -91,4 +119,10 @@ jobs:
         if: steps.project_resolution.outcome == 'failure'
         run: |
           echo "::error::project_resolution.py failed (link build or leak audit). Clean feed and Iowa sync were unaffected."
+          exit 1
+
+      - name: Surface county-layer failure (visible, non-blocking)
+        if: steps.county_layer.outcome == 'failure'
+        run: |
+          echo "::error::County layer failed (aggregate QC gate, policy model, or leak audit). County artifacts were NOT committed; the last good layer remains in place. Clean feed and Iowa sync were unaffected."
           exit 1
