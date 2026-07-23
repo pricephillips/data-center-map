@@ -1,5 +1,8 @@
 opp_id,project_id,action,note,suggestion_confidence,corroborations,red_flags,first_pass_signals,distance_km,opp_incident,opp_date,project_name,opp_state
 opp_2be4ae43a667,prj_332,suggest_confirm,,high,summary_names_project(1/2); summary_names_company(1),,company:0.50,101.6,Chatham County,2026-02-13,Natelli Vance County Data Center,NC
+opp_365d85ee7c1f,prj_15,suggest_confirm,,high,summary_names_project(3/3); summary_names_company(1),,geo:8.8km; county,8.8,Little Rock Board of Directors (hyperscale data center moratorium measure),2026-07-07,Port of Little Rock Data Center,AR
+opp_50c9d721baa7,prj_5,suggest_confirm,,high,summary_names_company(1); city_in_project_towns,,geo:2.8km; county,2.8,Birmingham,2026-07-13,DC BLOX Birmingham,AL
+opp_63251ae21b23,prj_164,suggest_confirm,,high,summary_names_project(2/3); summary_names_company(1),,geo:4.3km; county,4.3,New Albany (Licking County),2026-07-16,QTS New Albany Data Center Campus,OH
 opp_aeffd8f5f6f0,prj_16,needs_review,,,,,county,24.7,Conway,2025-04-01,Vilonia Cryptomine,AR
 opp_5d1c237068fa,prj_285,needs_review,,,summary_names_company(2),,company:0.50,207.9,West Virginia (statewide),2026-01-01,Ridgeline Facility,WV
 opp_c2e1339c93eb,prj_88,needs_review,,,,,county,22.1,Oakland University (Rochester Hills),2025-06-01,Metrobloks Southfield Data Center,MI
@@ -50,10 +53,11 @@ opp_50c1df33a017,prj_308,needs_review,,,summary_names_company(3),,company:0.43; 
 opp_7146943d67ee,prj_181,needs_review,,,date_plausible(gap 305d),,geo:14.1km; county,14.1,Sunbury,2026-04-15,Cologix Lewis Center Data Center,OH
 opp_5702ca2728a1,prj_256,needs_review,,,summary_names_project(1/2),,geo:3.9km; county,3.9,East Rockhill Township (Bucks County),2026-02-24,Sellersville / West Rockhill Township Data Center,PA
 opp_b2369279b7b0,prj_86,needs_review,,,,,geo:7.5km; county,7.5,City of Portage,2026-02-25,Pavilion Township Data Center,MI
-opp_c9b403dc40fb,prj_85,needs_review,,,,,geo:0.9km,0.9,Michigan (statewide),2026-02-26,Deep Green Lansing Data Center,MI
+opp_35fc8ebfe1ac,prj_85,needs_review,,,,,geo:0.9km,0.9,Michigan (statewide),2026-07-15,Deep Green Lansing Data Center,MI
 opp_18e2c9d1787f,prj_299,needs_review,,,,,geo:2.9km; county,2.9,New York (100+ groups coalition),2026-03-02,Albany Kenwood Data Center,NY
 opp_349ffc8c5004,prj_70,needs_review,,,city_in_project_towns,,geo:14.6km; county,14.6,Charles County,2026-03-02,Piney Reach Data Center Development,MD
 opp_84df29c95d0a,prj_215,needs_review,,,summary_names_company(2),,geo:19.9km,19.9,Pennsylvania (HB 2151),2026-03-02,PAX – Pennsylvania Digital I,PA
+opp_27a9926da3d0,prj_313,needs_review,,,summary_names_company(6),,company:0.33; county,25.3,Mercer County,2026-03-03,River Run Energy Center,ND
 opp_ddad161cab07,prj_169,needs_review,,,,,geo:12.3km; county,12.3,Scioto Township (Pickaway County),2026-03-06,Ashville Data Center,OH
 opp_40562000f97f,prj_87,needs_review,,,,,county,27.7,Dexter Township,2026-02-01,Sansone York Township Data Center,MI
 opp_d219396541c4,prj_237,needs_review,,,,,county,29.1,Clifton Township,2025-08-22,Ransom Township Data Center,PA
@@ -165,3 +169,11 @@ opp_3b973db4b898,prj_224,needs_review,,,,,county,22.5,Allegheny County (resident
 opp_167f1c90905d,prj_69,needs_review,,,summary_names_company(2),,geo:10.5km; county,10.5,Maryland Supreme Court (blocks Frederick County referendum on Critical Digital Infrastructure Overlay Zone),2026-06-30,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,MD
 opp_f386553b7dac,prj_69,needs_review,,,summary_names_company(2),,geo:10.5km; county,10.5,Frederick County (executive order pauses new Critical Digital Infrastructure applications),2026-07-01,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,MD
 opp_e1555ad34dbe,prj_67,needs_review,,,,,geo:10.6km; county,10.6,Prince George's County Council (2-year data center moratorium),2026-07-07,Brightseat Tech Park Data Center Development,MD
+opp_c7bef103b644,prj_115,needs_review,,,city_in_project_towns,,geo:5.3km; county,5.3,St. Charles County,2026-07-14,Project Cumulus,MO
+opp_ec3ccb8bbe1d,prj_101,needs_review,,,city_in_project_towns,,geo:6.4km; county,6.4,Joplin,2026-07-06,Wildwood Ranch AI Data Center,MO
+opp_d76caad009e7,prj_59,needs_review,,,summary_names_project(1/1),,geo:2.4km; county,2.4,Burgin City Council (annexation for hyperscale data center),2026-07-09,Harrodsburg Data Center,KY
+opp_ba67bec0f3c1,prj_299,needs_review,,,,,geo:2.9km,2.9,State of New York (Executive Order),2026-07-14,Albany Kenwood Data Center,NY
+opp_0dfe602b7707,prj_18,needs_review,,,,,county,23.9,New Haven Board of Alders (12-month data center moratorium ordinance),2026-07-06,Wallingford Data Center,CT
+opp_327954304e05,prj_59,needs_review,,,summary_names_project(1/1),,geo:9.3km; county,9.3,Mercer County Fiscal Court,2026-07-14,Harrodsburg Data Center,KY
+opp_020fce1935b1,prj_85,needs_review,,,city_in_project_towns,,geo:0.9km; county,0.9,Lansing,2026-07-15,Deep Green Lansing Data Center,MI
+opp_54b7a4ed2e97,prj_77,needs_review,,,,,county,31.8,Warren (Macomb County),2026-07-14,32 Mile Road Technical Campus,MI

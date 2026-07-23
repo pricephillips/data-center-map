@@ -1,6 +1,6 @@
 project_id,project_name,state,county,phase,lifecycle_outcome,decided,announced_date,announced_precision,decision_date,decision_date_source,source_url,days_announced_to_decision,last_status_update,capacity_mw,capacity_source,size_acres,n_opposition_events,first_opposition_date,last_opposition_date,opposition_span_days,days_announced_to_first_opposition,opposition_types,n_opposition_groups,has_lawsuit
 prj_1,Project Nebius,AL,jefferson,proposed,pending,no,2026-01-01,month,,,,,2026-04-22,300,proposals,75,1,2026-03-03,2026-03-03,0,,moratorium,8,no
-prj_2,Project Marvel,AL,jefferson,proposed,pending,no,2025-01-01,year,,,,,2026-04-15,1.2,proposals,1600,2,2025-11-18,2026-04-21,154,,lawsuit; zoning_restriction,7,yes
+prj_2,Project Marvel,AL,jefferson,proposed,pending,no,2025-01-01,year,,,,,2026-04-15,1.2,proposals,1600,2,2026-04-21,2026-07-13,83,,lawsuit; zoning_restriction,7,yes
 prj_3,Meta Platforms Montgomery Data Center,AL,montgomery,construction,advanced_confirmed,yes,2024-05-01,month,,,,,2026-04-15,227,proposals,1453,1,2026-03-11,2026-03-11,0,,legislation,1,no
 prj_4,DC BLOX Montgomery,AL,montgomery,preliminary,pending,no,2024-11-01,month,,,,,2026-05-02,40,proposals,27,0,,,,,,0,no
 prj_5,DC BLOX Birmingham,AL,jefferson,expansion,advanced_confirmed,yes,2026-01-01,year,,,,,2026-05-02,40,proposals,12,1,2026-05-25,2026-05-25,0,,lawsuit,0,yes
@@ -28,7 +28,7 @@ prj_26,Bristol Data Center,IN,elkhart,preliminary,pending,no,2026-03-01,month,,,
 prj_27,Granger Data Center,IN,st. joseph,proposed,pending,no,2025-05-01,month,,,,,2026-03-08,1000,proposals,900,0,,,,,,0,no
 prj_28,South Bend Data Center,IN,st. joseph,preliminary,pending,no,2025-12-01,month,,,,,2026-03-08,,,300,0,,,,,,0,no
 prj_29,Decennial Group Akron Data Center,IN,fulton,proposed,pending,no,2026-02-01,month,,,,,2026-03-09,500,proposals,300,1,2026-03-03,2026-03-03,0,,moratorium,2,no
-prj_30,Project Rainier,IN,st. joseph,construction,advanced_confirmed,yes,2024-12-01,month,,,,,2026-03-17,2400,proposals,850,0,,,,,,0,no
+prj_30,Project Rainier,IN,st. joseph,construction,advanced_confirmed,yes,2024-12-01,month,,,,,2026-03-17,2400,proposals,850,1,2026-07-08,2026-07-08,0,,public_comment,0,no
 prj_31,Martindale Indianapolis Metrobloks Data Center,IN,marlon,proposed,pending,no,,,,,,,2026-04-06,72,proposals,14,3,2026-02-12,2026-05-12,89,,lawsuit; zoning_restriction,4,yes
 prj_32,Surge Development Knightstown Data Center,IN,henry,approved,advanced_confirmed,yes,2025-10-01,month,2026-01-28,"Henry County Commissioners 2-1 PUD approval vote, date stated in sourced tracker record",https://indianapublicradio.org/news/2026/01/henry-county-data-center,119,2026-04-06,,,585,1,2026-01-28,2026-01-28,0,,public_comment,1,no
 prj_33,Decatur Technology Park,IN,marion,proposed,pending,no,,,,,,,2026-04-06,250,proposals,130,1,2026-04-20,2026-04-20,0,,lawsuit,3,yes
@@ -64,7 +64,7 @@ prj_62,Bates Mill No. 3. Data Center,ME,androscoggin,withdrawn,blocked_confirmed
 prj_63,Loring Air Force Base Data Center,ME,aroostook,proposed,pending,no,2025-10-01,month,,,,,2026-02-08,2,proposals,,0,,,,,,0,no
 prj_64,Millinocket Data Center,ME,aroostook,withdrawn,blocked_confirmed,yes,2021-01-01,year,,,,,2026-02-08,60,proposals,,0,,,,,,0,no
 prj_65,Sanford Woods Industrial and Technical Campus,ME,york,proposed,pending,no,2026-01-01,year,,,,,2026-03-08,300,opposition_events,1060,1,2026-02-13,2026-02-13,0,,public_comment,1,no
-prj_66,Woodlawn Data Center,MD,baltimore,delayed,pending,no,2025-12-01,month,,,,,2026-02-06,150,proposals,42,1,2026-02-02,2026-02-02,0,,moratorium,1,no
+prj_66,Woodlawn Data Center,MD,baltimore,delayed,pending,no,2025-12-01,month,,,,,2026-02-06,150,proposals,42,1,2026-02-02,2026-02-02,0,,moratorium; study_or_report,1,no
 prj_67,Brightseat Tech Park Data Center Development,MD,prince george's,proposed,pending,no,2025-01-01,year,,,,,2026-02-07,820,opposition_events,87,1,2025-09-01,2025-09-01,0,,moratorium,7,no
 prj_68,Laurel Data Center,MD,prince george's,proposed,pending,no,2024-05-01,month,,,,,2026-02-07,20,proposals,100,0,,,,,,0,no
 prj_69,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,MD,frederick,construction,advanced_confirmed,yes,2021-01-01,year,,,,,2026-02-07,258,opposition_events,2100,1,2025-12-24,2025-12-24,0,,zoning_restriction,4,no
@@ -72,7 +72,7 @@ prj_70,Piney Reach Data Center Development,MD,charles,preliminary,pending,no,202
 prj_71,Johns Hopkins Data Science and Artificial Intelligence Institute (DSAI),MD,baltimore,construction,advanced_confirmed,yes,2024-01-01,year,,,,,2026-03-05,,,,0,,,,,,0,no
 prj_72,Atmosphere Dickerson Data Center,MD,montgomery,proposed,pending,no,2026-02-01,month,,,,,2026-05-24,360,proposals,110,3,2026-02-01,2026-06-13,132,,executive_action; moratorium; zoning_restriction,4,no
 prj_73,Westfield Data Center Campus,MA,hampden,proposed,pending,no,2021-01-01,year,,,,,,42,opposition_events,61.984,2,2024-11-01,2026-07-06,612,,moratorium; project_withdrawal,2,no
-prj_74,Project Mitten / The Barn,MI,washtenaw,construction,advanced_confirmed,yes,2025-08-01,month,2025-10-15,Saline Township Board approved consent-judgment settlement permitting the campus (terminal local land-use disposition after 4-1 rezoning denial and developer exclusionary-zoning suit); web-verified (Planet Detroit 2025-11: settlement Oct 15; Saline Summit 2025-11-19; Fortune 2026-05-06),https://planetdetroit.org/2025/11/dte-openai-saline-township/,75,2026-04-20,1400,proposals,250,9,2025-08-12,2026-05-06,267,,lawsuit; moratorium; other_opposition; permit_denial; regulatory_action; zoning_restriction,7,yes
+prj_74,Project Mitten / The Barn,MI,washtenaw,construction,advanced_confirmed,yes,2025-10-01,month,2025-10-15,Saline Township Board approved consent-judgment settlement permitting the campus (terminal local land-use disposition after 4-1 rezoning denial and developer exclusionary-zoning suit); web-verified (Planet Detroit 2025-11: settlement Oct 15; Saline Summit 2025-11-19; Fortune 2026-05-06),https://planetdetroit.org/2025/11/dte-openai-saline-township/,14,2026-04-20,1400,proposals,250,9,2025-08-12,2026-05-06,267,,community_benefit_agreement; lawsuit; moratorium; other_opposition; permit_denial; regulatory_action; zoning_restriction,7,yes
 prj_75,Project Cannoli,MI,wayne,proposed,pending,no,2025-12-01,month,,,,,2026-03-01,1000,proposals,280,1,2026-06-17,2026-06-17,0,,public_comment,1,no
 prj_76,Project Splitrock,MI,livingston,withdrawn,blocked_confirmed,yes,2025-09-01,month,,,,,2026-03-02,,,1077,0,,,,,,0,no
 prj_77,32 Mile Road Technical Campus,MI,macomb,delayed,pending,no,2025-01-01,year,,,,,2026-03-02,,,312.2,1,2026-03-11,2026-03-11,0,,zoning_restriction,1,no
@@ -94,7 +94,7 @@ prj_92,Vicksburg Amazon Data Center,MS,warren,proposed,pending,no,2025-11-01,mon
 prj_93,Project Taurus,MS,rankin,proposed,pending,no,2025-08-01,month,,,,,2026-04-15,450,proposals,175,1,2025-09-01,2025-09-01,0,,public_comment,1,no
 prj_94,Meridian Compass Data Center,MS,lauderdale,construction,advanced_confirmed,yes,2025-01-01,month,,,,,2026-04-15,500,proposals,,1,2025-12-29,2025-12-29,0,,public_comment,1,no
 prj_95,Clarksdale Data Center,MS,coahoma,preliminary,pending,no,2026-03-01,month,,,,,2026-04-15,,,648,1,2026-03-24,2026-03-24,0,,public_comment,1,no
-prj_96,xAI MACROHARDRR,MS,desoto,construction,advanced_confirmed,yes,2026-01-01,month,,,,,2026-04-15,495,opposition_events,18.3654729,7,2025-11-24,2026-06-16,204,,lawsuit; other_opposition; public_comment; regulatory_action; study_or_report,5,yes
+prj_96,xAI MACROHARDRR,MS,desoto,construction,advanced_confirmed,yes,2026-01-01,month,,,,,2026-04-15,,,18.3654729,1,2026-01-08,2026-01-08,0,,other_opposition; regulatory_action,2,no
 prj_97,Nebius Independence Hyperscale Campus,MO,jackson,construction,advanced_confirmed,yes,2026-01-01,year,,,,,2026-05-20,800,proposals,398,2,2026-01-16,2026-02-10,25,,lawsuit; public_comment; zoning_restriction,2,yes
 prj_98,Project Green,MO,montgomery,approved,advanced_confirmed,yes,2026-01-01,month,,,,,2026-05-09,,,1000,1,2026-02-16,2026-02-16,0,,lawsuit,1,yes
 prj_99,Project Spade,MO,montgomery,approved,advanced_confirmed,yes,2025-11-01,month,,,,,2026-05-09,1200,proposals,910,0,,,,,,0,no
@@ -116,14 +116,14 @@ prj_114,Marshfield Webster Data Center,MO,webster,construction,advanced_confirme
 prj_115,Project Cumulus,MO,st. charles,withdrawn,blocked_confirmed,yes,2025-03-01,month,2025-08-18,"CRG Cumulus LLC withdrew its conditional use permit application (Monday afternoon, day before the 2025-08-19 council meeting); web-verified (STLPR 2025-08-18, govtech/Post-Dispatch 2025-08-19, KSDK, DCD 2025-08-22)",https://www.stlpr.org/news-briefs/2025-08-18/developer-controversial-data-center-st-charles,170,2026-05-09,,,440,1,2026-05-19,2026-05-19,0,,lawsuit; moratorium,9,yes
 prj_116,DataOne Vineland,NJ,cumberland,construction,advanced_confirmed,yes,,,,,,,2026-05-20,300,proposals,,1,2025-12-23,2025-12-23,0,,zoning_restriction,4,no
 prj_117,Princeton Nurseries Data Center,NJ,middlesex,proposed,pending,no,2025-01-01,year,,,,,2026-02-07,,,160,1,2025-03-01,2025-03-01,0,,public_comment,1,no
-prj_118,Nutley Data Center,NJ,essex,proposed,pending,no,2025-01-01,year,,,,,2026-02-07,,,11,0,,,,,,0,no
+prj_118,Nutley Data Center,NJ,essex,proposed,pending,no,2025-01-01,year,,,,,2026-02-07,,,11,1,2026-07-13,2026-07-13,0,,public_comment,0,no
 prj_119,New Brunswick Data Center,NJ,middlesex,withdrawn,blocked_confirmed,yes,2025-01-01,year,,,,,2026-02-21,,,,1,2026-02-19,2026-02-19,0,,zoning_restriction,6,no
 prj_120,East Greenwich Township Data Center,NJ,gloucester,withdrawn,blocked_confirmed,yes,2026-03-01,month,2026-06-08,"American Tower (Mt. Royal Data Storage Facility) formally withdrew its Planning/Zoning Board application; mayor announced the withdrawal, June 30 hearing then canceled; township adopted a data center ban ordinance; web-verified (DataCenterDynamics 2026-06, 42Freeway 2026-06-10 'on Monday', GovTech 2026-06-12)",https://www.datacenterdynamics.com/en/news/american-tower-withdraws-plans-for-data-center-in-new-jersey/,99,2026-06-16,,,,1,2026-04-21,2026-04-21,0,,public_comment,0,no
 prj_121,CoreWeave Kenilworth,NJ,union,construction,advanced_confirmed,yes,2025-01-01,year,,,,,2026-04-14,250,proposals,27,4,2025-11-01,2026-06-09,220,,ordinance; other_opposition; public_comment; zoning_restriction,0,no
 prj_122,Millville Energy & Data Center Campus,NJ,cumberland,rejected,blocked_confirmed,yes,2026-05-01,month,2026-05-19,"Millville Board of Commissioners vote adopting citywide data center ban ordinance, ending this proposal; web-verified (ROI-NJ 2026-05-20, News 12 NJ 2026-05-20, Let's Data Science 2026-05-20)",https://www.roi-nj.com/2026/05/20/tech/millville-bans-data-centers-rejecting-largest-proposed-facility-in-n-j/,18,2026-05-20,,,,1,2026-05-19,2026-05-19,0,,moratorium; ordinance,0,no
 prj_123,Monroe Township Data Center,NJ,gloucester,rejected,blocked_confirmed,yes,2026-03-01,month,2026-04-22,"Monroe Township (Gloucester County) Council passed two ordinances prohibiting data centers township-wide, foreclosing the Hexa Builders redevelopment-area data center conversion; web-verified (CBS Philadelphia 2026-05-08 'On April 22, Monroe Township passed two ordinances', Food & Water Watch 2026-04-28)",https://www.cbsnews.com/philadelphia/news/monroe-gloucester-new-jersey-data-center-ban-law/,52,2026-05-20,,,172,1,2026-04-08,2026-04-08,0,,zoning_restriction,1,no
-prj_124,STAMP Data Center,NY,genesee,proposed,pending,no,2025-01-01,year,,,,,2026-07-14,500,proposals,,3,2025-02-01,2026-05-04,457,,lawsuit; other_opposition; public_comment,6,yes
-prj_125,Cayuga Data Campus,NY,tompkins,proposed,pending,no,2025-01-01,year,,,,,2026-02-09,138,proposals,180,5,2025-09-24,2026-06-17,266,,lawsuit; public_comment; zoning_restriction,8,yes
+prj_124,STAMP Data Center,NY,genesee,proposed,pending,no,2025-01-01,year,,,,,2026-07-14,500,proposals,,4,2025-02-01,2026-07-13,527,,lawsuit; other_opposition; public_comment,6,yes
+prj_125,Cayuga Data Campus,NY,tompkins,proposed,pending,no,2025-01-01,year,,,,,2026-02-09,138,proposals,180,5,2025-09-24,2026-06-17,266,,lawsuit; other_opposition; public_comment; zoning_restriction,8,yes
 prj_126,Lysander Data Center,NY,onondaga,proposed,pending,no,2026-01-01,year,,,,,2026-04-01,300,proposals,124,1,2026-05-07,2026-05-07,0,,moratorium,0,no
 prj_127,Niagara Digital Campus Data Center Development,NY,niagara,proposed,pending,no,,,,,,,2026-02-01,,,60,1,2026-06-03,2026-06-03,0,,other_opposition,0,no
 prj_128,Oneonta West End Data Center,NY,otsego,preliminary,pending,no,2025-01-01,year,,,,,2025-12-01,,,153,1,2026-03-12,2026-03-12,0,,moratorium,1,no
@@ -139,7 +139,7 @@ prj_137,Fayetteville Data Center Campus,NC,cumberland,proposed,pending,no,2025-1
 prj_138,High Point Data Center,NC,guilford,proposed,pending,no,2021-05-01,month,,,,,2023-03-30,,,,0,,,,,,0,no
 prj_139,Lenoir Data Center Expansion,NC,caldwell,expansion,advanced_confirmed,yes,2026-03-01,month,,,,,2023-03-30,,,,0,,,,,,0,no
 prj_140,Rowan County Data Center,NC,rowan,construction,advanced_confirmed,yes,2025-01-01,month,,,,,2023-03-30,,,,3,2026-03-17,2026-04-21,35,,moratorium; public_comment,2,no
-prj_141,Project Delta,NC,stokes,proposed,pending,no,2025-01-01,month,,,,,2023-03-30,,,1845,1,2026-01-12,2026-01-12,0,,lawsuit; project_withdrawal; zoning_restriction,12,yes
+prj_141,Project Delta,NC,stokes,approved,advanced_confirmed,yes,2025-01-01,month,,,,,2023-03-30,,,1845,1,2026-01-12,2026-01-12,0,,lawsuit; moratorium; project_withdrawal; zoning_restriction,12,yes
 prj_142,AWS Richmond County Campus,NC,richmond,construction,advanced_confirmed,yes,2025-01-01,year,,,,,2023-03-30,,,,0,,,,,,0,no
 prj_143,Statesville Data Center Campus,NC,iredell,approved,advanced_confirmed,yes,2025-01-01,year,2025-09-15,"Statesville City Council unanimous 8-0 rezoning approval over neighborhood opposition (Compass Datacenters, 330 acres, western Iredell County); web-verified (GovTech/Charlotte Observer 2025-09-16)",https://www.govtech.com/products/despite-protests-north-carolina-city-approves-data-center,,2023-03-30,,,,1,2025-09-08,2025-09-08,0,,public_comment,2,no
 prj_144,CLT20 Moores Chapel,NC,mecklenburg,approved,advanced_confirmed,yes,2025-05-01,month,,,,,2023-03-30,,,,0,,,,,,0,no
@@ -156,10 +156,10 @@ prj_154,T5 Data Centers Kings Mountain,NC,cleveland county; gaston,expansion,adv
 prj_155,American Tower RA1,NC,wake,operational,advanced_confirmed,yes,,,,,,,2023-03-30,,,,0,,,,,,0,no
 prj_156,Forest City Data Center Campus,NC,rutherford,expansion,advanced_confirmed,yes,,,,,,,2023-03-30,,,,0,,,,,,0,no
 prj_157,Lenoir Campus (Existing + Project Cardinal 2024),NC,caldwell,expansion,advanced_confirmed,yes,,,,,,,2023-03-30,,,,0,,,,,,0,no
-prj_158,Natelli Investments New Hill Digital Campus,NC,,withdrawn,blocked_confirmed,yes,2025-09-01,month,2026-03-05,"Natelli Investments withdrew its annexation and rezoning applications; web-verified (WRAL 2026-03-05, WUNC 2026-03-05, Data Centers and Vance County report: 'On March 5, 2026, Natelli withdrew all applications')",https://www.wral.com/news/local/natelli-withdraws-apex-data-center-project-shearon-harris-march-2026/,185,2023-03-30,250,proposals,,3,2025-08-01,2026-03-10,221,,moratorium; project_withdrawal,3,no
+prj_158,Natelli Investments New Hill Digital Campus,NC,,withdrawn,blocked_confirmed,yes,,,2026-03-05,"Natelli Investments withdrew its annexation and rezoning applications; web-verified (WRAL 2026-03-05, WUNC 2026-03-05, Data Centers and Vance County report: 'On March 5, 2026, Natelli withdrew all applications')",https://www.wral.com/news/local/natelli-withdraws-apex-data-center-project-shearon-harris-march-2026/,,2023-03-30,250,proposals,,3,2025-08-01,2026-03-10,221,,moratorium; project_withdrawal,3,no
 prj_159,Tract Mooresville Technology Park,NC,iredell,withdrawn,blocked_confirmed,yes,2025-08-01,month,2025-08-13,"Full withdrawal announced by Mooresville mayor; web-verified (WBTV/WCNC/NBC 2025-08-13, opposition site states date)",https://www.wbtv.com/2025/08/13/developers-withdraw-plans-data-center-nascar-legends-land-mooresville/,12,2023-03-30,1500,opposition_events,,1,2025-08-13,2025-08-13,0,,zoning_restriction,1,no
-prj_160,Project Accelerate,NC,mecklenburg,withdrawn,blocked_confirmed,yes,2025-07-01,month,2025-10-07,"Developer withdrew rezoning petition, announced by Matthews mayor Tuesday 2025-10-07; web-verified (WBTV 2025-10-08, WFAE 2025-10-08, Baxtel: 'pulled the application on October 7')",https://www.wbtv.com/2025/10/08/plans-data-center-matthews-have-been-withdrawn-mayor-says/,98,2023-03-30,,,,1,2025-09-01,2025-09-01,0,,project_withdrawal,1,no
-prj_161,Kingsboro Data Center,NC,edgecombe,proposed,pending,no,2025-09-01,month,,,,,2026-04-29,300,proposals,121,1,2025-12-01,2025-12-01,0,,public_comment,2,no
+prj_160,Project Accelerate,NC,mecklenburg,withdrawn,blocked_confirmed,yes,2025-10-01,month,2025-10-07,"Developer withdrew rezoning petition, announced by Matthews mayor Tuesday 2025-10-07; web-verified (WBTV 2025-10-08, WFAE 2025-10-08, Baxtel: 'pulled the application on October 7')",https://www.wbtv.com/2025/10/08/plans-data-center-matthews-have-been-withdrawn-mayor-says/,6,2023-03-30,,,,1,2025-09-01,2025-09-01,0,,project_withdrawal,1,no
+prj_161,Kingsboro Data Center,NC,edgecombe,proposed,pending,no,2025-09-01,month,,,,,2026-04-29,300,proposals,121,1,2026-07-14,2026-07-14,0,,moratorium; project_withdrawal; public_comment,2,no
 prj_162,Vantage New Albany Data Center Campus,OH,licking,construction,advanced_confirmed,yes,2024-01-01,year,,,,,2026-02-19,192,proposals,70,0,,,,,,0,no
 prj_163,AWS Innovation Campus / New Albany Data Center Campus,OH,licking,construction,advanced_confirmed,yes,2024-11-01,month,,,,,2026-02-19,,,85,0,,,,,,0,no
 prj_164,QTS New Albany Data Center Campus,OH,licking,construction,advanced_confirmed,yes,2024-11-01,month,,,,,2026-02-19,78,proposals,,0,,,,,,0,no
@@ -183,12 +183,12 @@ prj_181,Cologix Lewis Center Data Center,OH,delaware,construction,advanced_confi
 prj_182,Strata Expanse AI Center of Excellence,OH,lawrence,construction,advanced_confirmed,yes,2025-12-01,month,,,,,2026-02-21,80,opposition_events,,2,2025-12-01,2026-01-09,39,,moratorium,2,no
 prj_183,Hannibal Data Center Campus,OH,monroe,proposed,pending,no,2020-01-09,day,,,,,2026-02-23,300,proposals,125,0,,,,,,0,no
 prj_184,Bitdeer Clarington Data Center,OH,monroe,construction,advanced_confirmed,yes,2025-12-01,month,,,,,2026-02-21,,,,0,,,,,,0,no
-prj_185,Meta Bowling Green Data Center,OH,wood,construction,advanced_confirmed,yes,2023-09-28,day,,,,,2026-03-05,,,160,5,2025-04-01,2026-02-18,323,551,moratorium,4,no
+prj_185,Meta Bowling Green Data Center,OH,wood,construction,advanced_confirmed,yes,2023-09-28,day,,,,,2026-03-05,,,160,6,2025-04-01,2026-07-07,462,551,moratorium; zoning_restriction,4,no
 prj_186,NEO-01 / Sandusky Data Center,OH,sandusky,construction,advanced_confirmed,yes,,,,,,,2026-03-06,96,proposals,129,0,,,,,,0,no
 prj_187,Microsoft Heath Data Center,OH,licking,construction,advanced_confirmed,yes,2024-01-01,year,,,,,2026-03-06,,,227,0,,,,,,0,no
 prj_188,Microsoft Hebron Data Center,OH,licking,construction,advanced_confirmed,yes,2024-01-01,year,,,,,2026-03-06,,,,0,,,,,,0,no
 prj_189,Microsoft New Albany Data Center,OH,licking,construction,advanced_confirmed,yes,2023-09-28,day,,,,,2026-03-06,,,197,0,,,,,,0,no
-prj_190,Urbana Data Center,OH,champaign,proposed,pending,no,2026-02-01,month,,,,,2026-03-08,,,,2,2026-03-03,2026-06-17,106,,moratorium,2,no
+prj_190,Urbana Data Center,OH,champaign,proposed,pending,no,2026-02-01,month,,,,,2026-03-08,,,,2,2026-03-03,2026-06-17,106,,lawsuit; moratorium,2,yes
 prj_191,Akron Data Center Expansion,OH,fulton,expansion,advanced_confirmed,yes,2026-03-01,month,,,,,2026-03-08,,,,0,,,,,,0,no
 prj_192,AWS Wilmington Data Center,OH,clinton,delayed,pending,no,2026-03-01,month,,,,,2026-03-26,1500,opposition_events,471,2,2025-11-26,2026-02-12,78,,lawsuit; moratorium; zoning_restriction,2,yes
 prj_193,Mt. Orab Mega Site,OH,brown,preliminary,pending,no,2024-12-01,month,,,,,2026-03-26,2000,opposition_events,1150,1,2026-02-04,2026-02-04,0,,moratorium,1,no
@@ -210,7 +210,7 @@ prj_208,Jessup Breaker Street Data Center,PA,lackawanna,delayed,pending,no,2025-
 prj_209,Project Gold,PA,lackawanna,proposed,pending,no,2025-07-01,month,,,,,2026-04-08,1500,proposals,1000,1,2025-11-01,2025-11-01,0,,lawsuit,1,yes
 prj_210,East Whiteland Township Data Center,PA,chester,proposed,pending,no,2023-01-01,month,,,,,2026-04-19,300,opposition_events,44,1,2026-02-26,2026-02-26,0,,zoning_restriction,1,no
 prj_211,QTS Salem Data Center,PA,luzerne,proposed,pending,no,2025-07-01,month,,,,,2026-03-20,,,1800,0,,,,,,0,no
-prj_212,AWS Keystone Trade Center Campus,PA,bucks,proposed,pending,no,2025-06-01,month,,,,,,,,1800,1,2026-02-20,2026-02-20,0,,zoning_restriction,1,no
+prj_212,AWS Keystone Trade Center Campus,PA,bucks,proposed,pending,no,2025-06-01,month,,,,,,,,1800,2,2026-02-20,2026-07-14,144,,public_comment; regulatory_action; zoning_restriction,1,no
 prj_213,CoreWeave Lancaster AI Campuses,PA,lancaster,construction,advanced_confirmed,yes,2025-07-01,month,,,,,2026-01-17,300,proposals,144,1,2025-10-06,2025-10-06,0,,zoning_restriction,1,no
 prj_214,Allentown Warehouse Conversion Data Center,PA,lehigh,delayed,pending,no,2026-05-01,month,,,,,2026-06-15,,,13.62,0,,,,,,0,no
 prj_215,PAX – Pennsylvania Digital I,PA,cumberland,construction,advanced_confirmed,yes,2025-07-01,month,,,,,2026-04-06,1350,proposals,700,2,2026-03-01,2026-05-07,67,,lawsuit; public_comment; zoning_restriction,1,yes
@@ -274,8 +274,8 @@ prj_272,Renaissance Boulevard Data Center Campus,PA,montgomery,proposed,pending,
 prj_273,600 River Road Data Center,PA,montgomery,proposed,pending,no,2026-05-01,month,,,,,2026-05-20,,,,0,,,,,,0,no
 prj_274,3200 Horizon Drive Data Center,PA,montgomery,proposed,pending,no,2026-05-01,month,,,,,2026-05-20,,,,0,,,,,,0,no
 prj_275,Smithfield Data Center,RI,providence,preliminary,pending,no,2026-04-01,month,,,,,2026-04-25,,,,2,2026-04-01,2026-05-07,36,,ordinance,0,no
-prj_276,Colossus,TN,shelby,operational,advanced_confirmed,yes,2024-01-01,year,,,,,2026-03-28,150,proposals,150,0,,,,,,0,no
-prj_277,Colossus 2,TN,shelby,construction,advanced_confirmed,yes,2025-01-01,year,,,,,2026-03-28,422,proposals,180,25,2024-08-26,2026-05-20,632,,community_benefit_agreement; infrastructure_opposition; lawsuit; legislation; ordinance; other_opposition; project_withdrawal; public_comment; regulatory_action; utility_regulation; zoning_restriction,14,yes
+prj_276,Colossus,TN,shelby,operational,advanced_confirmed,yes,2024-01-01,year,,,,,2026-03-28,150,proposals,150,13,2024-08-26,2026-02-11,534,,lawsuit; other_opposition; public_comment; regulatory_action; utility_regulation,8,yes
+prj_277,Colossus 2,TN,shelby,construction,advanced_confirmed,yes,2025-01-01,year,,,,,2026-03-28,422,proposals,180,18,2025-03-04,2026-07-14,497,,community_benefit_agreement; infrastructure_opposition; lawsuit; legislation; ordinance; other_opposition; project_withdrawal; public_comment; regulatory_action; study_or_report; zoning_restriction,12,yes
 prj_278,ExoticRidge Bitcoin Mine,TN,hawkins,delayed,pending,no,2025-01-01,year,,,,,2026-04-14,8,proposals,,0,,,,,,0,no
 prj_279,CleanSpark Mountain City Bitcoin Mine,TN,johnson,withdrawn,blocked_confirmed,yes,2025-01-01,year,,,,,2026-04-26,30,proposals,50,0,,,,,,0,no
 prj_280,Gallatin Data Center Expansion,TN,sumner,expansion,advanced_confirmed,yes,2020-01-01,year,,,,,,300,proposals,900,0,,,,,,0,no
@@ -301,9 +301,9 @@ prj_299,Albany Kenwood Data Center,NY,albany,proposed,pending,no,2026-05-01,mont
 prj_300,Microsoft La Porte Data Center,IN,laporte,construction,advanced_confirmed,yes,2024-01-01,year,,,,,2026-06-03,538,opposition_events,1800,2,2026-04-13,2026-05-18,35,,public_comment; zoning_restriction,1,no
 prj_301,JPG Data Center,IN,jefferson,approved,advanced_confirmed,yes,2026-02-01,month,,,,,2026-06-03,,,,0,,,,,,0,no
 prj_302,Amazon Wheatfield,IN,jasper,proposed,pending,no,2026-06-01,month,,,,,2026-06-03,,,304,0,,,,,,0,no
-prj_303,Granville Data Center,PA,mifflin,proposed,pending,no,2026-05-01,month,,,,,2026-06-03,,,,0,,,,,,0,no
+prj_303,Granville Data Center,PA,mifflin,proposed,pending,no,2026-05-01,month,,,,,2026-06-03,,,,1,2026-07-14,2026-07-14,0,,infrastructure_opposition; other_opposition,0,no
 prj_304,DartPoints Former Lexmark Data Center Redevelopment,KY,fayette,preliminary,pending,no,2026-03-01,month,,,,,2026-06-04,,,,1,2026-06-08,2026-06-08,0,,moratorium; other_opposition,0,no
-prj_305,Nashville DC Blox Data Center,TN,davidson,proposed,pending,no,2026-05-01,month,,,,,2026-06-05,,,,0,,,,,,0,no
+prj_305,Nashville DC Blox Data Center,TN,davidson,proposed,pending,no,2026-05-01,month,,,,,2026-06-05,,,,1,2026-07-21,2026-07-21,0,,moratorium; ordinance; zoning_restriction,0,no
 prj_306,Muskie Data Campus,KY,carter,proposed,pending,no,2026-05-01,month,,,,,2026-06-05,,,285,1,2026-06-02,2026-06-02,0,,other_opposition; public_comment,0,no
 prj_307,Muncy Data Center,PA,lycoming,proposed,pending,no,2026-04-01,month,,,,,2026-06-10,,,,0,,,,,,0,no
 prj_308,Gemini Sioux Falls Data Center,SD,minnehaha,approved,advanced_confirmed,yes,2025-01-01,year,,,,,2026-06-10,500,proposals,164,1,2025-12-01,2025-12-01,0,,zoning_restriction,2,no
@@ -311,7 +311,7 @@ prj_309,Sequitor Edge Rapid City,SD,pennington,proposed,pending,no,2026-02-01,mo
 prj_310,Polaris Forge 1,ND,dickey,operational,advanced_confirmed,yes,2022-09-01,month,,,,,2026-06-10,400,proposals,,1,2025-08-01,2025-08-01,0,,legislation,1,no
 prj_311,Polaris Forge 2,ND,cass,construction,advanced_confirmed,yes,2025-08-01,month,,,,,2026-06-10,1000,proposals,,1,2025-08-25,2025-08-25,0,,public_comment,1,no
 prj_312,Applied Digital Oliver County,ND,oliver,proposed,pending,no,2026-02-01,month,,,,,2026-06-10,430,proposals,,1,2024-12-12,2024-12-12,0,,moratorium,1,no
-prj_313,River Run Energy Center,ND,mercer,proposed,pending,no,2025-12-01,month,,,,,2026-06-10,1450,proposals,,1,2026-03-03,2026-03-03,0,,moratorium,1,no
+prj_313,River Run Energy Center,ND,mercer,proposed,pending,no,2025-12-01,month,,,,,2026-06-10,1450,proposals,,0,,,,,,0,no
 prj_314,Project Fighting Pike,ND,williams,approved,advanced_confirmed,yes,2025-03-01,month,,,,,2026-06-10,455,proposals,300,0,,,,,,0,no
 prj_315,Atlas Power Williston,ND,williams,operational,advanced_confirmed,yes,2022-01-01,year,,,,,2026-06-10,700,proposals,,0,,,,,,0,no
 prj_316,4-3 Salem Township Data Center,PA,luzerne,preliminary,pending,no,2026-06-01,month,,,,,2026-06-15,3500,proposals,4000,1,2026-03-17,2026-03-17,0,,public_comment,2,no
@@ -319,10 +319,11 @@ prj_317,Holyoke Data Center,MA,hampden,proposed,pending,no,2026-06-01,month,,,,,
 prj_318,Project Domino,IN,boone,construction,advanced_confirmed,yes,2024-11-01,month,,,,,2026-06-18,1000,proposals,1400,1,2025-08-01,2025-08-01,0,,public_comment; zoning_restriction,2,no
 prj_319,Gravel Pike Data Center,PA,montgomery,proposed,pending,no,2026-06-01,month,,,,,2026-06-20,,,37.476,0,,,,,,0,no
 prj_320,Sharon Keel Infrastructure Data Center Expansion,PA,mercer,expansion,advanced_confirmed,yes,2026-04-01,month,,,,,2026-06-23,110,proposals,17,0,,,,,,0,no
+prj_321,PNK Valley View Data Center,PA,lackawanna,preliminary,pending,no,2026-07-01,month,,,,,2026-07-16,750,opposition_events,44.5,1,2024-10-01,2024-10-01,0,,zoning_restriction,1,no
 prj_321,Harper Road Technology Park,MO,cass,proposed,pending,no,2024-10-01,day,,,,,2026-07-10,750,opposition_events,500,1,2024-10-01,2024-10-01,0,0,zoning_restriction,1,no
 prj_322,Province Group Perry Village Data Center Campus,OH,lake,withdrawn,blocked_confirmed,yes,,,,,,,2026-07-10,,,163,1,2025-07-01,2025-07-01,0,,zoning_restriction,1,no
-prj_323,Meta Hyperion,LA,richland,construction,advanced_confirmed,yes,2024-12-01,day,,,,,2026-07-10,,,,11,2024-07-01,2026-02-25,604,-153,lawsuit; other_opposition; public_comment; regulatory_action; utility_regulation,7,yes
-prj_324,Prado AI Industrial Campus,MS,madison,preliminary,pending,no,2026-03-02,day,,,,,2026-07-10,,,,1,2026-04-21,2026-04-21,0,50,moratorium,0,no
+prj_323,Meta Hyperion,LA,richland,construction,advanced_confirmed,yes,2024-12-01,day,,,,,2026-07-10,,,,10,2025-04-04,2026-02-25,327,124,lawsuit; other_opposition; public_comment; regulatory_action; utility_regulation,7,yes
+prj_324,Prado AI Industrial Campus,MS,madison,preliminary,pending,no,2026-03-02,day,,,,,2026-07-10,,,,1,2026-07-14,2026-07-14,0,134,moratorium,0,no
 prj_325,New Carlisle Chicago Trail Data Center (Third Site),IN,st. joseph,proposed,pending,no,,,,,,,2026-07-10,,,1057,0,,,,,,0,no
 prj_326,Project Maize / Google Michigan City Data Center,IN,laporte,construction,advanced_confirmed,yes,2025-01-01,day,,,,,2026-07-10,,,,0,,,,,,0,no
 prj_327,Meta Project Everest,LA,richland,proposed,pending,no,2026-03-25,day,,,,,2026-07-10,5200,opposition_events,,1,2026-03-25,2026-03-25,0,0,regulatory_action; utility_regulation,3,no

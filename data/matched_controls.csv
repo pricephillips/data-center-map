@@ -20,9 +20,9 @@ prj_11,Columbiana Mining Facility and Data Center,AL,advanced_confirmed,yes,55.0
 prj_12,Project Leo,AR,pending,no,1000.0,0.2213,1,prj_138,High Point Data Center,proposals_unopposed,NC,,0.2184,1.5029,margin,national+caliper,national_fallback
 prj_12,Project Leo,AR,pending,no,1000.0,0.2213,2,prj_224,McKees Rocks Industrial Site Data Center,proposals_unopposed,PA,,0.2031,1.5182,margin,national+caliper,national_fallback
 prj_12,Project Leo,AR,pending,no,1000.0,0.2213,3,prj_299,Albany Kenwood Data Center,proposals_unopposed,NY,,0.2584,1.5371,margin,national+caliper,national_fallback
-prj_13,Project Pyramid,AR,advanced_confirmed,yes,,0.0228,1,prj_27,Granger Data Center,proposals_unopposed,IN,1000.0,0.0148,1.5080,margin,national+caliper,national_fallback
-prj_13,Project Pyramid,AR,advanced_confirmed,yes,,0.0228,2,prj_28,South Bend Data Center,proposals_unopposed,IN,,0.0148,1.5080,margin,national+caliper,national_fallback
-prj_13,Project Pyramid,AR,advanced_confirmed,yes,,0.0228,3,prj_30,Project Rainier,proposals_unopposed,IN,2400.0,0.0148,1.5080,margin,national+caliper,national_fallback
+prj_13,Project Pyramid,AR,advanced_confirmed,yes,,0.0228,1,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,1.5364,margin,national+caliper,national_fallback
+prj_13,Project Pyramid,AR,advanced_confirmed,yes,,0.0228,2,prj_254,South Hanover Township Data Center,proposals_unopposed,PA,,0.0592,1.5364,margin,national+caliper,national_fallback
+prj_13,Project Pyramid,AR,advanced_confirmed,yes,,0.0228,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5472,margin,national+caliper,national_fallback
 prj_14,Clarksville Data Center,AR,advanced_confirmed,yes,,-0.5143,1,atl_00885,Searcy Information Technologies,atlas,AR,,-0.6120,0.7977,margin,state+tercile+caliper,in_state
 prj_14,Clarksville Data Center,AR,advanced_confirmed,yes,,-0.5143,2,prj_257,Iron City No. 1 Power Generator and Compute Center,proposals_unopposed,PA,,-0.5153,1.5010,margin,national+caliper,national_fallback
 prj_14,Clarksville Data Center,AR,advanced_confirmed,yes,,-0.5143,3,prj_231,Storage Data Center Project,proposals_unopposed,PA,,-0.5175,1.5032,margin,national+caliper,national_fallback
@@ -41,9 +41,12 @@ prj_25,Project Zodiac,IN,advanced_confirmed,yes,,-0.1247,3,prj_129,Brookhaven Na
 prj_29,Decennial Group Akron Data Center,IN,pending,no,500.0,-0.5125,1,prj_302,Amazon Wheatfield,proposals_unopposed,IN,,-0.5431,0.0306,margin,state+tercile+caliper,in_state
 prj_29,Decennial Group Akron Data Center,IN,pending,no,500.0,-0.5125,2,prj_257,Iron City No. 1 Power Generator and Compute Center,proposals_unopposed,PA,,-0.5153,1.5028,margin,national+caliper,national_fallback
 prj_29,Decennial Group Akron Data Center,IN,pending,no,500.0,-0.5125,3,prj_231,Storage Data Center Project,proposals_unopposed,PA,,-0.5175,1.5050,margin,national+caliper,national_fallback
+prj_30,Project Rainier,IN,advanced_confirmed,yes,2400.0,0.0148,1,atl_01391,Learning GIS!,atlas,IN,,-0.0015,0.7163,margin,state+tercile+caliper,in_state
+prj_30,Project Rainier,IN,advanced_confirmed,yes,2400.0,0.0148,2,atl_01392,Agricultural and Biological Engineering,atlas,IN,,-0.0015,0.7163,margin,state+tercile+caliper,in_state
+prj_30,Project Rainier,IN,advanced_confirmed,yes,2400.0,0.0148,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5392,margin,national+caliper,national_fallback
 prj_31,Martindale Indianapolis Metrobloks Data Center,IN,pending,no,72.0,,1,prj_26,Bristol Data Center,proposals_unopposed,IN,,-0.3238,1.0000,no_shared_covariates,state,in_state
-prj_31,Martindale Indianapolis Metrobloks Data Center,IN,pending,no,72.0,,2,prj_28,South Bend Data Center,proposals_unopposed,IN,,0.0148,1.0000,no_shared_covariates,state,in_state
-prj_31,Martindale Indianapolis Metrobloks Data Center,IN,pending,no,72.0,,3,prj_37,Pittsboro Middle Township Data Center,proposals_unopposed,IN,,-0.2150,1.0000,no_shared_covariates,state,in_state
+prj_31,Martindale Indianapolis Metrobloks Data Center,IN,pending,no,72.0,,2,prj_37,Pittsboro Middle Township Data Center,proposals_unopposed,IN,,-0.2150,1.0000,no_shared_covariates,state,in_state
+prj_31,Martindale Indianapolis Metrobloks Data Center,IN,pending,no,72.0,,3,prj_39,Project Maize,proposals_unopposed,IN,,,1.0000,no_shared_covariates,state,in_state
 prj_32,Surge Development Knightstown Data Center,IN,advanced_confirmed,yes,,-0.4771,1,prj_302,Amazon Wheatfield,proposals_unopposed,IN,,-0.5431,0.0660,margin,state+tercile+caliper,in_state
 prj_32,Surge Development Knightstown Data Center,IN,advanced_confirmed,yes,,-0.4771,2,prj_156,Forest City Data Center Campus,proposals_unopposed,NC,,-0.4781,1.5010,margin,national+caliper,national_fallback
 prj_32,Surge Development Knightstown Data Center,IN,advanced_confirmed,yes,,-0.4771,3,prj_241,Bradford County / Klondike Data Center Project,proposals_unopposed,PA,218.0,-0.4792,1.5021,margin,national+caliper,national_fallback
@@ -62,9 +65,9 @@ prj_36,Project Flo,IN,blocked_confirmed,yes,,0.2768,3,prj_201,Morabito Slavic Vi
 prj_38,Pike Township Data Center,IN,blocked_confirmed,yes,,0.2768,1,atl_00122,IU Data Center,atlas,IN,,0.2743,0.7025,margin,state+tercile+caliper,in_state
 prj_38,Pike Township Data Center,IN,blocked_confirmed,yes,,0.2768,2,prj_299,Albany Kenwood Data Center,proposals_unopposed,NY,,0.2584,1.5184,margin,national+caliper,national_fallback
 prj_38,Pike Township Data Center,IN,blocked_confirmed,yes,,0.2768,3,prj_201,Morabito Slavic Village Data Center,proposals_unopposed,OH,,0.3147,1.5379,margin,national+caliper,national_fallback
-prj_40,Hobart Tech Park,IN,advanced_confirmed,yes,,0.0564,1,prj_27,Granger Data Center,proposals_unopposed,IN,1000.0,0.0148,0.0416,margin,state+tercile+caliper,in_state
-prj_40,Hobart Tech Park,IN,advanced_confirmed,yes,,0.0564,2,prj_28,South Bend Data Center,proposals_unopposed,IN,,0.0148,0.0416,margin,state+tercile+caliper,in_state
-prj_40,Hobart Tech Park,IN,advanced_confirmed,yes,,0.0564,3,prj_30,Project Rainier,proposals_unopposed,IN,2400.0,0.0148,0.0416,margin,state+tercile+caliper,in_state
+prj_40,Hobart Tech Park,IN,advanced_confirmed,yes,,0.0564,1,atl_01391,Learning GIS!,atlas,IN,,-0.0015,0.7579,margin,state+tercile+caliper,in_state
+prj_40,Hobart Tech Park,IN,advanced_confirmed,yes,,0.0564,2,atl_01392,Agricultural and Biological Engineering,atlas,IN,,-0.0015,0.7579,margin,state+tercile+caliper,in_state
+prj_40,Hobart Tech Park,IN,advanced_confirmed,yes,,0.0564,3,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,1.5028,margin,national+caliper,national_fallback
 prj_42,Google Cedar Rapids,IA,advanced_confirmed,yes,,0.0991,1,prj_47,Edged Energy Des Moines,proposals_unopposed,IA,13.0,0.1089,0.0098,margin,state+tercile+caliper,in_state
 prj_42,Google Cedar Rapids,IA,advanced_confirmed,yes,,0.0991,2,prj_50,Tract Altoona,proposals_unopposed,IA,,0.1089,0.0098,margin,state+tercile+caliper,in_state
 prj_42,Google Cedar Rapids,IA,advanced_confirmed,yes,,0.0991,3,prj_52,Project Alluvion,proposals_unopposed,IA,,0.1089,0.0098,margin,state+tercile+caliper,in_state
@@ -104,15 +107,15 @@ prj_67,Brightseat Tech Park Data Center Development,MD,pending,no,,0.7515,3,atl_
 prj_69,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,MD,advanced_confirmed,yes,,0.0881,1,atl_00007,CyberNAP Glen Burnie,atlas,MD,,0.1394,0.7513,margin,state+tercile+caliper,in_state
 prj_69,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,MD,advanced_confirmed,yes,,0.0881,2,prj_133,Riverview Innovative and Technology Campus Data Center,proposals_unopposed,NY,,0.0968,1.5087,margin,national+caliper,national_fallback
 prj_69,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,MD,advanced_confirmed,yes,,0.0881,3,prj_47,Edged Energy Des Moines,proposals_unopposed,IA,13.0,0.1089,1.5208,margin,national+caliper,national_fallback
-prj_72,Atmosphere Dickerson Data Center,MD,pending,no,360.0,0.5330,1,prj_118,Nutley Data Center,proposals_unopposed,NJ,,0.4491,1.5839,margin,national+caliper,national_fallback
-prj_72,Atmosphere Dickerson Data Center,MD,pending,no,360.0,0.5330,2,atl_00292,QES Computers,atlas,CA,,0.5356,2.2026,margin,national+caliper,national_fallback
-prj_72,Atmosphere Dickerson Data Center,MD,pending,no,360.0,0.5330,3,atl_00323,Hurricane Electric Fremont 1,atlas,CA,,0.5356,2.2026,margin,national+caliper,national_fallback
+prj_72,Atmosphere Dickerson Data Center,MD,pending,no,360.0,0.5330,1,atl_00292,QES Computers,atlas,CA,,0.5356,2.2026,margin,national+caliper,national_fallback
+prj_72,Atmosphere Dickerson Data Center,MD,pending,no,360.0,0.5330,2,atl_00323,Hurricane Electric Fremont 1,atlas,CA,,0.5356,2.2026,margin,national+caliper,national_fallback
+prj_72,Atmosphere Dickerson Data Center,MD,pending,no,360.0,0.5330,3,atl_00327,XO Fremont,atlas,CA,,0.5356,2.2026,margin,national+caliper,national_fallback
 prj_73,Westfield Data Center Campus,MA,pending,no,,0.0889,1,prj_133,Riverview Innovative and Technology Campus Data Center,proposals_unopposed,NY,,0.0968,1.5079,margin,national+caliper,national_fallback
 prj_73,Westfield Data Center Campus,MA,pending,no,,0.0889,2,prj_47,Edged Energy Des Moines,proposals_unopposed,IA,13.0,0.1089,1.5200,margin,national+caliper,national_fallback
 prj_73,Westfield Data Center Campus,MA,pending,no,,0.0889,3,prj_50,Tract Altoona,proposals_unopposed,IA,,0.1089,1.5200,margin,national+caliper,national_fallback
-prj_74,Project Mitten / The Barn,MI,advanced_confirmed,yes,1400.0,0.4442,1,prj_118,Nutley Data Center,proposals_unopposed,NJ,,0.4491,1.5049,margin,national+caliper,national_fallback
-prj_74,Project Mitten / The Barn,MI,advanced_confirmed,yes,1400.0,0.4442,2,prj_70,Piney Reach Data Center Development,proposals_unopposed,MD,,0.4071,1.5371,margin,national+caliper,national_fallback
-prj_74,Project Mitten / The Barn,MI,advanced_confirmed,yes,1400.0,0.4442,3,prj_9,Project Red Clay,proposals_unopposed,AL,,0.3731,1.5711,margin,national+caliper,national_fallback
+prj_74,Project Mitten / The Barn,MI,advanced_confirmed,yes,1400.0,0.4442,1,prj_70,Piney Reach Data Center Development,proposals_unopposed,MD,,0.4071,1.5371,margin,national+caliper,national_fallback
+prj_74,Project Mitten / The Barn,MI,advanced_confirmed,yes,1400.0,0.4442,2,prj_9,Project Red Clay,proposals_unopposed,AL,,0.3731,1.5711,margin,national+caliper,national_fallback
+prj_74,Project Mitten / The Barn,MI,advanced_confirmed,yes,1400.0,0.4442,3,atl_00023,Hewlett-Packard,atlas,GA,,0.4486,2.2044,margin,national+caliper,national_fallback
 prj_75,Project Cannoli,MI,pending,no,1000.0,0.2897,1,prj_201,Morabito Slavic Village Data Center,proposals_unopposed,OH,,0.3147,1.5250,margin,national+caliper,national_fallback
 prj_75,Project Cannoli,MI,pending,no,1000.0,0.2897,2,prj_299,Albany Kenwood Data Center,proposals_unopposed,NY,,0.2584,1.5313,margin,national+caliper,national_fallback
 prj_75,Project Cannoli,MI,pending,no,1000.0,0.2897,3,prj_138,High Point Data Center,proposals_unopposed,NC,,0.2184,1.5713,margin,national+caliper,national_fallback
@@ -128,9 +131,9 @@ prj_79,Microsoft Gaines Township Data Center,MI,pending,no,,0.0537,3,prj_254,Sou
 prj_80,Rocklocker Kalkaska Data Center,MI,blocked_confirmed,yes,,-0.4287,1,prj_191,Akron Data Center Expansion,proposals_unopposed,OH,,-0.4240,1.5047,margin,national+caliper,national_fallback
 prj_80,Rocklocker Kalkaska Data Center,MI,blocked_confirmed,yes,,-0.4287,2,prj_106,White Cloud Acres,proposals_unopposed,MO,600.0,-0.4374,1.5087,margin,national+caliper,national_fallback
 prj_80,Rocklocker Kalkaska Data Center,MI,blocked_confirmed,yes,,-0.4287,3,prj_280,Gallatin Data Center Expansion,proposals_unopposed,TN,300.0,-0.4183,1.5104,margin,national+caliper,national_fallback
-prj_81,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,MI,pending,no,,0.4442,1,prj_118,Nutley Data Center,proposals_unopposed,NJ,,0.4491,1.5049,margin,national+caliper,national_fallback
-prj_81,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,MI,pending,no,,0.4442,2,prj_70,Piney Reach Data Center Development,proposals_unopposed,MD,,0.4071,1.5371,margin,national+caliper,national_fallback
-prj_81,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,MI,pending,no,,0.4442,3,prj_9,Project Red Clay,proposals_unopposed,AL,,0.3731,1.5711,margin,national+caliper,national_fallback
+prj_81,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,MI,pending,no,,0.4442,1,prj_70,Piney Reach Data Center Development,proposals_unopposed,MD,,0.4071,1.5371,margin,national+caliper,national_fallback
+prj_81,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,MI,pending,no,,0.4442,2,prj_9,Project Red Clay,proposals_unopposed,AL,,0.3731,1.5711,margin,national+caliper,national_fallback
+prj_81,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,MI,pending,no,,0.4442,3,atl_00023,Hewlett-Packard,atlas,GA,,0.4486,2.2044,margin,national+caliper,national_fallback
 prj_82,Project Cherry Blossom,MI,pending,no,,-0.2713,1,prj_6,AUBix + Core Scientific Data Center,proposals_unopposed,AL,16.0,-0.2782,1.5069,margin,national+caliper,national_fallback
 prj_82,Project Cherry Blossom,MI,pending,no,,-0.2713,2,prj_309,Sequitor Edge Rapid City,proposals_unopposed,SD,10.0,-0.2644,1.5069,margin,national+caliper,national_fallback
 prj_82,Project Cherry Blossom,MI,pending,no,,-0.2713,3,prj_63,Loring Air Force Base Data Center,proposals_unopposed,ME,2.0,-0.2621,1.5092,margin,national+caliper,national_fallback
@@ -143,15 +146,15 @@ prj_84,Project Flex,MI,pending,no,,0.1059,3,prj_47,Edged Energy Des Moines,propo
 prj_85,Deep Green Lansing Data Center,MI,blocked_confirmed,yes,24.0,0.2971,1,prj_201,Morabito Slavic Village Data Center,proposals_unopposed,OH,,0.3147,1.5176,margin,national+caliper,national_fallback
 prj_85,Deep Green Lansing Data Center,MI,blocked_confirmed,yes,24.0,0.2971,2,prj_299,Albany Kenwood Data Center,proposals_unopposed,NY,,0.2584,1.5387,margin,national+caliper,national_fallback
 prj_85,Deep Green Lansing Data Center,MI,blocked_confirmed,yes,24.0,0.2971,3,prj_9,Project Red Clay,proposals_unopposed,AL,,0.3731,1.5760,margin,national+caliper,national_fallback
-prj_87,Sansone York Township Data Center,MI,pending,no,1000.0,0.4442,1,prj_118,Nutley Data Center,proposals_unopposed,NJ,,0.4491,1.5049,margin,national+caliper,national_fallback
-prj_87,Sansone York Township Data Center,MI,pending,no,1000.0,0.4442,2,prj_70,Piney Reach Data Center Development,proposals_unopposed,MD,,0.4071,1.5371,margin,national+caliper,national_fallback
-prj_87,Sansone York Township Data Center,MI,pending,no,1000.0,0.4442,3,prj_9,Project Red Clay,proposals_unopposed,AL,,0.3731,1.5711,margin,national+caliper,national_fallback
+prj_87,Sansone York Township Data Center,MI,pending,no,1000.0,0.4442,1,prj_70,Piney Reach Data Center Development,proposals_unopposed,MD,,0.4071,1.5371,margin,national+caliper,national_fallback
+prj_87,Sansone York Township Data Center,MI,pending,no,1000.0,0.4442,2,prj_9,Project Red Clay,proposals_unopposed,AL,,0.3731,1.5711,margin,national+caliper,national_fallback
+prj_87,Sansone York Township Data Center,MI,pending,no,1000.0,0.4442,3,atl_00023,Hewlett-Packard,atlas,GA,,0.4486,2.2044,margin,national+caliper,national_fallback
 prj_88,Metrobloks Southfield Data Center,MI,pending,no,100.0,0.1059,1,atl_00659,Unknown,atlas,MI,,0.0420,0.7639,margin,state+tercile+caliper,in_state
 prj_88,Metrobloks Southfield Data Center,MI,pending,no,100.0,0.1059,2,prj_86,Pavilion Township Data Center,proposals_unopposed,MI,,0.1773,0.0714,margin,state+caliper,in_state
 prj_88,Metrobloks Southfield Data Center,MI,pending,no,100.0,0.1059,3,prj_50,Tract Altoona,proposals_unopposed,IA,,0.1089,1.5030,margin,national+caliper,national_fallback
-prj_89,Clinton Amazon Data Center,MS,advanced_confirmed,yes,,0.4609,1,prj_118,Nutley Data Center,proposals_unopposed,NJ,,0.4491,1.5118,margin,national+caliper,national_fallback
-prj_89,Clinton Amazon Data Center,MS,advanced_confirmed,yes,,0.4609,2,prj_70,Piney Reach Data Center Development,proposals_unopposed,MD,,0.4071,1.5538,margin,national+caliper,national_fallback
-prj_89,Clinton Amazon Data Center,MS,advanced_confirmed,yes,,0.4609,3,prj_9,Project Red Clay,proposals_unopposed,AL,,0.3731,1.5878,margin,national+caliper,national_fallback
+prj_89,Clinton Amazon Data Center,MS,advanced_confirmed,yes,,0.4609,1,prj_70,Piney Reach Data Center Development,proposals_unopposed,MD,,0.4071,1.5538,margin,national+caliper,national_fallback
+prj_89,Clinton Amazon Data Center,MS,advanced_confirmed,yes,,0.4609,2,prj_9,Project Red Clay,proposals_unopposed,AL,,0.3731,1.5878,margin,national+caliper,national_fallback
+prj_89,Clinton Amazon Data Center,MS,advanced_confirmed,yes,,0.4609,3,atl_00023,Hewlett-Packard,atlas,GA,,0.4486,2.2123,margin,national+caliper,national_fallback
 prj_90,Ridgeland Amazon Data Center,MS,pending,no,,-0.1729,1,prj_131,Massena Petawatt Data Center Site Advertisement,proposals_unopposed,NY,200.0,-0.1800,1.5071,margin,national+caliper,national_fallback
 prj_90,Ridgeland Amazon Data Center,MS,pending,no,,-0.1729,2,prj_10,Edged Energy Prichard Data Center,proposals_unopposed,AL,,-0.1645,1.5084,margin,national+caliper,national_fallback
 prj_90,Ridgeland Amazon Data Center,MS,pending,no,,-0.1729,3,prj_49,Google Council Bluffs,proposals_unopposed,IA,,-0.1997,1.5268,margin,national+caliper,national_fallback
@@ -169,7 +172,7 @@ prj_94,Meridian Compass Data Center,MS,advanced_confirmed,yes,500.0,-0.2120,2,pr
 prj_94,Meridian Compass Data Center,MS,advanced_confirmed,yes,500.0,-0.2120,3,prj_41,Tract Project West,proposals_unopposed,IA,,-0.2074,1.5046,margin,national+caliper,national_fallback
 prj_95,Clarksdale Data Center,MS,pending,no,,0.3981,1,prj_70,Piney Reach Data Center Development,proposals_unopposed,MD,,0.4071,1.5090,margin,national+caliper,national_fallback
 prj_95,Clarksdale Data Center,MS,pending,no,,0.3981,2,prj_9,Project Red Clay,proposals_unopposed,AL,,0.3731,1.5250,margin,national+caliper,national_fallback
-prj_95,Clarksdale Data Center,MS,pending,no,,0.3981,3,prj_118,Nutley Data Center,proposals_unopposed,NJ,,0.4491,1.5510,margin,national+caliper,national_fallback
+prj_95,Clarksdale Data Center,MS,pending,no,,0.3981,3,prj_201,Morabito Slavic Village Data Center,proposals_unopposed,OH,,0.3147,1.5834,margin,national+caliper,national_fallback
 prj_96,xAI MACROHARDRR,MS,advanced_confirmed,yes,,-0.2408,1,prj_135,Person County Mega Park,proposals_unopposed,NC,,-0.2371,1.5037,margin,national+caliper,national_fallback
 prj_96,xAI MACROHARDRR,MS,advanced_confirmed,yes,,-0.2408,2,prj_296,Andover Data Center,proposals_unopposed,NJ,,-0.2494,1.5086,margin,national+caliper,national_fallback
 prj_96,xAI MACROHARDRR,MS,advanced_confirmed,yes,,-0.2408,3,prj_130,Sugar Hill Portland Data Center,proposals_unopposed,NY,,-0.2198,1.5210,margin,national+caliper,national_fallback
@@ -209,33 +212,36 @@ prj_114,Marshfield Webster Data Center,MO,advanced_confirmed,yes,,-0.6225,3,prj_
 prj_115,Project Cumulus,MO,blocked_confirmed,yes,,-0.1697,1,prj_10,Edged Energy Prichard Data Center,proposals_unopposed,AL,,-0.1645,1.5052,margin,national+caliper,national_fallback
 prj_115,Project Cumulus,MO,blocked_confirmed,yes,,-0.1697,2,prj_131,Massena Petawatt Data Center Site Advertisement,proposals_unopposed,NY,200.0,-0.1800,1.5103,margin,national+caliper,national_fallback
 prj_115,Project Cumulus,MO,blocked_confirmed,yes,,-0.1697,3,prj_49,Google Council Bluffs,proposals_unopposed,IA,,-0.1997,1.5300,margin,national+caliper,national_fallback
-prj_116,DataOne Vineland,NJ,advanced_confirmed,yes,300.0,-0.0375,1,atl_00418,Digital Realty New Jersey EWR20,atlas,NJ,,-0.0286,0.7089,margin,state+tercile+caliper,in_state
-prj_116,DataOne Vineland,NJ,advanced_confirmed,yes,300.0,-0.0375,2,atl_00422,Digital Realty New Jersey EWR21,atlas,NJ,,-0.0286,0.7089,margin,state+tercile+caliper,in_state
-prj_116,DataOne Vineland,NJ,advanced_confirmed,yes,300.0,-0.0375,3,atl_00715,Credit Suisse: Clifton Data Center,atlas,NJ,,-0.0286,0.7089,margin,state+tercile+caliper,in_state
+prj_116,DataOne Vineland,NJ,advanced_confirmed,yes,300.0,-0.0375,1,atl_00440,NYSE Data Center,atlas,NJ,,0.0339,0.7714,margin,state+tercile+caliper,in_state
+prj_116,DataOne Vineland,NJ,advanced_confirmed,yes,300.0,-0.0375,2,atl_00378,Apollo Cable Landing Station,atlas,NJ,,-0.1139,0.7764,margin,state+caliper,in_state
+prj_116,DataOne Vineland,NJ,advanced_confirmed,yes,300.0,-0.0375,3,prj_48,Project Morgan,proposals_unopposed,IA,,-0.0475,1.5100,margin,national+caliper,national_fallback
 prj_117,Princeton Nurseries Data Center,NJ,pending,no,,0.0804,1,atl_00440,NYSE Data Center,atlas,NJ,,0.0339,0.7465,margin,state+tercile+caliper,in_state
 prj_117,Princeton Nurseries Data Center,NJ,pending,no,,0.0804,2,atl_00550,Goldman Sachs,atlas,NJ,,0.1392,0.7588,margin,state+tercile+caliper,in_state
 prj_117,Princeton Nurseries Data Center,NJ,pending,no,,0.0804,3,atl_00660,Unknown,atlas,NJ,,0.1392,0.7588,margin,state+tercile+caliper,in_state
+prj_118,Nutley Data Center,NJ,pending,no,,0.4491,1,prj_70,Piney Reach Data Center Development,proposals_unopposed,MD,,0.4071,1.5420,margin,national+caliper,national_fallback
+prj_118,Nutley Data Center,NJ,pending,no,,0.4491,2,prj_9,Project Red Clay,proposals_unopposed,AL,,0.3731,1.5760,margin,national+caliper,national_fallback
+prj_118,Nutley Data Center,NJ,pending,no,,0.4491,3,atl_00023,Hewlett-Packard,atlas,GA,,0.4486,2.2005,margin,national+caliper,national_fallback
 prj_119,New Brunswick Data Center,NJ,blocked_confirmed,yes,,0.0804,1,atl_00440,NYSE Data Center,atlas,NJ,,0.0339,0.7465,margin,state+tercile+caliper,in_state
 prj_119,New Brunswick Data Center,NJ,blocked_confirmed,yes,,0.0804,2,atl_00550,Goldman Sachs,atlas,NJ,,0.1392,0.7588,margin,state+tercile+caliper,in_state
 prj_119,New Brunswick Data Center,NJ,blocked_confirmed,yes,,0.0804,3,atl_00660,Unknown,atlas,NJ,,0.1392,0.7588,margin,state+tercile+caliper,in_state
-prj_120,East Greenwich Township Data Center,NJ,blocked_confirmed,yes,,-0.0280,1,atl_00418,Digital Realty New Jersey EWR20,atlas,NJ,,-0.0286,0.7006,margin,state+tercile+caliper,in_state
-prj_120,East Greenwich Township Data Center,NJ,blocked_confirmed,yes,,-0.0280,2,atl_00422,Digital Realty New Jersey EWR21,atlas,NJ,,-0.0286,0.7006,margin,state+tercile+caliper,in_state
-prj_120,East Greenwich Township Data Center,NJ,blocked_confirmed,yes,,-0.0280,3,atl_00715,Credit Suisse: Clifton Data Center,atlas,NJ,,-0.0286,0.7006,margin,state+tercile+caliper,in_state
-prj_121,CoreWeave Kenilworth,NJ,advanced_confirmed,yes,250.0,0.2421,1,atl_00075,Equinix NY7 Data Center,atlas,NJ,,0.2805,0.7384,margin,state+tercile+caliper,in_state
-prj_121,CoreWeave Kenilworth,NJ,advanced_confirmed,yes,250.0,0.2421,2,atl_00109,Equinix New York Secaucus NY5,atlas,NJ,,0.2805,0.7384,margin,state+tercile+caliper,in_state
-prj_121,CoreWeave Kenilworth,NJ,advanced_confirmed,yes,250.0,0.2421,3,atl_00110,Equinix New York Secaucus NY4,atlas,NJ,,0.2805,0.7384,margin,state+tercile+caliper,in_state
-prj_122,Millville Energy & Data Center Campus,NJ,blocked_confirmed,yes,,-0.0375,1,atl_00418,Digital Realty New Jersey EWR20,atlas,NJ,,-0.0286,0.7089,margin,state+tercile+caliper,in_state
-prj_122,Millville Energy & Data Center Campus,NJ,blocked_confirmed,yes,,-0.0375,2,atl_00422,Digital Realty New Jersey EWR21,atlas,NJ,,-0.0286,0.7089,margin,state+tercile+caliper,in_state
-prj_122,Millville Energy & Data Center Campus,NJ,blocked_confirmed,yes,,-0.0375,3,atl_00715,Credit Suisse: Clifton Data Center,atlas,NJ,,-0.0286,0.7089,margin,state+tercile+caliper,in_state
-prj_123,Monroe Township Data Center,NJ,blocked_confirmed,yes,,-0.0280,1,atl_00418,Digital Realty New Jersey EWR20,atlas,NJ,,-0.0286,0.7006,margin,state+tercile+caliper,in_state
-prj_123,Monroe Township Data Center,NJ,blocked_confirmed,yes,,-0.0280,2,atl_00422,Digital Realty New Jersey EWR21,atlas,NJ,,-0.0286,0.7006,margin,state+tercile+caliper,in_state
-prj_123,Monroe Township Data Center,NJ,blocked_confirmed,yes,,-0.0280,3,atl_00715,Credit Suisse: Clifton Data Center,atlas,NJ,,-0.0286,0.7006,margin,state+tercile+caliper,in_state
+prj_120,East Greenwich Township Data Center,NJ,blocked_confirmed,yes,,-0.0280,1,atl_00440,NYSE Data Center,atlas,NJ,,0.0339,0.7619,margin,state+tercile+caliper,in_state
+prj_120,East Greenwich Township Data Center,NJ,blocked_confirmed,yes,,-0.0280,2,atl_00378,Apollo Cable Landing Station,atlas,NJ,,-0.1139,0.7859,margin,state+caliper,in_state
+prj_120,East Greenwich Township Data Center,NJ,blocked_confirmed,yes,,-0.0280,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5036,margin,national+caliper,national_fallback
+prj_121,CoreWeave Kenilworth,NJ,advanced_confirmed,yes,250.0,0.2421,1,prj_299,Albany Kenwood Data Center,proposals_unopposed,NY,,0.2584,1.5163,margin,national+caliper,national_fallback
+prj_121,CoreWeave Kenilworth,NJ,advanced_confirmed,yes,250.0,0.2421,2,prj_138,High Point Data Center,proposals_unopposed,NC,,0.2184,1.5237,margin,national+caliper,national_fallback
+prj_121,CoreWeave Kenilworth,NJ,advanced_confirmed,yes,250.0,0.2421,3,prj_224,McKees Rocks Industrial Site Data Center,proposals_unopposed,PA,,0.2031,1.5390,margin,national+caliper,national_fallback
+prj_122,Millville Energy & Data Center Campus,NJ,blocked_confirmed,yes,,-0.0375,1,atl_00440,NYSE Data Center,atlas,NJ,,0.0339,0.7714,margin,state+tercile+caliper,in_state
+prj_122,Millville Energy & Data Center Campus,NJ,blocked_confirmed,yes,,-0.0375,2,atl_00378,Apollo Cable Landing Station,atlas,NJ,,-0.1139,0.7764,margin,state+caliper,in_state
+prj_122,Millville Energy & Data Center Campus,NJ,blocked_confirmed,yes,,-0.0375,3,prj_48,Project Morgan,proposals_unopposed,IA,,-0.0475,1.5100,margin,national+caliper,national_fallback
+prj_123,Monroe Township Data Center,NJ,blocked_confirmed,yes,,-0.0280,1,atl_00440,NYSE Data Center,atlas,NJ,,0.0339,0.7619,margin,state+tercile+caliper,in_state
+prj_123,Monroe Township Data Center,NJ,blocked_confirmed,yes,,-0.0280,2,atl_00378,Apollo Cable Landing Station,atlas,NJ,,-0.1139,0.7859,margin,state+caliper,in_state
+prj_123,Monroe Township Data Center,NJ,blocked_confirmed,yes,,-0.0280,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5036,margin,national+caliper,national_fallback
 prj_124,STAMP Data Center,NY,pending,no,500.0,-0.3395,1,prj_132,Ilion Data Center,proposals_unopposed,NY,,-0.3644,0.0249,margin,state+tercile+caliper,in_state
 prj_124,STAMP Data Center,NY,pending,no,500.0,-0.3395,2,prj_61,Project Pulse,proposals_unopposed,KY,,-0.3532,1.5137,margin,national+caliper,national_fallback
 prj_124,STAMP Data Center,NY,pending,no,500.0,-0.3395,3,prj_26,Bristol Data Center,proposals_unopposed,IN,,-0.3238,1.5157,margin,national+caliper,national_fallback
 prj_125,Cayuga Data Campus,NY,pending,no,138.0,0.5062,1,atl_01467,Dataverge,atlas,NY,,0.4398,0.7664,margin,state+tercile+caliper,in_state
-prj_125,Cayuga Data Campus,NY,pending,no,138.0,0.5062,2,prj_118,Nutley Data Center,proposals_unopposed,NJ,,0.4491,1.5571,margin,national+caliper,national_fallback
-prj_125,Cayuga Data Campus,NY,pending,no,138.0,0.5062,3,prj_70,Piney Reach Data Center Development,proposals_unopposed,MD,,0.4071,1.5991,margin,national+caliper,national_fallback
+prj_125,Cayuga Data Campus,NY,pending,no,138.0,0.5062,2,prj_70,Piney Reach Data Center Development,proposals_unopposed,MD,,0.4071,1.5991,margin,national+caliper,national_fallback
+prj_125,Cayuga Data Campus,NY,pending,no,138.0,0.5062,3,atl_00369,Unknown,atlas,WI,,0.5168,2.2106,margin,national+caliper,national_fallback
 prj_126,Lysander Data Center,NY,pending,no,300.0,0.1728,1,prj_299,Albany Kenwood Data Center,proposals_unopposed,NY,,0.2584,0.0856,margin,state+tercile+caliper,in_state
 prj_126,Lysander Data Center,NY,pending,no,300.0,0.1728,2,atl_00064,IBM Building,atlas,NY,,0.2584,0.7856,margin,state+tercile+caliper,in_state
 prj_126,Lysander Data Center,NY,pending,no,300.0,0.1728,3,atl_00770,Turnkey Internet,atlas,NY,,0.2584,0.7856,margin,state+tercile+caliper,in_state
@@ -254,9 +260,9 @@ prj_137,Fayetteville Data Center Campus,NC,pending,no,,0.1341,3,prj_150,Greensbo
 prj_140,Rowan County Data Center,NC,advanced_confirmed,yes,,-0.3591,1,atl_00003,Apple - Maiden Data Center,atlas,NC,,-0.3799,0.7208,margin,state+tercile+caliper,in_state
 prj_140,Rowan County Data Center,NC,advanced_confirmed,yes,,-0.3591,2,atl_00079,Unknown,atlas,NC,,-0.3799,0.7208,margin,state+tercile+caliper,in_state
 prj_140,Rowan County Data Center,NC,advanced_confirmed,yes,,-0.3591,3,atl_00570,Unknown,atlas,NC,,-0.3799,0.7208,margin,state+tercile+caliper,in_state
-prj_141,Project Delta,NC,pending,no,,-0.5960,1,prj_151,Marble Data Center Campus,proposals_unopposed,NC,,-0.5745,0.0215,margin,state+tercile+caliper,in_state
-prj_141,Project Delta,NC,pending,no,,-0.5960,2,prj_157,Lenoir Campus (Existing + Project Cardinal 2024),proposals_unopposed,NC,,-0.5262,0.0698,margin,state+tercile+caliper,in_state
-prj_141,Project Delta,NC,pending,no,,-0.5960,3,atl_00001,Google Data Center,atlas,NC,,-0.5262,0.7698,margin,state+tercile+caliper,in_state
+prj_141,Project Delta,NC,advanced_confirmed,yes,,-0.5960,1,prj_151,Marble Data Center Campus,proposals_unopposed,NC,,-0.5745,0.0215,margin,state+tercile+caliper,in_state
+prj_141,Project Delta,NC,advanced_confirmed,yes,,-0.5960,2,prj_157,Lenoir Campus (Existing + Project Cardinal 2024),proposals_unopposed,NC,,-0.5262,0.0698,margin,state+tercile+caliper,in_state
+prj_141,Project Delta,NC,advanced_confirmed,yes,,-0.5960,3,atl_00001,Google Data Center,atlas,NC,,-0.5262,0.7698,margin,state+tercile+caliper,in_state
 prj_143,Statesville Data Center Campus,NC,advanced_confirmed,yes,,-0.3262,1,prj_135,Person County Mega Park,proposals_unopposed,NC,,-0.2371,0.0891,margin,state+tercile+caliper,in_state
 prj_143,Statesville Data Center Campus,NC,advanced_confirmed,yes,,-0.3262,2,atl_00003,Apple - Maiden Data Center,atlas,NC,,-0.3799,0.7537,margin,state+tercile+caliper,in_state
 prj_143,Statesville Data Center Campus,NC,advanced_confirmed,yes,,-0.3262,3,atl_00079,Unknown,atlas,NC,,-0.3799,0.7537,margin,state+tercile+caliper,in_state
@@ -349,16 +355,16 @@ prj_203,Project Hazelnut,PA,blocked_confirmed,yes,,-0.1917,2,prj_216,TECfusions 
 prj_203,Project Hazelnut,PA,blocked_confirmed,yes,,-0.1917,3,prj_49,Google Council Bluffs,proposals_unopposed,IA,,-0.1997,1.5080,margin,national+caliper,national_fallback
 prj_206,Blakely AI Data Center,PA,blocked_confirmed,yes,400.0,0.0279,1,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,0.0313,margin,state+tercile+caliper,in_state
 prj_206,Blakely AI Data Center,PA,blocked_confirmed,yes,400.0,0.0279,2,prj_254,South Hanover Township Data Center,proposals_unopposed,PA,,0.0592,0.0313,margin,state+tercile+caliper,in_state
-prj_206,Blakely AI Data Center,PA,blocked_confirmed,yes,400.0,0.0279,3,prj_28,South Bend Data Center,proposals_unopposed,IN,,0.0148,1.5131,margin,national+caliper,national_fallback
+prj_206,Blakely AI Data Center,PA,blocked_confirmed,yes,400.0,0.0279,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5523,margin,national+caliper,national_fallback
 prj_209,Project Gold,PA,pending,no,1500.0,0.0279,1,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,0.0313,margin,state+tercile+caliper,in_state
 prj_209,Project Gold,PA,pending,no,1500.0,0.0279,2,prj_254,South Hanover Township Data Center,proposals_unopposed,PA,,0.0592,0.0313,margin,state+tercile+caliper,in_state
-prj_209,Project Gold,PA,pending,no,1500.0,0.0279,3,prj_28,South Bend Data Center,proposals_unopposed,IN,,0.0148,1.5131,margin,national+caliper,national_fallback
+prj_209,Project Gold,PA,pending,no,1500.0,0.0279,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5523,margin,national+caliper,national_fallback
 prj_210,East Whiteland Township Data Center,PA,pending,no,,0.1446,1,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,0.0854,margin,state+tercile+caliper,in_state
 prj_210,East Whiteland Township Data Center,PA,pending,no,,0.1446,2,prj_254,South Hanover Township Data Center,proposals_unopposed,PA,,0.0592,0.0854,margin,state+tercile+caliper,in_state
 prj_210,East Whiteland Township Data Center,PA,pending,no,,0.1446,3,prj_217,Springdale AI Data Center Redevelopment,proposals_unopposed,PA,180.0,0.2031,0.0585,margin,state+caliper,in_state
 prj_212,AWS Keystone Trade Center Campus,PA,pending,no,,-0.0007,1,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,0.0599,margin,state+tercile+caliper,in_state
 prj_212,AWS Keystone Trade Center Campus,PA,pending,no,,-0.0007,2,prj_254,South Hanover Township Data Center,proposals_unopposed,PA,,0.0592,0.0599,margin,state+tercile+caliper,in_state
-prj_212,AWS Keystone Trade Center Campus,PA,pending,no,,-0.0007,3,prj_27,Granger Data Center,proposals_unopposed,IN,1000.0,0.0148,1.5155,margin,national+caliper,national_fallback
+prj_212,AWS Keystone Trade Center Campus,PA,pending,no,,-0.0007,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5237,margin,national+caliper,national_fallback
 prj_213,CoreWeave Lancaster AI Campuses,PA,advanced_confirmed,yes,300.0,-0.1595,1,prj_294,Cumru Titus Data Center,proposals_unopposed,PA,200.0,-0.1218,0.1069,margin+log_mw,state+tercile+caliper,in_state
 prj_213,CoreWeave Lancaster AI Campuses,PA,advanced_confirmed,yes,300.0,-0.1595,2,prj_10,Edged Energy Prichard Data Center,proposals_unopposed,AL,,-0.1645,1.5050,margin,national+caliper,national_fallback
 prj_213,CoreWeave Lancaster AI Campuses,PA,advanced_confirmed,yes,300.0,-0.1595,3,prj_49,Google Council Bluffs,proposals_unopposed,IA,,-0.1997,1.5402,margin,national+caliper,national_fallback
@@ -376,16 +382,16 @@ prj_226,Zediker Station Data Center,PA,pending,no,,-0.2551,2,prj_320,Sharon Keel
 prj_226,Zediker Station Data Center,PA,pending,no,,-0.2551,3,prj_296,Andover Data Center,proposals_unopposed,NJ,,-0.2494,1.5057,margin,national+caliper,national_fallback
 prj_227,Archbald I LLC Data Center Campuses,PA,blocked_confirmed,yes,,0.0279,1,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,0.0313,margin,state+tercile+caliper,in_state
 prj_227,Archbald I LLC Data Center Campuses,PA,blocked_confirmed,yes,,0.0279,2,prj_254,South Hanover Township Data Center,proposals_unopposed,PA,,0.0592,0.0313,margin,state+tercile+caliper,in_state
-prj_227,Archbald I LLC Data Center Campuses,PA,blocked_confirmed,yes,,0.0279,3,prj_27,Granger Data Center,proposals_unopposed,IN,1000.0,0.0148,1.5131,margin,national+caliper,national_fallback
+prj_227,Archbald I LLC Data Center Campuses,PA,blocked_confirmed,yes,,0.0279,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5523,margin,national+caliper,national_fallback
 prj_228,Former Air Products Headquarters Data Center,PA,blocked_confirmed,yes,,0.0269,1,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,0.0323,margin,state+tercile+caliper,in_state
 prj_228,Former Air Products Headquarters Data Center,PA,blocked_confirmed,yes,,0.0269,2,prj_254,South Hanover Township Data Center,proposals_unopposed,PA,,0.0592,0.0323,margin,state+tercile+caliper,in_state
-prj_228,Former Air Products Headquarters Data Center,PA,blocked_confirmed,yes,,0.0269,3,prj_27,Granger Data Center,proposals_unopposed,IN,1000.0,0.0148,1.5121,margin,national+caliper,national_fallback
+prj_228,Former Air Products Headquarters Data Center,PA,blocked_confirmed,yes,,0.0269,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5513,margin,national+caliper,national_fallback
 prj_229,Pennhurst Data Center,PA,blocked_confirmed,yes,,0.1446,1,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,0.0854,margin,state+tercile+caliper,in_state
 prj_229,Pennhurst Data Center,PA,blocked_confirmed,yes,,0.1446,2,prj_254,South Hanover Township Data Center,proposals_unopposed,PA,,0.0592,0.0854,margin,state+tercile+caliper,in_state
 prj_229,Pennhurst Data Center,PA,blocked_confirmed,yes,,0.1446,3,prj_217,Springdale AI Data Center Redevelopment,proposals_unopposed,PA,180.0,0.2031,0.0585,margin,state+caliper,in_state
 prj_232,Dickson City Data Centers,PA,blocked_confirmed,yes,,0.0279,1,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,0.0313,margin,state+tercile+caliper,in_state
 prj_232,Dickson City Data Centers,PA,blocked_confirmed,yes,,0.0279,2,prj_254,South Hanover Township Data Center,proposals_unopposed,PA,,0.0592,0.0313,margin,state+tercile+caliper,in_state
-prj_232,Dickson City Data Centers,PA,blocked_confirmed,yes,,0.0279,3,prj_27,Granger Data Center,proposals_unopposed,IN,1000.0,0.0148,1.5131,margin,national+caliper,national_fallback
+prj_232,Dickson City Data Centers,PA,blocked_confirmed,yes,,0.0279,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5523,margin,national+caliper,national_fallback
 prj_235,Linfield Data Center,PA,pending,no,,0.2280,1,prj_217,Springdale AI Data Center Redevelopment,proposals_unopposed,PA,180.0,0.2031,0.0249,margin,state+tercile+caliper,in_state
 prj_235,Linfield Data Center,PA,pending,no,,0.2280,2,prj_224,McKees Rocks Industrial Site Data Center,proposals_unopposed,PA,,0.2031,0.0249,margin,state+tercile+caliper,in_state
 prj_235,Linfield Data Center,PA,pending,no,,0.2280,3,atl_00481,Expedient Pittsburgh South,atlas,PA,,0.2031,0.7249,margin,state+tercile+caliper,in_state
@@ -394,10 +400,10 @@ prj_236,Kline Township Data Center,PA,pending,no,,-0.4206,2,prj_218,Homer City E
 prj_236,Kline Township Data Center,PA,pending,no,,-0.4206,3,prj_270,Linde Clinton Data Center,proposals_unopposed,PA,,-0.3709,0.0497,margin,state+tercile+caliper,in_state
 prj_237,Ransom Township Data Center,PA,blocked_confirmed,yes,,0.0279,1,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,0.0313,margin,state+tercile+caliper,in_state
 prj_237,Ransom Township Data Center,PA,blocked_confirmed,yes,,0.0279,2,prj_254,South Hanover Township Data Center,proposals_unopposed,PA,,0.0592,0.0313,margin,state+tercile+caliper,in_state
-prj_237,Ransom Township Data Center,PA,blocked_confirmed,yes,,0.0279,3,prj_27,Granger Data Center,proposals_unopposed,IN,1000.0,0.0148,1.5131,margin,national+caliper,national_fallback
+prj_237,Ransom Township Data Center,PA,blocked_confirmed,yes,,0.0279,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5523,margin,national+caliper,national_fallback
 prj_238,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,PA,pending,no,,0.0269,1,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,0.0323,margin,state+tercile+caliper,in_state
 prj_238,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,PA,pending,no,,0.0269,2,prj_254,South Hanover Township Data Center,proposals_unopposed,PA,,0.0592,0.0323,margin,state+tercile+caliper,in_state
-prj_238,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,PA,pending,no,,0.0269,3,prj_27,Granger Data Center,proposals_unopposed,IN,1000.0,0.0148,1.5121,margin,national+caliper,national_fallback
+prj_238,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,PA,pending,no,,0.0269,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5513,margin,national+caliper,national_fallback
 prj_240,Project Phoenix,PA,advanced_confirmed,yes,3600.0,-0.2071,1,prj_216,TECfusions “Keystone Connect” AI Campus,proposals_unopposed,PA,3000.0,-0.2842,0.0781,margin+log_mw,state+tercile+caliper,in_state
 prj_240,Project Phoenix,PA,advanced_confirmed,yes,3600.0,-0.2071,2,prj_294,Cumru Titus Data Center,proposals_unopposed,PA,200.0,-0.1218,0.6703,margin+log_mw,state+tercile+caliper,in_state
 prj_240,Project Phoenix,PA,advanced_confirmed,yes,3600.0,-0.2071,3,prj_320,Sharon Keel Infrastructure Data Center Expansion,proposals_unopposed,PA,110.0,-0.3016,0.8047,margin+log_mw,state+tercile+caliper,in_state
@@ -424,7 +430,7 @@ prj_255,Lower Mount Bethel Technology Center,PA,pending,no,1200.0,-0.0177,2,prj_
 prj_255,Lower Mount Bethel Technology Center,PA,pending,no,1200.0,-0.0177,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5067,margin,national+caliper,national_fallback
 prj_256,Sellersville / West Rockhill Township Data Center,PA,pending,no,,-0.0007,1,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,0.0599,margin,state+tercile+caliper,in_state
 prj_256,Sellersville / West Rockhill Township Data Center,PA,pending,no,,-0.0007,2,prj_254,South Hanover Township Data Center,proposals_unopposed,PA,,0.0592,0.0599,margin,state+tercile+caliper,in_state
-prj_256,Sellersville / West Rockhill Township Data Center,PA,pending,no,,-0.0007,3,prj_27,Granger Data Center,proposals_unopposed,IN,1000.0,0.0148,1.5155,margin,national+caliper,national_fallback
+prj_256,Sellersville / West Rockhill Township Data Center,PA,pending,no,,-0.0007,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5237,margin,national+caliper,national_fallback
 prj_258,North Coventry Township Data Center,PA,blocked_confirmed,yes,,0.1446,1,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,0.0854,margin,state+tercile+caliper,in_state
 prj_258,North Coventry Township Data Center,PA,blocked_confirmed,yes,,0.1446,2,prj_254,South Hanover Township Data Center,proposals_unopposed,PA,,0.0592,0.0854,margin,state+tercile+caliper,in_state
 prj_258,North Coventry Township Data Center,PA,blocked_confirmed,yes,,0.1446,3,prj_217,Springdale AI Data Center Redevelopment,proposals_unopposed,PA,180.0,0.2031,0.0585,margin,state+caliper,in_state
@@ -451,10 +457,13 @@ prj_268,Watts Township Data Center,PA,pending,no,,-0.4932,2,prj_257,Iron City No
 prj_268,Watts Township Data Center,PA,pending,no,,-0.4932,3,prj_231,Storage Data Center Project,proposals_unopposed,PA,,-0.5175,0.0243,margin,state+tercile+caliper,in_state
 prj_269,Project Triboro,PA,pending,no,,0.0279,1,prj_221,Dauphin Highlands Golf Course sold for Data Center,proposals_unopposed,PA,,0.0592,0.0313,margin,state+tercile+caliper,in_state
 prj_269,Project Triboro,PA,pending,no,,0.0279,2,prj_254,South Hanover Township Data Center,proposals_unopposed,PA,,0.0592,0.0313,margin,state+tercile+caliper,in_state
-prj_269,Project Triboro,PA,pending,no,,0.0279,3,prj_27,Granger Data Center,proposals_unopposed,IN,1000.0,0.0148,1.5131,margin,national+caliper,national_fallback
+prj_269,Project Triboro,PA,pending,no,,0.0279,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5523,margin,national+caliper,national_fallback
 prj_275,Smithfield Data Center,RI,pending,no,,0.1443,1,prj_134,Rural Hall Data Center,proposals_unopposed,NC,,0.1317,1.5126,margin,national+caliper,national_fallback
 prj_275,Smithfield Data Center,RI,pending,no,,0.1443,2,prj_86,Pavilion Township Data Center,proposals_unopposed,MI,,0.1773,1.5330,margin,national+caliper,national_fallback
 prj_275,Smithfield Data Center,RI,pending,no,,0.1443,3,prj_47,Edged Energy Des Moines,proposals_unopposed,IA,13.0,0.1089,1.5354,margin,national+caliper,national_fallback
+prj_276,Colossus,TN,advanced_confirmed,yes,150.0,0.2537,1,prj_299,Albany Kenwood Data Center,proposals_unopposed,NY,,0.2584,1.5047,margin,national+caliper,national_fallback
+prj_276,Colossus,TN,advanced_confirmed,yes,150.0,0.2537,2,prj_138,High Point Data Center,proposals_unopposed,NC,,0.2184,1.5353,margin,national+caliper,national_fallback
+prj_276,Colossus,TN,advanced_confirmed,yes,150.0,0.2537,3,prj_224,McKees Rocks Industrial Site Data Center,proposals_unopposed,PA,,0.2031,1.5506,margin,national+caliper,national_fallback
 prj_277,Colossus 2,TN,advanced_confirmed,yes,422.0,0.2537,1,prj_299,Albany Kenwood Data Center,proposals_unopposed,NY,,0.2584,1.5047,margin,national+caliper,national_fallback
 prj_277,Colossus 2,TN,advanced_confirmed,yes,422.0,0.2537,2,prj_138,High Point Data Center,proposals_unopposed,NC,,0.2184,1.5353,margin,national+caliper,national_fallback
 prj_277,Colossus 2,TN,advanced_confirmed,yes,422.0,0.2537,3,prj_224,McKees Rocks Industrial Site Data Center,proposals_unopposed,PA,,0.2031,1.5506,margin,national+caliper,national_fallback
@@ -479,9 +488,15 @@ prj_298,Maysville Data Center,KY,advanced_confirmed,yes,2200.0,-0.4369,3,atl_013
 prj_300,Microsoft La Porte Data Center,IN,advanced_confirmed,yes,,-0.1414,1,prj_37,Pittsboro Middle Township Data Center,proposals_unopposed,IN,,-0.2150,0.0736,margin,state+tercile+caliper,in_state
 prj_300,Microsoft La Porte Data Center,IN,advanced_confirmed,yes,,-0.1414,2,prj_294,Cumru Titus Data Center,proposals_unopposed,PA,200.0,-0.1218,1.5196,margin,national+caliper,national_fallback
 prj_300,Microsoft La Porte Data Center,IN,advanced_confirmed,yes,,-0.1414,3,prj_10,Edged Energy Prichard Data Center,proposals_unopposed,AL,,-0.1645,1.5231,margin,national+caliper,national_fallback
+prj_303,Granville Data Center,PA,pending,no,,-0.5640,1,prj_231,Storage Data Center Project,proposals_unopposed,PA,,-0.5175,0.0465,margin,state+tercile+caliper,in_state
+prj_303,Granville Data Center,PA,pending,no,,-0.5640,2,prj_257,Iron City No. 1 Power Generator and Compute Center,proposals_unopposed,PA,,-0.5153,0.0487,margin,state+tercile+caliper,in_state
+prj_303,Granville Data Center,PA,pending,no,,-0.5640,3,prj_241,Bradford County / Klondike Data Center Project,proposals_unopposed,PA,218.0,-0.4792,0.0848,margin,state+tercile+caliper,in_state
 prj_304,DartPoints Former Lexmark Data Center Redevelopment,KY,pending,no,,0.1811,1,prj_86,Pavilion Township Data Center,proposals_unopposed,MI,,0.1773,1.5038,margin,national+caliper,national_fallback
 prj_304,DartPoints Former Lexmark Data Center Redevelopment,KY,pending,no,,0.1811,2,prj_217,Springdale AI Data Center Redevelopment,proposals_unopposed,PA,180.0,0.2031,1.5220,margin,national+caliper,national_fallback
 prj_304,DartPoints Former Lexmark Data Center Redevelopment,KY,pending,no,,0.1811,3,prj_224,McKees Rocks Industrial Site Data Center,proposals_unopposed,PA,,0.2031,1.5220,margin,national+caliper,national_fallback
+prj_305,Nashville DC Blox Data Center,TN,pending,no,,0.2745,1,prj_299,Albany Kenwood Data Center,proposals_unopposed,NY,,0.2584,1.5161,margin,national+caliper,national_fallback
+prj_305,Nashville DC Blox Data Center,TN,pending,no,,0.2745,2,prj_201,Morabito Slavic Village Data Center,proposals_unopposed,OH,,0.3147,1.5402,margin,national+caliper,national_fallback
+prj_305,Nashville DC Blox Data Center,TN,pending,no,,0.2745,3,prj_138,High Point Data Center,proposals_unopposed,NC,,0.2184,1.5561,margin,national+caliper,national_fallback
 prj_306,Muskie Data Campus,KY,pending,no,,-0.5846,1,atl_01326,East Kentucky Network Datacenter,atlas,KY,,-0.5920,0.7074,margin,state+tercile+caliper,in_state
 prj_306,Muskie Data Campus,KY,pending,no,,-0.5846,2,atl_01113,Dynamics Mining,atlas,KY,,-0.5087,0.7759,margin,state+tercile+caliper,in_state
 prj_306,Muskie Data Campus,KY,pending,no,,-0.5846,3,prj_288,Monarch Compute Campus and Mountaineer Gigasystem,proposals_unopposed,WV,2000.0,-0.5804,1.5042,margin,national+caliper,national_fallback
@@ -496,10 +511,7 @@ prj_311,Polaris Forge 2,ND,advanced_confirmed,yes,1000.0,-0.0842,2,prj_51,COPT D
 prj_311,Polaris Forge 2,ND,advanced_confirmed,yes,1000.0,-0.0842,3,prj_48,Project Morgan,proposals_unopposed,IA,,-0.0475,1.5367,margin,national+caliper,national_fallback
 prj_312,Applied Digital Oliver County,ND,pending,no,430.0,-0.6946,1,prj_314,Project Fighting Pike,proposals_unopposed,ND,455.0,-0.6812,0.0190,margin+log_mw,state+tercile+caliper,in_state
 prj_312,Applied Digital Oliver County,ND,pending,no,430.0,-0.6946,2,prj_315,Atlas Power Williston,proposals_unopposed,ND,700.0,-0.6812,0.1125,margin+log_mw,state+tercile+caliper,in_state
-prj_312,Applied Digital Oliver County,ND,pending,no,430.0,-0.6946,3,prj_284,Lawrenceburg / Ethridge Data Center,proposals_unopposed,TN,,-0.6906,1.5040,margin,national+caliper,national_fallback
-prj_313,River Run Energy Center,ND,pending,no,1450.0,-0.6901,1,prj_315,Atlas Power Williston,proposals_unopposed,ND,700.0,-0.6812,0.1626,margin+log_mw,state+tercile+caliper,in_state
-prj_313,River Run Energy Center,ND,pending,no,1450.0,-0.6901,2,prj_314,Project Fighting Pike,proposals_unopposed,ND,455.0,-0.6812,0.2561,margin+log_mw,state+tercile+caliper,in_state
-prj_313,River Run Energy Center,ND,pending,no,1450.0,-0.6901,3,prj_284,Lawrenceburg / Ethridge Data Center,proposals_unopposed,TN,,-0.6906,1.5005,margin,national+caliper,national_fallback
+prj_312,Applied Digital Oliver County,ND,pending,no,430.0,-0.6946,3,prj_313,River Run Energy Center,proposals_unopposed,ND,1450.0,-0.6901,0.2662,margin+log_mw,state+tercile+caliper,in_state
 prj_316,4-3 Salem Township Data Center,PA,pending,no,3500.0,-0.1917,1,prj_216,TECfusions “Keystone Connect” AI Campus,proposals_unopposed,PA,3000.0,-0.2842,0.0797,margin+log_mw,state+tercile+caliper,in_state
 prj_316,4-3 Salem Township Data Center,PA,pending,no,3500.0,-0.1917,2,prj_294,Cumru Titus Data Center,proposals_unopposed,PA,200.0,-0.1218,0.6565,margin+log_mw,state+tercile+caliper,in_state
 prj_316,4-3 Salem Township Data Center,PA,pending,no,3500.0,-0.1917,3,prj_49,Google Council Bluffs,proposals_unopposed,IA,,-0.1997,1.5080,margin,national+caliper,national_fallback
@@ -509,6 +521,9 @@ prj_317,Holyoke Data Center,MA,pending,no,20.0,0.0889,3,prj_52,Project Alluvion,
 prj_318,Project Domino,IN,advanced_confirmed,yes,1000.0,-0.1601,1,prj_37,Pittsboro Middle Township Data Center,proposals_unopposed,IN,,-0.2150,0.0549,margin,state+tercile+caliper,in_state
 prj_318,Project Domino,IN,advanced_confirmed,yes,1000.0,-0.1601,2,prj_10,Edged Energy Prichard Data Center,proposals_unopposed,AL,,-0.1645,1.5044,margin,national+caliper,national_fallback
 prj_318,Project Domino,IN,advanced_confirmed,yes,1000.0,-0.1601,3,prj_49,Google Council Bluffs,proposals_unopposed,IA,,-0.1997,1.5396,margin,national+caliper,national_fallback
+prj_321,Harper Road Technology Park,MO,pending,no,,-0.3209,1,prj_16,Vilonia Cryptomine,proposals_unopposed,AR,,-0.3232,1.5023,margin,national+caliper,national_fallback
+prj_321,Harper Road Technology Park,MO,pending,no,,-0.3209,2,prj_26,Bristol Data Center,proposals_unopposed,IN,,-0.3238,1.5029,margin,national+caliper,national_fallback
+prj_321,Harper Road Technology Park,MO,pending,no,,-0.3209,3,prj_292,Appalachian Mega Site / Hog Lick Data Center,proposals_unopposed,WV,200.0,-0.3124,1.5085,margin,national+caliper,national_fallback
 prj_321,Harper Road Technology Park,MO,pending,no,,-0.3209,1,prj_16,Vilonia Cryptomine,proposals_unopposed,AR,,-0.3232,1.5023,margin,national+caliper,national_fallback
 prj_321,Harper Road Technology Park,MO,pending,no,,-0.3209,2,prj_26,Bristol Data Center,proposals_unopposed,IN,,-0.3238,1.5029,margin,national+caliper,national_fallback
 prj_321,Harper Road Technology Park,MO,pending,no,,-0.3209,3,prj_292,Appalachian Mega Site / Hog Lick Data Center,proposals_unopposed,WV,200.0,-0.3124,1.5085,margin,national+caliper,national_fallback

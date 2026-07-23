@@ -1,63 +1,63 @@
 {
-  "generated": "2026-07-20",
-  "n": 83,
+  "generated": "2026-07-23",
+  "n": 85,
   "n_blocked": 26,
-  "base_rate": 0.3133,
+  "base_rate": 0.3059,
   "cv": {
     "folds": 5,
     "repeats": 10
   },
   "roc_auc": {
-    "p10": 0.7082,
-    "p50": 0.8182,
-    "p90": 0.9258
+    "p10": 0.6997,
+    "p50": 0.8409,
+    "p90": 0.9405
   },
   "brier": {
-    "p10": 0.127,
-    "p50": 0.1775,
-    "p90": 0.2388,
-    "base_rate_brier": 0.2151
+    "p10": 0.1101,
+    "p50": 0.1661,
+    "p90": 0.2184,
+    "base_rate_brier": 0.2123
   },
   "top_features": [
     {
       "name": "mech_public_comment",
-      "auc_drop": 0.1973,
-      "mean_std_coef": -1.3516
-    },
-    {
-      "name": "capacity_missing",
-      "auc_drop": 0.0587,
-      "mean_std_coef": 0.7052
+      "auc_drop": 0.1836,
+      "mean_std_coef": -1.3763
     },
     {
       "name": "hyperscaler_involved",
-      "auc_drop": 0.0474,
-      "mean_std_coef": -0.6295
+      "auc_drop": 0.0281,
+      "mean_std_coef": -0.5771
+    },
+    {
+      "name": "capacity_missing",
+      "auc_drop": 0.027,
+      "mean_std_coef": 0.544
     },
     {
       "name": "county_margin_2024",
-      "auc_drop": 0.0359,
-      "mean_std_coef": 0.5945
+      "auc_drop": 0.0198,
+      "mean_std_coef": 0.5347
     },
     {
-      "name": "mech_legislation",
-      "auc_drop": -0.0129,
-      "mean_std_coef": -0.1383
+      "name": "days_to_first_opposition",
+      "auc_drop": 0.0174,
+      "mean_std_coef": -0.3668
     },
     {
       "name": "log10_capacity_mw",
-      "auc_drop": -0.0087,
-      "mean_std_coef": -0.0221
+      "auc_drop": -0.0103,
+      "mean_std_coef": -0.0349
     },
     {
-      "name": "has_lawsuit",
-      "auc_drop": -0.0076,
-      "mean_std_coef": -0.1492
+      "name": "mech_regulatory_action",
+      "auc_drop": 0.0092,
+      "mean_std_coef": -0.3691
     },
     {
-      "name": "mech_lawsuit",
-      "auc_drop": -0.0076,
-      "mean_std_coef": -0.1492
+      "name": "mech_legislation",
+      "auc_drop": -0.0091,
+      "mean_std_coef": -0.0685
     }
   ],
   "feature_columns": [
@@ -70,6 +70,9 @@
     "capacity_missing",
     "petition_signatures_log1p",
     "hyperscaler_involved",
+    "log1p_existing_dc_in_county",
+    "days_to_first_opposition",
+    "log1p_prior_state_opposition",
     "mech_moratorium",
     "mech_zoning_restriction",
     "mech_lawsuit",
