@@ -3,3 +3,5 @@ id,field,value,reason,source
 74,date,2025-08,"Announced-date correction (sourced); scraper date was later",web-verified
 158,date,2025-09,"Announced-date correction (sourced); scraper leaves blank",INDY Week 2025-09-08
 160,date,2025-07,"Announced-date correction (sourced); scraper date was later",web-verified
+25,date,2023-10,"Announced-date correction (sourced). Scraper carried 2023-12-19 (Allen County commissioners annexation vote). Project first became public October 2023 when Fort Wayne shared preliminary plans for an unnamed Fortune 100 tenant; Allen County Plan Commission documents date to October 2023. Corrects a negative announced-to-first-opposition span.",https://www.wane.com/top-stories/google-confirms-its-the-business-behind-project-zodiac-data-center-project-in-fort-wayne/
+323,date,2024-12,"Announced-date confirmation (sourced). Meta announced the Richland Parish campus (Hyperion) in December 2024, confirming the existing scraper date. Precision corrected from day to month. The negative span on this project originates on the opposition side, not here; see date_recovery_negative_spans.md.",https://datacenters.atmeta.com/richland-parish-data-center/
