@@ -21,10 +21,32 @@ h2 { font-weight:700; margin-bottom:4px }
   padding:12px 14px; border-radius:10px; margin-bottom:14px; font-size:13px }
 
 .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:16px }
-.kpi { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:12px 14px }
+.kpi { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:12px 14px; position:relative }
+.kpi.has-help { padding-right:32px }
 .kpi b { display:block; font-size:20px; font-weight:700 }
 .kpi span { font-size:11px; color:var(--muted) }
 .kpi .ci { font-size:11px; color:var(--muted); margin-left:4px; font-weight:400 }
+.kpi.is-open { border-color:var(--tier1) }
+
+/* Click-to-open metric explainers. A tapped panel rather than a hover tooltip:
+   hover does not exist on touch, and these read better at full width. */
+.kpi-help { position:absolute; top:9px; right:9px; width:19px; height:19px; border-radius:50%;
+  border:1px solid var(--border); background:var(--panel2); color:var(--muted);
+  font:700 11px/1 Inter,system-ui,sans-serif; cursor:pointer; padding:0;
+  display:flex; align-items:center; justify-content:center }
+.kpi-help:hover { color:var(--text); border-color:var(--tier1) }
+.kpi-help[aria-expanded="true"] { background:var(--tier1); border-color:var(--tier1); color:var(--bg) }
+.kpi-help:focus-visible { outline:2px solid var(--tier1); outline-offset:2px }
+#kpi-explain { display:none; background:var(--panel); border:1px solid var(--tier1); border-radius:10px;
+  padding:12px 14px; margin:-6px 0 16px; font-size:13px; line-height:1.55; color:#c6cfda }
+#kpi-explain h3 { font-size:13px; font-weight:700; color:var(--text); margin-bottom:5px }
+#kpi-explain p { margin:6px 0 }
+#kpi-explain p:first-of-type { margin-top:0 }
+#kpi-explain strong { color:var(--text) }
+#kpi-explain .close { float:right; margin-left:10px; background:none; border:0; color:var(--muted);
+  cursor:pointer; font:400 16px/1 Inter,system-ui,sans-serif; padding:0 2px }
+#kpi-explain .close:hover { color:var(--text) }
+#kpi-explain .close:focus-visible { outline:2px solid var(--tier1); outline-offset:2px; border-radius:3px }
 
 .card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px 18px; margin-bottom:14px }
 .card h1 { font-size:17px; font-weight:700; margin-bottom:8px }
@@ -95,6 +117,7 @@ a { color:#5aa9e6 }
   <div class="kpi"><b>–</b><span>Brier score</span></div>
   <div class="kpi"><b>–</b><span>Post-recalibration slope</span></div>
 </div>
+<div id="kpi-explain" role="region" aria-live="polite"></div>
 <div class="map-card">
   <div id="scoreMap"></div>
   <div class="map-legend">
@@ -246,22 +269,135 @@ async function fetchFirst(urls, asJson) {
 
 function fmtPct(x, dp) { return (x * 100).toFixed(dp === undefined ? 1 : dp) + '%'; }
 
-function kpi(label, value, ci) {
-  return `<div class="kpi"><b>${value}${ci ? `<span class="ci">${ci}</span>` : ''}</b><span>${label}</span></div>`;
+function kpi(label, value, ci, key) {
+  const help = key
+    ? `<button class="kpi-help" type="button" data-key="${key}" aria-expanded="false"
+        aria-controls="kpi-explain" title="What does this mean?"
+        aria-label="Explain: ${label}">?</button>`
+    : '';
+  return `<div class="kpi${key ? ' has-help' : ''}" data-kpi="${key || ''}">` +
+    `<b>${value}${ci ? `<span class="ci">${ci}</span>` : ''}</b><span>${label}</span>${help}</div>`;
 }
+
+// Plain-language explainers for the KPI strip. Each is a function of the live
+// metrics object so the copy quotes the current numbers rather than hardcoded
+// ones. Framing follows the platform reading rule: predictive, not causal, and
+// detection-bias tiering travels with any county-level claim.
+const KPI_HELP = {
+  frame: m => ({
+    title: 'Counties in model frame',
+    body: `<p>Every U.S. county is scored, not only the ones with tracked opposition. The frame is all
+      <strong>${m.n.toLocaleString()}</strong> counties under current county definitions, Puerto Rico excluded.
+      So a pale county on the map is a county the model scored low.</p>
+      <p>The caveat sits on the label, not the score. A county counts as a positive only if an enacted
+      restriction is on the record. Enacted policy was chosen as the outcome precisely because it is public
+      record and so carries low detection bias, but low is not none: a county coded as having none may have
+      one that has not surfaced.</p>`
+  }),
+  positives: m => ({
+    title: 'Enacted-restriction counties',
+    body: `<p><strong>${m.n_positive}</strong> counties have a restriction that actually passed: a moratorium
+      or restrictive zoning carrying terminal enacted status. Proposed, pending, and defeated measures do not
+      count toward it.</p>
+      <p><strong>${fmtPct(m.base_rate)}</strong> is the prevalence, not a performance bar. What it sets is the
+      no-skill benchmark: predict ${fmtPct(m.base_rate)} for every county in the country and you score 0.50 AUC
+      and ${m.brier.base_rate_brier.toFixed(3)} Brier. Those are the two numbers the model has to beat, and they
+      are the comparisons shown in the boxes to the right.</p>
+      <p>It is also why plain accuracy is not reported. Always answering "no restriction" is right about
+      ${fmtPct(1 - m.base_rate, 0)} of the time and tells you nothing.</p>`
+  }),
+  auc: m => ({
+    title: 'ROC AUC (median, CV)',
+    body: `<p><strong>Ranking, and only ranking.</strong> Take one county that enacted a restriction and one
+      that did not, at random. The model gives the restriction county the higher score about
+      <strong>${fmtPct(m.roc_auc.p50, 0)}</strong> of the time. A coin flip is 0.50, perfect separation is 1.00.</p>
+      <p>The bracket is the 10th to 90th percentile across cross-validation resamples. It shows how much the
+      estimate moves between splits, so the result does not rest on one lucky fold. It is a spread, not a
+      confidence interval.</p>
+      <p>AUC responds to the order of the scores, never their scale: stretch or shrink every probability and
+      the number is unchanged. That is why calibration is reported separately, and why this figure backs
+      sorting counties into risk bands rather than quoting one county's probability on its own.</p>`
+  }),
+  brier: m => {
+    const bss = m.brier.base_rate_brier > 0
+      ? Math.round((1 - m.brier.p50 / m.brier.base_rate_brier) * 100) : null;
+    return {
+      title: 'Brier score',
+      body: `<p>The average squared gap between the predicted probability and what actually happened, scoring
+        the outcome as 1 if the county enacted a restriction and 0 if it did not. Lower is better.</p>
+        <p>The comparison figure <strong>${m.brier.base_rate_brier.toFixed(3)}</strong> is what the no-skill
+        base-rate prediction scores.${bss !== null ? ` The model's ${m.brier.p50.toFixed(3)} is about a
+        ${bss}% reduction against it, which is the Brier skill score.` : ''} The absolute margin looks slim
+        because a rare outcome makes the base-rate score low to begin with, leaving little room to move.</p>
+        <p>Brier is a proper scoring rule, so it penalizes bad ranking and badly scaled probabilities alike.
+        Beating the base rate therefore says the probabilities carry information, not just the ordering.</p>`
+    };
+  },
+  slope: m => ({
+    title: 'Post-recalibration slope',
+    body: `<p><strong>Whether the spread of the predicted probabilities is right.</strong> It is the coefficient
+      from regressing observed outcomes on the model's predicted log-odds. Below 1.00 means the predictions run
+      too extreme, or overconfident. Above 1.00 means they are too bunched together, or underconfident. At 1.00
+      they are neither.</p>
+      <p>Slope governs spread, not level. Whether the overall rate lands in the right place is the calibration
+      intercept, a separate check.</p>
+      <p>Read "post-recalibration" literally. This is measured after the calibration step, so 1.00 confirms
+      that step did its job. It is not independent evidence about the model before recalibration.</p>`
+  })
+};
+
+let LAST_METRICS = null;
+let OPEN_KPI = null;
+
+function closeExplain() {
+  OPEN_KPI = null;
+  document.getElementById('kpi-explain').style.display = 'none';
+  document.querySelectorAll('.kpi-help').forEach(b => b.setAttribute('aria-expanded', 'false'));
+  document.querySelectorAll('.kpi').forEach(k => k.classList.remove('is-open'));
+}
+
+function openExplain(key) {
+  const fn = KPI_HELP[key];
+  if (!fn || !LAST_METRICS) return;
+  let content;
+  try { content = fn(LAST_METRICS); } catch (e) { return; }
+  const panel = document.getElementById('kpi-explain');
+  panel.innerHTML =
+    `<button class="close" type="button" aria-label="Close explanation">\u00d7</button>` +
+    `<h3>${content.title}</h3>${content.body}`;
+  panel.style.display = 'block';
+  document.querySelectorAll('.kpi-help').forEach(b =>
+    b.setAttribute('aria-expanded', String(b.dataset.key === key)));
+  document.querySelectorAll('.kpi').forEach(k =>
+    k.classList.toggle('is-open', k.dataset.kpi === key));
+  OPEN_KPI = key;
+}
+
+document.getElementById('kpis').addEventListener('click', ev => {
+  const btn = ev.target.closest('.kpi-help');
+  if (!btn) return;
+  const key = btn.dataset.key;
+  if (OPEN_KPI === key) closeExplain(); else openExplain(key);
+});
+document.getElementById('kpi-explain').addEventListener('click', ev => {
+  if (ev.target.closest('.close')) closeExplain();
+});
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && OPEN_KPI) closeExplain(); });
 
 function renderKpis(m) {
   const wrap = document.getElementById('kpis');
   try {
     const auc = m.roc_auc, br = m.brier, cal = m.calibration || {};
     wrap.innerHTML =
-      kpi('Counties in model frame', m.n.toLocaleString()) +
-      kpi('Enacted-restriction counties', `${m.n_positive}`, `(${fmtPct(m.base_rate)} base)`) +
-      kpi('ROC AUC (median, CV)', auc.p50.toFixed(2), `[${auc.p10.toFixed(2)}\u2013${auc.p90.toFixed(2)}]`) +
-      kpi('Brier score', br.p50.toFixed(3), `vs ${br.base_rate_brier.toFixed(3)} base`) +
-      kpi('Post-recalibration slope', (cal.post_recalibration_slope ?? cal.post_recal_slope ?? cal.slope ?? NaN).toFixed(2));
+      kpi('Counties in model frame', m.n.toLocaleString(), null, 'frame') +
+      kpi('Enacted-restriction counties', `${m.n_positive}`, `(${fmtPct(m.base_rate)} base)`, 'positives') +
+      kpi('ROC AUC (median, CV)', auc.p50.toFixed(2), `[${auc.p10.toFixed(2)}\u2013${auc.p90.toFixed(2)}]`, 'auc') +
+      kpi('Brier score', br.p50.toFixed(3), `vs ${br.base_rate_brier.toFixed(3)} base`, 'brier') +
+      kpi('Post-recalibration slope', (cal.post_recalibration_slope ?? cal.post_recal_slope ?? cal.slope ?? NaN).toFixed(2), null, 'slope');
+    LAST_METRICS = m;
   } catch (e) {
     wrap.innerHTML = '';
+    closeExplain();
     banner('<b>Metrics file loaded but could not be summarized.</b> The full report below is unaffected.');
   }
 }
