@@ -26,7 +26,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install requests feedparser
+        run: pip install requests
 
       - name: Run CSV build
         run: python scripts/build_master_csv.py
@@ -36,7 +36,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add master_opposition.csv
-          git diff --cached --quiet || git commit -m "Update master_opposition.csv"
+          # Harvest queue is written by the same job. It is review material,
+          # never database content, so it commits alongside but separately.
+          git add data/signal_candidates.csv data/signal_harvest_log.csv 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "Update master_opposition.csv + harvest queue"
           git push
 
       - name: Notify on failure
