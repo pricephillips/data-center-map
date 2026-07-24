@@ -4,17 +4,21 @@ Generated 2026-07-24. Frame design registered 2026-07-23 (module docstring): cen
 
 ## Coverage
 
-- Frame size: 176
-- Coded: 10 (6%)
+- Frame size: 175
+- Coded: 9 (5%)
 - Remaining: 166
 
 ## Coding mix (coded rows)
 
 | coding | n | share of coded |
 |---|---|---|
-| verified_opposition | 7 | 70% |
-| verified_none | 1 | 10% |
-| undeterminable | 2 | 20% |
+| verified_opposition | 6 | 67% |
+| verified_none | 1 | 11% |
+| undeterminable | 2 | 22% |
 
 Interpretation rules: emergence-rate statements use verified_opposition / (verified_opposition + verified_none) and must always report the undeterminable count alongside, since undeterminable rows are not missing at random (they skew toward low-footprint projects). No emergence model trains until coverage of the frame is complete; partial-coverage rates are interim descriptives only.
+
+## Coding validation problems
+
+- line 7: universe_id prj_76 not in audit frame; row ignored
 
