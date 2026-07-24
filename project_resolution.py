@@ -53,6 +53,7 @@ OUT_LIFECYCLES = os.environ.get("PR_OUT_LIFE", os.path.join(ROOT, "data", "proje
 OUT_REVIEW = os.environ.get("PR_OUT_REVIEW", os.path.join(ROOT, "data", "project_link_review.csv"))
 MANUAL_LINKS = os.environ.get("PR_MANUAL_LINKS", os.path.join(ROOT, "data", "project_links_manual.csv"))
 MANUAL_DATES = os.environ.get("PR_MANUAL_DATES", os.path.join(ROOT, "data", "project_decision_dates.csv"))
+DUPLICATES_CSV = os.environ.get("PR_DUPLICATES", os.path.join(ROOT, "data", "project_duplicates.csv"))
 
 # ---------------------------------------------------------------------------
 # Vocabulary (activity-descriptive ladder; no scorekeeping terms)
@@ -428,7 +429,62 @@ def resolve(events: list[dict], projects: list[dict]):
 #   Supplies the verifiable decision date for a terminal project. Rows here
 #   clear the corresponding DATE_RECOVERY flag. decision_date must be
 #   YYYY-MM-DD; anything else is reported and ignored (never guessed).
+#
+# data/project_duplicates.csv      keep_id, drop_id, reason, source
+#   Suppresses duplicate project rows (same real-world project appearing
+#   under two prj_ ids, e.g. a manual addition duplicating a scraped row).
+#   The drop_id project is removed from the frame BEFORE event resolution,
+#   so its events (if any) re-resolve against the surviving projects, and
+#   the suppression propagates to lifecycles, the baseline universe, the
+#   audit frame, and every model downstream. Both ids must be prj_-prefixed
+#   and distinct; reason and source are required (defensibility). Rows
+#   failing validation are reported and ignored. If the file is absent,
+#   this is a no-op.
 # ---------------------------------------------------------------------------
+
+def load_duplicates(path: str) -> tuple[dict[str, dict], list[str]]:
+    """Return ({drop_id: row}, problems) from project_duplicates.csv."""
+    out: dict[str, dict] = {}
+    problems: list[str] = []
+    if not os.path.exists(path):
+        return out, problems
+    for i, r in enumerate(load_csv(path), 2):
+        keep = (r.get("keep_id") or "").strip()
+        drop = (r.get("drop_id") or "").strip()
+        if not (keep.startswith("prj_") and drop.startswith("prj_")):
+            problems.append(f"{os.path.basename(path)} line {i}: keep_id and "
+                            f"drop_id must be prj_ ids; row ignored")
+            continue
+        if keep == drop:
+            problems.append(f"{os.path.basename(path)} line {i}: keep_id equals "
+                            f"drop_id; row ignored")
+            continue
+        if not (r.get("reason") or "").strip() or not (r.get("source") or "").strip():
+            problems.append(f"{os.path.basename(path)} line {i}: reason and "
+                            f"source are required (defensibility); row ignored")
+            continue
+        out[drop] = {"keep_id": keep, "drop_id": drop,
+                     "reason": r["reason"].strip(), "source": r["source"].strip()}
+    return out, problems
+
+
+def apply_duplicates(projects: list[dict], dups: dict[str, dict]) -> tuple[list[dict], list[str]]:
+    """Remove drop_id projects; validate both sides exist in the frame."""
+    problems: list[str] = []
+    ids = {p["project_id"] for p in projects}
+    active: dict[str, dict] = {}
+    for drop, row in dups.items():
+        if drop not in ids:
+            problems.append(f"project_duplicates: drop_id {drop} not in frame; row ignored")
+            continue
+        if row["keep_id"] not in ids:
+            problems.append(f"project_duplicates: keep_id {row['keep_id']} not in "
+                            f"frame; row for {drop} ignored")
+            continue
+        active[drop] = row
+    kept = [p for p in projects if p["project_id"] not in active]
+    return kept, problems
+
 
 def load_manual_links(path: str) -> tuple[dict[tuple[str, str], dict], list[str]]:
     """Return ({(opp_id, project_id): row}, problems)."""
@@ -722,6 +778,14 @@ def main() -> int:
     opp_rows = load_csv(OPPOSITION_CSV)
     prop_rows = load_csv(PROPOSALS_CSV)
     projects = prep_projects(prop_rows)
+    dups, dup_problems = load_duplicates(DUPLICATES_CSV)
+    projects, dup_apply_problems = apply_duplicates(projects, dups)
+    n_suppressed = len(dups) - sum(1 for m in dup_apply_problems)
+    for msg in dup_problems + dup_apply_problems:
+        print(f"MANUAL OVERRIDE WARNING: {msg}")
+    if n_suppressed:
+        print(f"duplicate suppression: {n_suppressed} project row(s) removed "
+              f"(see data/project_duplicates.csv)")
     events = [prep_event(r) for r in opp_rows]
 
     links, review = resolve(events, projects)
