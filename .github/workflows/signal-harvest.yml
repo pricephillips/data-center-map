@@ -1,0 +1,71 @@
+name: Signal Harvest
+
+# Weekly candidate-event sweep. Queries the GDELT 2.0 Doc API for data center
+# opposition coverage, drops anything already cited in the database, geotags
+# what it can, and commits a ranked review worklist to
+# data/signal_candidates.csv.
+#
+# This workflow NEVER writes to master_opposition.csv. Everything it produces
+# is a candidate requiring human verification before entry, so the sourced-URL
+# rule and the defensibility rule are untouched. It exists to remove the
+# find-it step from the weekly loop, not the verify-it step.
+#
+# Separate from pipeline.yml on purpose: it is triggered by a schedule rather
+# than a data change, it depends on an external API that can be slow or
+# throttled, and a bad harvest run must never be able to hold up the clean
+# feed or the Iowa sync.
+
+on:
+  schedule:
+    - cron: "0 11 * * 1"      # Mondays, 11:00 UTC (early morning US Eastern)
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Lookback window in days"
+        required: false
+        default: "7"
+      states:
+        description: "Optional comma-separated state filter, e.g. VA,OH,IA"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout data-center-map
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Gate - harvester self-tests (BLOCKING)
+        run: python signal_harvest.py --selftest
+
+      - name: Harvest candidates
+        run: |
+          python signal_harvest.py \
+            --days "${{ github.event.inputs.days || '7' }}" \
+            ${{ github.event.inputs.states && format('--states {0}', github.event.inputs.states) || '' }}
+
+      - name: Commit worklist
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/signal_candidates.csv data/signal_harvest_log.csv 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "Signal harvest worklist [skip ci]"
+          git push
+
+      - name: Summary
+        run: |
+          echo "### Signal harvest" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Candidates written to \`data/signal_candidates.csv\`. Each row is unverified and requires a sourced review before any entry into the database." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          head -15 data/signal_candidates.csv >> $GITHUB_STEP_SUMMARY

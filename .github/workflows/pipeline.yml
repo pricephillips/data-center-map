@@ -4,6 +4,7 @@ name: Build Clean Feed
 #   raw master_opposition.csv  ->  cleaner  ->  QC gate  ->  master_opposition_clean.csv
 #   -> project resolution (event->project links + lifecycles)
 #   -> county layer (county_aggregator -> county_policy_model)
+#   -> site screener (opposition environment tiers + movement report)
 # then triggers the Iowa Notion sync.
 #
 # REPLACES notify-iowa-tracker.yml — this workflow now owns both the cleaning
@@ -73,6 +74,12 @@ jobs:
         continue-on-error: true
         run: python county_aggregator.py && python county_policy_model.py
 
+      - name: Site screener (client-facing opposition environment tiers + movement)
+        id: site_screener
+        if: steps.county_layer.outcome == 'success'
+        continue-on-error: true
+        run: python site_screener.py --selftest && python site_screener.py --batch
+
       - name: Commit generated feed + reports
         run: |
           git config user.name  "github-actions[bot]"
@@ -96,11 +103,19 @@ jobs:
                     data/county_policy_scores.csv data/county_policy_metrics.json \
                     data/county_policy_report.md 2>/dev/null || true
           fi
+          # Screener artifacts are staged ONLY on a green screener step. The
+          # history file is append-only and idempotent within a day, so a
+          # re-run on the same date replaces that date's snapshot rather than
+          # doubling it.
+          if [ "${{ steps.site_screener.outcome }}" = "success" ]; then
+            git add data/site_screen.csv data/site_screen_history.csv \
+                    data/site_screen_movers.md 2>/dev/null || true
+          fi
           git diff --staged --quiet || git commit -m "Auto-build clean feed from master_opposition.csv [skip ci]"
           git push
 
       - name: Trigger Iowa Notion sync
-        if: success() || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure'
+        if: success() || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure' || steps.site_screener.outcome == 'failure'
         uses: actions/github-script@v7
         with:
           # Cross-repo dispatch needs a PAT with repo scope (the default
@@ -125,4 +140,10 @@ jobs:
         if: steps.county_layer.outcome == 'failure'
         run: |
           echo "::error::County layer failed (aggregate QC gate, policy model, or leak audit). County artifacts were NOT committed; the last good layer remains in place. Clean feed and Iowa sync were unaffected."
+          exit 1
+
+      - name: Surface site-screener failure (visible, non-blocking)
+        if: steps.site_screener.outcome == 'failure'
+        run: |
+          echo "::error::site_screener.py failed (self-tests, batch scoring, or leak audit). Screener artifacts were NOT committed; the last good screen remains in place. Clean feed, county layer, and Iowa sync were unaffected."
           exit 1
