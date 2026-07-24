@@ -6,6 +6,12 @@ key) for data center opposition coverage, drops anything already in the
 database, geotags what it can against the county gazetteer, and writes a
 ranked review worklist.
 
+This runs as part of the existing nightly ingest rather than as a separate
+job. scripts/build_master_csv.py calls harvest_to_queue() after it refreshes
+from the fights feed, replacing the Google News RSS step that previously
+appended untagged rows straight into master_opposition.csv. The CLI below is
+still available for ad-hoc runs and for the self-test.
+
 It never writes to master_opposition.csv. Everything it produces is a
 CANDIDATE requiring human verification before entry, which is what keeps the
 defensibility rule intact while cutting the find-it step out of the daily
@@ -359,6 +365,36 @@ def write_outputs(rows, stats, days):
         for r in top:
             where = ", ".join(x for x in [r["county"], r["state"]] if x) or "location unresolved"
             print(f"  [{r['priority']}] {where}: {r['title'][:90]}")
+
+
+# ---------------------------------------------------------------------------
+# Entry point for the nightly ingest
+# ---------------------------------------------------------------------------
+
+def harvest_to_queue(days=7, state_filter=None, repo_root=None):
+    """Called by scripts/build_master_csv.py. Harvests candidates and writes
+    the review queue. Never touches master_opposition.csv.
+
+    Returns the number of candidates written. Any failure is swallowed and
+    reported, because a harvest problem must never be able to stop the
+    nightly CSV build; the worst case is a stale queue.
+    """
+    global HERE, OPPOSITION_CANDIDATES, FIPS_LOOKUP_JSON, COUNTY_AGG_CSV, OUT_CSV, LOG_CSV
+    if repo_root:
+        HERE = os.path.abspath(repo_root)
+        OPPOSITION_CANDIDATES = [os.path.join(HERE, "master_opposition_clean.csv"),
+                                 os.path.join(HERE, "master_opposition.csv")]
+        FIPS_LOOKUP_JSON = os.path.join(HERE, "data", "county_fips_lookup.json")
+        COUNTY_AGG_CSV = os.path.join(HERE, "data", "county_aggregate.csv")
+        OUT_CSV = os.path.join(HERE, "data", "signal_candidates.csv")
+        LOG_CSV = os.path.join(HERE, "data", "signal_harvest_log.csv")
+    try:
+        rows, stats = harvest(days=days, state_filter=state_filter)
+        write_outputs(rows, stats, days)
+        return len(rows)
+    except Exception as exc:
+        print(f"signal_harvest: harvest skipped ({exc}). The CSV build is unaffected.")
+        return 0
 
 
 # ---------------------------------------------------------------------------
