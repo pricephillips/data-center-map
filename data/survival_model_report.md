@@ -1,6 +1,6 @@
 # Time-to-Decision Survival Model — First Iteration (Phase 3)
 
-Generated 2026-07-23 by `survival_model.py`. Figures re-derived from current CSVs at generation time.
+Generated 2026-07-24 by `survival_model.py`. Figures re-derived from current CSVs at generation time.
 
 **Internal diagnostic only — NOT client-facing.** Small sample, retrospective, predictive-not-causal. Hazard ratios describe association with the RATE of reaching a decision, not causes of it.
 
@@ -29,6 +29,6 @@ WITHHELD: only 24 events (< 25 minimum). A Cox model on this few events would be
 
 - 24 events is a small basis for survival estimates; treat all numbers as provisional and interval-wide.
 - Censored projects' eventual direction is unknown; by-direction KM curves estimate time-to-that-direction treating other outcomes as censored, which is standard but assumes non-informative censoring.
-- **Datable-outcome asymmetry (informative-censoring caution).** Among opposed projects that reached a terminal outcome, blocked outcomes are datable far more often than advanced ones: in the current data, 20/26 blocked vs 7/59 advanced carry a verified discrete decision date. This is structural, not a collection gap: a blocked project passes through a discrete denial or withdrawal that gets recorded, whereas an opposed project that advances often proceeds by-right (pre-zoned land, retrofits, incentive agreements) with no contested vote to date. The advanced side of any survival split is therefore both smaller and later-arriving than the true population, which depresses the advanced-cause hazard and is the main reason a cause-specific model is not yet fittable. Treat advanced-side timing as a lower bound on how fast advances actually occur.
+- **Datable-outcome asymmetry (informative-censoring caution).** Among opposed projects that reached a terminal outcome, blocked outcomes are datable far more often than advanced ones: in the current data, 24/26 blocked vs 7/59 advanced carry a verified discrete decision date. This is structural, not a collection gap: a blocked project passes through a discrete denial or withdrawal that gets recorded, whereas an opposed project that advances often proceeds by-right (pre-zoned land, retrofits, incentive agreements) with no contested vote to date. The advanced side of any survival split is therefore both smaller and later-arriving than the true population, which depresses the advanced-cause hazard and is the main reason a cause-specific model is not yet fittable. Treat advanced-side timing as a lower bound on how fast advances actually occur.
 - Announced→decision spans are raw durations within the opposed sample, NOT opposition-attributable delay (that needs the matched controls at adequate n).
 - Not wired into CI. Automated retraining requires the Phase 5 calibration gate.

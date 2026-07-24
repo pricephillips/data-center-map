@@ -1,6 +1,6 @@
 # Opposed vs. Control — Time to Terminal Decision (first iteration)
 
-Generated 2026-07-23 by `dated_comparison.py`. **Internal diagnostic — NOT client-facing.** Descriptive comparison only; the two arms carry different censoring structures, so no significance test is valid or reported.
+Generated 2026-07-24 by `dated_comparison.py`. **Internal diagnostic — NOT client-facing.** Descriptive comparison only; the two arms carry different censoring structures, so no significance test is valid or reported.
 
 ## Arms
 

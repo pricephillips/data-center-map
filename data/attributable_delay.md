@@ -1,6 +1,6 @@
 # Opposition-Attributable Delay (gated)
 
-Generated 2026-07-23 by `attributable_delay.py`. **Internal — NOT client-facing.** This module emits an estimate only when its gates pass; a WITHHELD state is normal and correct until then.
+Generated 2026-07-24 by `attributable_delay.py`. **Internal — NOT client-facing.** This module emits an estimate only when its gates pass; a WITHHELD state is normal and correct until then.
 
 ## Gate status
 
