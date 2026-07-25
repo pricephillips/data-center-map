@@ -76,6 +76,15 @@ OPPOSITION_CANDIDATES = [
     os.path.join(HERE, "master_opposition.csv"),
 ]
 PROPOSALS_CSV = os.path.join(HERE, "data", "proposals.csv")
+# Verification filter (ADDITIVE). Rows with no mechanism whose only citation is
+# a Google News redirect never enter this tool. No-op if the module is absent.
+try:
+    import verification_status as _VS
+    _HAVE_VERIFICATION = True
+except Exception:
+    _VS = None
+    _HAVE_VERIFICATION = False
+
 LIFECYCLES_CSV = os.path.join(HERE, "data", "project_lifecycles.csv")
 COUNTY_AGG_CSV = os.path.join(HERE, "data", "county_aggregate.csv")
 COUNTY_SCORES_CSV = os.path.join(HERE, "data", "county_policy_scores.csv")
@@ -232,6 +241,12 @@ def load_opposition():
     for path in OPPOSITION_CANDIDATES:
         rows = load_csv(path)
         if rows:
+            if _HAVE_VERIFICATION:
+                n_all = len(rows)
+                rows = _VS.countable_rows(rows)
+                if len(rows) < n_all:
+                    print(f"verification filter: {n_all - len(rows)} unverified "
+                          f"opposition row(s) excluded from screening")
             out = []
             for r in rows:
                 lat, lon = _f(r.get("lat")), _f(r.get("lon"))

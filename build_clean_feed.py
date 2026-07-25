@@ -64,6 +64,14 @@ except Exception as _e:
     _HAVE_DEFENSIBILITY = False
 
 try:
+    import verification_status as _VS
+    _HAVE_VERIFICATION = True
+except Exception as _e:
+    print(f"  ! verification_status unavailable ({_e.__class__.__name__}: {_e}); "
+          "unverified rows will NOT be held out of the feed.")
+    _HAVE_VERIFICATION = False
+
+try:
     import group_registry as _GR
     import date_recovery as _DR
     import review_worklists as _RW
@@ -235,6 +243,25 @@ def main():
     n_raw_cols = len(raw.columns)
     print(f"Loaded {n_raw} raw rows, {n_raw_cols} columns.")
 
+    # 1b. Verification holdout (ADDITIVE; no-op if the module is absent).
+    # Rows whose Opposition Type is blank and whose only citation is a Google
+    # News redirect are held out BEFORE cleaning, so they never receive a
+    # project_id, a qc_mechanism inferred from a truncated headline, or a
+    # block status. They stay in master_opposition.csv and are listed in
+    # data/verification_holdout.csv for review through untagged_triage.py.
+    n_held = 0
+    if _HAVE_VERIFICATION:
+        raw, _held = _VS.hold_out(raw, outdir=args.outdir)
+        n_held = len(_held)
+        if n_held:
+            print(f"Verification holdout: {n_held} unverified row(s) held out "
+                  f"of the feed build; {len(raw)} remain.")
+            _VS_counts = {}
+            for _r in _held:
+                _k = _r.get(_VS.COLUMN, "")
+                _VS_counts[_k] = _VS_counts.get(_k, 0) + 1
+            print(f"  by status: {_VS_counts}")
+
     # 2. Clean (pre-process)
     cleaned, report, changelog = cleaner.clean(raw)
     cleaned_cols = list(cleaned.columns)
@@ -278,7 +305,8 @@ def main():
             qc_pipeline.render_markdown(result))
 
         print(f"\nGate complete:")
-        print(f"  Passed to feed : {len(result.clean)} / {n_raw}")
+        print(f"  Passed to feed : {len(result.clean)} / {n_raw}"
+              + (f" (after holding out {n_held} unverified)" if n_held else ""))
         print(f"  Quarantined    : {result.n_blocked}")
         print(f"  Wrote {clean_path} ({len(cols)} columns incl. qc_* enrichment)")
         print(f"  Wrote quarantine.json, qc_report.md")

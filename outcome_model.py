@@ -51,6 +51,15 @@ LIFECYCLES_CSV = P("data", "project_lifecycles.csv")
 UNIVERSE_CSV = P("data", "baseline_universe.csv")
 LINKS_CSV = P("data", "project_links.csv")
 OPPOSITION_CSV = P("master_opposition.csv")
+# Verification filter (ADDITIVE). Rows with no mechanism whose only citation is
+# a Google News redirect never enter this tool. No-op if the module is absent.
+try:
+    import verification_status as _VS
+    _HAVE_VERIFICATION = True
+except Exception:
+    _VS = None
+    _HAVE_VERIFICATION = False
+
 
 OUT_REPORT = P("data", "outcome_model_report.md")
 OUT_FEATURES = P("data", "outcome_model_features.csv")
@@ -96,13 +105,19 @@ def build_features():
     _mo_path = P("master_opposition.csv")
     _state_events = []          # (state, iso_date)
     if os.path.exists(_mo_path):
-        for m in load_csv(_mo_path):
+        _mo_rows = load_csv(_mo_path)
+        if _HAVE_VERIFICATION:
+            _mo_rows = _VS.countable_rows(_mo_rows)
+        for m in _mo_rows:
             d = (m.get("Date") or "").strip()
             s = (m.get("State") or "").strip()
             if s and re.match(r"^\d{4}-\d{2}", d):
                 _state_events.append((s, d[:10]))
     opp_by_id = {}
-    for r in load_csv(OPPOSITION_CSV):
+    _opp_rows = load_csv(OPPOSITION_CSV)
+    if _HAVE_VERIFICATION:
+        _opp_rows = _VS.countable_rows(_opp_rows)
+    for r in _opp_rows:
         # re-derive event id the same way project_resolution does
         import hashlib
         key = "|".join([(r.get("Incident") or "").strip(), (r.get("Date") or "").strip(),

@@ -47,6 +47,16 @@ from datetime import date
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OPPOSITION_CSV = os.environ.get("PR_OPPOSITION", os.path.join(ROOT, "master_opposition.csv"))
+
+# Verification filter (ADDITIVE). Rows with no mechanism whose only citation is
+# a Google News redirect are excluded from link building, so they cannot create
+# a project entity from a truncated headline. No-op if the module is absent.
+try:
+    import verification_status as _VS
+    _HAVE_VERIFICATION = True
+except Exception:
+    _VS = None
+    _HAVE_VERIFICATION = False
 PROPOSALS_CSV = os.environ.get("PR_PROPOSALS", os.path.join(ROOT, "data", "proposals.csv"))
 OUT_LINKS = os.environ.get("PR_OUT_LINKS", os.path.join(ROOT, "data", "project_links.csv"))
 OUT_LIFECYCLES = os.environ.get("PR_OUT_LIFE", os.path.join(ROOT, "data", "project_lifecycles.csv"))
@@ -776,6 +786,13 @@ def leak_audit(paths: list[str]) -> list[str]:
 
 def main() -> int:
     opp_rows = load_csv(OPPOSITION_CSV)
+    if _HAVE_VERIFICATION:
+        _n_all = len(opp_rows)
+        opp_rows = _VS.countable_rows(opp_rows)
+        if len(opp_rows) < _n_all:
+            print(f"verification filter: {_n_all - len(opp_rows)} unverified "
+                  f"opposition row(s) excluded from link building "
+                  f"({len(opp_rows)} remain)")
     prop_rows = load_csv(PROPOSALS_CSV)
     projects = prep_projects(prop_rows)
     dups, dup_problems = load_duplicates(DUPLICATES_CSV)

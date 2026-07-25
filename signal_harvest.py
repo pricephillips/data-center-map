@@ -331,12 +331,32 @@ def harvest(days=7, state_filter=None, fixture=None, articles_by_label=None):
     return rows, {"already_in_database": dupes, "filtered_out_of_scope": out_of_scope}
 
 
+def _existing_candidate_count():
+    try:
+        with open(OUT_CSV, newline="", encoding="utf-8-sig") as fh:
+            return sum(1 for _ in csv.DictReader(fh))
+    except (OSError, csv.Error):
+        return 0
+
+
 def write_outputs(rows, stats, days):
     os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)
-    with open(OUT_CSV, "w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=FIELDS)
-        w.writeheader()
-        w.writerows(rows)
+    # A run that returns nothing must not erase a run that returned something.
+    # The harvest log records this happening: two runs on 2026-07-24 returned
+    # 249 candidates each and a third returned 0, and the committed worklist
+    # ended up empty. GDELT throttles repeat callers, so an empty return is far
+    # more often a throttled call than a genuine absence of coverage. The log
+    # row is written either way, so the empty run stays visible.
+    prior = _existing_candidate_count()
+    if not rows and prior:
+        print(f"signal_harvest: 0 candidates returned; keeping the existing "
+              f"{prior}-row worklist at {OUT_CSV} rather than clearing it. "
+              f"An empty return is usually a throttled call.")
+    else:
+        with open(OUT_CSV, "w", newline="", encoding="utf-8") as fh:
+            w = csv.DictWriter(fh, fieldnames=FIELDS)
+            w.writeheader()
+            w.writerows(rows)
     leak_hits = LEAK_RE.findall(",".join(r["title"] for r in rows))
     # Headlines are third-party text, not generated language, so a hit here is
     # reported rather than fatal. It flags rows a reviewer must reword before
@@ -401,6 +421,29 @@ def harvest_to_queue(days=7, state_filter=None, repo_root=None):
 # Self-test
 # ---------------------------------------------------------------------------
 
+def _selftest_no_clobber():
+    """A zero-candidate run must not empty a populated worklist."""
+    global OUT_CSV, LOG_CSV
+    import tempfile
+    td = tempfile.mkdtemp()
+    keep_out, keep_log = OUT_CSV, LOG_CSV
+    OUT_CSV = os.path.join(td, "signal_candidates.csv")
+    LOG_CSV = os.path.join(td, "signal_harvest_log.csv")
+    try:
+        row = {k: "" for k in FIELDS}
+        row.update({"title": "County adopts a data center ordinance",
+                    "priority": "5.0", "county": "Loudoun", "state": "VA"})
+        stats = {"already_in_database": 0, "filtered_out_of_scope": 0}
+        write_outputs([row], stats, 7)
+        first = _existing_candidate_count()
+        write_outputs([], stats, 7)
+        after = _existing_candidate_count()
+        log_rows = sum(1 for _ in open(LOG_CSV, encoding="utf-8")) - 1
+        return first == 1 and after == 1 and log_rows == 2
+    finally:
+        OUT_CSV, LOG_CSV = keep_out, keep_log
+
+
 def selftest():
     ok = True
 
@@ -442,6 +485,8 @@ def selftest():
     expect(rows[0]["url"].endswith("story-a"), "mechanism plus recency ranks the moratorium story first")
     expect(rows[1]["priority"] < rows[0]["priority"], "aggregator domain demoted")
     expect(all(f in rows[0] for f in FIELDS), "all worklist fields present")
+
+    expect(_selftest_no_clobber(), "zero-candidate run does not clear the worklist")
 
     print("ALL PASS" if ok else "FAILURES PRESENT")
     return ok

@@ -79,6 +79,15 @@ LIFECYCLES_CSV = P("data", "project_lifecycles.csv")
 UNIVERSE_CSV = P("data", "baseline_universe.csv")
 LINKS_CSV = P("data", "project_links.csv")
 OPPOSITION_CSV = P("master_opposition.csv")
+# Verification filter (ADDITIVE). Rows with no mechanism whose only citation is
+# a Google News redirect never enter this tool. No-op if the module is absent.
+try:
+    import verification_status as _VS
+    _HAVE_VERIFICATION = True
+except Exception:
+    _VS = None
+    _HAVE_VERIFICATION = False
+
 ATLAS_CSV = P("atlas.csv")
 
 OUT_FEAS = P("data", "landmark_feasibility.csv")
@@ -147,7 +156,10 @@ def band(p):
 def event_index():
     """opp_id -> raw master row, re-derived the way project_resolution does."""
     out = {}
-    for r in load_csv(OPPOSITION_CSV):
+    _opp_rows = load_csv(OPPOSITION_CSV)
+    if _HAVE_VERIFICATION:
+        _opp_rows = _VS.countable_rows(_opp_rows)
+    for r in _opp_rows:
         key = "|".join([(r.get("Incident") or "").strip(),
                         (r.get("Date") or "").strip(),
                         (r.get("State") or "").strip(),
@@ -235,7 +247,10 @@ def build_frames():
     dc_density = Counter((a.get("state", ""), (a.get("county") or "").strip().lower())
                          for a in atlas)
     state_events = []
-    for m in load_csv(OPPOSITION_CSV):
+    _opp_rows2 = load_csv(OPPOSITION_CSV)
+    if _HAVE_VERIFICATION:
+        _opp_rows2 = _VS.countable_rows(_opp_rows2)
+    for m in _opp_rows2:
         d = (m.get("Date") or "").strip()
         s = (m.get("State") or "").strip()
         if s and re.match(r"^\d{4}-\d{2}", d):

@@ -54,6 +54,16 @@ CENSUS_CSV = P("data", "county_census_features.csv")
 VOTES_JSON = P("data", "county_votes.json")
 ATLAS_CSV = P("atlas.csv")
 MASTER_CSV = P("master_opposition.csv")
+
+# Verification filter (ADDITIVE). Unverified rows carry no county today, so
+# they already cannot reach a county aggregate; the guard makes that structural
+# rather than incidental. No-op if the module is absent.
+try:
+    import verification_status as _VS
+    _HAVE_VERIFICATION = True
+except Exception:
+    _VS = None
+    _HAVE_VERIFICATION = False
 UNIVERSE_CSV = P("data", "baseline_universe.csv")
 LIFECYCLES_CSV = P("data", "project_lifecycles.csv")
 
@@ -164,6 +174,8 @@ def main() -> int:
     ev_matched = 0
     state_leg = Counter()
     for r in csv.DictReader(open(MASTER_CSV, encoding="utf-8-sig")):
+        if _HAVE_VERIFICATION and not _VS.is_countable(r):
+            continue
         cty, stt = r.get("County"), r.get("State")
         if not (cty or "").strip():
             # state-scope records: no county. Count legislation activity by

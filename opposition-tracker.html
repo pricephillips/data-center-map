@@ -824,7 +824,42 @@ function startCSVLoad(urls, _errs) {
     });
 }
 
-function handleCSVData(data) {
+
+// ── Verification filter ───────────────────────────────────────────────────────
+// The fallback chain above can land on the RAW master CSV, which still contains
+// rows that carry no Opposition Type and a Google News redirect instead of a
+// publisher citation. Those rows are held out of the pipeline (see
+// verification_status.py) but the raw file keeps them, so any surface that can
+// read the raw file has to hold them out too. Prefers the verification_status
+// column when the feed provides it, and falls back to detecting the shape
+// directly so an older raw file is still handled.
+const VERIFICATION_HOLDOUT = ['headline_only', 'incomplete'];
+function isVerifiedRow(r) {
+  const st = (r['verification_status'] || '').trim().toLowerCase();
+  if (st) return VERIFICATION_HOLDOUT.indexOf(st) === -1;
+  const mech = (r['Opposition Type'] || '').trim();
+  if (mech) return true;
+  const url = (r['Source URL'] || '').toLowerCase();
+  return !(url.indexOf('news.google.com') !== -1 ||
+           url.indexOf('news.url.google.com') !== -1);
+}
+function applyVerificationFilter(rows) {
+  const kept = rows.filter(isVerifiedRow);
+  const dropped = rows.length - kept.length;
+  if (dropped) {
+    console.info('verification filter: ' + dropped +
+                 ' unverified row(s) excluded from display and from every count');
+  }
+  return { rows: kept, dropped: dropped };
+}
+
+function handleCSVData(rawData) {
+    const _vf = applyVerificationFilter(rawData);
+    const data = _vf.rows;
+    if (_vf.dropped) {
+      const _n = document.getElementById('verifNote');
+      if (_n) _n.textContent = _vf.dropped + ' unverified record(s) excluded';
+    }
     const SOURCE_MAP = {
       bryce_tracker:       'ongoing_monitoring',
       historical_archive:  'historical_archive',
