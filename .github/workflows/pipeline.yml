@@ -1,7 +1,8 @@
 name: Build Clean Feed
 
 # Runs the full data pipeline whenever the raw CSV changes:
-#   raw master_opposition.csv  ->  cleaner  ->  QC gate  ->  master_opposition_clean.csv
+#   raw master_opposition.csv  ->  verification holdout  ->  cleaner
+#     ->  QC gate  ->  master_opposition_clean.csv
 #   -> project resolution (event->project links + lifecycles)
 #   -> county layer (county_aggregator -> county_policy_model)
 #   -> site screener (opposition environment tiers + movement report)
@@ -14,6 +15,13 @@ name: Build Clean Feed
 # NON-BLOCKING for the map/dashboard: if it fails, the clean feed still
 # commits and Iowa still syncs, but the job is marked failed so the
 # regression is visible. It also runs when data/proposals.csv changes.
+#
+# Verification holdout (added 2026-07-24): verification_status.py holds rows
+# with no mechanism and only a Google News redirect for a citation out of the
+# feed build, so they cannot become project entities or block counts. The rows
+# stay in master_opposition.csv; untagged_triage.py writes the review worklist
+# for recovering them. Its self-tests are BLOCKING because a silent failure
+# there would put unverified rows back into every count.
 #
 # County layer (added 2026-07-23): runs only if project resolution succeeded
 # (county_aggregator reads data/project_lifecycles.csv; running it against a
@@ -59,9 +67,20 @@ jobs:
           python clean_opposition_data.py --selftest
           echo "QC gate self-tests:"
           python qc/qc_pipeline.py --selftest || (cd qc && python qc_pipeline.py --selftest)
+          echo "Verification status self-tests:"
+          python verification_status.py --selftest
+          echo "Untagged triage self-tests:"
+          python untagged_triage.py --selftest
 
       - name: Run pipeline (clean -> gate -> clean feed)
         run: python build_clean_feed.py --in master_opposition.csv --out master_opposition_clean.csv
+
+      - name: Verification status + untagged review worklist
+        id: verification
+        continue-on-error: true
+        run: |
+          python verification_status.py --report
+          python untagged_triage.py
 
       - name: Project resolution (links + lifecycles; includes leak audit)
         id: project_resolution
@@ -94,6 +113,13 @@ jobs:
                   data/baseline_universe.csv data/matched_controls.csv \
                   data/control_group_notes.md data/control_comparison.md \
                   data/project_links_manual_draft.csv 2>/dev/null || true
+          # Verification artifacts are staged only on a green verification
+          # step. verification_holdout.csv is written by the feed build itself,
+          # so it is staged with the feed above and refreshed here.
+          if [ "${{ steps.verification.outcome }}" = "success" ]; then
+            git add data/verification_status_report.md data/verification_holdout.csv \
+                    data/untagged_triage.csv data/untagged_triage.md 2>/dev/null || true
+          fi
           # County artifacts are staged ONLY on a green county step, so a
           # QC-gate or leak-audit failure can never auto-commit a degraded
           # layer. A skipped or failed step leaves the last good layer in
@@ -115,7 +141,7 @@ jobs:
           git push
 
       - name: Trigger Iowa Notion sync
-        if: success() || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure' || steps.site_screener.outcome == 'failure'
+        if: success() || steps.verification.outcome == 'failure' || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure' || steps.site_screener.outcome == 'failure'
         uses: actions/github-script@v7
         with:
           # Cross-repo dispatch needs a PAT with repo scope (the default
@@ -129,6 +155,12 @@ jobs:
               repo: 'iowa-dc-tracker',
               event_type: 'csv-updated'
             });
+
+      - name: Surface verification failure (visible, non-blocking)
+        if: steps.verification.outcome == 'failure'
+        run: |
+          echo "::error::verification_status.py or untagged_triage.py failed. The holdout inside build_clean_feed.py still applied, so no unverified row entered the feed; only the review artifacts are stale."
+          exit 1
 
       - name: Surface project-resolution failure (visible, non-blocking)
         if: steps.project_resolution.outcome == 'failure'

@@ -32,10 +32,22 @@ jobs:
         working-directory: qc
         run: python qc_pipeline.py --selftest
 
+      - name: Self-test the verification filter (BLOCKING)
+        run: python verification_status.py --selftest
+
+      - name: Build the countable input (verification holdout)
+        run: |
+          # The gate reads the raw CSV directly, which still contains rows that
+          # have no mechanism and only a Google News redirect for a citation.
+          # pipeline.yml holds those out before cleaning; this workflow commits
+          # qc/clean_export.json, so it must hold them out too or the two
+          # committed artifacts disagree about what the database contains.
+          python verification_status.py --write-countable qc/master_opposition_countable.csv
+
       - name: Run the QC gate
         working-directory: qc
         run: |
-          python qc_pipeline.py --csv ../master_opposition.csv --out qc_out || true
+          python qc_pipeline.py --csv master_opposition_countable.csv --out qc_out || true
           test -f qc_out/clean_export.json
 
       - name: Enforce logical QC findings
@@ -66,6 +78,7 @@ jobs:
       - name: Commit the clean feed back to the repo
         if: always()
         run: |
+          rm -f qc/master_opposition_countable.csv
           cp qc/qc_out/clean_export.json qc/clean_export.json
           cp qc/qc_out/quarantine.json  qc/quarantine.json
           cp qc/qc_out/qc_report.md     qc/qc_report.md
