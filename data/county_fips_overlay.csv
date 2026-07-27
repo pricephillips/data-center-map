@@ -1,0 +1,10 @@
+project_id,name,state,county_original,county_resolved,fips,method,confidence,note
+prj_17,Millstone Nuclear Power Station Data Center,Connecticut,New London County,"Southeastern Connecticut Planning Region, Connecticut",09180,census_reverse,high,"lookup returned 09011, which is not in the current county universe; treated as unresolved"
+prj_18,Wallingford Data Center,Connecticut,New Haven County,"South Central Connecticut Planning Region, Connecticut",09170,census_reverse,high,"lookup returned 09009, which is not in the current county universe; treated as unresolved"
+prj_19,Bloomfield Data Center Proposal,Connecticut,Hartford County,"Capitol Planning Region, Connecticut",09110,census_reverse,high,"lookup returned 09003, which is not in the current county universe; treated as unresolved"
+prj_20,Trumbull Data Center Investment,Connecticut,Fairfield County,"Greater Bridgeport Planning Region, Connecticut",09120,census_reverse,high,"lookup returned 09001, which is not in the current county universe; treated as unresolved"
+prj_21,Bristol Data Center,Connecticut,Hartford County,"Naugatuck Valley Planning Region, Connecticut",09140,census_reverse,high,"lookup returned 09003, which is not in the current county universe; treated as unresolved"
+prj_31,Martindale Indianapolis Metrobloks Data Center,Indiana,Marlon County,"Marion County, Indiana",18097,census_reverse,high,
+prj_39,Project Maize,Indiana,La Porte County,"LaPorte County, Indiana",18091,lookup_normalized,high,
+prj_149,Microsoft — Catawba County Campus Cluster (Lyle Creek / Boyd Farm / Hickory / Stover North),North Carolina,,"Catawba County, North Carolina",37035,name_extract,medium,
+prj_158,Natelli Investments New Hill Digital Campus,North Carolina,,"Wake County, North Carolina",37183,census_reverse,high,
