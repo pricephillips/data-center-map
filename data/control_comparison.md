@@ -1,6 +1,6 @@
 # Opposed vs. Matched Controls — Descriptive Comparison
 
-Generated 2026-07-23 by `control_comparison.py`. All figures re-derived from the current CSVs at generation time.
+Generated 2026-07-27 by `control_comparison.py`. All figures re-derived from the current CSVs at generation time.
 
 **This report is descriptive and diagnostic only.** Differences shown here are associations in an observational, selection-affected sample. Nothing in this document quantifies the effect or cost of opposition, and no figure here should appear in a client-facing deliverable.
 
@@ -8,7 +8,7 @@ Generated 2026-07-23 by `control_comparison.py`. All figures re-derived from the
 
 - Opposed projects (treatment side): **184**, of which 85 decided / 99 pending
 - Eligible control pool: **1431** — proposals_unopposed: 89, ai_centers: 19, atlas: 1323
-- Excluded from control pool: **224** — county_shared_with_opposed_project: 162, within_15km_of_opposed_project: 58, no_coordinates: 4
+- Excluded from control pool: **223** — county_shared_with_opposed_project: 161, within_15km_of_opposed_project: 58, no_coordinates: 4
 - Matched: **183** opposed projects × k=3 → 552 match rows
 
 ## 2. Covariate balance (opposed vs. their matched controls)
