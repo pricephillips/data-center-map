@@ -129,6 +129,31 @@ Also note that a generation interconnection request is not a data center, so
 the join to tracked projects is inferential and would need its own
 confidence tiering.
 
+Scoped 2026-07-27 in `docs/interconnection_queue_scoping.md`. The caveat above
+understated the problem. LBNL Queued Up covers generation interconnection only
+and its own documentation states that load interconnection requests are
+excluded, so the free citable dataset structurally cannot contain data center
+projects; a data center is load. The Pass 1 framing of the queue as a baseline
+universe of data center developments does not hold. Interconnection.fyi does
+expose a Load filter and a data-center cut in its free view, but project-level
+detail is the commercial GridTracker tier.
+
+Recommendation from the memo, in short: take the Queued Up data file now for
+cost-layer timeline anchors, which is free and defensible; do not build a
+baseline universe from the generation queue; revisit the paid tier in Q4 2026
+against three stated gate conditions. The timing matters because FERC's
+2026-06-18 show cause orders put RTO large-load tariff filings in late August
+and the PUCT SB 6 transparency rulemaking concludes by December, so what is
+public is actively changing.
+
+Two things surfaced that are worth carrying forward independently. GridTracker
+markets permit-based data center build tracking, which overlaps this
+platform's own coverage layer and is the best available external validation set
+for the project list whether or not it is ever licensed. And if FERC's orders
+compress interconnection timelines, the opposition-attributable share of total
+delay rises even with opposition unchanged, so the cost layer must not hardcode
+a 2025 interconnection-delay baseline.
+
 ### LBNL Queued Up
 `https://emp.lbl.gov/queues`
 
