@@ -89,6 +89,11 @@ LIFECYCLES_CSV = os.path.join(HERE, "data", "project_lifecycles.csv")
 COUNTY_AGG_CSV = os.path.join(HERE, "data", "county_aggregate.csv")
 COUNTY_SCORES_CSV = os.path.join(HERE, "data", "county_policy_scores.csv")
 FIPS_LOOKUP_JSON = os.path.join(HERE, "data", "county_fips_lookup.json")
+# Reviewed FIPS corrections from census_geocode.py, keyed by project id. The
+# name lookup cannot place every proposal and, in Connecticut, returns codes
+# retired in 2022, so an overlay entry outranks the lookup.
+FIPS_OVERLAY_CSV = os.path.join(HERE, "data", "county_fips_overlay.csv")
+_FIPS_OVERLAY = {}
 
 # Outputs
 BATCH_OUT = os.path.join(HERE, "data", "site_screen.csv")
@@ -274,6 +279,28 @@ def load_county_layers():
     return agg, scores, fips_lookup
 
 
+def load_fips_overlay():
+    out = {}
+    for r in load_csv(FIPS_OVERLAY_CSV):
+        pid = (r.get("project_id") or "").strip()
+        f = (r.get("fips") or "").strip()
+        if pid and f:
+            out[pid] = {"fips": f,
+                        "county": (r.get("county_resolved") or "").split(",")[0].strip()}
+    return out
+
+
+def resolve_site_fips(project_id, county, state, fips_lookup, overlay, valid_fips):
+    """Overlay first, then the name lookup, then a validity check. A FIPS that
+    is not in the current county universe joins to nothing, so it is dropped
+    rather than carried forward looking valid."""
+    ov = overlay.get(project_id or "")
+    fips = ov["fips"] if ov else county_to_fips(county, state, fips_lookup)
+    if fips and valid_fips and fips not in valid_fips:
+        return None, ""
+    return fips, (ov["county"] if ov else "")
+
+
 def county_to_fips(county, state, fips_lookup):
     """county free text + state (name or abbrev) -> fips, or None."""
     if not county or not state:
@@ -378,6 +405,8 @@ def composite_from(components, reference_components):
 
 def build_reference(opposition, agg, scores, fips_lookup, today=None):
     proposals = load_csv(PROPOSALS_CSV)
+    global _FIPS_OVERLAY
+    _FIPS_OVERLAY = load_fips_overlay()
     rows = []
     for p in proposals:
         lat, lon = _f(p.get("lat")), _f(p.get("lon"))
@@ -385,11 +414,15 @@ def build_reference(opposition, agg, scores, fips_lookup, today=None):
             continue
         state_abbrev = STATE_NAME_TO_ABBREV.get((p.get("state") or "").strip().lower(),
                                                (p.get("state") or "").strip().upper()[:2])
-        fips = county_to_fips(p.get("counties") or "", p.get("state") or "", fips_lookup)
+        _pid = "prj_" + str(p.get("id") or "").strip()
+        fips, _ov_county = resolve_site_fips(_pid, p.get("counties") or "",
+                                            p.get("state") or "", fips_lookup,
+                                            _FIPS_OVERLAY, agg)
         comps, _nearby, extras = site_components(lat, lon, state_abbrev, fips,
                                                  opposition, agg, scores, today)
         rows.append({"id": p.get("id"), "name": p.get("name"), "state": state_abbrev,
-                     "county": (p.get("counties") or "").strip(), "fips": fips or "",
+                     "county": _ov_county or (p.get("counties") or "").strip(),
+                     "fips": fips or "",
                      "lat": lat, "lon": lon, "capacity_mw": p.get("capacity_mw"),
                      "components": comps, "extras": extras})
     return rows
@@ -673,6 +706,8 @@ def run_single(args):
     fips = None
     if lat is None or lon is None:
         fips = county_to_fips(county, state, fips_lookup)
+        if fips and agg and fips not in agg:
+            fips = None
         if not fips:
             raise SystemExit("Provide --lat/--lon, or a resolvable --county and --state.")
         # centroid proxy: mean of opposition records in that county, else agg has no coords;
@@ -703,6 +738,26 @@ def run_single(args):
         state_abbrev = best["state"] if best else ""
     if fips is None:
         fips = county_to_fips(county, state_abbrev, fips_lookup)
+    # A code outside the current county universe joins to nothing, so drop it
+    # rather than carry it into the brief looking valid. Connecticut's retired
+    # county codes are the live case.
+    if fips and agg and fips not in agg:
+        fips = None
+    # With coordinates in hand, the Census geocoder is authoritative. This is
+    # also the path a client site with an address but no county takes.
+    if fips is None and lat is not None and lon is not None:
+        try:
+            import census_geocode as _CG
+            _rf, _rname = _CG.census_reverse(lat, lon)
+            if _rf and (not agg or _rf in agg):
+                fips = _rf
+                if not county and _rname:
+                    county = _rname
+                print(f"site_screener: county resolved by reverse geocode -> "
+                      f"{_rname or fips} ({fips})")
+        except Exception as _e:
+            print(f"site_screener: reverse geocode unavailable "
+                  f"({_e.__class__.__name__}); continuing without a county score")
 
     reference = build_reference(opposition, agg, scores, fips_lookup)
     all_comps = [r["components"] for r in reference]
