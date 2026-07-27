@@ -80,6 +80,11 @@ details.card[open] summary { margin-bottom:6px }
 .footer { color:var(--muted); font-size:11px; margin-top:6px }
 a { color:#5aa9e6 }
 @media (max-width:560px){ body{padding:12px} .kpi b{font-size:17px} }
+.undrawable-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+.undrawable-table th,.undrawable-table td{padding:5px 8px;border-bottom:1px solid #2c3544;text-align:left}
+.undrawable-table th{color:#94a3b8;font-weight:600}
+#undrawable h3{margin:0 0 6px;font-size:15px}
+#undrawable p{margin:0;color:#94a3b8;font-size:13px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -125,6 +130,7 @@ a { color:#5aa9e6 }
     <span style="margin-left:10px"><span class="enacted-key"></span> enacted restrictive policy on record</span>
   </div>
 </div>
+<div class="card" id="undrawable" style="display:none"></div>
 <div class="card" id="coeffs" style="display:none">
   <h1>What drives the score</h1>
   <div id="coeffs-body"></div>
@@ -146,6 +152,67 @@ const SCORE_URLS  = ['./data/county_policy_scores.csv',  RAW + '/data/county_pol
 // Plotly's county GeoJSON: raw.githubusercontent.com origin (CORS headers,
 // embed-safe), feature.id is the 5-digit county FIPS.
 const COUNTY_GEO_URL = 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json';
+// ── Boundary vintage reconciliation ───────────────────────────────────────────
+// The county geojson above is a pre-2015 vintage, so 13 scored counties cannot
+// be drawn with it and 12 drawable polygons no longer exist as counties. The
+// two cases are not equivalent and are not treated the same way here.
+//
+// Pure renames keep the identical boundary, so the current score paints the old
+// polygon safely:
+const BOUNDARY_RENAMES = {
+  '02270': '02158',   // Wade Hampton -> Kusilvak Census Area, AK (2015, same boundary)
+  '46113': '46102'    // Shannon -> Oglala Lakota County, SD (2015, same boundary)
+};
+// Boundary changes are a different matter. Painting a score onto a polygon that
+// covers different ground would misstate where the model applies, so these are
+// left unpainted and listed below the map instead:
+//   09001-09015  Connecticut replaced counties with nine planning regions in
+//                2022. The regions are not unions of the old counties.
+//   02261        Valdez-Cordova split into Chugach and Copper River in 2019.
+//   51515        Bedford City reverted to town status in 2013 and is inside
+//                Bedford County, which carries its own score.
+const BOUNDARY_RETIRED = {
+  '09001': 'Connecticut replaced counties with planning regions in 2022',
+  '09003': 'Connecticut replaced counties with planning regions in 2022',
+  '09005': 'Connecticut replaced counties with planning regions in 2022',
+  '09007': 'Connecticut replaced counties with planning regions in 2022',
+  '09009': 'Connecticut replaced counties with planning regions in 2022',
+  '09011': 'Connecticut replaced counties with planning regions in 2022',
+  '09013': 'Connecticut replaced counties with planning regions in 2022',
+  '09015': 'Connecticut replaced counties with planning regions in 2022',
+  '02261': 'split into Chugach and Copper River Census Areas in 2019',
+  '51515': 'reverted to town status in 2013; scored as part of Bedford County'
+};
+function scoreForFeature(scores, fips) {
+  return scores[fips] || scores[BOUNDARY_RENAMES[fips]] || null;
+}
+function undrawableScores(scores) {
+  const drawn = new Set();
+  Object.keys(scores).forEach(f => {
+    if (GEO_IDS.has(f)) drawn.add(f);
+    else if (RENAME_TARGETS.has(f)) drawn.add(f);
+  });
+  return Object.keys(scores).filter(f => !drawn.has(f)).sort();
+}
+// county_policy_scores.csv carries FIPS only, and this page deliberately makes
+// no extra fetch just to label eleven rows, so the current geography names for
+// the undrawable set are listed here.
+const CURRENT_GEOGRAPHY_NAMES = {
+  '09110': 'Capitol Planning Region, CT',
+  '09120': 'Greater Bridgeport Planning Region, CT',
+  '09130': 'Lower Connecticut River Valley Planning Region, CT',
+  '09140': 'Naugatuck Valley Planning Region, CT',
+  '09150': 'Northeastern Connecticut Planning Region, CT',
+  '09160': 'Northwest Hills Planning Region, CT',
+  '09170': 'South Central Connecticut Planning Region, CT',
+  '09180': 'Southeastern Connecticut Planning Region, CT',
+  '09190': 'Western Connecticut Planning Region, CT',
+  '02063': 'Chugach Census Area, AK',
+  '02066': 'Copper River Census Area, AK'
+};
+const RENAME_TARGETS = new Set(Object.values(BOUNDARY_RENAMES));
+let GEO_IDS = new Set();
+
 
 const FIPS_TO_STATE = {
   '01':'AL','02':'AK','04':'AZ','05':'AR','06':'CA','08':'CO','09':'CT','10':'DE',
@@ -218,9 +285,12 @@ async function buildScoreMap() {
   map.attributionControl.setPrefix(false);
   map.attributionControl.addAttribution('Scores: county_policy_model.py (calibrated, out-of-fold)');
 
+  GEO_IDS = new Set((geo.features || []).map(f => String(f.id).padStart(5, '0')));
+  renderUndrawable(scores);
+
   const lyr = L.geoJSON(geo, {
     style(feat) {
-      const e = scores[String(feat.id).padStart(5, '0')];
+      const e = scoreForFeature(scores, String(feat.id).padStart(5, '0'));
       const pc = e ? policyColor(e.score) : null;
       if (!pc) return { fillOpacity: 0, color: '#2c3544', weight: 0.4 };
       return {
@@ -232,14 +302,19 @@ async function buildScoreMap() {
     },
     onEachFeature(feat, layer) {
       const fips = String(feat.id).padStart(5, '0');
-      const e = scores[fips];
+      const e = scoreForFeature(scores, fips);
       const name = feat.properties.NAME || feat.properties.name || '';
       const st = FIPS_TO_STATE[fips.slice(0, 2)] || '';
       const body = e
         ? `Enacted-restriction score: ${(e.score * 100).toFixed(1)}%` +
           (e.decile ? ` (decile ${e.decile}/10)` : '') +
           (e.enacted ? '<br><span style="color:#fbbf24">Enacted restrictive policy on record</span>' : '')
-        : 'No score for this boundary (model frame uses current county definitions; PR excluded)';
+        : (BOUNDARY_RETIRED[fips]
+            ? `Not scored on this boundary: ${BOUNDARY_RETIRED[fips]}. ` +
+              'The current geography is scored and listed below the map.'
+            : fips.slice(0, 2) === '72'
+              ? 'Puerto Rico is outside the model frame'
+              : 'No score for this boundary');
       layer.bindTooltip(`<b>${name}, ${st}</b><br>${body}`, { sticky: true, className: 'score-tip' });
       layer.on({
         mouseover: ev => ev.target.setStyle({ weight: 2, color: '#cbd5e1', dashArray: null }),
@@ -249,6 +324,29 @@ async function buildScoreMap() {
   }).addTo(map);
 }
 
+
+function renderUndrawable(scores) {
+  const missing = undrawableScores(scores);
+  const host = document.getElementById('undrawable');
+  if (!host) return;
+  if (!missing.length) { host.style.display = 'none'; return; }
+  const rows = missing.map(f => {
+    const e = scores[f];
+    return `<tr><td>${CURRENT_GEOGRAPHY_NAMES[f] || f}</td><td>${f}</td>` +
+           `<td style="text-align:right">${(e.score * 100).toFixed(1)}%</td></tr>`;
+  }).join('');
+  host.style.display = 'block';
+  host.innerHTML =
+    '<h3>Scored, not drawable on this map</h3>' +
+    '<p>These county-equivalents are scored by the model but have no matching ' +
+    'polygon in the boundary file, which predates the changes that created ' +
+    'them. Connecticut replaced its counties with nine planning regions in ' +
+    '2022 and Alaska split Valdez-Cordova in 2019. Their scores are shown here ' +
+    'rather than dropped.</p>' +
+    `<table class="undrawable-table"><thead><tr><th>County-equivalent</th>` +
+    `<th>FIPS</th><th style="text-align:right">Enacted-restriction score</th>` +
+    `</tr></thead><tbody>${rows}</tbody></table>`;
+}
 
 function banner(msg) {
   const el = document.getElementById('error-banner');

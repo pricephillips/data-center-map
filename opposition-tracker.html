@@ -1221,7 +1221,7 @@ function resetFilters(){
 }
 function zoomToResults(){
   const pts=[];
-  const _f=readFilters(); rows.forEach(r=>{if(!match(r,_f))return;const lat=+r.lat,lon=+r.lon;if(!isNaN(lat)&&!isNaN(lon))pts.push([lat,lon]);});
+  const _f=readFilters(); rows.forEach(r=>{if(!match(r,_f))return;const lat=+r.lat,lon=+r.lon;if(!isNaN(lat)&&!isNaN(lon)&&!(Math.abs(lat)<0.001&&Math.abs(lon)<0.001))pts.push([lat,lon]);});
   if(pts.length) navToBounds(pts,{padding:[30,30],maxZoom:8,duration:1.0,easeLinearity:0.15});
 }
 

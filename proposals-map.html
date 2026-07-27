@@ -156,6 +156,7 @@ input:focus, select:focus { border-color:var(--accent) }
 </div>
 
 <script>
+let unmappedCount = 0;
 document.addEventListener('DOMContentLoaded', function () {
   const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true });
   setTimeout(() => map.invalidateSize(), 100);
@@ -262,9 +263,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function updateCardCount(visible, total) {
     const el = document.getElementById('cardCount');
-    el.innerHTML = visible === total
+    const base = visible === total
       ? `<b>${fmtInt(total)}</b> proposals`
       : `Showing <b>${fmtInt(visible)}</b> of <b>${fmtInt(total)}</b> proposals`;
+    // Rows with no recorded coordinates are listed and counted but cannot be
+    // pinned. Saying so is better than a silent gap between the list and the map.
+    el.innerHTML = base + (unmappedCount
+      ? ` <span style="color:var(--muted)">(${fmtInt(unmappedCount)} without ` +
+        `coordinates, listed but not pinned)</span>`
+      : '');
   }
 
   function highlightCard(idx) {
@@ -438,13 +445,24 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
+
+// A proposal with coordinates of 0,0 has no location recorded, not a location
+// in the Gulf of Guinea. parseFloat('0') passes an isNaN check, so eight
+// proposals were being placed there. They stay in the table and the counts and
+// simply get no pin, with the total reported below the map.
+function hasRealCoords(lat, lon) {
+  return Number.isFinite(lat) && Number.isFinite(lon) &&
+         !(Math.abs(lat) < 0.001 && Math.abs(lon) < 0.001) &&
+         Math.abs(lat) <= 90 && Math.abs(lon) <= 180;
+}
       allRows = (data || []).map(r => {
         const lat = parseFloat(r.lat ?? r.latitude);
         const lon = parseFloat(r.lon ?? r.lng ?? r.longitude);
         const state = r.state || r.state_abb || '';
         const row = { ...r, lat, lon, state };
 
-        if (!isNaN(lat) && !isNaN(lon)) {
+        if (!hasRealCoords(lat, lon)) { unmappedCount++; }
+        if (hasRealCoords(lat, lon)) {
           row._marker = L.circleMarker([lat, lon], {
             radius: 4,
             fillColor:'#4f98a3',
