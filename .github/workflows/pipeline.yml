@@ -5,6 +5,7 @@ name: Build Clean Feed
 #     ->  QC gate  ->  master_opposition_clean.csv
 #   -> project resolution (event->project links + lifecycles)
 #   -> county layer (county_aggregator -> county_policy_model)
+#   -> FIPS resolution (census_geocode -> county_fips_overlay.csv)
 #   -> site screener (opposition environment tiers + movement report)
 # then triggers the Iowa Notion sync.
 #
@@ -93,6 +94,19 @@ jobs:
         continue-on-error: true
         run: python county_aggregator.py && python county_policy_model.py
 
+      - name: FIPS resolution (Census geocoder; overlay for the screener)
+        id: fips_resolution
+        if: steps.county_layer.outcome == 'success'
+        continue-on-error: true
+        run: |
+          # Runs after the county layer because it validates every resolved
+          # FIPS against data/county_aggregate.csv, which is the current
+          # county universe. Results are cached in data/geocode_cache.csv, so
+          # a steady-state run makes no API calls at all. --limit caps a cold
+          # start so one run cannot sit on the Census endpoint.
+          python census_geocode.py --selftest
+          python census_geocode.py --limit 40
+
       - name: Site screener (client-facing opposition environment tiers + movement)
         id: site_screener
         if: steps.county_layer.outcome == 'success'
@@ -129,6 +143,13 @@ jobs:
                     data/county_policy_scores.csv data/county_policy_metrics.json \
                     data/county_policy_report.md 2>/dev/null || true
           fi
+          # FIPS overlay, its review file, and the geocode cache are staged
+          # only on a green resolution step. The cache is append-only, so
+          # committing it is what keeps the steady-state API call count at zero.
+          if [ "${{ steps.fips_resolution.outcome }}" = "success" ]; then
+            git add data/county_fips_overlay.csv data/fips_resolution_review.csv \
+                    data/fips_resolution_report.md data/geocode_cache.csv 2>/dev/null || true
+          fi
           # Screener artifacts are staged ONLY on a green screener step. The
           # history file is append-only and idempotent within a day, so a
           # re-run on the same date replaces that date's snapshot rather than
@@ -141,7 +162,7 @@ jobs:
           git push
 
       - name: Trigger Iowa Notion sync
-        if: success() || steps.verification.outcome == 'failure' || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure' || steps.site_screener.outcome == 'failure'
+        if: success() || steps.verification.outcome == 'failure' || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure' || steps.fips_resolution.outcome == 'failure' || steps.site_screener.outcome == 'failure'
         uses: actions/github-script@v7
         with:
           # Cross-repo dispatch needs a PAT with repo scope (the default
@@ -172,6 +193,12 @@ jobs:
         if: steps.county_layer.outcome == 'failure'
         run: |
           echo "::error::County layer failed (aggregate QC gate, policy model, or leak audit). County artifacts were NOT committed; the last good layer remains in place. Clean feed and Iowa sync were unaffected."
+          exit 1
+
+      - name: Surface FIPS-resolution failure (visible, non-blocking)
+        if: steps.fips_resolution.outcome == 'failure'
+        run: |
+          echo "::error::census_geocode.py failed (self-tests or resolution). The overlay was NOT committed; the screener falls back to the name lookup, which leaves the unresolved and retired-code rows without a county score. Clean feed, county layer, and Iowa sync were unaffected."
           exit 1
 
       - name: Surface site-screener failure (visible, non-blocking)
