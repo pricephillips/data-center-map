@@ -50,6 +50,29 @@ disagrees with the current action history. Review-gated, same as the
 harvester. Roughly a day of work; the state-by-state matching is the fiddly
 part.
 
+Built 2026-07-27 as `bill_sync.py`, stdlib only, no new package dependency.
+Offline `--extract` pass over the countable feed finds 392 legislative
+records, of which 153 carry a parseable bill identifier, 196 carry none, and
+43 are federal and skipped. Identifier extraction requires a known prefix
+plus digits; the NY and NJ single-letter chamber forms (S731, A796) are
+recognized only in those two states so the pattern does not fire on ordinary
+prose elsewhere.
+
+Stage classification keys off Open States machine-coded action
+classifications rather than prose substrings, mapped onto the same ladder
+`qc/legislative_outcome.py` enforces, terminal-first. Chamber passage is
+counted per distinct chamber so two votes in one chamber are not mistaken for
+both. A sustained veto stays Blocked and an overridden one becomes law. The
+`milestone_coded_as_enacted` flag is the HF2690 trap and is emitted at HIGH
+severity.
+
+The one thing the API cannot supply is sine die. Open States emits no such
+action, so a non-terminal bill with no activity in over a year is flagged
+`possible_sine_die_unconfirmed` at LOW severity for a session-calendar check,
+never auto-coded as dead. Responses are cached in `data/bill_sync_cache.json`
+and terminal bills are never re-fetched, so steady-state runs make close to
+zero calls against the 500/day free tier.
+
 Caveat: coverage of local ordinances is nil. Open States is state
 legislatures only, so it addresses the `legislation` slice and nothing else.
 
@@ -193,6 +216,35 @@ has name plus state plus county plus operator plus capacity, which is exactly
 the multi-column, low-correlation shape it wants. Worth a spike before
 committing.
 
+Spike result, 2026-07-27: NO-GO on adoption. `splink_spike.py` ran the model
+over 1,443 countable events and 333 projects and evaluated it against the 97
+human adjudications in `data/project_links_manual.csv`, with the criteria
+fixed before the run. Full writeup in `data/splink_spike_report.md`.
+
+The model separates the easy population well, AUC 0.947 against presumed
+negatives and 88 percent top-1 recovery of confirmed links, but that is the
+population the existing rules already resolve. On the adjudicated pairs it
+reaches AUC 0.632 against the incumbent corroboration count at 0.568, and on
+the contested subset, which is the Type B population the spike existed to
+serve, AUC 0.605 against a base rate of 0.517. It is confidently incorrect on
+21 contested rejects, scoring them at or above 0.99.
+
+The reason is structural, not a tuning problem. On a contested pair the
+candidate projects share developer, state, county, and often a coordinate
+cluster, so every structured field agrees by construction and a
+field-comparison model has nothing left to discriminate on. Blocking is the
+second constraint: geography blocking cannot reach a cross-border pair, and a
+company-token rule that does reach them also generates every same-developer
+pair in the region at high probability. Blocking recall on the adjudicated
+set was 0.918.
+
+What survives: the score is a useful disagreement surface. Fourteen
+rule-confirmed links score below 0.5 and 202 unlinked pairs score at or above
+0.99. That is a review worklist the rule cascade cannot produce, and it is
+worth a pass on its own terms. The spike module stays in the repo as a
+manually run audit tool, out of `pipeline.yml` and out of every CI dependency
+list.
+
 ### lifelines
 `CamDavidsonPilon/lifelines` | MIT
 
@@ -322,3 +374,7 @@ a spike against the existing link set to see whether estimated match
 probabilities beat the current rules on the Type B cases specifically. TIGER
 polygons, PUDL fetch, and civic-scraper follow, in whatever order the county
 map and the negative audit end up needing them.
+
+Status as of 2026-07-27: the MAPIE work shipped as
+`county_policy_intervals.py`, and the Splink spike came back NO-GO on
+adoption, so the order below it is unchanged and Open States is next.
