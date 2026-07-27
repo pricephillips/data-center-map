@@ -299,6 +299,36 @@ itself. Running PUDL's own pipeline in CI would be a heavy dependency for no
 benefit; a scheduled fetch of the specific tables needed is the right shape,
 mirroring how `fetch_census_features.py` already works.
 
+Built 2026-07-27 as `fetch_pudl.py`, writing
+`data/county_pudl_features.csv` keyed on 5-digit FIPS, same role as
+`county_census_features.csv`. Features: operating capacity total and by fuel
+group, plant count, planned capacity (total, gas, renewable) held in separate
+columns, and capacity with a retirement date inside five years. Quarterly
+workflow pinned to a versioned release rather than the nightly build, since a
+nightly is not reproducible.
+
+The design constraint that drove the module: PUDL renames and restructures
+tables between releases, so nothing about the column layout is hardcoded.
+Each concept the aggregation needs is resolved through a candidate-name list,
+the resolution is verified at runtime, and a missing required concept aborts
+the run and prints the file's actual column list. Same discipline as
+`county_policy_intervals.py` refusing to ship on a guessed MAPIE layout. If
+no FIPS column exists in a given release, the module falls back to a
+county-name join against `data/county_aggregate.csv` and reports every name
+it could not resolve.
+
+Planned capacity is kept in its own columns on purpose. Operating capacity is
+a slow-moving stock and is safe pre-announcement information; planned
+capacity is forward-looking, so it is stamped with its report year and any
+model that uses it has to respect the year boundary rather than treating it
+as timeless.
+
+Not yet wired in. `county_aggregator.py` does not join this file and
+`county_policy_model.py` has no spec that uses it. That is the follow-on
+pass, deliberately held until a real fetch exists to check the join and the
+coverage rate against, since a join validated only against fixtures is not
+validated.
+
 ### EIA Open Data API v2
 `https://www.eia.gov/opendata/` | free key
 
