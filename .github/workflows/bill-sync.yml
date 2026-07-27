@@ -1,0 +1,75 @@
+name: Bill sync (Open States)
+
+# Review-gated. Writes candidate worklists only; never touches
+# master_opposition.csv. Safe to fail without holding up the map, the
+# dashboard, or the Iowa sync.
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Max records to resolve this run (blank = all ready)"
+        required: false
+        default: ""
+  schedule:
+    # Mondays 07:10 UTC, after the 06:40 pipeline cron.
+    - cron: "10 7 * * 1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bill-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Self-test the stage ladder
+        run: python bill_sync.py --selftest
+
+      - name: Build offline worklist
+        run: python bill_sync.py --extract
+
+      - name: Resolve against Open States
+        env:
+          OPENSTATES_API_KEY: ${{ secrets.OPENSTATES_API_KEY }}
+          LIMIT: ${{ github.event.inputs.limit }}
+        run: |
+          if [ -z "$OPENSTATES_API_KEY" ]; then
+            echo "OPENSTATES_API_KEY not set; offline worklist only."
+            exit 0
+          fi
+          if [ -n "$LIMIT" ]; then
+            python bill_sync.py --resolve --limit "$LIMIT"
+          else
+            python bill_sync.py --resolve
+          fi
+
+      - name: Commit worklists
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/bill_sync_worklist.csv data/bill_sync_matches.csv \
+                  data/bill_status_review.csv data/bill_sync_report.md \
+                  data/bill_sync_cache.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Bill sync worklists (Open States action histories) [skip ci]"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            echo "Push attempt $i failed, retrying in 10s"
+            sleep 10
+          done
+          echo "Push failed after 3 attempts. If branch protection is enabled on main, allow github-actions[bot] to push or merge via PR."
+          exit 1
