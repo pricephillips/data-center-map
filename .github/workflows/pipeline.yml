@@ -35,12 +35,31 @@ name: Build Clean Feed
 on:
   push:
     paths:
+      # Data inputs.
       - 'master_opposition.csv'
       - 'data/proposals.csv'
       - 'data/project_links_manual.csv'
+      - 'data/project_decision_dates.csv'
+      - 'data/project_duplicates.csv'
       - 'atlas.csv'
       - 'data/county_census_features.csv'
       - 'data/county_votes.json'
+      - 'data/county_fips_lookup.json'
+      # Code that produces the artifacts. Without these, pushing a pipeline
+      # change did not run the pipeline, so a module could ship and its
+      # outputs would never be generated. That is why the screener, the
+      # verification review files, and the FIPS overlay had never appeared in
+      # the repo despite the code being present.
+      - '*.py'
+      - 'qc/*.py'
+      - 'scripts/*.py'
+      - '.github/workflows/pipeline.yml'
+  # Safety net: a code path that somehow escapes the filter above, or an
+  # upstream data file edited outside the repo, still gets a rebuild daily.
+  # 06:40 UTC sits after the 11:15 UTC ingest of the prior day and before the
+  # working day in the US.
+  schedule:
+    - cron: '40 6 * * *'
   workflow_dispatch:
 
 permissions:
