@@ -1,0 +1,84 @@
+name: Fetch PUDL county generation features
+
+# Reference-data acquisition. Writes data/county_pudl_features.csv only.
+# Nothing downstream consumes it until county_aggregator.py explicitly joins
+# it, so this workflow can fail without affecting the map, the dashboard, the
+# clean feed, or the Iowa sync. No secret required; PUDL parquet outputs are
+# public.
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: "PUDL release (a version tag; 'nightly' is not reproducible)"
+        required: false
+        default: "v2025.2.0"
+      table:
+        description: "PUDL table name"
+        required: false
+        default: "out_eia__yearly_generators"
+      report_year:
+        description: "Pin a single report year (blank sums across years)"
+        required: false
+        default: ""
+  schedule:
+    # Quarterly on the 3rd at 08:20 UTC, matching PUDL's versioned release
+    # cadence rather than the nightly builds.
+    - cron: "20 8 3 1,4,7,10 *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-pudl
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install parquet reader
+        run: pip install pyarrow
+
+      - name: Self-test schema resolution and aggregation
+        run: python fetch_pudl.py --selftest
+
+      - name: Fetch and aggregate
+        env:
+          RELEASE: ${{ github.event.inputs.release || 'v2025.2.0' }}
+          TABLE: ${{ github.event.inputs.table || 'out_eia__yearly_generators' }}
+          REPORT_YEAR: ${{ github.event.inputs.report_year }}
+        run: |
+          ARGS="--fetch --release $RELEASE --table $TABLE"
+          if [ -n "$REPORT_YEAR" ]; then
+            ARGS="$ARGS --report-year $REPORT_YEAR"
+          fi
+          python fetch_pudl.py $ARGS
+
+      - name: Validate output against the county frame
+        run: python fetch_pudl.py --validate
+
+      - name: Commit reference file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/county_pudl_features.csv data/county_pudl_manifest.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "PUDL county generation features (EIA 860/923 via Catalyst Cooperative, CC-BY-4.0) [reference data] [skip ci]"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            echo "Push attempt $i failed, retrying in 10s"
+            sleep 10
+          done
+          echo "Push failed after 3 attempts. If branch protection is enabled on main, allow github-actions[bot] to push or merge via PR."
+          exit 1
