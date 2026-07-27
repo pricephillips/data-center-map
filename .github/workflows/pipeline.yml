@@ -4,7 +4,7 @@ name: Build Clean Feed
 #   raw master_opposition.csv  ->  verification holdout  ->  cleaner
 #     ->  QC gate  ->  master_opposition_clean.csv
 #   -> project resolution (event->project links + lifecycles)
-#   -> county layer (county_aggregator -> county_policy_model)
+#   -> county layer (county_aggregator -> county_policy_model -> county_policy_intervals)
 #   -> FIPS resolution (census_geocode -> county_fips_overlay.csv)
 #   -> site screener (opposition environment tiers + movement report)
 # then triggers the Iowa Notion sync.
@@ -79,7 +79,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install pandas scikit-learn
+        run: pip install pandas scikit-learn mapie
 
       - name: Gate — run self-tests (BLOCKING; a failure stops the build)
         run: |
@@ -111,7 +111,14 @@ jobs:
         id: county_layer
         if: steps.project_resolution.outcome == 'success'
         continue-on-error: true
-        run: python county_aggregator.py && python county_policy_model.py
+        run: |
+          python county_aggregator.py && python county_policy_model.py
+          # Conformal + Venn-Abers intervals on the county model. Additive:
+          # rebuilds the selected spec from the metrics JSON and never selects
+          # its own. A failure here must not take down the county scores, so
+          # it is fenced with its own error surface below.
+          python county_policy_intervals.py --selftest
+          python county_policy_intervals.py
 
       - name: FIPS resolution (Census geocoder; overlay for the screener)
         id: fips_resolution
@@ -159,7 +166,7 @@ jobs:
           # place untouched.
           if [ "${{ steps.county_layer.outcome }}" = "success" ]; then
             git add data/county_aggregate.csv data/county_aggregate_manifest.json \
-                    data/county_policy_scores.csv data/county_policy_metrics.json \
+                    data/county_policy_scores.csv data/county_policy_intervals.csv data/county_policy_intervals.md data/county_policy_metrics.json \
                     data/county_policy_report.md 2>/dev/null || true
           fi
           # FIPS overlay, its review file, and the geocode cache are staged
