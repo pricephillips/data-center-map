@@ -1,6 +1,6 @@
 # Time-to-Decision Survival Model — First Iteration (Phase 3)
 
-Generated 2026-07-24 by `survival_model.py`. Figures re-derived from current CSVs at generation time.
+Generated 2026-07-27 by `survival_model.py`. Figures re-derived from current CSVs at generation time.
 
 **Internal diagnostic only — NOT client-facing.** Small sample, retrospective, predictive-not-causal. Hazard ratios describe association with the RATE of reaching a decision, not causes of it.
 
