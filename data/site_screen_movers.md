@@ -1,10 +1,21 @@
 # Opposition Environment Movement Report
 
-Run date: 2026-07-27
+Run date: 2026-07-28
+Compared against: 2026-07-27
 
-Baseline run. No prior snapshot exists, so no movement is reported. The next run compares against this one.
+Sites screened: 332 | tier changes: 1 | composite moves of 3 points or more: 1 | newly screened: 0
 
-Sites screened: 332
+## Tier changes
+
+| Site | County, State | From | To | Composite change |
+| :-- | :-- | :-- | :-- | --: |
+| PNK Valley View Data Center | Lackawanna County, PA | Low | Elevated | +52.7 |
+
+## Largest composite moves
+
+| Site | County, State | Tier | Composite | Change |
+| :-- | :-- | :-- | :-- | --: |
+| PNK Valley View Data Center | Lackawanna County, PA | Elevated | 83.6 | +52.7 |
 
 ## Reading this report
 
