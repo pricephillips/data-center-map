@@ -191,9 +191,12 @@ def build_report(ctx):
     a = L.append
     a("# Landmark Diagnostics: Anchor Feasibility")
     a("")
-    a(f"Generated {date.today().isoformat()}. Diagnostic only. "
-      f"landmark_model.py is unmodified; its formulation remains registered as "
-      f"of 2026-07-23 with the landmark anchored at first opposition date. "
+    a(f"Generated {date.today().isoformat()}. Diagnostic record. This analysis "
+      f"made the case for re-anchoring the landmark at announced_date; that "
+      f"change was adopted in landmark_model.py on 2026-07-28, so the "
+      f"comparison below is the justification of a decision already taken "
+      f"rather than an open question. The opposition-anchor figures are "
+      f"reconstructed here from first_opposition_date for the record. "
       f"Survivor conditioning, floors "
       f"(n >= {ctx['floor_n']}, blocked >= {ctx['floor_b']}, "
       f"not_blocked >= {ctx['floor_nb']}), and the registered window grid "
@@ -345,12 +348,14 @@ def build_report(ctx):
 
     a("## Recommendation")
     a("")
-    a("Two steps, in order.")
+    a("Two steps, in order. The first is done; the second is now the open "
+      "task.")
     a("")
-    a("**Re-register the landmark anchor.** The opposition anchor is not "
-      "reachable with the current event data and no amount of decision-date "
-      "recovery changes that. Proposed registration text, to be dated when "
-      "adopted:")
+    a("**Re-register the landmark anchor (adopted 2026-07-28).** The "
+      "opposition anchor is not reachable with the current event data and no "
+      "amount of decision-date recovery changes that. The anchor was "
+      "re-registered to announced_date in landmark_model.py. Registration "
+      "text as adopted:")
     a("")
     a("> Landmark anchor: t0 = announced_date. Rationale: the "
       "opposition-anchored formulation registered 2026-07-23 is infeasible "
@@ -364,11 +369,13 @@ def build_report(ctx):
       "and the no-auto-promotion rule are unchanged. Windows beyond the "
       "registered grid are not adopted without a further registration entry.")
     a("")
-    a("**Then work the decision-date worklist.** Against the announcement "
-      "anchor it is no longer a housekeeping task; it is the single input that "
-      "moves the gate. data/landmark_recovery_priority.csv ranks the "
+    a("**Then work the decision-date worklist.** With the announcement anchor "
+      "now in place, it is no longer a housekeeping task; it is the single "
+      "input that moves the gate. landmark_model.py currently reports GATE "
+      "CLOSED for want of decision-date coverage, not for want of a workable "
+      "anchor. data/landmark_recovery_priority.csv ranks the "
       f"{ctx['n_missing']} projects by whether recovering each one actually "
-      f"changes a frame, with blocked-arm rows first.")
+      f"changes a frame at the shortest feasible window.")
     a("")
     a("What this pass does not claim: that the announcement-anchored model "
       "will be any good. Feasibility is a counting result. Discrimination, "
@@ -481,7 +488,19 @@ def main() -> int:
                   "resolution chain first")
             return 1
 
-    decided, missing, pending, opp = lm.build_frames()
+    frames = lm.build_frames()
+    # landmark_model.build_frames returned a 4-tuple before the 2026-07-28
+    # anchor re-registration and a 5-tuple after (missing-announce list added).
+    # Support both so this diagnostic keeps running against either version.
+    if len(frames) == 5:
+        decided, missing, pending, _missing_ann, opp = frames
+    else:
+        decided, missing, pending, opp = frames
+    # This module reconstructs the opposition anchor itself from
+    # first_opposition_date below, so it does not depend on which field
+    # build_frames now uses for t0.
+    for r in decided:
+        r["t0"] = lm.parse_day((r["row"].get("first_opposition_date") or "").strip())
     today = lm.TODAY
     windows = list(lm.CANDIDATE_WINDOWS)
     F_N, F_B, F_NB = lm.FLOOR_N, lm.FLOOR_BLOCKED, lm.FLOOR_NOT_BLOCKED

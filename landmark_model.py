@@ -7,15 +7,36 @@ contains information that only existed after its decision. That model cannot
 legitimately score a pending project. This module implements the landmark
 formulation that can:
 
-  t0 = first opposition date. For a fixed window W, features are computed
-  ONLY from opposition events dated within [t0, t0 + W], the training frame
-  is restricted to decided projects that were still undecided at t0 + W
+  t0 = announced_date. For a fixed window W, features are computed ONLY from
+  opposition events dated within [t0, t0 + W], the training frame is
+  restricted to decided projects that were still undecided at t0 + W
   (survivor conditioning), and the model answers the only question a pending
-  project can be asked: given a project still undecided W days after first
-  opposition, what is P(blocked)?
+  project can be asked: given a project still undecided W days after
+  announcement, what is P(blocked)?
 
-Pre-registered window selection (LOCKED 2026-07-23, before the data existed
-to fit it; do not modify without recording a new registration date):
+Anchor re-registration (LOCKED 2026-07-28). The formulation originally
+registered 2026-07-23 anchored t0 at first opposition date. That anchor is
+infeasible and the infeasibility is not a coverage gap: for a majority of
+decided projects the first recorded opposition event is dated at or after the
+terminal decision, a detection property of news-triggered coverage (most
+decided projects carry a single opposition event, recorded when the decision
+made news), so survivor conditioning empties every candidate frame and the
+blocked-arm frame ceiling under complete decision-date recovery sits below
+floor. The diagnosis, the ceiling arithmetic, and the negative result of the
+outcome-typed-event test are in landmark_diagnostics.py and
+data/landmark_diagnostics.md. The announced_date anchor precedes the terminal
+decision by construction. Everything else in the specification below,
+candidate windows, floors, survivor conditioning, the selection criterion,
+and the no-auto-promotion rule, is carried over UNCHANGED from the 2026-07-23
+registration. Windows beyond the registered grid are not adopted without a
+further registration entry.
+
+A decided project with no announced_date is excluded from every landmark
+frame the same way a missing decision date excludes it, and is listed in the
+announce-date worklist. No announcement date is ever inferred.
+
+Pre-registered window selection (LOCKED 2026-07-23, carried over unchanged;
+do not modify without recording a new registration date):
   Candidate windows: W in {30, 60, 90, 120, 180} days.
   1. Feasibility floors, per window: n >= 40 AND n_blocked >= 12 AND
      n_not_blocked >= 12. Windows below floor are INFEASIBLE and are never
@@ -29,10 +50,14 @@ to fit it; do not modify without recording a new registration date):
 
 Frame rules (all recorded, all enforced in code):
   - Training labels are decided cases only (terminal dispositions).
-  - decision_date is required and comes only from data/project_decision_dates.csv
-    (sourced, day precision). Decided projects without a verified decision
-    date are EXCLUDED from every landmark frame and listed in the
-    decision-date worklist. No decision date is ever inferred.
+  - decision_date is required (sourced, day precision). Decided projects
+    without a verified decision date are EXCLUDED from every landmark frame
+    and listed in the decision-date worklist. No decision date is ever
+    inferred.
+  - announced_date is required to set the landmark. Any opposed project
+    without a day- or month-precision announced_date is EXCLUDED and listed
+    in the announce-date worklist. No announcement date is ever inferred.
+    Survivor conditioning uses (decision_date - announced_date) > W.
   - Outcome-typed events (project_withdrawal, permit_denial) never enter
     features at any window: they encode the label.
   - Event dates at month precision are floored to the 1st (pipeline
@@ -46,13 +71,16 @@ Outputs (all NEW files; additive):
   data/landmark_model_report.md     gate status, criterion, metrics if fit
   data/decision_date_worklist.csv   decided+opposed projects missing a
                                     verified decision date, blocked arm first
+  data/announce_date_worklist.csv   opposed projects missing an announced_date
+                                    (they cannot enter any frame until dated)
   and, only when a window passes the gate:
   data/landmark_model_features.csv  exact per-project matrix at selected W
   data/landmark_model_metrics.json  machine-readable metrics (Phase 5 input)
   data/landmark_model_predictions.csv  OOF predictions + pending-project
                                     scores with risk bands and scoreability
                                     status (scoreable once >= W days have
-                                    elapsed since t0; provisional before)
+                                    elapsed since t0 = announcement;
+                                    provisional before)
 
 Not wired into CI. Run from repo root:  python3 landmark_model.py
 Depends on project_resolution.py outputs. Requires scikit-learn.
@@ -93,6 +121,7 @@ ATLAS_CSV = P("atlas.csv")
 OUT_FEAS = P("data", "landmark_feasibility.csv")
 OUT_REPORT = P("data", "landmark_model_report.md")
 OUT_WORKLIST = P("data", "decision_date_worklist.csv")
+OUT_ANNOUNCE_WORKLIST = P("data", "announce_date_worklist.csv")
 OUT_FEATURES = P("data", "landmark_model_features.csv")
 OUT_METRICS = P("data", "landmark_model_metrics.json")
 OUT_PREDICTIONS = P("data", "landmark_model_predictions.csv")
@@ -256,15 +285,19 @@ def build_frames():
         if s and re.match(r"^\d{4}-\d{2}", d):
             state_events.append((s, d[:10]))
 
-    decided, missing_dd, pending = [], [], []
+    decided, missing_dd, pending, missing_ann = [], [], [], []
     for r in life:
         if int(r.get("n_opposition_events") or 0) == 0:
             continue
-        t0 = parse_day(r.get("first_opposition_date"))
+        # Landmark anchor: announced_date (re-registered 2026-07-28). A project
+        # with no announced_date cannot enter any frame and is worklisted.
+        t0 = parse_day(r.get("announced_date"))
         if t0 is None:
+            missing_ann.append(r)
             continue
         rec = {
             "row": r, "t0": t0,
+            "first_opp": parse_day(r.get("first_opposition_date")),
             "links": links_by_project.get(r["project_id"], []),
             "static": None,
         }
@@ -281,7 +314,7 @@ def build_frames():
             decided.append(rec)
         else:
             pending.append(rec)
-    return decided, missing_dd, pending, opp_by_id
+    return decided, missing_dd, pending, missing_ann, opp_by_id
 
 
 def assemble_matrix(records, opp_by_id, W, scoreability=None):
@@ -294,6 +327,21 @@ def assemble_matrix(records, opp_by_id, W, scoreability=None):
                 "label_blocked": rec.get("label", "")}
         feat.update({k: v for k, v in rec["static"].items()
                      if k != "hyperscaler_missing_placeholder"})
+        # days_to_first_opposition is measured from t0 = announcement. Its raw
+        # value can reveal opposition timing beyond the window, which is future
+        # information relative to the landmark, so it is right-censored at the
+        # window boundary: within-window timing is a real feature, first
+        # opposition landing after w_end is recorded only as "not yet by W".
+        dtf = feat.get("days_to_first_opposition")
+        fo = rec.get("first_opp")
+        if fo is None or fo > w_end:
+            feat["days_to_first_opposition"] = float(W)
+            feat["opposition_by_window_end"] = 0
+        else:
+            feat["days_to_first_opposition"] = min(
+                float((fo - rec["t0"]).days) if dtf is None else float(dtf),
+                float(W))
+            feat["opposition_by_window_end"] = 1
         feat.update(window_features(rec["links"], opp_by_id, rec["t0"], w_end))
         feat["scoreability"] = (scoreability(rec) if scoreability else "training")
         rows.append(feat)
@@ -320,10 +368,100 @@ def write_worklist(missing_dd):
     return missing_dd
 
 
+def write_announce_worklist(missing_ann):
+    """Opposed projects with no announced_date. They cannot enter any landmark
+    frame until dated. Blocked arm first, then by opposition event count, so
+    the ordering matches the decision-date worklist convention."""
+    missing_ann = sorted(missing_ann, key=lambda r: (
+        0 if r["lifecycle_outcome"] == "blocked_confirmed" else 1,
+        -int(r.get("n_opposition_events") or 0)))
+    with open(OUT_ANNOUNCE_WORKLIST, "w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh, lineterminator="\n")
+        w.writerow(["project_id", "project_name", "state", "county", "phase",
+                    "decided", "lifecycle_outcome", "n_opposition_events",
+                    "first_opposition_date", "what_to_recover"])
+        for r in missing_ann:
+            w.writerow([r["project_id"], r["project_name"], r.get("state", ""),
+                        r.get("county", ""), r.get("phase", ""),
+                        r.get("decided", ""), r["lifecycle_outcome"],
+                        r.get("n_opposition_events", ""),
+                        r.get("first_opposition_date", ""),
+                        "project announcement date, day or month precision, "
+                        "primary or trade-press record preferred; append to "
+                        "data/project_lifecycles source with source_url"])
+    return missing_ann
+
+
+def selftest() -> int:
+    """Exercises the anchor and censoring logic with no data files, no network,
+    no sklearn. Covers exactly the pieces changed in the 2026-07-28 anchor
+    re-registration: announcement anchoring, right-censoring of
+    days_to_first_opposition at the window boundary, and survivor conditioning."""
+    ok = True
+
+    def check(cond, label):
+        nonlocal ok
+        if not cond:
+            ok = False
+            print(f"  FAIL {label}")
+        else:
+            print(f"  pass {label}")
+
+    check(parse_day("2025-03-04") == date(2025, 3, 4), "parse day precision")
+    check(parse_day("2025-03") == date(2025, 3, 1), "parse month precision floors to 1st")
+    check(parse_day("") is None, "parse empty")
+    check(band(0.1) == "lower" and band(0.6) == "elevated" and band(0.99) == "higher",
+          "risk bands")
+
+    # A record announced 2025-01-01, first opposition 2025-05-01 (day 120),
+    # decided 2025-09-01. Static feature days_to_first_opposition raw = 120.
+    static = {"days_to_first_opposition": 120, "county_margin_2024": 0.1}
+    rec = {"row": {"project_id": "p1", "project_name": "P1",
+                   "lifecycle_outcome": "advanced_confirmed"},
+           "t0": date(2025, 1, 1), "first_opp": date(2025, 5, 1),
+           "decision": date(2025, 9, 1), "label": 0, "links": [], "static": static}
+
+    # At W=30, first opposition is beyond the window: feature censored to 30,
+    # opposition_by_window_end = 0.
+    row30 = assemble_matrix([rec], {}, 30)[0]
+    check(row30["days_to_first_opposition"] == 30.0, "dtf censored at short window")
+    check(row30["opposition_by_window_end"] == 0, "opposition not yet by short window")
+
+    # At W=180, first opposition (day 120) is inside the window: real value kept.
+    row180 = assemble_matrix([rec], {}, 180)[0]
+    check(row180["days_to_first_opposition"] == 120.0, "dtf kept inside window")
+    check(row180["opposition_by_window_end"] == 1, "opposition by long window")
+
+    # Exactly at the boundary (W=120): first opposition lands on w_end, kept.
+    row120 = assemble_matrix([rec], {}, 120)[0]
+    check(row120["days_to_first_opposition"] == 120.0, "dtf kept at exact boundary")
+    check(row120["opposition_by_window_end"] == 1, "boundary counts as within")
+
+    # No first opposition at all: censored to W, flagged not-yet.
+    rec_none = dict(rec, first_opp=None,
+                    static={"days_to_first_opposition": None, "county_margin_2024": 0.1})
+    rown = assemble_matrix([rec_none], {}, 90)[0]
+    check(rown["days_to_first_opposition"] == 90.0, "no opposition censored to W")
+    check(rown["opposition_by_window_end"] == 0, "no opposition flagged")
+
+    # Survivor conditioning is strictly greater than W on the announcement gap.
+    def survives(t0, decision, W):
+        return (decision - t0).days > W
+    check(survives(date(2025, 1, 1), date(2025, 9, 1), 180), "survives long gap")
+    check(not survives(date(2025, 1, 1), date(2025, 1, 20), 30), "excluded short gap")
+    check(not survives(date(2025, 1, 1), date(2025, 1, 31), 30),
+          "excluded exactly at W (strict inequality)")
+
+    print("selftest:", "OK" if ok else "FAILED")
+    return 0 if ok else 1
+
+
 def main() -> int:
+    if "--selftest" in sys.argv:
+        return selftest()
     for f in (LIFECYCLES_CSV, UNIVERSE_CSV, LINKS_CSV):
         if not os.path.exists(f):
-            print(f"ERROR: {os.path.relpath(f, ROOT)} missing — run the "
+            print(f"ERROR: {os.path.relpath(f, ROOT)} missing, run the "
                   "resolution chain first")
             return 1
     try:
@@ -338,8 +476,9 @@ def main() -> int:
               "This module is not part of the CI pipeline by design.")
         return 1
 
-    decided, missing_dd, pending, opp_by_id = build_frames()
+    decided, missing_dd, pending, missing_ann, opp_by_id = build_frames()
     missing_dd = write_worklist(missing_dd)
+    write_announce_worklist(missing_ann)
 
     # ---- per-window frames + gate ----
     feas_rows, frames = [], {}
@@ -368,25 +507,32 @@ def main() -> int:
     w = rep.append
     w("# Landmark Outcome Model")
     w("")
-    w(f"Generated {TODAY.isoformat()}. Landmark t0 = first opposition date; "
-      f"features from events in [t0, t0+W] only; training frame conditioned "
-      f"on being undecided at t0+W. Selection criterion pre-registered "
-      f"2026-07-23 (see module docstring); candidate windows "
-      f"{CANDIDATE_WINDOWS}, floors n>={FLOOR_N}, blocked>={FLOOR_BLOCKED}, "
-      f"not_blocked>={FLOOR_NOT_BLOCKED}.")
+    w(f"Generated {TODAY.isoformat()}. Landmark t0 = announced_date "
+      f"(anchor re-registered 2026-07-28; the original 2026-07-23 opposition "
+      f"anchor was infeasible, see module docstring and "
+      f"data/landmark_diagnostics.md). Features from events in [t0, t0+W] "
+      f"only; days_to_first_opposition right-censored at the window boundary; "
+      f"training frame conditioned on being undecided at t0+W. Selection "
+      f"criterion pre-registered 2026-07-23 and carried over unchanged; "
+      f"candidate windows {CANDIDATE_WINDOWS}, floors n>={FLOOR_N}, "
+      f"blocked>={FLOOR_BLOCKED}, not_blocked>={FLOOR_NOT_BLOCKED}.")
     w("")
     w("## Frame coverage")
     w("")
-    w(f"- Decided + opposed projects with a dated first opposition: "
-      f"{len(decided) + len(missing_dd)}")
-    w(f"- With a verified, day-precision decision date (eligible for any "
-      f"landmark frame): {len(decided)}")
-    w(f"- Missing a verified decision date (excluded; see "
-      f"decision_date_worklist.csv): {len(missing_dd)}, of which "
+    w(f"- Opposed projects with an announced_date (eligible to be anchored): "
+      f"{len(decided) + len(missing_dd) + len(pending)}")
+    w(f"- Opposed projects missing an announced_date (excluded; see "
+      f"announce_date_worklist.csv): {len(missing_ann)}, of which "
+      f"{sum(1 for r in missing_ann if r['lifecycle_outcome'] == 'blocked_confirmed')} "
+      f"blocked")
+    w(f"- Decided, anchored, with a verified day-precision decision date "
+      f"(eligible for a training frame): {len(decided)}")
+    w(f"- Decided and anchored but missing a verified decision date (excluded; "
+      f"see decision_date_worklist.csv): {len(missing_dd)}, of which "
       f"{sum(1 for r in missing_dd if r['lifecycle_outcome'] == 'blocked_confirmed')} "
       f"blocked")
-    w(f"- Pending projects with a dated first opposition (the scoring "
-      f"population once a window is selected): {len(pending)}")
+    w(f"- Pending and anchored (the scoring population once a window is "
+      f"selected): {len(pending)}")
     w("")
     w("## Per-window gate status")
     w("")
@@ -400,25 +546,26 @@ def main() -> int:
     if not feasible:
         w("## Result: GATE CLOSED")
         w("")
-        w("No candidate window meets the pre-registered floors. The model "
-          "was not fit. The binding constraint is verified decision-date "
-          "coverage, not modeling: every decided project lacking a "
-          "day-precision decision date in data/project_decision_dates.csv "
-          "is excluded from every frame. The worklist "
-          "(data/decision_date_worklist.csv) is ordered blocked arm first, "
-          "then by opposition event count. Recovering decision dates is the "
-          "gate-opening path; the selection criterion above stays locked and "
-          "will be applied unchanged when the floors are met.")
+        w("No candidate window meets the pre-registered floors, so the model "
+          "was not fit. Under the announcement anchor the binding constraint "
+          "is decision-date coverage rather than the anchor itself: the "
+          "announcement-to-decision gap is positive by construction, so "
+          "survivor conditioning no longer empties the frames the way the "
+          "opposition anchor did. What limits the frame now is simply how many "
+          "decided projects carry a verified day-precision decision date.")
         w("")
-        w("A second constraint will bind after coverage improves: survivor "
-          "counts depend on the gap between first opposition and decision. "
-          "In the current dated subset the median gap is near zero because "
-          "many projects' only dated opposition event is the "
-          "decision-adjacent record itself. Denser event dating (not just "
-          "decision dating) raises survivor counts at every window. This is "
-          "the same structural asymmetry recorded previously: blocked "
-          "projects carry verified dates at higher rates, so coverage work "
-          "must sample both arms to avoid steering the frame.")
+        w(f"Two worklists open the gate. data/decision_date_worklist.csv "
+          f"({len(missing_dd)} projects) is the primary one: recovering these "
+          f"dates moves decided projects into the training frame. "
+          f"data/announce_date_worklist.csv ({len(missing_ann)} projects) is "
+          f"secondary: these projects have no announcement date and cannot be "
+          f"anchored at all until one is sourced. The feasibility diagnosis in "
+          f"data/landmark_diagnostics.md identifies which recoveries actually "
+          f"change a frame at the shortest feasible window, and note the "
+          f"finding there that the advanced arm, not the blocked arm, is the "
+          f"binding constraint for feasibility under this anchor. The "
+          f"selection criterion stays locked and is applied unchanged when the "
+          f"floors are met.")
         report_only = True
     else:
         # ---- fit feasible windows, apply pre-registered selection ----
@@ -497,10 +644,10 @@ def main() -> int:
             w("")
             w("This is a retrospective predictive association on the "
               "survivor-conditioned frame. Scores are P(blocked | still "
-              "undecided W days after first opposition). Nothing here is "
-              "causal and nothing here is a cost estimate. Risk bands are "
-              "reported instead of bare point estimates. Promotion to any "
-              "client-facing surface requires the Phase 5 calibration gate.")
+              "undecided W days after announcement). Nothing here is causal "
+              "and nothing here is a cost estimate. Risk bands are reported "
+              "instead of bare point estimates. Promotion to any client-facing "
+              "surface requires the Phase 5 calibration gate.")
 
             # audit trail + metrics + predictions
             with open(OUT_FEATURES, "w", newline="", encoding="utf-8") as fh:
@@ -511,6 +658,8 @@ def main() -> int:
             metrics = {
                 "generated": TODAY.isoformat(),
                 "landmark_window_days": W_sel,
+                "landmark_anchor": "announced_date",
+                "anchor_registered": "2026-07-28",
                 "criterion_registered": "2026-07-23",
                 "n": int(len(R["y"])), "n_blocked": int(R["y"].sum()),
                 "base_rate": R["base_rate"],
@@ -560,7 +709,7 @@ def main() -> int:
         fh.write("\n".join(rep) + "\n")
 
     # leak audit on everything written this run
-    audit_paths = [OUT_FEAS, OUT_REPORT, OUT_WORKLIST]
+    audit_paths = [OUT_FEAS, OUT_REPORT, OUT_WORKLIST, OUT_ANNOUNCE_WORKLIST]
     if not report_only:
         audit_paths += [OUT_FEATURES, OUT_METRICS, OUT_PREDICTIONS]
     rx = re.compile(r"\b(win|wins|loss|losses|lost)\b", re.I)
@@ -570,7 +719,7 @@ def main() -> int:
         print("LEAK AUDIT FAILED: " + ", ".join(os.path.basename(p) for p in dirty))
         return 1
 
-    gate_line = ("GATE CLOSED — no window feasible; worklist written"
+    gate_line = ("GATE CLOSED, no window feasible; worklist written"
                  if report_only else
                  f"window selected; see {os.path.relpath(OUT_REPORT, ROOT)}")
     print(f"landmark frames: " +
