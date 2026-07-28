@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Center Opposition Map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+:root {
+  --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
+  --muted:#8a96a4; --border:#2c3544;
+  --accent:#ea580c; --accent2:#fbbf24; --tier1:#4f98a3; --tier2:#8a96a4; --tier3:#9b59b6;
+  --blocked:#ef4444; --advanced:#22c55e; --pending:#eab308;
+}
+* { box-sizing:border-box; margin:0; padding:0 }
+html, body { height:100% }
+body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(--text); overflow:hidden }
+
+.app { display:grid; grid-template-columns:360px 1fr; grid-template-rows:100vh; height:100vh }
+@media (max-width:820px) { .app { grid-template-columns:1fr; grid-template-rows:44vh 56vh } }
+
+.side { background:var(--panel); border-right:1px solid var(--border); display:flex; flex-direction:column;
+  overflow:hidden }
+.side header { padding:16px 18px 12px; border-bottom:1px solid var(--border) }
+.side h2 { font-size:18px; font-weight:700 }
+.side .sub { color:var(--muted); font-size:12px; margin-top:3px; line-height:1.5 }
+
+/* Mode toggle: county context vs project pins. */
+.modebar { display:flex; gap:6px; padding:12px 18px; border-bottom:1px solid var(--border) }
+.modebtn { flex:1; padding:9px 10px; border-radius:8px; border:1px solid var(--border); background:var(--panel2);
+  color:var(--muted); font:600 12.5px/1 Inter,system-ui,sans-serif; cursor:pointer; text-align:center }
+.modebtn[aria-pressed="true"] { background:var(--tier1); border-color:var(--tier1); color:var(--bg) }
+.modebtn:focus-visible { outline:2px solid var(--tier1); outline-offset:2px }
+
+.panel-scroll { flex:1; overflow-y:auto; padding:14px 18px 20px }
+
+.legend { margin-bottom:16px }
+.legend h3 { font-size:12px; font-weight:700; color:var(--text); margin-bottom:8px; text-transform:uppercase;
+  letter-spacing:.04em }
+.legend .row { display:flex; align-items:center; gap:8px; margin:5px 0; font-size:12.5px; color:#c6cfda }
+.legend .sw { width:16px; height:16px; border-radius:4px; flex:none; border:1px solid var(--border) }
+.legend .sw.line { border-radius:0; height:3px; border:0 }
+.ramp { height:12px; border-radius:6px; margin:6px 0 4px;
+  background:linear-gradient(90deg, rgb(30,41,59), rgb(124,45,18), rgb(234,88,12), rgb(251,191,36)) }
+.ramp-labels { display:flex; justify-content:space-between; font-size:11px; color:var(--muted) }
+
+.controls label { display:block; font-size:11px; color:var(--muted); margin:10px 0 4px; text-transform:uppercase;
+  letter-spacing:.04em }
+.controls select, .controls input { width:100%; padding:8px 10px; border-radius:8px; border:1px solid var(--border);
+  background:var(--panel2); color:var(--text); font:400 13px/1 Inter,system-ui,sans-serif }
+.chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px }
+.chip { padding:5px 9px; border-radius:999px; border:1px solid var(--border); background:var(--panel2);
+  color:var(--muted); font:600 11.5px/1 Inter,system-ui,sans-serif; cursor:pointer }
+.chip[aria-pressed="true"] { color:var(--text) }
+.chip.blocked[aria-pressed="true"] { background:rgba(239,68,68,.18); border-color:var(--blocked); color:#fecaca }
+.chip.advanced[aria-pressed="true"] { background:rgba(34,197,94,.16); border-color:var(--advanced); color:#bbf7d0 }
+.chip.pending[aria-pressed="true"] { background:rgba(234,179,8,.16); border-color:var(--pending); color:#fde68a }
+
+.stat { background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:9px 11px; margin:10px 0 }
+.stat b { display:block; font-size:19px; font-weight:700 }
+.stat span { font-size:11px; color:var(--muted) }
+.note { font-size:11.5px; line-height:1.5; color:var(--muted); margin-top:12px }
+.note b { color:#c6cfda }
+
+.mapwrap { position:relative }
+#map { position:absolute; inset:0 }
+.leaflet-container { background:#0b0e13; font-family:Inter,system-ui,sans-serif }
+.leaflet-tooltip.tip { background:var(--panel2); border:1px solid var(--border); color:var(--text);
+  font-size:12px; border-radius:8px; box-shadow:0 6px 20px rgba(0,0,0,.5); max-width:280px; line-height:1.5 }
+.leaflet-tooltip.tip b { color:#fff }
+.leaflet-popup-content-wrapper { background:var(--panel); color:var(--text); border:1px solid var(--border);
+  border-radius:10px }
+.leaflet-popup-tip { background:var(--panel); border:1px solid var(--border) }
+.leaflet-popup-content { margin:12px 14px; font-size:13px; line-height:1.5 }
+.pop h4 { font-size:14px; font-weight:700; margin-bottom:6px }
+.pop .grid { display:grid; grid-template-columns:auto 1fr; gap:3px 10px; font-size:12px; margin:6px 0 }
+.pop .grid .k { color:var(--muted) }
+.pop .band { display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:700 }
+.pop a { color:var(--accent2) }
+
+#error-banner { display:none; position:absolute; top:12px; left:50%; transform:translateX(-50%); z-index:900;
+  background:#3a1520; border:1px solid #7a2535; color:#ffb4c0; padding:10px 14px; border-radius:10px;
+  font-size:12.5px; max-width:80% }
+.badge { position:absolute; bottom:14px; left:14px; z-index:600; background:var(--panel); border:1px solid var(--border);
+  border-radius:8px; padding:7px 11px; font-size:11.5px; color:var(--muted) }
+.badge b { color:var(--text) }
+
+.marker-dot { border-radius:50%; border:2px solid rgba(0,0,0,.5); box-shadow:0 0 0 1px rgba(255,255,255,.15) }
+.enacted-star { filter:drop-shadow(0 0 3px rgba(251,191,36,.7)) }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <header>
+      <h2>Opposition Map</h2>
+      <div class="sub" id="sub">County context and project detail for U.S. data center opposition.</div>
+    </header>
+    <div class="modebar" role="group" aria-label="Map mode">
+      <button class="modebtn" id="mode-county" aria-pressed="true">County context</button>
+      <button class="modebtn" id="mode-project" aria-pressed="false">Project pins</button>
+    </div>
+    <div class="panel-scroll">
+      <!-- COUNTY panel -->
+      <div id="county-panel">
+        <div class="legend">
+          <h3>Enacted-restriction score</h3>
+          <div class="ramp"></div>
+          <div class="ramp-labels"><span>lower</span><span>higher</span></div>
+          <div class="row" style="margin-top:9px"><span class="sw line" style="background:#f8fafc"></span>
+            dashed outline: enacted restrictive policy on record</div>
+        </div>
+        <div class="controls">
+          <label for="county-metric">Shade counties by</label>
+          <select id="county-metric">
+            <option value="calibrated_score">Calibrated enacted-restriction score</option>
+            <option value="n_opposition_events">Recorded opposition events</option>
+            <option value="margin_2024">2024 presidential margin</option>
+          </select>
+        </div>
+        <div id="county-stats"></div>
+        <div class="note" id="county-note">
+          <b>What this is.</b> The score is a cross-sectional resemblance measure from
+          <code>county_policy_model.py</code>, calibrated and out-of-fold, not a forward forecast and
+          not a project risk score. County-specific opposition rates are not computable at current
+          density; the shading is context, read alongside the detection-bias caveats in the model report.
+        </div>
+      </div>
+      <!-- PROJECT panel -->
+      <div id="project-panel" hidden>
+        <div class="legend">
+          <h3>Project outcome</h3>
+          <div class="row"><span class="sw" style="background:var(--blocked)"></span> blocked (confirmed terminal)</div>
+          <div class="row"><span class="sw" style="background:var(--advanced)"></span> advanced (confirmed)</div>
+          <div class="row"><span class="sw" style="background:var(--pending)"></span> pending / undecided</div>
+        </div>
+        <div class="controls">
+          <label>Show outcomes</label>
+          <div class="chips" id="outcome-chips">
+            <button class="chip blocked" data-outcome="blocked_confirmed" aria-pressed="true">Blocked</button>
+            <button class="chip advanced" data-outcome="advanced_confirmed" aria-pressed="true">Advanced</button>
+            <button class="chip pending" data-outcome="pending" aria-pressed="true">Pending</button>
+          </div>
+          <label for="opp-only" style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;
+            font-size:12.5px;color:#c6cfda;margin-top:12px;cursor:pointer">
+            <input type="checkbox" id="opp-only" style="width:auto"> Only projects with recorded opposition
+          </label>
+          <label for="proj-search">Search</label>
+          <input id="proj-search" type="search" placeholder="project or state" autocomplete="off">
+        </div>
+        <div id="project-stats"></div>
+        <div class="note" id="risk-note"></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="mapwrap">
+    <div id="error-banner"></div>
+    <div id="map"></div>
+    <div class="badge" id="badge">loading</div>
+  </div>
+</div>
+
+<script>
+// ---------------------------------------------------------------------------
+// Data sources. raw.githubusercontent.com FIRST in every fallback chain:
+// GitHub Pages sends no CORS headers, so an embedded iframe (Notion/Simple.ink)
+// fails silently on the Pages origin. Same convention as every other page here.
+// ---------------------------------------------------------------------------
+const RAW = 'https://raw.githubusercontent.com/pricephillips/data-center-map/main';
+const SCORE_URLS   = [RAW + '/data/county_policy_scores.csv', './data/county_policy_scores.csv'];
+const COUNTY_URLS  = [RAW + '/data/county_aggregate.csv',     './data/county_aggregate.csv'];
+const PROPOSAL_URLS = [RAW + '/data/proposals.csv',           './data/proposals.csv'];
+const LIFECYCLE_URLS = [RAW + '/data/project_lifecycles.csv', './data/project_lifecycles.csv'];
+// Optional: landmark risk bands. The gate may be CLOSED, in which case this
+// file does not exist and the pin popups show "risk band pending" rather than
+// a fabricated number. Never block the map on it.
+const PRED_URLS = [RAW + '/data/landmark_model_predictions.csv', './data/landmark_model_predictions.csv'];
+// Plotly county GeoJSON (raw.githubusercontent origin, sends CORS headers).
+const COUNTY_GEO_URL = 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json';
+
+// ---------------------------------------------------------------------------
+// Boundary crosswalk, carried over verbatim from restriction-model.html. The
+// choropleth GeoJSON is a pre-2015 vintage. Pure renames keep the identical
+// boundary, so the current score paints the old polygon safely. Boundary
+// CHANGES are never painted onto ground the model was not fitted on; those
+// scores are listed, not drawn.
+// ---------------------------------------------------------------------------
+const BOUNDARY_RENAMES = { '02270':'02158', '46113':'46102' };
+const BOUNDARY_RETIRED = {
+  '09001':'Connecticut replaced counties with planning regions in 2022',
+  '09003':'Connecticut replaced counties with planning regions in 2022',
+  '09005':'Connecticut replaced counties with planning regions in 2022',
+  '09007':'Connecticut replaced counties with planning regions in 2022',
+  '09009':'Connecticut replaced counties with planning regions in 2022',
+  '09011':'Connecticut replaced counties with planning regions in 2022',
+  '09013':'Connecticut replaced counties with planning regions in 2022',
+  '09015':'Connecticut replaced counties with planning regions in 2022',
+  '02261':'split into Chugach and Copper River Census Areas in 2019',
+  '51515':'reverted to town status in 2013; scored as part of Bedford County'
+};
+const RENAME_TARGETS = new Set(Object.values(BOUNDARY_RENAMES));
+let GEO_IDS = new Set();
+
+const FIPS_TO_STATE = {
+  '01':'AL','02':'AK','04':'AZ','05':'AR','06':'CA','08':'CO','09':'CT','10':'DE',
+  '11':'DC','12':'FL','13':'GA','15':'HI','16':'ID','17':'IL','18':'IN','19':'IA',
+  '20':'KS','21':'KY','22':'LA','23':'ME','24':'MD','25':'MA','26':'MI','27':'MN',
+  '28':'MS','29':'MO','30':'MT','31':'NE','32':'NV','33':'NH','34':'NJ','35':'NM',
+  '36':'NY','37':'NC','38':'ND','39':'OH','40':'OK','41':'OR','42':'PA','44':'RI',
+  '45':'SC','46':'SD','47':'TN','48':'TX','49':'UT','50':'VT','51':'VA','53':'WA',
+  '54':'WV','55':'WI','56':'WY','72':'PR'
+};
+
+// ---------------------------------------------------------------------------
+// Utilities
+// ---------------------------------------------------------------------------
+function banner(html) {
+  const b = document.getElementById('error-banner');
+  b.innerHTML = html; b.style.display = 'block';
+}
+async function fetchFirst(urls) {
+  for (const u of urls) {
+    try {
+      const r = await fetch(u, { cache: 'no-cache' });
+      if (r.ok) return await r.text();
+    } catch (e) { /* try next */ }
+  }
+  return null;
+}
+function parseCsv(text) {
+  if (!text) return [];
+  return Papa.parse(text.trim(), { header:true, skipEmptyLines:true }).data;
+}
+// A proposal at 0,0 has no recorded location, not a location in the Gulf of
+// Guinea. parseFloat('0') passes an isNaN check, so this guard is explicit.
+function hasRealCoords(lat, lon) {
+  return Number.isFinite(lat) && Number.isFinite(lon) &&
+         !(Math.abs(lat) < 0.001 && Math.abs(lon) < 0.001) &&
+         Math.abs(lat) <= 90 && Math.abs(lon) <= 180;
+}
+function num(v) { const n = parseFloat(v); return Number.isFinite(n) ? n : null; }
+
+// County color ramp: sqrt scaling spreads the low-probability mass (base rate
+// ~6 pct), saturates at 0.35. Same as the standalone score map.
+function policyColor(score) {
+  if (score === null || !Number.isFinite(score)) return null;
+  const t = Math.min(1, Math.sqrt(Math.max(0, score) / 0.35));
+  const stops = [[0,[30,41,59]],[0.40,[124,45,18]],[0.75,[234,88,12]],[1,[251,191,36]]];
+  let lo = stops[0], hi = stops[stops.length-1];
+  for (let i=0;i<stops.length-1;i++){ if (t>=stops[i][0]&&t<=stops[i+1][0]){lo=stops[i];hi=stops[i+1];break;} }
+  const f = (t-lo[0])/Math.max(1e-9,hi[0]-lo[0]);
+  const c = lo[1].map((v,i)=>Math.round(v+(hi[1][i]-v)*f));
+  return { color:`rgb(${c[0]},${c[1]},${c[2]})`, opacity:0.35+0.5*t };
+}
+// Diverging ramp for margin_2024. Positive = Democratic per the dataset
+// convention (a repo gotcha: naive re-derivation flips the sign).
+function marginColor(m) {
+  if (m === null || !Number.isFinite(m)) return null;
+  const t = Math.max(-1, Math.min(1, m / 0.5));
+  const dem = [59,130,246], rep = [239,68,68], mid = [30,41,59];
+  const end = t >= 0 ? dem : rep;
+  const f = Math.abs(t);
+  const c = mid.map((v,i)=>Math.round(v+(end[i]-v)*f));
+  return { color:`rgb(${c[0]},${c[1]},${c[2]})`, opacity:0.3+0.5*f };
+}
+// Sequential ramp for a raw count.
+function countColor(n, max) {
+  if (!n || max <= 0) return null;
+  const t = Math.min(1, Math.sqrt(n / max));
+  const c = [30,41,59].map((v,i)=>Math.round(v+([251,191,36][i]-v)*t));
+  return { color:`rgb(${c[0]},${c[1]},${c[2]})`, opacity:0.3+0.55*t };
+}
+
+const OUTCOME_COLOR = {
+  blocked_confirmed:'#ef4444', advanced_confirmed:'#22c55e', pending:'#eab308'
+};
+const OUTCOME_LABEL = {
+  blocked_confirmed:'Blocked (confirmed)', advanced_confirmed:'Advanced (confirmed)',
+  pending:'Pending / undecided'
+};
+const BAND_COLOR = { lower:'#22c55e', moderate:'#eab308', elevated:'#f97316', higher:'#ef4444' };
+
+// ---------------------------------------------------------------------------
+// State
+// ---------------------------------------------------------------------------
+const map = L.map('map', {
+  center:[39.5,-98.35], zoom:4, minZoom:3, maxZoom:11,
+  zoomControl:true, scrollWheelZoom:true, attributionControl:true
+});
+map.attributionControl.setPrefix(false);
+L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_nolabels/{z}/{x}/{y}.png', {
+  attribution:'&copy; OpenStreetMap, &copy; CARTO', subdomains:'abcd', maxZoom:19
+}).addTo(map);
+
+let countyLayer = null, pinCluster = null;
+let SCORES = {}, COUNTY = {}, PROJECTS = [], PRED = {};
+let mode = 'county';
+const filters = {
+  outcomes: new Set(['blocked_confirmed','advanced_confirmed','pending']),
+  oppOnly: false, search: ''
+};
+
+// ---------------------------------------------------------------------------
+// County mode
+// ---------------------------------------------------------------------------
+function currentCountyMetric() { return document.getElementById('county-metric').value; }
+
+function countyValue(fips, metric) {
+  if (metric === 'calibrated_score') {
+    const s = SCORES[fips] || SCORES[BOUNDARY_RENAMES[fips]];
+    return s ? s.score : null;
+  }
+  const row = COUNTY[fips] || COUNTY[BOUNDARY_RENAMES[fips]];
+  if (!row) return null;
+  return num(row[metric]);
+}
+
+function countyStyle(feat, metric, countMax) {
+  const fips = String(feat.id).padStart(5,'0');
+  const v = countyValue(fips, metric);
+  let pc = null;
+  if (metric === 'calibrated_score') pc = policyColor(v);
+  else if (metric === 'margin_2024') pc = marginColor(v);
+  else pc = countColor(v, countMax);
+  const s = SCORES[fips] || SCORES[BOUNDARY_RENAMES[fips]];
+  const enacted = s && s.enacted;
+  if (!pc) return { fillOpacity:0, color:'#232b38', weight:0.4 };
+  return {
+    color: enacted ? '#f8fafc' : '#2c3544',
+    weight: enacted ? 1.3 : 0.4,
+    dashArray: enacted ? '3,2' : null,
+    opacity:1, fillColor:pc.color, fillOpacity:pc.opacity
+  };
+}
+
+function countyTooltip(feat) {
+  const fips = String(feat.id).padStart(5,'0');
+  const name = feat.properties.NAME || feat.properties.name || '';
+  const st = FIPS_TO_STATE[fips.slice(0,2)] || '';
+  const s = SCORES[fips] || SCORES[BOUNDARY_RENAMES[fips]];
+  const c = COUNTY[fips] || COUNTY[BOUNDARY_RENAMES[fips]];
+  let body;
+  if (s) {
+    body = `Enacted-restriction score: <b>${(s.score*100).toFixed(1)}%</b>` +
+      (s.decile ? ` (decile ${s.decile}/10)` : '') +
+      (s.enacted ? '<br><span style="color:#fbbf24">Enacted restrictive policy on record</span>' : '');
+    if (c) {
+      const opp = num(c.n_opposition_events);
+      if (opp) body += `<br>${opp} recorded opposition event${opp===1?'':'s'}`;
+    }
+  } else if (BOUNDARY_RETIRED[fips]) {
+    body = `Not scored on this boundary: ${BOUNDARY_RETIRED[fips]}. The current geography is scored separately.`;
+  } else if (fips.slice(0,2) === '72') {
+    body = 'Puerto Rico is outside the model frame';
+  } else {
+    body = 'No score for this boundary';
+  }
+  return `<b>${name}, ${st}</b><br>${body}`;
+}
+
+function drawCounties(geo) {
+  const metric = currentCountyMetric();
+  let countMax = 0;
+  if (metric === 'n_opposition_events') {
+    Object.values(COUNTY).forEach(r => { const n = num(r.n_opposition_events); if (n) countMax = Math.max(countMax,n); });
+  }
+  if (countyLayer) { map.removeLayer(countyLayer); countyLayer = null; }
+  countyLayer = L.geoJSON(geo, {
+    style: f => countyStyle(f, metric, countMax),
+    onEachFeature: (f, layer) => {
+      layer.bindTooltip(countyTooltip(f), { sticky:true, className:'tip' });
+      layer.on({
+        mouseover: e => e.target.setStyle({ weight:2, color:'#cbd5e1', dashArray:null }),
+        mouseout:  e => countyLayer.resetStyle(e.target)
+      });
+    }
+  }).addTo(map);
+  updateCountyStats(metric, countMax);
+}
+
+function updateCountyStats(metric, countMax) {
+  const el = document.getElementById('county-stats');
+  const scored = Object.keys(SCORES).length;
+  const enacted = Object.values(SCORES).filter(s => s.enacted).length;
+  const topOpp = Object.values(COUNTY).filter(r => num(r.n_opposition_events)).length;
+  el.innerHTML =
+    `<div class="stat"><b>${scored.toLocaleString()}</b><span>counties scored</span></div>` +
+    `<div class="stat"><b>${enacted}</b><span>with an enacted restrictive policy on record</span></div>` +
+    `<div class="stat"><b>${topOpp}</b><span>counties with a recorded opposition event</span></div>`;
+}
+
+// ---------------------------------------------------------------------------
+// Project mode
+// ---------------------------------------------------------------------------
+// proposals.csv id 'N' maps to lifecycle project_id 'prj_N'; verified by name
+// across all 331 shared projects. Coordinates come from proposals.csv (325 of
+// 333 have real ones), outcome and opposition counts from project_lifecycles,
+// risk band from landmark predictions when the gate is open.
+function buildProjects(proposals, lifecycles, preds) {
+  const lc = {};
+  lifecycles.forEach(r => { lc[r.project_id] = r; });
+  PRED = {};
+  preds.forEach(r => { if (r.frame === 'pending' || r.frame === 'training_oof') PRED[r.project_id] = r; });
+  const out = [];
+  proposals.forEach(p => {
+    const lat = num(p.lat), lon = num(p.lon);
+    if (!hasRealCoords(lat, lon)) return;
+    const pid = 'prj_' + String(p.id).trim();
+    const life = lc[pid];
+    const outcome = life ? life.lifecycle_outcome : 'pending';
+    const nOpp = life ? (parseInt(life.n_opposition_events,10) || 0) : 0;
+    out.push({
+      pid, name: (p.name||'').trim() || pid, state: (p.state||'').trim().toUpperCase(),
+      county: (p.counties||p.county||'').trim(), lat, lon, outcome, nOpp,
+      phase: life ? life.phase : (p.phase||''),
+      capacity: num(p.capacity_mw), announced: life ? life.announced_date : (p.date||''),
+      decision: life ? life.decision_date : '', hasLawsuit: life && life.has_lawsuit === '1',
+      pred: PRED[pid] || null, url: (p.info||'').startsWith('http') ? p.info : ''
+    });
+  });
+  return out;
+}
+
+function visibleProjects() {
+  const q = filters.search.toLowerCase();
+  return PROJECTS.filter(p =>
+    filters.outcomes.has(p.outcome) &&
+    (!filters.oppOnly || p.nOpp > 0) &&
+    (!q || p.name.toLowerCase().includes(q) || p.state.toLowerCase().includes(q))
+  );
+}
+
+function pinIcon(p) {
+  const color = OUTCOME_COLOR[p.outcome] || '#94a3b8';
+  const r = p.nOpp > 0 ? 9 : 7;
+  const ring = p.hasLawsuit ? 'box-shadow:0 0 0 2px rgba(251,191,36,.8);' : '';
+  return L.divIcon({
+    className:'', iconSize:[r*2,r*2], iconAnchor:[r,r],
+    html:`<div class="marker-dot" style="width:${r*2}px;height:${r*2}px;background:${color};${ring}"></div>`
+  });
+}
+
+function pinPopup(p) {
+  const band = p.pred && p.pred.risk_band
+    ? `<span class="band" style="background:${BAND_COLOR[p.pred.risk_band]||'#334155'};color:#0b0e13">` +
+      `${p.pred.risk_band} risk` +
+      (p.pred.scoreability && p.pred.scoreability.startsWith('provisional') ? ' (provisional)' : '') + `</span>`
+    : `<span class="band" style="background:#334155;color:#c6cfda">risk band pending</span>`;
+  const rows = [];
+  if (p.state || p.county) rows.push(['Location', [p.county, p.state].filter(Boolean).join(', ')]);
+  if (p.phase) rows.push(['Phase', p.phase]);
+  if (p.capacity) rows.push(['Capacity', p.capacity.toLocaleString() + ' MW']);
+  if (p.announced) rows.push(['Announced', p.announced]);
+  if (p.decision) rows.push(['Decision', p.decision]);
+  rows.push(['Opposition events', String(p.nOpp) + (p.hasLawsuit ? ' (incl. lawsuit)' : '')]);
+  const grid = rows.map(([k,v]) => `<span class="k">${k}</span><span>${v}</span>`).join('');
+  const oc = OUTCOME_COLOR[p.outcome] || '#94a3b8';
+  return `<div class="pop"><h4>${p.name}</h4>` +
+    `<div style="margin:2px 0 8px"><span class="band" style="background:${oc};color:#0b0e13">` +
+    `${OUTCOME_LABEL[p.outcome]||p.outcome}</span> ${band}</div>` +
+    `<div class="grid">${grid}</div>` +
+    (p.url ? `<div style="margin-top:6px"><a href="${p.url}" target="_blank" rel="noopener">Source &#8599;</a></div>` : '') +
+    `</div>`;
+}
+
+function drawPins() {
+  if (pinCluster) { map.removeLayer(pinCluster); pinCluster = null; }
+  pinCluster = L.markerClusterGroup({
+    maxClusterRadius:44, chunkedLoading:true,
+    iconCreateFunction: cl => {
+      const kids = cl.getAllChildMarkers();
+      const anyBlocked = kids.some(m => m.options._outcome === 'blocked_confirmed');
+      const color = anyBlocked ? '#ef4444' : '#64748b';
+      const n = cl.getChildCount();
+      return L.divIcon({
+        className:'', iconSize:[34,34],
+        html:`<div style="width:34px;height:34px;border-radius:50%;background:${color}cc;border:2px solid #0b0e13;`+
+             `display:flex;align-items:center;justify-content:center;font:700 12px Inter;color:#0b0e13">${n}</div>`
+      });
+    }
+  });
+  const vis = visibleProjects();
+  vis.forEach(p => {
+    const m = L.marker([p.lat,p.lon], { icon:pinIcon(p) });
+    m.options._outcome = p.outcome;
+    m.bindPopup(pinPopup(p), { maxWidth:300 });
+    m.bindTooltip(`<b>${p.name}</b><br>${OUTCOME_LABEL[p.outcome]||p.outcome}`, { className:'tip', direction:'top' });
+    pinCluster.addLayer(m);
+  });
+  map.addLayer(pinCluster);
+  updateProjectStats(vis);
+}
+
+function updateProjectStats(vis) {
+  const el = document.getElementById('project-stats');
+  const total = vis.length;
+  const blocked = vis.filter(p => p.outcome === 'blocked_confirmed').length;
+  const opp = vis.filter(p => p.nOpp > 0).length;
+  const noCoord = PROJECTS.length; // all in PROJECTS already have coords
+  el.innerHTML =
+    `<div class="stat"><b>${total}</b><span>projects shown</span></div>` +
+    `<div class="stat"><b>${blocked}</b><span>blocked (confirmed terminal)</span></div>` +
+    `<div class="stat"><b>${opp}</b><span>with recorded opposition</span></div>`;
+  const missing = PROJECTS.__missingCoords || 0;
+  const note = document.getElementById('risk-note');
+  const anyBands = Object.keys(PRED).length > 0;
+  note.innerHTML =
+    (anyBands
+      ? '<b>Risk bands</b> come from the landmark model and are shown where a project is scoreable. ' +
+        'Provisional bands mark projects with fewer than the window\u0027s worth of days elapsed since announcement.'
+      : '<b>Risk bands are pending.</b> The landmark model gate is currently closed for want of decision-date ' +
+        'coverage, so pins show outcome and opposition detail but no predicted risk band. Bands appear ' +
+        'automatically once the model is fit; nothing here is a placeholder number.') +
+    (missing ? `<br><br>${missing} project${missing===1?'':'s'} without recorded coordinates are omitted from the map and remain in the tracker table.` : '');
+}
+
+// ---------------------------------------------------------------------------
+// Mode switching
+// ---------------------------------------------------------------------------
+function setMode(m) {
+  mode = m;
+  const county = m === 'county';
+  document.getElementById('mode-county').setAttribute('aria-pressed', county);
+  document.getElementById('mode-project').setAttribute('aria-pressed', !county);
+  document.getElementById('county-panel').hidden = !county;
+  document.getElementById('project-panel').hidden = county;
+  document.getElementById('sub').textContent = county
+    ? 'County shading: enacted-restriction context and political geography.'
+    : 'Project pins: outcome, opposition detail, and risk band when scoreable.';
+  if (county) {
+    if (pinCluster) map.removeLayer(pinCluster);
+    if (window.__geo) drawCounties(window.__geo);
+    document.getElementById('badge').innerHTML = `<b>County context</b> mode`;
+  } else {
+    if (countyLayer) map.removeLayer(countyLayer);
+    drawPins();
+    document.getElementById('badge').innerHTML = `<b>Project pins</b> mode`;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Wire controls
+// ---------------------------------------------------------------------------
+document.getElementById('mode-county').onclick = () => setMode('county');
+document.getElementById('mode-project').onclick = () => setMode('project');
+document.getElementById('county-metric').onchange = () => { if (window.__geo) drawCounties(window.__geo); };
+document.querySelectorAll('#outcome-chips .chip').forEach(chip => {
+  chip.onclick = () => {
+    const o = chip.dataset.outcome;
+    const on = chip.getAttribute('aria-pressed') === 'true';
+    chip.setAttribute('aria-pressed', String(!on));
+    if (on) filters.outcomes.delete(o); else filters.outcomes.add(o);
+    if (mode === 'project') drawPins();
+  };
+});
+document.getElementById('opp-only').onchange = e => { filters.oppOnly = e.target.checked; if (mode==='project') drawPins(); };
+let searchT;
+document.getElementById('proj-search').oninput = e => {
+  clearTimeout(searchT);
+  searchT = setTimeout(() => { filters.search = e.target.value.trim(); if (mode==='project') drawPins(); }, 180);
+};
+
+// ---------------------------------------------------------------------------
+// Load
+// ---------------------------------------------------------------------------
+(async function init() {
+  document.getElementById('badge').textContent = 'loading data';
+  const [scoreText, countyText, propText, lifeText, predText, geo] = await Promise.all([
+    fetchFirst(SCORE_URLS), fetchFirst(COUNTY_URLS), fetchFirst(PROPOSAL_URLS),
+    fetchFirst(LIFECYCLE_URLS), fetchFirst(PRED_URLS),
+    (async () => { try { const r = await fetch(COUNTY_GEO_URL); return r.ok ? await r.json() : null; }
+                   catch (e) { return null; } })()
+  ]);
+
+  // County scores
+  parseCsv(scoreText).forEach(r => {
+    const fips = String(r.fips||'').padStart(5,'0');
+    const score = num(r.calibrated_score);
+    if (fips.length === 5 && score !== null)
+      SCORES[fips] = { score, decile: parseInt(r.score_decile,10)||null,
+                       enacted: String(r.has_enacted_restrictive) === '1' };
+  });
+  parseCsv(countyText).forEach(r => {
+    const fips = String(r.fips||'').padStart(5,'0');
+    if (fips.length === 5) COUNTY[fips] = r;
+  });
+
+  // Projects
+  const proposals = parseCsv(propText);
+  const lifecycles = parseCsv(lifeText);
+  const preds = parseCsv(predText);
+  PROJECTS = buildProjects(proposals, lifecycles, preds);
+  const withCoords = proposals.filter(p => hasRealCoords(num(p.lat), num(p.lon))).length;
+  PROJECTS.__missingCoords = proposals.length - withCoords;
+
+  window.__geo = geo;
+
+  const problems = [];
+  if (!scoreText) problems.push('county scores');
+  if (!geo) problems.push('county boundaries');
+  if (!propText) problems.push('project coordinates');
+  if (problems.length) {
+    banner(`<b>Some data did not load:</b> ${problems.join(', ')}. Checked raw.githubusercontent.com and the ` +
+           `page origin. Files regenerate with the CI pipeline; a persistent failure may mean the last run did ` +
+           `not pass its QC gate.`);
+  }
+
+  // County mode needs both geo and scores; if either is missing, open in
+  // project mode so the page is still useful.
+  if (geo && scoreText) setMode('county');
+  else { setMode('project'); }
+})();
+</script>
+</body>
+</html>
