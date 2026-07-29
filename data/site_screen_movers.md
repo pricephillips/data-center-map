@@ -1,21 +1,27 @@
 # Opposition Environment Movement Report
 
-Run date: 2026-07-28
-Compared against: 2026-07-27
+Run date: 2026-07-29
+Compared against: 2026-07-28
 
-Sites screened: 332 | tier changes: 1 | composite moves of 3 points or more: 1 | newly screened: 0
+Sites screened: 334 | tier changes: 5 | composite moves of 3 points or more: 3 | newly screened: 0
 
 ## Tier changes
 
 | Site | County, State | From | To | Composite change |
 | :-- | :-- | :-- | :-- | --: |
+| Microsoft Gaines Township Data Center | Kent County, MI | Elevated | Guarded | -0.1 |
+| East Greenwich Township Data Center | Gloucester County, NJ | Elevated | Guarded | -0.1 |
 | PNK Valley View Data Center | Lackawanna County, PA | Low | Elevated | +52.7 |
+| Ransom Township Mudiita Data Center | Lackawanna County, PA | Low | High | +47.0 |
+| Nebius Butler Township Data Center | Schuylkill County, PA | Low | Guarded | +22.1 |
 
 ## Largest composite moves
 
 | Site | County, State | Tier | Composite | Change |
 | :-- | :-- | :-- | :-- | --: |
 | PNK Valley View Data Center | Lackawanna County, PA | Elevated | 83.6 | +52.7 |
+| Ransom Township Mudiita Data Center | Lackawanna County, PA | High | 86.2 | +47.0 |
+| Nebius Butler Township Data Center | Schuylkill County, PA | Guarded | 56.6 | +22.1 |
 
 ## Reading this report
 
