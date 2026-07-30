@@ -91,9 +91,32 @@ jobs:
           python verification_status.py --selftest
           echo "Untagged triage self-tests:"
           python untagged_triage.py --selftest
+          echo "Entity splitter self-tests:"
+          python entity_split.py --selftest
+          echo "Leak audit self-tests:"
+          python leak_audit.py --selftest
+          echo "Group registry audit self-tests:"
+          python group_registry_audit.py --selftest
+          echo "Coverage audit self-tests:"
+          python coverage_audit.py --selftest
 
       - name: Run pipeline (clean -> gate -> clean feed)
         run: python build_clean_feed.py --in master_opposition.csv --out master_opposition_clean.csv
+
+      - name: Entity and vocabulary audits (leak audit is a GATE)
+        id: audits
+        run: |
+          # Repo-wide leak audit. Blocking tier must be zero; the three
+          # internal triage columns are exempted inside the module per the
+          # 2026-07-30 ruling (internal artifacts may quote raw vocabulary).
+          python leak_audit.py
+          # Registry defect audit: reporting only, never blocks. Rebuild of
+          # the registry itself stays inside project_resolution's chain.
+          python group_registry_audit.py || true
+          # Coverage audit: recall of the county restriction layer against
+          # the external census. Reporting only; the census is a manually
+          # curated lower bound and its absence must not fail the build.
+          python coverage_audit.py || true
 
       - name: Verification status + untagged review worklist
         id: verification
