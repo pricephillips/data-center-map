@@ -94,6 +94,8 @@ import json
 import math
 import os
 import re
+
+from entity_split import LOOSE, split_entities
 import sys
 from collections import Counter
 from datetime import date, timedelta
@@ -228,9 +230,13 @@ def window_features(links, opp_by_id, t0, w_end):
     for l in links:
         typ = (l.get("opp_type") or "").strip().lower()
         raw = opp_by_id.get(l["opp_id"], {})
-        for c in re.split(r"[;,/]", (raw.get("Company", "") + ";" +
-                                     raw.get("Hyperscaler", "")).lower()):
-            companies.add(c.strip())
+        # Canonical splitter; see entity_split.py. The former
+        # re.split(r"[;,/]", ...) was bracket-blind and fabricated
+        # company tokens that then became model features.
+        for c in split_entities(
+                raw.get("Company", "") + ";" + raw.get("Hyperscaler", ""),
+                LOOSE):
+            companies.add(c.lower())
         if typ in OUTCOME_TYPES:
             continue
         d = parse_day(l.get("opp_date"))

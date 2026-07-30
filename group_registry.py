@@ -7,8 +7,18 @@ same organization stops hiding behind spelling variants.
 Outputs (via build_registry / write_registry):
   data/group_registry.csv   canonical_id, canonical_name, n_variants,
                             variants, n_incidents, n_states, states,
-                            first_seen, last_seen, decided, wins, win_rate
+                            first_seen, last_seen, decided,
+                            confirmed_blocks, blocked_share
   adds per-record column:   qc_groups_canonical  (semicolon-joined)
+
+INTERNAL-ONLY FENCE (ruled 2026-07-30): the per-group outcome columns
+(decided, confirmed_blocks, blocked_share) are internal and must never
+appear in any client-facing artifact, at any sample size. They attribute
+project outcomes to named organizations from observational data with no
+control group, the same non-identifiability wall already ruled for cost
+and delay attribution. The fence applies to GROUP-level rates only.
+County-level and project-level outcome statistics in four-tier vocabulary
+remain client-eligible under their existing rules.
 
 Matching: exact match on a normalized key, then conservative fuzzy merge
 (difflib ratio >= 0.90 on normalized names of similar length). "Stop X" /
@@ -23,7 +33,15 @@ import re
 import sys
 from difflib import SequenceMatcher
 
-_SPLIT = re.compile(r"[;|]| and (?=[A-Z])|,(?=\s*[A-Z])")
+from entity_split import STRICT, split_entities
+
+# Delimiter handling now lives in entity_split.py, shared with
+# outcome_model.py and landmark_model.py so the three cannot drift again.
+# Opposition Groups uses STRICT: semicolon and pipe only. Audited against
+# the full file, of the cells using a comma and no semicolon, none was a
+# genuine multi-group list. Every one was a single organization name or a
+# parenthetical listing organizers.
+
 _DROP_SUFFIX = re.compile(
     r"\b(inc|llc|coalition|committee|alliance|association|group|organization|"
     r"org|network|initiative|project|team|coa)\b\.?", re.I)
@@ -36,8 +54,9 @@ GENERIC = {"residents", "local residents", "citizens", "community members",
 
 
 def split_groups(cell: str) -> list[str]:
-    parts = [p.strip(" .;,") for p in _SPLIT.split(str(cell or ""))]
-    return [p for p in parts if p]
+    """Thin alias over the canonical splitter, kept so existing call sites
+    and any external importer continue to work unchanged."""
+    return split_entities(cell, STRICT)
 
 
 def norm_key(name: str) -> str:
@@ -45,6 +64,26 @@ def norm_key(name: str) -> str:
     k = _DROP_SUFFIX.sub(" ", k)
     k = _WS.sub(" ", k).strip()
     return k
+
+
+def norm_key_keep_form(name: str) -> str:
+    """norm_key() without dropping the organizational-form word."""
+    k = _PUNCT.sub(" ", str(name).lower())
+    k = _WS.sub(" ", k).strip()
+    return k
+
+
+def _form_retained_match(entry_a: dict, entry_b: dict,
+                         threshold: float = 0.90) -> bool:
+    """True when some variant pair across the two entries still clears the
+    fuzzy threshold once the organizational-form word is retained."""
+    for va in entry_a["variants"]:
+        ka = norm_key_keep_form(va)
+        for vb in entry_b["variants"]:
+            if SequenceMatcher(None, ka, norm_key_keep_form(vb)).ratio() \
+                    >= threshold:
+                return True
+    return False
 
 
 def build_registry(records: list[dict]) -> tuple[dict, dict]:
@@ -72,8 +111,16 @@ def build_registry(records: list[dict]) -> tuple[dict, dict]:
         for b in keys[a_i + 1:]:
             if b in merged or abs(len(a) - len(b)) > max(3, int(0.15 * len(a))):
                 continue
-            if SequenceMatcher(None, a, b).ratio() >= 0.90:
-                merged[b] = a
+            if SequenceMatcher(None, a, b).ratio() < 0.90:
+                continue
+            # Guard: norm_key() strips the organizational-form word
+            # (coalition, group, alliance, ...). Two names must still be
+            # near-identical WITH that word retained, otherwise distinct
+            # organizations merge ("Citizens Action Coalition" in IN with
+            # "WV Citizens Action Group" in WV).
+            if not _form_retained_match(registry[a], registry[b]):
+                continue
+            merged[b] = a
     for src, dst in merged.items():
         registry[dst]["variants"].update(registry[src]["variants"])
         registry[dst]["rows"].extend(registry[src]["rows"])

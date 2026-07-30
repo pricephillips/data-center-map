@@ -38,6 +38,8 @@ import json
 import math
 import os
 import re
+
+from entity_split import LOOSE, split_entities
 import sys
 from collections import Counter
 from datetime import date
@@ -142,8 +144,14 @@ def build_features():
             raw = opp_by_id.get(l["opp_id"], {})
             s = parse_float(raw.get("Petition Signatures"))
             petition_sigs = max(petition_sigs, int(s) if s else 0)
-            for c in re.split(r"[;,/]", (raw.get("Company", "") + ";" + raw.get("Hyperscaler", "")).lower()):
-                companies.add(c.strip())
+            # Canonical splitter. The former re.split(r"[;,/]", ...) was
+            # bracket-blind and split company names mid-token, so cells like
+            # "Multiple (QTS, Switch, CyrusOne, and others)" produced the
+            # feature tokens "multiple (qts" and "and others)".
+            for c in split_entities(
+                    raw.get("Company", "") + ";" + raw.get("Hyperscaler", ""),
+                    LOOSE):
+                companies.add(c.lower())
         feat = {
             "project_id": pid,
             "project_name": r["project_name"],

@@ -79,6 +79,16 @@ CLIENT_SIDE = ["*.html"]
 SKIP_DIRS = {".git", "node_modules", "__pycache__", ".github/workflows/cache"}
 SCAN_EXT = {".py", ".md", ".html", ".csv", ".json", ".yml", ".yaml"}
 
+# Internal triage artifacts, ruled 2026-07-30: internal-only files may
+# quote the raw scorekeeping vocabulary, because the quoted value is the
+# thing the triage note is pointing the reviewer at. The fence is that
+# these files never ship to a client. Pairs are (file glob, column).
+INTERNAL_QUOTES = {
+    ("data/bill_sync_worklist.csv", "recorded_outcome"),
+    ("master_opposition_clean.csv", "outcome_conflict_reason"),
+    ("review_conflicts.csv", "outcome_conflict_reason"),
+}
+
 # Columns and keys copied verbatim from the source of record. The pipeline
 # transports these, it does not compose them, so a hit is inherited rather
 # than introduced. Rewriting them is a source-data migration.
@@ -112,8 +122,15 @@ def classify(relpath: str, line: str, field: str = "") -> str:
     # hit was inside a link.
     if not LEAK_RE.search(URL_RE.sub(" ", line)):
         return EXEMPT
-    if field and field.strip().strip("$.[]").lower() in INHERITED_FIELDS:
-        return ADVISORY
+    if field:
+        fld = field.strip().strip("$.[]")
+        for fpat, col in INTERNAL_QUOTES:
+            if col == fld and (fnmatch.fnmatch(relpath, fpat)
+                               or os.path.basename(relpath)
+                               == os.path.basename(fpat)):
+                return ADVISORY
+        if fld.lower() in INHERITED_FIELDS:
+            return ADVISORY
     if _match_any(relpath, SOURCE_DATA):
         return ADVISORY
     if _match_any(relpath, CLIENT_SIDE):
@@ -272,6 +289,15 @@ def selftest() -> int:
                 field="Community Outcome"), ADVISORY)
     eq("composed column stays blocking",
        classify("data/x.csv", "a clear win", field="model_note"), BLOCKING)
+    eq("internal triage quote is advisory",
+       classify("data/bill_sync_worklist.csv", "loss",
+                field="recorded_outcome"), ADVISORY)
+    eq("conflict-reason quote is advisory",
+       classify("review_conflicts.csv", "recorded outcome 'win' without",
+                field="outcome_conflict_reason"), ADVISORY)
+    eq("same column elsewhere stays blocking",
+       classify("data/some_report.csv", "a win",
+                field="recorded_outcome"), BLOCKING)
     eq("url-only hit is exempt",
        classify("data/x.csv", "https://x.org/shreveport-wins-moratorium"),
        EXEMPT)
