@@ -433,3 +433,84 @@ map and the negative audit end up needing them.
 Status as of 2026-07-27: the MAPIE work shipped as
 `county_policy_intervals.py`, and the Splink spike came back NO-GO on
 adoption, so the order below it is unchanged and Open States is next.
+
+## 2026-07-30: entity layer and vocabulary enforcement (built, shipped)
+
+Three modules landed from the Indiana entity verification, all stdlib, all
+with passing selftests, all additive. None is Indiana-specific.
+
+`entity_split.py`: one canonical splitter for the free-text multi-entity
+columns, replacing three divergent implementations that fabricated
+entities. STRICT mode (semicolon and pipe) for Opposition Groups; LOOSE
+mode (adds comma and slash at bracket depth zero, corporate suffixes
+rejoined) for Company and Hyperscaler. Measured effect on the current
+clean feed: 73 phantom group tokens and 52 phantom company tokens no
+longer emitted; the company tokens were model feature inputs in
+outcome_model.py and landmark_model.py, both now rewired onto the shared
+splitter with no feature-schema change. `--scan` prints the diff against
+the legacy regexes for any future rule change.
+
+`group_registry_audit.py`: five-flag defect audit of the canonical group
+registry (split_artifact, cross_state_merge, suffix_merge, placeholder,
+degenerate_rate), writing `data/group_registry_audit.csv` with a
+per-entry `client_safe` bit. With the patched registry build, structural
+defects fell from 86 entries to 17 and split artifacts from 69 to 1.
+Reporting only; never mutates the registry.
+
+`leak_audit.py`: repo-wide scorekeeping-vocabulary audit in three tiers
+(blocking for pipeline-composed prose and data, advisory for inherited
+source columns, client-side identifiers, and source modules, exempt for
+rule definitions and URLs). CSVs scanned per column and JSON per key.
+Replaces six private per-module copies of the regex as the repo-level
+check; the per-module copies stay as local fast-fail. Wired into
+pipeline.yml as a hard gate after the clean feed builds, with the three
+internal triage columns exempted per the 2026-07-30 ruling that
+internal-only artifacts may quote raw vocabulary.
+
+Registry ruling recorded the same day: the per-group outcome columns
+(decided, confirmed_blocks, blocked_share) are permanently internal at
+any sample size, group level only; county and project statistics in
+four-tier vocabulary remain client-eligible.
+
+Follow-ups noted, not built: selftest coverage stands at 17 of 45
+modules against a universal house rule, with metrics.py,
+county_aggregator.py, county_policy_model.py, and project_resolution.py
+the priority gaps; outcome_model.py report prose carries pre-existing
+em-dashes on the internal-diagnostic side of the rule.
+
+## 2026-07-30 (second entry): coverage audit and county label repair (built, shipped)
+
+`coverage_audit.py`: measures the tracker's recall of county-level
+restrictive actions against `data/external_restriction_census.csv`, a
+lower-bound external census seeded from the Moratorium Nation dataset
+(mjbommar/moratorium-data-2026, CC-BY-4.0, 222 moratoria coded from
+roughly 4,400 primary documents) plus manually sourced Indiana rows. Per
+state it reports counties covered with terminal confirmation, covered
+without, and missing outright, and counts census-enacted counties the
+county model trains on as negatives. First national run: 80 census
+counties in scope, recall 0.625, 30 counties with zero tracker record
+(worst: Kansas and North Dakota near 5 missing each, Georgia 5, Indiana
+4 including the Cass County ban).
+
+The audit also exposed a label-construction defect in
+`county_aggregator.py`: the has_enacted_restrictive rule used exact
+string equality on the multi-valued Opposition Type field and a
+two-value Status vocabulary, catching only 78 of 125 of the tracker's
+own confirmed county-level halts. Fixed by token-splitting the type
+field, adding ban to the restrictive set, and widening enacted statuses
+to include active, extended, expired (the label is historical), and the
+recorded variant. Effect: positives 197 to 323, none dropped, base rate
+6.1 to 10.0 percent. Indiana labeled counties 9 to 18 against the IU
+ERI reference of roughly 30.
+
+The label change forces a county model retrain. Preview run: AUC 0.82
+[0.77-0.85], Brier 0.078 against 0.092 no-skill, post-recalibration
+slope 0.99 at the 10 percent base rate. Promotion goes through the
+calibration gate as usual; restriction-model.html copy must be updated
+to the new base rate and interval set before any client exposure.
+
+Moratorium Nation is now a standing external dependency for the census
+seed; refresh cadence and attribution (CC-BY-4.0) documented in the
+census source column. Remaining known gap: municipal-level census rows
+are out of scope for the county label but represent the next recall
+surface.
