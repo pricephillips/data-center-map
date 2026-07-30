@@ -1,8 +1,8 @@
 {
   "n": 3144,
   "n_excluded_puerto_rico": 78,
-  "n_positive": 197,
-  "base_rate": 0.0627,
+  "n_positive": 323,
+  "base_rate": 0.1027,
   "cv": {
     "folds": 5,
     "repeats": 5,
@@ -11,18 +11,13 @@
   "specification_selection": {
     "criterion": "sign-stable on all folds, median AUC within 0.01 of grid best; then highest AUC, most variables retained, strongest regularization",
     "selected": {
-      "spec": "full",
-      "C": 0.01,
+      "spec": "tier1_plus_size",
+      "C": 1.0,
       "variables": [
         "margin_2024",
-        "margin_shift",
         "existing_dc_count",
         "n_projects_tracked",
-        "state_legislation_events",
         "land_sqmi",
-        "median_hh_income",
-        "pop_density_sqmi",
-        "pct_bachelors_plus",
         "population"
       ]
     },
@@ -31,257 +26,227 @@
         "spec": "full",
         "C": 1.0,
         "n_vars": 10,
-        "auc_median": 0.816,
+        "auc_median": 0.8171,
         "sign_stable": false
       },
       {
         "spec": "full",
         "C": 0.3,
         "n_vars": 10,
-        "auc_median": 0.8158,
+        "auc_median": 0.817,
         "sign_stable": false
       },
       {
         "spec": "full",
         "C": 0.1,
         "n_vars": 10,
-        "auc_median": 0.8154,
+        "auc_median": 0.8164,
         "sign_stable": false
       },
       {
         "spec": "full",
         "C": 0.03,
         "n_vars": 10,
-        "auc_median": 0.816,
+        "auc_median": 0.8146,
         "sign_stable": false
       },
       {
         "spec": "full",
         "C": 0.01,
         "n_vars": 10,
-        "auc_median": 0.813,
-        "sign_stable": true
+        "auc_median": 0.8146,
+        "sign_stable": false
       },
       {
         "spec": "no_shift",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.812,
+        "auc_median": 0.8231,
         "sign_stable": false
       },
       {
         "spec": "no_shift",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.8115,
+        "auc_median": 0.8231,
         "sign_stable": false
       },
       {
         "spec": "no_shift",
         "C": 0.1,
         "n_vars": 9,
-        "auc_median": 0.8101,
+        "auc_median": 0.823,
         "sign_stable": false
       },
       {
         "spec": "no_shift",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.8093,
-        "sign_stable": true
+        "auc_median": 0.8242,
+        "sign_stable": false
       },
       {
         "spec": "no_shift",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.8092,
-        "sign_stable": true
+        "auc_median": 0.8219,
+        "sign_stable": false
       },
       {
         "spec": "drop_density",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.8163,
+        "auc_median": 0.8167,
         "sign_stable": false
       },
       {
         "spec": "drop_density",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.816,
+        "auc_median": 0.8173,
         "sign_stable": false
       },
       {
         "spec": "drop_density",
         "C": 0.1,
         "n_vars": 9,
-        "auc_median": 0.8144,
+        "auc_median": 0.8161,
         "sign_stable": false
       },
       {
         "spec": "drop_density",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.8134,
+        "auc_median": 0.8141,
         "sign_stable": false
       },
       {
         "spec": "drop_density",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.8083,
-        "sign_stable": false
+        "auc_median": 0.811,
+        "sign_stable": true
       },
       {
         "spec": "core_six",
         "C": 1.0,
         "n_vars": 6,
-        "auc_median": 0.8058,
+        "auc_median": 0.8039,
         "sign_stable": false
       },
       {
         "spec": "core_six",
         "C": 0.3,
         "n_vars": 6,
-        "auc_median": 0.8064,
+        "auc_median": 0.804,
         "sign_stable": false
       },
       {
         "spec": "core_six",
         "C": 0.1,
         "n_vars": 6,
-        "auc_median": 0.807,
+        "auc_median": 0.8028,
         "sign_stable": false
       },
       {
         "spec": "core_six",
         "C": 0.03,
         "n_vars": 6,
-        "auc_median": 0.8077,
+        "auc_median": 0.802,
         "sign_stable": true
       },
       {
         "spec": "core_six",
         "C": 0.01,
         "n_vars": 6,
-        "auc_median": 0.8094,
+        "auc_median": 0.8005,
         "sign_stable": true
       },
       {
         "spec": "tier1_plus_size",
         "C": 1.0,
         "n_vars": 5,
-        "auc_median": 0.8148,
-        "sign_stable": false
+        "auc_median": 0.8218,
+        "sign_stable": true
       },
       {
         "spec": "tier1_plus_size",
         "C": 0.3,
         "n_vars": 5,
-        "auc_median": 0.8149,
-        "sign_stable": false
+        "auc_median": 0.8215,
+        "sign_stable": true
       },
       {
         "spec": "tier1_plus_size",
         "C": 0.1,
         "n_vars": 5,
-        "auc_median": 0.8144,
-        "sign_stable": false
+        "auc_median": 0.8214,
+        "sign_stable": true
       },
       {
         "spec": "tier1_plus_size",
         "C": 0.03,
         "n_vars": 5,
-        "auc_median": 0.8111,
-        "sign_stable": false
+        "auc_median": 0.8207,
+        "sign_stable": true
       },
       {
         "spec": "tier1_plus_size",
         "C": 0.01,
         "n_vars": 5,
-        "auc_median": 0.8045,
-        "sign_stable": false
+        "auc_median": 0.8179,
+        "sign_stable": true
       }
     ]
   },
   "roc_auc": {
-    "p10": 0.7436,
-    "p50": 0.813,
-    "p90": 0.8547
+    "p10": 0.7695,
+    "p50": 0.8218,
+    "p90": 0.8518
   },
   "brier": {
-    "p10": 0.0501,
-    "p50": 0.0531,
-    "p90": 0.0558,
-    "base_rate_brier": 0.0587
+    "p10": 0.0714,
+    "p50": 0.0777,
+    "p90": 0.0824,
+    "base_rate_brier": 0.0922
   },
   "calibration": {
-    "raw_slope": 1.162,
-    "raw_intercept": 0.38,
-    "post_recalibration_slope": 0.997,
-    "post_recalibration_intercept": -0.008,
-    "brier_calibrated": 0.0534,
+    "raw_slope": 0.988,
+    "raw_intercept": -0.021,
+    "post_recalibration_slope": 0.986,
+    "post_recalibration_intercept": -0.028,
+    "brier_calibrated": 0.077,
     "note": "raw scores are compressed by shrinkage; the model includes a cross-fitted logistic recalibration layer. calibrated_score in the scores file is cross-fitted: no county's calibration was fit on itself. Post slope near 1 and intercept near 0 indicate the calibrated scores are honest probabilities."
   },
   "coefficients": {
     "margin_2024": {
-      "min": 0.055,
-      "median": 0.096,
-      "max": 0.124,
-      "sign_stable": true
-    },
-    "margin_shift": {
-      "min": 0.1,
-      "median": 0.135,
-      "max": 0.188,
+      "min": 0.089,
+      "median": 0.158,
+      "max": 0.25,
       "sign_stable": true
     },
     "existing_dc_count": {
-      "min": -0.081,
-      "median": -0.057,
-      "max": -0.029,
+      "min": -0.911,
+      "median": -0.796,
+      "max": -0.648,
       "sign_stable": true
     },
     "n_projects_tracked": {
-      "min": 0.257,
-      "median": 0.278,
-      "max": 0.317,
-      "sign_stable": true
-    },
-    "state_legislation_events": {
-      "min": -0.096,
-      "median": -0.056,
-      "max": -0.032,
+      "min": 0.941,
+      "median": 1.058,
+      "max": 1.169,
       "sign_stable": true
     },
     "land_sqmi": {
-      "min": 0.008,
-      "median": 0.04,
-      "max": 0.063,
-      "sign_stable": true
-    },
-    "median_hh_income": {
-      "min": 0.025,
-      "median": 0.086,
-      "max": 0.118,
-      "sign_stable": true
-    },
-    "pop_density_sqmi": {
-      "min": 0.184,
-      "median": 0.214,
-      "max": 0.24,
-      "sign_stable": true
-    },
-    "pct_bachelors_plus": {
-      "min": 0.049,
-      "median": 0.083,
-      "max": 0.124,
+      "min": -0.183,
+      "median": -0.097,
+      "max": -0.055,
       "sign_stable": true
     },
     "population": {
-      "min": 0.252,
-      "median": 0.281,
-      "max": 0.312,
+      "min": 0.688,
+      "median": 0.731,
+      "max": 0.849,
       "sign_stable": true
     }
   },
@@ -290,7 +255,7 @@
     "counties": 3222,
     "event_rows_with_county": 1187,
     "event_match_rate": 0.989,
-    "enacted_restriction_counties": 197,
+    "enacted_restriction_counties": 323,
     "dc_presence_counties": 398,
     "inputs": {
       "county_census_features.csv": "c94063d9123016f5",
