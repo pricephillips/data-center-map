@@ -69,8 +69,25 @@ LIFECYCLES_CSV = P("data", "project_lifecycles.csv")
 
 OUT_CSV = P("data", "county_aggregate.csv")
 
-RESTRICTIVE_TYPES = {"moratorium", "zoning_restriction"}
-ENACTED_STATUSES = {"passed", "approved"}
+# Label rule for has_enacted_restrictive. Two defects fixed 2026-07-30,
+# found by coverage_audit.py: (1) Opposition Type is multi-valued
+# ("moratorium; ordinance") and the old exact-equality test silently
+# dropped every compound cell, and (2) the raw Status vocabulary is wider
+# than {passed, approved}; "active" and "extended" describe an in-force
+# enacted instrument, "expired" describes one that WAS enacted (the label
+# is historical: has the county ever enacted), and "moratorium passed" is
+# a recorded variant. Together the old rule caught 78 of 125 of the
+# tracker's own confirmed county-level halts. "cancelled" and "defeated"
+# stay excluded: with zoning_restriction those are project denials, which
+# are project outcomes, not enacted county policy.
+RESTRICTIVE_TYPES = {"moratorium", "zoning_restriction", "ban"}
+ENACTED_STATUSES = {"passed", "approved", "enacted", "active",
+                    "extended", "expired", "moratorium passed"}
+
+
+def _type_tokens(cell: str) -> set:
+    return {t.strip().lower() for t in str(cell or "").split(";")
+            if t.strip()}
 
 STATE_ABBR = {
     "ALABAMA": "AL", "ALASKA": "AK", "ARIZONA": "AZ", "ARKANSAS": "AR",
@@ -194,9 +211,10 @@ def main() -> int:
         ev_matched += 1
         ev_total[f] += 1
         ot = (r.get("Opposition Type") or "").strip()
-        if ot:
-            ev_bytype[f][ot] += 1
-        if ot in RESTRICTIVE_TYPES and \
+        toks = _type_tokens(ot)
+        for t in toks:
+            ev_bytype[f][t] += 1
+        if toks & RESTRICTIVE_TYPES and \
                 (r.get("Status") or "").strip().lower() in ENACTED_STATUSES:
             enacted_restrictive[f] += 1
 
