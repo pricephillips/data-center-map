@@ -1,6 +1,6 @@
 # Data Quality Report — master_opposition.csv
 
-**Rows processed:** 1813
+**Rows processed:** 1828
 
 This pass is **backward compatible**: existing columns keep their names and meanings, values were fixed in place only where the correction is unambiguous, and all new structure was added as additional columns. The HTML map and Notion sync continue to work without modification.
 
@@ -10,16 +10,16 @@ This pass is **backward compatible**: existing columns keep their names and mean
 13 cell(s) standardized (e.g. 'Dona Ana' -> 'Doña Ana')
 
 **2. Source URL — stringified Python dicts parsed to bare URLs**  
-268 cell(s) repaired
+260 cell(s) repaired
 
 **3. Validation flag: source_url_valid (new column)**  
-1444 valid; 0 non-empty but still non-URL (flagged for review)
+1459 valid; 0 non-empty but still non-URL (flagged for review)
 
 **4. Sources — backfilled from Source URL where empty**  
 0 row(s) now have a populated Sources list (Source URL was confirmed == Sources[0] in 100% of dual-filled rows)
 
 **5. Issue Category — tokens alphabetically sorted & de-duplicated**  
-582 cell(s) reordered; distinct combinations 609 -> 455 (eliminated 163 phantom duplicates from ordering)
+596 cell(s) reordered; distinct combinations 609 -> 454 (eliminated 163 phantom duplicates from ordering)
 
 **6. Boolean issue-category columns (new): 16 added**  
 Columns: is_air_quality, is_anti_ai, is_community_impact, is_contract_guarantees, is_design_standards, is_environmental, is_farmland, is_grid_energy, is_noise, is_property_values, is_ratepayer, is_tax_incentive, is_traffic, is_transparency, is_water, is_zoning
@@ -31,25 +31,25 @@ Columns: is_air_quality, is_anti_ai, is_community_impact, is_contract_guarantees
 0 blank State value(s) and 0 blank County value(s) recovered from the Incident/Summary text (conservative: blanks only, never overwrites). Removes 'Unknown state' dashboard buckets for real events.
 
 **9. Incident split into location_name + project_descriptor (new columns)**  
-679 row(s) had a parenthetical descriptor extracted; Incident left intact for backward compatibility
+683 row(s) had a parenthetical descriptor extracted; Incident left intact for backward compatibility
 
 **10. project_id + project_row_count + is_primary_record (new columns)**  
-1241 distinct projects identified; 129 span multiple rows; 29 row(s) unified by manual cross-venue override. Largest clusters: xai_colossus (29), port_washington_wi (9), prince_william_county_va (8), reno_nv (6), dona_ana_county_nm (5). Heuristic = location_name + state, plus PROJECT_OVERRIDES for cross-venue projects.
+1254 distinct projects identified; 129 span multiple rows; 29 row(s) unified by manual cross-venue override. Largest clusters: xai_colossus (29), port_washington_wi (9), prince_william_county_va (8), reno_nv (6), dona_ana_county_nm (5). Heuristic = location_name + state, plus PROJECT_OVERRIDES for cross-venue projects.
 
 **11. Date enrichment: action_year + date_parseable + data_era (new columns)**  
 0 unparseable date(s) flagged; 5 row(s) tagged crypto_era_pre2022 (e.g. the lone 2014 Chelan County PUD record) so the two opposition waves can be analyzed separately
 
 **12. Quantitative review flags: mw_review_flag (>3000 MW), investment_review_flag (>$10B) (new columns)**  
-8 capacity outlier(s) and 74 investment outlier(s) flagged for unit/scope verification (MW vs GW; phase vs total-campus)
+8 capacity outlier(s) and 75 investment outlier(s) flagged for unit/scope verification (MW vs GW; phase vs total-campus)
 
 **13. Status normalized: status_clean + status_notes + legislative_stage (new columns)**  
 58 raw values -> 13 controlled codes (active, announced, approved, expired, failed, introduced, passed, passed_one_chamber, passed_pending_signature, pending, resolved, unknown, withdrawn); 12 narrative memo(s) preserved in status_notes; 4 legislative stage(s) extracted. Raw Status untouched.
 
 **14. Legislative completion verification: bill_progress + action_complete + outcome_overstated (new columns)**  
-260 legislative record(s) staged via the gate's ladder (now reading the Status field too); status_clean corrected on 50 record(s) so committee/one-chamber actions aren't labelled enacted; 5 record(s) flagged outcome_overstated (claims success but only at committee/one chamber — the 'approved ≠ law' trap).
+261 legislative record(s) staged via the gate's ladder (now reading the Status field too); status_clean corrected on 50 record(s) so committee/one-chamber actions aren't labelled enacted; 4 record(s) flagged outcome_overstated (claims success but only at committee/one chamber — the 'approved ≠ law' trap).
 
 **15. Judgment-assisted classifications (new columns)**  
-objective_type: 1010/1153 objectives classified (143 left as 'other'); actor_type: 171/172 sponsors classified, party/chamber extracted for legislators; opposition_group_type assigned; opposition_group_verified flags 343/770 named groups as having a website/social presence (427 unverified — the network-analysis follow-up). All are first-pass heuristics; original Objective/Sponsors/Opposition Groups text is preserved.
+objective_type: 1025/1169 objectives classified (144 left as 'other'); actor_type: 171/172 sponsors classified, party/chamber extracted for legislators; opposition_group_type assigned; opposition_group_verified flags 343/772 named groups as having a website/social presence (429 unverified — the network-analysis follow-up). All are first-pass heuristics; original Objective/Sponsors/Opposition Groups text is preserved.
 
 **16. Capacity/investment scope hints (new columns)**  
 capacity_unit flags 8 possible GW-as-MW entries; capacity_scope/investment_scope inferred for 29 rows from text (phase_1 / total_campus), rest 'unknown' — confirm against announcements in the review pass.
@@ -70,4 +70,4 @@ Every item in the original critique is now addressed in the data. What remains i
 
 ## Row-level change log
 
-348 individual value fixes recorded in `change_log.csv` (columns: row, field, before, after).
+340 individual value fixes recorded in `change_log.csv` (columns: row, field, before, after).

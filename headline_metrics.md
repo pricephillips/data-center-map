@@ -1,15 +1,15 @@
-# Headline metrics (as of 2026-07-30)
+# Headline metrics (as of 2026-07-31)
 
 Scope note: this dataset tracks opposition incidents, not all data center projects. Every rate below is conditional on a conflict being visible enough to enter the tracker; projects that proceeded without tracked opposition are absent by construction.
 
 ## Decided-case confirmed-block rate
 Project level, jurisdiction-cluster bootstrap 95% CI, incidents younger than 90 days excluded (right-censoring guard).
 
-- 2026 YTD: 45% of 168 decided (CI 37%-53%)
-- 2025: 30% of 96 decided (CI 20%-40%)
+- 2026 YTD: 45% of 169 decided (CI 37%-53%)
+- 2025: 29% of 95 decided (CI 20%-39%)
 
 ## Political context
-- Incident share in Trump-won counties: 66% (n=889)
+- Incident share in Trump-won counties: 66% (n=896)
 - County base rate (share of counties Trump won): 85%
 - Relative to the share of counties Trump won (85%), tracked opposition is UNDER-represented in Trump-won counties at 66%. Quote the pair, never the share alone; an exposure denominator (where projects are proposed) is the fair comparison and siting is not uniform.
 
