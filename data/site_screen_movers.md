@@ -1,7 +1,7 @@
 # Opposition Environment Movement Report
 
-Run date: 2026-08-01
-Compared against: 2026-07-31
+Run date: 2026-08-02
+Compared against: 2026-08-01
 
 Sites screened: 334 | tier changes: 3 | composite moves of 3 points or more: 3 | newly screened: 0
 
