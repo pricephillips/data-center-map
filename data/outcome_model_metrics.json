@@ -1,63 +1,63 @@
 {
-  "generated": "2026-07-27",
-  "n": 85,
-  "n_blocked": 26,
-  "base_rate": 0.3059,
+  "generated": "2026-08-03",
+  "n": 86,
+  "n_blocked": 27,
+  "base_rate": 0.314,
   "cv": {
     "folds": 5,
     "repeats": 10
   },
   "roc_auc": {
-    "p10": 0.6997,
-    "p50": 0.8409,
-    "p90": 0.9405
+    "p10": 0.6994,
+    "p50": 0.8264,
+    "p90": 0.9333
   },
   "brier": {
-    "p10": 0.1101,
-    "p50": 0.1661,
-    "p90": 0.2184,
-    "base_rate_brier": 0.2123
+    "p10": 0.1143,
+    "p50": 0.1756,
+    "p90": 0.2179,
+    "base_rate_brier": 0.2154
   },
   "top_features": [
     {
       "name": "mech_public_comment",
-      "auc_drop": 0.1836,
-      "mean_std_coef": -1.3763
+      "auc_drop": 0.1967,
+      "mean_std_coef": -1.3895
     },
     {
       "name": "hyperscaler_involved",
-      "auc_drop": 0.0281,
-      "mean_std_coef": -0.5771
+      "auc_drop": 0.0301,
+      "mean_std_coef": -0.572
     },
     {
       "name": "capacity_missing",
-      "auc_drop": 0.027,
-      "mean_std_coef": 0.544
+      "auc_drop": 0.0191,
+      "mean_std_coef": 0.5221
     },
     {
       "name": "county_margin_2024",
-      "auc_drop": 0.0198,
-      "mean_std_coef": 0.5347
-    },
-    {
-      "name": "days_to_first_opposition",
-      "auc_drop": 0.0174,
-      "mean_std_coef": -0.3668
+      "auc_drop": 0.0163,
+      "mean_std_coef": 0.5267
     },
     {
       "name": "log10_capacity_mw",
-      "auc_drop": -0.0103,
-      "mean_std_coef": -0.0349
+      "auc_drop": -0.0149,
+      "mean_std_coef": -0.0221
+    },
+    {
+      "name": "days_to_first_opposition",
+      "auc_drop": 0.0148,
+      "mean_std_coef": -0.3605
     },
     {
       "name": "mech_regulatory_action",
-      "auc_drop": 0.0092,
-      "mean_std_coef": -0.3691
+      "auc_drop": 0.0098,
+      "mean_std_coef": -0.3699
     },
     {
       "name": "mech_legislation",
-      "auc_drop": -0.0091,
-      "mean_std_coef": -0.0685
+      "auc_drop": -0.0079,
+      "mean_std_coef": -0.0689
     }
   ],
   "feature_columns": [

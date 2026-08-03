@@ -1,11 +1,11 @@
 # Opposed vs. Control — Time to Terminal Decision (first iteration)
 
-Generated 2026-07-27 by `dated_comparison.py`. **Internal diagnostic — NOT client-facing.** Descriptive comparison only; the two arms carry different censoring structures, so no significance test is valid or reported.
+Generated 2026-08-03 by `dated_comparison.py`. **Internal diagnostic — NOT client-facing.** Descriptive comparison only; the two arms carry different censoring structures, so no significance test is valid or reported.
 
 ## Arms
 
-- **Opposed** (n=161): 26 verified decision events; rest right-censored at last known activity. Standard Kaplan-Meier.
-- **Control / unopposed** (n=120): zero verified decision dates exist on the control side. 45 controls are decided but undated — treated as interval-censored (decision occurred between announcement and last status update); the rest are right-censored pending. Nonparametric MLE (Turnbull) estimator.
+- **Opposed** (n=163): 29 verified decision events; rest right-censored at last known activity. Standard Kaplan-Meier.
+- **Control / unopposed** (n=119): zero verified decision dates exist on the control side. 44 controls are decided but undated — treated as interval-censored (decision occurred between announcement and last status update); the rest are right-censored pending. Nonparametric MLE (Turnbull) estimator.
 
 ## Median time to decision
 
@@ -14,7 +14,7 @@ Generated 2026-07-27 by `dated_comparison.py`. **Internal diagnostic — NOT cli
 
 ## Matched-subset comparison
 
-Same estimators, restricted to matched sets (opposed project + its state/capacity/margin-matched controls, both with usable spans): **153** opposed (25 events) vs **358** matched control spans (150 interval-censored).
+Same estimators, restricted to matched sets (opposed project + its state/capacity/margin-matched controls, both with usable spans): **154** opposed (27 events) vs **363** matched control spans (153 interval-censored).
 
 - Matched opposed median: **not reached**
 - Matched control median: **780-795 days** (interval-censored NPMLE band)
