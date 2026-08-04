@@ -1,11 +1,11 @@
-# Headline metrics (as of 2026-08-03)
+# Headline metrics (as of 2026-08-04)
 
 Scope note: this dataset tracks opposition incidents, not all data center projects. Every rate below is conditional on a conflict being visible enough to enter the tracker; projects that proceeded without tracked opposition are absent by construction.
 
 ## Decided-case confirmed-block rate
 Project level, jurisdiction-cluster bootstrap 95% CI, incidents younger than 90 days excluded (right-censoring guard).
 
-- 2026 YTD: 47% of 178 decided (CI 40%-54%)
+- 2026 YTD: 47% of 180 decided (CI 39%-54%)
 - 2025: 29% of 95 decided (CI 20%-39%)
 
 ## Political context
