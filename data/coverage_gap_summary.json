@@ -1,0 +1,199 @@
+{
+  "states": {
+    "CO": {
+      "census_in_scope": 2,
+      "covered_confirmed": 0,
+      "covered_unconfirmed": 1,
+      "missing": 1,
+      "recall_confirmed": 0.0,
+      "recall_any": 0.5,
+      "label_false_negatives": 0,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 1
+    },
+    "GA": {
+      "census_in_scope": 17,
+      "covered_confirmed": 6,
+      "covered_unconfirmed": 7,
+      "missing": 4,
+      "recall_confirmed": 0.353,
+      "recall_any": 0.765,
+      "label_false_negatives": 3,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 1
+    },
+    "IA": {
+      "census_in_scope": 10,
+      "covered_confirmed": 2,
+      "covered_unconfirmed": 5,
+      "missing": 3,
+      "recall_confirmed": 0.2,
+      "recall_any": 0.7,
+      "label_false_negatives": 3,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 0
+    },
+    "ID": {
+      "census_in_scope": 1,
+      "covered_confirmed": 0,
+      "covered_unconfirmed": 1,
+      "missing": 0,
+      "recall_confirmed": 0.0,
+      "recall_any": 1.0,
+      "label_false_negatives": 0,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 0
+    },
+    "IL": {
+      "census_in_scope": 2,
+      "covered_confirmed": 1,
+      "covered_unconfirmed": 0,
+      "missing": 1,
+      "recall_confirmed": 0.5,
+      "recall_any": 0.5,
+      "label_false_negatives": 1,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 0
+    },
+    "IN": {
+      "census_in_scope": 15,
+      "covered_confirmed": 7,
+      "covered_unconfirmed": 4,
+      "missing": 4,
+      "recall_confirmed": 0.467,
+      "recall_any": 0.733,
+      "label_false_negatives": 5,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 0
+    },
+    "KS": {
+      "census_in_scope": 8,
+      "covered_confirmed": 1,
+      "covered_unconfirmed": 2,
+      "missing": 5,
+      "recall_confirmed": 0.125,
+      "recall_any": 0.375,
+      "label_false_negatives": 5,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 0
+    },
+    "KY": {
+      "census_in_scope": 3,
+      "covered_confirmed": 2,
+      "covered_unconfirmed": 1,
+      "missing": 0,
+      "recall_confirmed": 0.667,
+      "recall_any": 1.0,
+      "label_false_negatives": 0,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 0
+    },
+    "MD": {
+      "census_in_scope": 2,
+      "covered_confirmed": 1,
+      "covered_unconfirmed": 1,
+      "missing": 0,
+      "recall_confirmed": 0.5,
+      "recall_any": 1.0,
+      "label_false_negatives": 0,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 0
+    },
+    "MO": {
+      "census_in_scope": 0,
+      "covered_confirmed": 0,
+      "covered_unconfirmed": 0,
+      "missing": 0,
+      "recall_confirmed": null,
+      "recall_any": null,
+      "label_false_negatives": 0,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 0
+    },
+    "NC": {
+      "census_in_scope": 7,
+      "covered_confirmed": 5,
+      "covered_unconfirmed": 1,
+      "missing": 1,
+      "recall_confirmed": 0.714,
+      "recall_any": 0.857,
+      "label_false_negatives": 1,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 0
+    },
+    "ND": {
+      "census_in_scope": 5,
+      "covered_confirmed": 1,
+      "covered_unconfirmed": 1,
+      "missing": 3,
+      "recall_confirmed": 0.2,
+      "recall_any": 0.4,
+      "label_false_negatives": 2,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 1
+    },
+    "NE": {
+      "census_in_scope": 1,
+      "covered_confirmed": 0,
+      "covered_unconfirmed": 0,
+      "missing": 1,
+      "recall_confirmed": 0.0,
+      "recall_any": 0.0,
+      "label_false_negatives": 0,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 1
+    },
+    "PA": {
+      "census_in_scope": 1,
+      "covered_confirmed": 0,
+      "covered_unconfirmed": 1,
+      "missing": 0,
+      "recall_confirmed": 0.0,
+      "recall_any": 1.0,
+      "label_false_negatives": 1,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 0
+    },
+    "TN": {
+      "census_in_scope": 3,
+      "covered_confirmed": 2,
+      "covered_unconfirmed": 0,
+      "missing": 1,
+      "recall_confirmed": 0.667,
+      "recall_any": 0.667,
+      "label_false_negatives": 1,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 0
+    },
+    "VA": {
+      "census_in_scope": 1,
+      "covered_confirmed": 1,
+      "covered_unconfirmed": 0,
+      "missing": 0,
+      "recall_confirmed": 1.0,
+      "recall_any": 1.0,
+      "label_false_negatives": 0,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 0
+    },
+    "WI": {
+      "census_in_scope": 1,
+      "covered_confirmed": 0,
+      "covered_unconfirmed": 1,
+      "missing": 0,
+      "recall_confirmed": 0.0,
+      "recall_any": 1.0,
+      "label_false_negatives": 0,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 0
+    }
+  },
+  "national": {
+    "census_in_scope": 79,
+    "recall_any": 0.696,
+    "label_false_negatives": 22,
+    "unjoined_frame": 0,
+    "label_positive_no_tracker_record": 4
+  },
+  "note": "Census is a lower bound and the unit is the county, not the instrument episode. recall_any is the share of census counties with ANY tracker restrictive record; recall_confirmed requires a terminal confirmation. label_false_negatives are census-enacted counties the county model currently trains on as negatives. unjoined_frame counts census counties that do not match the national county frame at all, which is a census name defect, not a coverage result. label_positive_no_tracker_record counts the reverse direction: the aggregate labels the county enacted while the clean feed carries no county-level restrictive record, which is a divergence between county_aggregator.py's label rule and this module's mechanism view, reported here and not reconciled here."
+}
