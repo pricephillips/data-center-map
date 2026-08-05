@@ -6,6 +6,7 @@ name: Build Clean Feed
 #   -> project resolution (event->project links + lifecycles)
 #   -> county layer (county_aggregator -> county_policy_model -> county_policy_intervals)
 #   -> FIPS resolution (census_geocode -> county_fips_overlay.csv)
+#   -> coverage audit + restriction worklist (county recall vs external census)
 #   -> site screener (opposition environment tiers + movement report)
 # then triggers the Iowa Notion sync.
 #
@@ -99,6 +100,8 @@ jobs:
           python group_registry_audit.py --selftest
           echo "Coverage audit self-tests:"
           python coverage_audit.py --selftest
+          echo "Restriction worklist self-tests:"
+          python restriction_worklist.py --selftest
 
       - name: Run pipeline (clean -> gate -> clean feed)
         run: python build_clean_feed.py --in master_opposition.csv --out master_opposition_clean.csv
@@ -113,10 +116,6 @@ jobs:
           # Registry defect audit: reporting only, never blocks. Rebuild of
           # the registry itself stays inside project_resolution's chain.
           python group_registry_audit.py || true
-          # Coverage audit: recall of the county restriction layer against
-          # the external census. Reporting only; the census is a manually
-          # curated lower bound and its absence must not fail the build.
-          python coverage_audit.py || true
 
       - name: Verification status + untagged review worklist
         id: verification
@@ -142,6 +141,23 @@ jobs:
           # it is fenced with its own error surface below.
           python county_policy_intervals.py --selftest
           python county_policy_intervals.py
+
+      - name: Coverage audit + restriction worklist (county recall)
+        id: coverage
+        if: steps.county_layer.outcome == 'success'
+        continue-on-error: true
+        run: |
+          # Runs AFTER the county layer, not before it. The audit compares
+          # the external census against has_enacted_restrictive, so running
+          # it in the earlier audit block measured the PREVIOUS run's labels
+          # and would have reported a repaired label as still broken.
+          # Reporting only: the census is a manually curated lower bound and
+          # its absence or staleness must never fail the build.
+          python coverage_audit.py
+          # Worklist regeneration is merge-preserving: reviewer-entered
+          # sources and resolutions already committed to the worklist are
+          # carried forward, so an auto-commit cannot discard research.
+          python restriction_worklist.py
 
       - name: FIPS resolution (Census geocoder; overlay for the screener)
         id: fips_resolution
@@ -192,6 +208,20 @@ jobs:
                     data/county_policy_scores.csv data/county_policy_intervals.csv data/county_policy_intervals.md data/county_policy_metrics.json \
                     data/county_policy_report.md 2>/dev/null || true
           fi
+          # Audit artifacts. group_registry_audit runs in the always-on
+          # audit block; the coverage audit and worklist are staged only on
+          # a green coverage step, so a partial run cannot commit a recall
+          # number that no longer matches the committed county layer. These
+          # paths were absent from the glob entirely, which is why the audit
+          # outputs ran in CI but never appeared in the repo.
+          git add data/group_registry_audit.csv \
+                  data/group_registry_audit_summary.json 2>/dev/null || true
+          if [ "${{ steps.coverage.outcome }}" = "success" ]; then
+            git add data/coverage_gap_report.csv data/coverage_gap_summary.json \
+                    data/national_restriction_worklist.csv \
+                    data/restriction_ingest_template.csv \
+                    data/restriction_worklist.md 2>/dev/null || true
+          fi
           # FIPS overlay, its review file, and the geocode cache are staged
           # only on a green resolution step. The cache is append-only, so
           # committing it is what keeps the steady-state API call count at zero.
@@ -211,7 +241,7 @@ jobs:
           git push
 
       - name: Trigger Iowa Notion sync
-        if: success() || steps.verification.outcome == 'failure' || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure' || steps.fips_resolution.outcome == 'failure' || steps.site_screener.outcome == 'failure'
+        if: success() || steps.verification.outcome == 'failure' || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure' || steps.coverage.outcome == 'failure' || steps.fips_resolution.outcome == 'failure' || steps.site_screener.outcome == 'failure'
         uses: actions/github-script@v7
         with:
           # Cross-repo dispatch needs a PAT with repo scope (the default
@@ -242,6 +272,12 @@ jobs:
         if: steps.county_layer.outcome == 'failure'
         run: |
           echo "::error::County layer failed (aggregate QC gate, policy model, or leak audit). County artifacts were NOT committed; the last good layer remains in place. Clean feed and Iowa sync were unaffected."
+          exit 1
+
+      - name: Surface coverage-audit failure (visible, non-blocking)
+        if: steps.coverage.outcome == 'failure'
+        run: |
+          echo "::error::coverage_audit.py or restriction_worklist.py failed. Recall and worklist artifacts were NOT committed; the last good versions remain in place. Clean feed, county layer, and Iowa sync were unaffected."
           exit 1
 
       - name: Surface FIPS-resolution failure (visible, non-blocking)
