@@ -4,8 +4,18 @@ metrics.py
 The single canonical way to compute externally quotable statistics from the
 clean feed. Exists because ad-hoc computation kept repeating four errors:
 
-  1. Row-level counting (pseudo-replication): multi-row projects inflate n.
-     -> All metrics default to primary records (project level).
+  1. Row-level counting (pseudo-replication): multi-row incidents inflate n.
+     -> All metrics default to primary records.
+
+     CORRECTION 2026-08-05. This guard deduplicates INCIDENT RECORDS, not
+     project entities, and the report labeled its output "project level"
+     anyway. The clean feed carries 610 records with a terminal
+     outcome_defensible while the project registry
+     (data/project_lifecycles.csv) carries 148 decided project entities,
+     so the two denominators differ by a factor of four and a reader
+     could not tell which one a headline rate referred to. The record
+     rate is now labeled as a record rate, and the project-registry rate
+     is reported beside it with the reason they differ.
   2. iid confidence intervals on clustered decisions: the same jurisdiction
      deciding serial moratoria is not independent trials.
      -> CIs come from a cluster bootstrap over jurisdiction (State+County).
@@ -59,6 +69,37 @@ def _date(rec: dict):
 def _primary(rows: list[dict]) -> list[dict]:
     out = [r for r in rows if str(r.get("is_primary_record", "")).lower() == "true"]
     return out or rows  # feeds without the flag fall back to all rows
+
+
+LIFECYCLES_CSV = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                              "data", "project_lifecycles.csv")
+
+
+def project_registry_rate(path: str = LIFECYCLES_CSV):
+    """Confirmed-block share among DECIDED PROJECT ENTITIES.
+
+    Different population from decided_block_rate: one row per resolved
+    project rather than per primary incident record. Returns None when the
+    registry is absent, which is the normal state before project_resolution
+    has ever run. No CI is attached: the registry is the full tracked
+    population at this level, not a sample of it, and a cluster bootstrap
+    over jurisdictions would imply a sampling frame this layer lacks.
+    """
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, newline="", encoding="utf-8-sig") as fh:
+            rows = list(csv.DictReader(fh))
+    except Exception:
+        return None
+    dec = [r for r in rows
+           if (r.get("lifecycle_outcome") or "").strip() in DECIDED]
+    if not dec:
+        return None
+    blocked = sum(1 for r in dec
+                  if r.get("lifecycle_outcome") == "blocked_confirmed")
+    return {"n_projects": len(rows), "n_decided": len(dec),
+            "n_blocked": blocked, "rate": blocked / len(dec)}
 
 
 def _cluster_key(rec: dict) -> tuple:
@@ -211,15 +252,37 @@ def headline_report(rows: list[dict], outdir: str = "out") -> str:
     undated = sum(1 for r in rows if _date(r) is None)
     sev = {str(r.get("Severity", "")).strip() for r in rows} - {""}
 
+    proj = project_registry_rate()
+
     L = [f"# Headline metrics (as of {now.date().isoformat()})", "",
          DISCLAIMER, "",
-         "## Decided-case confirmed-block rate",
-         "Project level, jurisdiction-cluster bootstrap 95% CI, incidents "
-         f"younger than {cur['min_age_days']} days excluded (right-censoring guard).", ""]
+         "## Decided-case confirmed-block rate, incident records",
+         "Unit is the primary incident RECORD in the clean feed, not the "
+         "project entity. Duplicate rows for one incident are collapsed; "
+         "several incidents attached to the same project are not. "
+         "Jurisdiction-cluster bootstrap 95% CI, incidents younger than "
+         f"{cur['min_age_days']} days excluded (right-censoring guard).", ""]
     for lab, m in ((f"{year} YTD", cur), (str(year - 1), prev)):
         if m["n_decided"]:
             L.append(f"- {lab}: {m['rate']:.0%} of {m['n_decided']} decided "
-                     f"(CI {m['ci_low']:.0%}-{m['ci_high']:.0%})")
+                     f"records (CI {m['ci_low']:.0%}-{m['ci_high']:.0%})")
+    L += ["", "## Decided-case confirmed-block rate, project entities"]
+    if proj:
+        L += ["Unit is the resolved project in data/project_lifecycles.csv, "
+              "all periods pooled. Quote this figure whenever the claim is "
+              "about projects; quote the record figure above only when the "
+              "claim is explicitly about tracked opposition events.", "",
+              f"- {proj['rate']:.0%} of {proj['n_decided']} decided projects "
+              f"({proj['n_blocked']} blocked_confirmed) out of "
+              f"{proj['n_projects']} tracked",
+              "",
+              "The two rates differ because the populations differ: one "
+              "project can carry several decided records, and many decided "
+              "records are not yet linked to a project entity. Neither "
+              "number is wrong; quoting either without its unit is."]
+    else:
+        L += ["- unavailable: data/project_lifecycles.csv not present; run "
+              "project_resolution.py"]
     L += ["", "## Political context"]
     if "error" in pol:
         L.append(f"- unavailable: {pol['error']}")

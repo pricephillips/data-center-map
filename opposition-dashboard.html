@@ -358,8 +358,8 @@ async function loadProposals() {
     // Relative URL works on the canonical host; raw.githubusercontent.com
     // fallback works inside sandboxed embeds (it sends CORS headers).
     const PROPOSAL_URLS = [
-      './data/proposals.csv',
-      'https://raw.githubusercontent.com/pricephillips/data-center-map/main/data/proposals.csv'
+      'https://raw.githubusercontent.com/pricephillips/data-center-map/main/data/proposals.csv',
+      './data/proposals.csv'
     ];
     let text = null;
     for (const u of PROPOSAL_URLS) {
@@ -774,11 +774,12 @@ function exportAllCSV() {
 // GitHub Pages URLs fail inside sandboxed embed iframes (Notion, mirrors)
 // because Pages sends no CORS headers; raw.githubusercontent.com sends
 // Access-Control-Allow-Origin: * and works from any embed origin.
+// raw.githubusercontent.com FIRST per the standing rule; relative second.
 const CSV_CHAIN = [
-  './master_opposition_clean.csv',
   'https://raw.githubusercontent.com/pricephillips/data-center-map/main/master_opposition_clean.csv',
-  './master_opposition.csv',
-  'https://raw.githubusercontent.com/pricephillips/data-center-map/main/master_opposition.csv'
+  './master_opposition_clean.csv',
+  'https://raw.githubusercontent.com/pricephillips/data-center-map/main/master_opposition.csv',
+  './master_opposition.csv'
 ];
 
 function dashLoadFail(errs) {

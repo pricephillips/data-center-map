@@ -1495,11 +1495,12 @@ let stateVoteAgg = {};
 async function loadVoteData() {
   buildStateVoteAgg();              // embedded state margins, always available
   if (voteData) return true;
-  // Relative URL works on the canonical host; raw.githubusercontent.com
-  // fallback works inside sandboxed embeds (it sends CORS headers).
+  // raw.githubusercontent.com FIRST per the standing rule: it is the only
+  // origin that sends CORS headers, so it is the one that works inside
+  // sandboxed embeds. The relative URL follows for local and offline opens.
   const VOTE_URLS = [
-    './data/county_votes.json',
-    'https://raw.githubusercontent.com/pricephillips/data-center-map/main/data/county_votes.json'
+    'https://raw.githubusercontent.com/pricephillips/data-center-map/main/data/county_votes.json',
+    './data/county_votes.json'
   ];
   for (const u of VOTE_URLS) {
     try {
@@ -1826,16 +1827,18 @@ map.on('zoomend', () => {
 // Prefer the gated + enriched clean feed (clean URLs, project_id, qc_* columns,
 // quarantined records already removed). Fall back to the raw CSV if the feed
 // has not been generated yet.
+// raw.githubusercontent.com FIRST in each feed's chain: it is the only origin
+// that sends CORS headers, so it is what succeeds inside Notion embeds and
+// site mirrors where GitHub Pages fetches are blocked. Relative and
+// DATA_BASE URLs follow for canonical-host and local opens. The clean feed
+// is exhausted entirely before falling back to the raw CSV.
 startCSVLoad([
+  'https://raw.githubusercontent.com/pricephillips/data-center-map/main/master_opposition_clean.csv',
   './master_opposition_clean.csv',
   DATA_BASE + '/master_opposition_clean.csv',
-  // raw.githubusercontent.com fallbacks: the only URLs that send CORS headers,
-  // so they are the ones that succeed inside Notion embeds and site mirrors
-  // where GitHub Pages fetches are blocked.
-  'https://raw.githubusercontent.com/pricephillips/data-center-map/main/master_opposition_clean.csv',
+  'https://raw.githubusercontent.com/pricephillips/data-center-map/main/master_opposition.csv',
   './master_opposition.csv',
-  DATA_BASE + '/master_opposition.csv',
-  'https://raw.githubusercontent.com/pricephillips/data-center-map/main/master_opposition.csv'
+  DATA_BASE + '/master_opposition.csv'
 ]);
 </script>
 </body>
