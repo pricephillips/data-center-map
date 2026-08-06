@@ -6,6 +6,9 @@
 <title>Restriction Model</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Canonical color scales and legend. Same-origin script tag, so it is
+     not subject to the CORS constraint that governs the data fetches. -->
+<script src="./viz-palette.js"></script>
 <style>
 :root {
   --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
@@ -70,10 +73,22 @@ details.card[open] summary { margin-bottom:6px }
   padding:10px 12px; font-size:12.5px; color:#c6cfda; margin-bottom:14px; line-height:1.5 }
 .map-card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:14px }
 #scoreMap { height:440px; border-radius:8px; background:#0b0e13 }
-.map-legend { display:flex; gap:8px; align-items:center; font-size:11px; color:var(--muted); margin-top:8px; flex-wrap:wrap }
-.map-legend .ramp { flex:1; min-width:120px; max-width:260px; height:8px; border-radius:3px;
-  background:linear-gradient(to right,#1e293b,#7c2d12,#ea580c,#fbbf24) }
-.map-legend .enacted-key { display:inline-block; width:14px; height:9px; border:1.5px dashed #f8fafc; border-radius:2px; vertical-align:-1px }
+.map-legend { display:flex; gap:20px; align-items:flex-end; font-size:11px; color:var(--muted);
+  margin-top:10px; flex-wrap:wrap }
+.legend-block { flex:1; min-width:210px; max-width:340px }
+.legend-side { display:flex; flex-direction:column; gap:5px; align-items:flex-start; padding-bottom:2px }
+/* Keys mirror the shared palette exactly. The enacted marker is a stroke
+   colour AND a dash pattern, never colour alone, so it survives a colourblind
+   reader and a greyscale print. */
+.map-legend .enacted-key { display:inline-block; width:14px; height:9px;
+  border:1.5px dashed #67e8f9; border-radius:2px; vertical-align:-1px }
+.map-legend .nodata-key { display:inline-block; width:14px; height:9px;
+  background:#161c25; border:1px solid #232b38; border-radius:2px; vertical-align:-1px }
+.export-btn { margin-left:auto; background:var(--panel2); border:1px solid var(--border); color:var(--muted);
+  border-radius:6px; padding:4px 10px; font:600 11px/1.4 Inter,system-ui,sans-serif; cursor:pointer }
+.export-btn:hover { color:var(--text); border-color:var(--tier1) }
+.export-btn:focus-visible { outline:2px solid var(--tier1); outline-offset:2px }
+.export-btn[disabled] { opacity:.5; cursor:default }
 .leaflet-tooltip.score-tip { background:var(--panel2); border:1px solid var(--border); color:var(--text);
   font-family:Inter,system-ui,sans-serif; font-size:12px; border-radius:6px; box-shadow:none }
 .leaflet-container { font-family:Inter,system-ui,sans-serif }
@@ -126,8 +141,13 @@ a { color:#5aa9e6 }
 <div class="map-card">
   <div id="scoreMap"></div>
   <div class="map-legend">
-    <span>Low</span><div class="ramp"></div><span>High</span>
-    <span style="margin-left:10px"><span class="enacted-key"></span> enacted restrictive policy on record</span>
+    <div id="scoreLegend" class="legend-block"></div>
+    <div class="legend-side">
+      <span><span class="enacted-key"></span> enacted restrictive policy on record</span>
+      <span><span class="nodata-key"></span> not scored on this boundary</span>
+      <button id="exportPng" class="export-btn" type="button"
+        title="Download the current view as a PNG">Export PNG</button>
+    </div>
   </div>
 </div>
 <div class="card" id="undrawable" style="display:none"></div>
@@ -237,31 +257,21 @@ const FIPS_TO_STATE = {
 // the map stopped separating inside the high band, which is the band anyone
 // reads this page for. A frozen ceiling silently degrades on every retrain
 // that moves the base rate; a percentile ceiling re-fits itself.
-let SAT = 0.35;   // replaced on load; the old constant is the floor
+// The ramp, the derived ceiling, the constant fill opacity and the enacted
+// stroke all live in viz-palette.js now. They were hand-copied into this page
+// and into opposition-map.html and had already drifted apart: this page
+// derived its ceiling from the loaded scores while the map page still froze it
+// at 0.35, so one calibrated score painted two different colors depending on
+// which page you opened.
+let SCALE = new VizPalette.SequentialScale([], { floor: 0.35 });
 
 function setSaturation(scores) {
-  const v = scores.filter(Number.isFinite).sort((a, b) => a - b);
-  if (!v.length) return;
-  const p99 = v[Math.min(v.length - 1, Math.floor(v.length * 0.99))];
-  // Floor at the historical constant so a low-signal refit cannot collapse
-  // the ramp and paint the whole country hot.
-  SAT = Math.max(0.35, p99);
+  SCALE = new VizPalette.SequentialScale(scores, { floor: 0.35 });
 }
 
 function policyColor(score) {
-  if (score === null || !Number.isFinite(score)) return null;
-  const t = Math.min(1, Math.sqrt(Math.max(0, score) / SAT));
-  const stops = [
-    [0.00, [30, 41, 59]], [0.40, [124, 45, 18]],
-    [0.75, [234, 88, 12]], [1.00, [251, 191, 36]]
-  ];
-  let lo = stops[0], hi = stops[stops.length - 1];
-  for (let i = 0; i < stops.length - 1; i++) {
-    if (t >= stops[i][0] && t <= stops[i + 1][0]) { lo = stops[i]; hi = stops[i + 1]; break; }
-  }
-  const f = (t - lo[0]) / Math.max(1e-9, hi[0] - lo[0]);
-  const c = lo[1].map((v, i) => Math.round(v + (hi[1][i] - v) * f));
-  return { color: `rgb(${c[0]},${c[1]},${c[2]})`, opacity: 0.35 + 0.5 * t };
+  const c = SCALE.color(score);
+  return c === null ? null : { color: c, opacity: VizPalette.FILL_OPACITY };
 }
 
 function parseScoresCsv(text) {
@@ -302,9 +312,20 @@ async function buildScoreMap() {
     return;
   }
 
+  // preferCanvas puts the ~3,100 county polygons on a single <canvas> instead
+  // of one <path> per county in the DOM. Leaflet defaults to SVG, which is why
+  // this page felt heavy: 3,100 DOM nodes re-laid-out on every pan and zoom.
+  // Canvas hit-testing still drives the hover and click handlers below, and
+  // dashArray is supported by both renderers, so nothing else changes.
+  //
+  // scrollWheelZoom stays OFF deliberately. This page is embedded in Notion
+  // via Simple.ink, and a map that captures the wheel inside an iframe traps
+  // the reader's page scroll. That was a UX decision, not a performance
+  // workaround, and the canvas switch is not a reason to reverse it.
   const map = L.map('scoreMap', {
     center: [39.5, -98.35], zoom: 4, minZoom: 3, maxZoom: 9,
-    attributionControl: true, zoomControl: true, scrollWheelZoom: false
+    attributionControl: true, zoomControl: true, scrollWheelZoom: false,
+    preferCanvas: true
   });
   map.attributionControl.setPrefix(false);
   map.attributionControl.addAttribution('Scores: county_policy_model.py (calibrated, out-of-fold)');
@@ -312,17 +333,22 @@ async function buildScoreMap() {
   GEO_IDS = new Set((geo.features || []).map(f => String(f.id).padStart(5, '0')));
   renderUndrawable(scores);
 
+  VizPalette.injectCss();
+  VizPalette.renderLegend(document.getElementById('scoreLegend'), SCALE, {
+    title: 'Calibrated enacted-restriction score',
+    ticks: 4,
+    note: 'Bars show how many counties fall at each point on the ramp. The '
+        + 'ramp ceiling is the 99th percentile of the current scores, so it '
+        + 're-fits itself whenever a retrain moves the base rate.'
+  });
+
   const lyr = L.geoJSON(geo, {
     style(feat) {
       const e = scoreForFeature(scores, String(feat.id).padStart(5, '0'));
-      const pc = e ? policyColor(e.score) : null;
-      if (!pc) return { fillOpacity: 0, color: '#2c3544', weight: 0.4 };
-      return {
-        color: e.enacted ? '#f8fafc' : '#2c3544',
-        weight: e.enacted ? 1.3 : 0.4,
-        dashArray: e.enacted ? '3,2' : null,
-        opacity: 1, fillColor: pc.color, fillOpacity: pc.opacity
-      };
+      // Unscored counties get a muted fill rather than fillOpacity 0. A hole
+      // in a choropleth reads as a low value; a flat grey reads as absence,
+      // which is what a retired boundary or an out-of-frame county is.
+      return SCALE.style(e ? e.score : null, !!(e && e.enacted));
     },
     onEachFeature(feat, layer) {
       const fips = String(feat.id).padStart(5, '0');
@@ -341,7 +367,9 @@ async function buildScoreMap() {
               : 'No score for this boundary');
       layer.bindTooltip(`<b>${name}, ${st}</b><br>${body}`, { sticky: true, className: 'score-tip' });
       layer.on({
-        mouseover: ev => ev.target.setStyle({ weight: 2, color: '#cbd5e1', dashArray: null }),
+        mouseover: ev => ev.target.setStyle({
+          weight: VizPalette.HOVER_STROKE.weight,
+          color: VizPalette.HOVER_STROKE.color, dashArray: null }),
         mouseout:  ev => lyr.resetStyle(ev.target)
       });
     }
@@ -505,6 +533,97 @@ document.getElementById('kpi-explain').addEventListener('click', ev => {
   if (ev.target.closest('.close')) closeExplain();
 });
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && OPEN_KPI) closeExplain(); });
+
+// ---------------------------------------------------------------------------
+// PNG export
+//
+// Deliberately NOT a basemap screenshot. Leaflet composes a map from a tile
+// <img> layer, a vector renderer, and DOM markers, so there is no single
+// canvas holding the finished picture. Worse, the CARTO tiles are
+// cross-origin and drawing them into a canvas taints it, after which
+// toDataURL() throws a SecurityError. Any "one line toDataURL" export of a
+// Leaflet map either silently loses layers or fails outright.
+//
+// What this does instead: the choropleth IS the content on this page, and
+// preferCanvas now renders it to a same-origin canvas we drew ourselves. The
+// export composites that canvas onto an opaque background with a title, the
+// legend ramp, the enacted key, the model frame, and a UTC timestamp, so the
+// image carries its own provenance into whatever deck it lands in. The
+// basemap is decoration and is left out rather than faked.
+function exportMapPng() {
+  const btn = document.getElementById('exportPng');
+  const src = document.querySelector('#scoreMap canvas');
+  if (!src) { if (btn) btn.textContent = 'Nothing to export'; return; }
+
+  const SCALE_PX = 2;                    // retina-ish output for slides
+  const PAD = 18, HEAD = 58, FOOT = 46;
+  const w = src.width, h = src.height;
+  const out = document.createElement('canvas');
+  out.width = w + PAD * 2 * SCALE_PX;
+  out.height = h + (HEAD + FOOT) * SCALE_PX;
+  const g = out.getContext('2d');
+  const S = k => k * SCALE_PX;
+
+  g.fillStyle = '#0b0f14';
+  g.fillRect(0, 0, out.width, out.height);
+  g.drawImage(src, S(PAD), S(HEAD));
+
+  g.fillStyle = '#e8edf3';
+  g.font = `700 ${S(17)}px Inter, system-ui, sans-serif`;
+  g.fillText('County enacted-restriction score', S(PAD), S(28));
+
+  const m = LAST_METRICS || {};
+  const sub = m.n_positive && m.n
+    ? `${Number(m.n_positive).toLocaleString()} counties with an enacted restriction on record `
+      + `of ${Number(m.n).toLocaleString()} scored`
+    : 'calibrated, out-of-fold';
+  g.fillStyle = '#8b97a6';
+  g.font = `400 ${S(12)}px Inter, system-ui, sans-serif`;
+  g.fillText(sub, S(PAD), S(46));
+
+  // legend ramp, sampled from the live colour function so the exported key
+  // always matches the map above it, including the derived saturation ceiling
+  const ry = h / SCALE_PX + HEAD + 14, rw = 150, rh = 8;
+  for (let i = 0; i < rw; i++) {
+    g.fillStyle = VizPalette.sequential(i / rw);
+    g.fillRect(S(PAD + 26 + i), S(ry), S(1), S(rh));
+  }
+  g.fillStyle = '#8b97a6';
+  g.font = `400 ${S(11)}px Inter, system-ui, sans-serif`;
+  g.fillText('Low', S(PAD), S(ry + 7));
+  g.fillText('High', S(PAD + 26 + rw + 6), S(ry + 7));
+
+  g.strokeStyle = VizPalette.ENACTED_STROKE.color;
+  g.lineWidth = S(1.5);
+  g.setLineDash([S(3), S(2)]);
+  g.strokeRect(S(PAD + 26 + rw + 40), S(ry), S(14), S(9));
+  g.setLineDash([]);
+  g.fillText('enacted restrictive policy on record',
+             S(PAD + 26 + rw + 60), S(ry + 7));
+
+  g.fillStyle = '#5c6674';
+  g.font = `400 ${S(10)}px Inter, system-ui, sans-serif`;
+  g.fillText(
+    'Resemblance score, not a forecast. Hawthorn Intelligence, county_policy_model.py. '
+    + 'Exported ' + new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC',
+    S(PAD), S(ry + 24));
+
+  let url;
+  try { url = out.toDataURL('image/png'); }
+  catch (e) { if (btn) btn.textContent = 'Export blocked'; return; }
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'county-restriction-score-'
+    + new Date().toISOString().slice(0, 10) + '.png';
+  document.body.appendChild(a); a.click(); a.remove();
+  if (btn) {
+    btn.textContent = 'Saved';
+    setTimeout(() => { btn.textContent = 'Export PNG'; }, 1800);
+  }
+}
+
+document.getElementById('exportPng')
+  .addEventListener('click', exportMapPng);
 
 function renderKpis(m) {
   const wrap = document.getElementById('kpis');

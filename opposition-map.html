@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Canonical color scales and legend, shared with restriction-model.html -->
+<script src="./viz-palette.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
@@ -45,8 +47,11 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
 .legend .row { display:flex; align-items:center; gap:8px; margin:5px 0; font-size:12.5px; color:#c6cfda }
 .legend .sw { width:16px; height:16px; border-radius:4px; flex:none; border:1px solid var(--border) }
 .legend .sw.line { border-radius:0; height:3px; border:0 }
-.ramp { height:12px; border-radius:6px; margin:6px 0 4px;
-  background:linear-gradient(90deg, rgb(30,41,59), rgb(124,45,18), rgb(234,88,12), rgb(251,191,36)) }
+/* The old .ramp carried a hardcoded gradient that had to be kept in sync with
+   the JS ramp by hand and was already out of sync with it. Legends are now
+   rendered from viz-palette.js, which samples the same function the map is
+   painted with, so they cannot drift. Rule kept for any residual markup. */
+.ramp { height:12px; border-radius:6px; margin:6px 0 4px; background:#1c242f }
 .ramp-labels { display:flex; justify-content:space-between; font-size:11px; color:var(--muted) }
 
 .controls label { display:block; font-size:11px; color:var(--muted); margin:10px 0 4px; text-transform:uppercase;
@@ -91,7 +96,9 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
 .badge b { color:var(--text) }
 
 .marker-dot { border-radius:50%; border:2px solid rgba(0,0,0,.5); box-shadow:0 0 0 1px rgba(255,255,255,.15) }
-.enacted-star { filter:drop-shadow(0 0 3px rgba(251,191,36,.7)) }
+/* Dark inner halo first, amber glow second: the amber alone vanishes against
+   the pale-yellow top of the sequential ramp underneath. */
+.enacted-star { filter:drop-shadow(0 0 1px rgba(6,10,16,.95)) drop-shadow(0 0 3px rgba(251,191,36,.75)) }
 </style>
 </head>
 <body>
@@ -109,11 +116,11 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
       <!-- COUNTY panel -->
       <div id="county-panel">
         <div class="legend">
-          <h3>Enacted-restriction score</h3>
-          <div class="ramp"></div>
-          <div class="ramp-labels"><span>lower</span><span>higher</span></div>
-          <div class="row" style="margin-top:9px"><span class="sw line" style="background:#f8fafc"></span>
+          <div id="countyLegend"></div>
+          <div class="row" style="margin-top:9px"><span class="sw line" style="background:#67e8f9"></span>
             dashed outline: enacted restrictive policy on record</div>
+          <div class="row"><span class="sw" style="background:#161c25;border-color:#232b38"></span>
+            not scored on this boundary</div>
         </div>
         <div class="controls">
           <label for="county-metric">Shade counties by</label>
@@ -248,33 +255,37 @@ function num(v) { const n = parseFloat(v); return Number.isFinite(n) ? n : null;
 
 // County color ramp: sqrt scaling spreads the low-probability mass (base rate
 // ~6 pct), saturates at 0.35. Same as the standalone score map.
+// All three ramps come from viz-palette.js. This page previously carried its
+// own copy of the score ramp with the ceiling frozen at 0.35 while
+// restriction-model.html derived it from the loaded scores, so the same
+// calibrated score rendered as two different colours across the platform.
+// Scales are rebuilt from the data on load; see rebuildScales().
+let SCORE_SCALE = new VizPalette.SequentialScale([], { floor: 0.35 });
+let COUNT_SCALE = new VizPalette.SequentialScale([], { floor: 1 });
+
+function rebuildScales(scoreValues, countValues) {
+  SCORE_SCALE = new VizPalette.SequentialScale(scoreValues, { floor: 0.35 });
+  COUNT_SCALE = new VizPalette.SequentialScale(countValues, { floor: 1 });
+}
+
 function policyColor(score) {
-  if (score === null || !Number.isFinite(score)) return null;
-  const t = Math.min(1, Math.sqrt(Math.max(0, score) / 0.35));
-  const stops = [[0,[30,41,59]],[0.40,[124,45,18]],[0.75,[234,88,12]],[1,[251,191,36]]];
-  let lo = stops[0], hi = stops[stops.length-1];
-  for (let i=0;i<stops.length-1;i++){ if (t>=stops[i][0]&&t<=stops[i+1][0]){lo=stops[i];hi=stops[i+1];break;} }
-  const f = (t-lo[0])/Math.max(1e-9,hi[0]-lo[0]);
-  const c = lo[1].map((v,i)=>Math.round(v+(hi[1][i]-v)*f));
-  return { color:`rgb(${c[0]},${c[1]},${c[2]})`, opacity:0.35+0.5*t };
+  const c = SCORE_SCALE.color(score);
+  return c === null ? null : { color:c, opacity:VizPalette.FILL_OPACITY };
 }
 // Diverging ramp for margin_2024. Positive = Democratic per the dataset
-// convention (a repo gotcha: naive re-derivation flips the sign).
+// convention (a repo gotcha: naive re-derivation flips the sign). Blue and
+// orange rather than blue and red: both stay separable under the common
+// colour vision deficiencies, where red collapses into the warm end of the
+// sequential ramp used on the other layers of this same map.
 function marginColor(m) {
   if (m === null || !Number.isFinite(m)) return null;
-  const t = Math.max(-1, Math.min(1, m / 0.5));
-  const dem = [59,130,246], rep = [239,68,68], mid = [30,41,59];
-  const end = t >= 0 ? dem : rep;
-  const f = Math.abs(t);
-  const c = mid.map((v,i)=>Math.round(v+(end[i]-v)*f));
-  return { color:`rgb(${c[0]},${c[1]},${c[2]})`, opacity:0.3+0.5*f };
+  return { color: VizPalette.diverging(Math.max(-1, Math.min(1, m / 0.5))),
+           opacity: VizPalette.FILL_OPACITY };
 }
-// Sequential ramp for a raw count.
-function countColor(n, max) {
-  if (!n || max <= 0) return null;
-  const t = Math.min(1, Math.sqrt(n / max));
-  const c = [30,41,59].map((v,i)=>Math.round(v+([251,191,36][i]-v)*t));
-  return { color:`rgb(${c[0]},${c[1]},${c[2]})`, opacity:0.3+0.55*t };
+function countColor(n) {
+  if (!n) return null;
+  const c = COUNT_SCALE.color(n);
+  return c === null ? null : { color:c, opacity:VizPalette.FILL_OPACITY };
 }
 
 const OUTCOME_COLOR = {
@@ -289,9 +300,14 @@ const BAND_COLOR = { lower:'#22c55e', moderate:'#eab308', elevated:'#f97316', hi
 // ---------------------------------------------------------------------------
 // State
 // ---------------------------------------------------------------------------
+// preferCanvas moves the county polygon layer off the DOM and onto a canvas.
+// Leaflet's default SVG renderer creates one <path> per county, roughly 3,100
+// nodes re-laid-out on every interaction. Project pins are L.marker divIcons
+// inside a cluster group and are unaffected by this setting.
 const map = L.map('map', {
   center:[39.5,-98.35], zoom:4, minZoom:3, maxZoom:11,
-  zoomControl:true, scrollWheelZoom:true, attributionControl:true
+  zoomControl:true, scrollWheelZoom:true, attributionControl:true,
+  preferCanvas:true
 });
 map.attributionControl.setPrefix(false);
 L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_nolabels/{z}/{x}/{y}.png', {
@@ -327,15 +343,17 @@ function countyStyle(feat, metric, countMax) {
   let pc = null;
   if (metric === 'calibrated_score') pc = policyColor(v);
   else if (metric === 'margin_2024') pc = marginColor(v);
-  else pc = countColor(v, countMax);
+  else pc = countColor(v);
   const s = SCORES[fips] || SCORES[BOUNDARY_RENAMES[fips]];
   const enacted = s && s.enacted;
-  if (!pc) return { fillOpacity:0, color:'#232b38', weight:0.4 };
+  const N = VizPalette.NODATA;
+  if (!pc) return { fillColor:N.fillColor, fillOpacity:N.fillOpacity,
+                    color:N.color, weight:N.weight, dashArray:null, opacity:1 };
   return {
-    color: enacted ? '#f8fafc' : '#2c3544',
-    weight: enacted ? 1.3 : 0.4,
-    dashArray: enacted ? '3,2' : null,
-    opacity:1, fillColor:pc.color, fillOpacity:pc.opacity
+    color: enacted ? VizPalette.ENACTED_STROKE.color : VizPalette.BASE_STROKE.color,
+    weight: enacted ? VizPalette.ENACTED_STROKE.weight : VizPalette.BASE_STROKE.weight,
+    dashArray: enacted ? VizPalette.ENACTED_STROKE.dash : null,
+    opacity:1, fillColor:pc.color, fillOpacity:VizPalette.FILL_OPACITY
   };
 }
 
@@ -364,19 +382,62 @@ function countyTooltip(feat) {
   return `<b>${name}, ${st}</b><br>${body}`;
 }
 
+// One legend, three metrics. Each shows the ramp actually in use plus numeric
+// ticks, because "lower / higher" gives a reader no way to turn a colour back
+// into a number, which for a calibrated probability defeats the purpose of
+// calibrating it.
+function renderCountyLegend(metric) {
+  VizPalette.injectCss();
+  const host = document.getElementById('countyLegend');
+  if (!host) return;
+  if (metric === 'margin_2024') {
+    host.innerHTML =
+      '<div class="vp-title">2024 presidential margin</div>' +
+      '<div class="vp-ramp" style="background:' + VizPalette.divergingGradientCss() + '"></div>' +
+      '<div class="vp-ticks"><span style="justify-content:flex-start">R +50</span>' +
+      '<span style="justify-content:center">even</span>' +
+      '<span style="justify-content:flex-end">D +50</span></div>' +
+      '<div class="vp-note">Positive is a Democratic margin under this dataset\u2019s ' +
+      'convention. Orange and blue rather than red and blue so the two ends stay ' +
+      'separable for colourblind readers.</div>';
+    return;
+  }
+  const isScore = metric === 'calibrated_score';
+  VizPalette.renderLegend(host, isScore ? SCORE_SCALE : COUNT_SCALE, {
+    title: isScore ? 'Calibrated enacted-restriction score' : 'Opposition records on file',
+    ticks: 4,
+    format: isScore ? undefined : (v => Math.round(v).toLocaleString()),
+    note: isScore
+      ? 'Bars show how many counties sit at each point on the ramp. Resemblance '
+        + 'score, not a forecast, and not a project risk score.'
+      : 'Record counts, not project counts, and a floor rather than a census: '
+        + 'a county with no records may have had no opposition or no coverage.'
+  });
+}
+
 function drawCounties(geo) {
   const metric = currentCountyMetric();
   let countMax = 0;
   if (metric === 'n_opposition_events') {
     Object.values(COUNTY).forEach(r => { const n = num(r.n_opposition_events); if (n) countMax = Math.max(countMax,n); });
   }
+  // Scales are fitted to the values actually loaded, every draw. A ceiling
+  // frozen at build time is the defect that pinned 200 counties at maximum
+  // colour after the base rate moved; refitting removes the class of bug
+  // rather than the instance.
+  rebuildScales(
+    Object.values(SCORES).map(r => r && r.score).filter(v => Number.isFinite(v)),
+    Object.values(COUNTY).map(r => num(r.n_opposition_events)).filter(Boolean)
+  );
+  renderCountyLegend(metric);
   if (countyLayer) { map.removeLayer(countyLayer); countyLayer = null; }
   countyLayer = L.geoJSON(geo, {
     style: f => countyStyle(f, metric, countMax),
     onEachFeature: (f, layer) => {
       layer.bindTooltip(countyTooltip(f), { sticky:true, className:'tip' });
       layer.on({
-        mouseover: e => e.target.setStyle({ weight:2, color:'#cbd5e1', dashArray:null }),
+        mouseover: e => e.target.setStyle({ weight:VizPalette.HOVER_STROKE.weight,
+                                          color:VizPalette.HOVER_STROKE.color, dashArray:null }),
         mouseout:  e => countyLayer.resetStyle(e.target)
       });
     }
@@ -439,7 +500,10 @@ function visibleProjects() {
 function pinIcon(p) {
   const color = OUTCOME_COLOR[p.outcome] || '#94a3b8';
   const r = p.nOpp > 0 ? 9 : 7;
-  const ring = p.hasLawsuit ? 'box-shadow:0 0 0 2px rgba(251,191,36,.8);' : '';
+  // Dark ring outside the amber one so the marker stays legible over both
+  // ends of the choropleth ramp beneath it.
+  const ring = p.hasLawsuit
+    ? 'box-shadow:0 0 0 2px rgba(251,191,36,.9),0 0 0 3.5px rgba(6,10,16,.85);' : '';
   return L.divIcon({
     className:'', iconSize:[r*2,r*2], iconAnchor:[r,r],
     html:`<div class="marker-dot" style="width:${r*2}px;height:${r*2}px;background:${color};${ring}"></div>`
