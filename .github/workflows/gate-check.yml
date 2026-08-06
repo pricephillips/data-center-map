@@ -1,0 +1,146 @@
+name: Gate Check (landmark + emergence)
+
+# Re-evaluates the two closed modeling gates and refreshes the worklists that
+# open them.
+#
+# Why this workflow exists (added 2026-08-05). landmark_model.py,
+# negative_audit.py and emergence_analysis.py were in no workflow and were
+# imported by nothing. Their artifacts sat on main frozen at whatever local
+# run last produced them. That is a silent failure mode rather than a
+# cosmetic one:
+#
+#   1. Both gates are CLOSED pending data recovery. Nothing re-asked whether
+#      recovering a decision date had opened them, so the gates could only
+#      ever open if someone remembered to run the module by hand.
+#   2. data/decision_date_worklist.csv and data/announce_date_worklist.csv
+#      are the recovery instructions themselves. They went stale the moment
+#      a date was recovered, so the worklist kept listing work already done.
+#   3. opposition-map.html already fetches data/landmark_model_predictions.csv
+#      and shows "risk band pending" when it is absent. Nothing in CI could
+#      ever produce that file, so the map's risk bands were unreachable by
+#      construction.
+#
+# Promotion discipline is unchanged. landmark_model.py writes features,
+# metrics and predictions ONLY on an admissible window; every gate-closed
+# path sets report_only and writes the report and worklists alone. This
+# workflow does not promote anything and does not override that.
+#
+# Runs weekly rather than per push: the inputs are hand-recovered dates and
+# hand-coded audit rows, which move on a human cadence, and the models are
+# the most expensive step in the repo.
+
+on:
+  push:
+    paths:
+      # Inputs that can actually open a gate.
+      - 'data/project_decision_dates.csv'
+      - 'data/proposals_manual_overlay.csv'
+      - 'data/project_links_manual.csv'
+      - 'data/negative_audit_codings.csv'
+      - 'landmark_model.py'
+      - 'negative_audit.py'
+      - 'emergence_analysis.py'
+      - '.github/workflows/gate-check.yml'
+  schedule:
+    # Mondays 07:10 UTC, after the nightly pipeline has settled.
+    - cron: '10 7 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout data-center-map
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pandas scikit-learn numpy
+
+      - name: Rebuild project frame (landmark reads lifecycles + links)
+        id: frame
+        run: python project_resolution.py
+
+      - name: Landmark gate (report and worklists always; model only if open)
+        id: landmark
+        if: steps.frame.outcome == 'success'
+        continue-on-error: true
+        run: python landmark_model.py
+
+      - name: Negative audit worklist refresh
+        id: negative
+        continue-on-error: true
+        run: python negative_audit.py
+
+      - name: Emergence gate (Manski bounds; LOCKED is the normal result)
+        id: emergence
+        if: steps.negative.outcome == 'success'
+        continue-on-error: true
+        run: python emergence_analysis.py
+
+      - name: Leak audit on everything written (GATE)
+        run: python leak_audit.py
+
+      - name: Commit gate artifacts
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Landmark artifacts staged only on a green landmark step. The
+          # model outputs are absent by design whenever the gate is closed,
+          # so the glob tolerates missing paths rather than assuming them.
+          if [ "${{ steps.landmark.outcome }}" = "success" ]; then
+            git add data/landmark_feasibility.csv data/landmark_model_report.md \
+                    data/decision_date_worklist.csv \
+                    data/announce_date_worklist.csv \
+                    data/landmark_recovery_priority.csv \
+                    data/landmark_anchor_comparison.csv \
+                    data/landmark_model_features.csv \
+                    data/landmark_model_metrics.json \
+                    data/landmark_model_predictions.csv 2>/dev/null || true
+          fi
+          if [ "${{ steps.negative.outcome }}" = "success" ]; then
+            git add data/negative_audit_worklist.csv \
+                    data/negative_audit_report.md 2>/dev/null || true
+          fi
+          if [ "${{ steps.emergence.outcome }}" = "success" ]; then
+            git add data/emergence_analysis.md data/emergence_bounds.csv \
+                    data/audit_discovered_opposition.csv \
+                    data/audit_data_flags.csv 2>/dev/null || true
+          fi
+          git diff --staged --quiet || git commit -m "Gate check: refresh landmark and emergence artifacts [skip ci]"
+          git push
+
+      - name: Report gate status to the run summary
+        if: always()
+        run: |
+          echo "## Gate status" >> $GITHUB_STEP_SUMMARY
+          if [ -f data/landmark_model_predictions.csv ]; then
+            echo "- Landmark: OPEN. Pending-project predictions were written; promotion still runs through calibration_gate.py." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- Landmark: CLOSED. Report and date worklists refreshed, no model written. See data/landmark_model_report.md." >> $GITHUB_STEP_SUMMARY
+          fi
+          if [ -f data/emergence_bounds.csv ]; then
+            echo "- Emergence: bounds refreshed. See data/emergence_analysis.md for the lock state and the random-stratum coverage." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- Emergence: no bounds written." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Surface landmark failure (visible, non-blocking)
+        if: steps.landmark.outcome == 'failure'
+        run: |
+          echo "::error::landmark_model.py failed. No landmark artifacts were committed; the last good versions remain in place."
+          exit 1
+
+      - name: Surface emergence failure (visible, non-blocking)
+        if: steps.emergence.outcome == 'failure' || steps.negative.outcome == 'failure'
+        run: |
+          echo "::error::negative_audit.py or emergence_analysis.py failed. No audit artifacts were committed; the last good versions remain in place."
+          exit 1
