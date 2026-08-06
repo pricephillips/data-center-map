@@ -30,7 +30,7 @@
         "spec": "full",
         "C": 1.0,
         "n_vars": 10,
-        "auc_median": 0.8191,
+        "auc_median": 0.8193,
         "sign_stable": false
       },
       {
@@ -170,28 +170,28 @@
         "spec": "tier1_plus_size",
         "C": 1.0,
         "n_vars": 5,
-        "auc_median": 0.8178,
+        "auc_median": 0.8177,
         "sign_stable": true
       },
       {
         "spec": "tier1_plus_size",
         "C": 0.3,
         "n_vars": 5,
-        "auc_median": 0.8176,
+        "auc_median": 0.8175,
         "sign_stable": true
       },
       {
         "spec": "tier1_plus_size",
         "C": 0.1,
         "n_vars": 5,
-        "auc_median": 0.8176,
+        "auc_median": 0.8177,
         "sign_stable": true
       },
       {
         "spec": "tier1_plus_size",
         "C": 0.03,
         "n_vars": 5,
-        "auc_median": 0.817,
+        "auc_median": 0.8169,
         "sign_stable": true
       },
       {
@@ -230,39 +230,39 @@
       "sign_stable": true
     },
     "existing_dc_count": {
-      "min": -0.927,
-      "median": -0.816,
-      "max": -0.706,
+      "min": -0.928,
+      "median": -0.818,
+      "max": -0.707,
       "sign_stable": true
     },
     "n_projects_tracked": {
-      "min": 0.921,
-      "median": 1.048,
-      "max": 1.173,
+      "min": 0.922,
+      "median": 1.049,
+      "max": 1.174,
       "sign_stable": true
     },
     "state_legislation_events": {
       "min": -0.208,
-      "median": -0.127,
+      "median": -0.126,
       "max": -0.084,
       "sign_stable": true
     },
     "land_sqmi": {
-      "min": -0.364,
+      "min": -0.363,
       "median": -0.251,
-      "max": -0.17,
+      "max": -0.171,
       "sign_stable": true
     },
     "median_hh_income": {
       "min": 0.036,
       "median": 0.129,
-      "max": 0.247,
+      "max": 0.248,
       "sign_stable": true
     },
     "pop_density_sqmi": {
-      "min": -0.425,
-      "median": -0.28,
-      "max": -0.094,
+      "min": -0.427,
+      "median": -0.275,
+      "max": -0.093,
       "sign_stable": true
     },
     "pct_bachelors_plus": {
@@ -273,13 +273,13 @@
     },
     "population": {
       "min": 0.773,
-      "median": 0.888,
-      "max": 1.02,
+      "median": 0.889,
+      "max": 1.022,
       "sign_stable": true
     }
   },
   "aggregate_manifest": {
-    "generated": "2026-08-05",
+    "generated": "2026-08-06",
     "counties": 3222,
     "event_rows_with_county": 1196,
     "event_match_rate": 0.9891,
@@ -290,8 +290,8 @@
       "county_votes.json": "b521eb017a7acfa5",
       "atlas.csv": "7a8c78d3ed6cea2d",
       "master_opposition.csv": "d74754e9af8c508a",
-      "baseline_universe.csv": "9bd8581ea2358d55",
-      "project_lifecycles.csv": "b317b518359e1531"
+      "baseline_universe.csv": "bf225b1ffe901b81",
+      "project_lifecycles.csv": "065b179766871b84"
     }
   }
 }
