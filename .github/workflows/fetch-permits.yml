@@ -1,8 +1,11 @@
 name: Fetch permit candidates
 
 # Manual-dispatch acquisition of data-center permit records from public
-# open-data portals. Writes candidate CSVs for human review; nothing enters
-# the dated baseline without a reviewed permit_ingest run.
+# open-data portals, now also run on a passive weekly schedule against
+# the primary jurisdiction (Loudoun). Candidate CSVs are written for
+# human review; nothing enters the dated baseline without a reviewed
+# permit_ingest.py run. Scheduling this only removes the "someone has to
+# click run" step; it does NOT auto-promote candidates into the model.
 
 on:
   workflow_dispatch:
@@ -12,8 +15,18 @@ on:
         required: true
         default: 'loudoun_lola.json'
 
+  # Weekly on Tuesdays at 07:20 UTC, ahead of the Monday 07:10 UTC bill
+  # sync so both acquisition jobs land candidates before the daily
+  # 06:40 UTC pipeline run picks up anything already promoted.
+  schedule:
+    - cron: "20 7 * * 2"
+
 permissions:
   contents: write
+
+concurrency:
+  group: fetch-permits
+  cancel-in-progress: false
 
 jobs:
   fetch:
@@ -26,8 +39,17 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Resolve config (scheduled runs default to Loudoun)
+        id: cfg
+        run: |
+          if [ -n "${{ github.event.inputs.config }}" ]; then
+            echo "config=${{ github.event.inputs.config }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "config=loudoun_lola.json" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Fetch candidates
-        run: python fetch_permits.py --config "configs/${{ github.event.inputs.config }}"
+        run: python fetch_permits.py --config "configs/${{ steps.cfg.outputs.config }}"
 
       - name: Commit candidate file
         run: |
@@ -35,4 +57,10 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/permit_candidates_*.csv 2>/dev/null || true
           git diff --cached --quiet || git commit -m "Permit candidates fetched for review [skip ci]"
-          git push
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            echo "Push attempt $i failed, retrying in 10s"
+            sleep 10
+          done
+          echo "Push failed after 3 attempts. If branch protection is enabled on main, allow github-actions[bot] to push or merge via PR."
+          exit 1
