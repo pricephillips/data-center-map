@@ -3,8 +3,18 @@ name: Fetch Census county features
 on:
   workflow_dispatch:
 
+  # Monthly, on the 5th at 08:05 UTC. ACS5/Gazetteer reference values move
+  # slowly, so monthly keeps this current without churn; the spot-check
+  # step still gates the commit so a bad pull cannot land silently.
+  schedule:
+    - cron: "5 8 5 * *"
+
 permissions:
   contents: write
+
+concurrency:
+  group: fetch-census-features
+  cancel-in-progress: false
 
 jobs:
   fetch:
@@ -31,7 +41,7 @@ jobs:
             echo "No changes to commit"
             exit 0
           fi
-          git commit -m "Census county features (ACS5 2023 + Gazetteer) [reference data]"
+          git commit -m "Census county features (ACS5 2023 + Gazetteer) [reference data] [skip ci]"
           for i in 1 2 3; do
             git pull --rebase origin main && git push && exit 0
             echo "Push attempt $i failed, retrying in 10s"
