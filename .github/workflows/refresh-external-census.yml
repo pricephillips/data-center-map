@@ -1,0 +1,54 @@
+name: Refresh external restriction census
+
+on:
+  workflow_dispatch:
+
+  # Monthly, on the 3rd at 08:20 UTC.
+  schedule:
+    - cron: "20 8 3 * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: external-census-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout data-center-map
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Self-test census refresh module
+        run: python refresh_external_census.py --selftest
+
+      - name: Fetch and merge external restriction census
+        run: python refresh_external_census.py --refresh --merge
+
+      - name: Commit updated census
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/external_restriction_census.csv \
+                  data/external_restriction_census_refresh_report.md 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "External restriction census: monthly auto-merge [skip ci]"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            echo "Push attempt $i failed, retrying in 10s"
+            sleep 10
+          done
+          echo "Push failed after 3 attempts. If branch protection is enabled on main, allow github-actions[bot] to push or merge via PR."
+          exit 1
