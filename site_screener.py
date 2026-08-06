@@ -489,6 +489,15 @@ def render_brief(name, lat, lon, county, state_abbrev, fips, tier, composite,
     lines.append("")
     lines.append(f"## Opposition Environment Tier: {tier} ({composite}/100)")
     lines.append("")
+    if components.get("county_model") is None:
+        lines.append(
+            "**Caveat: county could not be resolved for this site.** The "
+            "calibrated county enacted-restriction score (0.25 weight) is "
+            "unavailable and floored at the 0th percentile, which "
+            "understates this tier. Confirm county assignment (or pass "
+            "--county/--state/--fips) before using this score with a client."
+        )
+        lines.append("")
     lines.append("| Component | Weight | Raw value | Percentile |")
     lines.append("| :-- | --: | --: | --: |")
     labels = {
@@ -745,6 +754,7 @@ def run_single(args):
         fips = None
     # With coordinates in hand, the Census geocoder is authoritative. This is
     # also the path a client site with an address but no county takes.
+    _state_was_explicit = bool(state.strip())
     if fips is None and lat is not None and lon is not None:
         try:
             import census_geocode as _CG
@@ -758,6 +768,16 @@ def run_single(args):
         except Exception as _e:
             print(f"site_screener: reverse geocode unavailable "
                   f"({_e.__class__.__name__}); continuing without a county score")
+    # The nearest-record state guess is unreliable for state-line metros
+    # (e.g. Kansas City, KS resolving to the nearest Missouri-side event).
+    # Once a FIPS is known, agg's own state field is authoritative and
+    # overrides that guess unless --state was passed explicitly.
+    if fips and agg and fips in agg and not _state_was_explicit:
+        _agg_state = (agg[fips].get("state") or "").strip().upper()
+        if _agg_state and _agg_state != state_abbrev:
+            print(f"site_screener: state corrected from inferred "
+                  f"'{state_abbrev}' to '{_agg_state}' based on resolved county")
+            state_abbrev = _agg_state
 
     reference = build_reference(opposition, agg, scores, fips_lookup)
     all_comps = [r["components"] for r in reference]
@@ -783,7 +803,8 @@ def run_single(args):
                "composite": composite, "components": comps, "percentiles": pct,
                "events_within_50mi": extras["events_within_50mi"],
                "generated": date.today().isoformat(), "source_feed": src,
-               "weights": WEIGHTS, "disclosure": DISCLOSURE}
+               "weights": WEIGHTS, "disclosure": DISCLOSURE,
+               "unresolved_county": comps.get("county_model") is None}
     js_text = json.dumps(payload, indent=2)
     leak_audit(js_text, js_path)
     open(js_path, "w", encoding="utf-8").write(js_text)
