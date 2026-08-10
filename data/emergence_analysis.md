@@ -1,6 +1,6 @@
 # Emergence Analysis: Verified-Negative Audit
 
-Generated 2026-08-06. Gate thresholds registered 2026-07-27. This is the analysis layer over negative_audit.py; the audit frame design itself is registered separately and is not modified here.
+Generated 2026-08-10. Gate thresholds registered 2026-07-27. This is the analysis layer over negative_audit.py; the audit frame design itself is registered separately and is not modified here.
 
 ## Gate decision
 

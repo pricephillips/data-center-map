@@ -1,6 +1,6 @@
 # Verified-Negative Audit
 
-Generated 2026-08-06. Frame design registered 2026-07-23 (module docstring): census of proposals_unopposed + ai_centers rows in the baseline universe; atlas rows excluded on detectability grounds (1479 non-opposed atlas rows excluded; this is a detectability decision, not a claim about those facilities). Worklist order is seeded-shuffle (seed 20260723) with blocked_confirmed rows first, so any top-down batch is a random subset of the remaining frame. The blocked_confirmed rows themselves are a purposive cell, not a random draw: coding mixes from batches containing them must not be extrapolated to the frame.
+Generated 2026-08-10. Frame design registered 2026-07-23 (module docstring): census of proposals_unopposed + ai_centers rows in the baseline universe; atlas rows excluded on detectability grounds (1479 non-opposed atlas rows excluded; this is a detectability decision, not a claim about those facilities). Worklist order is seeded-shuffle (seed 20260723) with blocked_confirmed rows first, so any top-down batch is a random subset of the remaining frame. The blocked_confirmed rows themselves are a purposive cell, not a random draw: coding mixes from batches containing them must not be extrapolated to the frame.
 
 ## Coverage
 
