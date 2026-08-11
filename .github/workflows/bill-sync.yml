@@ -58,9 +58,23 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/bill_sync_worklist.csv data/bill_sync_matches.csv \
+          # --extract always writes bill_sync_worklist.csv; the other four
+          # files only exist after a successful --resolve run (i.e. when
+          # OPENSTATES_API_KEY is set). Only add files that actually exist,
+          # or `git add` fails on a missing pathspec before we ever reach
+          # the "nothing to commit" check.
+          FILES="data/bill_sync_worklist.csv data/bill_sync_matches.csv \
                   data/bill_status_review.csv data/bill_sync_report.md \
-                  data/bill_sync_cache.json
+                  data/bill_sync_cache.json"
+          EXISTING=""
+          for f in $FILES; do
+            [ -f "$f" ] && EXISTING="$EXISTING $f"
+          done
+          if [ -z "$EXISTING" ]; then
+            echo "No worklist files were produced; nothing to commit."
+            exit 0
+          fi
+          git add $EXISTING
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
