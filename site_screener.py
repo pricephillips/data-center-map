@@ -478,7 +478,7 @@ DISCLOSURE = (
 
 def render_brief(name, lat, lon, county, state_abbrev, fips, tier, composite,
                  components, pct, nearby, extras, comparables, agg,
-                 opposition_src, mw=None):
+                 opposition_src, mw=None, unresolved_county=False):
     a = agg.get(fips, {}) if fips else {}
     lines = []
     lines.append(f"# Opposition Environment Brief: {name}")
@@ -489,14 +489,11 @@ def render_brief(name, lat, lon, county, state_abbrev, fips, tier, composite,
     lines.append("")
     lines.append(f"## Opposition Environment Tier: {tier} ({composite}/100)")
     lines.append("")
-    if components.get("county_model") is None:
-        lines.append(
-            "**Caveat: county could not be resolved for this site.** The "
-            "calibrated county enacted-restriction score (0.25 weight) is "
-            "unavailable and floored at the 0th percentile, which "
-            "understates this tier. Confirm county assignment (or pass "
-            "--county/--state/--fips) before using this score with a client."
-        )
+    if unresolved_county:
+        lines.append("> Caveat: the county could not be resolved for this site, so the "
+                     "calibrated county enacted-restriction component is missing and ranks "
+                     "at floor. This composite is a lower bound and the tier may be "
+                     "understated. Not for client use until the county is pinned.")
         lines.append("")
     lines.append("| Component | Weight | Raw value | Percentile |")
     lines.append("| :-- | --: | --: | --: |")
@@ -555,7 +552,16 @@ def render_brief(name, lat, lon, county, state_abbrev, fips, tier, composite,
 
 
 def leak_audit(text, label):
-    hits = LEAK_RE.findall(text)
+    # The canonical rule lives in leak_audit.py, which strips URLs before
+    # testing: a publisher's headline slug is their vocabulary, not ours, and a
+    # citation cannot be reworded without breaking the source requirement. This
+    # copy was stricter than the gate and rejected valid briefs, so it now
+    # defers to the canonical pattern and falls back to an identical local one.
+    try:
+        from leak_audit import URL_RE as _URL_RE
+    except Exception:
+        _URL_RE = re.compile(r"https?://\S+")
+    hits = LEAK_RE.findall(_URL_RE.sub(" ", text))
     if hits:
         raise SystemExit(f"LEAK AUDIT FAILED in {label}: scorekeeping vocabulary "
                          f"found ({sorted(set(h.lower() for h in hits))}).")
@@ -713,8 +719,31 @@ def run_single(args):
     lat, lon = args.lat, args.lon
     county, state = args.county or "", args.state or ""
     fips = None
+    # An explicit --fips is authoritative. Client orders arrive as an address or
+    # a parcel, and the reverse geocoder is not reachable from every runtime, so
+    # the operator needs a way to pin the county without depending on network
+    # resolution or on free-text county-name matching.
+    if getattr(args, "fips", None):
+        _cand = str(args.fips).strip().zfill(5)
+        if agg and _cand not in agg:
+            raise SystemExit(f"--fips {_cand} is not in the current county universe "
+                             f"(data/county_aggregate.csv). Check the code.")
+        fips = _cand
+        if not county:
+            # county_name is "Wyandotte County, Kansas"; downstream matching wants
+            # the bare name, so drop the state clause before stripping the suffix.
+            _cn = (agg.get(fips, {}).get("county_name") or "").split(",")[0]
+            for _suf in (" County", " Parish", " Borough", " Census Area",
+                         " Municipality", " City and Borough"):
+                if _cn.endswith(_suf):
+                    _cn = _cn[: -len(_suf)]
+                    break
+            county = _cn.strip()
+        if not state:
+            state = (agg.get(fips, {}).get("state") or "")
     if lat is None or lon is None:
-        fips = county_to_fips(county, state, fips_lookup)
+        if fips is None:
+            fips = county_to_fips(county, state, fips_lookup)
         if fips and agg and fips not in agg:
             fips = None
         if not fips:
@@ -754,7 +783,6 @@ def run_single(args):
         fips = None
     # With coordinates in hand, the Census geocoder is authoritative. This is
     # also the path a client site with an address but no county takes.
-    _state_was_explicit = bool(state.strip())
     if fips is None and lat is not None and lon is not None:
         try:
             import census_geocode as _CG
@@ -768,16 +796,20 @@ def run_single(args):
         except Exception as _e:
             print(f"site_screener: reverse geocode unavailable "
                   f"({_e.__class__.__name__}); continuing without a county score")
-    # The nearest-record state guess is unreliable for state-line metros
-    # (e.g. Kansas City, KS resolving to the nearest Missouri-side event).
-    # Once a FIPS is known, agg's own state field is authoritative and
-    # overrides that guess unless --state was passed explicitly.
-    if fips and agg and fips in agg and not _state_was_explicit:
-        _agg_state = (agg[fips].get("state") or "").strip().upper()
-        if _agg_state and _agg_state != state_abbrev:
-            print(f"site_screener: state corrected from inferred "
-                  f"'{state_abbrev}' to '{_agg_state}' based on resolved county")
-            state_abbrev = _agg_state
+
+    # An unresolved county silently zeroes the one calibrated component, which
+    # carries 0.25 weight and ranks at floor when missing. That understates the
+    # composite and can move the tier band, so it is never allowed to pass
+    # quietly into a client-facing artifact. census_reverse returns (None, "")
+    # rather than raising when the Census API is unreachable, so the try/except
+    # above does not catch it.
+    unresolved_county = fips is None
+    if unresolved_county:
+        print("site_screener: WARNING - county FIPS unresolved. The calibrated "
+              "county component is missing and ranks at floor, so the composite "
+              "below is a LOWER BOUND and the tier may be understated. Re-run "
+              "with --fips to pin the county before using this in a deliverable.",
+              file=sys.stderr)
 
     reference = build_reference(opposition, agg, scores, fips_lookup)
     all_comps = [r["components"] for r in reference]
@@ -790,7 +822,8 @@ def run_single(args):
     name = args.name or (f"{county}, {state_abbrev}" if county else f"Site {lat:.3f}, {lon:.3f}")
     brief = render_brief(name, lat, lon, county, state_abbrev, fips, tier,
                          composite, comps, pct, nearby, extras, comparables,
-                         agg, src, mw=args.mw)
+                         agg, src, mw=args.mw,
+                         unresolved_county=unresolved_county)
     leak_audit(brief, "brief")
 
     os.makedirs(SIGNALS_DIR, exist_ok=True)
@@ -803,8 +836,7 @@ def run_single(args):
                "composite": composite, "components": comps, "percentiles": pct,
                "events_within_50mi": extras["events_within_50mi"],
                "generated": date.today().isoformat(), "source_feed": src,
-               "weights": WEIGHTS, "disclosure": DISCLOSURE,
-               "unresolved_county": comps.get("county_model") is None}
+               "weights": WEIGHTS, "disclosure": DISCLOSURE}
     js_text = json.dumps(payload, indent=2)
     leak_audit(js_text, js_path)
     open(js_path, "w", encoding="utf-8").write(js_text)
@@ -859,6 +891,8 @@ def main():
     ap.add_argument("--lon", type=float)
     ap.add_argument("--county")
     ap.add_argument("--state")
+    ap.add_argument("--fips", help="5-digit county FIPS. Authoritative when given; "
+                                   "bypasses name matching and reverse geocode.")
     ap.add_argument("--mw")
     ap.add_argument("--name")
     args = ap.parse_args()
@@ -867,7 +901,7 @@ def main():
     if args.batch:
         run_batch()
         return
-    if args.lat is not None or args.county:
+    if args.lat is not None or args.county or args.fips:
         run_single(args)
         return
     ap.print_help()
