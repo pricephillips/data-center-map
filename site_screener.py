@@ -85,6 +85,10 @@ except Exception:
     _VS = None
     _HAVE_VERIFICATION = False
 
+# Community and Narrative Detail block for single-site briefs (descriptive
+# only; see narrative_risk_enrichment.py for what each piece means).
+from narrative_risk_enrichment import render_narrative_detail
+
 LIFECYCLES_CSV = os.path.join(HERE, "data", "project_lifecycles.csv")
 COUNTY_AGG_CSV = os.path.join(HERE, "data", "county_aggregate.csv")
 COUNTY_SCORES_CSV = os.path.join(HERE, "data", "county_policy_scores.csv")
@@ -478,7 +482,8 @@ DISCLOSURE = (
 
 def render_brief(name, lat, lon, county, state_abbrev, fips, tier, composite,
                  components, pct, nearby, extras, comparables, agg,
-                 opposition_src, mw=None, unresolved_county=False):
+                 opposition_src, mw=None, unresolved_county=False,
+                 narrative_detail=None):
     a = agg.get(fips, {}) if fips else {}
     lines = []
     lines.append(f"# Opposition Environment Brief: {name}")
@@ -543,6 +548,9 @@ def render_brief(name, lat, lon, county, state_abbrev, fips, tier, composite,
             mi = "-" if c["distance_mi"] is None else f"{c['distance_mi']:.0f}"
             lines.append(f"| {c['project']} | {c['county']}, {c['state']} | {c['outcome']} | "
                          f"{c['mechanisms'] or 'unspecified'} | {c['days_to_decision'] or 'n/a'} | {mi} |")
+    if narrative_detail:
+        lines.append("")
+        lines.extend(narrative_detail)
     lines.append("")
     lines.append("## Basis and Limits")
     lines.append("")
@@ -819,11 +827,20 @@ def run_single(args):
     tier = tier_for(composite)
     comparables = comparable_projects(lat, lon, state_abbrev, reference)
 
+    nearby_recs = [ev["rec"] for _w, _d, ev in nearby]
+    context_recs = [ev["rec"] for ev in opposition
+                    if ev["lat"] is not None and ev["lon"] is not None
+                    and ev["scope"] not in ("statewide", "federal")
+                    and haversine_mi(lat, lon, ev["lat"], ev["lon"]) <= CONTEXT_RADIUS_MI]
+    narrative_detail = render_narrative_detail(county, state_abbrev,
+                                               nearby_recs, context_recs)
+
     name = args.name or (f"{county}, {state_abbrev}" if county else f"Site {lat:.3f}, {lon:.3f}")
     brief = render_brief(name, lat, lon, county, state_abbrev, fips, tier,
                          composite, comps, pct, nearby, extras, comparables,
                          agg, src, mw=args.mw,
-                         unresolved_county=unresolved_county)
+                         unresolved_county=unresolved_county,
+                         narrative_detail=narrative_detail)
     leak_audit(brief, "brief")
 
     os.makedirs(SIGNALS_DIR, exist_ok=True)
@@ -879,6 +896,16 @@ def selftest():
                           50.0, {k: 1.0 for k in WEIGHTS}, {k: 50.0 for k in WEIGHTS},
                           [], {"events_within_50mi": 0}, [], {}, "selftest")
     expect(not LEAK_RE.search(sample), "rendered brief passes leak audit")
+    nd = render_narrative_detail("Loudoun", "VA", [], [])
+    expect(nd[0] == "## Community and Narrative Detail",
+           "narrative detail block renders on empty input")
+    sample_nd = render_brief("Test Site", 39.0, -77.5, "Loudoun", "VA", None, "Guarded",
+                             50.0, {k: 1.0 for k in WEIGHTS}, {k: 50.0 for k in WEIGHTS},
+                             [], {"events_within_50mi": 0}, [], {}, "selftest",
+                             narrative_detail=nd)
+    expect("## Community and Narrative Detail" in sample_nd
+           and not LEAK_RE.search(sample_nd),
+           "brief with narrative detail renders and passes leak audit")
     print("ALL PASS" if ok else "FAILURES PRESENT")
     return ok
 
