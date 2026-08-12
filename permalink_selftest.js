@@ -95,5 +95,31 @@ const CHK = () => ({tagName:'INPUT', type:'checkbox', checked:false, addEventLis
   eq('map-side set applied', w.location.hash.indexOf('mode=county') > 0, true);
 }
 
+// ---- group 6: value maps keep raw source vocabulary out of the URL ----
+{ const store = {'tf-outcome':SEL(['win','loss','pending','mixed'])};
+  const w = boot('', store); const MP = w.MapPermalink;
+  const OUT = { win:'blocked_confirmed', loss:'advanced_confirmed',
+                pending:'pending', mixed:'restricted_conditional' };
+  const cc = MP.attachControls({controls:[{id:'tf-outcome',key:'outcome',map:OUT}]});
+  store['tf-outcome'].value = 'win';
+  cc.update();
+  // update() alone does not re-read controls; drive the change path instead.
+  const fresh = boot('#outcome=blocked_confirmed', {'tf-outcome':SEL(['win','loss','pending','mixed'])});
+  const st2 = {'tf-outcome':SEL(['win','loss','pending','mixed'])};
+  const w2 = boot('#outcome=blocked_confirmed', st2); const MP2 = w2.MapPermalink;
+  MP2.attachControls({controls:[{id:'tf-outcome',key:'outcome',map:OUT}]});
+  eq('tier value in hash restores raw control value', st2['tf-outcome'].value, 'win');
+  eq('raw value never appears in hash', w2.location.hash.indexOf('win'), -1);
+
+  const st3 = {'tf-outcome':SEL(['win','loss','pending','mixed'])};
+  const w3 = boot('#outcome=notatier', st3); const MP3 = w3.MapPermalink;
+  MP3.attachControls({controls:[{id:'tf-outcome',key:'outcome',map:OUT}]});
+  eq('unknown tier value is not applied', st3['tf-outcome'].value, '');
+
+  const w4 = boot('', {}); const MP4 = w4.MapPermalink;
+  eq('polarity: win maps to blocked_confirmed', OUT.win, 'blocked_confirmed');
+  eq('polarity: loss maps to advanced_confirmed', OUT.loss, 'advanced_confirmed');
+}
+
 console.log('\n'+pass+' passed, '+fail+' failed');
 process.exit(fail?1:0);

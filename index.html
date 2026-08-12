@@ -173,6 +173,25 @@
      by screenshot. Same-origin, same as viz-palette. -->
 <script src="./map-permalink.js"></script>
 <script>
+// Fallback stub. If map-permalink.js did not load (missing on the host, or a
+// cached 404 during a deploy), every page below would otherwise throw a
+// ReferenceError on its first MapPermalink call and abort its whole inline
+// script, rendering blank. This degrades that to "no permalink" instead.
+window.MapPermalink = window.MapPermalink || (function () {
+  var noop = function () {
+    return { set: function () {}, get: function () {}, update: function () {},
+             suspend: function () {}, resume: function () {},
+             restore: function () { return false; } };
+  };
+  return {
+    attach: noop, attachControls: noop, copyLink: function () {},
+    parseHash: function () { return { view: null, extra: {}, foreign: [], legacy: false }; },
+    slug: function (s) { return String(s || '').toLowerCase().replace(/ /g, '-'); },
+    matchSlug: function () { return null; }
+  };
+})();
+</script>
+<script>
 
 // ============================================================
 // MAP CONFIGURATION — edit these values to customize behavior

@@ -62,6 +62,10 @@
  *   2026-08-12  Added attachControls() for pages with no Leaflet map, and
  *               collapsed both entry points onto a single shared writer.
  *               Control restore is deferred and does not dispatch events.
+ *   2026-08-12  Added per-control value maps. A control whose values come
+ *               from the raw source of record now publishes the four-tier
+ *               vocabulary in the hash instead of its own values, and an
+ *               unmapped value is dropped rather than written through.
  */
 (function (global) {
   'use strict';
@@ -246,6 +250,27 @@
     return el.value || null;
   }
 
+  // Some controls carry raw source-of-record values that must never reach a
+  // URL. opposition-dashboard's outcome select is populated straight from the
+  // 'Community Outcome' column, whose raw values are the scorekeeping terms
+  // the platform does not publish. A control may declare a map so the hash
+  // carries the four-tier vocabulary while the control keeps its own value.
+  // A value with no entry is dropped rather than written through, so a new
+  // raw value cannot leak by default.
+  function toHash(c, v) {
+    if (v === null || v === undefined) return null;
+    if (!c.map) return v;
+    return Object.prototype.hasOwnProperty.call(c.map, v) ? c.map[v] : null;
+  }
+  function fromHash(c, v) {
+    if (v === null || v === undefined || !c.map) return v;
+    var keys = Object.keys(c.map);
+    for (var i = 0; i < keys.length; i++) {
+      if (c.map[keys[i]] === v) return keys[i];
+    }
+    return null;
+  }
+
   function writeControl(el, v) {
     if (!el) return false;
     if (el.type === 'checkbox') {
@@ -280,7 +305,7 @@
 
     function sync() {
       controls.forEach(function (c) {
-        assign(c.key, readControl(global.document.getElementById(c.id)));
+        assign(c.key, toHash(c, readControl(global.document.getElementById(c.id))));
       });
       flush();
     }
@@ -300,7 +325,7 @@
     function restore() {
       var applied = false;
       controls.forEach(function (c) {
-        var v = parsed.extra[c.key];
+        var v = fromHash(c, parsed.extra[c.key]);
         if (v === undefined || v === null || v === '') return;
         if (writeControl(global.document.getElementById(c.id), v)) applied = true;
       });
