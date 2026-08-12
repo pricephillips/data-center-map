@@ -31,14 +31,27 @@ jobs:
       - name: Run CSV build
         run: python scripts/build_master_csv.py
 
+      - name: Self-test candidate promotion (BLOCKING)
+        run: python promote_signal_candidates.py --selftest
+
+      - name: Promote QC-passing candidates into master
+        # 2026-08-12: the QC gate replaces manual review of the harvest
+        # queue. Gate-passing candidates append to master_opposition.csv
+        # (data_source=signal_harvest_auto, Status=pending, no outcome
+        # asserted); blocked candidates stay in the queue as the exception
+        # list. Every decision lands in data/signal_promotion_report.csv.
+        run: python promote_signal_candidates.py
+
       - name: Commit changes if needed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add master_opposition.csv
-          # Harvest queue is written by the same job. It is review material,
-          # never database content, so it commits alongside but separately.
-          git add data/signal_candidates.csv data/signal_harvest_log.csv 2>/dev/null || true
+          # The harvest queue now holds only gate-blocked candidates (the
+          # exception list); the promotion report is the append-only audit
+          # trail of every promote/block/duplicate decision.
+          git add data/signal_candidates.csv data/signal_harvest_log.csv \
+                  data/signal_promotion_report.csv 2>/dev/null || true
           git diff --cached --quiet || git commit -m "Update master_opposition.csv + harvest queue"
           git push
 

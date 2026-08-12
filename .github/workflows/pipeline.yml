@@ -124,6 +124,16 @@ jobs:
           python verification_status.py --report
           python untagged_triage.py
 
+      - name: Auto-apply triage link suggestions (previous run's draft)
+        id: link_autoapply
+        continue-on-error: true
+        # 2026-08-12: suggest_confirm / suggest_reject rows (high AND medium
+        # confidence) apply directly to data/project_links_manual.csv;
+        # needs_review stays manual. Runs BEFORE project_resolution so the
+        # resolver consumes the applied links in this same run. Reviewer
+        # decisions already in the manual file are never overwritten.
+        run: python apply_link_suggestions.py --selftest && python apply_link_suggestions.py
+
       - name: Project resolution (links + lifecycles; includes leak audit)
         id: project_resolution
         continue-on-error: true
@@ -191,7 +201,8 @@ jobs:
                   data/project_link_review.csv \
                   data/baseline_universe.csv data/matched_controls.csv \
                   data/control_group_notes.md data/control_comparison.md \
-                  data/project_links_manual_draft.csv 2>/dev/null || true
+                  data/project_links_manual_draft.csv \
+                  data/project_links_manual.csv 2>/dev/null || true
           # Verification artifacts are staged only on a green verification
           # step. verification_holdout.csv is written by the feed build itself,
           # so it is staged with the feed above and refreshed here.
