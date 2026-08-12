@@ -1,11 +1,11 @@
-# Headline metrics (as of 2026-08-11)
+# Headline metrics (as of 2026-08-12)
 
 Scope note: this dataset tracks opposition incidents, not all data center projects. Every rate below is conditional on a conflict being visible enough to enter the tracker; projects that proceeded without tracked opposition are absent by construction.
 
 ## Decided-case confirmed-block rate, incident records
 Unit is the primary incident RECORD in the clean feed, not the project entity. Duplicate rows for one incident are collapsed; several incidents attached to the same project are not. Jurisdiction-cluster bootstrap 95% CI, incidents younger than 90 days excluded (right-censoring guard).
 
-- 2026 YTD: 48% of 190 decided records (CI 41%-55%)
+- 2026 YTD: 48% of 192 decided records (CI 41%-56%)
 - 2025: 29% of 95 decided records (CI 20%-39%)
 
 ## Decided-case confirmed-block rate, project entities

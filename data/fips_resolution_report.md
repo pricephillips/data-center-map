@@ -1,10 +1,10 @@
 # County FIPS resolution
 
-Proposals examined: 335
+Proposals examined: 336
 Already resolved by the existing lookup: 326
 Applied by this pass: 9
 Held for confirmation: 0
-Still unresolved: 0
+Still unresolved: 1
 
 Network steps were allowed.
 
@@ -31,3 +31,9 @@ Retired codes caught: 5. A retired code is a FIPS the lookup still returns that 
 | prj_39 | Indiana | La Porte County | LaPorte County, Indiana | 18091 | `lookup_normalized` |
 | prj_149 | North Carolina | (blank) | Catawba County, North Carolina | 37035 | `name_extract` |
 | prj_158 | North Carolina | (blank) | Wake County, North Carolina | 37183 | `census_reverse` |
+
+## Still unresolved
+
+| project | state | recorded county | why |
+| :-- | :-- | :-- | :-- |
+| prj_324 | Pennsylvania | (blank) | no county, no usable coordinates, and no county named in the text |
