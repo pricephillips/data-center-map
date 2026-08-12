@@ -1,12 +1,12 @@
 # Dated Baseline — Coverage and Definitions
 
-Generated 2026-08-10 by `baseline_dated.py`.
+Generated 2026-08-12 by `baseline_dated.py`.
 
 ## Frame
 
-- Records with a usable time origin (day/month announced): **282** (282 internal, 0 external)
-- Opposed: 163 (29 with a verified decision date)
-- Control (unopposed): 119 (0 with a verified decision date; 44 decided but undated → censored lower bounds)
+- Records with a usable time origin (day/month announced): **284** (284 internal, 0 external)
+- Opposed: 167 (29 with a verified decision date)
+- Control (unopposed): 117 (0 with a verified decision date; 43 decided but undated → censored lower bounds)
 
 ## End-anchor kinds
 

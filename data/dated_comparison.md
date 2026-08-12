@@ -1,11 +1,11 @@
 # Opposed vs. Control — Time to Terminal Decision (first iteration)
 
-Generated 2026-08-10 by `dated_comparison.py`. **Internal diagnostic — NOT client-facing.** Descriptive comparison only; the two arms carry different censoring structures, so no significance test is valid or reported.
+Generated 2026-08-12 by `dated_comparison.py`. **Internal diagnostic — NOT client-facing.** Descriptive comparison only; the two arms carry different censoring structures, so no significance test is valid or reported.
 
 ## Arms
 
-- **Opposed** (n=163): 29 verified decision events; rest right-censored at last known activity. Standard Kaplan-Meier.
-- **Control / unopposed** (n=119): zero verified decision dates exist on the control side. 44 controls are decided but undated — treated as interval-censored (decision occurred between announcement and last status update); the rest are right-censored pending. Nonparametric MLE (Turnbull) estimator.
+- **Opposed** (n=167): 29 verified decision events; rest right-censored at last known activity. Standard Kaplan-Meier.
+- **Control / unopposed** (n=117): zero verified decision dates exist on the control side. 43 controls are decided but undated — treated as interval-censored (decision occurred between announcement and last status update); the rest are right-censored pending. Nonparametric MLE (Turnbull) estimator.
 
 ## Median time to decision
 
@@ -14,10 +14,10 @@ Generated 2026-08-10 by `dated_comparison.py`. **Internal diagnostic — NOT cli
 
 ## Matched-subset comparison
 
-Same estimators, restricted to matched sets (opposed project + its state/capacity/margin-matched controls, both with usable spans): **154** opposed (27 events) vs **363** matched control spans (153 interval-censored).
+Same estimators, restricted to matched sets (opposed project + its state/capacity/margin-matched controls, both with usable spans): **150** opposed (27 events) vs **352** matched control spans (138 interval-censored).
 
 - Matched opposed median: **not reached**
-- Matched control median: **780-795 days** (interval-censored NPMLE band)
+- Matched control median: **3179-4487 days** (interval-censored NPMLE band)
 
 Matching narrows the selection gap but the censoring asymmetry between arms remains; treat any difference as descriptive.
 

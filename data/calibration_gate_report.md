@@ -1,28 +1,28 @@
 # Calibration Gate — Latest Verdict
 
-Run 2026-08-10T08:26:37Z on `outcome_model` out-of-fold predictions.
+Run 2026-08-12T18:05:06Z on `outcome_model` out-of-fold predictions.
 
 ## Verdict: **PROMOTE**
 
-PASSED: ECE 0.115 <= 0.15, Brier skill 0.195 >= 0.05, discrimination ok
+PASSED: ECE 0.085 <= 0.15, Brier skill 0.229 >= 0.05, discrimination ok
 
 ## Metrics
 
-- Sample: 86 projects, 27 blocked (base rate 0.31)
-- Brier score: **0.173** (base-rate baseline 0.215)
-- Brier skill score: **0.195** (>0 beats the baseline; floor 0.05)
-- Expected calibration error (ECE): **0.115** (ceiling 0.15)
-- Discrimination (positives predicted higher than negatives): yes (mean pred: blocked 0.64 vs advanced 0.29)
+- Sample: 87 projects, 27 blocked (base rate 0.31)
+- Brier score: **0.165** (base-rate baseline 0.214)
+- Brier skill score: **0.229** (>0 beats the baseline; floor 0.05)
+- Expected calibration error (ECE): **0.085** (ceiling 0.15)
+- Discrimination (positives predicted higher than negatives): yes (mean pred: blocked 0.63 vs advanced 0.27)
 
 ## Reliability table (out-of-fold)
 
 | Predicted bin | Projects | Mean predicted | Observed blocked |
 |---|---|---|---|
-| 0.0-0.2 | 33 | 0.08 | 0.06 |
-| 0.2-0.4 | 13 | 0.30 | 0.38 |
-| 0.4-0.6 | 11 | 0.50 | 0.27 |
-| 0.6-0.8 | 14 | 0.69 | 0.29 |
-| 0.8-1.0 | 15 | 0.88 | 0.87 |
+| 0.0-0.2 | 35 | 0.07 | 0.09 |
+| 0.2-0.4 | 14 | 0.29 | 0.29 |
+| 0.4-0.6 | 14 | 0.50 | 0.29 |
+| 0.6-0.8 | 8 | 0.70 | 0.50 |
+| 0.8-1.0 | 16 | 0.89 | 0.75 |
 
 Well-calibrated means mean-predicted and observed track each other down each row. Gaps are where the model is over- or under-confident.
 
@@ -41,3 +41,4 @@ A model is promoted only when ECE <= 0.15, Brier skill >= 0.05, discrimination h
 | 2026-07-27 | 85 | 0.1262 | 0.1183 | PROMOTE |
 | 2026-08-03 | 86 | 0.1155 | 0.1954 | PROMOTE |
 | 2026-08-10 | 86 | 0.1155 | 0.1954 | PROMOTE |
+| 2026-08-12 | 87 | 0.0853 | 0.2292 | PROMOTE |

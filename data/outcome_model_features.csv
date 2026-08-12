@@ -1,6 +1,6 @@
 project_id,project_name,outcome,label_blocked,n_opposition_events,n_opposition_groups,has_lawsuit,opposition_span_days,county_margin_2024,log10_capacity_mw,capacity_missing,petition_signatures_log1p,hyperscaler_involved,log1p_existing_dc_in_county,days_to_first_opposition,log1p_prior_state_opposition,mech_moratorium,mech_zoning_restriction,mech_lawsuit,mech_public_comment,mech_legislation,mech_ordinance,mech_regulatory_action,mech_petition
 prj_3,Meta Platforms Montgomery Data Center,advanced_confirmed,0,1,1,0,0.0,0.3073,2.3560258571931225,0,0.0,1,0.0,679,0.0,0,0,0,0,1,0,0,0
-prj_5,DC BLOX Birmingham,advanced_confirmed,0,1,0,1,0.0,0.1044,1.6020599913279625,0,0.0,0,0.0,144,1.0986122886681096,0,0,1,0,0,0,0,0
+prj_5,DC BLOX Birmingham,advanced_confirmed,0,2,1,1,49.0,0.1044,1.6020599913279625,0,0.0,0,0.0,144,1.0986122886681096,0,0,1,0,0,0,0,0
 prj_11,Columbiana Mining Facility and Data Center,advanced_confirmed,0,1,1,0,0.0,-0.4084,1.7403626894942439,0,0.0,0,0.0,1508,0.0,0,1,0,0,0,0,0,0
 prj_13,Project Pyramid,advanced_confirmed,0,1,2,0,0.0,0.0228,2.7781512503836434,0,0.0,1,0.0,0,1.3862943611198906,0,0,0,1,0,0,0,0
 prj_14,Clarksville Data Center,advanced_confirmed,0,1,1,0,0.0,-0.5143,2.5024271199844326,0,5.662960480135946,0,0.0,328,0.6931471805599453,0,0,0,1,0,0,0,0
@@ -49,6 +49,7 @@ prj_154,T5 Data Centers Kings Mountain,advanced_confirmed,0,1,1,0,0.0,,2.0791812
 prj_158,Natelli Investments New Hill Digital Campus,blocked_confirmed,1,3,3,0,221.0,,2.3979400086720375,0,8.607582191143917,0,0.0,,0.0,1,0,0,0,0,0,0,0
 prj_159,Tract Mooresville Technology Park,blocked_confirmed,1,1,1,0,0.0,-0.3262,3.1760912590556813,0,0.0,0,0.0,12,1.3862943611198906,0,1,0,0,0,0,0,0
 prj_160,Project Accelerate,blocked_confirmed,1,1,1,0,0.0,0.3289,,1,8.002359546252707,0,0.0,0,2.1972245773362196,0,0,0,0,0,0,0,0
+prj_164,QTS New Albany Data Center Campus,advanced_confirmed,0,1,0,0,0.0,-0.3001,1.8920946026904804,0,0.0,1,0.0,622,0.0,0,0,0,0,0,0,0,0
 prj_165,AWS Hillard Campus,advanced_confirmed,0,1,1,1,0.0,0.284,2.603144372620182,0,6.398594934535208,1,0.0,155,1.6094379124341003,0,0,1,0,0,0,0,0
 prj_168,5C Springfield Data Center,advanced_confirmed,0,1,0,0,0.0,-0.2953,2.1760912590556813,0,0.0,0,0.0,531,0.0,1,0,0,0,0,0,0,0
 prj_170,Piqua Data Center,advanced_confirmed,0,1,1,0,0.0,-0.4513,,1,8.142354276849835,0,0.0,304,0.0,0,0,0,1,0,0,0,0
@@ -69,7 +70,7 @@ prj_240,Project Phoenix,advanced_confirmed,0,1,4,0,0.0,-0.2071,3.556302500767287
 prj_247,Talen Energy Rezone Request for Possible Data Center in Montour County,blocked_confirmed,1,2,1,0,63.0,-0.2101,,1,8.006700845440367,1,0.0,405,0.0,0,1,0,0,0,1,0,0
 prj_258,North Coventry Township Data Center,blocked_confirmed,1,1,1,0,0.0,0.1446,,1,0.0,0,0.0,22,3.1780538303479458,0,1,0,0,0,0,0,0
 prj_265,South Annville Township Data Center,blocked_confirmed,1,2,0,0,1.0,-0.3195,,1,0.0,0,0.0,42,3.9889840465642745,0,0,0,0,0,1,0,0
-prj_276,Colossus,advanced_confirmed,0,13,8,1,534.0,0.2537,2.1760912590556813,0,0.0,1,0.0,238,0.6931471805599453,0,0,1,1,0,0,1,0
+prj_276,Colossus,advanced_confirmed,0,14,9,1,534.0,0.2537,2.1760912590556813,0,0.0,1,0.0,238,0.6931471805599453,0,0,1,1,0,0,1,0
 prj_277,Colossus 2,advanced_confirmed,0,18,12,1,497.0,0.2537,2.625312450961674,0,7.21890970761906,1,0.0,62,1.791759469228055,0,1,1,1,1,1,1,0
 prj_282,RadiusDC Nashville I / Trinity Hills Colocation Data Center,advanced_confirmed,0,1,1,0,0.0,0.2745,1.0791812460476249,0,0.0,0,0.0,8,2.833213344056216,0,0,0,1,0,0,0,0
 prj_297,Jailhouse Studios,advanced_confirmed,0,1,1,0,0.0,-0.1305,,1,7.040536390215956,0,0.0,0,3.367295829986474,0,0,0,1,0,0,0,0
@@ -84,4 +85,4 @@ prj_322,Province Group Perry Village Data Center Campus,blocked_confirmed,1,1,1,
 prj_323,Meta Hyperion,advanced_confirmed,0,10,7,1,327.0,-0.394,,1,0.0,1,0.0,124,1.0986122886681096,0,0,1,1,0,0,1,0
 prj_330,Project Sail Data Center,advanced_confirmed,0,1,3,0,0.0,-0.3386,2.9542425094393248,0,8.987321812850125,0,0.0,562,1.0986122886681096,1,1,0,0,0,0,0,0
 prj_331,Howell Township Data Center (Project Splitrock),blocked_confirmed,1,1,2,0,0.0,-0.2395,,1,8.262042843966942,1,0.0,80,1.791759469228055,1,0,0,0,0,0,0,0
-prj_332,Natelli Vance County Data Center,advanced_confirmed,0,1,0,0,0.0,0.1335,,1,0.0,0,0.0,78,2.4849066497880004,0,1,0,0,0,0,0,0
+prj_332,Natelli Vance County Data Center,advanced_confirmed,0,2,3,0,66.0,0.1335,,1,0.0,0,0.0,12,2.4849066497880004,1,1,0,0,0,0,0,0
