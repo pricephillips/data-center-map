@@ -1,0 +1,12 @@
+{
+  "KS::Wyandotte County": {
+    "platform": "civicclerk",
+    "base_url": "https://wycokck.api.civicclerk.com",
+    "note": "slug guess from county name misses the wycokck (Unified Government of Wyandotte County/Kansas City) client slug; confirmed live via manual probe"
+  },
+  "VA::Powhatan County": {
+    "platform": "civicplus_rss",
+    "base_url": "https://www.powhatanva.gov",
+    "note": "civicplus_rss discovery cannot guess a government domain from the county name alone; confirmed live via manual probe"
+  }
+}

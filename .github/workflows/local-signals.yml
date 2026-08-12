@@ -1,0 +1,95 @@
+name: Local signals (alignment, meetings, disputes, execution risk)
+
+# Writes proxy scores and evidence files for every state/county in
+# master_opposition_clean.csv. No manual approval step: outputs are committed
+# on each run and flow straight into the dashboard. Never touches
+# master_opposition.csv. Safe to fail without holding up the map.
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Mondays 07:40 UTC, after bill-sync (07:10) has refreshed the vote data
+    # that political_alignment_proxy.py reads.
+    - cron: "40 7 * * 1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: local-signals
+  cancel-in-progress: false
+
+jobs:
+  signals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Self-test every scoring module
+        run: |
+          python political_alignment_proxy.py --selftest
+          python local_meeting_feed.py --selftest
+          python dispute_watch.py --selftest
+          python incentive_execution_risk_proxy.py --selftest
+
+      - name: Political alignment proxy (all states)
+        run: python political_alignment_proxy.py --all --out data/political_alignment_proxy.md
+
+      - name: Discover local meeting platforms
+        # Incremental: configs/local_meeting_sources.json caches every county
+        # already probed, so this only pays for counties added since last run.
+        run: python local_meeting_feed.py --discover
+
+      - name: Fetch local meeting items
+        run: python local_meeting_feed.py --fetch
+
+      - name: Dispute watch (candidate dockets)
+        # Unauthenticated CourtListener is capped at 125 requests/day, so a
+        # dashboard-wide pass needs COURTLISTENER_API_TOKEN. The module stops
+        # cleanly when throttled and never records a refused request as an
+        # empty result, so a partial pass is safe. Non-blocking: these are
+        # research leads and do not feed any score.
+        continue-on-error: true
+        env:
+          COURTLISTENER_API_TOKEN: ${{ secrets.COURTLISTENER_API_TOKEN }}
+        run: python dispute_watch.py --all --out data/dispute_watch.csv
+
+      - name: Incentive execution risk proxy (all counties)
+        run: python incentive_execution_risk_proxy.py --all --out data/incentive_execution_risk_proxy.md
+
+      - name: Commit signal outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          FILES="data/political_alignment_proxy.md \
+                  data/local_meeting_feed.csv \
+                  data/dispute_watch.csv \
+                  data/dispute_watch_cache.json \
+                  data/incentive_execution_risk_proxy.md \
+                  configs/local_meeting_sources.json"
+          EXISTING=""
+          for f in $FILES; do
+            [ -f "$f" ] && EXISTING="$EXISTING $f"
+          done
+          if [ -z "$EXISTING" ]; then
+            echo "No signal files were produced; nothing to commit."
+            exit 0
+          fi
+          git add $EXISTING
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Local signal proxies (alignment, meetings, execution risk) [skip ci]"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            echo "Push attempt $i failed, retrying in 10s"
+            sleep 10
+          done
+          echo "Push failed after 3 attempts. If branch protection is enabled on main, allow github-actions[bot] to push or merge via PR."
+          exit 1

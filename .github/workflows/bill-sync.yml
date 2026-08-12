@@ -65,7 +65,7 @@ jobs:
           # the "nothing to commit" check.
           FILES="data/bill_sync_worklist.csv data/bill_sync_matches.csv \
                   data/bill_status_review.csv data/bill_sync_report.md \
-                  data/bill_sync_cache.json"
+                  data/bill_sync_cache.json data/bill_sync_votes.csv"
           EXISTING=""
           for f in $FILES; do
             [ -f "$f" ] && EXISTING="$EXISTING $f"

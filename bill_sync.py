@@ -75,6 +75,7 @@ OPPOSITION_CSV = os.environ.get("BS_OPPOSITION", os.path.join(ROOT, "master_oppo
 OUT_WORKLIST = os.path.join(DATA, "bill_sync_worklist.csv")
 OUT_MATCHES = os.path.join(DATA, "bill_sync_matches.csv")
 OUT_REVIEW = os.path.join(DATA, "bill_status_review.csv")
+OUT_VOTES = os.path.join(DATA, "bill_sync_votes.csv")
 OUT_REPORT = os.path.join(DATA, "bill_sync_report.md")
 CACHE_PATH = os.path.join(DATA, "bill_sync_cache.json")
 
@@ -239,6 +240,32 @@ def classify_actions(actions: list[dict]) -> tuple[str, str, str]:
     return best_stage or "Introduced", best_date, best_ev or "no classified actions"
 
 
+def classify_votes(votes: list[dict]) -> list[dict]:
+    """Given Open States vote_events (each with organization, motion_text,
+    result, and a votes[] array of {option, voter_name, voter}), return one
+    flattened row per (chamber, legislator, option). No score is computed
+    here; political_alignment_proxy.py assigns meaning to the raw tally."""
+    out = []
+    for ve in votes or []:
+        chamber = ((ve.get("organization") or {}).get("classification")
+                   or (ve.get("organization") or {}).get("name") or "")
+        when = (ve.get("start_date") or "")[:10]
+        result = ve.get("result") or ""
+        motion = (ve.get("motion_text") or "")[:160]
+        for pv in ve.get("votes") or []:
+            voter = pv.get("voter") or {}
+            out.append({
+                "chamber": str(chamber).lower(),
+                "vote_date": when,
+                "result": result,
+                "motion_text": motion,
+                "legislator_name": pv.get("voter_name") or voter.get("name", ""),
+                "legislator_id": voter.get("id", ""),
+                "option": (pv.get("option") or "").lower(),
+            })
+    return out
+
+
 # ---------------------------------------------------------------------------
 # Recorded-status normalization and disagreement logic
 # ---------------------------------------------------------------------------
@@ -358,7 +385,7 @@ def lookup_bill(state: str, identifier: str, year: int | None,
 
     try:
         raw = api_get({"jurisdiction": state.lower(), "identifier": identifier,
-                       "include": "actions", "per_page": 20,
+                       "include": ["actions", "votes"], "per_page": 20,
                        "sort": "updated_desc"}, api_key)
     except urllib.error.HTTPError as exc:
         return {"lookup_status": f"http_{exc.code}", "candidates": 0}
@@ -390,6 +417,7 @@ def lookup_bill(state: str, identifier: str, year: int | None,
         tie = len(results) > 1
 
     stage, stage_date, ev = classify_actions(chosen.get("actions") or [])
+    vote_rows = classify_votes(chosen.get("votes") or [])
     payload = {
         "lookup_status": "ambiguous_session" if tie else "matched",
         "candidates": len(results),
@@ -401,6 +429,7 @@ def lookup_bill(state: str, identifier: str, year: int | None,
         "stage": stage, "stage_date": stage_date, "stage_evidence": ev,
         "correct_outcome": STAGE_OUTCOME[stage],
         "n_actions": len(chosen.get("actions") or []),
+        "votes": vote_rows,
     }
     terminal = stage in ("Signed into law", "Vetoed", "Failed floor vote",
                          "Died in committee", "Withdrawn")
@@ -469,6 +498,9 @@ MATCH_COLS = ["opp_id", "state", "identifier", "lookup_status", "candidates",
               "session", "title", "stage", "stage_date", "stage_evidence",
               "correct_outcome", "latest_action_date", "openstates_url",
               "incident", "date"]
+VOTE_COLS = ["opp_id", "state", "identifier", "chamber", "vote_date",
+             "result", "motion_text", "legislator_name", "legislator_id",
+             "option", "openstates_url", "incident", "date"]
 REVIEW_COLS = ["severity", "flag", "opp_id", "state", "identifier",
                "recorded_status", "recorded_normalized", "stage",
                "correct_outcome", "stage_date", "stage_evidence",
@@ -479,7 +511,7 @@ REVIEW_COLS = ["severity", "flag", "opp_id", "state", "identifier",
 # Resolve (live)
 # ---------------------------------------------------------------------------
 
-def resolve(limit: int | None, refresh_days: int) -> tuple[list[dict], list[dict], dict]:
+def resolve(limit: int | None, refresh_days: int) -> tuple[list[dict], list[dict], list[dict], dict]:
     api_key = os.environ.get("OPENSTATES_API_KEY", "").strip()
     if not api_key:
         print("ERROR: OPENSTATES_API_KEY is not set. Get a free key at "
@@ -491,7 +523,7 @@ def resolve(limit: int | None, refresh_days: int) -> tuple[list[dict], list[dict
     ready = [w for w in worklist if w["lookup_status"] == "ready"]
 
     cache = Cache(CACHE_PATH)
-    matches, review = [], []
+    matches, review, votes = [], [], []
     stats = {"records": len(worklist), "ready": len(ready), "api_calls": 0,
              "cache_hits": 0, "matched": 0, "not_found": 0, "errors": 0}
     today = date.today().isoformat()
@@ -525,6 +557,17 @@ def resolve(limit: int | None, refresh_days: int) -> tuple[list[dict], list[dict
                 m[k] = res.get(k, "")
             matches.append(m)
 
+            for vr in res.get("votes") or []:
+                votes.append({
+                    "opp_id": w["opp_id"], "state": w["state"], "identifier": ident,
+                    "chamber": vr["chamber"], "vote_date": vr["vote_date"],
+                    "result": vr["result"], "motion_text": vr["motion_text"],
+                    "legislator_name": vr["legislator_name"],
+                    "legislator_id": vr["legislator_id"], "option": vr["option"],
+                    "openstates_url": res.get("openstates_url", ""),
+                    "incident": w["incident"], "date": w["date"],
+                })
+
             if status in ("matched", "ambiguous_session") and res.get("stage"):
                 recorded_norm = normalize_recorded(w["recorded_status"])
                 flag, sev = disagreement(recorded_norm, res["correct_outcome"],
@@ -557,7 +600,7 @@ def resolve(limit: int | None, refresh_days: int) -> tuple[list[dict], list[dict
     sev_order = {"HIGH": 0, "MEDIUM": 1, "LOW": 2}
     review.sort(key=lambda r: (sev_order.get(r["severity"], 3), r["state"],
                                r["identifier"]))
-    return matches, review, stats
+    return matches, review, votes, stats
 
 
 def write_report(matches, review, stats, partial_note=""):
@@ -690,6 +733,23 @@ def selftest() -> int:
     check(_s({"x": "nan"}, "x") == "", "_EMPTYISH handling")
     check(_s({"x": None}, "x") == "", "None handling")
 
+    def ve(org, motion, result, date, pvs):
+        return {"organization": {"classification": org}, "motion_text": motion,
+                "result": result, "start_date": date, "votes": pvs}
+
+    rows = classify_votes([ve("lower", "Passage", "pass", "2026-02-01",
+                              [{"option": "yes", "voter_name": "Jane Doe",
+                                "voter": {"id": "ocd-person/1"}},
+                               {"option": "no", "voter_name": "John Roe",
+                                "voter": {"id": "ocd-person/2"}}])])
+    check(len(rows) == 2, "classify_votes flattens one row per legislator")
+    check(rows[0]["option"] == "yes" and rows[1]["option"] == "no",
+          "classify_votes preserves each legislator's own option")
+    check(rows[0]["chamber"] == "lower" and rows[0]["vote_date"] == "2026-02-01",
+          "classify_votes carries chamber and date")
+    check(classify_votes([]) == [], "classify_votes handles no vote events")
+    check(classify_votes(None) == [], "classify_votes handles missing votes key")
+
     print("selftest:", "OK" if ok else "FAILED")
     return 0 if ok else 1
 
@@ -742,7 +802,7 @@ def main() -> int:
         return 0
 
     if args.resolve:
-        matches, review, stats = resolve(args.limit, args.refresh_days)
+        matches, review, votes, stats = resolve(args.limit, args.refresh_days)
         # Never overwrite a populated review worklist with an empty result
         # from a partial or failed run (signal-harvest lesson).
         partial_note = ""
@@ -756,11 +816,13 @@ def main() -> int:
                 partial_note = ("Partial run; existing review worklist "
                                 "preserved, matches updated only.")
                 write_csv(OUT_MATCHES, matches, MATCH_COLS)
+                write_csv(OUT_VOTES, votes, VOTE_COLS)
                 write_report(matches, review, stats, partial_note)
                 leak_audit([OUT_MATCHES, OUT_REPORT])
                 return 0
         write_csv(OUT_MATCHES, matches, MATCH_COLS)
         write_csv(OUT_REVIEW, review, REVIEW_COLS)
+        write_csv(OUT_VOTES, votes, VOTE_COLS)
         if args.limit is not None:
             partial_note = (f"Partial run, limited to {args.limit} records. "
                             f"Review rows reflect only the resolved subset.")
@@ -770,7 +832,7 @@ def main() -> int:
               f"{stats['cache_hits']} cache hits")
         print(f"review worklist: {len(review)} rows -> "
               f"{os.path.relpath(OUT_REVIEW, ROOT)}")
-        leak_audit([OUT_MATCHES, OUT_REVIEW, OUT_REPORT])
+        leak_audit([OUT_MATCHES, OUT_REVIEW, OUT_VOTES, OUT_REPORT])
         return 0
 
     ap.print_help()
