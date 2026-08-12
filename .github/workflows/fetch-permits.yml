@@ -2,10 +2,18 @@ name: Fetch permit candidates
 
 # Manual-dispatch acquisition of data-center permit records from public
 # open-data portals, now also run on a passive weekly schedule against
-# the primary jurisdiction (Loudoun). Candidate CSVs are written for
-# human review; nothing enters the dated baseline without a reviewed
-# permit_ingest.py run. Scheduling this only removes the "someone has to
-# click run" step; it does NOT auto-promote candidates into the model.
+# the primary jurisdiction (Loudoun).
+#
+# Fully automated end to end: if a column-map exists for a source at
+# configs/<source>_ingest.json, this workflow also runs permit_ingest.py
+# right after the fetch and commits the result, so candidates flow into
+# data/baseline_dated_external.csv the same run with no manual approval
+# step. permit_ingest.py's own schema validation (required fields,
+# terminal-status-only decision dates, dedup) is the safety net, not a
+# human in the loop. A source with no ingest map yet just gets its
+# candidates fetched and committed for someone to write the one-time
+# column-map for; that is a one-time engineering task per new source, not
+# a recurring approval step.
 
 on:
   workflow_dispatch:
@@ -49,14 +57,42 @@ jobs:
           fi
 
       - name: Fetch candidates
-        run: python fetch_permits.py --config "configs/${{ steps.cfg.outputs.config }}"
+        id: fetch
+        run: |
+          python fetch_permits.py --config "configs/${{ steps.cfg.outputs.config }}"
+          SOURCE="$(basename "${{ steps.cfg.outputs.config }}" .json)"
+          echo "source=$SOURCE" >> "$GITHUB_OUTPUT"
 
-      - name: Commit candidate file
+      - name: Ingest candidates into dated baseline (if a column-map exists)
+        id: ingest
+        run: |
+          SOURCE="${{ steps.fetch.outputs.source }}"
+          CANDIDATES="data/permit_candidates_${SOURCE}.csv"
+          INGEST_CFG="configs/${SOURCE}_ingest.json"
+          if [ ! -f "$INGEST_CFG" ]; then
+            echo "No ingest column-map at $INGEST_CFG yet; candidates fetched only, not promoted."
+            exit 0
+          fi
+          python permit_ingest.py --in "$CANDIDATES" --config "$INGEST_CFG" \
+              --out data/baseline_dated_external.csv --append \
+              --as-of "$(date -u +%Y-%m-%d)"
+
+      - name: Commit candidate and baseline files
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/permit_candidates_*.csv 2>/dev/null || true
-          git diff --cached --quiet || git commit -m "Permit candidates fetched for review [skip ci]"
+          # data/baseline_dated_external.csv and its rejects file only
+          # exist once a source's ingest step has actually run at least
+          # once (no ingest config yet -> neither file is written). Only
+          # add literal paths that exist, or a single missing pathspec
+          # aborts `git add` entirely and silently stages nothing at all,
+          # including data/permit_candidates_*.csv which always exists.
+          git add data/permit_candidates_*.csv
+          [ -f data/baseline_dated_external.csv ] && \
+              git add data/baseline_dated_external.csv
+          [ -f data/baseline_dated_external_rejects.csv ] && \
+              git add data/baseline_dated_external_rejects.csv
+          git diff --cached --quiet || git commit -m "Permit candidates fetched and ingested into dated baseline [skip ci]"
           for i in 1 2 3; do
             git pull --rebase origin main && git push && exit 0
             echo "Push attempt $i failed, retrying in 10s"

@@ -1,0 +1,12 @@
+{
+  "source": "loudoun_lola",
+  "state": "VA",
+  "as_of": "2026-08-12",
+  "default_source_url": "https://logis.loudoun.gov/gis/rest/services/Projects/LOLA_DATA/MapServer/0/query",
+  "columns": {
+    "name": "PlanName",
+    "announced_date": "PlanApplicationDate",
+    "status": "PlanStatus"
+  },
+  "terminal_statuses": ["approved", "denied"]
+}

@@ -115,6 +115,10 @@ def main() -> int:
     ap.add_argument("--out", default=OUT_DEFAULT)
     ap.add_argument("--append", action="store_true",
                     help="append to --out instead of overwriting")
+    ap.add_argument("--as-of", dest="as_of_override", default=None,
+                    help="override the config's as_of (e.g. the run date, "
+                         "so a scheduled fetch does not need a hand-edited "
+                         "config every time)")
     args = ap.parse_args()
 
     if not os.path.exists(args.infile):
@@ -125,7 +129,7 @@ def main() -> int:
 
     colmap = cfg.get("columns", {})
     src = cfg.get("source")
-    as_of = cfg.get("as_of")
+    as_of = args.as_of_override or cfg.get("as_of")
     default_url = cfg.get("default_source_url", "")
     terminal = {s.lower() for s in cfg.get(
         "terminal_statuses", ["approved", "denied", "withdrawn", "issued", "final"])}
