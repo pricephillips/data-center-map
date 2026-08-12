@@ -169,6 +169,9 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+<!-- View state in the URL, so a view can be cited by link rather than
+     by screenshot. Same-origin, same as viz-palette. -->
+<script src="./map-permalink.js"></script>
 <script>
 
 // ============================================================
@@ -249,6 +252,32 @@ map.addLayer(aiLayer);
 // ── State ─────────────────────────────────────────────────────
 let atlasMarkers = [], aiMarkers = [];
 let atlasVisible = true, aiVisible = true;
+
+// Permalink. layers= records which of the two overlays are on. Both are on
+// by default, so the key only appears once the reader has turned one off.
+const LAYER_DEFAULT = 'atlas,ai';
+function currentLayerKey() {
+  const on = [];
+  if (atlasVisible) on.push('atlas');
+  if (aiVisible) on.push('ai');
+  const v = on.join(',');
+  return v === LAYER_DEFAULT ? null : (v || 'none');
+}
+const PERMA = MapPermalink.attach(map, {
+  onRestore(st) {
+    const v = st.extra && st.extra.layers;
+    if (!v) return;
+    const want = v === 'none' ? [] : v.split(',');
+    atlasVisible = want.indexOf('atlas') >= 0;
+    aiVisible    = want.indexOf('ai') >= 0;
+    // Button styling only. The layers themselves are added by the loader
+    // below, which reads these same flags, so nothing is added twice.
+    const ab = document.getElementById('btn-atlas');
+    const bb = document.getElementById('btn-ai');
+    if (ab) ab.classList.toggle('active', atlasVisible);
+    if (bb) bb.classList.toggle('active', aiVisible);
+  }
+});
 let currentQuery = '';
 
 function num(v) { const n = parseFloat(v); return isNaN(n) ? 0 : n; }
@@ -340,6 +369,7 @@ function toggleLayer(which) {
     else { map.removeLayer(aiLayer); btn.classList.remove('active', 'ai'); }
   }
   updateCount();
+  if (typeof PERMA !== 'undefined' && PERMA) PERMA.set('layers', currentLayerKey());
 }
 
 // ── Search ────────────────────────────────────────────────────

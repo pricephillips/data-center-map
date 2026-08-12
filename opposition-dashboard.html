@@ -6,6 +6,9 @@
 <title>Opposition Dashboard</title>
 <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<!-- Filter state in the URL, so a filtered view can be cited by link
+     rather than by screenshot. No map on this page. -->
+<script src="./map-permalink.js"></script>
 <style>
 :root {
   --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
@@ -700,6 +703,16 @@ function tsort(col) {
   tPage=0; trender();
 }
 
+// Filter state in the URL. Options are populated from loaded data, so the
+// parked values are re-applied once the selects are built.
+const PERMA = MapPermalink.attachControls({
+  controls: [
+    { id: 'tf-state',   key: 'state' },
+    { id: 'tf-outcome', key: 'outcome' }
+  ],
+  onRestore() { trender(); }
+});
+
 function trender() {
   updateResetBtn();
   const refMode = document.getElementById('tf-ref').value;
@@ -861,6 +874,7 @@ function initDashboard(rawData) {
     };
     const oppRows = allRows.filter(r => !isRefType(r));
     pop('tf-state', oppRows.map(r=>r['State']));
+    if (PERMA && PERMA.restore()) trender();
     const tfOutcomeEl = document.getElementById('tf-outcome');
     [...new Set(oppRows.map(r=>r['Community Outcome']).filter(Boolean))].sort().forEach(v=>{
       const opt=document.createElement('option'); opt.value=v; opt.textContent=friendlyOutcome(v); tfOutcomeEl.appendChild(opt);

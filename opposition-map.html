@@ -10,6 +10,9 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <!-- Canonical color scales and legend, shared with restriction-model.html -->
 <script src="./viz-palette.js"></script>
+<!-- View and filter state in the URL, so a filtered view can be cited by
+     link rather than by screenshot. Same-origin, same as viz-palette. -->
+<script src="./map-permalink.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
@@ -314,6 +317,23 @@ L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_nolabels/{z
   attribution:'&copy; OpenStreetMap, &copy; CARTO', subdomains:'abcd', maxZoom:19
 }).addTo(map);
 
+// Permalink. Attached before the loaders run so the view restores first;
+// mode, metric, and filters are parked and applied in the boot sequence
+// below, ahead of the initial setMode() so nothing renders twice.
+let PENDING = {};
+const PERMA = MapPermalink.attach(map, { onRestore(st) { PENDING = st.extra || {}; } });
+const METRIC_DEFAULT = 'calibrated_score';
+const OUTCOME_DEFAULT = 'advanced_confirmed,blocked_confirmed,pending';
+function outcomeKey() {
+  const v = Array.from(filters.outcomes).sort().join(',');
+  return v === OUTCOME_DEFAULT ? null : (v || 'none');
+}
+function syncFilterKeys() {
+  PERMA.set('outcomes', outcomeKey());
+  PERMA.set('opp', filters.oppOnly ? '1' : null);
+  PERMA.set('q', filters.search || null);
+}
+
 let countyLayer = null, pinCluster = null;
 let SCORES = {}, COUNTY = {}, PROJECTS = [], PRED = {};
 let mode = 'county';
@@ -589,6 +609,7 @@ function updateProjectStats(vis) {
 // ---------------------------------------------------------------------------
 function setMode(m) {
   mode = m;
+  if (typeof PERMA !== 'undefined' && PERMA) PERMA.set('mode', m);
   const county = m === 'county';
   document.getElementById('mode-county').setAttribute('aria-pressed', county);
   document.getElementById('mode-project').setAttribute('aria-pressed', !county);
@@ -613,22 +634,57 @@ function setMode(m) {
 // ---------------------------------------------------------------------------
 document.getElementById('mode-county').onclick = () => setMode('county');
 document.getElementById('mode-project').onclick = () => setMode('project');
-document.getElementById('county-metric').onchange = () => { if (window.__geo) drawCounties(window.__geo); };
+document.getElementById('county-metric').onchange = () => {
+  const v = currentCountyMetric();
+  PERMA.set('metric', v === METRIC_DEFAULT ? null : v);
+  if (window.__geo) drawCounties(window.__geo);
+};
 document.querySelectorAll('#outcome-chips .chip').forEach(chip => {
   chip.onclick = () => {
     const o = chip.dataset.outcome;
     const on = chip.getAttribute('aria-pressed') === 'true';
     chip.setAttribute('aria-pressed', String(!on));
     if (on) filters.outcomes.delete(o); else filters.outcomes.add(o);
+    syncFilterKeys();
     if (mode === 'project') drawPins();
   };
 });
-document.getElementById('opp-only').onchange = e => { filters.oppOnly = e.target.checked; if (mode==='project') drawPins(); };
+document.getElementById('opp-only').onchange = e => { filters.oppOnly = e.target.checked; syncFilterKeys(); if (mode==='project') drawPins(); };
 let searchT;
 document.getElementById('proj-search').oninput = e => {
   clearTimeout(searchT);
-  searchT = setTimeout(() => { filters.search = e.target.value.trim(); if (mode==='project') drawPins(); }, 180);
+  searchT = setTimeout(() => { filters.search = e.target.value.trim(); syncFilterKeys(); if (mode==='project') drawPins(); }, 180);
 };
+
+// Applies parked permalink state to the controls and the filter object.
+// Sets values directly rather than dispatching change events, because the
+// handlers above call drawPins()/drawCounties() and the boot sequence is
+// about to do that once anyway.
+function applyPendingFilters() {
+  if (PENDING.metric) {
+    const sel = document.getElementById('county-metric');
+    sel.value = PENDING.metric;
+    // An unknown metric leaves the select on its previous value; fall back
+    // rather than shading by a column that is not in the aggregate.
+    if (sel.value !== PENDING.metric) sel.value = METRIC_DEFAULT;
+  }
+  if (PENDING.outcomes) {
+    const want = new Set(PENDING.outcomes === 'none' ? [] : PENDING.outcomes.split(','));
+    filters.outcomes = want;
+    document.querySelectorAll('#outcome-chips .chip').forEach(chip => {
+      chip.setAttribute('aria-pressed', String(want.has(chip.dataset.outcome)));
+    });
+  }
+  if (PENDING.opp === '1') {
+    filters.oppOnly = true;
+    document.getElementById('opp-only').checked = true;
+  }
+  if (PENDING.q) {
+    filters.search = PENDING.q;
+    document.getElementById('proj-search').value = PENDING.q;
+  }
+  syncFilterKeys();
+}
 
 // ---------------------------------------------------------------------------
 // Load
@@ -675,9 +731,16 @@ document.getElementById('proj-search').oninput = e => {
            `not pass its QC gate.`);
   }
 
+  // Apply any parked filter and metric state before the first setMode(),
+  // so the initial draw already reflects the link rather than rendering
+  // the default view and then re-rendering over it.
+  applyPendingFilters();
+
   // County mode needs both geo and scores; if either is missing, open in
-  // project mode so the page is still useful.
-  if (geo && scoreText) setMode('county');
+  // project mode so the page is still useful. A link asking for project
+  // mode is honoured; a link asking for county mode is not, when the data
+  // county mode needs did not load.
+  if (geo && scoreText) setMode(PENDING.mode === 'project' ? 'project' : 'county');
   else { setMode('project'); }
 })();
 </script>

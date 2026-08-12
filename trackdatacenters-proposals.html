@@ -3,11 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>TrackDataCenters Proposals Viewer</title>
+    <title>Data Center Proposals</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+    <!-- Filter state in the URL, so a filtered view can be cited by link
+         rather than by screenshot. No map on this page. -->
+    <script src="./map-permalink.js"></script>
     <style>
       :root {
         --bg: #0b0c10;
@@ -57,16 +60,6 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-      }
-      .badge-env {
-        padding: 2px 8px;
-        border-radius: var(--radius-pill);
-        border: 1px solid rgba(255,255,255,0.15);
-        background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.09em;
-        color: var(--text-muted);
       }
       .subtitle, .meta-note { font-size: 0.86rem; color: var(--text-muted); }
       .meta-note { font-size: 0.75rem; }
@@ -236,8 +229,8 @@
     <div class="app-shell">
       <header>
         <div class="title-block">
-          <h1>Data Center Proposals <span class="badge-env">CSV mirror</span></h1>
-          <div class="subtitle">Mirror of trackdatacenters.com proposals, updated nightly via GitHub Actions.</div>
+          <h1>Data Center Proposals</h1>
+          <div class="subtitle">Announced and proposed U.S. data center developments.</div>
         </div>
         <div class="meta-note" id="metaLastUpdated">Loading CSV on GitHub Pages</div>
       </header>
@@ -340,6 +333,16 @@
         }
         tbody.appendChild(frag);
       }
+
+      const PERMA = MapPermalink.attachControls({
+        controls: [
+          { id: 'search',      key: 'q' },
+          { id: 'filterState', key: 'state' },
+          { id: 'filterPhase', key: 'phase' },
+          { id: 'filterType',  key: 'type' }
+        ],
+        onRestore() { applyFilters(); }
+      });
 
       function applyFilters() {
         const q = document.getElementById('search').value.trim().toLowerCase();
@@ -451,6 +454,8 @@ window.addEventListener('DOMContentLoaded', () => {
         `Loaded ${data.length} rows from ${csvPath}`;
       populateFilters(data);
       attachEvents();
+      // Options exist now, so parked filter values can finally land.
+      PERMA.restore();
       applyFilters();
     },
     error: (err) => {

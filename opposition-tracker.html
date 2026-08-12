@@ -10,6 +10,9 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+<!-- View state in the URL. Also keeps the older bare #state-slug links
+     working, since those are already circulating. -->
+<script src="./map-permalink.js"></script>
 <style>
 :root {
   --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
@@ -349,6 +352,15 @@ if (typeof L === 'undefined' || typeof Papa === 'undefined') {
 const DATA_BASE = 'https://pricephillips.github.io/data-center-map';
 
 const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true, zoomSnap:0.25, zoomDelta:0.5, wheelPxPerZoomLevel:80 });
+
+// Permalink. Attached immediately so the view restores before tiles draw.
+// The state selection cannot be applied yet: the choropleth is built
+// asynchronously from a remote GeoJSON, so the slug is parked here and
+// consumed by applyPendingState() at the end of buildChoropleth().
+let PENDING_STATE = null;
+const PERMA = MapPermalink.attach(map, {
+  onRestore(st) { if (st.extra && st.extra.state) PENDING_STATE = st.extra.state; }
+});
 setTimeout(() => map.invalidateSize(), 300);
 window.addEventListener('resize', () => map.invalidateSize());
 // Embed hosts (Notion iframes) often size the frame after load — track it
@@ -1285,6 +1297,7 @@ function buildChoropleth(data, geoJson){
     }
   });
   choroplethLayer.addTo(map);
+  applyPendingState();
   _choroplethFeatures = [];
   choroplethLayer.eachLayer(l => { if (l.feature) _choroplethFeatures.push(l.feature); });
   choroplethLayer.bringToBack();
@@ -1384,7 +1397,29 @@ function choroZoomIn(feat,layer,stateName){
   const filteredStateCnt = _stateHoverStats[stateName]?.total || 0;
   document.getElementById('mapHint').textContent=filteredStateCnt>0?`${stateName}: ${filteredStateCnt} incident${filteredStateCnt===1?'':'s'} — zoom in or click a county`:`${stateName}: no recorded opposition`;
   setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
-  history.replaceState(null,'','#'+encodeURIComponent(stateName.toLowerCase().replace(/ /g,'-')));
+  PERMA.set('state', MapPermalink.slug(stateName));
+}
+
+// Restore path for a link carrying state=. Same highlight, back button, and
+// status line as a click, but it never navigates: the link's own center and
+// zoom take precedence. Re-running flyToBounds here would snap the reader to
+// the state envelope and discard the view the sender chose.
+function applyPendingState(){
+  if (!PENDING_STATE || !choroplethLayer) return;
+  const match = MapPermalink.matchSlug(featureLayers.map(f=>f.name), PENDING_STATE);
+  const entry = match && featureLayers.find(f=>f.name===match);
+  PENDING_STATE = null;
+  if (!entry) { PERMA.set('state', null); return; }
+  currentZoomedState = entry.name;
+  choroplethLayer.eachLayer(l=>choroplethLayer.resetStyle(l));
+  entry.layer.setStyle({weight:2.5,color:'#ffb3ad',fillOpacity:0.18});
+  document.getElementById('choroBack').style.display='block';
+  const cnt = _stateHoverStats[entry.name]?.total || 0;
+  document.getElementById('mapHint').textContent = cnt>0
+    ? `${entry.name}: ${cnt} incident${cnt===1?'':'s'} \u2014 zoom in or click a county`
+    : `${entry.name}: no recorded opposition`;
+  setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
+  PERMA.set('state', MapPermalink.slug(entry.name));
 }
 function choroZoomOut(){
   currentZoomedState=null;
@@ -1393,7 +1428,7 @@ function choroZoomOut(){
   document.getElementById('choroBack').style.display='none';
   document.getElementById('mapHint').textContent='Click any state to zoom in and reveal county-level opposition';
   setTimeout(()=>{updateChoroplethVisuals();updateMarkerVisibility();updateStateCountVisibility();},120);
-  history.replaceState(null,'',location.href.replace(/#.*/,''));
+  PERMA.set('state', null);
 }
 
 // Direct coordination: build the choropleth as soon as both inputs exist.

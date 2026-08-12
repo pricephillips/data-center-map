@@ -9,6 +9,9 @@
 <!-- Canonical color scales and legend. Same-origin script tag, so it is
      not subject to the CORS constraint that governs the data fetches. -->
 <script src="./viz-palette.js"></script>
+<!-- View state in the URL, so a map view or filter set can be cited by
+     link rather than by screenshot. Same-origin, same as viz-palette. -->
+<script src="./map-permalink.js"></script>
 <style>
 :root {
   --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
@@ -147,6 +150,8 @@ a { color:#5aa9e6 }
       <span><span class="nodata-key"></span> not scored on this boundary</span>
       <button id="exportPng" class="export-btn" type="button"
         title="Download the current view as a PNG">Export PNG</button>
+      <button id="copyLink" class="export-btn" type="button"
+        title="Copy a link that reopens this exact view">Copy link</button>
     </div>
   </div>
 </div>
@@ -233,6 +238,10 @@ const CURRENT_GEOGRAPHY_NAMES = {
 };
 const RENAME_TARGETS = new Set(Object.values(BOUNDARY_RENAMES));
 let GEO_IDS = new Set();
+// Permalink and county-selection state, shared by the map builder and the
+// selection helpers below.
+let PERMA = null, CURRENT_MAP = null, CURRENT_LAYER = null, SELECTED_FIPS = null;
+const FIPS_LAYERS = Object.create(null);
 
 
 const FIPS_TO_STATE = {
@@ -327,6 +336,7 @@ async function buildScoreMap() {
     attributionControl: true, zoomControl: true, scrollWheelZoom: false,
     preferCanvas: true
   });
+  CURRENT_MAP = map;
   map.attributionControl.setPrefix(false);
   map.attributionControl.addAttribution('Scores: county_policy_model.py (calibrated, out-of-fold)');
 
@@ -352,6 +362,7 @@ async function buildScoreMap() {
     },
     onEachFeature(feat, layer) {
       const fips = String(feat.id).padStart(5, '0');
+      FIPS_LAYERS[fips] = layer;
       const e = scoreForFeature(scores, fips);
       const name = feat.properties.NAME || feat.properties.name || '';
       const st = FIPS_TO_STATE[fips.slice(0, 2)] || '';
@@ -370,10 +381,59 @@ async function buildScoreMap() {
         mouseover: ev => ev.target.setStyle({
           weight: VizPalette.HOVER_STROKE.weight,
           color: VizPalette.HOVER_STROKE.color, dashArray: null }),
-        mouseout:  ev => lyr.resetStyle(ev.target)
+        mouseout:  ev => lyr.resetStyle(ev.target),
+        click:     ev => selectCounty(fips, { navigate: false })
       });
     }
   }).addTo(map);
+  CURRENT_LAYER = lyr;
+
+  // fips= is the citation key: it reopens the map with one county called
+  // out, which is what a brief needs to point at.
+  PERMA = MapPermalink.attach(map, {
+    onRestore(st) {
+      if (st.extra && st.extra.fips) {
+        selectCounty(String(st.extra.fips).padStart(5, '0'), {
+          // Fly to the county only when the link carried no explicit view.
+          // Otherwise the animation would overwrite the center and zoom the
+          // sender chose, which makes the permalink lossy.
+          navigate: !st.view
+        });
+      }
+    }
+  });
+  const copyBtn = document.getElementById('copyLink');
+  if (copyBtn) copyBtn.addEventListener('click', () => MapPermalink.copyLink(copyBtn));
+}
+
+// Calls out one county: selection stroke, brought to front, hash updated.
+// Clicking the same county again clears it.
+function selectCounty(fips, opts) {
+  opts = opts || {};
+  const layer = FIPS_LAYERS[fips];
+  if (!layer) return;
+  if (SELECTED_FIPS === fips && opts.navigate !== true) { clearCountySelection(); return; }
+  clearCountySelection();
+  SELECTED_FIPS = fips;
+  layer.setStyle({
+    weight: VizPalette.HOVER_STROKE.weight,
+    color: VizPalette.HOVER_STROKE.color,
+    dashArray: null
+  });
+  layer.bringToFront();
+  if (opts.navigate && layer.getBounds) {
+    try { CURRENT_MAP.fitBounds(layer.getBounds(), { padding: [40, 40], maxZoom: 8 }); }
+    catch (e) { /* degenerate geometry: leave the default view alone */ }
+  }
+  if (PERMA) PERMA.set('fips', fips);
+}
+
+function clearCountySelection() {
+  if (SELECTED_FIPS && FIPS_LAYERS[SELECTED_FIPS] && CURRENT_LAYER) {
+    CURRENT_LAYER.resetStyle(FIPS_LAYERS[SELECTED_FIPS]);
+  }
+  SELECTED_FIPS = null;
+  if (PERMA) PERMA.set('fips', null);
 }
 
 

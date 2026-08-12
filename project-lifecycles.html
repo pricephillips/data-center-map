@@ -145,6 +145,9 @@ details.tl-explainer summary:focus-visible, .timeline .dot:focus-visible,
 .nav-pill:hover { color:var(--text); border-color:var(--atlas) }
 .nav-pill.active { color:var(--atlas); border-color:var(--atlas); background:var(--panel2) }
 </style>
+<!-- Filter state in the URL, so a filtered view can be cited by link
+     rather than by screenshot. No map on this page. -->
+<script src="./map-permalink.js"></script>
 <script>
   try { if (window.self === window.top) document.getElementById('site-nav').style.display = 'flex'; }
   catch (e) { /* cross-origin frame access throws -> we are embedded; keep hidden */ }
@@ -353,6 +356,17 @@ function timelineHTML(p, idx) {
 
 function esc(s) { return String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
+// Filter state in the URL. f-state options are populated from loaded data,
+// so the parked value is re-applied after that select is filled.
+const PERMA = MapPermalink.attachControls({
+  controls: [
+    { id: 'f-search',  key: 'q' },
+    { id: 'f-state',   key: 'state' },
+    { id: 'f-outcome', key: 'outcome' }
+  ],
+  onRestore() { render(); }
+});
+
 function render() {
   const q = document.getElementById('f-search').value.trim().toLowerCase();
   const st = document.getElementById('f-state').value;
@@ -425,6 +439,7 @@ function initKPIs() {
 function initControls() {
   const states = [...new Set(DATA.map(p => p.state).filter(Boolean))].sort();
   const sel = document.getElementById('f-state');
+  setTimeout(() => { if (PERMA && PERMA.restore()) render(); }, 0);
   for (const s of states) { const o = document.createElement('option'); o.value = o.textContent = s; sel.appendChild(o); }
   for (const id of ['f-search','f-state','f-outcome','f-opposed','f-decided-opposed'])
     document.getElementById(id).addEventListener('input', render);

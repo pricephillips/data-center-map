@@ -10,6 +10,9 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+<!-- View state in the URL, so a view can be cited by link rather than
+     by screenshot. Same-origin, same as viz-palette. -->
+<script src="./map-permalink.js"></script>
 <style>
 html, body { height:100% }
 :root {
@@ -159,6 +162,14 @@ input:focus, select:focus { border-color:var(--accent) }
 let unmappedCount = 0;
 document.addEventListener('DOMContentLoaded', function () {
   const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true });
+
+  // Permalink. The choropleth is built asynchronously from a remote
+  // GeoJSON, so a restored state slug is parked and consumed by
+  // applyPendingState() once the layer exists.
+  let PENDING_STATE = null;
+  const PERMA = MapPermalink.attach(map, {
+    onRestore(st) { if (st.extra && st.extra.state) PENDING_STATE = st.extra.state; }
+  });
   setTimeout(() => map.invalidateSize(), 100);
   setTimeout(() => map.invalidateSize(), 500);
   window.addEventListener('resize', () => map.invalidateSize());
@@ -371,6 +382,32 @@ document.addEventListener('DOMContentLoaded', function () {
       cnt > 0 ? `${stateName}: ${cnt} proposal${cnt === 1 ? '' : 's'} — click pins for details`
               : `${stateName}: no proposals in dataset`;
     setTimeout(updateChoroplethVisuals, 120);
+    PERMA.set('state', MapPermalink.slug(stateName));
+  }
+
+  // Restore path for a link carrying state=. Highlight and status line as
+  // per a click, without the flyToBounds: the link's own center and zoom
+  // take precedence over the state envelope.
+  function applyPendingState() {
+    if (!PENDING_STATE || !choroplethLayer) return;
+    const wanted = PENDING_STATE; PENDING_STATE = null;
+    let hit = null;
+    choroplethLayer.eachLayer(l => {
+      const f = l.feature; if (!f || hit) return;
+      const nm = f.properties.NAME || f.properties.name || '';
+      if (MapPermalink.slug(nm) === MapPermalink.slug(wanted)) hit = {name:nm, layer:l, feature:f};
+    });
+    if (!hit) { PERMA.set('state', null); return; }
+    currentZoomedState = hit.name;
+    choroplethLayer.eachLayer(l => choroplethLayer.resetStyle(l));
+    hit.layer.setStyle({ weight:2.5, color:'#b7f1fb', fillOpacity:0.18 });
+    document.getElementById('choroBack').style.display = 'block';
+    const cnt = hit.feature.properties._count || 0;
+    document.getElementById('mapHint').textContent = cnt > 0
+      ? `${hit.name}: ${cnt} proposal${cnt === 1 ? '' : 's'} \u2014 click pins for details`
+      : `${hit.name}: no proposals in dataset`;
+    setTimeout(updateChoroplethVisuals, 120);
+    PERMA.set('state', MapPermalink.slug(hit.name));
   }
 
   function choroZoomOut() {
@@ -380,6 +417,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('choroBack').style.display = 'none';
     document.getElementById('mapHint').textContent = 'Click any state to zoom in and see proposal density';
     setTimeout(updateChoroplethVisuals, 120);
+    PERMA.set('state', null);
   }
 
   function buildChoropleth(rows, geoJson) {
@@ -496,7 +534,7 @@ function hasRealCoords(lat, lon) {
 
       fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
         .then(r => r.json())
-        .then(geo => buildChoropleth(allRows, geo))
+        .then(geo => { buildChoropleth(allRows, geo); applyPendingState(); })
         .catch(err => {
           console.warn('GeoJSON failed', err);
           document.getElementById('mapHint').textContent = 'Map loaded, but state choropleth failed to load';

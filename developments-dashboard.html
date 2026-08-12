@@ -6,6 +6,9 @@
 <title>Developments Dashboard</title>
 <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<!-- Filter state in the URL, so a filtered view can be cited by link
+     rather than by screenshot. No map on this page. -->
+<script src="./map-permalink.js"></script>
 <style>
 :root {
   --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
@@ -344,6 +347,13 @@ function tsort(col){
   tPage=0; trender();
 }
 
+// Filter state in the URL. Options are populated from loaded data, so the
+// parked value is re-applied after pop() below rather than on load.
+const PERMA = MapPermalink.attachControls({
+  controls: [{ id: 'tf-state', key: 'state' }],
+  onRestore() { trender(); }
+});
+
 function trender(){
   const filtered=tRows.filter(tmatch);
   filtered.sort((a,b)=>{
@@ -396,6 +406,8 @@ function tryInit(){
   });
 
   pop('tf-state', atlasLoaded.map(r=>r.state));
+  // Options exist now, so a parked filter value can finally land.
+  if (PERMA && PERMA.restore()) trender();
   pop('tf-type',  [...atlasLoaded.map(r=>r.type),'hyperscale']);
   pop('tf-owner', [...new Set([...atlasLoaded.map(r=>r.operator),...aiLoaded.map(r=>stripConf(r.Owner))].filter(Boolean))].sort());
 
