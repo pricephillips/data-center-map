@@ -59,6 +59,11 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
 .modebtn { flex:1; padding:9px 10px; border-radius:8px; border:1px solid var(--border); background:var(--panel2);
   color:var(--muted); font:600 12.5px/1 Inter,system-ui,sans-serif; cursor:pointer; text-align:center }
 .modebtn[aria-pressed="true"] { background:var(--tier1); border-color:var(--tier1); color:var(--bg) }
+.export-btn { position:absolute; right:12px; bottom:12px; z-index:600; padding:7px 11px;
+  border-radius:7px; border:1px solid var(--border); background:rgba(15,20,27,.92);
+  color:#c6cfda; font:600 11.5px/1 Inter,system-ui,sans-serif; cursor:pointer }
+.export-btn:hover:not(:disabled) { background:rgba(28,36,47,.96); color:#e8edf3 }
+.export-btn:disabled { opacity:.42; cursor:default }
 .modebtn:focus-visible { outline:2px solid var(--tier1); outline-offset:2px }
 
 .panel-scroll { flex:1; overflow-y:auto; padding:14px 18px 20px }
@@ -193,6 +198,8 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
     <div id="error-banner"></div>
     <div id="map"></div>
     <div class="badge" id="badge">loading</div>
+    <button id="exportPng" class="export-btn" type="button"
+      title="Download the county shading as a PNG">Export PNG</button>
   </div>
 </div>
 
@@ -497,6 +504,7 @@ function drawCounties(geo) {
     }
   }).addTo(map);
   updateCountyStats(metric, countMax);
+  if (typeof syncExportButton === 'function') syncExportButton();
 }
 
 function updateCountyStats(metric, countMax) {
@@ -672,6 +680,7 @@ function applyZoomTier() {
   cp.style.pointerEvents = w.county < 0.15 ? 'none' : 'auto';
   pp.style.pointerEvents = w.pin < 0.15 ? 'none' : 'auto';
   if (mode === 'auto') syncAutoPanels(w);
+  if (typeof syncExportButton === 'function') syncExportButton();
 }
 
 // In auto mode the sidebar follows whichever layer the reader is actually
@@ -729,6 +738,154 @@ function setMode(m) {
 }
 
 map.on('zoomend', applyZoomTier);
+
+// ---------------------------------------------------------------------------
+// PNG export
+//
+// Deliberately NOT a screenshot of the whole map. Leaflet composes a map from
+// a tile <img> layer, a vector renderer, and DOM markers, so no single canvas
+// holds the finished picture. The CARTO tiles are cross-origin, and drawing
+// them into a canvas taints it, after which toDataURL() throws a SecurityError.
+//
+// What this exports is the county shading, which since the pane split renders
+// to its own same-origin canvas. The project pins cannot be included: they are
+// DOM divIcons with no canvas representation, so an export taken while pins
+// are the dominant layer would silently omit its own subject. The button is
+// disabled in that state rather than producing a misleading artifact.
+//
+// The gate is the invariant rather than a tuned number: export is available
+// only while the county shading reads at least as strongly as the pins. A
+// fixed weight drifts the moment the crossfade thresholds move, and at 0.55 it
+// already allowed a window where pins were the more visible layer and would
+// still have been absent from the file.
+const EXPORT_MIN_COUNTY_WEIGHT = 0.5;
+function exportAllowed(w) {
+  return w.county >= w.pin && w.county >= EXPORT_MIN_COUNTY_WEIGHT;
+}
+
+function countyExportSubtitle(metric) {
+  const scored = Object.keys(SCORES).length;
+  const enacted = Object.values(SCORES).filter(x => x && x.enacted).length;
+  const withOpp = Object.values(COUNTY).filter(r => num(r.n_opposition_events)).length;
+  if (metric === 'calibrated_score') {
+    return `${enacted.toLocaleString()} counties with an enacted restriction on record `
+         + `of ${scored.toLocaleString()} scored`;
+  }
+  if (metric === 'n_opposition_events') {
+    return `${withOpp.toLocaleString()} counties with at least one recorded opposition event`;
+  }
+  return '2024 county presidential results, tonmcg / MIT Election Lab';
+}
+
+function countyExportCanvas() {
+  const pane = map.getPane('countyPane');
+  return pane ? pane.querySelector('canvas') : null;
+}
+
+// Enables or disables the button for the current mode and zoom, and says why.
+function syncExportButton() {
+  const btn = document.getElementById('exportPng');
+  if (!btn) return;
+  const w = mode === 'auto' ? tierWeights(map.getZoom())
+          : mode === 'county' ? { county: 1, pin: 0 }
+          : { county: 0, pin: 1 };
+  const ok = exportAllowed(w) && !!countyExportCanvas();
+  btn.disabled = !ok;
+  btn.title = ok
+    ? 'Download the county shading as a PNG'
+    : 'Export covers county shading only. Switch to County context, or zoom out, to enable it.';
+}
+
+function exportCountyPng() {
+  const btn = document.getElementById('exportPng');
+  const src = countyExportCanvas();
+  if (!src) { if (btn) btn.textContent = 'Nothing to export'; return; }
+
+  const metric = currentCountyMetric();
+  const TITLES = {
+    calibrated_score:   'Calibrated enacted-restriction score',
+    margin_2024:        '2024 presidential margin',
+    n_opposition_events:'Opposition records on file'
+  };
+  const NOTES = {
+    calibrated_score:
+      'Resemblance score, not a forecast, and not a project risk score.',
+    margin_2024:
+      'Positive is a Democratic margin under this dataset\u2019s convention.',
+    n_opposition_events:
+      'Record counts, not project counts, and a floor rather than a census.'
+  };
+
+  const SCALE_PX = 2;
+  const PAD = 18, HEAD = 58, FOOT = 46;
+  const w = src.width, h = src.height;
+  const out = document.createElement('canvas');
+  out.width = w + PAD * 2 * SCALE_PX;
+  out.height = h + (HEAD + FOOT) * SCALE_PX;
+  const g = out.getContext('2d');
+  const S = k => k * SCALE_PX;
+
+  g.fillStyle = '#0b0e13';
+  g.fillRect(0, 0, out.width, out.height);
+  g.drawImage(src, S(PAD), S(HEAD));
+
+  g.fillStyle = '#e8edf3';
+  g.font = `700 ${S(17)}px Inter, system-ui, sans-serif`;
+  g.fillText(TITLES[metric] || 'County context', S(PAD), S(28));
+
+  g.fillStyle = '#8b97a6';
+  g.font = `400 ${S(12)}px Inter, system-ui, sans-serif`;
+  g.fillText(countyExportSubtitle(metric), S(PAD), S(46));
+
+  // Legend ramp, sampled from the same colour functions the map just used, so
+  // the exported key cannot drift from the image above it.
+  const ry = h / SCALE_PX + HEAD + 14, rw = 150, rh = 8;
+  for (let i = 0; i < rw; i++) {
+    const t = i / rw;
+    g.fillStyle = metric === 'margin_2024'
+      ? VizPalette.diverging(t * 2 - 1)
+      : VizPalette.sequential(t);
+    g.fillRect(S(PAD + 26 + i), S(ry), S(1), S(rh));
+  }
+  g.fillStyle = '#8b97a6';
+  g.font = `400 ${S(11)}px Inter, system-ui, sans-serif`;
+  const ends = metric === 'margin_2024' ? ['R +50', 'D +50'] : ['Low', 'High'];
+  g.fillText(ends[0], S(PAD), S(ry + 7));
+  g.fillText(ends[1], S(PAD + 26 + rw + 6), S(ry + 7));
+
+  if (metric === 'calibrated_score') {
+    g.strokeStyle = VizPalette.ENACTED_STROKE.color;
+    g.lineWidth = S(1.5);
+    g.setLineDash([S(3), S(2)]);
+    g.strokeRect(S(PAD + 26 + rw + 46), S(ry), S(14), S(9));
+    g.setLineDash([]);
+    g.fillText('enacted restrictive policy on record', S(PAD + 26 + rw + 66), S(ry + 7));
+  }
+
+  g.fillStyle = '#5c6674';
+  g.font = `400 ${S(10)}px Inter, system-ui, sans-serif`;
+  g.fillText(
+    (NOTES[metric] || '') + ' Hawthorn Intelligence. County shading only; '
+    + 'project pins not included. Exported '
+    + new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC',
+    S(PAD), S(ry + 24));
+
+  let url;
+  try { url = out.toDataURL('image/png'); }
+  catch (e) { if (btn) btn.textContent = 'Export blocked'; return; }
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'county-' + metric.replace(/_/g, '-') + '-'
+    + new Date().toISOString().slice(0, 10) + '.png';
+  document.body.appendChild(a); a.click(); a.remove();
+  if (btn) {
+    btn.textContent = 'Saved';
+    setTimeout(() => { btn.textContent = 'Export PNG'; }, 1800);
+  }
+}
+
+document.getElementById('exportPng').addEventListener('click', exportCountyPng);
+map.on('zoomend', syncExportButton);
 
 // ---------------------------------------------------------------------------
 // Wire controls
