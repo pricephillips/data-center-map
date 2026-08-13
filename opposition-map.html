@@ -131,7 +131,8 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
       <div class="sub" id="sub">County context and project detail for U.S. data center opposition.</div>
     </header>
     <div class="modebar" role="group" aria-label="Map mode">
-      <button class="modebtn" id="mode-county" aria-pressed="true">County context</button>
+      <button class="modebtn" id="mode-auto" aria-pressed="true">Auto</button>
+      <button class="modebtn" id="mode-county" aria-pressed="false">County context</button>
       <button class="modebtn" id="mode-project" aria-pressed="false">Project pins</button>
     </div>
     <div class="panel-scroll">
@@ -336,6 +337,18 @@ L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_nolabels/{z
   attribution:'&copy; OpenStreetMap, &copy; CARTO', subdomains:'abcd', maxZoom:19
 }).addTo(map);
 
+// Dedicated panes so the two layers can be crossfaded as a group. Per-element
+// opacity does not work here: the county polygons render to a canvas and the
+// pins are DOM divIcons, so there is no single property to animate across
+// both. A pane is one element each, which is exactly what a crossfade needs.
+map.createPane('countyPane');
+map.getPane('countyPane').style.zIndex = 380;
+map.createPane('pinPane');
+map.getPane('pinPane').style.zIndex = 640;
+// preferCanvas puts polygons on the map's default renderer, which lives in
+// overlayPane. The county layer needs its own renderer to land in its own pane.
+const countyRenderer = L.canvas({ pane: 'countyPane' });
+
 // Permalink. Attached before the loaders run so the view restores first;
 // mode, metric, and filters are parked and applied in the boot sequence
 // below, ahead of the initial setMode() so nothing renders twice.
@@ -355,7 +368,7 @@ function syncFilterKeys() {
 
 let countyLayer = null, pinCluster = null;
 let SCORES = {}, COUNTY = {}, PROJECTS = [], PRED = {};
-let mode = 'county';
+let mode = 'auto';
 const filters = {
   outcomes: new Set(['blocked_confirmed','advanced_confirmed','pending']),
   oppOnly: false, search: ''
@@ -471,6 +484,8 @@ function drawCounties(geo) {
   renderCountyLegend(metric);
   if (countyLayer) { map.removeLayer(countyLayer); countyLayer = null; }
   countyLayer = L.geoJSON(geo, {
+    pane: 'countyPane',
+    renderer: countyRenderer,
     style: f => countyStyle(f, metric, countMax),
     onEachFeature: (f, layer) => {
       layer.bindTooltip(countyTooltip(f), { sticky:true, className:'tip' });
@@ -575,6 +590,7 @@ function pinPopup(p) {
 function drawPins() {
   if (pinCluster) { map.removeLayer(pinCluster); pinCluster = null; }
   pinCluster = L.markerClusterGroup({
+    clusterPane:'pinPane',
     maxClusterRadius:44, chunkedLoading:true,
     iconCreateFunction: cl => {
       const kids = cl.getAllChildMarkers();
@@ -590,7 +606,7 @@ function drawPins() {
   });
   const vis = visibleProjects();
   vis.forEach(p => {
-    const m = L.marker([p.lat,p.lon], { icon:pinIcon(p) });
+    const m = L.marker([p.lat,p.lon], { icon:pinIcon(p), pane:'pinPane' });
     m.options._outcome = p.outcome;
     m.bindPopup(pinPopup(p), { maxWidth:300 });
     m.bindTooltip(`<b>${p.name}</b><br>${OUTCOME_LABEL[p.outcome]||p.outcome}`, { className:'tip', direction:'top' });
@@ -626,12 +642,75 @@ function updateProjectStats(vis) {
 // ---------------------------------------------------------------------------
 // Mode switching
 // ---------------------------------------------------------------------------
+// Zoom thresholds for the auto handoff. Below Z_COUNTY the county shading is
+// the whole map; above Z_PINS the pins are, with the counties left as faint
+// context so the reader keeps the geographic frame. Between them the two
+// crossfade, which is the range where a reader is moving from "which counties"
+// to "which projects" and wants to see both at once.
+const Z_COUNTY = 6;
+const Z_PINS = 8;
+const COUNTY_CONTEXT_OPACITY = 0.28;
+
+function tierWeights(z) {
+  if (z <= Z_COUNTY) return { county: 1, pin: 0 };
+  if (z >= Z_PINS) return { county: COUNTY_CONTEXT_OPACITY, pin: 1 };
+  const t = (z - Z_COUNTY) / (Z_PINS - Z_COUNTY);
+  return { county: 1 - (1 - COUNTY_CONTEXT_OPACITY) * t, pin: t };
+}
+
+// Applies pane opacity for the current zoom. Panes below a visibility floor
+// also stop receiving pointer events, so a layer that has faded out cannot
+// still swallow hovers meant for the one that faded in.
+function applyZoomTier() {
+  const cp = map.getPane('countyPane'), pp = map.getPane('pinPane');
+  if (!cp || !pp) return;
+  const w = mode === 'auto' ? tierWeights(map.getZoom())
+          : mode === 'county' ? { county: 1, pin: 0 }
+          : { county: 0, pin: 1 };
+  cp.style.opacity = String(w.county);
+  pp.style.opacity = String(w.pin);
+  cp.style.pointerEvents = w.county < 0.15 ? 'none' : 'auto';
+  pp.style.pointerEvents = w.pin < 0.15 ? 'none' : 'auto';
+  if (mode === 'auto') syncAutoPanels(w);
+}
+
+// In auto mode the sidebar follows whichever layer the reader is actually
+// looking at, switching at the crossfade midpoint. Locked modes set their own
+// panel in setMode() and are left alone here.
+let _autoShowing = null;
+function syncAutoPanels(w) {
+  const showCounty = w.pin < 0.5;
+  if (_autoShowing === showCounty) return;
+  _autoShowing = showCounty;
+  document.getElementById('county-panel').hidden = !showCounty;
+  document.getElementById('project-panel').hidden = showCounty;
+  document.getElementById('sub').textContent = showCounty
+    ? 'County shading: enacted-restriction context and political geography.'
+    : 'Project pins: outcome, opposition detail, and risk band when scoreable.';
+  document.getElementById('badge').innerHTML = showCounty
+    ? `<b>County context</b> \u2014 zoom in for projects`
+    : `<b>Project pins</b> \u2014 zoom out for county context`;
+}
+
 function setMode(m) {
   mode = m;
   if (typeof PERMA !== 'undefined' && PERMA) PERMA.set('mode', m);
-  const county = m === 'county';
+  const auto = m === 'auto', county = m === 'county';
+  document.getElementById('mode-auto').setAttribute('aria-pressed', auto);
   document.getElementById('mode-county').setAttribute('aria-pressed', county);
-  document.getElementById('mode-project').setAttribute('aria-pressed', !county);
+  document.getElementById('mode-project').setAttribute('aria-pressed', m === 'project');
+
+  // Auto keeps both layers on the map and lets opacity decide which reads.
+  // The locked modes keep the original behaviour of removing the other layer
+  // outright, so nothing about them changes.
+  if (auto) {
+    if (window.__geo) drawCounties(window.__geo);
+    drawPins();
+    _autoShowing = null;
+    applyZoomTier();
+    return;
+  }
+
   document.getElementById('county-panel').hidden = !county;
   document.getElementById('project-panel').hidden = county;
   document.getElementById('sub').textContent = county
@@ -646,11 +725,15 @@ function setMode(m) {
     drawPins();
     document.getElementById('badge').innerHTML = `<b>Project pins</b> mode`;
   }
+  applyZoomTier();
 }
+
+map.on('zoomend', applyZoomTier);
 
 // ---------------------------------------------------------------------------
 // Wire controls
 // ---------------------------------------------------------------------------
+document.getElementById('mode-auto').onclick = () => setMode('auto');
 document.getElementById('mode-county').onclick = () => setMode('county');
 document.getElementById('mode-project').onclick = () => setMode('project');
 document.getElementById('county-metric').onchange = () => {
@@ -665,14 +748,14 @@ document.querySelectorAll('#outcome-chips .chip').forEach(chip => {
     chip.setAttribute('aria-pressed', String(!on));
     if (on) filters.outcomes.delete(o); else filters.outcomes.add(o);
     syncFilterKeys();
-    if (mode === 'project') drawPins();
+    if (mode !== 'county') drawPins();
   };
 });
-document.getElementById('opp-only').onchange = e => { filters.oppOnly = e.target.checked; syncFilterKeys(); if (mode==='project') drawPins(); };
+document.getElementById('opp-only').onchange = e => { filters.oppOnly = e.target.checked; syncFilterKeys(); if (mode!=='county') drawPins(); };
 let searchT;
 document.getElementById('proj-search').oninput = e => {
   clearTimeout(searchT);
-  searchT = setTimeout(() => { filters.search = e.target.value.trim(); syncFilterKeys(); if (mode==='project') drawPins(); }, 180);
+  searchT = setTimeout(() => { filters.search = e.target.value.trim(); syncFilterKeys(); if (mode!=='county') drawPins(); }, 180);
 };
 
 // Applies parked permalink state to the controls and the filter object.
@@ -759,8 +842,16 @@ function applyPendingFilters() {
   // project mode so the page is still useful. A link asking for project
   // mode is honoured; a link asking for county mode is not, when the data
   // county mode needs did not load.
-  if (geo && scoreText) setMode(PENDING.mode === 'project' ? 'project' : 'county');
-  else { setMode('project'); }
+  if (geo && scoreText) {
+    // Auto is the default because the handoff is the point: a reader should
+    // not have to know a button exists to see projects. An explicit mode in
+    // the link still locks, so existing permalinks behave as they did.
+    const want = PENDING.mode;
+    setMode(want === 'project' || want === 'county' ? want : 'auto');
+  } else {
+    // County data did not load, so there is nothing to hand off to.
+    setMode('project');
+  }
 })();
 </script>
 </body>

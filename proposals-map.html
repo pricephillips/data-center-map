@@ -13,6 +13,18 @@
 <!-- View state in the URL, so a view can be cited by link rather than
      by screenshot. Same-origin, same as viz-palette. -->
 <script src="./map-permalink.js"></script>
+<!-- Legend as filter. Clicking a density band isolates it on the map.
+     Same-origin, same as viz-palette and map-permalink. -->
+<script src="./legend-filter.js"></script>
+<script>
+// Fallback stub. If legend-filter.js did not load, the legend stays static
+// instead of the page throwing on its first LegendFilter call and rendering
+// blank. Same protection as the map-permalink stub above.
+window.LegendFilter = window.LegendFilter || {
+  attach: function () { return { get: function () { return []; }, set: function () {} }; },
+  fromHashValue: function () { return []; }
+};
+</script>
 <script>
 // Fallback stub. If map-permalink.js did not load (missing on the host, or a
 // cached 404 during a deploy), every page below would otherwise throw a
@@ -167,11 +179,13 @@ input:focus, select:focus { border-color:var(--accent) }
     <div class="map-hint" id="mapHint">Click any state to zoom in and see proposal density</div>
     <div class="legend">
       <b>Proposal density</b>
-      <div class="legend-row"><span class="lsw" style="background:#0e3349"></span>1–5 proposals</div>
-      <div class="legend-row"><span class="lsw" style="background:#1a5068"></span>6–15</div>
-      <div class="legend-row"><span class="lsw" style="background:#276b80"></span>16–30</div>
-      <div class="legend-row"><span class="lsw" style="background:#348a9a"></span>31–60</div>
-      <div class="legend-row"><span class="lsw" style="background:#4f98a3"></span>61+</div>
+      <div id="densityLegendRows">
+      <div class="legend-row" data-lf="1"><span class="lsw" style="background:#0e3349"></span>1–5 proposals</div>
+      <div class="legend-row" data-lf="2"><span class="lsw" style="background:#1a5068"></span>6–15</div>
+      <div class="legend-row" data-lf="3"><span class="lsw" style="background:#276b80"></span>16–30</div>
+      <div class="legend-row" data-lf="4"><span class="lsw" style="background:#348a9a"></span>31–60</div>
+      <div class="legend-row" data-lf="5"><span class="lsw" style="background:#4f98a3"></span>61+</div>
+      </div>
       <div class="note">State fill is based on count of proposals in the full CSV. Filters affect visible pins and list only.</div>
     </div>
   </div>
@@ -186,9 +200,35 @@ document.addEventListener('DOMContentLoaded', function () {
   // GeoJSON, so a restored state slug is parked and consumed by
   // applyPendingState() once the layer exists.
   let PENDING_STATE = null;
+  let PENDING_BANDS = null;
   const PERMA = MapPermalink.attach(map, {
-    onRestore(st) { if (st.extra && st.extra.state) PENDING_STATE = st.extra.state; }
+    onRestore(st) {
+      if (st.extra && st.extra.state) PENDING_STATE = st.extra.state;
+      if (st.extra && st.extra.density) PENDING_BANDS = st.extra.density;
+    }
   });
+
+  // Legend as filter. Selecting bands mutes every state outside them. This
+  // shades the choropleth only; the pin and list filters are separate controls
+  // and are deliberately left alone, matching the note under the legend.
+  let LEGEND_BANDS = [];
+  let LEGEND = null;
+  function bindDensityLegend() {
+    if (LEGEND) return;
+    const el = document.getElementById('densityLegendRows');
+    if (!el) return;
+    LEGEND = LegendFilter.attach(el, {
+      mode: 'multi',
+      hint: 'Click a band to isolate it. Shading only.',
+      permalink: { ctl: PERMA, key: 'density' },
+      onChange(active) { LEGEND_BANDS = active; updateChoroplethVisuals(); }
+    });
+    if (PENDING_BANDS) {
+      const want = LegendFilter.fromHashValue(PENDING_BANDS);
+      PENDING_BANDS = null;
+      if (want.length) LEGEND.set(want);
+    }
+  }
   setTimeout(() => map.invalidateSize(), 100);
   setTimeout(() => map.invalidateSize(), 500);
   window.addEventListener('resize', () => map.invalidateSize());
@@ -237,6 +277,10 @@ document.addEventListener('DOMContentLoaded', function () {
   ];
   function densityColor(n) {
     return DENSITY_STEPS.find(s => n >= s.min && n <= s.max) || DENSITY_STEPS[0];
+  }
+  function densityBand(n) {
+    const i = DENSITY_STEPS.findIndex(s => n >= s.min && n <= s.max);
+    return i < 0 ? 0 : i;
   }
   function zoomedOpacity(base) {
     const z = map.getZoom();
@@ -381,10 +425,12 @@ document.addEventListener('DOMContentLoaded', function () {
     choroplethLayer.eachLayer(layer => {
       const cnt = layer.feature?.properties?._count || 0;
       const s = densityColor(cnt);
+      const muted = LEGEND_BANDS.length &&
+                    LEGEND_BANDS.indexOf(String(densityBand(cnt))) < 0;
       layer.setStyle({
-        fillColor:s.color,
-        fillOpacity:zoomedOpacity(s.opacity),
-        color:'#3d6070',
+        fillColor: muted ? '#0a1520' : s.color,
+        fillOpacity: muted ? 0.30 : zoomedOpacity(s.opacity),
+        color: muted ? '#22303a' : '#3d6070',
         weight:zoomedWeight(),
         opacity:1
       });
@@ -553,7 +599,7 @@ function hasRealCoords(lat, lon) {
 
       fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
         .then(r => r.json())
-        .then(geo => { buildChoropleth(allRows, geo); applyPendingState(); })
+        .then(geo => { buildChoropleth(allRows, geo); applyPendingState(); bindDensityLegend(); })
         .catch(err => {
           console.warn('GeoJSON failed', err);
           document.getElementById('mapHint').textContent = 'Map loaded, but state choropleth failed to load';

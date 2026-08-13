@@ -13,6 +13,18 @@
 <!-- View state in the URL. Also keeps the older bare #state-slug links
      working, since those are already circulating. -->
 <script src="./map-permalink.js"></script>
+<!-- Legend as filter. Clicking a legend class narrows the map to it.
+     Same-origin, same as viz-palette and map-permalink. -->
+<script src="./legend-filter.js"></script>
+<script>
+// Fallback stub. If legend-filter.js did not load, the legend stays static
+// instead of the page throwing on its first LegendFilter call and rendering
+// blank. Same protection as the map-permalink stub above.
+window.LegendFilter = window.LegendFilter || {
+  attach: function () { return { get: function () { return []; }, set: function () {} }; },
+  fromHashValue: function () { return []; }
+};
+</script>
 <script>
 // Fallback stub. If map-permalink.js did not load (missing on the host, or a
 // cached 404 during a deploy), every page below would otherwise throw a
@@ -310,12 +322,12 @@ input:focus, select:focus { border-color:#5aa9e6 }
     <div class="map-status" id="mapStatus"></div>
     <button class="choro-back" id="choroBack" onclick="choroZoomOut()">← All States</button>
     <div class="map-hint" id="mapHint">Click any state to zoom in · toggle map shading in the sidebar</div>
-    <div class="legend">
+    <div class="legend" id="outcomeLegend">
       <b>Outcome</b>
-      <div class="legend-row"><span class="lsw" style="background:var(--pending)"></span>Pending / Active</div>
-      <div class="legend-row"><span class="lsw" style="background:var(--win)"></span>Blocked — project stopped</div>
-      <div class="legend-row"><span class="lsw" style="background:var(--loss)"></span>Approved — project advanced</div>
-      <div class="legend-row"><span class="lsw" style="background:var(--mixed)"></span>Mixed</div>
+      <div class="legend-row" data-lf="pending"><span class="lsw" style="background:var(--pending)"></span>Pending / Active</div>
+      <div class="legend-row" data-lf="win"><span class="lsw" style="background:var(--win)"></span>Blocked — project stopped</div>
+      <div class="legend-row" data-lf="loss"><span class="lsw" style="background:var(--loss)"></span>Approved — project advanced</div>
+      <div class="legend-row" data-lf="mixed"><span class="lsw" style="background:var(--mixed)"></span>Mixed</div>
       <div class="note">Fill color = outcome · border = data source · size = severity (1–5).<br>
         <b style="color:#cbd5e1">Solid</b> = block (halt/ban/denial) · <b style="color:#cbd5e1">faint</b> = conditional restriction.<br>
         A white center dot marks a pin that stands for several records (one project). Statewide &amp; federal actions appear in the list, not as pins.</div>
@@ -377,9 +389,29 @@ const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true, zoom
 // asynchronously from a remote GeoJSON, so the slug is parked here and
 // consumed by applyPendingState() at the end of buildChoropleth().
 let PENDING_STATE = null;
+let PENDING_OUTCOME = null;
 const PERMA = MapPermalink.attach(map, {
-  onRestore(st) { if (st.extra && st.extra.state) PENDING_STATE = st.extra.state; }
+  onRestore(st) {
+    if (st.extra && st.extra.state) PENDING_STATE = st.extra.state;
+    if (st.extra && st.extra.outcome) PENDING_OUTCOME = st.extra.outcome;
+  }
 });
+
+// Legend as filter. The rows drive the existing #fOutcome select rather than
+// holding their own state, so the legend and the sidebar control cannot
+// disagree. Mode is 'single' because #fOutcome is a single-select.
+//
+// The row keys are the raw 'Community Outcome' values, which are the
+// source-of-record scorekeeping terms. The URL publishes the four-tier
+// vocabulary instead; polarity matches friendlyOutcome() and the map declared
+// on tf-outcome in opposition-dashboard.html.
+const OUTCOME_TIER = {
+  win:     'blocked_confirmed',
+  loss:    'advanced_confirmed',
+  pending: 'pending',
+  mixed:   'restricted_conditional'
+};
+let LEGEND = null;
 setTimeout(() => map.invalidateSize(), 300);
 window.addEventListener('resize', () => map.invalidateSize());
 // Embed hosts (Notion iframes) often size the frame after load — track it
@@ -634,6 +666,38 @@ let _listLimit = LIST_CHUNK;
 let _visibleCache = [];
 // Per-state outcome stats, rebuilt each render — makes choropleth hover O(1)
 let _stateHoverStats = {};
+
+// Binds the outcome legend. Called after #fOutcome is populated, because a
+// restored value cannot land on a select whose options do not exist yet.
+function bindOutcomeLegend() {
+  if (LEGEND) return;
+  const el = document.getElementById('outcomeLegend');
+  const sel = document.getElementById('fOutcome');
+  if (!el || !sel) return;
+
+  LEGEND = LegendFilter.attach(el, {
+    mode: 'single',
+    hint: 'Click an outcome to filter the map and list.',
+    permalink: { ctl: PERMA, key: 'outcome', map: OUTCOME_TIER },
+    onChange(active) {
+      // Drive the existing control, then re-render through the existing path.
+      sel.value = active.length ? active[0] : '';
+      render();
+    }
+  });
+
+  // Keep the legend honest when the filter is changed from the sidebar.
+  sel.addEventListener('change', () => {
+    if (!LEGEND) return;
+    LEGEND.set(sel.value ? [sel.value] : [], { silent: true });
+  });
+
+  if (PENDING_OUTCOME) {
+    const want = LegendFilter.fromHashValue(PENDING_OUTCOME, OUTCOME_TIER);
+    PENDING_OUTCOME = null;
+    if (want.length) LEGEND.set(want);
+  }
+}
 
 function render() {
   _cachedFilters = null;
@@ -1000,6 +1064,8 @@ function handleCSVData(rawData) {
       opt.textContent = friendlyOutcome(v);
       outcomeEl.appendChild(opt);
     });
+    // Options exist now, so the legend can bind and a restored value can land.
+    bindOutcomeLegend();
     pop('fAuthority', oppRows.map(r => r['Authority Level']));
     pop('fMechanism', oppRows.map(r => r['qc_mechanism']));
     // Source options come from the data itself so no selection can dead-end

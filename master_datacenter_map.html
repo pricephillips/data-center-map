@@ -13,6 +13,18 @@
 <!-- View state in the URL. Also keeps the older bare #state-slug links
      working, since those are already circulating. -->
 <script src="./map-permalink.js"></script>
+<!-- Legend as filter. Clicking a legend class narrows the map to it.
+     Same-origin, same as viz-palette and map-permalink. -->
+<script src="./legend-filter.js"></script>
+<script>
+// Fallback stub. If legend-filter.js did not load, the legend stays static
+// instead of the page throwing on its first LegendFilter call and rendering
+// blank. Same protection as the map-permalink stub above.
+window.LegendFilter = window.LegendFilter || {
+  attach: function () { return { get: function () { return []; }, set: function () {} }; },
+  fromHashValue: function () { return []; }
+};
+</script>
 <script>
 // Fallback stub. If map-permalink.js did not load (missing on the host, or a
 // cached 404 during a deploy), every page below would otherwise throw a
@@ -200,9 +212,11 @@ input:focus, select:focus { border-color:var(--atlas) }
     <div class="map-hint" id="mapHint">Click any state to zoom in and see facilities</div>
     <div class="sidebar-title"><h1>US Data Center Map</h1><p>Explore data center locations nationwide. Click any state to zoom in, then click a pin to see facility details.</p></div>
 <div class="legend">
-      <b>Layer</b>
-      <div class="legend-row"><span class="lsw" style="background:var(--atlas)"></span>Source: OSTI IM3 Data</div>
-      <div class="legend-row"><span class="lsw" style="background:var(--ai)"></span>Epoch Frontier Data (Hyperscalers)</div>
+      <b id="layerLegend">Layer</b>
+      <div id="layerLegendRows">
+      <div class="legend-row" data-lf="atlas"><span class="lsw" style="background:var(--atlas)"></span>Source: OSTI IM3 Data</div>
+      <div class="legend-row" data-lf="ai"><span class="lsw" style="background:var(--ai)"></span>Epoch Frontier Data (Hyperscalers)</div>
+      </div>
       <div class="note">OSTI IM3 pins cluster at low zoom. AI Centers always visible. Click any pin for details.</div>
       <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px"><b style="font-size:11px;color:var(--muted);font-weight:600">Facility Density</b>
         <div class="legend-row"><span class="lsw" style="background:#1e3a5f;border-radius:2px"></span>1–10</div>
@@ -223,9 +237,35 @@ const map = L.map('map', { center:[39.5,-98.35], zoom:4, preferCanvas:true });
 // so a restored state slug is parked here and consumed by
 // applyPendingState() once the layer exists.
 let PENDING_STATE = null;
+let PENDING_SRC = null;
 const PERMA = MapPermalink.attach(map, {
-  onRestore(st) { if (st.extra && st.extra.state) PENDING_STATE = st.extra.state; }
+  onRestore(st) {
+    if (st.extra && st.extra.state) PENDING_STATE = st.extra.state;
+    if (st.extra && st.extra.src) PENDING_SRC = st.extra.src;
+  }
 });
+
+// Legend as filter. The two source rows read through match() like every other
+// control on this page, so there is one filter path rather than a parallel one.
+// Mode is 'multi' because the sources are independent, not exclusive.
+let LEGEND_SRC = [];
+let LEGEND = null;
+function bindLayerLegend() {
+  if (LEGEND) return;
+  const el = document.getElementById('layerLegendRows');
+  if (!el) return;
+  LEGEND = LegendFilter.attach(el, {
+    mode: 'multi',
+    hint: 'Click a source to isolate it.',
+    permalink: { ctl: PERMA, key: 'src' },
+    onChange(active) { LEGEND_SRC = active; render(); }
+  });
+  if (PENDING_SRC) {
+    const want = LegendFilter.fromHashValue(PENDING_SRC);
+    PENDING_SRC = null;
+    if (want.length) LEGEND.set(want);
+  }
+}
 setTimeout(() => map.invalidateSize(), 100);
 setTimeout(() => map.invalidateSize(), 500);
 window.addEventListener('resize', () => map.invalidateSize());
@@ -310,6 +350,9 @@ function match(r) {
   const aiO = document.getElementById('aiOnly').checked;
 
   if (aiO && r._src !== 'ai') return false;
+  // Legend selection. An empty set means no filter, so the map shows both
+  // sources rather than nothing.
+  if (LEGEND_SRC.length && LEGEND_SRC.indexOf(r._src) < 0) return false;
   if (fSr && r._src !== fSr) return false;
   if (fSt && r._state !== fSt) return false;
   if (fOw && r._owner !== fOw) return false;
@@ -404,6 +447,9 @@ function initRows(atlasData, aiData) {
   const types = [...new Set(atlasData.map(r=>r.type).filter(Boolean))].sort();
   types.forEach(v => document.getElementById('fType').insertAdjacentHTML('beforeend',`<option value="${esc(v)}">${esc(v)}</option>`));
 
+  // Bind before the first render so a restored legend state is reflected in
+  // the initial draw rather than applied over it.
+  bindLayerLegend();
   render();
 }
 
@@ -464,6 +510,8 @@ function resetFilters(){
   document.getElementById('q').value='';
   ['fState','fSource','fOwner','fType'].forEach(id=>{document.getElementById(id).value='';});
   document.getElementById('aiOnly').checked=false;
+  if (LEGEND) LEGEND.set([], { silent: true });
+  LEGEND_SRC = [];
   render();
 }
 function zoomToResults(){
