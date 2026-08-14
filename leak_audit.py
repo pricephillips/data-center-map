@@ -97,6 +97,14 @@ INHERITED_FIELDS = {
     "incident", "entity", "project name", "opposition groups", "notes",
     "what it means", "correct outcome", "message", "all_issues",
     "info", "title", "headline", "description", "text",
+    # Open States roll-call motions. A legislature's own wording for a
+    # failed amendment is "Conrad AM2794 lost"; that is the clerk's text,
+    # not a characterization we authored.
+    "motion_text",
+    # CourtListener docket parties and captions. Litigant names are proper
+    # nouns that can contain the vocabulary outright ("WIN J. WRIGHT",
+    # "Win Maung"), and a case caption is the court's own.
+    "party", "case_name", "casename",
 }
 
 # A URL is not prose. "shreveport-wins-moratorium" in a citation is the
