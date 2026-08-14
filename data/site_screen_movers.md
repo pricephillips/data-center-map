@@ -1,7 +1,7 @@
 # Opposition Environment Movement Report
 
-Run date: 2026-08-12
-Compared against: 2026-08-11
+Run date: 2026-08-14
+Compared against: 2026-08-12
 
 Sites screened: 334 | tier changes: 3 | composite moves of 3 points or more: 3 | newly screened: 0
 
@@ -11,7 +11,7 @@ Sites screened: 334 | tier changes: 3 | composite moves of 3 points or more: 3 |
 | :-- | :-- | :-- | :-- | --: |
 | PNK Valley View Data Center | Lackawanna County, PA | Low | High | +53.2 |
 | Ransom Township Mudiita Data Center | Lackawanna County, PA | Guarded | High | +46.8 |
-| Nebius Butler Township Data Center | Schuylkill County, PA | Low | Guarded | +24.9 |
+| Nebius Butler Township Data Center | Schuylkill County, PA | Low | Guarded | +24.4 |
 
 ## Largest composite moves
 
@@ -19,7 +19,7 @@ Sites screened: 334 | tier changes: 3 | composite moves of 3 points or more: 3 |
 | :-- | :-- | :-- | :-- | --: |
 | PNK Valley View Data Center | Lackawanna County, PA | High | 85.2 | +53.2 |
 | Ransom Township Mudiita Data Center | Lackawanna County, PA | High | 87.3 | +46.8 |
-| Nebius Butler Township Data Center | Schuylkill County, PA | Guarded | 64.4 | +24.9 |
+| Nebius Butler Township Data Center | Schuylkill County, PA | Guarded | 63.9 | +24.4 |
 
 ## Reading this report
 
