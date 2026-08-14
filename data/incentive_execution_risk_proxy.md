@@ -4,7 +4,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 65
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 85
   - candidate docket (tax increment): Motors Liquidation Company, Bankr. S.D.N.Y. (2009-06-01)
   - candidate docket (tax increment): Means v. Louisville Metro Council District 17, W.D. Ky. (2026-03-03)
   - candidate docket (tax increment): SECURITIES AND EXCHANGE COMMISSION v. J.P. MORGAN SECURITIES LLC, D.N.J. (2011-07-07)
@@ -18,7 +18,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 18
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 21
   - candidate docket (tax increment): King County v. Turner, W.D. Wash. (2025-05-02)
   - candidate docket (abatement): Olson v. O'Brien, D. Alaska (2011-12-21)
   - candidate docket (abatement): Lane Herman Drury, Bankr. D. Alaska (2021-11-12)
@@ -32,12 +32,12 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 29
-  - candidate docket (development agreement): In Re: Oil Spill by the Oil Rig "Deepwater Horizon" in the Gulf of Mexico, on April 20, 2010, E.D. La. (2010-08-10)
-  - candidate docket (development agreement): ALTA WIND I OWNER LESSOR C v. United States, Fed. Cl. (2013-06-14)
-  - candidate docket (development agreement): Vital Pharmaceuticals, Inc., Bankr. S.D. Florida (2022-10-10)
-  - candidate docket (development agreement): Thomas v. Deutsche Bank National Trust Company, E.D.N.Y (2020-07-09)
-  - candidate docket (development agreement): In Re: Anadarko Petroleum Corporation Securities Litigation, S.D. Tex. (2020-02-19)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 49
+  - candidate docket (abatement): Center for Biological Diversity v. Burgum, D. Alaska (2020-08-24)
+  - candidate docket (abatement): The People of the State of California v. BP P.L.C., N.D. Cal. (2017-10-20)
+  - candidate docket (abatement): The People of the State of California v. BP P.L.C., N.D. Cal. (2017-10-20)
+  - candidate docket (abatement): King County v. BP PLC, W.D. Wash. (2018-05-25)
+  - candidate docket (abatement): City of New York v. BP P.L.C., S.D.N.Y. (2018-01-09)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Wrangell City and Borough, AK
@@ -55,12 +55,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 20
-  - candidate docket (clawback): Baldwin v. National Gypsum Services Company, W.D.N.C. (2020-01-09)
-  - candidate docket (clawback): Guaranteed Rate Affinity, LLC v. Engler, D. Nev. (2022-07-27)
-  - candidate docket (clawback): AssuredPartners of Nevada LLC v. DeHart, D. Nev. (2021-09-28)
-  - candidate docket (clawback): Hempel v. Cydan Development, Inc., D. Nev. (2018-01-05)
-  - candidate docket (clawback): Hempel v. Cydan Development, Inc., D. Maryland (2018-11-06)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Cullman County, AL
@@ -78,12 +73,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 60
-  - candidate docket (abatement): Mandarini v. Acme Abatement Contractor, Inc., D. Mass. (2017-08-24)
-  - candidate docket (abatement): Olivares v. Performance Contracting Group Performance Abatement Services, E.D. Mich. (2018-07-26)
-  - candidate docket (abatement): Patterson v. Jefferson County Combined Courts, D. Colo. (2017-10-25)
-  - candidate docket (abatement): Gomez v. Jefferson, S.D. Fla. (2021-11-23)
-  - candidate docket (abatement): Dawson v. Board of County Commissioners of Jefferson County, Colorado, D. Colo. (2016-05-27)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Madison County, AL
@@ -92,12 +82,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 60
-  - candidate docket (tax increment): HIKEL v. TOWN OF MADISON, D. Me. (2013-03-08)
-  - candidate docket (tax increment): Radian Asset Assurance Inc. v. Madison County, Mississippi, S.D. Miss. (2013-11-01)
-  - candidate docket (tax increment): Sears Holdings Corporation, Bankr. S.D.N.Y. (2018-10-15)
-  - candidate docket (tax increment): PR Bingham, LLC and PR Madison, LLC, Bankr. S.D. Ind. (2025-04-18)
-  - candidate docket (tax increment): Scarlato v. Village of Bellwood, Illinois, N.D. Ill. (2008-01-24)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Shelby County, AL
@@ -106,12 +91,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 20
-  - candidate docket (development agreement): Arvest Bank v. Byrd, W.D. Tenn. (2010-01-05)
-  - candidate docket (development agreement): Autonomous Solutions v. Tennant, D. Utah (2021-03-01)
-  - candidate docket (development agreement): Club Italia Soccer and Sports Organization, Incorporated v. Shelby, Township of, E.D. Mich. (2005-06-14)
-  - candidate docket (development agreement): D and T Construction Company v. McVickers Shelby, L. L. C., E.D. Mich. (2006-02-07)
-  - candidate docket (development agreement): Newport Enterprises v. Isys Technologies, D. Utah (2011-04-08)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Talladega County, AL
@@ -165,12 +145,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 1
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 20
-  - candidate docket (recapture): Securities and Exchange Commission v. Faulkner, N.D. Tex. (2016-06-24)
-  - candidate docket (recapture): United States v. Snowden, E.D. Ky. (2007-01-22)
-  - candidate docket (recapture): Hall v. USAble Mutual Insurance Company, E.D. Ark. (2016-02-03)
-  - candidate docket (recapture): AstraZeneca UK Limited v. Watson Pharmaceuticals Inc., D. Del. (2010-10-26)
-  - candidate docket (recapture): Warren Peary v. DC Comics, Inc., S.D.N.Y. (2025-01-31)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Grant County, AR
@@ -179,12 +154,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 60
-  - candidate docket (abatement): Welenc v. Abatement Professionals, S.D.N.Y. (2008-07-30)
-  - candidate docket (abatement): Abatement Workers Local 207 Health and Welfare Fund v. Professsional Abatement Services, Inc., E.D. Mich. (2018-08-17)
-  - candidate docket (abatement): Yohn v. American Abatement Group, Inc., M.D. Penn. (2020-05-14)
-  - candidate docket (abatement): Therma-Stor, LLC v. Abatement Technologies, Inc., N.D. Ga. (2010-02-03)
-  - candidate docket (abatement): Kennedy v. Kings Mosquito Abatement District, E.D. Cal. (2012-09-05)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Johnson County, AR
@@ -193,12 +163,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 20
-  - candidate docket (clawback): Johnson v. JEA, M.D. Fla. (2021-04-05)
-  - candidate docket (clawback): Greenberg v. Johnson Controls Inc., E.D. Pa. (2024-06-10)
-  - candidate docket (clawback): Johnson v. State of Oregon, D. Or. (2025-03-19)
-  - candidate docket (clawback): Graham Engineering Corp. v. Johnson, M.D. Penn. (2016-12-21)
-  - candidate docket (clawback): Johnson v. Gentiva Health Services, Inc., N.D. Ga. (2015-03-30)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Pulaski County, AR
@@ -243,12 +208,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 20
-  - candidate docket (clawback): Michael Zullo v. Maricopa County, 9th Cir. (2015-11-16)
-  - candidate docket (clawback): Manuel De Jesus Ortega Melendr v. Maricopa County, 9th Cir. (2015-08-17)
-  - candidate docket (clawback): Ecological Rights Foundation v. Federal Emergency Management Agency, N.D. Cal. (2015-09-05)
-  - candidate docket (clawback): Al Otro Lado, Inc. v. McAleenan, S.D. Cal. (2017-11-22)
-  - candidate docket (clawback): Harmon v. Hays, D. Ariz. (2017-12-04)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Maricopa County, AZ
@@ -257,12 +217,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 20
-  - candidate docket (development agreement): Generations at Pinnacle Peak LLC v. Whitestone Pinnacle of Scottsdale - Phase II LLC, D. Ariz. (2017-12-12)
-  - candidate docket (development agreement): Equity Partners Group LLC v. Scottsdale, City of, D. Ariz. (2025-03-17)
-  - candidate docket (development agreement): Amerifirst Financial Incorporated v. PKY Fund II Phoenix LLC, D. Ariz. (2016-09-20)
-  - candidate docket (development agreement): MM Arizona Holdings, LLC v. Bonanno, S.D.N.Y. (2008-06-11)
-  - candidate docket (development agreement): United States v. Barron Collier Company, D. Ariz. (2014-01-28)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Pima, AZ
@@ -271,12 +226,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 59
-  - candidate docket (abatement): SALT RIVER PIMA-MARICOPA INDIAN COMMUNITY v. United States, Fed. Cl. (2006-12-29)
-  - candidate docket (abatement): Nomura Credit and Capital, Inc. v. Pima Village Owners Association, D. Nev. (2017-05-03)
-  - candidate docket (abatement): Mallinckrodt plc, Bankr. D. Del. (2020-10-12)
-  - candidate docket (abatement): Cuen v. Tucson Medical Center, D. Ariz. (2015-07-15)
-  - candidate docket (abatement): Montes v. Arizona, State of, D. Ariz. (2011-05-02)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Pima County, AZ
@@ -285,12 +235,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 20
-  - candidate docket (abatement): SALT RIVER PIMA-MARICOPA INDIAN COMMUNITY v. United States, Fed. Cl. (2006-12-29)
-  - candidate docket (abatement): Nomura Credit and Capital, Inc. v. Pima Village Owners Association, D. Nev. (2017-05-03)
-  - candidate docket (abatement): Mallinckrodt plc, Bankr. D. Del. (2020-10-12)
-  - candidate docket (abatement): Cuen v. Tucson Medical Center, D. Ariz. (2015-07-15)
-  - candidate docket (abatement): Montes v. Arizona, State of, D. Ariz. (2011-05-02)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Pinal County, AZ
@@ -344,12 +289,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 40
-  - candidate docket (abatement): Riverside All of Us or None v. City of Riverside, C.D. Cal. (2023-08-02)
-  - candidate docket (abatement): Kennedy v. Kings Mosquito Abatement District, E.D. Cal. (2012-09-05)
-  - candidate docket (abatement): Marshall v. Plant Riverside, LLC, S.D. Ga. (2022-02-23)
-  - candidate docket (abatement): West v. Riverside Research, D.N.M. (2012-03-14)
-  - candidate docket (abatement): County of Riverside v. Dung T. Lam, C.D. Cal. (2020-09-29)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Santa Clara County, CA
@@ -529,9 +469,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 2
-  - candidate docket (tax increment): National Association for the Advancement of Colored People v. Reeves, S.D. Miss. (2023-04-21)
-  - candidate docket (tax increment): In Re: National Prescription Opiate Litigation, N.D. Ohio (2022-11-04)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Holmes County, FL
@@ -657,12 +595,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 40
-  - candidate docket (tax increment): Bank of Camden v. Village of West Dunee, N.D. Ill. (2012-08-21)
-  - candidate docket (tax increment): Four Seasons Marina Rentals, Inc. v. Osage Beach, Missouri, City of, W.D. Mo. (2008-09-04)
-  - candidate docket (tax increment): JDI Cumberland Inlet, LLC, Bankr. N.D. Ga. (2025-05-05)
-  - candidate docket (tax increment): MATRIX DEVELOPMENT GROUP v. CITY OF NEWARK, NEW JERSEY, D.N.J. (2020-03-23)
-  - candidate docket (tax increment): Lakeside Roofing Company v. Nixon, E.D. Mo. (2010-09-20)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Carroll County, GA
@@ -671,12 +604,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 1
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 40
-  - candidate docket (tax increment): Sears Holdings Corporation, Bankr. S.D.N.Y. (2018-10-15)
-  - candidate docket (tax increment): Czosnyka v. Gardiner, N.D. Ill. (2021-06-17)
-  - candidate docket (tax increment): Johnson v. City of Moss Point, Mississippi, S.D. Miss. (2025-04-14)
-  - candidate docket (tax increment): National Association for the Advancement of Colored People v. Reeves, S.D. Miss. (2023-04-21)
-  - candidate docket (tax increment): Veasey v. Abbott, S.D. Tex. (2013-06-26)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Cherokee County, GA
@@ -685,12 +613,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 34
-  - candidate docket (tax increment): Sears Holdings Corporation, Bankr. S.D.N.Y. (2018-10-15)
-  - candidate docket (tax increment): The Metropolitan Government of Nashville and Davidson County, Tennessee v. BellSouth Telecommunications, Inc., M.D. Tenn. (2006-04-05)
-  - candidate docket (tax increment): Citizens for a Healthy Community v. United States Bureau of Land Management, D. Colo. (2020-08-19)
-  - candidate docket (tax increment): Ashley I, LLC, Bankr. D.S.C. (2016-02-08)
-  - candidate docket (tax increment): State of Oklahoma v. Century Aluminum Company, N.D. Okla. (2026-07-21)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Clarke County, GA
@@ -717,12 +640,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 20
-  - candidate docket (recapture): Legacy FLG, LLC, Bankr. N.D. Ga. (2026-03-06)
-  - candidate docket (recapture): Moran v. Chief of Police Sparks, D. Nev. (2012-09-13)
-  - candidate docket (recapture): Guy v. Dunn, N.D. Ala. (2021-02-19)
-  - candidate docket (recapture): Goodman v. Davis; <b><font color="red">PER ORDER: Do not docket in 2:12-cv-166. Documents should be filed in 2:25-CV-67.</font></b>, S.D. Tex. (2012-05-21)
-  - candidate docket (recapture): Edwards v. Grubbs, N.D. Ga. (2019-05-07)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Columbia County, GA
@@ -731,12 +649,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 20
-  - candidate docket (recapture): Kelso v. Columbia Acorn Trust, S.D. Ill. (2003-11-19)
-  - candidate docket (recapture): Cohen v. Columbia Acorn fund, D. Mass. (2004-08-02)
-  - candidate docket (recapture): In Re: Columbia University Patent Litigation, D. Mass. (2004-06-21)
-  - candidate docket (recapture): HANSON v. DISTRICT OF COLUMBIA, D.D.C. (2022-08-01)
-  - candidate docket (recapture): WASHINGTON v. DISTRICT OF COLUMBIA, D.D.C. (2007-06-08)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Coweta County, GA
@@ -745,12 +658,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 20
-  - candidate docket (abatement): Curepoint, LLC, Bankr. N.D. Ga. (2022-08-19)
-  - candidate docket (abatement): United States v. State of Georgia, N.D. Ga. (2016-08-23)
-  - candidate docket (abatement): WOOD v. NICHOLS, N.D. Fla. (2020-05-26)
-  - candidate docket (abatement): Famous Recipe Company Operations, LLC, Bankr. N.D. Ga. (2010-11-10)
-  - candidate docket (abatement): Nicely, Jr. v. Florida Department of Corrections, M.D. Fla. (2012-11-29)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Crawford County, GA
@@ -759,12 +667,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 20
-  - candidate docket (clawback): Crawford v. Gentiva Health Services, Inc., N.D. Ga. (2015-04-22)
-  - candidate docket (clawback): McBride-Crawford v. General Mills Cereals Operations Inc., W.D.N.Y. (2012-11-29)
-  - candidate docket (clawback): King v. Aramark Services, Inc., W.D.N.Y. (2019-01-14)
-  - candidate docket (clawback): Aldinger v. Alden State Bank, W.D.N.Y. (2017-10-10)
-  - candidate docket (clawback): Neddo v. Monsanto Company, D. Vt. (2023-09-14)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: DeKalb County, GA
@@ -836,12 +739,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 20
-  - candidate docket (development agreement): Panini America, Inc. v. Fanatics, Inc, M.D. Fla. (2023-08-03)
-  - candidate docket (development agreement): Parker Chandler Homes, LLC, Bankr. N.D. Ga. (2009-11-13)
-  - candidate docket (development agreement): In Re: Oil Spill by the Oil Rig "Deepwater Horizon" in the Gulf of Mexico, on April 20, 2010, E.D. La. (2010-08-10)
-  - candidate docket (development agreement): Triumph Actuation Systems - Yakima, LLC v. Cirrus Design Corporation, D. Minnesota (2025-04-09)
-  - candidate docket (development agreement): Beam Partners, LLC v. Maynard, E.D. Ky. (2017-01-06)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Fulton County, GA
@@ -1039,12 +937,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 20
-  - candidate docket (development agreement): Kelly N. Terrell, Bankr. E.D. Mich. (2005-10-03)
-  - candidate docket (development agreement): Purdue Pharma L.P., Bankr. S.D.N.Y. (2019-09-15)
-  - candidate docket (development agreement): XO Develpoment, LLC v. Raines, D. Colo. (2014-08-29)
-  - candidate docket (development agreement): Alliance Health Group, LLC v. Bridging Health Options, L.L.C., S.D. Miss. (2006-12-20)
-  - candidate docket (development agreement): Ross v. Thomas, S.D.N.Y. (2009-06-19)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Troup County, GA
@@ -1173,12 +1066,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 40
-  - candidate docket (tax increment): Baker v. Jones, E.D. Mo. (2013-07-11)
-  - candidate docket (tax increment): Jones v. City of Kansas City Missouri, W.D. Mo. (2024-10-04)
-  - candidate docket (tax increment): JONES v. CULVER FRANCHISING SYSTEM, INC., S.D. Ind. (2016-07-20)
-  - candidate docket (tax increment): Jones v. Culver Franchising System, Inc., N.D. Ill. (2013-04-30)
-  - candidate docket (tax increment): Lawrence Eugene Redman and Joy Ann Redman, Bankr. C.D. Cal. (2008-08-04)
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Linn County, IA
@@ -5237,7 +5125,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 8
+- Local meeting items on file: 6
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
   - local meeting: Mon, 10 Aug 2026 10:39:53 -0500 Joint Special Meeting: Board of Supervisor and School Board Retreat (civicplus_rss)
   - local meeting: Wed, 05 Aug 2026 10:30:56 -0500 Planning Commission Meeting Agenda (civicplus_rss)
@@ -5408,10 +5296,10 @@ Proxy score 4. Local meeting activity on file for the county. A 1 is never assig
 - Local meeting items on file: 25
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
   - local meeting: 2026-08-27T00:00:00 Notice of Potential Quorum (legistar)
+  - local meeting: 2026-08-20T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony (legistar)
+  - local meeting: 2026-08-19T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
   - local meeting: 2026-08-18T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
-  - local meeting: 2026-08-13T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
-  - local meeting: 2026-08-11T00:00:00 Notice of Potential Quorum (legistar)
-  - local meeting: 2026-08-11T00:00:00 See below for additional instructions on how to attend the meeting and provide public (legistar)
+  - local meeting: 2026-08-18T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Dodge County, WI
