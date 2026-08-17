@@ -37,14 +37,14 @@
         "spec": "full",
         "C": 0.3,
         "n_vars": 10,
-        "auc_median": 0.8197,
+        "auc_median": 0.8198,
         "sign_stable": false
       },
       {
         "spec": "full",
         "C": 0.1,
         "n_vars": 10,
-        "auc_median": 0.8199,
+        "auc_median": 0.8198,
         "sign_stable": false
       },
       {
@@ -58,42 +58,42 @@
         "spec": "full",
         "C": 0.01,
         "n_vars": 10,
-        "auc_median": 0.8196,
+        "auc_median": 0.8195,
         "sign_stable": false
       },
       {
         "spec": "no_shift",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.8244,
+        "auc_median": 0.8238,
         "sign_stable": true
       },
       {
         "spec": "no_shift",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.8254,
+        "auc_median": 0.8247,
         "sign_stable": true
       },
       {
         "spec": "no_shift",
         "C": 0.1,
         "n_vars": 9,
-        "auc_median": 0.8252,
+        "auc_median": 0.8246,
         "sign_stable": false
       },
       {
         "spec": "no_shift",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.825,
+        "auc_median": 0.8246,
         "sign_stable": false
       },
       {
         "spec": "no_shift",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.8229,
+        "auc_median": 0.8228,
         "sign_stable": false
       },
       {
@@ -107,7 +107,7 @@
         "spec": "drop_density",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.8201,
+        "auc_median": 0.82,
         "sign_stable": false
       },
       {
@@ -121,7 +121,7 @@
         "spec": "drop_density",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.8202,
+        "auc_median": 0.8201,
         "sign_stable": true
       },
       {
@@ -170,21 +170,21 @@
         "spec": "tier1_plus_size",
         "C": 1.0,
         "n_vars": 5,
-        "auc_median": 0.8177,
+        "auc_median": 0.8178,
         "sign_stable": true
       },
       {
         "spec": "tier1_plus_size",
         "C": 0.3,
         "n_vars": 5,
-        "auc_median": 0.8175,
+        "auc_median": 0.8171,
         "sign_stable": true
       },
       {
         "spec": "tier1_plus_size",
         "C": 0.1,
         "n_vars": 5,
-        "auc_median": 0.8177,
+        "auc_median": 0.817,
         "sign_stable": true
       },
       {
@@ -198,26 +198,26 @@
         "spec": "tier1_plus_size",
         "C": 0.01,
         "n_vars": 5,
-        "auc_median": 0.8152,
+        "auc_median": 0.8148,
         "sign_stable": true
       }
     ]
   },
   "roc_auc": {
-    "p10": 0.8053,
-    "p50": 0.8254,
+    "p10": 0.8046,
+    "p50": 0.8247,
     "p90": 0.8377
   },
   "brier": {
-    "p10": 0.0735,
-    "p50": 0.0763,
+    "p10": 0.0736,
+    "p50": 0.0762,
     "p90": 0.0816,
     "base_rate_brier": 0.0932
   },
   "calibration": {
-    "raw_slope": 1.003,
-    "raw_intercept": 0.004,
-    "post_recalibration_slope": 0.994,
+    "raw_slope": 1.002,
+    "raw_intercept": 0.003,
+    "post_recalibration_slope": 0.993,
     "post_recalibration_intercept": -0.015,
     "brier_calibrated": 0.0772,
     "note": "raw scores are compressed by shrinkage; the model includes a cross-fitted logistic recalibration layer. calibrated_score in the scores file is cross-fitted: no county's calibration was fit on itself. Post slope near 1 and intercept near 0 indicate the calibrated scores are honest probabilities."
@@ -225,30 +225,30 @@
   "coefficients": {
     "margin_2024": {
       "min": 0.05,
-      "median": 0.117,
+      "median": 0.118,
       "max": 0.181,
       "sign_stable": true
     },
     "existing_dc_count": {
-      "min": -0.864,
-      "median": -0.765,
+      "min": -0.859,
+      "median": -0.76,
       "max": -0.659,
       "sign_stable": true
     },
     "n_projects_tracked": {
       "min": 0.871,
       "median": 0.987,
-      "max": 1.106,
+      "max": 1.1,
       "sign_stable": true
     },
     "state_legislation_events": {
       "min": -0.237,
-      "median": -0.149,
-      "max": -0.1,
+      "median": -0.15,
+      "max": -0.099,
       "sign_stable": true
     },
     "land_sqmi": {
-      "min": -0.141,
+      "min": -0.144,
       "median": -0.071,
       "max": -0.001,
       "sign_stable": true
@@ -256,11 +256,11 @@
     "median_hh_income": {
       "min": 0.04,
       "median": 0.131,
-      "max": 0.238,
+      "max": 0.239,
       "sign_stable": true
     },
     "pop_density_sqmi": {
-      "min": 0.055,
+      "min": 0.052,
       "median": 0.11,
       "max": 0.196,
       "sign_stable": true
@@ -273,25 +273,25 @@
     },
     "population": {
       "min": 0.527,
-      "median": 0.573,
+      "median": 0.574,
       "max": 0.641,
       "sign_stable": true
     }
   },
   "aggregate_manifest": {
-    "generated": "2026-08-14",
+    "generated": "2026-08-17",
     "counties": 3222,
-    "event_rows_with_county": 1210,
+    "event_rows_with_county": 1220,
     "event_match_rate": 0.9893,
     "enacted_restriction_counties": 327,
-    "dc_presence_counties": 398,
+    "dc_presence_counties": 399,
     "inputs": {
       "county_census_features.csv": "c94063d9123016f5",
       "county_votes.json": "b521eb017a7acfa5",
       "atlas.csv": "7a8c78d3ed6cea2d",
-      "master_opposition.csv": "396f81ee57201c54",
-      "baseline_universe.csv": "e19f6fa732424ba7",
-      "project_lifecycles.csv": "076da387d58321f1"
+      "master_opposition.csv": "6e8015df45d21a08",
+      "baseline_universe.csv": "d62da118d637a4d1",
+      "project_lifecycles.csv": "3b7c63935cfb7252"
     }
   }
 }
