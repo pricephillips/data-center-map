@@ -1,63 +1,63 @@
 {
-  "generated": "2026-08-12",
-  "n": 87,
+  "generated": "2026-08-17",
+  "n": 88,
   "n_blocked": 27,
-  "base_rate": 0.3103,
+  "base_rate": 0.3068,
   "cv": {
     "folds": 5,
     "repeats": 10
   },
   "roc_auc": {
-    "p10": 0.6831,
-    "p50": 0.85,
-    "p90": 0.9344
+    "p10": 0.7158,
+    "p50": 0.8181,
+    "p90": 0.9391
   },
   "brier": {
-    "p10": 0.1073,
-    "p50": 0.1715,
-    "p90": 0.2203,
-    "base_rate_brier": 0.214
+    "p10": 0.104,
+    "p50": 0.1732,
+    "p90": 0.2263,
+    "base_rate_brier": 0.2127
   },
   "top_features": [
     {
       "name": "mech_public_comment",
-      "auc_drop": 0.1963,
-      "mean_std_coef": -1.4193
+      "auc_drop": 0.1943,
+      "mean_std_coef": -1.3889
     },
     {
       "name": "hyperscaler_involved",
-      "auc_drop": 0.0272,
-      "mean_std_coef": -0.6051
+      "auc_drop": 0.0313,
+      "mean_std_coef": -0.5732
     },
     {
       "name": "capacity_missing",
-      "auc_drop": 0.0183,
-      "mean_std_coef": 0.5488
-    },
-    {
-      "name": "days_to_first_opposition",
-      "auc_drop": 0.0134,
-      "mean_std_coef": -0.3407
+      "auc_drop": 0.0233,
+      "mean_std_coef": 0.5097
     },
     {
       "name": "county_margin_2024",
-      "auc_drop": 0.0123,
-      "mean_std_coef": 0.5352
+      "auc_drop": 0.0224,
+      "mean_std_coef": 0.5231
+    },
+    {
+      "name": "log10_capacity_mw",
+      "auc_drop": -0.0193,
+      "mean_std_coef": -0.0177
+    },
+    {
+      "name": "days_to_first_opposition",
+      "auc_drop": 0.0155,
+      "mean_std_coef": -0.4084
+    },
+    {
+      "name": "n_opposition_groups",
+      "auc_drop": -0.0117,
+      "mean_std_coef": -0.0795
     },
     {
       "name": "n_opposition_events",
-      "auc_drop": 0.0115,
-      "mean_std_coef": -0.3287
-    },
-    {
-      "name": "mech_regulatory_action",
-      "auc_drop": 0.0091,
-      "mean_std_coef": -0.3374
-    },
-    {
-      "name": "mech_moratorium",
-      "auc_drop": 0.0088,
-      "mean_std_coef": -0.3236
+      "auc_drop": 0.0113,
+      "mean_std_coef": -0.3295
     }
   ],
   "feature_columns": [
