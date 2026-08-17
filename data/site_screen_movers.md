@@ -1,25 +1,30 @@
 # Opposition Environment Movement Report
 
-Run date: 2026-08-12
-Compared against: 2026-08-11
+Run date: 2026-08-17
+Compared against: 2026-08-14
 
-Sites screened: 334 | tier changes: 3 | composite moves of 3 points or more: 3 | newly screened: 0
+Sites screened: 336 | tier changes: 6 | composite moves of 3 points or more: 5 | newly screened: 0
 
 ## Tier changes
 
 | Site | County, State | From | To | Composite change |
 | :-- | :-- | :-- | :-- | --: |
-| PNK Valley View Data Center | Lackawanna County, PA | Low | High | +53.2 |
-| Ransom Township Mudiita Data Center | Lackawanna County, PA | Guarded | High | +46.8 |
-| Nebius Butler Township Data Center | Schuylkill County, PA | Low | Guarded | +24.9 |
+| Dauphin Highlands Golf Course sold for Data Center | Dauphin County, PA | Elevated | Guarded | -0.2 |
+| Penzance Intelligence Center | Berkeley County, WV | Guarded | Low | -0.2 |
+| PNK Valley View Data Center | Lackawanna County, PA | Low | High | +53.3 |
+| Ransom Township Mudiita Data Center | Lackawanna County, PA | Guarded | High | +46.6 |
+| Nebius Butler Township Data Center | Schuylkill County, PA | Low | Guarded | +24.8 |
+| Swedeland Discovery Center Data Center Campus | Montgomery County, PA | Guarded | High | +26.5 |
 
 ## Largest composite moves
 
 | Site | County, State | Tier | Composite | Change |
 | :-- | :-- | :-- | :-- | --: |
-| PNK Valley View Data Center | Lackawanna County, PA | High | 85.2 | +53.2 |
-| Ransom Township Mudiita Data Center | Lackawanna County, PA | High | 87.3 | +46.8 |
-| Nebius Butler Township Data Center | Schuylkill County, PA | Guarded | 64.4 | +24.9 |
+| PNK Valley View Data Center | Lackawanna County, PA | High | 85.1 | +53.3 |
+| Ransom Township Mudiita Data Center | Lackawanna County, PA | High | 87.1 | +46.6 |
+| Swedeland Discovery Center Data Center Campus | Montgomery County, PA | High | 89.0 | +26.5 |
+| Nebius Butler Township Data Center | Schuylkill County, PA | Guarded | 63.8 | +24.8 |
+| Stonebridge Lawrence Data Center | Lawrence County, PA | Guarded | 45.9 | -10.5 |
 
 ## Reading this report
 
