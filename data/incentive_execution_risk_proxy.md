@@ -46,7 +46,8 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 1
+  - candidate docket (recapture): Duncan v. Becerra, S.D. Cal. (2017-05-17)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Baldwin County, AL
@@ -5125,14 +5126,10 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 6
+- Local meeting items on file: 2
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
   - local meeting: Mon, 10 Aug 2026 10:39:53 -0500 Joint Special Meeting: Board of Supervisor and School Board Retreat (civicplus_rss)
   - local meeting: Wed, 05 Aug 2026 10:30:56 -0500 Planning Commission Meeting Agenda (civicplus_rss)
-  - local meeting: Fri, 31 Jul 2026 16:59:47 -0500 Board of Supervisors Workshop - BPOL (civicplus_rss)
-  - local meeting: Fri, 31 Jul 2026 10:33:40 -0500 POWHATAN COUNTY BOARD OF SUPERVISORS AND 
-POWHATAN COUNTY SCHOOL BOARD JOINT LEGISLATIVE WORKSHOP (civicplus_rss)
-  - local meeting: Fri, 31 Jul 2026 10:32:26 -0500 Departmental Overview - Community Matters (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Prince William County, VA
@@ -5297,9 +5294,9 @@ Proxy score 4. Local meeting activity on file for the county. A 1 is never assig
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
   - local meeting: 2026-08-27T00:00:00 Notice of Potential Quorum (legistar)
   - local meeting: 2026-08-20T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony (legistar)
+  - local meeting: 2026-08-20T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. The meeting will begin at 5:30 pm or when the Land Conservation Committee adjourns, whichever is later. The Zoom link for the meetings is the same. (legistar)
+  - local meeting: 2026-08-20T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
   - local meeting: 2026-08-19T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
-  - local meeting: 2026-08-18T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
-  - local meeting: 2026-08-18T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Dodge County, WI

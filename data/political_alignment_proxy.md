@@ -45,17 +45,17 @@ Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is n
 
 ### Political alignment proxy: CA
 
-Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is never assigned automatically; see module docstring.
+Proxy score 2. A verified chamber roll call shows a restrictive measure passing or a supportive measure failing. A 1 is never assigned automatically; see module docstring.
 
 - Statewide legislative records on data centers: 7 (0 supportive, 5 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
-  - 2025-10-11 (SB 57): unclear (feed qc_leg_stance: unclear)
+  - 2025-10-11 (SB 57): unclear (verified roll call: 158 yes / 46 no)
   - 2026-01-12 (AB 1577): restrictive (feed qc_leg_stance: restrictive)
   - 2025-01-15 (statewide): restrictive (feed qc_leg_stance: restrictive)
   - 2026-02-04 (unidentified): restrictive (feed qc_leg_stance: restrictive)
   - 2026-01-13 (SB 887): restrictive (feed qc_leg_stance: restrictive)
-  - 2026-02-18 (SB 1168): unclear (feed qc_leg_stance: unclear)
-  - 2026-02-20 (AB 2619): restrictive (feed qc_leg_stance: restrictive)
+  - 2026-02-18 (SB 1168): unclear (verified roll call: 88 yes / 15 no)
+  - 2026-02-20 (AB 2619): restrictive (verified roll call: 111 yes / 28 no)
 - This proxy reads the public statewide legislative record only. Governor's position, local board and EDO stance, and utility/regulator posture are not covered and must be researched separately; see political_alignment_worklist.py.
 
 ### Political alignment proxy: CO
@@ -113,7 +113,7 @@ Proxy score 2. A verified chamber roll call shows a restrictive measure passing 
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
   - 2026-02-09 (statewide): restrictive (feed qc_leg_stance: restrictive)
   - 2026-01-16 (statewide HB 1012): unclear (feed qc_leg_stance: unclear)
-  - 2026-03-06 (SB 410): restrictive (verified roll call: 256 yes / 172 no)
+  - 2026-03-06 (SB 410): restrictive (verified roll call: 320 yes / 215 no)
   - 2026-02-01 (HB 559 tax exemption sunset): unclear (feed qc_leg_stance: unclear)
   - 2026-02-01 (SB 408 tax exemption sunset): unclear (feed qc_leg_stance: unclear)
   - 2026-04-03 (2026 Legislative Session Failure): unclear (feed qc_leg_stance: unclear)
@@ -481,7 +481,7 @@ Proxy score 4. Verified chamber roll calls show restrictive measures failing and
 - Statewide legislative records on data centers: 4 (0 supportive, 4 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
   - 2026-03-24 (statewide): restrictive (feed qc_leg_stance: restrictive)
-  - 2026-02-18 (SB 232): restrictive (verified roll call: 8 yes / 8 no)
+  - 2026-02-18 (SB 232): restrictive (verified roll call: 16 yes / 16 no)
   - 2026-02-24 (moratorium/incentive defeat): restrictive (feed qc_leg_stance: restrictive)
   - 2026-03-25 (SB 135 — bars state from limiting local authority to regulate/ban data centers): restrictive (feed qc_leg_stance: restrictive)
 - This proxy reads the public statewide legislative record only. Governor's position, local board and EDO stance, and utility/regulator posture are not covered and must be researched separately; see political_alignment_worklist.py.
@@ -519,12 +519,12 @@ Proxy score 2. A verified chamber roll call shows a restrictive measure passing 
 - Statewide legislative records on data centers: 2 (0 supportive, 2 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
   - 2026-01-15 (statewide): restrictive (feed qc_leg_stance: restrictive)
-  - 2026-02-01 (HB 76): restrictive (verified roll call: 166 yes / 22 no)
+  - 2026-02-01 (HB 76): restrictive (verified roll call: 332 yes / 44 no)
 - This proxy reads the public statewide legislative record only. Governor's position, local board and EDO stance, and utility/regulator posture are not covered and must be researched separately; see political_alignment_worklist.py.
 
 ### Political alignment proxy: VA
 
-Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is never assigned automatically; see module docstring.
+Proxy score 2. A verified chamber roll call shows a restrictive measure passing or a supportive measure failing. A 1 is never assigned automatically; see module docstring.
 
 - Statewide legislative records on data centers: 16 (0 supportive, 10 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
@@ -538,7 +538,7 @@ Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is n
   - 2026-02-24 (budget tax exemption fight): unclear (feed qc_leg_stance: unclear)
   - 2026-06-22 (budget/tax exemption stalemate): restrictive (feed qc_leg_stance: restrictive)
   - 2025-12-17 (DEQ diesel generator guidance): restrictive (feed qc_leg_stance: restrictive)
-  - 2026-03-01 (HB 507): restrictive (feed qc_leg_stance: restrictive)
+  - 2026-03-01 (HB 507): restrictive (verified roll call: 314 yes / 126 no)
   - 2026-02-01 (SB 94 / HB 153 siting): restrictive (feed qc_leg_stance: restrictive)
   - 2026-02-01 (SB 553 water disclosure): restrictive (feed qc_leg_stance: restrictive)
   - 2026-04-13 (PJM coalition): unclear (feed qc_leg_stance: unclear)
@@ -558,11 +558,11 @@ Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is n
 
 ### Political alignment proxy: WA
 
-Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is never assigned automatically; see module docstring.
+Proxy score 2. A verified chamber roll call shows a restrictive measure passing or a supportive measure failing. A 1 is never assigned automatically; see module docstring.
 
 - Statewide legislative records on data centers: 3 (0 supportive, 3 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
-  - 2026-01-01 (SB 6231): restrictive (feed qc_leg_stance: restrictive)
+  - 2026-01-01 (SB 6231): restrictive (verified roll call: 124 yes / 119 no)
   - 2026-02-11 (statewide): restrictive (feed qc_leg_stance: restrictive)
   - 2026-04-01 (UTC data center review): restrictive (feed qc_leg_stance: restrictive)
 - This proxy reads the public statewide legislative record only. Governor's position, local board and EDO stance, and utility/regulator posture are not covered and must be researched separately; see political_alignment_worklist.py.
