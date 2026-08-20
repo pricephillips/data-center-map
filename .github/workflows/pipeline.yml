@@ -7,6 +7,7 @@ name: Build Clean Feed
 #   -> county layer (county_aggregator -> county_policy_model -> county_policy_intervals)
 #   -> FIPS resolution (census_geocode -> county_fips_overlay.csv)
 #   -> coverage audit + restriction worklist (county recall vs external census)
+#   -> detection layer (record staleness, adjacency re-scan, frame audits)
 #   -> site screener (opposition environment tiers + movement report)
 # then triggers the Iowa Notion sync.
 #
@@ -24,6 +25,20 @@ name: Build Clean Feed
 # stay in master_opposition.csv; untagged_triage.py writes the review worklist
 # for recovering them. Its self-tests are BLOCKING because a silent failure
 # there would put unverified rows back into every count.
+#
+# Detection layer (added 2026-08-18): the three remaining root causes behind
+# the TVA misses, all of which are detection rather than modeling problems.
+# stale_pending_audit.py ages non-terminal records against per-mechanism
+# thresholds and ranks by whether confirming one moves a county label (the
+# Hamilton case). adjacency_scan.py turns each enacted county into a ranked
+# check of its neighbours (the Walker and Grundy cases) and writes
+# configs/local_meeting_watchlist.csv, which local_meeting_feed.py unions
+# into its discovery and fetch frames so a county with zero tracker records
+# can be polled at all. subframe_audit.py re-derives coverage inside a
+# registered frame, because national recall averaged over 3,144 counties hid
+# a 21 percent miss rate inside a 198-county deliverable. All three are
+# reporting only and non-blocking: they queue work, they never move a label,
+# a grade, or a status.
 #
 # County layer (added 2026-07-23): runs only if project resolution succeeded
 # (county_aggregator reads data/project_lifecycles.csv; running it against a
@@ -46,6 +61,8 @@ on:
       - 'data/county_census_features.csv'
       - 'data/county_votes.json'
       - 'data/county_fips_lookup.json'
+      - 'configs/audit_frames.json'
+      - 'configs/frames/*.csv'
       # Code that produces the artifacts. Without these, pushing a pipeline
       # change did not run the pipeline, so a module could ship and its
       # outputs would never be generated. That is why the screener, the
@@ -102,6 +119,16 @@ jobs:
           python coverage_audit.py --selftest
           echo "Restriction worklist self-tests:"
           python restriction_worklist.py --selftest
+          echo "Staleness audit self-tests:"
+          python stale_pending_audit.py --selftest
+          echo "County adjacency self-tests:"
+          python fetch_county_adjacency.py --selftest
+          echo "Adjacency scan self-tests:"
+          python adjacency_scan.py --selftest
+          echo "Frame audit self-tests:"
+          python subframe_audit.py --selftest
+          echo "Local meeting feed self-tests (watchlist union):"
+          python local_meeting_feed.py --selftest
 
       - name: Run pipeline (clean -> gate -> clean feed)
         run: python build_clean_feed.py --in master_opposition.csv --out master_opposition_clean.csv
@@ -169,6 +196,29 @@ jobs:
           # carried forward, so an auto-commit cannot discard research.
           python restriction_worklist.py
 
+      - name: Detection layer (staleness, adjacency re-scan, frame audits)
+        id: detection
+        if: steps.coverage.outcome == 'success'
+        continue-on-error: true
+        run: |
+          # Runs AFTER the coverage audit: adjacency_scan.py seeds off
+          # data/coverage_gap_report.csv as well as the county label, so a
+          # census-enacted county with no tracker record still radiates
+          # diffusion pressure onto its neighbours.
+          python stale_pending_audit.py
+          # County borders do not move. The adjacency table is built once and
+          # committed; a rebuild only happens if the file is missing, so the
+          # daily run never re-fetches the 3 MB county geojson.
+          if [ ! -f data/county_adjacency.csv ]; then
+            python fetch_county_adjacency.py
+          fi
+          python adjacency_scan.py
+          # Frame audits for the two live bounded deliverables. Reporting
+          # only here: --gate is for the pre-delivery check, not for CI,
+          # because a provisional frame must not fail the nightly build.
+          python subframe_audit.py --frame vantage_three_state
+          python subframe_audit.py --frame tva
+
       - name: FIPS resolution (Census geocoder; overlay for the screener)
         id: fips_resolution
         if: steps.county_layer.outcome == 'success'
@@ -233,6 +283,22 @@ jobs:
                     data/restriction_ingest_template.csv \
                     data/restriction_worklist.md 2>/dev/null || true
           fi
+          # Detection-layer artifacts are staged only on a green detection
+          # step. The watchlist is merge-preserving inside adjacency_scan.py,
+          # so an auto-commit cannot discard a reviewer's note, and the
+          # adjacency table is committed so the geojson is never re-fetched.
+          if [ "${{ steps.detection.outcome }}" = "success" ]; then
+            git add data/stale_pending_worklist.csv \
+                    data/stale_pending_summary.json \
+                    data/stale_pending_report.md \
+                    data/county_adjacency.csv \
+                    data/county_adjacency_manifest.json \
+                    data/adjacency_scan_queue.csv \
+                    data/adjacency_scan_summary.json \
+                    data/adjacency_scan_report.md \
+                    data/subframe_audit_*.csv data/subframe_audit_*.md \
+                    configs/local_meeting_watchlist.csv 2>/dev/null || true
+          fi
           # FIPS overlay, its review file, and the geocode cache are staged
           # only on a green resolution step. The cache is append-only, so
           # committing it is what keeps the steady-state API call count at zero.
@@ -252,7 +318,7 @@ jobs:
           git push
 
       - name: Trigger Iowa Notion sync
-        if: success() || steps.verification.outcome == 'failure' || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure' || steps.coverage.outcome == 'failure' || steps.fips_resolution.outcome == 'failure' || steps.site_screener.outcome == 'failure'
+        if: success() || steps.verification.outcome == 'failure' || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure' || steps.coverage.outcome == 'failure' || steps.detection.outcome == 'failure' || steps.fips_resolution.outcome == 'failure' || steps.site_screener.outcome == 'failure'
         uses: actions/github-script@v7
         with:
           # Cross-repo dispatch needs a PAT with repo scope (the default
@@ -289,6 +355,12 @@ jobs:
         if: steps.coverage.outcome == 'failure'
         run: |
           echo "::error::coverage_audit.py or restriction_worklist.py failed. Recall and worklist artifacts were NOT committed; the last good versions remain in place. Clean feed, county layer, and Iowa sync were unaffected."
+          exit 1
+
+      - name: Surface detection-layer failure (visible, non-blocking)
+        if: steps.detection.outcome == 'failure'
+        run: |
+          echo "::error::A detection-layer module failed (staleness audit, adjacency table, adjacency scan, or a frame audit). No detection artifacts were committed; the last good versions remain in place. The clean feed, county layer, coverage audit, and Iowa sync were unaffected. Note that the adjacency scan exits nonzero when data/county_adjacency.csv is absent and the geojson fetch also failed."
           exit 1
 
       - name: Surface FIPS-resolution failure (visible, non-blocking)
