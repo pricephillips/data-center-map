@@ -65,6 +65,14 @@ FEED = os.path.join(ROOT, "master_opposition_clean.csv")
 CONFIGS = os.path.join(ROOT, "configs")
 DISCOVERY_CACHE = os.path.join(CONFIGS, "local_meeting_sources.json")
 OVERRIDES = os.path.join(CONFIGS, "local_meeting_sources_overrides.json")
+# Counties queued by adjacency_scan.py. Both frames below are otherwise built
+# from the clean feed, which means a county with zero tracker records can
+# never be probed and never be polled: the ingestion frame is defined by what
+# the tracker already knows. That is the structural half of the
+# small-jurisdiction blind spot (Grundy, Coffee and Walker were all outside
+# the frame at the time they enacted). Unioning this file in is what lets a
+# county enter ingestion on adjacency evidence alone.
+WATCHLIST = os.path.join(CONFIGS, "local_meeting_watchlist.csv")
 OUT_FEED = os.path.join(ROOT, "data", "local_meeting_feed.csv")
 
 FEED_COLS = ["jurisdiction", "state", "county", "body", "meeting_datetime",
@@ -118,14 +126,59 @@ def jurisdictions_from_feed(path: str, state_filter: str | None = None) -> list[
     return pairs
 
 
-def ambiguous_county_names(path: str) -> set[str]:
+def jurisdictions_from_watchlist(path: str = WATCHLIST,
+                                 state_filter: str | None = None) -> list[tuple[str, str]]:
+    """(state, county) pairs from the adjacency watchlist.
+
+    Only rows still queued are returned; a retired row is kept in the file so
+    a reviewer's note survives, but it is not polled. Absent file returns an
+    empty list, so this is additive by construction.
+    """
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, newline="", encoding="utf-8-sig") as f:
+            rows = list(csv.DictReader(f))
+    except (OSError, csv.Error, UnicodeDecodeError):
+        return []
+    pairs = set()
+    for r in rows:
+        if str(r.get("still_queued", "1")).strip() not in ("1", "true", "True"):
+            continue
+        state = (r.get("state") or "").strip().upper()
+        county = (r.get("county") or "").strip()
+        if not state or not county:
+            continue
+        if state_filter and state != state_filter:
+            continue
+        pairs.add((state, county))
+    return sorted(pairs)
+
+
+def jurisdiction_frame(feed_path: str = FEED,
+                       state_filter: str | None = None,
+                       watchlist_path: str = WATCHLIST) -> list[tuple[str, str]]:
+    """The clean feed's jurisdictions unioned with the adjacency watchlist."""
+    pairs = set(jurisdictions_from_feed(feed_path, state_filter))
+    pairs |= set(jurisdictions_from_watchlist(watchlist_path, state_filter))
+    return sorted(pairs)
+
+
+def ambiguous_county_names(path: str,
+                           pairs: list[tuple[str, str]] | None = None) -> set[str]:
     """Bare county names (state suffix words stripped) that belong to more
     than one state across the WHOLE feed, e.g. Clark County exists in both
     NV and OH. A slug-guessed platform match for one of these cannot be
     trusted without state confirmation the source APIs don't expose, so
     these names are excluded from auto-detection and must go through the
-    manual overrides file instead."""
-    all_pairs = jurisdictions_from_feed(path, state_filter=None)
+    manual overrides file instead.
+
+    `pairs` lets the caller pass the full jurisdiction frame (feed plus
+    watchlist). Ambiguity has to be judged over everything being probed:
+    a watchlist county whose name also exists in another state is exactly as
+    unsafe to slug-guess as a feed one."""
+    all_pairs = (pairs if pairs is not None
+                 else jurisdictions_from_feed(path, state_filter=None))
     states_by_name: dict[str, set[str]] = {}
     for state, county in all_pairs:
         bare = re.sub(r"\b(county|borough|parish|municipality)\b", "", county,
@@ -241,8 +294,11 @@ def save_json(path: str, data: dict) -> None:
 
 def discover(state_filter: str | None, redo: bool) -> dict:
     cache = load_json(DISCOVERY_CACHE)
-    pairs = jurisdictions_from_feed(FEED, state_filter)
-    ambiguous_names = ambiguous_county_names(FEED)
+    feed_pairs = jurisdictions_from_feed(FEED, state_filter)
+    pairs = jurisdiction_frame(FEED, state_filter)
+    watch_only = len(pairs) - len(set(feed_pairs))
+    ambiguous_names = ambiguous_county_names(
+        FEED, jurisdiction_frame(FEED, state_filter=None))
     checked = 0
     for state, county in pairs:
         key = jur_key(state, county)
@@ -255,6 +311,8 @@ def discover(state_filter: str | None, redo: bool) -> dict:
     save_json(DISCOVERY_CACHE, cache)
     found = sum(1 for v in cache.values() if v.get("platform") not in ("none", "ambiguous"))
     skipped_ambiguous = sum(1 for v in cache.values() if v.get("platform") == "ambiguous")
+    print(f"discovery frame: {len(pairs)} jurisdictions "
+          f"({watch_only} from the adjacency watchlist, not in the feed)")
     print(f"discovery: {checked} newly probed, {len(cache)} total cached, "
          f"{found} with a detected platform, {skipped_ambiguous} skipped as "
          f"cross-state name-ambiguous -> "
@@ -340,7 +398,7 @@ def fetch(state_filter: str | None) -> list[dict]:
     cache = load_json(DISCOVERY_CACHE)
     overrides = load_json(OVERRIDES)
     merged = {**cache, **overrides}
-    pairs = jurisdictions_from_feed(FEED, state_filter)
+    pairs = jurisdiction_frame(FEED, state_filter)
     rows = []
     for state, county in pairs:
         key = jur_key(state, county)
@@ -471,6 +529,58 @@ def selftest() -> int:
     with mock.patch(f"{__name__}.http_get", return_value=(0, b"")):
         rows = fetch_legistar("https://webapi.legistar.com/v1/test", "Test City, VA", "VA", "Test City")
     check(rows == [], "adapters return no rows on a network error")
+
+    # --- adjacency watchlist union (2026-08-18) ---
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        feed_path = os.path.join(td, "feed.csv")
+        with open(feed_path, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f, lineterminator="\n")
+            w.writerow(["State", "County", "is_statewide"])
+            w.writerow(["TN", "Hamilton County", "False"])
+            w.writerow(["NV", "Clark County", "False"])
+            w.writerow(["TN", "Statewide bill", "True"])
+
+        wl_path = os.path.join(td, "watchlist.csv")
+        with open(wl_path, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f, lineterminator="\n")
+            w.writerow(["state", "county", "fips", "reason", "priority",
+                        "first_queued_utc", "last_seen_utc", "still_queued",
+                        "reviewer_note"])
+            w.writerow(["GA", "Walker County", "13295", "adjacency", "1",
+                        "", "", "1", ""])
+            w.writerow(["TN", "Hamilton County", "47065", "adjacency", "2",
+                        "", "", "1", ""])
+            w.writerow(["OH", "Clark County", "39023", "adjacency", "2",
+                        "", "", "1", ""])
+            w.writerow(["TN", "Retired County", "47999", "adjacency", "2",
+                        "", "", "0", "resolved, no action"])
+
+        feed_only = jurisdictions_from_feed(feed_path)
+        frame = jurisdiction_frame(feed_path, None, wl_path)
+        check(("GA", "Walker County") not in feed_only,
+              "a county with no tracker record is outside the feed frame")
+        check(("GA", "Walker County") in frame,
+              "the watchlist brings a zero-record county into the frame")
+        check(("TN", "Hamilton County") in frame
+              and len([p for p in frame if p == ("TN", "Hamilton County")]) == 1,
+              "a county in both the feed and the watchlist appears once")
+        check(("TN", "Retired County") not in frame,
+              "a retired watchlist row is kept on file but not polled")
+        check(("TN", "Statewide bill") not in frame,
+              "statewide rows stay excluded from the frame")
+        check(jurisdiction_frame(feed_path, "GA", wl_path)
+              == [("GA", "Walker County")],
+              "the state filter applies to the watchlist too")
+        check(jurisdiction_frame(feed_path, None, os.path.join(td, "none.csv"))
+              == feed_only,
+              "an absent watchlist leaves the frame unchanged")
+        check("clark" in ambiguous_county_names(feed_path, frame),
+              "a watchlist county name that exists in two states is "
+              "ambiguous, so it is never slug-guessed")
+        check("clark" not in ambiguous_county_names(feed_path, feed_only),
+              "the same name is unambiguous over the feed alone, which is "
+              "why ambiguity must be judged over the whole frame")
 
     print("selftest:", "OK" if ok else "FAILED")
     return 0 if ok else 1

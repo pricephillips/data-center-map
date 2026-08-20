@@ -87,6 +87,30 @@ INTERNAL_QUOTES = {
     ("data/bill_sync_worklist.csv", "recorded_outcome"),
     ("master_opposition_clean.csv", "outcome_conflict_reason"),
     ("review_conflicts.csv", "outcome_conflict_reason"),
+    # Registered 2026-08-18. The blocking tier was RED on main and both
+    # pipeline.yml and gate-check.yml run this module as a hard gate with no
+    # continue-on-error, so every nightly build aborted at the audit step,
+    # before project resolution, the county layer, the coverage audit, the
+    # screener, and the commit. It is also why data/decision_date_worklist.csv
+    # sits at 46 rows while a live landmark run produces 47: gate-check.yml
+    # never reached its commit step either. None of the five hits was our
+    # vocabulary:
+    #
+    #   motion_text  Open States machine-coded legislative journal text
+    #                ("Conrad AM2794 lost" is the journal's own wording for a
+    #                failed amendment). 392 values, transported not composed,
+    #                and the exact wording is what makes a vote row auditable.
+    #   party        CourtListener docket party names. "WIN J. WRIGHT" and
+    #                "Win Maung" are people.
+    #
+    # Same class as Community Outcome: inherited source values in
+    # internal-only artifacts, exempted as exact file-plus-column pairs
+    # rather than by field name, so a composed column called motion_text
+    # somewhere else would still block.
+    ("data/bill_sync_votes.csv", "motion_text"),
+    ("data/bill_sync_cache.json", "motion_text"),
+    ("data/dispute_watch_cache.json", "party"),
+    ("data/dispute_watch.csv", "party"),
 }
 
 # Columns and keys copied verbatim from the source of record. The pipeline
@@ -295,6 +319,28 @@ def selftest() -> int:
     eq("conflict-reason quote is advisory",
        classify("review_conflicts.csv", "recorded outcome 'win' without",
                 field="outcome_conflict_reason"), ADVISORY)
+    # --- 2026-08-18 registrations (the five hits that had main's gate red) ---
+    eq("open states motion text is advisory",
+       classify("data/bill_sync_votes.csv", "Conrad AM2794 lost",
+                field="motion_text"), ADVISORY)
+    eq("open states motion text in the cache is advisory",
+       classify("data/bill_sync_cache.json", "Conrad AM2794 lost",
+                field="motion_text"), ADVISORY)
+    eq("docket party name is advisory",
+       classify("data/dispute_watch_cache.json", "Win Maung",
+                field="party"), ADVISORY)
+    eq("docket party name in the csv is advisory",
+       classify("data/dispute_watch.csv", "WIN J. WRIGHT",
+                field="party"), ADVISORY)
+    eq("a composed motion_text elsewhere still blocks",
+       classify("data/county_policy_report.csv", "a clear win",
+                field="motion_text"), BLOCKING)
+    eq("a composed party column elsewhere still blocks",
+       classify("data/outcome_summary.csv", "a clear win",
+                field="party"), BLOCKING)
+    eq("prose in a bill sync report still blocks",
+       classify("data/bill_sync_report.md", "a win for opponents"), BLOCKING)
+
     eq("same column elsewhere stays blocking",
        classify("data/some_report.csv", "a win",
                 field="recorded_outcome"), BLOCKING)
