@@ -1,0 +1,24 @@
+{
+  "as_of": "2026-08-20",
+  "non_terminal_scoped": 247,
+  "stale": 206,
+  "priority_1_label_moving": 12,
+  "priority_2_grade_only": 154,
+  "priority_3_non_restrictive": 40,
+  "priority_4_early_warning": 41,
+  "label_moving_total": 23,
+  "counties_in_priority_1": 12,
+  "counties_with_a_label_moving_row": 22,
+  "excluded_statewide_non_terminal": 188,
+  "excluded_undated_non_terminal": 0,
+  "thresholds_days": {
+    "moratorium": 120,
+    "ban": 120,
+    "project_denial": 120,
+    "conditional_zoning": 180,
+    "legislation": 270,
+    "litigation": 365,
+    "default": 365
+  },
+  "note": "Age is a prompt to re-verify, never evidence that a status changed. Priority 1 rows are the only ones whose confirmation moves a county label. Statewide rows are out of scope here and belong to bill_sync.py; undated non-terminal rows belong to the date worklists."
+}

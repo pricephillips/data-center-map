@@ -1,13 +1,13 @@
 # Master Opposition QC Report
 
-- Records scanned: **1459**
-- Passed to feed: **1445**
-- Blocked / quarantined: **14**
+- Records scanned: **1558**
+- Passed to feed: **1530**
+- Blocked / quarantined: **28**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- DUPLICATE: 8
+- DUPLICATE: 22
 - LEG_SOURCE_WEAK: 4
 - STATEWIDE_CAPITAL_SINK: 1
 - STUDY_SOURCE_WEAK: 1
@@ -34,3 +34,17 @@
 | Doña Ana County, NM (Project Jupiter Bloom Energy fuel-cell microgrid announcement) | study | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Abilene, TX (Oracle/OpenAI drop flagship Stargate Abilene expansion; Meta in talks for Crusoe capacity) | project | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Douglas County Commission | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Ex - farm bureau chief invites AI data center developers to buy his land argues blocked $6 . 3B project will just move to willing neighbors , defies 500 - jurisdiction moratorium wave and 70 % public opposition | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Rep . Ro Khanna calls for  Data Center Bill of Right and says the industry needs regulation | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Emporia City Commission to consider battery storage petition , recreation center proposal Wednesday | generic | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Moratorium proposal for Caddo Parish data center tax incentives hits legal roadblock | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Residents demand moratorium on data center development in Lowndes County | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| City of Janesville taps public to shape data center  companion ordinance | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Six - month moratorium on data centers approved in Calvert | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Ex - farm bureau chief invites AI data center developers to buy his land argues blocked $6 . 3B project will just move to willing neighbors , defies 500 - jurisdiction moratorium wave and 70 % public opposition | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Six - month moratorium on data centers approved in Calvert | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Emporia City Commission to consider battery storage petition , recreation center proposal Wednesday | generic | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Moratorium proposal for Caddo Parish data center tax incentives hits legal roadblock | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Residents demand moratorium on data center development in Lowndes County | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| City of Janesville taps public to shape data center  companion ordinance | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Rep . Ro Khanna calls for  Data Center Bill of Right and says the industry needs regulation | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
