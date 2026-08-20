@@ -1,0 +1,22 @@
+{
+  "_note": "Frames for subframe_audit.py. A frame is COMPLETE only when its county list is enumerated, either inline as `fips` or in a `fips_file` that exists. A frame defined by `states` alone is PROVISIONAL: the audit still runs and still finds gaps, but its recall is a state-aggregate proxy for the frame and must not be quoted as the frame's recall in a client deliverable. Every frame needs `provenance` naming where the county list came from.",
+  "frames": {
+    "tva": {
+      "name": "TVA region county brief",
+      "states": ["AL", "GA", "KY", "MS", "NC", "TN", "VA"],
+      "fips_file": "configs/frames/tva_198_counties.csv",
+      "expected_counties": 198,
+      "status": "provisional",
+      "provenance": "198-county frame used for the TVA-region deliverable, 2026-08. The county list itself was assembled outside the repo and has not been committed; until configs/frames/tva_198_counties.csv exists with one fips per row, this frame resolves to all counties in the seven listed states and reports as provisional.",
+      "notes": "This is the frame whose manual cross-check found Hawkins, Hamilton, Grundy, Coffee and Walker. It is registered here so the same check is a command rather than an analyst remembering to do it."
+    },
+    "vantage_three_state": {
+      "name": "Vantage first client order",
+      "states": ["CO", "KS", "VA"],
+      "fips": ["08005", "20209", "51145"],
+      "status": "complete",
+      "provenance": "The three scored sites in the first Vantage order: Arapahoe County CO (Aurora), Wyandotte County KS (Kansas City), Powhatan County VA. County list is exhaustive by construction.",
+      "notes": "Kansas is the thinnest of the three states on coverage, so re-run this frame before any refresh of the scored assessments."
+    }
+  }
+}
