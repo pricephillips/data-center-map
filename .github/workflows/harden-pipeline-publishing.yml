@@ -41,35 +41,37 @@ jobs:
               '            fetch-depth: 0\n'
           )
           old_push = '          git push\n'
-          new_push = '''          # Preserve commits that land on main after checkout. Never force-push.
-          max_push_attempts=3
-          pushed=false
-          for attempt in $(seq 1 "$max_push_attempts"); do
-            if git push origin HEAD:main; then
-              echo "Generated artifacts pushed on attempt $attempt."
-              pushed=true
-              break
-            fi
-
-            if [ "$attempt" -eq "$max_push_attempts" ]; then
-              break
-            fi
-
-            echo "Push rejected; rebasing generated commit on origin/main (attempt $attempt)."
-            git fetch --no-tags origin main
-            if ! git rebase origin/main; then
-              git rebase --abort || true
-              echo "::error::Generated artifacts conflict with newer main. No force push was attempted."
-              exit 1
-            fi
-            sleep $((attempt * 2))
-          done
-
-          if [ "$pushed" != true ]; then
-            echo "::error::Push was rejected after $max_push_attempts attempts; main was not modified."
-            exit 1
-          fi
-'''
+          new_push = '\n'.join([
+              '          # Preserve commits that land on main after checkout. Never force-push.',
+              '          max_push_attempts=3',
+              '          pushed=false',
+              '          for attempt in $(seq 1 "$max_push_attempts"); do',
+              '            if git push origin HEAD:main; then',
+              '              echo "Generated artifacts pushed on attempt $attempt."',
+              '              pushed=true',
+              '              break',
+              '            fi',
+              '',
+              '            if [ "$attempt" -eq "$max_push_attempts" ]; then',
+              '              break',
+              '            fi',
+              '',
+              '            echo "Push rejected; rebasing generated commit on origin/main (attempt $attempt)."',
+              '            git fetch --no-tags origin main',
+              '            if ! git rebase origin/main; then',
+              '              git rebase --abort || true',
+              '              echo "::error::Generated artifacts conflict with newer main. No force push was attempted."',
+              '              exit 1',
+              '            fi',
+              '            sleep $((attempt * 2))',
+              '          done',
+              '',
+              '          if [ "$pushed" != true ]; then',
+              '            echo "::error::Push was rejected after $max_push_attempts attempts; main was not modified."',
+              '            exit 1',
+              '          fi',
+              ''
+          ])
 
           if 'group: data-center-map-generated-artifacts-main' not in text:
               if text.count(old_title) != 1:
