@@ -1,0 +1,23 @@
+{
+  "source": "https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json",
+  "retrieved_at": "2026-08-18T18:44:29Z",
+  "snap_decimals": 4,
+  "rule": "counties share at least one snapped polygon edge; a corner touch alone is not adjacency",
+  "counties_in_geojson": 3221,
+  "adjacent_pairs": 8962,
+  "mean_degree": 5.56,
+  "isolated_counties": 9,
+  "isolated_fips": [
+    "02016",
+    "15001",
+    "15003",
+    "15007",
+    "25019",
+    "36085",
+    "53055",
+    "72049",
+    "72147"
+  ],
+  "single_shared_edge_pairs": 3593,
+  "use": "search prompt only; no label, score, or client-facing claim may be derived from adjacency alone"
+}
