@@ -56,6 +56,16 @@ jobs:
             echo "config=loudoun_lola.json" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Resolve tracker layer (discovery; no-op when the config has a url)
+        run: |
+          CFG="configs/${{ steps.cfg.outputs.config }}"
+          NEEDS=$(python -c "import json,sys; c=json.load(open(sys.argv[1])); print('yes' if (not c.get('url') and c.get('discovery')) else 'no')" "$CFG")
+          if [ "$NEEDS" = "yes" ]; then
+            python discover_arcgis_layer.py --config "$CFG"
+          else
+            echo "Config carries its own url or no discovery block; skipping discovery."
+          fi
+
       - name: Fetch candidates
         id: fetch
         run: |
@@ -87,7 +97,10 @@ jobs:
           # add literal paths that exist, or a single missing pathspec
           # aborts `git add` entirely and silently stages nothing at all,
           # including data/permit_candidates_*.csv which always exists.
-          git add data/permit_candidates_*.csv
+          ls data/permit_candidates_*.csv >/dev/null 2>&1 && \
+              git add data/permit_candidates_*.csv
+          ls data/arcgis_discovery_*.json >/dev/null 2>&1 && \
+              git add data/arcgis_discovery_*.json data/arcgis_discovery_*.md
           [ -f data/baseline_dated_external.csv ] && \
               git add data/baseline_dated_external.csv
           [ -f data/baseline_dated_external_rejects.csv ] && \
