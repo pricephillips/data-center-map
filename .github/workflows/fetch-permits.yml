@@ -2,7 +2,11 @@ name: Fetch permit candidates
 
 # Manual-dispatch acquisition of data-center permit records from public
 # open-data portals, now also run on a passive weekly schedule against
-# the primary jurisdiction (Loudoun).
+# EVERY registered source: any configs/*.json carrying an "adapter" key
+# (fetch_permits.py --list-sources is the discriminator). Registered
+# 2026-08-21 so acquisition stays registry-driven; adding a jurisdiction
+# is a config drop, never a workflow edit. workflow_dispatch still
+# targets a single config for testing a new registration.
 #
 # Fully automated end to end: if a column-map exists for a source at
 # configs/<source>_ingest.json, this workflow also runs permit_ingest.py
@@ -47,45 +51,57 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Resolve config (scheduled runs default to Loudoun)
+      - name: Resolve config list (scheduled runs cover every registered source)
         id: cfg
         run: |
           if [ -n "${{ github.event.inputs.config }}" ]; then
-            echo "config=${{ github.event.inputs.config }}" >> "$GITHUB_OUTPUT"
+            echo "configs=${{ github.event.inputs.config }}" >> "$GITHUB_OUTPUT"
           else
-            echo "config=loudoun_lola.json" >> "$GITHUB_OUTPUT"
+            LIST=$(python fetch_permits.py --list-sources | tr '\n' ' ')
+            echo "Registered sources: $LIST"
+            echo "configs=$LIST" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Resolve tracker layer (discovery; no-op when the config has a url)
+      - name: Discover, fetch, and ingest each source
         run: |
-          CFG="configs/${{ steps.cfg.outputs.config }}"
-          NEEDS=$(python -c "import json,sys; c=json.load(open(sys.argv[1])); print('yes' if (not c.get('url') and c.get('discovery')) else 'no')" "$CFG")
-          if [ "$NEEDS" = "yes" ]; then
-            python discover_arcgis_layer.py --config "$CFG"
-          else
-            echo "Config carries its own url or no discovery block; skipping discovery."
+          FAILED=""
+          for NAME in ${{ steps.cfg.outputs.configs }}; do
+            CFG="configs/$NAME"
+            SOURCE="$(basename "$NAME" .json)"
+            echo "=== $SOURCE ==="
+            NEEDS=$(python -c "import json,sys; c=json.load(open(sys.argv[1])); print('yes' if (not c.get('url') and c.get('discovery')) else 'no')" "$CFG")
+            if [ "$NEEDS" = "yes" ]; then
+              python discover_arcgis_layer.py --config "$CFG" || true
+            fi
+            if ! python fetch_permits.py --config "$CFG"; then
+              echo "FETCH FAILED for $SOURCE; continuing with remaining sources."
+              FAILED="$FAILED $SOURCE"
+              continue
+            fi
+            CANDIDATES="data/permit_candidates_${SOURCE}.csv"
+            INGEST_CFG="configs/${SOURCE}_ingest.json"
+            if [ ! -f "$INGEST_CFG" ]; then
+              echo "No ingest column-map at $INGEST_CFG yet; candidates fetched only, not promoted."
+              continue
+            fi
+            if [ ! -f "$CANDIDATES" ]; then
+              echo "No candidate rows written for $SOURCE this run; nothing to ingest."
+              continue
+            fi
+            if ! python permit_ingest.py --in "$CANDIDATES" --config "$INGEST_CFG" \
+                --out data/baseline_dated_external.csv --append \
+                --as-of "$(date -u +%Y-%m-%d)"; then
+              echo "INGEST FAILED for $SOURCE; candidates kept, promotion skipped."
+              FAILED="$FAILED $SOURCE"
+            fi
+          done
+          # Failures do not stop other sources, but they must not pass
+          # silently either: mark the job failed after everything ran, the
+          # same visibility rule pipeline.yml uses for its gate steps.
+          if [ -n "$FAILED" ]; then
+            echo "Sources with failures:$FAILED"
+            exit 1
           fi
-
-      - name: Fetch candidates
-        id: fetch
-        run: |
-          python fetch_permits.py --config "configs/${{ steps.cfg.outputs.config }}"
-          SOURCE="$(basename "${{ steps.cfg.outputs.config }}" .json)"
-          echo "source=$SOURCE" >> "$GITHUB_OUTPUT"
-
-      - name: Ingest candidates into dated baseline (if a column-map exists)
-        id: ingest
-        run: |
-          SOURCE="${{ steps.fetch.outputs.source }}"
-          CANDIDATES="data/permit_candidates_${SOURCE}.csv"
-          INGEST_CFG="configs/${SOURCE}_ingest.json"
-          if [ ! -f "$INGEST_CFG" ]; then
-            echo "No ingest column-map at $INGEST_CFG yet; candidates fetched only, not promoted."
-            exit 0
-          fi
-          python permit_ingest.py --in "$CANDIDATES" --config "$INGEST_CFG" \
-              --out data/baseline_dated_external.csv --append \
-              --as-of "$(date -u +%Y-%m-%d)"
 
       - name: Commit candidate and baseline files
         run: |

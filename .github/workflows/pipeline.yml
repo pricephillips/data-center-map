@@ -119,6 +119,8 @@ jobs:
           python coverage_audit.py --selftest
           echo "Restriction worklist self-tests:"
           python restriction_worklist.py --selftest
+          echo "Gap-to-candidate builder self-tests:"
+          python census_gap_candidates.py --selftest
           echo "Staleness audit self-tests:"
           python stale_pending_audit.py --selftest
           echo "County adjacency self-tests:"
@@ -195,6 +197,11 @@ jobs:
           # sources and resolutions already committed to the worklist are
           # carried forward, so an auto-commit cannot discard research.
           python restriction_worklist.py
+          # Gap-to-candidate builder (2026-08-21): any census-enacted county
+          # with no tracker record gets a fully populated ingest candidate,
+          # dedup-guarded against master. Emits candidates for review only;
+          # nothing is promoted here, and a failure must not fail the audit.
+          python census_gap_candidates.py || true
 
       - name: Detection layer (staleness, adjacency re-scan, frame audits)
         id: detection
@@ -216,8 +223,10 @@ jobs:
           # Frame audits for the two live bounded deliverables. Reporting
           # only here: --gate is for the pre-delivery check, not for CI,
           # because a provisional frame must not fail the nightly build.
-          python subframe_audit.py --frame vantage_three_state
-          python subframe_audit.py --frame tva
+          # Registry-driven (2026-08-21): every frame in
+          # configs/audit_frames.json is audited; adding an engagement
+          # frame is a JSON entry, never an edit here.
+          python subframe_audit.py --all
 
       - name: FIPS resolution (Census geocoder; overlay for the screener)
         id: fips_resolution
@@ -281,6 +290,8 @@ jobs:
             git add data/coverage_gap_report.csv data/coverage_gap_summary.json \
                     data/national_restriction_worklist.csv \
                     data/restriction_ingest_template.csv \
+                    data/restriction_ingest_candidates.csv \
+                    data/restriction_ingest_candidates.md \
                     data/restriction_worklist.md 2>/dev/null || true
           fi
           # Detection-layer artifacts are staged only on a green detection
