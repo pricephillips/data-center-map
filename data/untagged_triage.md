@@ -1,6 +1,6 @@
 # Untagged row triage
 
-Held rows in the worklist: 884
+Held rows in the worklist: 947
 
 These rows are excluded from the clean feed and from every count. They are recoverable only by resolving the redirect to a publisher article and reading it. Everything below is a suggestion derived from the headline text, not a verified field.
 
@@ -8,17 +8,17 @@ These rows are excluded from the clean feed and from every count. They are recov
 
 | confidence | rows |
 | :-- | --: |
-| high | 83 |
-| medium | 156 |
-| state_only | 61 |
-| low | 164 |
-| none | 420 |
+| high | 85 |
+| medium | 172 |
+| state_only | 67 |
+| low | 188 |
+| none | 435 |
 
 ## Mechanism hint
 
 | hint | rows |
 | :-- | --: |
-| none | 687 |
+| none | 750 |
 | moratorium | 186 |
 | zoning_restriction | 3 |
 | public_comment | 3 |
@@ -30,7 +30,7 @@ These rows are excluded from the clean feed and from every count. They are recov
 
 | status | rows |
 | :-- | --: |
-| not_attempted | 884 |
+| not_attempted | 947 |
 
 Rows ready for a reviewer to open: 0
 Rows whose county and mechanism are already covered by a sourced row: 36
@@ -39,7 +39,7 @@ Rows whose county and mechanism are already covered by a sourced row: 36
 
 | outlet | rows |
 | :-- | --: |
-| unknown | 446 |
+| unknown | 502 |
 | Politico | 11 |
 | Axios | 5 |
 | Source New Mexico | 5 |
@@ -50,7 +50,7 @@ Rows whose county and mechanism are already covered by a sourced row: 36
 | Food & Water Watch | 4 |
 | The National Law Review | 4 |
 | WFYI | 4 |
-| Fort Worth | 4 |
+| Gazette | 4 |
 | Business Insider | 3 |
 | Cowboy State Daily | 3 |
 | Albuquerque Journal | 3 |

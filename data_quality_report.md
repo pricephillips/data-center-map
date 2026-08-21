@@ -1,6 +1,6 @@
 # Data Quality Report — master_opposition.csv
 
-**Rows processed:** 2442
+**Rows processed:** 2507
 
 This pass is **backward compatible**: existing columns keep their names and meanings, values were fixed in place only where the correction is unambiguous, and all new structure was added as additional columns. The HTML map and Notion sync continue to work without modification.
 
@@ -13,7 +13,7 @@ This pass is **backward compatible**: existing columns keep their names and mean
 260 cell(s) repaired
 
 **3. Validation flag: source_url_valid (new column)**  
-1558 valid; 0 non-empty but still non-URL (flagged for review)
+1560 valid; 0 non-empty but still non-URL (flagged for review)
 
 **4. Sources — backfilled from Source URL where empty**  
 0 row(s) now have a populated Sources list (Source URL was confirmed == Sources[0] in 100% of dual-filled rows)
@@ -34,7 +34,7 @@ Columns: is_air_quality, is_anti_ai, is_community_impact, is_contract_guarantees
 683 row(s) had a parenthetical descriptor extracted; Incident left intact for backward compatibility
 
 **10. project_id + project_row_count + is_primary_record (new columns)**  
-1346 distinct projects identified; 136 span multiple rows; 29 row(s) unified by manual cross-venue override. Largest clusters: xai_colossus (29), port_washington_wi (9), prince_william_county_va (8), reno_nv (6), dona_ana_county_nm (5). Heuristic = location_name + state, plus PROJECT_OVERRIDES for cross-venue projects.
+1355 distinct projects identified; 129 span multiple rows; 29 row(s) unified by manual cross-venue override. Largest clusters: xai_colossus (29), port_washington_wi (9), prince_william_county_va (8), reno_nv (6), dona_ana_county_nm (5). Heuristic = location_name + state, plus PROJECT_OVERRIDES for cross-venue projects.
 
 **11. Date enrichment: action_year + date_parseable + data_era (new columns)**  
 0 unparseable date(s) flagged; 5 row(s) tagged crypto_era_pre2022 (e.g. the lone 2014 Chelan County PUD record) so the two opposition waves can be analyzed separately
