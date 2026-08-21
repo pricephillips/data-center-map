@@ -1,0 +1,20 @@
+{
+  "adapter": "arcgis",
+  "source": "pa_dep_datacenter",
+  "url": null,
+  "where": "1=1",
+  "out_fields": ["*"],
+  "date_fields": [],
+  "page_size": 1000,
+  "discovery": {
+    "app_urls": [
+      "https://gis.dep.pa.gov/DataCenterPermitTracker/"
+    ],
+    "rest_roots": [
+      "https://gis.dep.pa.gov/depgisprd/rest/services"
+    ],
+    "keywords": ["data center", "datacenter", "dc permit", "permit tracker"],
+    "score_threshold": 2,
+    "note": "PA DEP's statewide Data Center Permit Tracker (launched as a JS map app; statewide proposed data-center projects with environmental permit progress). The backing layer is not in the public depgisprd directory listing and the app config is only reachable with full network access, so discovery runs in CI. If discovery resolves an app-hosted layer on a second ArcGIS instance, its root gets added to rest_roots for future re-runs. Once resolved, confirm the field schema, then write configs/pa_dep_datacenter_ingest.json to promote rows into the dated baseline; until then this source fetches candidates only. Registered 2026-08-21."
+  }
+}
