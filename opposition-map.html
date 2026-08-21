@@ -154,6 +154,7 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
           <label for="county-metric">Shade counties by</label>
           <select id="county-metric">
             <option value="calibrated_score">Calibrated enacted-restriction score</option>
+            <option value="enacted_status">Enacted restriction on record</option>
             <option value="n_opposition_events">Recorded opposition events</option>
             <option value="margin_2024">2024 presidential margin</option>
           </select>
@@ -391,6 +392,16 @@ function countyValue(fips, metric) {
     const s = SCORES[fips] || SCORES[BOUNDARY_RENAMES[fips]];
     return s ? s.score : null;
   }
+  if (metric === 'enacted_status') {
+    // The county aggregate is the label's source of truth; the score file's
+    // enacted flag mirrors it and covers boundaries the aggregate misses.
+    const row = COUNTY[fips] || COUNTY[BOUNDARY_RENAMES[fips]];
+    if (row && row.has_enacted_restrictive !== undefined) {
+      return String(row.has_enacted_restrictive) === '1' ? 1 : 0;
+    }
+    const s = SCORES[fips] || SCORES[BOUNDARY_RENAMES[fips]];
+    return s ? (s.enacted ? 1 : 0) : null;
+  }
   const row = COUNTY[fips] || COUNTY[BOUNDARY_RENAMES[fips]];
   if (!row) return null;
   return num(row[metric]);
@@ -401,6 +412,8 @@ function countyStyle(feat, metric, countMax) {
   const v = countyValue(fips, metric);
   let pc = null;
   if (metric === 'calibrated_score') pc = policyColor(v);
+  else if (metric === 'enacted_status') pc = v === null ? null
+    : { color: v ? VizPalette.sequential(0.72) : '#1d2530' };
   else if (metric === 'margin_2024') pc = marginColor(v);
   else pc = countColor(v);
   const s = SCORES[fips] || SCORES[BOUNDARY_RENAMES[fips]];
@@ -430,6 +443,11 @@ function countyTooltip(feat) {
     if (c) {
       const opp = num(c.n_opposition_events);
       if (opp) body += `<br>${opp} recorded opposition event${opp===1?'':'s'}`;
+      const kinds = [];
+      const mor = num(c.n_moratorium_events); if (mor) kinds.push(`${mor} moratorium`);
+      const zon = num(c.n_zoning_events);     if (zon) kinds.push(`${zon} zoning`);
+      const ban = num(c.n_ban_events);        if (ban) kinds.push(`${ban} ban`);
+      if (kinds.length) body += `<br><span style="color:#8b97a6">${kinds.join(' \u00b7 ')}</span>`;
     }
   } else if (BOUNDARY_RETIRED[fips]) {
     body = `Not scored on this boundary: ${BOUNDARY_RETIRED[fips]}. The current geography is scored separately.`;
@@ -459,6 +477,23 @@ function renderCountyLegend(metric) {
       '<div class="vp-note">Positive is a Democratic margin under this dataset\u2019s ' +
       'convention. Orange and blue rather than red and blue so the two ends stay ' +
       'separable for colourblind readers.</div>';
+    return;
+  }
+  if (metric === 'enacted_status') {
+    const on = VizPalette.sequential(0.72);
+    host.innerHTML =
+      '<div class="vp-title">Enacted restriction on record</div>' +
+      '<div class="vp-ticks" style="display:block">' +
+      '<span style="display:flex;align-items:center;gap:6px;margin:2px 0">' +
+      '<i style="width:14px;height:10px;background:' + on + ';display:inline-block"></i>' +
+      ' enacted moratorium, ban, or zoning restriction on record</span>' +
+      '<span style="display:flex;align-items:center;gap:6px;margin:2px 0">' +
+      '<i style="width:14px;height:10px;background:#1d2530;display:inline-block"></i>' +
+      ' none on record</span></div>' +
+      '<div class="vp-note">The label behind the calibrated score, shown directly. ' +
+      'Historical: a county counts if it has ever enacted, including instruments ' +
+      'that later expired. A floor, not a census; coverage gaps surface through ' +
+      'the coverage audit and are corrected as they are found.</div>';
     return;
   }
   const isScore = metric === 'calibrated_score';
@@ -804,12 +839,15 @@ function exportCountyPng() {
   const metric = currentCountyMetric();
   const TITLES = {
     calibrated_score:   'Calibrated enacted-restriction score',
+    enacted_status:     'Enacted restriction on record',
     margin_2024:        '2024 presidential margin',
     n_opposition_events:'Opposition records on file'
   };
   const NOTES = {
     calibrated_score:
       'Resemblance score, not a forecast, and not a project risk score.',
+    enacted_status:
+      'Historical label: a county counts if it has ever enacted. A floor, not a census.',
     margin_2024:
       'Positive is a Democratic margin under this dataset\u2019s convention.',
     n_opposition_events:
@@ -840,6 +878,17 @@ function exportCountyPng() {
   // Legend ramp, sampled from the same colour functions the map just used, so
   // the exported key cannot drift from the image above it.
   const ry = h / SCALE_PX + HEAD + 14, rw = 150, rh = 8;
+  if (metric === 'enacted_status') {
+    g.fillStyle = VizPalette.sequential(0.72);
+    g.fillRect(S(PAD), S(ry), S(14), S(9));
+    g.fillStyle = '#8b97a6';
+    g.font = `400 ${S(11)}px Inter, system-ui, sans-serif`;
+    g.fillText('enacted on record', S(PAD + 20), S(ry + 7));
+    g.fillStyle = '#1d2530';
+    g.fillRect(S(PAD + 130), S(ry), S(14), S(9));
+    g.fillStyle = '#8b97a6';
+    g.fillText('none on record', S(PAD + 150), S(ry + 7));
+  } else {
   for (let i = 0; i < rw; i++) {
     const t = i / rw;
     g.fillStyle = metric === 'margin_2024'
@@ -852,6 +901,7 @@ function exportCountyPng() {
   const ends = metric === 'margin_2024' ? ['R +50', 'D +50'] : ['Low', 'High'];
   g.fillText(ends[0], S(PAD), S(ry + 7));
   g.fillText(ends[1], S(PAD + 26 + rw + 6), S(ry + 7));
+  }
 
   if (metric === 'calibrated_score') {
     g.strokeStyle = VizPalette.ENACTED_STROKE.color;
