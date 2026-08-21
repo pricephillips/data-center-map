@@ -80,9 +80,39 @@ OUT_CSV = P("data", "county_aggregate.csv")
 # tracker's own confirmed county-level halts. "cancelled" and "defeated"
 # stay excluded: with zoning_restriction those are project denials, which
 # are project outcomes, not enacted county policy.
+#
+# Third defect fixed 2026-08-21, found while closing a TVA-region coverage
+# gap: "ban" has been a member of RESTRICTIVE_TYPES since this rule was
+# written, but no record in the tracker had ever used it (every historical
+# outright ban was coded as zoning_restriction or moratorium instead), so
+# the internal-consistency QC check below never needed to count it and
+# didn't. The first county to genuinely carry a "ban"-typed enacted event
+# (Hawkins County TN, plus a second, later ordinance in Clay County NC)
+# tripped "enacted exceeds moratorium+zoning events" as a false QC FAIL.
+# Added n_ban_events as its own counter, parallel to n_moratorium_events
+# and n_zoning_events, and included it in the consistency check. This is
+# an input-coverage fix, not a definition change: RESTRICTIVE_TYPES and
+# ENACTED_STATUSES are unchanged.
+# Fourth defect fixed 2026-08-21, same pass: label polarity on "approved".
+# "approved" is the one status whose direction the Type+Status pair cannot
+# determine: it may mean the restriction ordinance was approved (an enacted
+# county policy) or the project was approved over a sought-but-unenacted
+# restriction (the opposite). A record-level read of every county whose
+# has_enacted_restrictive rested solely on this class (33 counties, 37
+# records, plus 4 moratorium-typed records) found project approvals in all
+# but one; the raw Community Outcome field carried the direction each time
+# (project approvals coded loss/pending/mixed, no approved+win existed in
+# the data). Rule: a record with Status "approved" now counts toward
+# enacted_restrictive only when its raw Community Outcome is "win", i.e.
+# when the record itself says the restriction side prevailed. The one
+# genuine case (Spotsylvania VA design standards, Dec 2025) is re-recorded
+# as its own correctly coded event so it survives the guard. All other
+# ENACTED_STATUSES are unaffected; "expired" restrictions that later
+# lapsed (outcome "loss") still count, since the label is historical.
 RESTRICTIVE_TYPES = {"moratorium", "zoning_restriction", "ban"}
 ENACTED_STATUSES = {"passed", "approved", "enacted", "active",
                     "extended", "expired", "moratorium passed"}
+DIRECTION_AMBIGUOUS_STATUSES = {"approved"}
 
 
 def _type_tokens(cell: str) -> set:
@@ -216,7 +246,12 @@ def main() -> int:
             ev_bytype[f][t] += 1
         if toks & RESTRICTIVE_TYPES and \
                 (r.get("Status") or "").strip().lower() in ENACTED_STATUSES:
-            enacted_restrictive[f] += 1
+            status_l = (r.get("Status") or "").strip().lower()
+            outcome_l = (r.get("Community Outcome") or "").strip().lower()
+            if status_l in DIRECTION_AMBIGUOUS_STATUSES and outcome_l != "win":
+                pass  # approval belongs to the project side; see defect note
+            else:
+                enacted_restrictive[f] += 1
 
     # --- project outcomes (four-tier vocabulary; decided = terminal only) ---
     life = {r["project_id"]: r for r in
@@ -250,7 +285,7 @@ def main() -> int:
         "pct_bachelors_plus", "margin_2024", "margin_2016",
         "existing_dc_count", "dc_presence",
         "n_opposition_events", "n_moratorium_events", "n_zoning_events",
-        "n_legislation_events", "n_lawsuit_events",
+        "n_ban_events", "n_legislation_events", "n_lawsuit_events",
         "n_enacted_restrictive", "has_enacted_restrictive",
         "land_sqmi", "state_legislation_events",
         "n_projects_tracked", "n_projects_opposed",
@@ -283,6 +318,7 @@ def main() -> int:
             "n_opposition_events": ev_total.get(fips, 0),
             "n_moratorium_events": bt.get("moratorium", 0),
             "n_zoning_events": bt.get("zoning_restriction", 0),
+            "n_ban_events": bt.get("ban", 0),
             "n_legislation_events": bt.get("legislation", 0),
             "n_lawsuit_events": bt.get("lawsuit", 0),
             "land_sqmi": rec["land_sqmi"] or "",
@@ -340,8 +376,9 @@ def main() -> int:
 
     # internal consistency
     for r in out_rows:
-        if r["n_enacted_restrictive"] > r["n_moratorium_events"] + r["n_zoning_events"]:
-            failures.append(f"{r['fips']}: enacted exceeds moratorium+zoning events")
+        if r["n_enacted_restrictive"] > (r["n_moratorium_events"] + r["n_zoning_events"]
+                                          + r["n_ban_events"]):
+            failures.append(f"{r['fips']}: enacted exceeds moratorium+zoning+ban events")
             break
         if r["n_projects_opposed"] > r["n_projects_tracked"]:
             failures.append(f"{r['fips']}: opposed exceeds tracked projects")
