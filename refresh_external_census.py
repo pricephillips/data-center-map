@@ -29,9 +29,11 @@ REPORT_MD = os.path.join(HERE, "data", "external_restriction_census_refresh_repo
 FIPS_LOOKUP_JSON = os.path.join(HERE, "data", "county_fips_lookup.json")
 
 # NOTE: adjust this URL if Moratorium Nation changes its repo or path.
+# Path corrected 2026-08-21: the inventory lives under data/ in the
+# upstream repo; the bare-root path 404s.
 UPSTREAM_URL = (
     "https://raw.githubusercontent.com/mjbommar/moratorium-data-2026/"
-    "main/moratorium_inventory.csv"
+    "main/data/moratorium_inventory.csv"
 )
 
 
@@ -141,25 +143,21 @@ def write_delta_csv(delta_rows: list[dict]) -> None:
 def write_refresh_report(local_rows: list[dict], upstream_rows: list[dict], delta_rows: list[dict]) -> None:
     counts = Counter(r.get("census_status") or "" for r in upstream_rows)
     with open(REPORT_MD, "w", encoding="utf-8") as f:
-        f.write("# External restriction census refresh
-
-")
-        f.write(f"- Local seeded census rows: {len(local_rows)}
-")
-        f.write(f"- Upstream rows (normalized): {len(upstream_rows)}
-")
-        f.write(f"- Delta rows (new relative to local census): {len(delta_rows)}
-
-")
+        # String literals repaired 2026-08-21: raw newlines had been
+        # written inside these strings, a double-escaping casualty that made
+        # the whole module a SyntaxError, so the refresh workflow failed at
+        # parse time on every scheduled run.
+        f.write("# External restriction census refresh\n\n")
+        f.write(f"- Local seeded census rows: {len(local_rows)}\n")
+        f.write(f"- Upstream rows (normalized): {len(upstream_rows)}\n")
+        f.write(f"- Delta rows (new relative to local census): "
+                f"{len(delta_rows)}\n\n")
         if delta_rows:
-            f.write("## Status distribution in upstream
-
-")
+            f.write("## Status distribution in upstream\n\n")
             for status, n in sorted(counts.items()):
                 if not status:
                     continue
-                f.write(f"- {status}: {n}
-")
+                f.write(f"- {status}: {n}\n")
 
 
 def run_selftest() -> None:

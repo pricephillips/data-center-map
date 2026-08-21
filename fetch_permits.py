@@ -193,11 +193,45 @@ def coerce_date(v):
 ADAPTERS["tabular"] = fetch_tabular
 
 
+def list_sources() -> list[str]:
+    """Config filenames under configs/ that register a fetchable source,
+    i.e. carry an "adapter" key. Added 2026-08-21 so the scheduled workflow
+    can iterate every registered source instead of hardcoding one: adding a
+    jurisdiction is then a config drop, never a workflow edit. Non-source
+    JSON in configs/ (frame registries, ingest column maps) has no adapter
+    key and is skipped; unparseable files are skipped rather than fatal so
+    one bad file cannot take down the whole scheduled run."""
+    out = []
+    cfg_dir = os.path.join(ROOT, "configs")
+    for name in sorted(os.listdir(cfg_dir) if os.path.isdir(cfg_dir) else []):
+        if not name.endswith(".json"):
+            continue
+        try:
+            with open(os.path.join(cfg_dir, name), encoding="utf-8") as fh:
+                cfg = json.load(fh)
+        except Exception:
+            continue
+        if isinstance(cfg, dict) and cfg.get("adapter"):
+            out.append(name)
+    return out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--config", required=True)
+    ap.add_argument("--config")
     ap.add_argument("--outdir", default=os.path.join(ROOT, "data"))
+    ap.add_argument("--list-sources", action="store_true",
+                    help="print adapter-bearing configs under configs/, "
+                         "one per line, and exit")
     args = ap.parse_args()
+
+    if args.list_sources:
+        for name in list_sources():
+            print(name)
+        return 0
+    if not args.config:
+        print("ERROR: --config required (or --list-sources)")
+        return 1
 
     with open(args.config, encoding="utf-8") as fh:
         cfg = json.load(fh)

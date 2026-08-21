@@ -667,6 +667,13 @@ def main() -> int:
     ap.add_argument("--gate", action="store_true",
                     help="exit nonzero unless the frame is complete and "
                          "carries no unresolved priority-1 items")
+    ap.add_argument("--all", action="store_true",
+                    help="audit every frame registered in "
+                         "configs/audit_frames.json in one run. Registered "
+                         "2026-08-21 so CI stays registry-driven: adding an "
+                         "engagement frame is a JSON entry, never a workflow "
+                         "edit. With --gate, exits nonzero if any frame "
+                         "fails its gate.")
     args = ap.parse_args()
 
     if args.selftest:
@@ -695,70 +702,84 @@ def main() -> int:
         return 1
 
     agg = read_csv(AGG_CSV)
-    if args.frame:
+    if args.all:
+        if not frames:
+            print("no frames registered in configs/audit_frames.json")
+            return 0
+        worklist = [(spec, key) for key, spec in sorted(frames.items())]
+    elif args.frame:
         if args.frame not in frames:
             print(f"ERROR: frame {args.frame!r} not registered. "
                   f"Known frames: {', '.join(sorted(frames)) or 'none'}")
             return 1
-        spec, label = frames[args.frame], args.frame
+        worklist = [(frames[args.frame], args.frame)]
     elif args.fips_file or args.states:
         spec = {"name": args.label or "ad-hoc frame",
                 "states": [s.strip() for s in (args.states or "").split(",")
                            if s.strip()],
                 "fips_file": args.fips_file,
                 "provenance": "ad-hoc frame supplied on the command line"}
-        label = args.label or "adhoc"
+        worklist = [(spec, args.label or "adhoc")]
     else:
-        print("ERROR: give --frame, --states, or --fips-file "
+        print("ERROR: give --frame, --all, --states, or --fips-file "
               "(or --list-frames)")
-        return 1
-
-    frame = resolve_frame(spec, agg)
-    if not frame["fips"]:
-        print("ERROR: the frame resolved to zero counties")
         return 1
 
     census = read_csv(CENSUS_CSV)
     records = read_csv(MASTER_CLEAN)
     adj_rows = read_csv(ADJ_QUEUE)
-    include_all = (args.all_counties
-                   or len(frame["fips"]) <= SMALL_FRAME_MAX)
-    rows, summary = audit_frame(frame, census, records, agg, adj_rows, as_of,
-                                include_all=include_all)
-    if not census:
-        summary["census_note"] = ("external census absent; coverage classes "
-                                  "are unavailable and only staleness and "
-                                  "adjacency signals were evaluated")
-    if not adj_rows:
-        summary["adjacency_note"] = ("data/adjacency_scan_queue.csv absent; "
-                                     "adjacency signals were not evaluated")
 
-    out_csv = os.path.join(OUT_DIR, f"subframe_audit_{label}.csv")
-    out_md = os.path.join(OUT_DIR, f"subframe_audit_{label}.md")
-    write_rows(rows, out_csv)
-    write_report(rows, summary, label, out_md)
+    rc = 0
+    for spec, label in worklist:
+        frame = resolve_frame(spec, agg)
+        if not frame["fips"]:
+            print(f"ERROR: frame {label} resolved to zero counties")
+            rc = max(rc, 1)
+            continue
+        include_all = (args.all_counties
+                       or len(frame["fips"]) <= SMALL_FRAME_MAX)
+        rows, summary = audit_frame(frame, census, records, agg, adj_rows,
+                                    as_of, include_all=include_all)
+        if not census:
+            summary["census_note"] = ("external census absent; coverage "
+                                      "classes are unavailable and only "
+                                      "staleness and adjacency signals were "
+                                      "evaluated")
+        if not adj_rows:
+            summary["adjacency_note"] = ("data/adjacency_scan_queue.csv "
+                                         "absent; adjacency signals were "
+                                         "not evaluated")
 
-    print(f"frame {label}: {summary['frame_counties']} counties, status "
-          f"{summary['frame_status'].upper()} "
-          f"({summary['frame_basis']})")
-    if summary["missing_fips_file"]:
-        print(f"  county list file absent: {summary['missing_fips_file']}")
-    print(f"census in scope inside the frame: {summary['census_in_scope']}")
-    print(f"  recall_any: {summary['frame_recall_any']}  "
-          f"recall_confirmed: {summary['frame_recall_confirmed']}")
-    for act in ACTION_ORDER:
-        n = summary["actions"].get(act, 0)
-        if n:
-            print(f"  {act}: {n}")
-    print(f"unresolved priority-1 items: {summary['unresolved_priority_1']}")
-    print(f"delivery clear: {'yes' if summary['delivery_clear'] else 'no'}")
-    print(f"\nwrote {out_csv}")
-    print(f"wrote {out_md}")
+        out_csv = os.path.join(OUT_DIR, f"subframe_audit_{label}.csv")
+        out_md = os.path.join(OUT_DIR, f"subframe_audit_{label}.md")
+        write_rows(rows, out_csv)
+        write_report(rows, summary, label, out_md)
 
-    if args.gate and not summary["delivery_clear"]:
-        print("\nGATE: frame is not clear for delivery")
-        return 2
-    return 0
+        print(f"frame {label}: {summary['frame_counties']} counties, status "
+              f"{summary['frame_status'].upper()} "
+              f"({summary['frame_basis']})")
+        if summary["missing_fips_file"]:
+            print(f"  county list file absent: "
+                  f"{summary['missing_fips_file']}")
+        print(f"census in scope inside the frame: "
+              f"{summary['census_in_scope']}")
+        print(f"  recall_any: {summary['frame_recall_any']}  "
+              f"recall_confirmed: {summary['frame_recall_confirmed']}")
+        for act in ACTION_ORDER:
+            n = summary["actions"].get(act, 0)
+            if n:
+                print(f"  {act}: {n}")
+        print(f"unresolved priority-1 items: "
+              f"{summary['unresolved_priority_1']}")
+        print(f"delivery clear: "
+              f"{'yes' if summary['delivery_clear'] else 'no'}")
+        print(f"\nwrote {out_csv}")
+        print(f"wrote {out_md}")
+
+        if args.gate and not summary["delivery_clear"]:
+            print(f"\nGATE: frame {label} is not clear for delivery")
+            rc = max(rc, 2)
+    return rc
 
 
 if __name__ == "__main__":
