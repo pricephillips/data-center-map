@@ -1,7 +1,7 @@
 # Master Opposition QC Report
 
-- Records scanned: **1560**
-- Passed to feed: **1546**
+- Records scanned: **1586**
+- Passed to feed: **1572**
 - Blocked / quarantined: **14**
 - Block threshold: CRITICAL, HIGH
 
