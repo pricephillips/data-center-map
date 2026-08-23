@@ -1,22 +1,22 @@
 # Opposed vs. Matched Controls — Descriptive Comparison
 
-Generated 2026-08-22 by `control_comparison.py`. All figures re-derived from the current CSVs at generation time.
+Generated 2026-08-23 by `control_comparison.py`. All figures re-derived from the current CSVs at generation time.
 
 **This report is descriptive and diagnostic only.** Differences shown here are associations in an observational, selection-affected sample. Nothing in this document quantifies the effect or cost of opposition, and no figure here should appear in a client-facing deliverable.
 
 ## 1. Sample composition
 
-- Opposed projects (treatment side): **191**, of which 88 decided / 103 pending
-- Eligible control pool: **1388** — proposals_unopposed: 81, ai_centers: 18, atlas: 1289
-- Excluded from control pool: **264** — county_shared_with_opposed_project: 200, within_15km_of_opposed_project: 60, no_coordinates: 4
-- Matched: **186** opposed projects × k=3 → 573 match rows
+- Opposed projects (treatment side): **192**, of which 89 decided / 103 pending
+- Eligible control pool: **1383** — proposals_unopposed: 80, ai_centers: 18, atlas: 1285
+- Excluded from control pool: **268** — county_shared_with_opposed_project: 204, within_15km_of_opposed_project: 60, no_coordinates: 4
+- Matched: **187** opposed projects × k=3 → 576 match rows
 
 ## 2. Covariate balance (opposed vs. their matched controls)
 
 Standardized mean differences across match rows. |SMD| < 0.10 = well balanced; 0.10–0.25 = moderate; > 0.25 = imbalanced.
 
-**all tiers** (573 match rows)
-- County 2024 margin: opposed mean -0.118, control mean -0.123, SMD 0.015 — well balanced (n pairs: 555)
+**all tiers** (576 match rows)
+- County 2024 margin: opposed mean -0.120, control mean -0.124, SMD 0.014 — well balanced (n pairs: 558)
 - log10 capacity MW: opposed mean 2.774, control mean 2.513, SMD 0.494 — IMBALANCED — down-weight or re-match (n pairs: 32; capacity is sparse outside the proposals tier)
 
 **proposals_unopposed** (459 match rows)
@@ -27,20 +27,20 @@ Standardized mean differences across match rows. |SMD| < 0.10 = well balanced; 0
 - County 2024 margin: opposed mean n/a, control mean n/a, SMD n/a — insufficient data (n pairs: 0)
 - log10 capacity MW: opposed mean 2.778, control mean 2.725, SMD n/a — insufficient data (n pairs: 1; capacity is sparse outside the proposals tier)
 
-**atlas** (113 match rows)
-- County 2024 margin: opposed mean -0.030, control mean -0.044, SMD 0.043 — well balanced (n pairs: 112)
+**atlas** (116 match rows)
+- County 2024 margin: opposed mean -0.040, control mean -0.051, SMD 0.034 — well balanced (n pairs: 115)
 - log10 capacity MW: opposed mean n/a, control mean n/a, SMD n/a — insufficient data (n pairs: 0; capacity is sparse outside the proposals tier)
 
 ## 3. Political geography (descriptive)
 
-- Opposed projects sit in counties with mean 2024 margin -0.116 (n=184); the eligible control pool mean is 0.043 (n=1358).
+- Opposed projects sit in counties with mean 2024 margin -0.118 (n=185); the eligible control pool mean is 0.044 (n=1353).
 - This is a raw compositional difference between two differently-constructed samples. It describes where tracked opposition occurs; it does not measure any political driver of opposition.
 
 ## 4. Outcomes among decided opposed projects
 
-Of **88** decided + opposed projects:
-- `advanced_confirmed`: 61 (69%)
-- `blocked_confirmed`: 27 (31%)
+Of **89** decided + opposed projects:
+- `advanced_confirmed`: 62 (70%)
+- `blocked_confirmed`: 27 (30%)
 
 `restricted_conditional` is a terminal advance carrying binding conditions (conditional-use approval, negotiated concessions, reverting rezoning); it counts on the advanced side of any advanced-vs-blocked split but is tracked separately because the conditions can carry material cost or delay.
 
@@ -58,7 +58,7 @@ Decided means terminal dispositions only; pending and mixed cases are excluded, 
 
 - `no_shared_covariates` matches (state/tier only): **15** — down-weight or manually review before any use.
 - `national_fallback` matches (no in-state pool): **258**, covering 120 opposed projects. Growing the proposals_unopposed tier is the fix.
-- Tier usage across all matches: proposals_unopposed: 459, ai_centers: 1, atlas: 113.
+- Tier usage across all matches: proposals_unopposed: 459, ai_centers: 1, atlas: 116.
 
 ## 7. Limitations (binding)
 
