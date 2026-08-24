@@ -1,20 +1,20 @@
 # Opposed vs. Control — Time to Terminal Decision (first iteration)
 
-Generated 2026-08-17 by `dated_comparison.py`. **Internal diagnostic — NOT client-facing.** Descriptive comparison only; the two arms carry different censoring structures, so no significance test is valid or reported.
+Generated 2026-08-24 by `dated_comparison.py`. **Internal diagnostic — NOT client-facing.** Descriptive comparison only; the two arms carry different censoring structures, so no significance test is valid or reported.
 
 ## Arms
 
-- **Opposed** (n=167): 29 verified decision events; rest right-censored at last known activity. Standard Kaplan-Meier.
-- **Control / unopposed** (n=117): zero verified decision dates exist on the control side. 43 controls are decided but undated — treated as interval-censored (decision occurred between announcement and last status update); the rest are right-censored pending. Nonparametric MLE (Turnbull) estimator.
+- **Opposed** (n=169): 29 verified decision events; rest right-censored at last known activity. Standard Kaplan-Meier.
+- **Control / unopposed** (n=634): zero verified decision dates exist on the control side. 47 controls are decided but undated — treated as interval-censored (decision occurred between announcement and last status update); the rest are right-censored pending. Nonparametric MLE (Turnbull) estimator.
 
 ## Median time to decision
 
 - Opposed: **not reached** (curve does not cross 0.5)
-- Control: **780-794 days** (interval-censored NPMLE band)
+- Control: **not identified** — the interval-censored likelihood is too diffuse to locate a median (decided-undated intervals are wide). More control-side verified dates would tighten this.
 
 ## Matched-subset comparison
 
-Same estimators, restricted to matched sets (opposed project + its state/capacity/margin-matched controls, both with usable spans): **150** opposed (27 events) vs **352** matched control spans (138 interval-censored).
+Same estimators, restricted to matched sets (opposed project + its state/capacity/margin-matched controls, both with usable spans): **151** opposed (27 events) vs **359** matched control spans (138 interval-censored).
 
 - Matched opposed median: **not reached**
 - Matched control median: **3179-4487 days** (interval-censored NPMLE band)

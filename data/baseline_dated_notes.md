@@ -1,12 +1,12 @@
 # Dated Baseline — Coverage and Definitions
 
-Generated 2026-08-17 by `baseline_dated.py`.
+Generated 2026-08-24 by `baseline_dated.py`.
 
 ## Frame
 
-- Records with a usable time origin (day/month announced): **284** (284 internal, 0 external)
-- Opposed: 167 (29 with a verified decision date)
-- Control (unopposed): 117 (0 with a verified decision date; 43 decided but undated → censored lower bounds)
+- Records with a usable time origin (day/month announced): **803** (286 internal, 517 external)
+- Opposed: 169 (29 with a verified decision date)
+- Control (unopposed): 634 (0 with a verified decision date; 47 decided but undated → censored lower bounds)
 
 ## End-anchor kinds
 
@@ -16,10 +16,7 @@ Generated 2026-08-17 by `baseline_dated.py`.
 
 ## External ingest
 
-- `data/baseline_dated_external.csv` not present (optional). Schema when adding external dated sources (ISO large-load queues, permit portals, commercial trackers):
-  - required: source, as_of, name, state, announced_date
-  - optional: county, capacity_mw, decision_date, status, source_url, operator
-  - external decision dates count as verified only with a source_url; year-only announced dates are rejected.
+- `baseline_dated_external.csv` present: 517 accepted, 0 rejected.
 
 ## Binding limitations
 
