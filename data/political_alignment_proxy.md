@@ -50,7 +50,7 @@ Proxy score 2. A verified chamber roll call shows a restrictive measure passing 
 - Statewide legislative records on data centers: 7 (0 supportive, 5 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
   - 2025-10-11 (SB 57): unclear (verified roll call: 158 yes / 46 no)
-  - 2026-01-12 (AB 1577): restrictive (feed qc_leg_stance: restrictive)
+  - 2026-01-12 (AB 1577): restrictive (verified roll call: 126 yes / 37 no)
   - 2025-01-15 (statewide): restrictive (feed qc_leg_stance: restrictive)
   - 2026-02-04 (unidentified): restrictive (feed qc_leg_stance: restrictive)
   - 2026-01-13 (SB 887): restrictive (feed qc_leg_stance: restrictive)
@@ -65,7 +65,7 @@ Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is n
 - Statewide legislative records on data centers: 4 (0 supportive, 1 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
   - 2026-02-12 (statewide): restrictive (feed qc_leg_stance: restrictive)
-  - 2026-02-01 (HB 1030): unclear (verified roll call: 11 yes / 2 no)
+  - 2026-02-01 (HB 1030): unclear (feed qc_leg_stance: unclear)
   - 2026-04-10 (Xcel Power Pathway): unclear (feed qc_leg_stance: unclear)
   - 2026-05-11 (HB26-1030 + SB26-102 both died in committee): unclear (feed qc_leg_stance: unclear)
 - This proxy reads the public statewide legislative record only. Governor's position, local board and EDO stance, and utility/regulator posture are not covered and must be researched separately; see political_alignment_worklist.py.
@@ -442,8 +442,8 @@ Proxy score 2. A verified chamber roll call shows a restrictive measure passing 
 - Statewide legislative records on data centers: 8 (1 supportive, 5 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
   - 2026-02-17 (statewide moratorium proposal): restrictive (feed qc_leg_stance: restrictive)
-  - 2026-03-02 (HB 2151): restrictive (verified roll call: 452 yes / 254 no)
-  - 2026-03-09 (HB 2150): restrictive (verified roll call: 390 yes / 190 no)
+  - 2026-03-02 (HB 2151): restrictive (feed qc_leg_stance: restrictive)
+  - 2026-03-09 (HB 2150): restrictive (feed qc_leg_stance: restrictive)
   - 2026-03-10 (Statewide): supportive (feed qc_leg_stance: supportive)
   - 2026-03-24 (statewide HB 1834): restrictive (feed qc_leg_stance: restrictive)
   - 2026-06-18 (statewide): unclear (feed qc_leg_stance: unclear)
