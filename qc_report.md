@@ -1,13 +1,13 @@
 # Master Opposition QC Report
 
-- Records scanned: **1593**
-- Passed to feed: **1579**
-- Blocked / quarantined: **14**
+- Records scanned: **1609**
+- Passed to feed: **1587**
+- Blocked / quarantined: **22**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- DUPLICATE: 8
+- DUPLICATE: 16
 - LEG_SOURCE_WEAK: 4
 - STATEWIDE_CAPITAL_SINK: 1
 - STUDY_SOURCE_WEAK: 1
@@ -34,3 +34,11 @@
 | Doña Ana County, NM (Project Jupiter Bloom Energy fuel-cell microgrid announcement) | study | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Abilene, TX (Oracle/OpenAI drop flagship Stargate Abilene expansion; Meta in talks for Crusoe capacity) | project | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Douglas County Commission | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Data centers are not priorities over citizen : Charlotte mulls policy as moratorium ticks away | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Looking into the City of Camdenton AI data center moratorium three months in | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Jackson Township OKs developments , data center ordinance over resident concerns | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Our opinion : With data centers , Legislature needs to start discussions sooner than later | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Data centers are not priorities over citizen : Charlotte mulls policy as moratorium ticks away | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Looking into the City of Camdenton AI data center moratorium three months in | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Jackson Township OKs developments , data center ordinance over resident concerns | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Our opinion : With data centers , Legislature needs to start discussions sooner than later | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |

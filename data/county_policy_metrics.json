@@ -30,105 +30,105 @@
         "spec": "full",
         "C": 1.0,
         "n_vars": 10,
-        "auc_median": 0.7979,
+        "auc_median": 0.7989,
         "sign_stable": false
       },
       {
         "spec": "full",
         "C": 0.3,
         "n_vars": 10,
-        "auc_median": 0.7981,
+        "auc_median": 0.7994,
         "sign_stable": false
       },
       {
         "spec": "full",
         "C": 0.1,
         "n_vars": 10,
-        "auc_median": 0.7983,
+        "auc_median": 0.8003,
         "sign_stable": false
       },
       {
         "spec": "full",
         "C": 0.03,
         "n_vars": 10,
-        "auc_median": 0.7968,
+        "auc_median": 0.7986,
         "sign_stable": false
       },
       {
         "spec": "full",
         "C": 0.01,
         "n_vars": 10,
-        "auc_median": 0.7941,
+        "auc_median": 0.7947,
         "sign_stable": false
       },
       {
         "spec": "no_shift",
         "C": 1.0,
-        "n_vars": 9,
-        "auc_median": 0.7984,
-        "sign_stable": false
-      },
-      {
-        "spec": "no_shift",
-        "C": 0.3,
-        "n_vars": 9,
-        "auc_median": 0.7982,
-        "sign_stable": false
-      },
-      {
-        "spec": "no_shift",
-        "C": 0.1,
         "n_vars": 9,
         "auc_median": 0.7974,
         "sign_stable": false
       },
       {
         "spec": "no_shift",
+        "C": 0.3,
+        "n_vars": 9,
+        "auc_median": 0.7977,
+        "sign_stable": false
+      },
+      {
+        "spec": "no_shift",
+        "C": 0.1,
+        "n_vars": 9,
+        "auc_median": 0.7985,
+        "sign_stable": false
+      },
+      {
+        "spec": "no_shift",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.796,
+        "auc_median": 0.7955,
         "sign_stable": false
       },
       {
         "spec": "no_shift",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.7941,
+        "auc_median": 0.7942,
         "sign_stable": false
       },
       {
         "spec": "drop_density",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.7977,
+        "auc_median": 0.799,
         "sign_stable": false
       },
       {
         "spec": "drop_density",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.7983,
+        "auc_median": 0.7994,
         "sign_stable": false
       },
       {
         "spec": "drop_density",
         "C": 0.1,
         "n_vars": 9,
-        "auc_median": 0.7988,
+        "auc_median": 0.8001,
         "sign_stable": false
       },
       {
         "spec": "drop_density",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.7981,
+        "auc_median": 0.7998,
         "sign_stable": false
       },
       {
         "spec": "drop_density",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.795,
+        "auc_median": 0.7958,
         "sign_stable": true
       },
       {
@@ -204,84 +204,84 @@
     ]
   },
   "roc_auc": {
-    "p10": 0.7705,
-    "p50": 0.795,
-    "p90": 0.8235
+    "p10": 0.7676,
+    "p50": 0.7958,
+    "p90": 0.8223
   },
   "brier": {
-    "p10": 0.0759,
-    "p50": 0.0795,
-    "p90": 0.084,
+    "p10": 0.0762,
+    "p50": 0.0797,
+    "p90": 0.0841,
     "base_rate_brier": 0.0922
   },
   "calibration": {
-    "raw_slope": 1.213,
-    "raw_intercept": 0.4,
+    "raw_slope": 1.21,
+    "raw_intercept": 0.394,
     "post_recalibration_slope": 0.991,
-    "post_recalibration_intercept": -0.016,
-    "brier_calibrated": 0.0799,
+    "post_recalibration_intercept": -0.017,
+    "brier_calibrated": 0.0801,
     "note": "raw scores are compressed by shrinkage; the model includes a cross-fitted logistic recalibration layer. calibrated_score in the scores file is cross-fitted: no county's calibration was fit on itself. Post slope near 1 and intercept near 0 indicate the calibrated scores are honest probabilities."
   },
   "coefficients": {
     "margin_2024": {
-      "min": 0.1,
-      "median": 0.132,
-      "max": 0.161,
+      "min": 0.098,
+      "median": 0.13,
+      "max": 0.16,
       "sign_stable": true
     },
     "margin_shift": {
-      "min": 0.16,
-      "median": 0.179,
+      "min": 0.161,
+      "median": 0.18,
       "max": 0.234,
       "sign_stable": true
     },
     "existing_dc_count": {
-      "min": -0.194,
+      "min": -0.195,
       "median": -0.151,
       "max": -0.113,
       "sign_stable": true
     },
     "n_projects_tracked": {
-      "min": 0.307,
-      "median": 0.331,
-      "max": 0.39,
+      "min": 0.308,
+      "median": 0.333,
+      "max": 0.392,
       "sign_stable": true
     },
     "state_legislation_events": {
-      "min": -0.155,
-      "median": -0.12,
-      "max": -0.098,
+      "min": -0.122,
+      "median": -0.09,
+      "max": -0.067,
       "sign_stable": true
     },
     "land_sqmi": {
-      "min": -0.134,
-      "median": -0.093,
-      "max": -0.068,
+      "min": -0.128,
+      "median": -0.086,
+      "max": -0.063,
       "sign_stable": true
     },
     "median_hh_income": {
-      "min": 0.02,
-      "median": 0.05,
-      "max": 0.096,
+      "min": 0.018,
+      "median": 0.047,
+      "max": 0.094,
       "sign_stable": true
     },
     "pct_bachelors_plus": {
-      "min": 0.089,
+      "min": 0.088,
       "median": 0.116,
       "max": 0.154,
       "sign_stable": true
     },
     "population": {
-      "min": 0.388,
+      "min": 0.387,
       "median": 0.427,
       "max": 0.469,
       "sign_stable": true
     }
   },
   "aggregate_manifest": {
-    "generated": "2026-08-23",
+    "generated": "2026-08-24",
     "counties": 3222,
-    "event_rows_with_county": 1258,
+    "event_rows_with_county": 1260,
     "event_match_rate": 0.9897,
     "enacted_restriction_counties": 323,
     "dc_presence_counties": 399,
@@ -289,7 +289,7 @@
       "county_census_features.csv": "c94063d9123016f5",
       "county_votes.json": "b521eb017a7acfa5",
       "atlas.csv": "7a8c78d3ed6cea2d",
-      "master_opposition.csv": "b8169cac3729a55f",
+      "master_opposition.csv": "5a2ba2010a4d8293",
       "baseline_universe.csv": "aca58d2d64ed761a",
       "project_lifecycles.csv": "a6f2843b310a33d6"
     }
