@@ -334,7 +334,13 @@ jobs:
                     data/site_screen_movers.md 2>/dev/null || true
           fi
           git diff --staged --quiet || git commit -m "Auto-build clean feed from master_opposition.csv [skip ci]"
-          git push
+          # Rebase-retry (2026-08-25): same race hardening as fetch-permits.
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && break
+            if [ "$i" = "3" ]; then echo "Push failed after 3 attempts"; exit 1; fi
+            echo "Push attempt $i failed (another workflow moved main); retrying in 10s"
+            sleep 10
+          done
 
       - name: Trigger Iowa Notion sync
         if: success() || steps.verification.outcome == 'failure' || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure' || steps.coverage.outcome == 'failure' || steps.detection.outcome == 'failure' || steps.fips_resolution.outcome == 'failure' || steps.site_screener.outcome == 'failure'
