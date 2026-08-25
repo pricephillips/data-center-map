@@ -43,7 +43,7 @@ Columns: is_air_quality, is_anti_ai, is_community_impact, is_contract_guarantees
 8 capacity outlier(s) and 75 investment outlier(s) flagged for unit/scope verification (MW vs GW; phase vs total-campus)
 
 **13. Status normalized: status_clean + status_notes + legislative_stage (new columns)**  
-58 raw values -> 13 controlled codes (active, announced, approved, expired, failed, introduced, passed, passed_one_chamber, passed_pending_signature, pending, resolved, unknown, withdrawn); 12 narrative memo(s) preserved in status_notes; 4 legislative stage(s) extracted. Raw Status untouched.
+58 raw values -> 11 controlled codes (active, announced, approved, expired, failed, introduced, passed, pending, resolved, unknown, withdrawn); 0 narrative memo(s) preserved in status_notes; 0 legislative stage(s) extracted. Raw Status untouched.
 
 **14. Legislative completion verification: bill_progress + action_complete + outcome_overstated (new columns)**  
 277 legislative record(s) staged via the gate's ladder (now reading the Status field too); status_clean corrected on 50 record(s) so committee/one-chamber actions aren't labelled enacted; 4 record(s) flagged outcome_overstated (claims success but only at committee/one chamber — the 'approved ≠ law' trap).
