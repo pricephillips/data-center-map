@@ -44,9 +44,31 @@ Hard-won rules encoded from the 2026-08 repairs:
 No scorekeeping vocabulary is introduced beyond the raw schema's own
 Community Outcome values, which every master row already carries.
 
+Promotion (added 2026-08-25, replacing manual review): --promote appends
+gate-passing candidates straight into master_opposition.csv, following the
+same pattern promote_signal_candidates.py established for the harvest queue
+on 2026-08-12: a blocking per-row gate replaces the human, failing rows stay
+in the candidates file as the exception queue, and every decision lands in
+an append-only report (data/gap_promotion_report.csv). The gate requires a
+complete row (instrument, enacted status, source URL, summary, DATE: a
+dateless row would enter the raw file but be held out of the clean feed as
+incomplete, leaving the label pointing at a record the feed cannot see),
+re-checks the dedup guard against the CURRENT master, and re-checks that the
+county is still gap_class missing in the current coverage report, so a row
+is only ever promoted while the census actively asserts an uncovered
+instrument. Review-existing counties are never auto-edited; correcting an
+existing row's coding stays judgment work and stays on the report.
+
+Incident names are instrument-suffixed ("Franklin County moratorium"), never
+the bare county name: the daily upstream sync keys on (Incident, Entity,
+State), and a bare county name would collide with upstream's own future
+fight rows for the county (the Cass County lesson) and shield them from
+refresh.
+
 Usage:
-  python3 census_gap_candidates.py                 # network fetch upstream
+  python3 census_gap_candidates.py                 # build candidates
   python3 census_gap_candidates.py --inventory /path/to/moratorium_inventory.csv
+  python3 census_gap_candidates.py --promote       # build, then auto-promote
   python3 census_gap_candidates.py --selftest
 """
 
@@ -262,8 +284,11 @@ def build_candidate(gap: dict, census_row: dict | None,
         auth = "county_commission"
         cats = "zoning"
 
+    incident_name = (f"{county} data center ban" if instrument == "ban"
+                     else f"{county} {instrument.replace('_', ' ')}")
     return {
-        "Incident": county, "City": county, "Date": date, "Entity": "Unknown",
+        "Incident": incident_name, "City": county, "Date": date,
+        "Entity": "Unknown",
         "Location": f"{county}, {state}", "Opposition Type": instrument,
         "Severity": "1", "Source URL": source_url, "State": state,
         "County": county, "Scope": "local", "Issue Category": cats,
@@ -279,7 +304,7 @@ def build_candidate(gap: dict, census_row: dict | None,
     }
 
 
-def run(inventory_path: str | None) -> int:
+def run(inventory_path: str | None, do_promote: bool = False) -> int:
     gaps = [r for r in read_csv(GAP_CSV)
             if (r.get("gap_class") or "").strip() == "missing"]
     census = read_csv(CENSUS_CSV)
@@ -335,7 +360,100 @@ def run(inventory_path: str | None) -> int:
           f"unsourced: {len(unsourced)}")
     print(f"wrote {OUT_CSV}")
     print(f"wrote {OUT_MD}")
+    if do_promote:
+        promote(candidates)
     return 0
+
+
+PROMOTION_REPORT = os.path.join(DATA, "gap_promotion_report.csv")
+ENACTED_STATUSES = {"active", "extended", "expired", "passed"}
+PROMOTABLE_INSTRUMENTS = {"moratorium", "ban", "zoning_restriction"}
+
+
+def gate_candidate(cand: dict, guard: set, missing_now: set) -> str:
+    """One candidate through the promotion gate. Returns "" when the row is
+    promotable, otherwise the blocking reason. Ordered so the report reads
+    from hardest to softest failure."""
+    key = ((cand.get("State") or "").strip().upper(),
+           norm_county(cand.get("County") or ""))
+    if not key[0] or not key[1]:
+        return "no state or county"
+    if (cand.get("Opposition Type") or "") not in PROMOTABLE_INSTRUMENTS:
+        return "instrument outside the promotable set"
+    if (cand.get("Status") or "").strip().lower() not in ENACTED_STATUSES:
+        return "status is not an enacted status"
+    if not re.match(r"^https?://", (cand.get("Source URL") or "").strip()):
+        return "no http source url"
+    if not (cand.get("Summary") or "").strip():
+        return "empty summary"
+    if not re.match(r"^\d{4}-\d{2}(-\d{2})?$", (cand.get("Date") or "").strip()):
+        return ("no usable date: a dateless row is held out of the clean "
+                "feed as incomplete, stranding the label")
+    if key in guard:
+        return "master already carries a restrictive row for the county"
+    if key not in missing_now:
+        return "county is no longer gap_class missing in the coverage report"
+    return ""
+
+
+def promote(candidates: list[dict]) -> tuple[int, int]:
+    """Append gate-passing candidates to master_opposition.csv; leave the
+    rest in the candidates file as the exception queue. Every decision is
+    appended to the promotion report. Returns (promoted, held)."""
+    master = read_csv(MASTER_CSV)
+    if not master:
+        print("ERROR: master_opposition.csv absent or empty; refusing to "
+              "promote into a missing database")
+        return (0, len(candidates))
+    fields = list(master[0].keys())
+    guard = master_restrictive_counties(master)
+    missing_now = {((g.get("state") or "").strip().upper(),
+                    norm_county(g.get("county") or ""))
+                   for g in read_csv(GAP_CSV)
+                   if (g.get("gap_class") or "").strip() == "missing"}
+
+    promoted, held, report = [], [], []
+    for cand in candidates:
+        reason = gate_candidate(cand, guard, missing_now)
+        entry = {"state": cand.get("State"), "county": cand.get("County"),
+                 "instrument": cand.get("Opposition Type"),
+                 "date": cand.get("Date"),
+                 "data_source": cand.get("data_source"),
+                 "action": "promoted" if not reason else "held",
+                 "reason": reason}
+        report.append(entry)
+        if reason:
+            held.append(cand)
+        else:
+            promoted.append(cand)
+            guard.add(((cand.get("State") or "").strip().upper(),
+                       norm_county(cand.get("County") or "")))
+
+    if promoted:
+        with open(MASTER_CSV, "a", encoding="utf-8", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=fields, extrasaction="ignore",
+                               lineterminator="\r\n")
+            w.writerows({k: c.get(k, "") for k in fields} for c in promoted)
+
+    # The candidates file becomes the exception queue: held rows only.
+    with open(OUT_CSV, "w", encoding="utf-8", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=FIELDS, lineterminator="\r\n")
+        w.writeheader()
+        w.writerows(held)
+
+    exists = os.path.exists(PROMOTION_REPORT)
+    with open(PROMOTION_REPORT, "a", encoding="utf-8", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=["state", "county", "instrument",
+                                           "date", "data_source", "action",
+                                           "reason"], lineterminator="\r\n")
+        if not exists:
+            w.writeheader()
+        w.writerows(report)
+
+    print(f"promotion: {len(promoted)} appended to master, {len(held)} held "
+          f"in the exception queue; decisions appended to "
+          f"{PROMOTION_REPORT}")
+    return (len(promoted), len(held))
 
 
 def selftest() -> int:
@@ -385,6 +503,22 @@ def selftest() -> int:
     expect(norm_county("St. Louis (Independent City)") ==
            norm_county("St Louis Independent City"), "county norm is stable")
 
+    expect(cand["Incident"] == "Example County moratorium",
+           "incident name is instrument-suffixed, never the bare county")
+    good = dict(cand)
+    key = ("KS", norm_county("Example County"))
+    expect(gate_candidate(good, set(), {key}) == "",
+           "complete candidate passes the gate")
+    expect("date" in gate_candidate(dict(good, Date=""), set(), {key}),
+           "dateless candidate is held")
+    expect("restrictive row" in gate_candidate(good, {key}, {key}),
+           "guard collision is held at promotion time")
+    expect("no longer" in gate_candidate(good, set(), set()),
+           "county that left the gap report is held")
+    expect("source url" in gate_candidate(dict(good, **{"Source URL": ""}),
+                                          set(), {key}),
+           "missing source url is held")
+
     if fails:
         for f in fails:
             print("FAIL:", f)
@@ -399,10 +533,14 @@ def main() -> int:
                     help="local moratorium_inventory.csv instead of the "
                          "network fetch")
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--promote", action="store_true",
+                    help="append gate-passing candidates to "
+                         "master_opposition.csv; failing rows stay in the "
+                         "candidates file as the exception queue")
     args = ap.parse_args()
     if args.selftest:
         return selftest()
-    return run(args.inventory)
+    return run(args.inventory, do_promote=args.promote)
 
 
 if __name__ == "__main__":
