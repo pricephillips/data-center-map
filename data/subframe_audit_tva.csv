@@ -1,6 +1,5 @@
 action,state,county,fips,in_frame_basis,census_status,census_date,gap_class,label_check,model_label,label_divergence,tracker_restrictive_records,tracker_nonterminal_records,stale_nonterminal_records,latest_tracker_date,adjacency_priority,enacted_neighbors,census_source
 ingest_missing_census_enacted,NC,Cherokee County,37039,state_expansion,active,,missing,label_false_negative,0,0,0,0,0,,,,"https://www.law360.com/articles/2511658 (hawthorn-tva-review-2026-08-21: date and precise ordinance status uncertain across sources, see review note)"
-reconcile_label_positive_no_tracker_record,NC,Henderson County,37089,state_expansion,,,,,1,1,0,0,0,,,,
 reverify_stale_nonterminal_restrictive,AL,Talladega County,01121,state_expansion,,,,,0,0,1,1,1,2026-01-23,4,1,
 reverify_stale_nonterminal_restrictive,GA,Brooks County,13027,state_expansion,active,2026-02-02,covered_unconfirmed,agree,1,0,1,1,1,2026-02-02,,,"moratorium-nation:ga-brooks-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)"
 reverify_stale_nonterminal_restrictive,GA,Clayton County,13063,state_expansion,extended,2025-09-03,covered_unconfirmed,agree,1,0,1,1,1,2025-09-01,,,"moratorium-nation:ga-clayton-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)"
@@ -12,6 +11,7 @@ reverify_stale_nonterminal_restrictive,GA,Hall County,13139,state_expansion,acti
 reverify_stale_nonterminal_restrictive,GA,Henry County,13151,state_expansion,,,,,1,0,1,1,1,2026-01-06,,,
 reverify_stale_nonterminal_restrictive,GA,Lamar County,13171,state_expansion,active,2025-09,covered_unconfirmed,agree,1,0,1,1,1,2025-09-01,,,"moratorium-nation:ga-lamar-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)"
 reverify_stale_nonterminal_restrictive,GA,Lowndes County,13185,state_expansion,,,,,1,0,1,1,1,2026-02-17,,,
+reverify_stale_nonterminal_restrictive,GA,Pike County,13231,state_expansion,active,2025-09,covered_unconfirmed,agree,1,0,2,2,1,2025-09-01,,,"moratorium-nation:ga-pike-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)"
 reverify_stale_nonterminal_restrictive,GA,Polk County,13233,state_expansion,active,2026-03-03,covered_unconfirmed,agree,1,0,1,1,1,2026-03-03,,,"moratorium-nation:ga-polk-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)"
 reverify_stale_nonterminal_restrictive,GA,Troup County,13285,state_expansion,expired,2025-09-16,covered_unconfirmed,agree,1,0,3,3,3,2025-11-26,,,"moratorium-nation:ga-troup-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)"
 reverify_stale_nonterminal_restrictive,GA,Walton County,13297,state_expansion,,,,,1,0,1,1,1,2025-09-18,,,
@@ -25,6 +25,7 @@ reverify_stale_nonterminal_restrictive,NC,Cleveland County,37045,state_expansion
 reverify_stale_nonterminal_restrictive,NC,Cumberland County,37051,state_expansion,,,,,1,0,3,2,2,2026-06-15,,,
 reverify_stale_nonterminal_restrictive,NC,Harnett County,37085,state_expansion,,,,,0,0,1,1,1,2026-04-21,1,4,
 reverify_stale_nonterminal_restrictive,NC,Haywood County,37087,state_expansion,,,,,1,0,2,1,1,2026-04-16,,,
+reverify_stale_nonterminal_restrictive,NC,Henderson County,37089,state_expansion,,,,,1,0,1,1,1,2023-05-01,,,
 reverify_stale_nonterminal_restrictive,NC,Lee County,37105,state_expansion,,,,,1,0,3,3,1,2026-07-16,,,
 reverify_stale_nonterminal_restrictive,NC,Madison County,37115,state_expansion,expired,2023-06-13,covered_unconfirmed,agree,1,0,1,1,1,2023-06-13,,,"moratorium-nation:nc-madison-county-2023 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)"
 reverify_stale_nonterminal_restrictive,NC,Mecklenburg County,37119,state_expansion,,,,,1,0,2,1,1,2026-06-08,,,
@@ -43,7 +44,6 @@ reverify_stale_nonterminal_restrictive,VA,New Kent County,51127,state_expansion,
 reverify_stale_nonterminal_restrictive,VA,Prince William County,51153,state_expansion,,,,,0,0,6,2,1,2026-08-14,4,4,
 reverify_stale_nonterminal_restrictive,VA,Spotsylvania County,51177,state_expansion,,,,,1,0,3,2,1,2026-08-12,,,
 confirm_unconfirmed_coverage,GA,Coweta County,13077,state_expansion,replaced,2025-05,covered_unconfirmed,agree,1,0,1,1,0,2026-06-16,,,"moratorium-nation:ga-coweta-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)"
-confirm_unconfirmed_coverage,GA,Pike County,13231,state_expansion,active,2025-09,covered_unconfirmed,agree,1,0,1,1,0,,,,"moratorium-nation:ga-pike-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)"
 confirm_unconfirmed_coverage,KY,Simpson County,21213,state_expansion,active,2025-12,covered_unconfirmed,agree,1,0,1,0,0,,,,"https://www.lpm.org/news/2026-01-28/data-center-developer-sues-simpson-county-government-over-land-use-ordinance (hawthorn-tva-review-2026-08-21: ordinance 440.70, under litigation)"
 check_adjacent_enactment,AL,Tuscaloosa County,01125,state_expansion,,,,,0,0,1,1,0,2026-08-11,1,1,
 check_adjacent_enactment,GA,Baker County,13007,state_expansion,,,,,0,0,0,0,0,,2,3,

@@ -23,13 +23,12 @@ PROVISIONAL FRAME. The recall figures below are a proxy over an expanded county 
 | Action | Counties |
 |---|---|
 | ingest_missing_census_enacted | 1 |
-| reconcile_label_positive_no_tracker_record | 1 |
-| reverify_stale_nonterminal_restrictive | 41 |
-| confirm_unconfirmed_coverage | 3 |
+| reverify_stale_nonterminal_restrictive | 43 |
+| confirm_unconfirmed_coverage | 2 |
 | check_adjacent_enactment | 38 |
 | covered | 77 |
 
-Unresolved priority-1 items (ingest, reconcile, re-verify): 43
+Unresolved priority-1 items (ingest, reconcile, re-verify): 44
 
 Delivery clear: no
 
@@ -40,7 +39,6 @@ Only counties carrying a signal are listed below.
 | Action | State | County | Census | Gap | Label | Non-terminal | Stale | Adj P |
 |---|---|---|---|---|---|---|---|---|
 | ingest_missing_census_enacted | NC | Cherokee County | active | missing | 0 | 0 | 0 | - |
-| reconcile_label_positive_no_tracker_record | NC | Henderson County | - | - | 1 | 0 | 0 | - |
 | reverify_stale_nonterminal_restrictive | AL | Talladega County | - | - | 0 | 1 | 1 | 4 |
 | reverify_stale_nonterminal_restrictive | GA | Brooks County | active | covered_unconfirmed | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Clayton County | extended | covered_unconfirmed | 1 | 1 | 1 | - |
@@ -52,6 +50,7 @@ Only counties carrying a signal are listed below.
 | reverify_stale_nonterminal_restrictive | GA | Henry County | - | - | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Lamar County | active | covered_unconfirmed | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Lowndes County | - | - | 1 | 1 | 1 | - |
+| reverify_stale_nonterminal_restrictive | GA | Pike County | active | covered_unconfirmed | 1 | 2 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Polk County | active | covered_unconfirmed | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Troup County | expired | covered_unconfirmed | 1 | 3 | 3 | - |
 | reverify_stale_nonterminal_restrictive | GA | Walton County | - | - | 1 | 1 | 1 | - |
@@ -65,6 +64,7 @@ Only counties carrying a signal are listed below.
 | reverify_stale_nonterminal_restrictive | NC | Cumberland County | - | - | 1 | 2 | 2 | - |
 | reverify_stale_nonterminal_restrictive | NC | Harnett County | - | - | 0 | 1 | 1 | 1 |
 | reverify_stale_nonterminal_restrictive | NC | Haywood County | - | - | 1 | 1 | 1 | - |
+| reverify_stale_nonterminal_restrictive | NC | Henderson County | - | - | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | NC | Lee County | - | - | 1 | 3 | 1 | - |
 | reverify_stale_nonterminal_restrictive | NC | Madison County | expired | covered_unconfirmed | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | NC | Mecklenburg County | - | - | 1 | 1 | 1 | - |
@@ -83,7 +83,6 @@ Only counties carrying a signal are listed below.
 | reverify_stale_nonterminal_restrictive | VA | Prince William County | - | - | 0 | 2 | 1 | 4 |
 | reverify_stale_nonterminal_restrictive | VA | Spotsylvania County | - | - | 1 | 2 | 1 | - |
 | confirm_unconfirmed_coverage | GA | Coweta County | replaced | covered_unconfirmed | 1 | 1 | 0 | - |
-| confirm_unconfirmed_coverage | GA | Pike County | active | covered_unconfirmed | 1 | 1 | 0 | - |
 | confirm_unconfirmed_coverage | KY | Simpson County | active | covered_unconfirmed | 1 | 0 | 0 | - |
 | check_adjacent_enactment | AL | Tuscaloosa County | - | - | 0 | 1 | 0 | 1 |
 | check_adjacent_enactment | GA | Baker County | - | - | 0 | 0 | 0 | 2 |

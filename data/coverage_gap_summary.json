@@ -3,13 +3,13 @@
     "CO": {
       "census_in_scope": 2,
       "covered_confirmed": 0,
-      "covered_unconfirmed": 1,
-      "missing": 1,
+      "covered_unconfirmed": 2,
+      "missing": 0,
       "recall_confirmed": 0.0,
-      "recall_any": 0.5,
+      "recall_any": 1.0,
       "label_false_negatives": 0,
       "unjoined_frame": 0,
-      "label_positive_no_tracker_record": 1
+      "label_positive_no_tracker_record": 0
     },
     "GA": {
       "census_in_scope": 19,
@@ -25,11 +25,11 @@
     "IA": {
       "census_in_scope": 10,
       "covered_confirmed": 2,
-      "covered_unconfirmed": 6,
-      "missing": 2,
+      "covered_unconfirmed": 8,
+      "missing": 0,
       "recall_confirmed": 0.2,
-      "recall_any": 0.8,
-      "label_false_negatives": 2,
+      "recall_any": 1.0,
+      "label_false_negatives": 0,
       "unjoined_frame": 0,
       "label_positive_no_tracker_record": 0
     },
@@ -135,13 +135,13 @@
     "NE": {
       "census_in_scope": 1,
       "covered_confirmed": 0,
-      "covered_unconfirmed": 0,
-      "missing": 1,
+      "covered_unconfirmed": 1,
+      "missing": 0,
       "recall_confirmed": 0.0,
-      "recall_any": 0.0,
+      "recall_any": 1.0,
       "label_false_negatives": 0,
       "unjoined_frame": 0,
-      "label_positive_no_tracker_record": 1
+      "label_positive_no_tracker_record": 0
     },
     "PA": {
       "census_in_scope": 1,
@@ -190,10 +190,10 @@
   },
   "national": {
     "census_in_scope": 87,
-    "recall_any": 0.943,
-    "label_false_negatives": 5,
+    "recall_any": 0.989,
+    "label_false_negatives": 3,
     "unjoined_frame": 0,
-    "label_positive_no_tracker_record": 2
+    "label_positive_no_tracker_record": 0
   },
   "note": "Census is a lower bound and the unit is the county, not the instrument episode. recall_any is the share of census counties with ANY tracker restrictive record; recall_confirmed requires a terminal confirmation. label_false_negatives are census-enacted counties the county model currently trains on as negatives. unjoined_frame counts census counties that do not match the national county frame at all, which is a census name defect, not a coverage result. label_positive_no_tracker_record counts the reverse direction: the aggregate labels the county enacted while the clean feed carries no county-level restrictive record, which is a divergence between county_aggregator.py's label rule and this module's mechanism view, reported here and not reconciled here."
 }

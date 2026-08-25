@@ -6,15 +6,15 @@ Age is a prompt to re-verify, not evidence that anything changed. Nothing in thi
 
 ## Counts
 
-- Non-terminal county records in scope: 263
-- Past threshold (priorities 1 to 3): 229
+- Non-terminal county records in scope: 266
+- Past threshold (priorities 1 to 3): 233
 - Priority 1, label-moving: 14 across 14 counties
 - Label-moving rows at any priority, early warning included: 25 across 24 counties
-- Priority 2, grade only: 172
-- Priority 3, non-restrictive: 43
-- Priority 4, early warning: 34
+- Priority 2, grade only: 179
+- Priority 3, non-restrictive: 40
+- Priority 4, early warning: 33
 - Excluded, statewide (owned by bill_sync.py): 188
-- Excluded, undated (owned by the date worklists): 2
+- Excluded, undated (owned by the date worklists): 3
 
 ## Thresholds, in days
 
@@ -51,14 +51,14 @@ Age is a prompt to re-verify, not evidence that anything changed. Nothing in thi
 
 | State | Rows |
 |---|---|
-| MI | 37 |
+| MI | 39 |
 | OH | 24 |
 | TN | 17 |
 | GA | 16 |
 | NC | 14 |
 | PA | 14 |
+| IA | 10 |
 | WI | 10 |
-| IA | 9 |
 | VA | 8 |
 | IN | 7 |
 | KS | 7 |
@@ -66,10 +66,10 @@ Age is a prompt to re-verify, not evidence that anything changed. Nothing in thi
 | KY | 5 |
 | MD | 5 |
 | TX | 5 |
+| CO | 4 |
 | MN | 4 |
 | NY | 4 |
 | CA | 3 |
-| CO | 3 |
 | LA | 3 |
 | MA | 3 |
 | MO | 3 |

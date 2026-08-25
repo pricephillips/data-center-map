@@ -211,16 +211,16 @@
       "investment_scope": "unknown"
     },
     "enrichment": {
-      "qc_mechanism": "legislation",
+      "qc_mechanism": "conditional_zoning",
       "qc_mechanisms": [
-        "legislation",
+        "conditional_zoning",
         "cost_allocation"
       ],
       "qc_concerns": "energy_cost",
-      "qc_restriction_strength": null,
-      "qc_strength_label": "stance-ambiguous",
-      "qc_is_block": null,
-      "qc_highlight": false,
+      "qc_restriction_strength": 3,
+      "qc_strength_label": "conditional",
+      "qc_is_block": false,
+      "qc_highlight": true,
       "qc_jurisdiction_level": "county",
       "qc_jurisdiction_key": "oklahoma::canadian::county"
     },
