@@ -19,6 +19,23 @@ instead of writing to the database.
 Existing rows are never deleted or altered by this change. What changes is
 that NEW unverified rows stop being appended.
 
+Change 2026-08-25: the merge was destroying curated rows. Two defects, both
+observed in production between 2026-08-21 and 2026-08-25. First, the file
+was loaded into a dict keyed on (Incident, Entity), so any two rows sharing
+that key silently collapsed to one on every run; 51 legitimate rows were one
+run from deletion when this was caught. Second, upstream rows overwrote ANY
+existing row sharing the key regardless of provenance: the Nebraska "Cass
+County" fight overwrote Indiana's Cass County ban (hand-verified), upstream's
+2022 Clay County NC row overwrote the county's 2026 ban, and hand-applied
+corrections to Mercer County ND were reverted to upstream coding. The merge
+now follows the ownership rule used everywhere else in the pipeline: this
+sync owns only rows whose data_source is its own (or blank, for rows written
+before provenance was recorded). Rows from every other source pass through
+byte-identical, keyed rows include State so same-named counties in different
+states never collide, and an upstream record whose key matches a protected
+row is skipped entirely, because a hand-verified correction supersedes the
+upstream coding of the same event.
+
 The data_source column is also fixed here. build_row previously emitted the
 key "datasource" while the CSV header carries "data_source", so the writer's
 extrasaction="ignore" silently dropped every provenance value. Both keys are
@@ -39,6 +56,14 @@ except ImportError:                      # module absent; CSV build must still r
 
 SOURCE_URL = "https://datacentertracker.org/data/fights.json"
 OUTPUT_CSV = "master_opposition.csv"
+
+# Ownership rule (2026-08-25). This sync may refresh or replace only rows it
+# wrote itself: data_source "datacentertracker.org", or blank for rows that
+# predate provenance recording. Rows from any other source are never
+# altered, and an incoming upstream record whose key matches one of them is
+# skipped rather than duplicated.
+UPSTREAM_SOURCE = "datacentertracker.org"
+REFRESHABLE_SOURCES = {UPSTREAM_SOURCE, ""}
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Lookback for the candidate harvest. The job runs daily, so a 7-day window
@@ -79,18 +104,62 @@ def clean(value):
     return value
 
 def load_existing_rows(path):
-    existing = {}
+    """Every row, in file order, with no key-based collapse. The previous
+    dict load deleted rows sharing (Incident, Entity) on every run."""
+    rows = []
     header = []
     try:
         with open(path, newline="", encoding="utf-8") as f:
             reader = csv.DictReader(f)
             header = reader.fieldnames or []
-            for row in reader:
-                key = (row.get("Incident", "").strip(), row.get("Entity", "").strip())
-                existing[key] = row
+            rows = list(reader)
     except FileNotFoundError:
         pass
-    return existing, header
+    return rows, header
+
+
+def sync_key(row):
+    """Identity for upstream refresh. State is part of the key because
+    county-named incidents repeat across states; the Nebraska and Indiana
+    Cass County rows must never share a key."""
+    return (row.get("Incident", "").strip(),
+            row.get("Entity", "").strip(),
+            row.get("State", "").strip().upper())
+
+
+def row_source(row):
+    return (row.get("data_source") or row.get("datasource") or "").strip()
+
+
+def merge_rows(existing, incoming):
+    """Apply the ownership rule. Returns (rows, stats).
+
+    refreshed: upstream-owned row replaced in place by its upstream refresh
+    appended:  upstream record with no matching owned row
+    shielded:  upstream record skipped because a protected row owns the key
+    """
+    rows = list(existing)
+    refreshable = {}
+    protected_keys = set()
+    for i, r in enumerate(rows):
+        if row_source(r) in REFRESHABLE_SOURCES:
+            refreshable.setdefault(sync_key(r), i)
+        else:
+            protected_keys.add(sync_key(r))
+    stats = {"refreshed": 0, "appended": 0, "shielded": 0}
+    for row in incoming:
+        k = sync_key(row)
+        if k in protected_keys:
+            stats["shielded"] += 1
+            continue
+        if k in refreshable:
+            rows[refreshable[k]] = row
+            stats["refreshed"] += 1
+        else:
+            rows.append(row)
+            refreshable[k] = len(rows) - 1
+            stats["appended"] += 1
+    return rows, stats
 
 def build_row(record, proposals=None):
     sources = record.get("sources") or []
@@ -162,24 +231,80 @@ def main():
     except requests.RequestException:
         records = []
 
-    for record in records:
-        row = build_row(record, proposals)
-        key = (row.get("Incident", "").strip(), row.get("Entity", "").strip())
-        existing_rows[key] = row
-        
+    incoming = [build_row(record, proposals) for record in records]
+    merged, stats = merge_rows(existing_rows, incoming)
+
     with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=header, extrasaction="ignore")
         writer.writeheader()
-        writer.writerows(existing_rows.values())
+        writer.writerows(merged)
 
     # Candidate harvest runs AFTER the CSV is written, so it dedupes against
     # the rows just ingested. It writes only to the review queue.
     n = 0
     if signal_harvest is not None:
         n = signal_harvest.harvest_to_queue(days=HARVEST_DAYS, repo_root=REPO_ROOT)
-    print(f"build_master_csv: {len(existing_rows)} rows written; "
+    print(f"build_master_csv: {len(merged)} rows written "
+          f"({stats['refreshed']} refreshed, {stats['appended']} appended, "
+          f"{stats['shielded']} shielded by protected rows); "
           f"{n} harvest candidates queued for review")
 
 
+def selftest():
+    fails = []
+
+    def expect(cond, label):
+        if not cond:
+            fails.append(label)
+
+    protected = {"Incident": "Cass County", "Entity": "Unknown",
+                 "State": "IN", "data_source": "hawthorn_manual_verification",
+                 "Summary": "curated"}
+    owned = {"Incident": "Clay County", "Entity": "Unknown", "State": "NC",
+             "data_source": "datacentertracker.org", "Status": "pending"}
+    legacy_blank = {"Incident": "Old Fight", "Entity": "Unknown",
+                    "State": "TX", "data_source": ""}
+    twin_a = {"Incident": "Same Title", "Entity": "", "State": "",
+              "data_source": "signal_harvest_auto", "Date": "2026-08-17"}
+    twin_b = {"Incident": "Same Title", "Entity": "", "State": "",
+              "data_source": "signal_harvest_auto", "Date": "2026-08-19"}
+    existing = [protected, owned, legacy_blank, twin_a, twin_b]
+
+    up_cass_ne = {"Incident": "Cass County", "Entity": "Unknown",
+                  "State": "NE", "data_source": "datacentertracker.org"}
+    up_cass_in = {"Incident": "Cass County", "Entity": "Unknown",
+                  "State": "IN", "data_source": "datacentertracker.org"}
+    up_clay = {"Incident": "Clay County", "Entity": "Unknown", "State": "NC",
+               "data_source": "datacentertracker.org", "Status": "passed"}
+    up_legacy = {"Incident": "Old Fight", "Entity": "Unknown", "State": "TX",
+                 "data_source": "datacentertracker.org"}
+
+    rows, stats = merge_rows(existing,
+                             [up_cass_ne, up_cass_in, up_clay, up_legacy])
+    expect(protected in rows and rows.count(protected) == 1,
+           "protected row survives untouched")
+    expect(stats["shielded"] == 1,
+           "same-key upstream record is shielded, not merged")
+    expect(up_cass_ne in rows,
+           "different-state same-name upstream row appends cleanly")
+    expect(up_clay in rows and owned not in rows,
+           "upstream-owned row refreshes in place")
+    expect(up_legacy in rows and legacy_blank not in rows,
+           "blank-provenance legacy row is refresh-eligible")
+    expect(rows.count(twin_a) == 1 and rows.count(twin_b) == 1,
+           "same-key existing rows both survive the load")
+    expect(len(rows) == 6, "row arithmetic: 5 existing - 2 refreshed in "
+                           "place + 2 appended")
+
+    if fails:
+        for f in fails:
+            print("FAIL:", f)
+        return 1
+    print("build_master_csv selftest: 7 checks OK")
+    return 0
+
+
 if __name__ == "__main__":
+    if "--selftest" in sys.argv:
+        raise SystemExit(selftest())
     main()
