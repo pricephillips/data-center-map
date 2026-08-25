@@ -64,6 +64,85 @@ OUTPUT_CSV = "master_opposition.csv"
 # skipped rather than duplicated.
 UPSTREAM_SOURCE = "datacentertracker.org"
 REFRESHABLE_SOURCES = {UPSTREAM_SOURCE, ""}
+
+# Status normalization on ingest (2026-08-25). The QC gate's canonical
+# status vocabulary (qc/qc_pipeline.py _CANONICAL_STATUS) is the contract;
+# upstream sends free-text statuses that accumulated 44 STATUS_VOCAB
+# findings and turned the gate red the first time it re-armed. Every
+# incoming status is mapped here; the original wording is preserved in the
+# Summary so no information is lost. Mappings follow the legislative
+# outcome discipline: a bill past one chamber or awaiting a signature is
+# pending, not passed; sine die and died-in-committee are terminal.
+STATUS_NORMALIZATION = {
+    "mixed": "resolved",
+    "decided": "resolved",
+    "superseded": "resolved",
+    "incorporated": "resolved",
+    "published": "resolved",
+    "died-sine-die": "died",
+    "died-in-committee": "died",
+    "died in committee": "died",
+    "relocated": "withdrawn",
+    "drafted": "proposed",
+    "paused": "delayed",
+    "held": "delayed",
+    "tabled": "postponed",
+    "litigation": "ongoing",
+    "moratorium": "active",
+    "moratorium enacted": "enacted",
+    "enforced": "active",
+    "first_reading": "pending",      # a first reading is not an enactment
+    "second_reading": "pending",
+    "recommended": "pending",        # a recommendation is non-terminal
+    "passed (first hearing)": "pending",
+    # A nonbinding resolution concluded but imposes nothing; "adopted" is
+    # canonical for the QC gate and is deliberately NOT in the county
+    # aggregator's enacted-status set, so a nonbinding moratorium
+    # resolution can never flip a county's enacted label.
+    "passed (nonbinding)": "adopted",
+    "5-0 to draft ban": "proposed",
+    "protest": "ongoing",
+    "organizing": "ongoing",
+    "exploratory": "considering",
+    "interim-committee-discussion": "considering",
+    "wells approved": "approved",
+}
+_STATUS_PREFIX_RULES = (
+    # (prefix or substring, canonical). Checked when the exact map misses.
+    ("passed legislature", "pending"),   # awaiting signature = not enacted
+    ("passed house", "pending"),
+    ("passed senate", "pending"),
+    ("passed committee", "pending"),
+    ("active", "active"),                # "active - permit granted, ..." variants
+    ("postponed", "postponed"),          # "postponed to june 23" variants
+    ("pending", "pending"),              # "pending - discussion draft ..." variants
+)
+
+
+def normalize_status(raw):
+    """(canonical_status, was_remapped). Canonical values pass through."""
+    s = str(raw or "").strip()
+    low = s.lower()
+    if not low:
+        return s, False
+    canonical = {"passed", "signed", "approved", "enacted", "defeated",
+                 "dead", "died", "cancelled", "canceled", "expired",
+                 "withdrawn", "vetoed", "failed", "denied", "rejected",
+                 "adopted", "moratorium adopted", "moratorium passed",
+                 "resolved", "active", "pending", "ongoing", "proposed",
+                 "filed", "hearing", "delayed", "introduced", "monitoring",
+                 "considering", "review", "announced", "postponed",
+                 "plan unveiled", "changed", "extended"}
+    if low in canonical:
+        return low, False
+    if low in STATUS_NORMALIZATION:
+        return STATUS_NORMALIZATION[low], True
+    for prefix, target in _STATUS_PREFIX_RULES:
+        if low.startswith(prefix) or prefix in low:
+            return target, True
+    # Unknown status: keep it visible rather than guessing a semantic; the
+    # QC gate will flag it and the mapping table gets the new entry.
+    return s, False
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Lookback for the candidate harvest. The job runs daily, so a 7-day window
@@ -169,6 +248,13 @@ def build_row(record, proposals=None):
 
     proposal = (proposals or {}).get((state.upper(), company.lower()), {})
 
+    status, remapped = normalize_status(clean(record.get("status")))
+    summary = clean(record.get("summary"))
+    if remapped:
+        summary = (summary + " Status as reported by the source: '"
+                   + clean(record.get("status"))
+                   + "'; normalized on ingest.").strip()
+
     return {
         "Incident": jurisdiction,
         "City": jurisdiction,
@@ -184,7 +270,7 @@ def build_row(record, proposals=None):
         "Issue Category": join_list(record.get("issue_category")),
         "Objective": clean(record.get("objective")),
         "Authority Level": clean(record.get("authority_level")),
-        "Status": clean(record.get("status")),
+        "Status": status,
         "Community Outcome": clean(record.get("community_outcome")),
         "Hyperscaler": clean(record.get("hyperscaler")),
         "Company": company,
@@ -194,7 +280,7 @@ def build_row(record, proposals=None):
         "Acreage": clean(record.get("acreage")) or proposal.get("size_acres", ""),
         "Sponsors": join_list(record.get("sponsors")),
         "Opposition Groups": join_list(record.get("opposition_groups")),
-        "Summary": clean(record.get("summary")),
+        "Summary": summary,
         "Sources": join_list(sources),
         "Opposition Website": clean(record.get("opposition_website")),
         "Opposition Facebook": clean(record.get("opposition_facebook")),
@@ -296,11 +382,26 @@ def selftest():
     expect(len(rows) == 6, "row arithmetic: 5 existing - 2 refreshed in "
                            "place + 2 appended")
 
+    expect(normalize_status("died-sine-die") == ("died", True),
+           "sine die is terminal")
+    expect(normalize_status("passed legislature, awaiting governor signature")
+           == ("pending", True),
+           "awaiting signature is pending, never passed (legislative "
+           "outcome discipline)")
+    expect(normalize_status("active - permit granted, litigation filed")
+           == ("active", True), "compound active strings collapse to active")
+    expect(normalize_status("extended") == ("extended", False),
+           "extended is canonical and passes through")
+    expect(normalize_status("passed") == ("passed", False),
+           "canonical statuses are untouched")
+    expect(normalize_status("some new upstream phrase")[1] is False,
+           "unknown statuses stay visible for the QC gate to flag")
+
     if fails:
         for f in fails:
             print("FAIL:", f)
         return 1
-    print("build_master_csv selftest: 7 checks OK")
+    print("build_master_csv selftest: 13 checks OK")
     return 0
 
 
