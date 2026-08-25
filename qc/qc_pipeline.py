@@ -141,9 +141,13 @@ NULL_ARTIFACTS = ("nan", "none", "null")
 _RESOLVED_STATUS = {"passed", "signed", "approved", "enacted", "defeated", "dead", "died",
                     "cancelled", "canceled", "expired", "withdrawn", "vetoed", "failed",
                     "denied", "rejected", "adopted", "moratorium adopted", "moratorium passed", "resolved"}
+# "extended" added 2026-08-25: an extended moratorium is a live, distinct
+# status that county_aggregator.py counts toward the enacted label; mapping
+# it away on ingest would lose the extension semantics, so the vocabulary
+# carries it instead.
 _INPROGRESS_STATUS = {"active", "pending", "ongoing", "proposed", "filed", "hearing",
                       "delayed", "introduced", "monitoring", "considering", "review",
-                      "announced", "postponed", "plan unveiled", "changed"}
+                      "announced", "postponed", "plan unveiled", "changed", "extended"}
 _CANONICAL_STATUS = _RESOLVED_STATUS | _INPROGRESS_STATUS
 
 _URL_RE = re.compile(r"^https?://", re.IGNORECASE)
