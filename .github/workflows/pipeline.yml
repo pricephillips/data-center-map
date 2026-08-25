@@ -197,11 +197,17 @@ jobs:
           # sources and resolutions already committed to the worklist are
           # carried forward, so an auto-commit cannot discard research.
           python restriction_worklist.py
-          # Gap-to-candidate builder (2026-08-21): any census-enacted county
-          # with no tracker record gets a fully populated ingest candidate,
-          # dedup-guarded against master. Emits candidates for review only;
-          # nothing is promoted here, and a failure must not fail the audit.
-          python census_gap_candidates.py || true
+          # Gap-to-candidate builder (2026-08-21) + gated auto-promotion
+          # (2026-08-25, replacing manual review at Price's direction): any
+          # census-enacted county with no tracker record gets a fully
+          # populated ingest candidate; rows passing the promotion gate
+          # (complete, dated, sourced, dedup-guarded, census-corroborated)
+          # append to master_opposition.csv, and failing rows stay in
+          # data/restriction_ingest_candidates.csv as the exception queue.
+          # Every decision lands in data/gap_promotion_report.csv. Promoted
+          # rows enter the feed and the county label on the NEXT nightly
+          # run; a builder failure must not fail the audit.
+          python census_gap_candidates.py --promote || true
 
       - name: Detection layer (staleness, adjacency re-scan, frame audits)
         id: detection
@@ -292,6 +298,8 @@ jobs:
                     data/restriction_ingest_template.csv \
                     data/restriction_ingest_candidates.csv \
                     data/restriction_ingest_candidates.md \
+                    data/gap_promotion_report.csv \
+                    master_opposition.csv \
                     data/restriction_worklist.md 2>/dev/null || true
           fi
           # Detection-layer artifacts are staged only on a green detection
