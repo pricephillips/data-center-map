@@ -1,13 +1,13 @@
 # Master Opposition QC Report
 
-- Records scanned: **1605**
-- Passed to feed: **1591**
-- Blocked / quarantined: **14**
+- Records scanned: **1616**
+- Passed to feed: **1600**
+- Blocked / quarantined: **16**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- DUPLICATE: 8
+- DUPLICATE: 10
 - LEG_SOURCE_WEAK: 4
 - STATEWIDE_CAPITAL_SINK: 1
 - STUDY_SOURCE_WEAK: 1
@@ -34,3 +34,5 @@
 | Doña Ana County, NM (Project Jupiter Bloom Energy fuel-cell microgrid announcement) | study | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Abilene, TX (Oracle/OpenAI drop flagship Stargate Abilene expansion; Meta in talks for Crusoe capacity) | project | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Douglas County Commission | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| County board OKs one - year data center moratorium - Northwoods Star Journal | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| County board OKs one - year data center moratorium - Northwoods Star Journal | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |

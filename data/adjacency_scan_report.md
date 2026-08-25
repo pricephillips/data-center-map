@@ -7,12 +7,12 @@ Adjacency is a search prompt, never evidence. Nothing in this queue is a finding
 ## Counts
 
 - Seed counties (enacted, tracker label or external census): 329
-- Seeds carrying no usable date: 9 (an undated seed cannot raise a fresh trigger)
+- Seeds carrying no usable date: 8 (an undated seed cannot raise a fresh trigger)
 - Candidate counties adjacent to a seed: 999
 - Priority 1, non-terminal record plus fresh trigger: 36
 - Priority 2, fresh trigger with pressure: 104
-- Priority 3, standing cluster: 242
-- Priority 4, background: 617
+- Priority 3, standing cluster: 243
+- Priority 4, background: 616
 - Cross-state candidates (the Walker/Hamilton shape): 181
 - Small-jurisdiction candidates (population under 100,000): 782
 - Candidates with no automated agenda route: 996
@@ -25,6 +25,7 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | PA | Lehigh County | 4 | Montgomery County, PA (2026-07-27) | 29 | 2 | 5 | no | none |
 | 1 | MO | St. Louis County | 3 | St. Charles County, MO (2026-07-14) | 42 | 2 | 1 | no | ambiguous |
+| 1 | MD | Calvert County | 1 | Prince George's County, MD (2026-07-07) | 49 | 2 | 0 | yes | none |
 | 1 | WI | Winnebago County | 1 | Outagamie County, WI (2026-07-07) | 49 | 2 | 0 | no | ambiguous |
 | 1 | NC | Harnett County | 4 | Lee County, NC (2026-07-16) | 40 | 1 | 0 | no | none |
 | 1 | IN | St. Joseph County | 4 | Cass County, MI (2026-05-12) | 105 | 1 | 4 | no | none |
@@ -48,7 +49,6 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 | 1 | MN | Nicollet County | 1 | Blue Earth County, MN (2026-07-13) | 43 | 1 | 0 | yes | none |
 | 1 | SC | Chester County | 1 | York County, SC (2026-07-13) | 43 | 1 | 0 | yes | ambiguous |
 | 1 | MI | Keweenaw County | 1 | Houghton County, MI (2026-07-09) | 47 | 1 | 0 | yes | none |
-| 1 | MD | Calvert County | 1 | Prince George's County, MD (2026-07-07) | 49 | 1 | 0 | yes | none |
 | 1 | SC | Orangeburg County | 1 | Colleton County, SC (2026-07-07) | 49 | 1 | 0 | yes | none |
 | 1 | KS | Miami County | 1 | Johnson County, KS (2026-06-11) | 75 | 1 | 0 | yes | ambiguous |
 | 1 | TN | Moore County | 1 | Coffee County, TN (2026-06-09) | 77 | 1 | 0 | yes | none |
@@ -70,8 +70,8 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 |---|---|
 | OH | 28 |
 | GA | 26 |
+| IN | 25 |
 | TN | 25 |
-| IN | 24 |
 | NC | 22 |
 | VA | 22 |
 | PA | 16 |
