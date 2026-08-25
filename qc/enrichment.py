@@ -194,6 +194,30 @@ def extract_concerns(blob: str) -> list[str]:
     return [name for name, pats in CONCERNS if any(_match(p, blob) for p in pats)]
 
 
+# Local-instrument precedence (2026-08-25). A county record whose declared
+# Opposition Type is a concrete local instrument must not be routed to
+# stance-ambiguous "legislation" by bill mentions in its narrative. Observed
+# in production: Hitchcock County NE's moratorium row discusses LB526 as
+# state-level context, and Larimer County CO's mentions SB 26; the schema
+# adapter mirrors Summary into Notes, which doubled the bill-signal density
+# past looks_legislative's threshold, so both counties' enacted moratoriums
+# classified as legislation, dropped out of the coverage match, and read as
+# census gaps. The declared instrument outranks narrative context; records
+# actually typed as legislation (bill, regulatory_action, and the rest of
+# _LEGISLATION_TYPES) still route to the legislative brain unchanged.
+_LOCAL_INSTRUMENT_TOKENS = ("moratorium", "ban", "zoning_restriction")
+
+
+def _declares_local_instrument(record: dict, opp: str) -> bool:
+    toks = {t.strip() for t in opp.split(";")}
+    if not (toks & set(_LOCAL_INSTRUMENT_TOKENS)):
+        return False
+    if any(t in opp for t in _LEGISLATION_TYPES):
+        return False
+    scope = str(record.get("Scope", "") or "").strip().lower()
+    return scope in ("", "local")
+
+
 def classify_mechanism(record: dict) -> tuple[str, list[str], int | None, bool | None]:
     """Return (primary_mechanism, all_mechanisms, strength, is_block)."""
     blob = _blob(record)
@@ -201,7 +225,8 @@ def classify_mechanism(record: dict) -> tuple[str, list[str], int | None, bool |
 
     # Legislation is stance-ambiguous: a bill can be pro- or anti-industry, and
     # win/loss cannot be inferred from the mechanism. Tag it and stop.
-    if _looks_legislative(record) or any(t in opp for t in _LEGISLATION_TYPES):
+    if (_looks_legislative(record) and not _declares_local_instrument(record, opp)) \
+            or any(t in opp for t in _LEGISLATION_TYPES):
         # Still surface a sub-mechanism if the bill is clearly one of these.
         subs = [name for name, _s, _b, pats in MECHANISMS
                 if name in ("cost_allocation", "incentive_repeal", "disclosure", "moratorium")

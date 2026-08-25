@@ -973,6 +973,19 @@ def selftest() -> bool:
             "County": "Linn County", "Authority Level": "county_commission", "Community Outcome": "win",
             "Status": "passed", "Date": "2026-02-01", "Source URL": "https://insideclimatenews.org/x",
             "Summary": "The county approved a zoning ordinance with 1,000-foot setbacks, a water-use agreement, and noise and light limits."}
+    hitchcock = {"Incident": "Hitchcock County", "Opposition Type": "moratorium",
+                 "Scope": "local", "State": "NE", "County": "Hitchcock County",
+                 "Status": "expired", "Community Outcome": "win",
+                 "Summary": ("Hitchcock County passed a one-year moratorium on "
+                             "data center development via resolution. At the "
+                             "state level, Gov. Pillen signed LB526 after a "
+                             "Revenue Committee amendment; the bill passed "
+                             "the legislature.")}
+    enr_h = E.enrich_record(A.normalize_record(hitchcock))
+    expect(enr_h["qc_mechanism"] == "moratorium",
+           "declared local instrument outranks narrative bill context "
+           "(local-instrument precedence, 2026-08-25)")
+
     enr = E.enrich_record(A.normalize_record(linn))
     expect(enr["qc_mechanism"] == "conditional_zoning" and enr["qc_is_block"] is False and enr["qc_highlight"],
            "conditional ordinance -> not a block, highlighted")
