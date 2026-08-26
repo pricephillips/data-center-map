@@ -22,7 +22,7 @@ Every page under the hub, its embed, and the datasets that embed loads. Verified
 | (Descriptive) Opposition | Dashboard | `opposition-dashboard.html` | `data/proposals.csv`, `master_opposition.csv`, `master_opposition_clean.csv` |
 | County Risk Model | County Explorer | `opposition-map.html` | `data/county_aggregate.csv`, `data/county_policy_intervals.csv`, `data/county_policy_scores.csv`, `data/landmark_model_predictions.csv`, `data/project_lifecycles.csv`, `data/proposals.csv` |
 | County Risk Model | Model, Method, and Scoring | `restriction-model.html` | `data/county_policy_intervals.csv`, `data/county_policy_metrics.json`, `data/county_policy_scores.csv` |
-| (Semi-Predictive) Project Lifecycles | Project Lifecycles | `project-lifecycles.html` | `data/project_lifecycles.csv` |
+| (Semi-Predictive) Project Lifecycles | Project Lifecycles | `project-lifecycles.html` | `data/operations_summary.json`, `data/project_lifecycles.csv` |
 | Infrastructure | Complete Centers | `master_datacenter_map.html` | `ai_centers.csv`, `atlas.csv`, `data/facility_manifest.json` |
 | Infrastructure | Complete Centers | `developments-dashboard.html` | `ai_centers.csv`, `atlas.csv`, `data/facility_manifest.json` |
 | Infrastructure | Proposed Centers | `proposals-map.html` | `data/proposals.csv` |
@@ -57,7 +57,7 @@ Read by at least one embedded page.
 | `data/county_policy_scores.csv` | opposition-map.html, restriction-model.html |
 | `data/county_votes.json` | opposition-tracker.html |
 | `data/facility_manifest.json` | developments-dashboard.html, master_datacenter_map.html |
-| `data/operations_summary.json` | data-operations.html |
+| `data/operations_summary.json` | data-operations.html, project-lifecycles.html |
 | `data/project_lifecycles.csv` | opposition-map.html, project-lifecycles.html |
 | `data/proposals.csv` | opposition-dashboard.html, opposition-map.html, proposals-map.html, trackdatacenters-proposals.html |
 | `master_opposition.csv` | opposition-dashboard.html, opposition-tracker.html |
