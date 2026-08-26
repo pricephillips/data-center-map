@@ -1,11 +1,11 @@
-# Headline metrics (as of 2026-08-25)
+# Headline metrics (as of 2026-08-26)
 
 Scope note: this dataset tracks opposition incidents, not all data center projects. Every rate below is conditional on a conflict being visible enough to enter the tracker; projects that proceeded without tracked opposition are absent by construction.
 
 ## Decided-case confirmed-block rate, incident records
 Unit is the primary incident RECORD in the clean feed, not the project entity. Duplicate rows for one incident are collapsed; several incidents attached to the same project are not. Jurisdiction-cluster bootstrap 95% CI, incidents younger than 90 days excluded (right-censoring guard).
 
-- 2026 YTD: 53% of 220 decided records (CI 46%-60%)
+- 2026 YTD: 53% of 222 decided records (CI 46%-59%)
 - 2025: 29% of 95 decided records (CI 20%-39%)
 
 ## Decided-case confirmed-block rate, project entities
@@ -16,7 +16,7 @@ Unit is the resolved project in data/project_lifecycles.csv, all periods pooled.
 The two rates differ because the populations differ: one project can carry several decided records, and many decided records are not yet linked to a project entity. Neither number is wrong; quoting either without its unit is.
 
 ## Political context
-- Incident share in Trump-won counties: 67% (n=962)
+- Incident share in Trump-won counties: 67% (n=967)
 - County base rate (share of counties Trump won): 85%
 - Relative to the share of counties Trump won (85%), tracked opposition is UNDER-represented in Trump-won counties at 67%. Quote the pair, never the share alone; an exposure denominator (where projects are proposed) is the fair comparison and siting is not uniform.
 

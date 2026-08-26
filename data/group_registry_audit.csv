@@ -1,9 +1,9 @@
 canonical_id,canonical_name,states,n_variants,n_incidents,variants,flags,n_flags,detail,client_safe
 G0001,Michiganders Against Data Centers,MI,1,26,Michiganders Against Data Centers,,0,,1
-G0002,Piedmont Environmental Council,VA,1,22,Piedmont Environmental Council,,0,,1
+G0002,Piedmont Environmental Council,VA,1,23,Piedmont Environmental Council,,0,,1
 G0003,Sierra Club,CA; GA; IL; LA; NY; OR; TN; US; VA; WA; WV,1,21,Sierra Club,,0,,1
-G0004,Earthjustice,CO; LA; MI; MS; MT; TN; TX; US,2,19,EarthJustice; Earthjustice,,0,,1
-G0005,Virginia Data Center Reform Coalition,VA,1,18,Virginia Data Center Reform Coalition,,0,,1
+G0004,Virginia Data Center Reform Coalition,VA,1,19,Virginia Data Center Reform Coalition,,0,,1
+G0005,Earthjustice,CO; LA; MI; MS; MT; TN; TX; US,2,19,EarthJustice; Earthjustice,,0,,1
 G0006,Southern Environmental Law Center,AL; GA; MS; NC; SC; TN; VA,1,17,Southern Environmental Law Center,,0,,1
 G0007,Citizens Action Coalition,IN,1,16,Citizens Action Coalition,,0,,1
 G0008,Sierra Club Georgia Chapter,GA,1,16,Sierra Club Georgia Chapter,,0,,1
@@ -95,389 +95,389 @@ G0093,Stop the AI Data Center in Independence,MO,1,3,Stop the AI Data Center in 
 G0094,Southern Environmental Law Center (SELC),GA; SC,1,3,Southern Environmental Law Center (SELC),degenerate_rate,1,n_incidents=3 below floor 5,0
 G0095,Hoosier Action,IN,1,3,Hoosier Action,,0,,1
 G0096,Stop Hanover Data Centers,VA,2,2,Stop Hanover Data Center VA; Stop Hanover Data Centers,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0097,Delaware Sierra Club,DE,1,3,Delaware Sierra Club,,0,,1
-G0098,DE-CLEAR,DE,1,3,DE-CLEAR,,0,,1
-G0099,Protect the Paluxy Valley,TX,3,2,"Protect The Paluxy Valley Inc; Protect The Paluxy Valley, Inc; Protect the Paluxy Valley",degenerate_rate,1,n_incidents=2 below floor 5,0
-G0100,River Alliance of Wisconsin,WI,1,3,River Alliance of Wisconsin,degenerate_rate,1,n_incidents=3 below floor 5,0
-G0101,Citizens Action Coalition of Indiana,IN,2,3,Citizens Action Coalition Indiana; Citizens Action Coalition of Indiana,degenerate_rate,1,n_incidents=3 below floor 5,0
-G0102,Appalachian Voices,VA,1,3,Appalachian Voices,,0,,1
-G0103,Ohioans for Responsible Development,OH,1,3,Ohioans for Responsible Development,degenerate_rate,1,n_incidents=3 below floor 5,0
-G0104,FracTracker Alliance,PA,1,3,FracTracker Alliance,,0,,1
-G0105,Mishicot-area residents and family farms (ad hoc coalition),WI,1,3,Mishicot-area residents and family farms (ad hoc coalition),placeholder,1,"descriptive label, not a named organization",0
-G0106,Lyon County residents (ad hoc),GA; IL; NV,3,3,Early County residents (ad hoc); Logan County residents (ad hoc); Lyon County residents (ad hoc),cross_state_merge; placeholder; degenerate_rate,3,"'Early County residents (ad hoc)' and 'Logan County residents (ad hoc)' merged across GA; IL; NV; descriptive label, not a named organization; n_incidents=3 below floor 5",0
-G0107,Save Bren Mar Coalition,VA,1,2,Save Bren Mar Coalition,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0108,Sierra Club New Jersey Chapter,NJ,2,2,Sierra Club (New Jersey Chapter); Sierra Club New Jersey Chapter,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0109,WV Citizen Action Group,WV,2,2,WV Citizen Action Group; WV Citizens Action Group,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0110,New Market Village residents,VA,1,2,New Market Village residents,placeholder,1,"descriptive label, not a named organization",0
-G0111,Save Hancock County,IN,1,2,Save Hancock County,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0112,We Are Oldham County,KY,1,2,We Are Oldham County,,0,,1
-G0113,Climate Solutions,OR,1,2,Climate Solutions,,0,,1
-G0114,Protect Morgan County,IN,2,1,Protect Morgan County; Protect Morgan County IN,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0115,Stop the Data Center Construction in Perry Township,OH,1,2,Stop the Data Center Construction in Perry Township,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0116,Great Rivers Habitat Alliance,AL; MO,1,2,Great Rivers Habitat Alliance,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0117,Missouri Workers Center,MO,1,2,Missouri Workers Center,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0118,Sierra Club St. Louis,MO,1,2,Sierra Club St. Louis,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0119,Wake Up Jeffco,MO,1,2,Wake Up Jeffco,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0120,No Data Center in Festus,MO,1,2,No Data Center in Festus,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0121,No Data Center Festus MO,MO,1,2,No Data Center Festus MO,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0122,Alabama Rivers Alliance,AL,1,2,Alabama Rivers Alliance,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0123,The Alaska Center,AK,1,2,The Alaska Center,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0124,Empowerment Congress of Doña Ana County,NM,1,2,Empowerment Congress of Doña Ana County,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0125,Sierra Club Rio Grande Chapter,NM; US,1,2,Sierra Club Rio Grande Chapter,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0126,Renew DeKalb,GA,2,2,Renew DeKalb; Renew DeKalb Inc,suffix_merge; degenerate_rate,2,'Renew DeKalb' and 'Renew DeKalb Inc' merge only once the form word is stripped; n_incidents=2 below floor 5,0
-G0127,No Data Center in Landover,MD,2,1,No Data Center in Landover; No Data Center in Landover coalition,suffix_merge,1,'No Data Center in Landover' and 'No Data Center in Landover coalition' merge only once the form word is stripped,0
-G0128,Edgecombe Neighbors for Data Center Accountability,NC,1,2,Edgecombe Neighbors for Data Center Accountability,,0,,1
-G0129,Protect Franklin Township,IN,1,2,Protect Franklin Township,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0130,HALT Taylor Data Centers,TX,2,2,HALT Taylor Data Centers; Halt Taylor Data Centers Coalition,suffix_merge; degenerate_rate,2,'HALT Taylor Data Centers' and 'Halt Taylor Data Centers Coalition' merge only once the form word is stripped; n_incidents=2 below floor 5,0
-G0131,No Data Centers Hobart Indiana,IN,1,2,No Data Centers Hobart Indiana,,0,,1
-G0132,Delaware Riverkeeper Network,PA,1,2,Delaware Riverkeeper Network,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0133,No Conshy Data Centers,PA,1,2,No Conshy Data Centers,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0134,Concerned Clifton Citizens,PA,1,2,Concerned Clifton Citizens,,0,,1
-G0135,West Shreveport neighborhood residents,LA,1,2,West Shreveport neighborhood residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=2 below floor 5",0
-G0136,Coalition of Little Rock Neighborhoods,AR,1,2,Coalition of Little Rock Neighborhoods,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0137,Stop Project Nova,WI,1,2,Stop Project Nova,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0138,Stop Archbald Data Centers,PA,1,2,Stop Archbald Data Centers,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0139,York County Citizens for Responsible Growth,SC; UT,2,2,Iron County Citizens for Responsible Growth; York County Citizens for Responsible Growth,cross_state_merge; degenerate_rate,2,'Iron County Citizens for Responsible Growth' and 'York County Citizens for Responsible Growth' merged across SC; UT; n_incidents=2 below floor 5,0
-G0140,Fayetteville Rising Against Data Centers,GA; NC,2,2,Fayetteville Residents Against Data Centers; Fayetteville Rising Against Data Centers,cross_state_merge,1,'Fayetteville Residents Against Data Centers' and 'Fayetteville Rising Against Data Centers' merged across GA; NC,0
-G0141,Wilmington Residents for Responsible Development (WRRD),OH,1,2,Wilmington Residents for Responsible Development (WRRD),degenerate_rate,1,n_incidents=2 below floor 5,0
-G0142,Save High Falls Lake,GA,1,2,Save High Falls Lake,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0143,Stop the Data Center on Taylor Lane,TX,1,2,Stop the Data Center on Taylor Lane,,0,,1
-G0144,No Janesville Data Center,WI,1,2,No Janesville Data Center,,0,,1
-G0145,Citizens for Responsible Economic Development,IN,2,1,Citizens for Responsible Economic Development; Citizens for Responsible Economic Development (CRED),,0,,1
-G0146,Coastal Conservation League,SC,1,2,Coastal Conservation League,,0,,1
-G0147,Sugarloaf Alliance,MD,1,2,Sugarloaf Alliance,,0,,1
-G0148,Envision Frederick County,MD,1,2,Envision Frederick County,placeholder,1,"descriptive label, not a named organization",0
-G0149,No Data Center in DeForest,WI,1,2,No Data Center in DeForest,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0150,GASP (Greater Birmingham Alliance to Stop Pollution),AL,2,1,GASP (Greater Birmingham Alliance to Stop Pollution); GASP (Greater-Birmingham Alliance to Stop Pollution),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0151,Black Warrior Riverkeeper,AL,1,2,Black Warrior Riverkeeper,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0152,Stop Washington Township Data Center,MI,1,2,Stop Washington Township Data Center,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0153,Protect Sand Springs Alliance,OK,1,2,Protect Sand Springs Alliance,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0154,Oregon Wild,OR,1,2,Oregon Wild,,0,,1
-G0155,Native Fish Society,OR,1,2,Native Fish Society,,0,,1
-G0156,Georgia Interfaith Power & Light,GA,1,2,Georgia Interfaith Power & Light,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0157,Troy Residents for Responsible Growth,IL,1,2,Troy Residents for Responsible Growth,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0158,Conservation Colorado,CO,1,2,Conservation Colorado,,0,,1
-G0159,Franklin Citizens for Responsible Development,KY,2,2,Franklin Citizens for Responsible Development; Franklin Citizens for Responsible Development Inc,,0,,1
-G0160,Deep South Center for Environmental Justice,LA,2,1,Deep South Center for Environmental Justice; Deep South Center for Environmental Justice (DSCEJ),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0161,Goochland Residents Alliance,VA,2,2,Goochland Residents Alliance; Goochland residents coalition,suffix_merge; degenerate_rate,2,'Goochland Residents Alliance' and 'Goochland residents coalition' merge only once the form word is stripped; n_incidents=2 below floor 5,0
-G0162,Hanover County residents,VA,1,2,Hanover County residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=2 below floor 5",0
-G0163,Goochland County residents,VA,1,2,Goochland County residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=2 below floor 5",0
-G0164,Sugarloaf Citizens Association,MD,1,2,Sugarloaf Citizens Association,,0,,1
-G0165,Stop MPRP,MD,1,2,Stop MPRP,,0,,1
-G0166,Dakota Rural Action,SD,1,2,Dakota Rural Action,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0167,Tucker United,WV,1,2,Tucker United,,0,,1
-G0168,No Data Centers in the Driftless,WI,1,2,No Data Centers in the Driftless,,0,,1
-G0169,Western Resource Advocates,CO,1,2,Western Resource Advocates,,0,,1
-G0170,Keyser Valley Neighborhood Association,PA,1,2,Keyser Valley Neighborhood Association,,0,,1
-G0171,Ohio Consumers' Counsel,OH,1,2,Ohio Consumers' Counsel,,0,,1
-G0172,Lowndes Citizens Against Data Centers,GA,2,1,Lowndes Citizens Against Data Centers; Lowndes Citizens Against Data Centers (LCAD),,0,,1
-G0173,WWALS Watershed Coalition,GA,1,2,WWALS Watershed Coalition,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0174,WWALS Watershed Coalition (Suwannee Riverkeeper),GA,1,2,WWALS Watershed Coalition (Suwannee Riverkeeper),degenerate_rate,1,n_incidents=2 below floor 5,0
-G0175,Climate Revolution Action Network,NJ,2,2,Climate Revolution Action Network; Climate Revolution Action Network NJ,,0,,1
-G0176,Shreveport residents,LA,1,2,Shreveport residents,placeholder,1,"descriptive label, not a named organization",0
-G0177,Caddo Lake Institute,LA,1,2,Caddo Lake Institute,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0178,South Carolina Community Rights Coalition,SC,1,2,South Carolina Community Rights Coalition,,0,,1
-G0179,No Data Centers in Spartanburg,SC,2,1,No Data Centers in Spartanburg; No Data Centers in Spartanburg SC,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0180,National Parks Conservation Association,GA; VA,1,2,National Parks Conservation Association,,0,,1
-G0181,"No Data Centers, Fulton County",IN,2,1,"No Data Centers Fulton County IN; No Data Centers, Fulton County",degenerate_rate,1,n_incidents=1 below floor 5,0
-G0182,Northern Alaska Environmental Center,AK,1,2,Northern Alaska Environmental Center,,0,,1
-G0183,Alaska Public Interest Research Group,AK,1,2,Alaska Public Interest Research Group,,0,,1
-G0184,Oakley Community Alliance,CA,1,2,Oakley Community Alliance,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0185,Natural Resources Council of Maine,ME,2,2,Natural Resources Council of Maine; Natural Resources Council of Maine (NRCM),degenerate_rate,1,n_incidents=2 below floor 5,0
-G0186,Franklin County Rural Coalition,MO,1,2,Franklin County Rural Coalition,,0,,1
-G0187,Osawatomie Residents Concerned About Data Centers,KS; TX,2,2,Osawatomie Residents Concerned About Data Centers; San Antonio Residents Concerned About Data Centers,cross_state_merge,1,'Osawatomie Residents Concerned About Data Centers' and 'San Antonio Residents Concerned About Data Centers' merged across KS; TX,0
-G0188,Block Project Steel and Project Cardinal,IL,1,2,Block Project Steel and Project Cardinal,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0189,Sierra Club Michigan Chapter,MI,1,2,Sierra Club Michigan Chapter,,0,,1
-G0190,Good Jobs First,VA; WI,1,2,Good Jobs First,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0191,Joliet Residents Against Data Centers,IL; NY,2,2,Joliet Residents Against Data Centers; Oneonta Residents Against Data Centers,cross_state_merge; degenerate_rate,2,'Joliet Residents Against Data Centers' and 'Oneonta Residents Against Data Centers' merged across IL; NY; n_incidents=2 below floor 5,0
-G0192,Honest Future for Lowell,MA,1,2,Honest Future for Lowell,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0193,American Battlefield Trust,VA,1,2,American Battlefield Trust,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0194,Wyoming Outdoor Council,WY,1,2,Wyoming Outdoor Council,,0,,1
-G0195,Archbald Neighborhood Association,PA,1,2,Archbald Neighborhood Association,,0,,1
-G0196,Protect Frenchtown,MI,2,1,Protect Frenchtown; Protect Frenchtown MI,,0,,1
-G0197,Adams County for Responsible Development,OH,1,2,Adams County for Responsible Development,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0198,Michigan Sierra Club,MI,1,2,Michigan Sierra Club,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0199,Midwest Environmental Advocates,WI,1,2,Midwest Environmental Advocates,degenerate_rate,1,n_incidents=2 below floor 5,0
-G0200,Spring Creek Road Residents,TN,1,1,Spring Creek Road Residents,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0201,Groton Open Space Association,CT,1,1,Groton Open Space Association,,0,,1
-G0202,Groton Conservation Advocates,CT,1,1,Groton Conservation Advocates,,0,,1
-G0203,Secure Arkansas,AR,1,1,Secure Arkansas,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0204,Concerned Citizens of Waterford and East Lyme (CCWEL),CT,1,1,Concerned Citizens of Waterford and East Lyme (CCWEL),,0,,1
-G0205,Adair County Residents (ad hoc),IA,1,1,Adair County Residents (ad hoc),,0,,1
-G0206,City of Goodyear (official opposition),AZ,1,1,City of Goodyear (official opposition),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0207,City of Buckeye (official opposition),AZ,1,1,City of Buckeye (official opposition),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0208,Buckeye Residents Against Data Centers,AZ,1,1,Buckeye Residents Against Data Centers,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0209,Stop Duneland and Valpo/Wheeler Data Centers,IN,1,1,Stop Duneland and Valpo/Wheeler Data Centers,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0210,Rose Hill Coalition,VA,1,1,Rose Hill Coalition,,0,,1
-G0211,Bren Pointe HOA,VA,1,1,Bren Pointe HOA,,0,,1
-G0212,Thorndale residents,TX,1,1,Thorndale residents,placeholder,1,"descriptive label, not a named organization",0
-G0213,Don't Dump Data in Peculiar,MO,1,1,Don't Dump Data in Peculiar,,0,,1
-G0214,DeLuca Preserve Conservation Advocates,FL,1,1,DeLuca Preserve Conservation Advocates,,0,,1
-G0215,Gilmer County Citizens Against Crypto Mining,GA,1,1,Gilmer County Citizens Against Crypto Mining,,0,,1
-G0216,National Coalition Against Cryptomining,GA,1,1,National Coalition Against Cryptomining,,0,,1
-G0217,Gilmer County Citizens Against AI Data Centers,GA,1,1,Gilmer County Citizens Against AI Data Centers,,0,,1
-G0218,Conservation Law Foundation,MA,1,1,Conservation Law Foundation,,0,,1
-G0219,Alternatives for Community and Environment,MA,1,1,Alternatives for Community and Environment,,0,,1
-G0220,Arizona Center for Law in the Public Interest,AZ,1,1,Arizona Center for Law in the Public Interest,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0221,Coalition for Sonoran Desert Protection,AZ,1,1,Coalition for Sonoran Desert Protection,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0222,Oliver County residents,ND,1,1,Oliver County residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0223,Weston Gardens,TX,1,1,Weston Gardens,,0,,1
-G0224,Fort Worth residents,TX,1,1,Fort Worth residents,placeholder,1,"descriptive label, not a named organization",0
-G0225,2871 Community Coalition,TX,1,1,2871 Community Coalition,,0,,1
-G0226,Chapel Creek Neighborhood Association,TX,1,1,Chapel Creek Neighborhood Association,,0,,1
-G0227,MediaJustice,TX,1,1,MediaJustice,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0228,Sierra Club Toiyabe,NV,1,1,Sierra Club Toiyabe,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0229,Friends of the Mississippi River,MN,1,1,Friends of the Mississippi River,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0230,CURE,MN,1,1,CURE,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0231,Workers Strike Back,MN,1,1,Workers Strike Back,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0232,Coalition for Responsible Data Center Planning,MN,1,1,Coalition for Responsible Data Center Planning,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0233,Alliance for Sustainability,MN,1,1,Alliance for Sustainability,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0234,Sierra Club Northstar Chapter,MN,1,1,Sierra Club Northstar Chapter,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0235,CURE (Clean Up the River Environment),MN,1,1,CURE (Clean Up the River Environment),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0236,Sierra Club Niagara Group,NY,1,1,Sierra Club Niagara Group,,0,,1
-G0237,Western New York Environmental Alliance (ReThink STAMP),NY,1,1,Western New York Environmental Alliance (ReThink STAMP),,0,,1
-G0238,Loudoun Climate Project,VA,1,1,Loudoun Climate Project,,0,,1
-G0239,Kootenai County residents,ID,1,1,Kootenai County residents,placeholder,1,"descriptive label, not a named organization",0
-G0240,Faulkner County League of Women Voters,AR,1,1,Faulkner County League of Women Voters,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0241,People's Action,WV,1,1,People's Action,,0,,1
-G0242,Chesapeake Climate Action Network,WV,1,1,Chesapeake Climate Action Network,,0,,1
-G0243,Data Center Reform Coalition,WV,1,1,Data Center Reform Coalition,,0,,1
-G0244,Cold Springs Residents Against Rezoning,NV,1,1,Cold Springs Residents Against Rezoning,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0245,CURE MN,MN,1,1,CURE MN,,0,,1
-G0246,Varina community residents,VA,1,1,Varina community residents,placeholder,1,"descriptive label, not a named organization",0
-G0247,Eagle Mountain residents,UT,1,1,Eagle Mountain residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0248,Cherokee County residents,SC,1,1,Cherokee County residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0249,Oakland University Student Congress,MI,1,1,Oakland University Student Congress,,0,,1
-G0250,Teays Valley Against Overgrowth,OH,1,1,Teays Valley Against Overgrowth,,0,,1
-G0251,Millard County Residents Against Solar Farm,UT,1,1,Millard County Residents Against Solar Farm,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0252,Johnson City residents,TN,1,1,Johnson City residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0253,Washington County Democratic Party,TN,1,1,Washington County Democratic Party,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0254,Residents Against the Etheridge Lakes Data Center,VA,1,1,Residents Against the Etheridge Lakes Data Center,,0,,1
-G0255,Citizens for Fauquier County (CFFC),VA,1,1,Citizens for Fauquier County (CFFC),,0,,1
-G0256,Stop Gilroy Data Center,CA,1,1,Stop Gilroy Data Center,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0257,Mesa residents,AZ,1,1,Mesa residents,placeholder,1,"descriptive label, not a named organization",0
-G0258,Arizona Chapter of 7x24 Exchange (industry opposition to restrictions),AZ,1,1,Arizona Chapter of 7x24 Exchange (industry opposition to restrictions),,0,,1
-G0259,MontPIRG,MT,1,1,MontPIRG,,0,,1
-G0260,Good Government Committee,MO,1,1,Good Government Committee,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0261,St. Charles Residents Against Project Cumulus,MO,1,1,St. Charles Residents Against Project Cumulus,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0262,NAACP (Alabama State Conference),AL,1,1,NAACP (Alabama State Conference),,0,,1
-G0263,NAACP (Metro Birmingham Branch),AL,1,1,NAACP (Metro Birmingham Branch),,0,,1
-G0264,NAACP Center for Environmental and Climate Justice,AL,1,1,NAACP Center for Environmental and Climate Justice,,0,,1
-G0265,Charles Citizens First,VA,1,1,Charles Citizens First,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0266,Ellendale No Eminent Domain group,ND,1,1,Ellendale No Eminent Domain group,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0267,Southwest Memphis community members,TN,1,1,Southwest Memphis community members,placeholder,1,"descriptive label, not a named organization",0
-G0268,Memphis Community Against Pollution (MCAP),TN,1,1,Memphis Community Against Pollution (MCAP),,0,,1
-G0269,Memphis Has The Power,TN,1,1,Memphis Has The Power,,0,,1
-G0270,Castroville residents,TX,1,1,Castroville residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0271,Environment Texas,TX,1,1,Environment Texas,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0272,No to Mooresville Technology Park,NC,1,1,No to Mooresville Technology Park,,0,,1
-G0273,No DCs in Ozaukee County WI,WI,1,1,No DCs in Ozaukee County WI,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0274,Yerington residents,NV,1,1,Yerington residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0275,Mason Valley residents,NV,1,1,Mason Valley residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0276,Boone County Preservation Group,IN,1,1,Boone County Preservation Group,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0277,Clean Air Coalition of Western New York,NY,1,1,Clean Air Coalition of Western New York,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0278,"North Tonawanda residents (Deborah Gondek, organizer)",NY,1,1,"North Tonawanda residents (Deborah Gondek, organizer)",placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0279,Wilsonville residents,AL,1,1,Wilsonville residents,placeholder,1,"descriptive label, not a named organization",0
-G0280,Wilsonville residents (No Wilsonville Data Center),AL,1,1,Wilsonville residents (No Wilsonville Data Center),placeholder,1,"descriptive label, not a named organization",0
-G0281,Harwood residents,ND,1,1,Harwood residents,placeholder,1,"descriptive label, not a named organization",0
-G0282,"Troup County Anti-Data Center Coalition (Gage Bailey, founder)",GA,1,1,"Troup County Anti-Data Center Coalition (Gage Bailey, founder)",,0,,1
-G0283,Taylor Frazier McCollum (petition organizer),MD,1,1,Taylor Frazier McCollum (petition organizer),,0,,1
-G0284,South County Environmental Justice Coalition,MD,1,1,South County Environmental Justice Coalition,,0,,1
-G0285,Brandywine TB Southern Region Neighborhood Coalition,MD,1,1,Brandywine TB Southern Region Neighborhood Coalition,,0,,1
-G0286,17 for Peace and Justice,MD,1,1,17 for Peace and Justice,,0,,1
-G0287,"Statesville area residents (Facebook group, 900+ members)",NC,1,1,"Statesville area residents (Facebook group, 900+ members)",placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0288,Statesville residents,NC,1,1,Statesville residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0289,Coalition to Protect Cumberland County PA,PA,1,1,Coalition to Protect Cumberland County PA,,0,,1
-G0290,Eco-Socialist Green Party of Eastern Missouri,MO,1,1,Eco-Socialist Green Party of Eastern Missouri,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0291,Action St. Louis,MO,1,1,Action St. Louis,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0292,Missouri Jobs with Justice,MO,1,1,Missouri Jobs with Justice,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0293,WEPOWER,MO,1,1,WEPOWER,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0294,Democratic Socialists of America St. Louis,MO,1,1,Democratic Socialists of America St. Louis,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0295,Party for Socialism and Liberation St. Louis,MO,1,1,Party for Socialism and Liberation St. Louis,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0296,Metropolitan Congregations United,MO,1,1,Metropolitan Congregations United,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0297,Greenfire Coalition,PA,1,1,Greenfire Coalition,,0,,1
-G0298,Save Rural Spalding,GA,1,1,Save Rural Spalding,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0299,Rankin County Residents Against Data Center (ad hoc),MS,1,1,Rankin County Residents Against Data Center (ad hoc),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0300,West Virginia Citizen Action Group,WV,1,1,West Virginia Citizen Action Group,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0301,Jerome Township Residents Coalition,OH,1,1,Jerome Township Residents Coalition,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0302,Trinity Hills neighborhood residents,TN,1,1,Trinity Hills neighborhood residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0303,Louisville Metro Watchdog Alliance,KY,1,1,Louisville Metro Watchdog Alliance,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0304,Rubbertown Emergency Action (REACT),KY,1,1,Rubbertown Emergency Action (REACT),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0305,Louisville Climate Action Network,KY,1,1,Louisville Climate Action Network,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0306,"Blakely No Data Center Campaign (Bob Cicci & Katie Klein-Cicci, organizers)",PA,1,1,"Blakely No Data Center Campaign (Bob Cicci & Katie Klein-Cicci, organizers)",,0,,1
-G0307,College Station Residents Against Data Center,TX,1,1,College Station Residents Against Data Center,,0,,1
-G0308,One Circle Community Coalition,GA,1,1,One Circle Community Coalition,,0,,1
-G0309,Greater Troy Neighborhood Association,IN,1,1,Greater Troy Neighborhood Association,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0310,Black Voters Matter Fund,GA,1,1,Black Voters Matter Fund,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0311,Stop the Menomonie Data Center,WI,1,1,Stop the Menomonie Data Center,,0,,1
-G0312,Griffin family plaintiffs,TX,1,1,Griffin family plaintiffs,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0313,Taylor community residents (led by Carrie D'Anna),TX,1,1,Taylor community residents (led by Carrie D'Anna),placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0314,Halt the BPP Project in Taylor,TX,1,1,Halt the BPP Project in Taylor,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0315,White County IN Against Data Centers,IN,1,1,White County IN Against Data Centers,,0,,1
-G0316,350 Wisconsin,WI,1,1,350 Wisconsin,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0317,50501 Madison,WI,1,1,50501 Madison,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0318,"Concerned Citizens of Twiggs County (Rob Fricks, attorney)",GA,1,1,"Concerned Citizens of Twiggs County (Rob Fricks, attorney)",degenerate_rate,1,n_incidents=1 below floor 5,0
-G0319,Protect Twiggs County -- No Data Center,GA,1,1,Protect Twiggs County -- No Data Center,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0320,Protect Twiggs County GA,GA,1,1,Protect Twiggs County GA,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0321,Page Residents for Voter Rights,AZ,1,1,Page Residents for Voter Rights,,0,,1
-G0322,Bi-State Datacenter Crisis Coalition,NY,1,1,Bi-State Datacenter Crisis Coalition,,0,,1
-G0323,Woodsdale and Trenton Environmental Resistance (W.A.T.E.R.),OH,1,1,Woodsdale and Trenton Environmental Resistance (W.A.T.E.R.),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0324,We Are Mason County Ky,KY,1,1,We Are Mason County Ky,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0325,Save Mason County,KY,1,1,Save Mason County,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0326,Platte County residents,MO,1,1,Platte County residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0327,No Data Center In LMBT,PA,1,1,No Data Center In LMBT,,0,,1
-G0328,Joplin Citizens Against Wildwood Ranch Data Center Site,MO,1,1,Joplin Citizens Against Wildwood Ranch Data Center Site,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0329,"Save the IX Center Campaign (Cassia Core, organizer)",OH,1,1,"Save the IX Center Campaign (Cassia Core, organizer)",,0,,1
-G0330,East Vincent Advocacy (EVT Advocacy),PA,1,1,East Vincent Advocacy (EVT Advocacy),,0,,1
-G0331,Prevent East Vincent Data Center Development,PA,1,1,Prevent East Vincent Data Center Development,,0,,1
-G0332,East Vincent Advocacy,PA,1,1,East Vincent Advocacy,,0,,1
-G0333,Prevent East Vincent DC Development,PA,1,1,Prevent East Vincent DC Development,,0,,1
-G0334,Stop Temple Data Centers,TX,1,1,Stop Temple Data Centers,,0,,1
-G0335,Gordon County Board of Commissioners (preemptive),GA,1,1,Gordon County Board of Commissioners (preemptive),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0336,Indigenous Environmental Network,OK,1,1,Indigenous Environmental Network,,0,,1
-G0337,Dundee's Not for Sale,MI,1,1,Dundee's Not for Sale,,0,,1
-G0338,Citizens Against a Dundee Data Center,MI,1,1,Citizens Against a Dundee Data Center,,0,,1
-G0339,Meade County residents (petition organizers),KY,1,1,Meade County residents (petition organizers),placeholder,1,"descriptive label, not a named organization",0
-G0340,Stop the Pine Island Data Center,MN,1,1,Stop the Pine Island Data Center,,0,,1
-G0341,Stop the Hermantown Data Center,MN,1,1,Stop the Hermantown Data Center,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0342,Protect Stafford,VA,1,1,Protect Stafford,,0,,1
-G0343,Coalition to Save Culpeper,VA,1,1,Coalition to Save Culpeper,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0344,Save Brandy Station,VA,1,1,Save Brandy Station,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0345,We the People of Wyco,KS,1,1,We the People of Wyco,,0,,1
-G0346,Kansas Sierra Club,KS,1,1,Kansas Sierra Club,,0,,1
-G0347,Campbell County residents,VA,1,1,Campbell County residents,placeholder,1,"descriptive label, not a named organization",0
-G0348,Lufkin area residents,TX,1,1,Lufkin area residents,placeholder,1,"descriptive label, not a named organization",0
-G0349,Rockford residents (Change.org petition organizers),IL,1,1,Rockford residents (Change.org petition organizers),placeholder,1,"descriptive label, not a named organization",0
-G0350,No Data Centers Northern IL,IL,1,1,No Data Centers Northern IL,,0,,1
-G0351,Sustain Rockford,IL,1,1,Sustain Rockford,,0,,1
-G0352,Natural Land Institute,IL,1,1,Natural Land Institute,,0,,1
-G0353,Foristell Residents Against Data Centers,MO,1,1,Foristell Residents Against Data Centers,,0,,1
-G0354,No Data Center Kokomo-Howard County,IN,1,1,No Data Center Kokomo-Howard County,,0,,1
-G0355,Cumberland County Residents Against Data Centers,NC,1,1,Cumberland County Residents Against Data Centers,,0,,1
-G0356,Citizens Against Over Development in Lyon County,NV,1,1,Citizens Against Over Development in Lyon County,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0357,Project Baccara Opposition,AZ,1,1,Project Baccara Opposition,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0358,Norton residents,OH,1,1,Norton residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0359,Protect Wiscasset,ME,1,1,Protect Wiscasset,,0,,1
-G0360,Castle Rock Township,MN,1,1,Castle Rock Township,placeholder,1,"descriptive label, not a named organization",0
-G0361,Environmental Coalition of Farmington MN,MN,1,1,Environmental Coalition of Farmington MN,,0,,1
-G0362,Sierra Club Iowa Chapter,IA,1,1,Sierra Club Iowa Chapter,,0,,1
-G0363,Norton and Barberton residents,OH,1,1,Norton and Barberton residents,placeholder,1,"descriptive label, not a named organization",0
-G0364,Upper Missouri Waterkeeper,MT,1,1,Upper Missouri Waterkeeper,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0365,Stop the Data Centers Livingston County,MI,1,1,Stop the Data Centers Livingston County,,0,,1
-G0366,Livingston County Residents for Responsible Development,MI,1,1,Livingston County Residents for Responsible Development,,0,,1
-G0367,Vicksburg Residents Against Data Center (ad hoc),MS,1,1,Vicksburg Residents Against Data Center (ad hoc),,0,,1
-G0368,Clarksville area residents,AR,1,1,Clarksville area residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0369,Tisch Mills Farm Center,WI,1,1,Tisch Mills Farm Center,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0370,Ross area community residents,TX,1,1,Ross area community residents,placeholder,1,"descriptive label, not a named organization",0
-G0371,Stop the Data Center on Taylor Lane (Facebook group),TX,1,1,Stop the Data Center on Taylor Lane (Facebook group),,0,,1
-G0372,McLennan County residents,TX,1,1,McLennan County residents,placeholder,1,"descriptive label, not a named organization",0
-G0373,Stop Waco Data Centers,TX,1,1,Stop Waco Data Centers,,0,,1
-G0374,Stop the Waco Data Center,TX,1,1,Stop the Waco Data Center,,0,,1
-G0375,Panhandle Taxpayers for Transparency,TX,1,1,Panhandle Taxpayers for Transparency,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0376,Sierra Club Texas Chapter,TX,1,1,Sierra Club Texas Chapter,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0377,Amarillo Minority Coalition,TX,1,1,Amarillo Minority Coalition,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0378,Decatur Township Civic Council,IN,1,1,Decatur Township Civic Council,,0,,1
-G0379,Decatur Township Civic League,IN,1,1,Decatur Township Civic League,,0,,1
-G0380,Protect Decatur Township,IN,1,1,Protect Decatur Township,,0,,1
-G0381,Kenoshans Unite Against Microsoft Data Center,WI,1,1,Kenoshans Unite Against Microsoft Data Center,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0382,SNOW (Stop Negligent Operations in Wisconsin),WI,1,1,SNOW (Stop Negligent Operations in Wisconsin),,0,,1
-G0383,Beaver Dam Education on Data Center Group,WI,1,1,Beaver Dam Education on Data Center Group,,0,,1
-G0384,Let Sioux Falls Vote,SD,1,1,Let Sioux Falls Vote,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0385,South Dakota for DC Transparency,SD,1,1,South Dakota for DC Transparency,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0386,Stop AI Data Centers in Lawrence County,OH,1,1,Stop AI Data Centers in Lawrence County,,0,,1
-G0387,Newport News Residents Against Data Centers,VA,1,1,Newport News Residents Against Data Centers,,0,,1
-G0388,Moorestown residents,NJ,1,1,Moorestown residents,placeholder,1,"descriptive label, not a named organization",0
-G0389,Friends of Tensaw River,AL,1,1,Friends of Tensaw River,,0,,1
-G0390,Stop Solar in Stockton,AL,1,1,Stop Solar in Stockton,,0,,1
-G0391,Starke County - No Data Center IN,IN,1,1,Starke County - No Data Center IN,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0392,NIMBY Imperial,CA,1,1,NIMBY Imperial,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0393,Valle Imperial Resiste,CA,1,1,Valle Imperial Resiste,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0394,Stop Project Vector (ad hoc),IL,1,1,Stop Project Vector (ad hoc),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0395,Stop Project Tango,FL,1,1,Stop Project Tango,,0,,1
-G0396,NO To Project Tango,FL,1,1,NO To Project Tango,,0,,1
-G0397,Palm Beach County Environmental Alliance,FL,1,1,Palm Beach County Environmental Alliance,,0,,1
-G0398,Sierra Club Loxahatchee Group,FL,1,1,Sierra Club Loxahatchee Group,,0,,1
-G0399,Florida Native Plant Society PBC Chapter,FL,1,1,Florida Native Plant Society PBC Chapter,,0,,1
-G0400,Stop the Palm Beach DC Project Tango,FL,1,1,Stop the Palm Beach DC Project Tango,,0,,1
-G0401,White Tank Mountains Conservancy,AZ,1,1,White Tank Mountains Conservancy,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0402,Chandler Neighbors Against Data Centers,AZ,1,1,Chandler Neighbors Against Data Centers,,0,,1
-G0403,Citizens for Rural Coweta,GA,1,1,Citizens for Rural Coweta,,0,,1
-G0404,Stop Project Sail,GA,1,1,Stop Project Sail,,0,,1
-G0405,STOP Project Sail Newnan Data Center,GA,1,1,STOP Project Sail Newnan Data Center,,0,,1
-G0406,Lewiston residents,ME,1,1,Lewiston residents,placeholder,1,"descriptive label, not a named organization",0
-G0407,Mainers Against Future AI Data Center in Lewiston,ME,1,1,Mainers Against Future AI Data Center in Lewiston,,0,,1
-G0408,Slingshot (New England environmental health and justice organization),ME,1,1,Slingshot (New England environmental health and justice organization),,0,,1
-G0409,Gates County residents,NC,1,1,Gates County residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0410,Residents United for a Healthy Lowell,MI,1,1,Residents United for a Healthy Lowell,,0,,1
-G0411,ACE Basin area residents,SC,1,1,ACE Basin area residents,placeholder,1,"descriptive label, not a named organization",0
-G0412,Sustain South Jersey,NJ,1,1,Sustain South Jersey,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0413,New Jersey Environmental Justice Alliance (NJEJA),NJ,1,1,New Jersey Environmental Justice Alliance (NJEJA),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0414,Maryland Data Center Reform Coalition (Nature Forward),MD,1,1,Maryland Data Center Reform Coalition (Nature Forward),,0,,1
-G0415,Citizens for Responsible Development,OK,1,1,Citizens for Responsible Development,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0416,Save Oklahoma Farms and Ranches,OK,1,1,Save Oklahoma Farms and Ranches,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0417,STOP Data Centers & Rezoning in Conewago Twp,PA,1,1,STOP Data Centers & Rezoning in Conewago Twp,,0,,1
-G0418,Mount Horeb area residents,WI,1,1,Mount Horeb area residents,placeholder,1,"descriptive label, not a named organization",0
-G0419,Dorr Township MI - We The People,MI,1,1,Dorr Township MI - We The People,,0,,1
-G0420,Beaver County Community Group Against Data Centers,PA,1,1,Beaver County Community Group Against Data Centers,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0421,Environmental Health Project,PA,1,1,Environmental Health Project,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0422,Beaver County Marcellus Awareness Community (BCMAC),PA,1,1,Beaver County Marcellus Awareness Community (BCMAC),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0423,Chattanooga Residents Against Jailhouse Data Center (ad hoc),TN,1,1,Chattanooga Residents Against Jailhouse Data Center (ad hoc),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0424,Hyndman Homesites Homeowners Association,WY,1,1,Hyndman Homesites Homeowners Association,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0425,Residents for Rural and Agricultural Land (RURAL),SD,1,1,Residents for Rural and Agricultural Land (RURAL),,0,,1
-G0426,Citizens Opposed to Data Centers in Henry County,GA,1,1,Citizens Opposed to Data Centers in Henry County,,0,,1
-G0427,Conserve Henry County,GA,1,1,Conserve Henry County,placeholder,1,"descriptive label, not a named organization",0
-G0428,Lawrence County residents,OH,1,1,Lawrence County residents,placeholder,1,"descriptive label, not a named organization",0
-G0429,Friends of Nevada Wilderness,NV,1,1,Friends of Nevada Wilderness,,0,,1
-G0430,Basin and Range Watch,NV,1,1,Basin and Range Watch,,0,,1
-G0431,Stokes County Historical Society,NC,1,1,Stokes County Historical Society,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0432,Occaneechi Band of the Saponi Nation,NC,1,1,Occaneechi Band of the Saponi Nation,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0433,Southern Coalition for Social Justice,NC,1,1,Southern Coalition for Social Justice,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0434,Stokes County NAACP,NC,1,1,Stokes County NAACP,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0435,Walnut Cove residents,NC,1,1,Walnut Cove residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0436,National Hairston Clan,NC,1,1,National Hairston Clan,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0437,CleanAIRE NC,NC,1,1,CleanAIRE NC,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0438,Dan River Basin Association,NC,1,1,Dan River Basin Association,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0439,7 Directions of Service,NC,1,1,7 Directions of Service,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0440,Roswell residents,GA,1,1,Roswell residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0441,Stop the Greenleaf Data Center,WI,1,1,Stop the Greenleaf Data Center,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0442,Moms Clean Air Force,WI,1,1,Moms Clean Air Force,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0443,Izaak Walton League (Brown County Chapter),WI,1,1,Izaak Walton League (Brown County Chapter),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0444,People's Justice Council,AL,1,1,People's Justice Council,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0445,Energy Alabama,AL,1,1,Energy Alabama,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0446,Renwick Area Against Data Centers,KS,1,1,Renwick Area Against Data Centers,,0,,1
-G0447,Spalding County residents,GA,1,1,Spalding County residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0448,Oklahoma Data Center Accountability,OK,1,1,Oklahoma Data Center Accountability,,0,,1
-G0449,"Say NO to Coweta, Ok Data Center",OK,1,1,"Say NO to Coweta, Ok Data Center",,0,,1
-G0450,Project Sand Springs Alliance,OK,1,1,Project Sand Springs Alliance,,0,,1
-G0451,Land Legacy,OK,1,1,Land Legacy,,0,,1
-G0452,Renwick Area Against Data Centers in West Sedgwick County,KS,1,1,Renwick Area Against Data Centers in West Sedgwick County,,0,,1
-G0453,Sedgwick County Farm Bureau,KS,1,1,Sedgwick County Farm Bureau,,0,,1
-G0454,Franklin County residents,MO,1,1,Franklin County residents,placeholder,1,"descriptive label, not a named organization",0
-G0455,Shaw Nature Reserve / Missouri Botanical Garden,MO,1,1,Shaw Nature Reserve / Missouri Botanical Garden,,0,,1
-G0456,No AI Datacenters in Franklin County MO,MO,1,1,No AI Datacenters in Franklin County MO,,0,,1
-G0457,Clinton Residents Concerned About Data Centers,MS,1,1,Clinton Residents Concerned About Data Centers,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0458,BOLD Alliance,NE,1,1,BOLD Alliance,,0,,1
-G0459,Bold Alliance (Bold Nebraska),NE,1,1,Bold Alliance (Bold Nebraska),,0,,1
-G0460,KC Data Center Watchdog,MO,1,1,KC Data Center Watchdog,,0,,1
-G0461,Southern Alliance for Clean Energy (SACE),GA,1,1,Southern Alliance for Clean Energy (SACE),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0462,Southface Institute,GA,1,1,Southface Institute,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0463,Georgians Against Data Centers,GA,1,1,Georgians Against Data Centers,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0464,"Say NO to Coweta, Ok Data Center (Atlas Project)",OK,1,1,"Say NO to Coweta, Ok Data Center (Atlas Project)",degenerate_rate,1,n_incidents=1 below floor 5,0
-G0465,Coweta residents,OK,1,1,Coweta residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
-G0466,Oppose Atlas DC,PA,1,1,Oppose Atlas DC,,0,,1
-G0467,Monterey Park residents,CA,1,1,Monterey Park residents,placeholder,1,"descriptive label, not a named organization",0
-G0468,Monterey Park Against Data Centers,CA,1,1,Monterey Park Against Data Centers,,0,,1
-G0469,Protect Naperville Community,IL,1,1,Protect Naperville Community,,0,,1
-G0470,Lisle Residents Against Data Center (ad hoc),IL,1,1,Lisle Residents Against Data Center (ad hoc),degenerate_rate,1,n_incidents=1 below floor 5,0
-G0471,Sembrando Esperanza Coalition,TX,1,1,Sembrando Esperanza Coalition,,0,,1
-G0472,El Paso City Council,TX,1,1,El Paso City Council,,0,,1
-G0473,Tazewell County Data Center Opposition,IL,1,1,Tazewell County Data Center Opposition,,0,,1
-G0474,Hoosier Environmental Council,IN,1,1,Hoosier Environmental Council,,0,,1
-G0475,Franklin Planning and Zoning Commission,KY,1,1,Franklin Planning and Zoning Commission,,0,,1
-G0476,Franklin residents (Jasmine Butt petition organizer),KY,1,1,Franklin residents (Jasmine Butt petition organizer),placeholder,1,"descriptive label, not a named organization",0
-G0477,Franklin residents (ad hoc),KY,1,1,Franklin residents (ad hoc),placeholder,1,"descriptive label, not a named organization",0
-G0478,East New Orleans Neighborhood Advisory Commission,LA,1,1,East New Orleans Neighborhood Advisory Commission,degenerate_rate,1,n_incidents=1 below floor 5,0
-G0479,Carroll County Anti-Data Center Coalition,GA,1,1,Carroll County Anti-Data Center Coalition,,0,,1
+G0097,Stop MPRP,MD,1,3,Stop MPRP,,0,,1
+G0098,Delaware Sierra Club,DE,1,3,Delaware Sierra Club,,0,,1
+G0099,DE-CLEAR,DE,1,3,DE-CLEAR,,0,,1
+G0100,Protect the Paluxy Valley,TX,3,2,"Protect The Paluxy Valley Inc; Protect The Paluxy Valley, Inc; Protect the Paluxy Valley",degenerate_rate,1,n_incidents=2 below floor 5,0
+G0101,River Alliance of Wisconsin,WI,1,3,River Alliance of Wisconsin,degenerate_rate,1,n_incidents=3 below floor 5,0
+G0102,Citizens Action Coalition of Indiana,IN,2,3,Citizens Action Coalition Indiana; Citizens Action Coalition of Indiana,degenerate_rate,1,n_incidents=3 below floor 5,0
+G0103,Appalachian Voices,VA,1,3,Appalachian Voices,,0,,1
+G0104,Ohioans for Responsible Development,OH,1,3,Ohioans for Responsible Development,degenerate_rate,1,n_incidents=3 below floor 5,0
+G0105,FracTracker Alliance,PA,1,3,FracTracker Alliance,,0,,1
+G0106,Mishicot-area residents and family farms (ad hoc coalition),WI,1,3,Mishicot-area residents and family farms (ad hoc coalition),placeholder,1,"descriptive label, not a named organization",0
+G0107,Lyon County residents (ad hoc),GA; IL; NV,3,3,Early County residents (ad hoc); Logan County residents (ad hoc); Lyon County residents (ad hoc),cross_state_merge; placeholder; degenerate_rate,3,"'Early County residents (ad hoc)' and 'Logan County residents (ad hoc)' merged across GA; IL; NV; descriptive label, not a named organization; n_incidents=3 below floor 5",0
+G0108,Save Bren Mar Coalition,VA,1,2,Save Bren Mar Coalition,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0109,Sierra Club New Jersey Chapter,NJ,2,2,Sierra Club (New Jersey Chapter); Sierra Club New Jersey Chapter,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0110,WV Citizen Action Group,WV,2,2,WV Citizen Action Group; WV Citizens Action Group,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0111,New Market Village residents,VA,1,2,New Market Village residents,placeholder,1,"descriptive label, not a named organization",0
+G0112,Save Hancock County,IN,1,2,Save Hancock County,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0113,We Are Oldham County,KY,1,2,We Are Oldham County,,0,,1
+G0114,Climate Solutions,OR,1,2,Climate Solutions,,0,,1
+G0115,Protect Morgan County,IN,2,1,Protect Morgan County; Protect Morgan County IN,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0116,Stop the Data Center Construction in Perry Township,OH,1,2,Stop the Data Center Construction in Perry Township,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0117,Great Rivers Habitat Alliance,AL; MO,1,2,Great Rivers Habitat Alliance,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0118,Missouri Workers Center,MO,1,2,Missouri Workers Center,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0119,Sierra Club St. Louis,MO,1,2,Sierra Club St. Louis,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0120,Wake Up Jeffco,MO,1,2,Wake Up Jeffco,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0121,No Data Center in Festus,MO,1,2,No Data Center in Festus,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0122,No Data Center Festus MO,MO,1,2,No Data Center Festus MO,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0123,Alabama Rivers Alliance,AL,1,2,Alabama Rivers Alliance,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0124,The Alaska Center,AK,1,2,The Alaska Center,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0125,Empowerment Congress of Doña Ana County,NM,1,2,Empowerment Congress of Doña Ana County,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0126,Sierra Club Rio Grande Chapter,NM; US,1,2,Sierra Club Rio Grande Chapter,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0127,Renew DeKalb,GA,2,2,Renew DeKalb; Renew DeKalb Inc,suffix_merge; degenerate_rate,2,'Renew DeKalb' and 'Renew DeKalb Inc' merge only once the form word is stripped; n_incidents=2 below floor 5,0
+G0128,No Data Center in Landover,MD,2,1,No Data Center in Landover; No Data Center in Landover coalition,suffix_merge,1,'No Data Center in Landover' and 'No Data Center in Landover coalition' merge only once the form word is stripped,0
+G0129,Edgecombe Neighbors for Data Center Accountability,NC,1,2,Edgecombe Neighbors for Data Center Accountability,,0,,1
+G0130,Protect Franklin Township,IN,1,2,Protect Franklin Township,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0131,HALT Taylor Data Centers,TX,2,2,HALT Taylor Data Centers; Halt Taylor Data Centers Coalition,suffix_merge; degenerate_rate,2,'HALT Taylor Data Centers' and 'Halt Taylor Data Centers Coalition' merge only once the form word is stripped; n_incidents=2 below floor 5,0
+G0132,No Data Centers Hobart Indiana,IN,1,2,No Data Centers Hobart Indiana,,0,,1
+G0133,Delaware Riverkeeper Network,PA,1,2,Delaware Riverkeeper Network,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0134,No Conshy Data Centers,PA,1,2,No Conshy Data Centers,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0135,Concerned Clifton Citizens,PA,1,2,Concerned Clifton Citizens,,0,,1
+G0136,West Shreveport neighborhood residents,LA,1,2,West Shreveport neighborhood residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=2 below floor 5",0
+G0137,Coalition of Little Rock Neighborhoods,AR,1,2,Coalition of Little Rock Neighborhoods,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0138,Stop Project Nova,WI,1,2,Stop Project Nova,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0139,Stop Archbald Data Centers,PA,1,2,Stop Archbald Data Centers,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0140,York County Citizens for Responsible Growth,SC; UT,2,2,Iron County Citizens for Responsible Growth; York County Citizens for Responsible Growth,cross_state_merge; degenerate_rate,2,'Iron County Citizens for Responsible Growth' and 'York County Citizens for Responsible Growth' merged across SC; UT; n_incidents=2 below floor 5,0
+G0141,Fayetteville Rising Against Data Centers,GA; NC,2,2,Fayetteville Residents Against Data Centers; Fayetteville Rising Against Data Centers,cross_state_merge,1,'Fayetteville Residents Against Data Centers' and 'Fayetteville Rising Against Data Centers' merged across GA; NC,0
+G0142,Wilmington Residents for Responsible Development (WRRD),OH,1,2,Wilmington Residents for Responsible Development (WRRD),degenerate_rate,1,n_incidents=2 below floor 5,0
+G0143,Save High Falls Lake,GA,1,2,Save High Falls Lake,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0144,Stop the Data Center on Taylor Lane,TX,1,2,Stop the Data Center on Taylor Lane,,0,,1
+G0145,No Janesville Data Center,WI,1,2,No Janesville Data Center,,0,,1
+G0146,Citizens for Responsible Economic Development,IN,2,1,Citizens for Responsible Economic Development; Citizens for Responsible Economic Development (CRED),,0,,1
+G0147,Coastal Conservation League,SC,1,2,Coastal Conservation League,,0,,1
+G0148,Sugarloaf Alliance,MD,1,2,Sugarloaf Alliance,,0,,1
+G0149,Envision Frederick County,MD,1,2,Envision Frederick County,placeholder,1,"descriptive label, not a named organization",0
+G0150,No Data Center in DeForest,WI,1,2,No Data Center in DeForest,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0151,GASP (Greater Birmingham Alliance to Stop Pollution),AL,2,1,GASP (Greater Birmingham Alliance to Stop Pollution); GASP (Greater-Birmingham Alliance to Stop Pollution),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0152,Black Warrior Riverkeeper,AL,1,2,Black Warrior Riverkeeper,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0153,Stop Washington Township Data Center,MI,1,2,Stop Washington Township Data Center,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0154,Protect Sand Springs Alliance,OK,1,2,Protect Sand Springs Alliance,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0155,Oregon Wild,OR,1,2,Oregon Wild,,0,,1
+G0156,Native Fish Society,OR,1,2,Native Fish Society,,0,,1
+G0157,Georgia Interfaith Power & Light,GA,1,2,Georgia Interfaith Power & Light,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0158,Troy Residents for Responsible Growth,IL,1,2,Troy Residents for Responsible Growth,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0159,Conservation Colorado,CO,1,2,Conservation Colorado,,0,,1
+G0160,Franklin Citizens for Responsible Development,KY,2,2,Franklin Citizens for Responsible Development; Franklin Citizens for Responsible Development Inc,,0,,1
+G0161,Deep South Center for Environmental Justice,LA,2,1,Deep South Center for Environmental Justice; Deep South Center for Environmental Justice (DSCEJ),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0162,Carroll County Anti-Data Center Coalition,GA; MD,1,2,Carroll County Anti-Data Center Coalition,,0,,1
+G0163,Goochland Residents Alliance,VA,2,2,Goochland Residents Alliance; Goochland residents coalition,suffix_merge; degenerate_rate,2,'Goochland Residents Alliance' and 'Goochland residents coalition' merge only once the form word is stripped; n_incidents=2 below floor 5,0
+G0164,Hanover County residents,VA,1,2,Hanover County residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=2 below floor 5",0
+G0165,Goochland County residents,VA,1,2,Goochland County residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=2 below floor 5",0
+G0166,Sugarloaf Citizens Association,MD,1,2,Sugarloaf Citizens Association,,0,,1
+G0167,Dakota Rural Action,SD,1,2,Dakota Rural Action,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0168,Tucker United,WV,1,2,Tucker United,,0,,1
+G0169,No Data Centers in the Driftless,WI,1,2,No Data Centers in the Driftless,,0,,1
+G0170,Western Resource Advocates,CO,1,2,Western Resource Advocates,,0,,1
+G0171,Keyser Valley Neighborhood Association,PA,1,2,Keyser Valley Neighborhood Association,,0,,1
+G0172,Ohio Consumers' Counsel,OH,1,2,Ohio Consumers' Counsel,,0,,1
+G0173,Lowndes Citizens Against Data Centers,GA,2,1,Lowndes Citizens Against Data Centers; Lowndes Citizens Against Data Centers (LCAD),,0,,1
+G0174,WWALS Watershed Coalition,GA,1,2,WWALS Watershed Coalition,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0175,WWALS Watershed Coalition (Suwannee Riverkeeper),GA,1,2,WWALS Watershed Coalition (Suwannee Riverkeeper),degenerate_rate,1,n_incidents=2 below floor 5,0
+G0176,Climate Revolution Action Network,NJ,2,2,Climate Revolution Action Network; Climate Revolution Action Network NJ,,0,,1
+G0177,Shreveport residents,LA,1,2,Shreveport residents,placeholder,1,"descriptive label, not a named organization",0
+G0178,Caddo Lake Institute,LA,1,2,Caddo Lake Institute,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0179,South Carolina Community Rights Coalition,SC,1,2,South Carolina Community Rights Coalition,,0,,1
+G0180,No Data Centers in Spartanburg,SC,2,1,No Data Centers in Spartanburg; No Data Centers in Spartanburg SC,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0181,National Parks Conservation Association,GA; VA,1,2,National Parks Conservation Association,,0,,1
+G0182,"No Data Centers, Fulton County",IN,2,1,"No Data Centers Fulton County IN; No Data Centers, Fulton County",degenerate_rate,1,n_incidents=1 below floor 5,0
+G0183,Northern Alaska Environmental Center,AK,1,2,Northern Alaska Environmental Center,,0,,1
+G0184,Alaska Public Interest Research Group,AK,1,2,Alaska Public Interest Research Group,,0,,1
+G0185,Oakley Community Alliance,CA,1,2,Oakley Community Alliance,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0186,Natural Resources Council of Maine,ME,2,2,Natural Resources Council of Maine; Natural Resources Council of Maine (NRCM),degenerate_rate,1,n_incidents=2 below floor 5,0
+G0187,Franklin County Rural Coalition,MO,1,2,Franklin County Rural Coalition,,0,,1
+G0188,Osawatomie Residents Concerned About Data Centers,KS; TX,2,2,Osawatomie Residents Concerned About Data Centers; San Antonio Residents Concerned About Data Centers,cross_state_merge,1,'Osawatomie Residents Concerned About Data Centers' and 'San Antonio Residents Concerned About Data Centers' merged across KS; TX,0
+G0189,Block Project Steel and Project Cardinal,IL,1,2,Block Project Steel and Project Cardinal,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0190,Sierra Club Michigan Chapter,MI,1,2,Sierra Club Michigan Chapter,,0,,1
+G0191,Good Jobs First,VA; WI,1,2,Good Jobs First,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0192,Joliet Residents Against Data Centers,IL; NY,2,2,Joliet Residents Against Data Centers; Oneonta Residents Against Data Centers,cross_state_merge; degenerate_rate,2,'Joliet Residents Against Data Centers' and 'Oneonta Residents Against Data Centers' merged across IL; NY; n_incidents=2 below floor 5,0
+G0193,Honest Future for Lowell,MA,1,2,Honest Future for Lowell,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0194,American Battlefield Trust,VA,1,2,American Battlefield Trust,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0195,Wyoming Outdoor Council,WY,1,2,Wyoming Outdoor Council,,0,,1
+G0196,Archbald Neighborhood Association,PA,1,2,Archbald Neighborhood Association,,0,,1
+G0197,Protect Frenchtown,MI,2,1,Protect Frenchtown; Protect Frenchtown MI,,0,,1
+G0198,Adams County for Responsible Development,OH,1,2,Adams County for Responsible Development,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0199,Michigan Sierra Club,MI,1,2,Michigan Sierra Club,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0200,Midwest Environmental Advocates,WI,1,2,Midwest Environmental Advocates,degenerate_rate,1,n_incidents=2 below floor 5,0
+G0201,Spring Creek Road Residents,TN,1,1,Spring Creek Road Residents,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0202,Groton Open Space Association,CT,1,1,Groton Open Space Association,,0,,1
+G0203,Groton Conservation Advocates,CT,1,1,Groton Conservation Advocates,,0,,1
+G0204,Secure Arkansas,AR,1,1,Secure Arkansas,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0205,Concerned Citizens of Waterford and East Lyme (CCWEL),CT,1,1,Concerned Citizens of Waterford and East Lyme (CCWEL),,0,,1
+G0206,Adair County Residents (ad hoc),IA,1,1,Adair County Residents (ad hoc),,0,,1
+G0207,City of Goodyear (official opposition),AZ,1,1,City of Goodyear (official opposition),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0208,City of Buckeye (official opposition),AZ,1,1,City of Buckeye (official opposition),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0209,Buckeye Residents Against Data Centers,AZ,1,1,Buckeye Residents Against Data Centers,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0210,Stop Duneland and Valpo/Wheeler Data Centers,IN,1,1,Stop Duneland and Valpo/Wheeler Data Centers,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0211,Rose Hill Coalition,VA,1,1,Rose Hill Coalition,,0,,1
+G0212,Bren Pointe HOA,VA,1,1,Bren Pointe HOA,,0,,1
+G0213,Thorndale residents,TX,1,1,Thorndale residents,placeholder,1,"descriptive label, not a named organization",0
+G0214,Don't Dump Data in Peculiar,MO,1,1,Don't Dump Data in Peculiar,,0,,1
+G0215,DeLuca Preserve Conservation Advocates,FL,1,1,DeLuca Preserve Conservation Advocates,,0,,1
+G0216,Gilmer County Citizens Against Crypto Mining,GA,1,1,Gilmer County Citizens Against Crypto Mining,,0,,1
+G0217,National Coalition Against Cryptomining,GA,1,1,National Coalition Against Cryptomining,,0,,1
+G0218,Gilmer County Citizens Against AI Data Centers,GA,1,1,Gilmer County Citizens Against AI Data Centers,,0,,1
+G0219,Conservation Law Foundation,MA,1,1,Conservation Law Foundation,,0,,1
+G0220,Alternatives for Community and Environment,MA,1,1,Alternatives for Community and Environment,,0,,1
+G0221,Arizona Center for Law in the Public Interest,AZ,1,1,Arizona Center for Law in the Public Interest,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0222,Coalition for Sonoran Desert Protection,AZ,1,1,Coalition for Sonoran Desert Protection,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0223,Oliver County residents,ND,1,1,Oliver County residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0224,Weston Gardens,TX,1,1,Weston Gardens,,0,,1
+G0225,Fort Worth residents,TX,1,1,Fort Worth residents,placeholder,1,"descriptive label, not a named organization",0
+G0226,2871 Community Coalition,TX,1,1,2871 Community Coalition,,0,,1
+G0227,Chapel Creek Neighborhood Association,TX,1,1,Chapel Creek Neighborhood Association,,0,,1
+G0228,MediaJustice,TX,1,1,MediaJustice,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0229,Sierra Club Toiyabe,NV,1,1,Sierra Club Toiyabe,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0230,Friends of the Mississippi River,MN,1,1,Friends of the Mississippi River,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0231,CURE,MN,1,1,CURE,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0232,Workers Strike Back,MN,1,1,Workers Strike Back,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0233,Coalition for Responsible Data Center Planning,MN,1,1,Coalition for Responsible Data Center Planning,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0234,Alliance for Sustainability,MN,1,1,Alliance for Sustainability,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0235,Sierra Club Northstar Chapter,MN,1,1,Sierra Club Northstar Chapter,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0236,CURE (Clean Up the River Environment),MN,1,1,CURE (Clean Up the River Environment),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0237,Sierra Club Niagara Group,NY,1,1,Sierra Club Niagara Group,,0,,1
+G0238,Western New York Environmental Alliance (ReThink STAMP),NY,1,1,Western New York Environmental Alliance (ReThink STAMP),,0,,1
+G0239,Loudoun Climate Project,VA,1,1,Loudoun Climate Project,,0,,1
+G0240,Kootenai County residents,ID,1,1,Kootenai County residents,placeholder,1,"descriptive label, not a named organization",0
+G0241,Faulkner County League of Women Voters,AR,1,1,Faulkner County League of Women Voters,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0242,People's Action,WV,1,1,People's Action,,0,,1
+G0243,Chesapeake Climate Action Network,WV,1,1,Chesapeake Climate Action Network,,0,,1
+G0244,Data Center Reform Coalition,WV,1,1,Data Center Reform Coalition,,0,,1
+G0245,Cold Springs Residents Against Rezoning,NV,1,1,Cold Springs Residents Against Rezoning,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0246,CURE MN,MN,1,1,CURE MN,,0,,1
+G0247,Varina community residents,VA,1,1,Varina community residents,placeholder,1,"descriptive label, not a named organization",0
+G0248,Eagle Mountain residents,UT,1,1,Eagle Mountain residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0249,Cherokee County residents,SC,1,1,Cherokee County residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0250,Oakland University Student Congress,MI,1,1,Oakland University Student Congress,,0,,1
+G0251,Teays Valley Against Overgrowth,OH,1,1,Teays Valley Against Overgrowth,,0,,1
+G0252,Millard County Residents Against Solar Farm,UT,1,1,Millard County Residents Against Solar Farm,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0253,Johnson City residents,TN,1,1,Johnson City residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0254,Washington County Democratic Party,TN,1,1,Washington County Democratic Party,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0255,Residents Against the Etheridge Lakes Data Center,VA,1,1,Residents Against the Etheridge Lakes Data Center,,0,,1
+G0256,Citizens for Fauquier County (CFFC),VA,1,1,Citizens for Fauquier County (CFFC),,0,,1
+G0257,Stop Gilroy Data Center,CA,1,1,Stop Gilroy Data Center,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0258,Mesa residents,AZ,1,1,Mesa residents,placeholder,1,"descriptive label, not a named organization",0
+G0259,Arizona Chapter of 7x24 Exchange (industry opposition to restrictions),AZ,1,1,Arizona Chapter of 7x24 Exchange (industry opposition to restrictions),,0,,1
+G0260,MontPIRG,MT,1,1,MontPIRG,,0,,1
+G0261,Good Government Committee,MO,1,1,Good Government Committee,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0262,St. Charles Residents Against Project Cumulus,MO,1,1,St. Charles Residents Against Project Cumulus,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0263,NAACP (Alabama State Conference),AL,1,1,NAACP (Alabama State Conference),,0,,1
+G0264,NAACP (Metro Birmingham Branch),AL,1,1,NAACP (Metro Birmingham Branch),,0,,1
+G0265,NAACP Center for Environmental and Climate Justice,AL,1,1,NAACP Center for Environmental and Climate Justice,,0,,1
+G0266,Charles Citizens First,VA,1,1,Charles Citizens First,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0267,Ellendale No Eminent Domain group,ND,1,1,Ellendale No Eminent Domain group,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0268,Southwest Memphis community members,TN,1,1,Southwest Memphis community members,placeholder,1,"descriptive label, not a named organization",0
+G0269,Memphis Community Against Pollution (MCAP),TN,1,1,Memphis Community Against Pollution (MCAP),,0,,1
+G0270,Memphis Has The Power,TN,1,1,Memphis Has The Power,,0,,1
+G0271,Castroville residents,TX,1,1,Castroville residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0272,Environment Texas,TX,1,1,Environment Texas,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0273,No to Mooresville Technology Park,NC,1,1,No to Mooresville Technology Park,,0,,1
+G0274,No DCs in Ozaukee County WI,WI,1,1,No DCs in Ozaukee County WI,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0275,Yerington residents,NV,1,1,Yerington residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0276,Mason Valley residents,NV,1,1,Mason Valley residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0277,Boone County Preservation Group,IN,1,1,Boone County Preservation Group,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0278,Clean Air Coalition of Western New York,NY,1,1,Clean Air Coalition of Western New York,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0279,"North Tonawanda residents (Deborah Gondek, organizer)",NY,1,1,"North Tonawanda residents (Deborah Gondek, organizer)",placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0280,Wilsonville residents,AL,1,1,Wilsonville residents,placeholder,1,"descriptive label, not a named organization",0
+G0281,Wilsonville residents (No Wilsonville Data Center),AL,1,1,Wilsonville residents (No Wilsonville Data Center),placeholder,1,"descriptive label, not a named organization",0
+G0282,Harwood residents,ND,1,1,Harwood residents,placeholder,1,"descriptive label, not a named organization",0
+G0283,"Troup County Anti-Data Center Coalition (Gage Bailey, founder)",GA,1,1,"Troup County Anti-Data Center Coalition (Gage Bailey, founder)",,0,,1
+G0284,Taylor Frazier McCollum (petition organizer),MD,1,1,Taylor Frazier McCollum (petition organizer),,0,,1
+G0285,South County Environmental Justice Coalition,MD,1,1,South County Environmental Justice Coalition,,0,,1
+G0286,Brandywine TB Southern Region Neighborhood Coalition,MD,1,1,Brandywine TB Southern Region Neighborhood Coalition,,0,,1
+G0287,17 for Peace and Justice,MD,1,1,17 for Peace and Justice,,0,,1
+G0288,"Statesville area residents (Facebook group, 900+ members)",NC,1,1,"Statesville area residents (Facebook group, 900+ members)",placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0289,Statesville residents,NC,1,1,Statesville residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0290,Coalition to Protect Cumberland County PA,PA,1,1,Coalition to Protect Cumberland County PA,,0,,1
+G0291,Eco-Socialist Green Party of Eastern Missouri,MO,1,1,Eco-Socialist Green Party of Eastern Missouri,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0292,Action St. Louis,MO,1,1,Action St. Louis,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0293,Missouri Jobs with Justice,MO,1,1,Missouri Jobs with Justice,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0294,WEPOWER,MO,1,1,WEPOWER,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0295,Democratic Socialists of America St. Louis,MO,1,1,Democratic Socialists of America St. Louis,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0296,Party for Socialism and Liberation St. Louis,MO,1,1,Party for Socialism and Liberation St. Louis,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0297,Metropolitan Congregations United,MO,1,1,Metropolitan Congregations United,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0298,Greenfire Coalition,PA,1,1,Greenfire Coalition,,0,,1
+G0299,Save Rural Spalding,GA,1,1,Save Rural Spalding,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0300,Rankin County Residents Against Data Center (ad hoc),MS,1,1,Rankin County Residents Against Data Center (ad hoc),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0301,West Virginia Citizen Action Group,WV,1,1,West Virginia Citizen Action Group,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0302,Jerome Township Residents Coalition,OH,1,1,Jerome Township Residents Coalition,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0303,Trinity Hills neighborhood residents,TN,1,1,Trinity Hills neighborhood residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0304,Louisville Metro Watchdog Alliance,KY,1,1,Louisville Metro Watchdog Alliance,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0305,Rubbertown Emergency Action (REACT),KY,1,1,Rubbertown Emergency Action (REACT),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0306,Louisville Climate Action Network,KY,1,1,Louisville Climate Action Network,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0307,"Blakely No Data Center Campaign (Bob Cicci & Katie Klein-Cicci, organizers)",PA,1,1,"Blakely No Data Center Campaign (Bob Cicci & Katie Klein-Cicci, organizers)",,0,,1
+G0308,College Station Residents Against Data Center,TX,1,1,College Station Residents Against Data Center,,0,,1
+G0309,One Circle Community Coalition,GA,1,1,One Circle Community Coalition,,0,,1
+G0310,Greater Troy Neighborhood Association,IN,1,1,Greater Troy Neighborhood Association,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0311,Black Voters Matter Fund,GA,1,1,Black Voters Matter Fund,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0312,Stop the Menomonie Data Center,WI,1,1,Stop the Menomonie Data Center,,0,,1
+G0313,Griffin family plaintiffs,TX,1,1,Griffin family plaintiffs,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0314,Taylor community residents (led by Carrie D'Anna),TX,1,1,Taylor community residents (led by Carrie D'Anna),placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0315,Halt the BPP Project in Taylor,TX,1,1,Halt the BPP Project in Taylor,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0316,White County IN Against Data Centers,IN,1,1,White County IN Against Data Centers,,0,,1
+G0317,350 Wisconsin,WI,1,1,350 Wisconsin,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0318,50501 Madison,WI,1,1,50501 Madison,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0319,"Concerned Citizens of Twiggs County (Rob Fricks, attorney)",GA,1,1,"Concerned Citizens of Twiggs County (Rob Fricks, attorney)",degenerate_rate,1,n_incidents=1 below floor 5,0
+G0320,Protect Twiggs County -- No Data Center,GA,1,1,Protect Twiggs County -- No Data Center,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0321,Protect Twiggs County GA,GA,1,1,Protect Twiggs County GA,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0322,Page Residents for Voter Rights,AZ,1,1,Page Residents for Voter Rights,,0,,1
+G0323,Bi-State Datacenter Crisis Coalition,NY,1,1,Bi-State Datacenter Crisis Coalition,,0,,1
+G0324,Woodsdale and Trenton Environmental Resistance (W.A.T.E.R.),OH,1,1,Woodsdale and Trenton Environmental Resistance (W.A.T.E.R.),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0325,We Are Mason County Ky,KY,1,1,We Are Mason County Ky,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0326,Save Mason County,KY,1,1,Save Mason County,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0327,Platte County residents,MO,1,1,Platte County residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0328,No Data Center In LMBT,PA,1,1,No Data Center In LMBT,,0,,1
+G0329,Joplin Citizens Against Wildwood Ranch Data Center Site,MO,1,1,Joplin Citizens Against Wildwood Ranch Data Center Site,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0330,"Save the IX Center Campaign (Cassia Core, organizer)",OH,1,1,"Save the IX Center Campaign (Cassia Core, organizer)",,0,,1
+G0331,East Vincent Advocacy (EVT Advocacy),PA,1,1,East Vincent Advocacy (EVT Advocacy),,0,,1
+G0332,Prevent East Vincent Data Center Development,PA,1,1,Prevent East Vincent Data Center Development,,0,,1
+G0333,East Vincent Advocacy,PA,1,1,East Vincent Advocacy,,0,,1
+G0334,Prevent East Vincent DC Development,PA,1,1,Prevent East Vincent DC Development,,0,,1
+G0335,Stop Temple Data Centers,TX,1,1,Stop Temple Data Centers,,0,,1
+G0336,Gordon County Board of Commissioners (preemptive),GA,1,1,Gordon County Board of Commissioners (preemptive),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0337,Indigenous Environmental Network,OK,1,1,Indigenous Environmental Network,,0,,1
+G0338,Dundee's Not for Sale,MI,1,1,Dundee's Not for Sale,,0,,1
+G0339,Citizens Against a Dundee Data Center,MI,1,1,Citizens Against a Dundee Data Center,,0,,1
+G0340,Meade County residents (petition organizers),KY,1,1,Meade County residents (petition organizers),placeholder,1,"descriptive label, not a named organization",0
+G0341,Stop the Pine Island Data Center,MN,1,1,Stop the Pine Island Data Center,,0,,1
+G0342,Stop the Hermantown Data Center,MN,1,1,Stop the Hermantown Data Center,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0343,Protect Stafford,VA,1,1,Protect Stafford,,0,,1
+G0344,Coalition to Save Culpeper,VA,1,1,Coalition to Save Culpeper,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0345,Save Brandy Station,VA,1,1,Save Brandy Station,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0346,We the People of Wyco,KS,1,1,We the People of Wyco,,0,,1
+G0347,Kansas Sierra Club,KS,1,1,Kansas Sierra Club,,0,,1
+G0348,Campbell County residents,VA,1,1,Campbell County residents,placeholder,1,"descriptive label, not a named organization",0
+G0349,Lufkin area residents,TX,1,1,Lufkin area residents,placeholder,1,"descriptive label, not a named organization",0
+G0350,Rockford residents (Change.org petition organizers),IL,1,1,Rockford residents (Change.org petition organizers),placeholder,1,"descriptive label, not a named organization",0
+G0351,No Data Centers Northern IL,IL,1,1,No Data Centers Northern IL,,0,,1
+G0352,Sustain Rockford,IL,1,1,Sustain Rockford,,0,,1
+G0353,Natural Land Institute,IL,1,1,Natural Land Institute,,0,,1
+G0354,Foristell Residents Against Data Centers,MO,1,1,Foristell Residents Against Data Centers,,0,,1
+G0355,No Data Center Kokomo-Howard County,IN,1,1,No Data Center Kokomo-Howard County,,0,,1
+G0356,Cumberland County Residents Against Data Centers,NC,1,1,Cumberland County Residents Against Data Centers,,0,,1
+G0357,Citizens Against Over Development in Lyon County,NV,1,1,Citizens Against Over Development in Lyon County,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0358,Project Baccara Opposition,AZ,1,1,Project Baccara Opposition,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0359,Norton residents,OH,1,1,Norton residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0360,Protect Wiscasset,ME,1,1,Protect Wiscasset,,0,,1
+G0361,Castle Rock Township,MN,1,1,Castle Rock Township,placeholder,1,"descriptive label, not a named organization",0
+G0362,Environmental Coalition of Farmington MN,MN,1,1,Environmental Coalition of Farmington MN,,0,,1
+G0363,Sierra Club Iowa Chapter,IA,1,1,Sierra Club Iowa Chapter,,0,,1
+G0364,Norton and Barberton residents,OH,1,1,Norton and Barberton residents,placeholder,1,"descriptive label, not a named organization",0
+G0365,Upper Missouri Waterkeeper,MT,1,1,Upper Missouri Waterkeeper,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0366,Stop the Data Centers Livingston County,MI,1,1,Stop the Data Centers Livingston County,,0,,1
+G0367,Livingston County Residents for Responsible Development,MI,1,1,Livingston County Residents for Responsible Development,,0,,1
+G0368,Vicksburg Residents Against Data Center (ad hoc),MS,1,1,Vicksburg Residents Against Data Center (ad hoc),,0,,1
+G0369,Clarksville area residents,AR,1,1,Clarksville area residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0370,Tisch Mills Farm Center,WI,1,1,Tisch Mills Farm Center,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0371,Ross area community residents,TX,1,1,Ross area community residents,placeholder,1,"descriptive label, not a named organization",0
+G0372,Stop the Data Center on Taylor Lane (Facebook group),TX,1,1,Stop the Data Center on Taylor Lane (Facebook group),,0,,1
+G0373,McLennan County residents,TX,1,1,McLennan County residents,placeholder,1,"descriptive label, not a named organization",0
+G0374,Stop Waco Data Centers,TX,1,1,Stop Waco Data Centers,,0,,1
+G0375,Stop the Waco Data Center,TX,1,1,Stop the Waco Data Center,,0,,1
+G0376,Panhandle Taxpayers for Transparency,TX,1,1,Panhandle Taxpayers for Transparency,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0377,Sierra Club Texas Chapter,TX,1,1,Sierra Club Texas Chapter,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0378,Amarillo Minority Coalition,TX,1,1,Amarillo Minority Coalition,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0379,Decatur Township Civic Council,IN,1,1,Decatur Township Civic Council,,0,,1
+G0380,Decatur Township Civic League,IN,1,1,Decatur Township Civic League,,0,,1
+G0381,Protect Decatur Township,IN,1,1,Protect Decatur Township,,0,,1
+G0382,Kenoshans Unite Against Microsoft Data Center,WI,1,1,Kenoshans Unite Against Microsoft Data Center,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0383,SNOW (Stop Negligent Operations in Wisconsin),WI,1,1,SNOW (Stop Negligent Operations in Wisconsin),,0,,1
+G0384,Beaver Dam Education on Data Center Group,WI,1,1,Beaver Dam Education on Data Center Group,,0,,1
+G0385,Let Sioux Falls Vote,SD,1,1,Let Sioux Falls Vote,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0386,South Dakota for DC Transparency,SD,1,1,South Dakota for DC Transparency,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0387,Stop AI Data Centers in Lawrence County,OH,1,1,Stop AI Data Centers in Lawrence County,,0,,1
+G0388,Newport News Residents Against Data Centers,VA,1,1,Newport News Residents Against Data Centers,,0,,1
+G0389,Moorestown residents,NJ,1,1,Moorestown residents,placeholder,1,"descriptive label, not a named organization",0
+G0390,Friends of Tensaw River,AL,1,1,Friends of Tensaw River,,0,,1
+G0391,Stop Solar in Stockton,AL,1,1,Stop Solar in Stockton,,0,,1
+G0392,Starke County - No Data Center IN,IN,1,1,Starke County - No Data Center IN,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0393,NIMBY Imperial,CA,1,1,NIMBY Imperial,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0394,Valle Imperial Resiste,CA,1,1,Valle Imperial Resiste,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0395,Stop Project Vector (ad hoc),IL,1,1,Stop Project Vector (ad hoc),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0396,Stop Project Tango,FL,1,1,Stop Project Tango,,0,,1
+G0397,NO To Project Tango,FL,1,1,NO To Project Tango,,0,,1
+G0398,Palm Beach County Environmental Alliance,FL,1,1,Palm Beach County Environmental Alliance,,0,,1
+G0399,Sierra Club Loxahatchee Group,FL,1,1,Sierra Club Loxahatchee Group,,0,,1
+G0400,Florida Native Plant Society PBC Chapter,FL,1,1,Florida Native Plant Society PBC Chapter,,0,,1
+G0401,Stop the Palm Beach DC Project Tango,FL,1,1,Stop the Palm Beach DC Project Tango,,0,,1
+G0402,White Tank Mountains Conservancy,AZ,1,1,White Tank Mountains Conservancy,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0403,Chandler Neighbors Against Data Centers,AZ,1,1,Chandler Neighbors Against Data Centers,,0,,1
+G0404,Citizens for Rural Coweta,GA,1,1,Citizens for Rural Coweta,,0,,1
+G0405,Stop Project Sail,GA,1,1,Stop Project Sail,,0,,1
+G0406,STOP Project Sail Newnan Data Center,GA,1,1,STOP Project Sail Newnan Data Center,,0,,1
+G0407,Lewiston residents,ME,1,1,Lewiston residents,placeholder,1,"descriptive label, not a named organization",0
+G0408,Mainers Against Future AI Data Center in Lewiston,ME,1,1,Mainers Against Future AI Data Center in Lewiston,,0,,1
+G0409,Slingshot (New England environmental health and justice organization),ME,1,1,Slingshot (New England environmental health and justice organization),,0,,1
+G0410,Gates County residents,NC,1,1,Gates County residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0411,Residents United for a Healthy Lowell,MI,1,1,Residents United for a Healthy Lowell,,0,,1
+G0412,ACE Basin area residents,SC,1,1,ACE Basin area residents,placeholder,1,"descriptive label, not a named organization",0
+G0413,Sustain South Jersey,NJ,1,1,Sustain South Jersey,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0414,New Jersey Environmental Justice Alliance (NJEJA),NJ,1,1,New Jersey Environmental Justice Alliance (NJEJA),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0415,Maryland Data Center Reform Coalition (Nature Forward),MD,1,1,Maryland Data Center Reform Coalition (Nature Forward),,0,,1
+G0416,Citizens for Responsible Development,OK,1,1,Citizens for Responsible Development,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0417,Save Oklahoma Farms and Ranches,OK,1,1,Save Oklahoma Farms and Ranches,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0418,STOP Data Centers & Rezoning in Conewago Twp,PA,1,1,STOP Data Centers & Rezoning in Conewago Twp,,0,,1
+G0419,Mount Horeb area residents,WI,1,1,Mount Horeb area residents,placeholder,1,"descriptive label, not a named organization",0
+G0420,Dorr Township MI - We The People,MI,1,1,Dorr Township MI - We The People,,0,,1
+G0421,Beaver County Community Group Against Data Centers,PA,1,1,Beaver County Community Group Against Data Centers,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0422,Environmental Health Project,PA,1,1,Environmental Health Project,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0423,Beaver County Marcellus Awareness Community (BCMAC),PA,1,1,Beaver County Marcellus Awareness Community (BCMAC),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0424,Chattanooga Residents Against Jailhouse Data Center (ad hoc),TN,1,1,Chattanooga Residents Against Jailhouse Data Center (ad hoc),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0425,Hyndman Homesites Homeowners Association,WY,1,1,Hyndman Homesites Homeowners Association,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0426,Residents for Rural and Agricultural Land (RURAL),SD,1,1,Residents for Rural and Agricultural Land (RURAL),,0,,1
+G0427,Citizens Opposed to Data Centers in Henry County,GA,1,1,Citizens Opposed to Data Centers in Henry County,,0,,1
+G0428,Conserve Henry County,GA,1,1,Conserve Henry County,placeholder,1,"descriptive label, not a named organization",0
+G0429,Lawrence County residents,OH,1,1,Lawrence County residents,placeholder,1,"descriptive label, not a named organization",0
+G0430,Friends of Nevada Wilderness,NV,1,1,Friends of Nevada Wilderness,,0,,1
+G0431,Basin and Range Watch,NV,1,1,Basin and Range Watch,,0,,1
+G0432,Stokes County Historical Society,NC,1,1,Stokes County Historical Society,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0433,Occaneechi Band of the Saponi Nation,NC,1,1,Occaneechi Band of the Saponi Nation,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0434,Southern Coalition for Social Justice,NC,1,1,Southern Coalition for Social Justice,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0435,Stokes County NAACP,NC,1,1,Stokes County NAACP,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0436,Walnut Cove residents,NC,1,1,Walnut Cove residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0437,National Hairston Clan,NC,1,1,National Hairston Clan,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0438,CleanAIRE NC,NC,1,1,CleanAIRE NC,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0439,Dan River Basin Association,NC,1,1,Dan River Basin Association,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0440,7 Directions of Service,NC,1,1,7 Directions of Service,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0441,Roswell residents,GA,1,1,Roswell residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0442,Stop the Greenleaf Data Center,WI,1,1,Stop the Greenleaf Data Center,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0443,Moms Clean Air Force,WI,1,1,Moms Clean Air Force,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0444,Izaak Walton League (Brown County Chapter),WI,1,1,Izaak Walton League (Brown County Chapter),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0445,People's Justice Council,AL,1,1,People's Justice Council,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0446,Energy Alabama,AL,1,1,Energy Alabama,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0447,Renwick Area Against Data Centers,KS,1,1,Renwick Area Against Data Centers,,0,,1
+G0448,Spalding County residents,GA,1,1,Spalding County residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0449,Oklahoma Data Center Accountability,OK,1,1,Oklahoma Data Center Accountability,,0,,1
+G0450,"Say NO to Coweta, Ok Data Center",OK,1,1,"Say NO to Coweta, Ok Data Center",,0,,1
+G0451,Project Sand Springs Alliance,OK,1,1,Project Sand Springs Alliance,,0,,1
+G0452,Land Legacy,OK,1,1,Land Legacy,,0,,1
+G0453,Renwick Area Against Data Centers in West Sedgwick County,KS,1,1,Renwick Area Against Data Centers in West Sedgwick County,,0,,1
+G0454,Sedgwick County Farm Bureau,KS,1,1,Sedgwick County Farm Bureau,,0,,1
+G0455,Franklin County residents,MO,1,1,Franklin County residents,placeholder,1,"descriptive label, not a named organization",0
+G0456,Shaw Nature Reserve / Missouri Botanical Garden,MO,1,1,Shaw Nature Reserve / Missouri Botanical Garden,,0,,1
+G0457,No AI Datacenters in Franklin County MO,MO,1,1,No AI Datacenters in Franklin County MO,,0,,1
+G0458,Clinton Residents Concerned About Data Centers,MS,1,1,Clinton Residents Concerned About Data Centers,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0459,BOLD Alliance,NE,1,1,BOLD Alliance,,0,,1
+G0460,Bold Alliance (Bold Nebraska),NE,1,1,Bold Alliance (Bold Nebraska),,0,,1
+G0461,KC Data Center Watchdog,MO,1,1,KC Data Center Watchdog,,0,,1
+G0462,Southern Alliance for Clean Energy (SACE),GA,1,1,Southern Alliance for Clean Energy (SACE),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0463,Southface Institute,GA,1,1,Southface Institute,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0464,Georgians Against Data Centers,GA,1,1,Georgians Against Data Centers,degenerate_rate,1,n_incidents=1 below floor 5,0
+G0465,"Say NO to Coweta, Ok Data Center (Atlas Project)",OK,1,1,"Say NO to Coweta, Ok Data Center (Atlas Project)",degenerate_rate,1,n_incidents=1 below floor 5,0
+G0466,Coweta residents,OK,1,1,Coweta residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
+G0467,Oppose Atlas DC,PA,1,1,Oppose Atlas DC,,0,,1
+G0468,Monterey Park residents,CA,1,1,Monterey Park residents,placeholder,1,"descriptive label, not a named organization",0
+G0469,Monterey Park Against Data Centers,CA,1,1,Monterey Park Against Data Centers,,0,,1
+G0470,Protect Naperville Community,IL,1,1,Protect Naperville Community,,0,,1
+G0471,Lisle Residents Against Data Center (ad hoc),IL,1,1,Lisle Residents Against Data Center (ad hoc),degenerate_rate,1,n_incidents=1 below floor 5,0
+G0472,Sembrando Esperanza Coalition,TX,1,1,Sembrando Esperanza Coalition,,0,,1
+G0473,El Paso City Council,TX,1,1,El Paso City Council,,0,,1
+G0474,Tazewell County Data Center Opposition,IL,1,1,Tazewell County Data Center Opposition,,0,,1
+G0475,Hoosier Environmental Council,IN,1,1,Hoosier Environmental Council,,0,,1
+G0476,Franklin Planning and Zoning Commission,KY,1,1,Franklin Planning and Zoning Commission,,0,,1
+G0477,Franklin residents (Jasmine Butt petition organizer),KY,1,1,Franklin residents (Jasmine Butt petition organizer),placeholder,1,"descriptive label, not a named organization",0
+G0478,Franklin residents (ad hoc),KY,1,1,Franklin residents (ad hoc),placeholder,1,"descriptive label, not a named organization",0
+G0479,East New Orleans Neighborhood Advisory Commission,LA,1,1,East New Orleans Neighborhood Advisory Commission,degenerate_rate,1,n_incidents=1 below floor 5,0
 G0480,Wyndham community residents,VA,1,1,Wyndham community residents,placeholder; degenerate_rate,2,"descriptive label, not a named organization; n_incidents=1 below floor 5",0
 G0481,Wyndham Board of Directors Smart Development Task Force,VA,1,1,Wyndham Board of Directors Smart Development Task Force,degenerate_rate,1,n_incidents=1 below floor 5,0
 G0482,Wyndham Smart Development Task Force,VA,1,1,Wyndham Smart Development Task Force,degenerate_rate,1,n_incidents=1 below floor 5,0
@@ -827,3 +827,4 @@ G0825,Cayuga Lake Environmental Action Now,NY,1,1,Cayuga Lake Environmental Acti
 G0826,Emporia Neighbors United,KS,1,1,Emporia Neighbors United,,0,,1
 G0827,Alabama Citizens Against Data Centers,AL,1,1,Alabama Citizens Against Data Centers,,0,,1
 G0828,Sowega Aquifer Alliance,GA,1,1,Sowega Aquifer Alliance,,0,,1
+G0829,Orange County DC Information VA,VA,1,1,Orange County DC Information VA,,0,,1
