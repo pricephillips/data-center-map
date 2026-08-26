@@ -230,6 +230,35 @@ by repository dispatch when the feed rebuilds.
 
 ---
 
+## Manual corrections and uploads
+
+`manual_records.py` is the first-class path for hand-correcting existing
+records and pushing curated new records, through the SAME gates the
+automated ingest uses (the QC gate, URL and content dedup, provenance
+tagging, the leak audit). Never hand-edit `master_opposition.csv` directly:
+rows owned by the nightly upstream sync (`data_source=datacentertracker.org`
+or blank) are refreshed in place from upstream, so a direct edit is reverted
+the next night. The tool flips corrected rows to
+`data_source=manual_correction`, which the sync's ownership rule shields.
+
+Two intake files drive it — edit them (a clone or the GitHub web editor both
+work) and push; `.github/workflows/manual-records.yml` applies them in CI,
+or run `python3 manual_records.py --apply` locally:
+
+| Intake | Purpose |
+|---|---|
+| `data/manual_corrections.csv` | Field-level corrections to existing rows: one row per field change, matched on `match_incident` + `match_date` (+ optional `match_url`). Pseudo-fields: `APPEND_SUMMARY`, `APPEND_SOURCES`, `DELETE_ROW` (`DELETE`/`DEDUP`). Doubles as the corrections ledger: processed rows are marked applied/blocked in place with reasons. |
+| `data/manual_additions.csv` | Curated new rows (any subset of the master columns; `--template` writes a blank one). Gate-passing rows append to `master_opposition.csv` as `data_source=manual_upload`; blocked and duplicate rows stay in the intake with `_note` filled — the exception queue, mirroring the signal-harvest promotion contract. |
+
+Gates: a correction must leave its row gate-passing (all field changes for
+one record stand or fall together); an addition is blocked by a HIGH/CRITICAL
+QC finding, a URL already cited anywhere in the database, or an existing row
+with the same jurisdiction, name, and date. Every decision is appended to
+`data/manual_records_report.csv`; rows removed by `DELETE_ROW` are archived
+in `data/manual_removed_rows.csv`.
+
+---
+
 ## Contributing conventions
 
 - **Additive and backward-compatible.** Never break existing functionality or

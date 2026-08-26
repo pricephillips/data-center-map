@@ -6,16 +6,16 @@ Adjacency is a search prompt, never evidence. Nothing in this queue is a finding
 
 ## Counts
 
-- Seed counties (enacted, tracker label or external census): 330
+- Seed counties (enacted, tracker label or external census): 332
 - Seeds carrying no usable date: 4 (an undated seed cannot raise a fresh trigger)
-- Candidate counties adjacent to a seed: 998
+- Candidate counties adjacent to a seed: 1001
 - Priority 1, non-terminal record plus fresh trigger: 37
-- Priority 2, fresh trigger with pressure: 104
-- Priority 3, standing cluster: 242
-- Priority 4, background: 615
+- Priority 2, fresh trigger with pressure: 108
+- Priority 3, standing cluster: 240
+- Priority 4, background: 616
 - Cross-state candidates (the Walker/Hamilton shape): 180
-- Small-jurisdiction candidates (population under 100,000): 782
-- Candidates with no automated agenda route: 995
+- Small-jurisdiction candidates (population under 100,000): 784
+- Candidates with no automated agenda route: 998
 
 Small jurisdiction is a detection-difficulty tier, not a risk factor. Population stands in for whether a county has a newsroom that ingestion can see; it never enters a model.
 
@@ -84,11 +84,11 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 | SC | 11 |
 | MN | 10 |
 | NJ | 10 |
+| CO | 8 |
 | NY | 8 |
 | AL | 7 |
 | CA | 7 |
 | MO | 7 |
-| CO | 6 |
 | ME | 6 |
 | NE | 6 |
 | TX | 6 |

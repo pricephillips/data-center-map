@@ -1,6 +1,6 @@
 # Untagged row triage
 
-Held rows in the worklist: 1348
+Held rows in the worklist: 1344
 
 These rows are excluded from the clean feed and from every count. They are recoverable only by resolving the redirect to a publisher article and reading it. Everything below is a suggestion derived from the headline text, not a verified field.
 
@@ -12,13 +12,13 @@ These rows are excluded from the clean feed and from every count. They are recov
 | medium | 271 |
 | state_only | 84 |
 | low | 266 |
-| none | 605 |
+| none | 601 |
 
 ## Mechanism hint
 
 | hint | rows |
 | :-- | --: |
-| none | 1151 |
+| none | 1147 |
 | moratorium | 186 |
 | zoning_restriction | 3 |
 | public_comment | 3 |
@@ -30,7 +30,7 @@ These rows are excluded from the clean feed and from every count. They are recov
 
 | status | rows |
 | :-- | --: |
-| not_attempted | 1348 |
+| not_attempted | 1344 |
 
 Rows ready for a reviewer to open: 0
 Rows whose county and mechanism are already covered by a sourced row: 42
@@ -39,7 +39,7 @@ Rows whose county and mechanism are already covered by a sourced row: 42
 
 | outlet | rows |
 | :-- | --: |
-| unknown | 855 |
+| unknown | 851 |
 | Politico | 11 |
 | Axios | 5 |
 | Source New Mexico | 5 |

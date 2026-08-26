@@ -438,10 +438,14 @@ jobs:
           #   $GITHUB_REF_NAME instead of a hardcoded main, because a run on a
           #     feature branch was rebasing that branch's commits onto main
           #     and pushing the result.
+          # A failed rebase is also aborted before each retry, because a
+          # worktree stuck mid-rebase fails every subsequent pull with
+          # "unmerged files".
           for i in 1 2 3; do
             git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && break
             if [ "$i" = "3" ]; then echo "Push failed after 3 attempts"; exit 1; fi
-            echo "Push attempt $i failed (another workflow moved main); retrying in 10s"
+            echo "Push attempt $i failed (another workflow moved the branch); retrying in 10s"
+            git rebase --abort 2>/dev/null || true
             sleep 10
           done
 
