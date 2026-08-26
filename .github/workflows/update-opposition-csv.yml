@@ -50,8 +50,12 @@ jobs:
           # The harvest queue now holds only gate-blocked candidates (the
           # exception list); the promotion report is the append-only audit
           # trail of every promote/block/duplicate decision.
+          # data/facility_candidates.csv is the Layer A intake: facility
+          # openings, ground breakings and announcements the harvester already
+          # saw and used to file into the opposition queue.
           git add data/signal_candidates.csv data/signal_harvest_log.csv \
-                  data/signal_promotion_report.csv 2>/dev/null || true
+                  data/signal_promotion_report.csv \
+                  data/facility_candidates.csv 2>/dev/null || true
           git diff --cached --quiet || git commit -m "Update master_opposition.csv + harvest queue"
           # Rebase-retry (2026-08-25): same race hardening as fetch-permits.
           for i in 1 2 3; do

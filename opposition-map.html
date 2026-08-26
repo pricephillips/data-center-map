@@ -8,6 +8,23 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- One basemap provider for every map here. Same-origin, same as
+     viz-palette and map-permalink. -->
+<script src="./basemap.js"></script>
+<script>
+// Fallback stub. If basemap.js did not load, the map renders its own data on
+// a dark background with no tiles, which is a degraded map rather than a
+// blank page: every map here draws its own geometry.
+window.Basemap = window.Basemap || { dark: function () {
+  // Chainable no-op: callers do Basemap.dark().addTo(map).on('tileerror', ...),
+  // so returning null here would throw and take the whole page down over a
+  // missing decoration.
+  var noop = {};
+  ['addTo', 'on', 'off', 'remove', 'setOpacity', 'bringToBack',
+   'bringToFront'].forEach(function (m) { noop[m] = function () { return noop; }; });
+  return noop;
+} };
+</script>
 <!-- Canonical color scales and legend, shared with restriction-model.html -->
 <script src="./viz-palette.js"></script>
 <!-- View and filter state in the URL, so a filtered view can be cited by
@@ -212,6 +229,11 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
 // ---------------------------------------------------------------------------
 const RAW = 'https://raw.githubusercontent.com/pricephillips/data-center-map/main';
 const SCORE_URLS   = [RAW + '/data/county_policy_scores.csv', './data/county_policy_scores.csv'];
+// Venn-Abers probability intervals, optional. county_policy_intervals.py rules
+// that any external use of the score quotes the interval and never the point
+// alone; this tooltip was quoting the point alone. If the file does not load
+// the tooltip simply omits the interval rather than implying precision.
+const INTERVAL_URLS = [RAW + '/data/county_policy_intervals.csv', './data/county_policy_intervals.csv'];
 const COUNTY_URLS  = [RAW + '/data/county_aggregate.csv',     './data/county_aggregate.csv'];
 const PROPOSAL_URLS = [RAW + '/data/proposals.csv',           './data/proposals.csv'];
 const LIFECYCLE_URLS = [RAW + '/data/project_lifecycles.csv', './data/project_lifecycles.csv'];
@@ -341,9 +363,7 @@ const map = L.map('map', {
   preferCanvas:true
 });
 map.attributionControl.setPrefix(false);
-L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_nolabels/{z}/{x}/{y}.png', {
-  attribution:'&copy; OpenStreetMap, &copy; CARTO', subdomains:'abcd', maxZoom:19
-}).addTo(map);
+Basemap.dark().addTo(map);
 
 // Dedicated panes so the two layers can be crossfaded as a group. Per-element
 // opacity does not work here: the county polygons render to a canvas and the
@@ -438,6 +458,9 @@ function countyTooltip(feat) {
   let body;
   if (s) {
     body = `Enacted-restriction score: <b>${(s.score*100).toFixed(1)}%</b>` +
+      (s.interval
+        ? `<br><span style="color:#8b97a6">Interval ${(s.interval.lo*100).toFixed(1)}% to ${(s.interval.hi*100).toFixed(1)}%</span>`
+        : '') +
       (s.decile ? ` (decile ${s.decile}/10)` : '') +
       (s.enacted ? '<br><span style="color:#fbbf24">Enacted restrictive policy on record</span>' : '');
     if (c) {
@@ -1000,9 +1023,9 @@ function applyPendingFilters() {
 // ---------------------------------------------------------------------------
 (async function init() {
   document.getElementById('badge').textContent = 'loading data';
-  const [scoreText, countyText, propText, lifeText, predText, geo] = await Promise.all([
+  const [scoreText, countyText, propText, lifeText, predText, intervalText, geo] = await Promise.all([
     fetchFirst(SCORE_URLS), fetchFirst(COUNTY_URLS), fetchFirst(PROPOSAL_URLS),
-    fetchFirst(LIFECYCLE_URLS), fetchFirst(PRED_URLS),
+    fetchFirst(LIFECYCLE_URLS), fetchFirst(PRED_URLS), fetchFirst(INTERVAL_URLS),
     (async () => { try { const r = await fetch(COUNTY_GEO_URL); return r.ok ? await r.json() : null; }
                    catch (e) { return null; } })()
   ]);
@@ -1014,6 +1037,14 @@ function applyPendingFilters() {
     if (fips.length === 5 && score !== null)
       SCORES[fips] = { score, decile: parseInt(r.score_decile,10)||null,
                        enacted: String(r.has_enacted_restrictive) === '1' };
+  });
+  // Intervals are merged in only where both files agree on the county, so a
+  // stale interval file can add an interval to a county it knows but can
+  // never invent one.
+  parseCsv(intervalText).forEach(r => {
+    const fips = String(r.fips||'').padStart(5,'0');
+    const lo = num(r.va_p_lower), hi = num(r.va_p_upper);
+    if (SCORES[fips] && lo !== null && hi !== null) SCORES[fips].interval = { lo, hi };
   });
   parseCsv(countyText).forEach(r => {
     const fips = String(r.fips||'').padStart(5,'0');

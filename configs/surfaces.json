@@ -1,0 +1,545 @@
+{
+  "_comment": [
+    "Registry of client-visible surfaces. visibility_audit.py reads this to",
+    "diff what the Notion hub shows against what data/ actually holds.",
+    "Hand-maintained: adding a Notion page or an embed means adding it here,",
+    "and an HTML file in the repo that appears on no page is reported as",
+    "unreferenced rather than silently assumed live."
+  ],
+  "hub": {
+    "title": "Master Data Center Dashboard",
+    "notion_url": "https://app.notion.com/p/343389a63f73805c9ac6d87e3e991302",
+    "pages_verified": "2026-08-26"
+  },
+  "pages": [
+    {
+      "section": "(Descriptive) Opposition",
+      "page": "Map",
+      "notion_url": "https://app.notion.com/p/399389a63f73800aa15ed99cd178302f",
+      "embeds": [
+        "opposition-tracker.html"
+      ]
+    },
+    {
+      "section": "(Descriptive) Opposition",
+      "page": "Dashboard",
+      "notion_url": "https://app.notion.com/p/399389a63f738058b97ec699772e5a16",
+      "embeds": [
+        "opposition-dashboard.html"
+      ]
+    },
+    {
+      "section": "County Risk Model",
+      "page": "County Explorer",
+      "notion_url": "https://app.notion.com/p/3ba389a63f7380da8cbfc410537cb186",
+      "embeds": [
+        "opposition-map.html"
+      ]
+    },
+    {
+      "section": "County Risk Model",
+      "page": "Model, Method, and Scoring",
+      "notion_url": "https://app.notion.com/p/3ba389a63f7380ffaf79cfb582011006",
+      "embeds": [
+        "restriction-model.html"
+      ]
+    },
+    {
+      "section": "(Semi-Predictive) Project Lifecycles",
+      "page": "Project Lifecycles",
+      "notion_url": "https://app.notion.com/p/399389a63f73804aaeecc2c17a2700a9",
+      "embeds": [
+        "project-lifecycles.html"
+      ]
+    },
+    {
+      "section": "Infrastructure",
+      "page": "Complete Centers",
+      "notion_url": "https://app.notion.com/p/350389a63f73802a9bead2b3a47096c8",
+      "embeds": [
+        "master_datacenter_map.html",
+        "developments-dashboard.html"
+      ]
+    },
+    {
+      "section": "Infrastructure",
+      "page": "Proposed Centers",
+      "notion_url": "https://app.notion.com/p/350389a63f7380cc862ec2adc41b6db5",
+      "embeds": [
+        "proposals-map.html",
+        "trackdatacenters-proposals.html"
+      ]
+    },
+    {
+      "section": "Data Operations",
+      "page": "Data Operations",
+      "notion_url": "https://app.notion.com/p/3c8389a63f738160a789f29a21284536",
+      "embeds": [
+        "data-operations.html"
+      ]
+    }
+  ],
+  "unreferenced_expected": {
+    "index.html": "Standalone landing page kept for direct linking; it duplicates the Complete Centers surfaces and is on no Notion page. Reported, not a defect."
+  },
+  "dispositions": {
+    "ai_centers.csv": [
+      "surfaced_no_pipeline",
+      "Same: visible with provenance, still a hand-placed snapshot with no refresh path."
+    ],
+    "atlas.csv": [
+      "surfaced_no_pipeline",
+      "Provenance now ships with the page (rows, repository change date, and the fact that the upstream vintage is unrecorded). What is still missing is acquisition: nothing refreshes this file. Pass 3."
+    ],
+    "change_log.csv": [
+      "internal_operational",
+      "Row-level change log written by the cleaner. Provenance, not product."
+    ],
+    "data/adjacency_scan_summary.json": [
+      "candidate",
+      "Spillover scan summary; needs a defensibility read before it faces a client."
+    ],
+    "data/arcgis_discovery_pa_dep_datacenter.json": [
+      "internal_operational",
+      "Layer discovery output. Unresolved: needs a one-time manual pin."
+    ],
+    "data/arcgis_discovery_pa_dep_datacenter.md": [
+      "internal_operational",
+      "Same."
+    ],
+    "data/attributable_delay.md": [
+      "internal_ruling",
+      "Opposition-attributable delay is permanently gated per IDENTIFIABILITY.md. Never surfaced at any sample size."
+    ],
+    "data/attributable_delay_metrics.json": [
+      "internal_ruling",
+      "Same gate as attributable_delay.md."
+    ],
+    "data/audit_data_flags.csv": [
+      "internal_operational",
+      "Validation problems raised by the audit analysis layer."
+    ],
+    "data/audit_discovered_opposition.csv": [
+      "internal_operational",
+      "Audit findings queued for collection into master_opposition.csv."
+    ],
+    "data/baseline_dated.csv": [
+      "internal_ruling",
+      "Dated control arm for the same gated comparison."
+    ],
+    "data/baseline_dated_external.csv": [
+      "internal_operational",
+      "External dated rows staged for the control arm."
+    ],
+    "data/baseline_dated_external_rejects.csv": [
+      "internal_operational",
+      "Rows the staging step rejected, kept for audit."
+    ],
+    "data/baseline_universe.csv": [
+      "candidate",
+      "The unopposed comparison pool. Its size is a denominator worth showing; its rows are Layer E and never a source of record."
+    ],
+    "data/bill_sync_matches.csv": [
+      "candidate",
+      "Statewide legislation matched to the tracker; the stage ladder is the client-legible part."
+    ],
+    "data/bill_sync_votes.csv": [
+      "candidate",
+      "Roll-call detail behind the stage ladder."
+    ],
+    "data/calibration_history.csv": [
+      "closed_via_summary",
+      "Rolled into data/operations_summary.json and shown on the Data Operations page."
+    ],
+    "data/control_comparison.md": [
+      "internal_ruling",
+      "Balance diagnostics for the gated comparison."
+    ],
+    "data/cost_anchors.csv": [
+      "internal_ruling",
+      "Cost layer, deferred."
+    ],
+    "data/cost_translation_demo.csv": [
+      "internal_ruling",
+      "Cost layer is deferred until a promotable model exists to translate; cost_layer_notes.md governs."
+    ],
+    "data/cost_translation_methodology.md": [
+      "internal_ruling",
+      "Cost layer, deferred."
+    ],
+    "data/county_adjacency.csv": [
+      "internal_operational",
+      "Geography reference input."
+    ],
+    "data/county_census_features.csv": [
+      "internal_operational",
+      "ACS and Gazetteer feature input to the county model."
+    ],
+    "data/county_fips_lookup.json": [
+      "internal_operational",
+      "Geography reference input."
+    ],
+    "data/county_fips_overlay.csv": [
+      "internal_operational",
+      "Manual FIPS corrections layered over the resolver."
+    ],
+    "data/county_model_spec_history.csv": [
+      "surfaced",
+      "Every change to the county model's variable set, with the coefficient evidence behind it. Rendered on the Model, Method, and Scoring page."
+    ],
+    "data/county_policy_intervals.csv": [
+      "planned",
+      "Venn-Abers intervals; the scoring page asserts calibrated uncertainty without showing it."
+    ],
+    "data/county_policy_intervals.md": [
+      "planned",
+      "Method note for the intervals."
+    ],
+    "data/coverage_gap_report.csv": [
+      "planned",
+      "Per-county gap detail behind the recall headline."
+    ],
+    "data/coverage_gap_summary.json": [
+      "closed_via_summary",
+      "Rolled into data/operations_summary.json and shown on the Data Operations page."
+    ],
+    "data/date_recovery_negative_spans.md": [
+      "internal_operational",
+      "QC on impossible announced-to-decision spans."
+    ],
+    "data/dated_comparison.md": [
+      "internal_ruling",
+      "Opposed-versus-unopposed delay comparison. Reads as an attributable-delay claim, which IDENTIFIABILITY.md permanently gates."
+    ],
+    "data/dispute_watch.csv": [
+      "internal_operational",
+      "Litigation watch for cases that could flip an outcome."
+    ],
+    "data/emergence_analysis.md": [
+      "candidate",
+      "Emergence gate criteria and stratum coverage."
+    ],
+    "data/emergence_bounds.csv": [
+      "closed_via_summary",
+      "Per-stratum coverage shown on the Data Operations page; the bounds themselves stay internal until the random stratum is nonzero."
+    ],
+    "data/external_restriction_census.csv": [
+      "planned",
+      "The external lower bound recall is measured against. Shown as a source and a count, never as a source of record."
+    ],
+    "data/facility_candidates.csv": [
+      "internal_operational",
+      "Layer A pre-promotion intake from the signal harvester. Nothing here is a source of record."
+    ],
+    "data/facility_manifest.json": [
+      "closed_via_summary",
+      "Provenance table shown on the Data Operations page and inline on the Infrastructure surfaces."
+    ],
+    "data/facility_promotion_report.csv": [
+      "internal_operational",
+      "Append-only decision trail for Layer A candidate promotion, in the same shape as the census gap trail."
+    ],
+    "data/facility_registry.csv": [
+      "closed_via_summary",
+      "Layer A registry, one row per source record with a stable facility_id. Row and site counts are shown on the Data Operations page; the rows stay internal until the layer has an acquisition pipeline behind it."
+    ],
+    "data/facility_registry_summary.json": [
+      "closed_via_summary",
+      "Registry counts shown on the Data Operations page."
+    ],
+    "data/gap_promotion_report.csv": [
+      "closed_via_summary",
+      "Rolled into data/operations_summary.json and shown on the Data Operations page."
+    ],
+    "data/group_registry_audit.csv": [
+      "internal_ruling",
+      "Audit over a permanently internal file."
+    ],
+    "data/group_registry_audit_summary.json": [
+      "internal_ruling",
+      "Audit over a permanently internal file."
+    ],
+    "data/incentive_execution_risk_proxy.md": [
+      "internal_operational",
+      "Proxy diagnostic, not reviewed for external framing."
+    ],
+    "data/landmark_anchor_comparison.csv": [
+      "candidate",
+      "Anchor comparison behind the 2026-07-28 re-registration."
+    ],
+    "data/landmark_diagnostics.md": [
+      "candidate",
+      "Why the landmark gate is closed and which recoveries move a frame. The honest roadmap for the lifecycle product."
+    ],
+    "data/landmark_feasibility.csv": [
+      "closed_via_summary",
+      "Per-window gate table shown on the Data Operations page."
+    ],
+    "data/landmark_model_report.md": [
+      "candidate",
+      "Gate status and per-window frame counts are the honest roadmap for the lifecycle product."
+    ],
+    "data/landmark_recovery_priority.csv": [
+      "candidate",
+      "Ranks the 46 outstanding decision dates by whether recovery moves a frame."
+    ],
+    "data/layer_audit.csv": [
+      "internal_operational",
+      "Dataset barrier audit. Findings are for maintainers; a client has no use for a writer map."
+    ],
+    "data/layer_audit_summary.json": [
+      "internal_operational",
+      "Same audit."
+    ],
+    "data/local_meeting_feed.csv": [
+      "candidate",
+      "Earliest-signal feed; needs a defensibility read before it faces a client."
+    ],
+    "data/matched_controls.csv": [
+      "internal_ruling",
+      "Matched pairs support the same gated comparison and invite it if surfaced."
+    ],
+    "data/national_restriction_worklist.csv": [
+      "closed_via_summary",
+      "Row counts and task classes shown on the Data Operations page; the rows themselves stay internal."
+    ],
+    "data/negative_audit_codings.csv": [
+      "internal_operational",
+      "Coding sheet for the verified-negative audit. Rows carry researcher notes."
+    ],
+    "data/operations_summary.json": [
+      "planned",
+      "Single small artifact the operations page loads, written by operations_summary.py from the audit trails."
+    ],
+    "data/outcome_model_features.csv": [
+      "internal_ruling",
+      "The outcome and survival models are internal diagnostics framed with wide intervals and small-sample limits, and neither is client facing (README, Phase 3 detail)."
+    ],
+    "data/outcome_model_metrics.json": [
+      "internal_ruling",
+      "Same ruling."
+    ],
+    "data/outcome_model_predictions.csv": [
+      "internal_ruling",
+      "Same ruling. Project-level predicted probabilities do not leave the repository until the calibration gate promotes a model."
+    ],
+    "data/political_alignment_proxy.md": [
+      "internal_operational",
+      "Proxy diagnostic, not reviewed for external framing."
+    ],
+    "data/project_decision_dates.csv": [
+      "internal_operational",
+      "Hand-maintained verified dates, each with a source and URL. An input, not an output."
+    ],
+    "data/project_duplicates.csv": [
+      "internal_operational",
+      "Duplicate suppression records."
+    ],
+    "data/project_links.csv": [
+      "internal_operational",
+      "Entity resolution plumbing."
+    ],
+    "data/project_links_manual.csv": [
+      "internal_operational",
+      "Human adjudications with evidence."
+    ],
+    "data/project_links_manual_draft.csv": [
+      "internal_operational",
+      "Triage suggestions, never auto-applied."
+    ],
+    "data/proposals_added.csv": [
+      "internal_operational",
+      "Scraper delta against the project registry."
+    ],
+    "data/proposals_manual_overlay.csv": [
+      "internal_operational",
+      "Hand-maintained overlay on the project registry."
+    ],
+    "data/restriction_ingest_candidates.md": [
+      "internal_operational",
+      "Pre-promotion candidates. Nothing here is a source of record."
+    ],
+    "data/restriction_worklist.md": [
+      "internal_operational",
+      "Ranked collection and reconciliation work. Counts may be surfaced; rows are internal."
+    ],
+    "data/signal_harvest_log.csv": [
+      "internal_operational",
+      "Harvest run log."
+    ],
+    "data/signal_promotion_report.csv": [
+      "closed_via_summary",
+      "Rolled into data/operations_summary.json and shown on the Data Operations page. The raw trail is two megabytes and stays server side."
+    ],
+    "data/site_screen.csv": [
+      "candidate",
+      "Site screening scores; not yet reviewed for external framing."
+    ],
+    "data/site_screen_history.csv": [
+      "candidate",
+      "Screening history; same review as site_screen.csv."
+    ],
+    "data/site_screen_movers.md": [
+      "candidate",
+      "Week-over-week movers; same review as site_screen.csv."
+    ],
+    "data/splink_spike_eval.csv": [
+      "internal_operational",
+      "Probabilistic linkage spike, NO-GO on adoption 2026-07-28; retained as a manual disagreement-audit tool only."
+    ],
+    "data/splink_spike_scores.csv": [
+      "internal_operational",
+      "Same spike."
+    ],
+    "data/stale_pending_summary.json": [
+      "closed_via_summary",
+      "Rolled into data/operations_summary.json and shown on the Data Operations page."
+    ],
+    "data/subframe_audit_tva.csv": [
+      "candidate",
+      "Per-county detail behind the TVA frame audit."
+    ],
+    "data/subframe_audit_tva.md": [
+      "candidate",
+      "Frame audits are a client-legible completeness claim per named subframe."
+    ],
+    "data/subframe_audit_vantage_three_state.csv": [
+      "candidate",
+      "Per-county detail behind the Vantage frame audit."
+    ],
+    "data/subframe_audit_vantage_three_state.md": [
+      "candidate",
+      "Same."
+    ],
+    "data/survival_km_curve.csv": [
+      "internal_ruling",
+      "Same ruling."
+    ],
+    "data/survival_model_metrics.json": [
+      "internal_ruling",
+      "Same ruling."
+    ],
+    "data/type_b_link_review.md": [
+      "internal_operational",
+      "Contested-link review notes."
+    ],
+    "data/untagged_triage.csv": [
+      "internal_operational",
+      "Triage queue."
+    ],
+    "data/untagged_triage.md": [
+      "internal_operational",
+      "Triage queue."
+    ],
+    "data/verification_holdout.csv": [
+      "internal_operational",
+      "Verification holdout."
+    ],
+    "date_recovery_report.csv": [
+      "internal_operational",
+      "Date recovery queue."
+    ],
+    "group_registry.csv": [
+      "internal_ruling",
+      "Group-level outcome columns are permanently internal at any sample size (2026-07-30 ruling): they attribute project outcomes to named organizations with no control group."
+    ],
+    "headline_metrics.md": [
+      "planned",
+      "The platform's own headline numbers are generated on every run and appear on no page."
+    ],
+    "project_overrides.csv": [
+      "internal_operational",
+      "Manual overrides applied by project_resolution.py."
+    ],
+    "untagged_triage.md": [
+      "internal_operational",
+      "Triage queue."
+    ],
+    "validation_sample.csv": [
+      "internal_operational",
+      "QC sampling frame."
+    ]
+  },
+  "disposition_rules": [
+    [
+      "*_cache.json",
+      "internal_operational",
+      "Fetch cache. Never client facing."
+    ],
+    [
+      "data/geocode_cache.csv",
+      "internal_operational",
+      "Fetch cache."
+    ],
+    [
+      "*_worklist*.csv",
+      "internal_operational",
+      "Human review queue. Counts may be surfaced; rows are internal."
+    ],
+    [
+      "*_review*.csv",
+      "internal_operational",
+      "Human review queue."
+    ],
+    [
+      "*review_*.csv",
+      "internal_operational",
+      "Human review queue."
+    ],
+    [
+      "*_candidates*.csv",
+      "internal_operational",
+      "Pre-promotion candidates. Nothing here is a source of record."
+    ],
+    [
+      "*_queue.csv",
+      "internal_operational",
+      "Human review queue."
+    ],
+    [
+      "*_template.csv",
+      "internal_operational",
+      "Ingest scaffold."
+    ],
+    [
+      "*_manifest.json",
+      "internal_operational",
+      "Input hashes and generation stamp."
+    ],
+    [
+      "*.flag",
+      "internal_operational",
+      "CI marker file."
+    ],
+    [
+      "quarantine.json",
+      "internal_operational",
+      "QC quarantine."
+    ],
+    [
+      "*_notes.md",
+      "methodology",
+      "Methodology and limitations layer that travels with its CSV."
+    ],
+    [
+      "*_methodology.md",
+      "methodology",
+      "Methodology layer."
+    ],
+    [
+      "*_report.md",
+      "methodology",
+      "Generated report; the methodology layer for its dataset."
+    ],
+    [
+      "*_2026-*.md",
+      "archive",
+      "Dated handoff or decision record. Historical, not live."
+    ]
+  ],
+  "optional_references": {
+    "opposition-map.html": {
+      "data/landmark_model_predictions.csv": "Written only when the landmark gate opens on an admissible window. The page is built to degrade to \"risk band pending\" while it is absent, so this is an expected absence, not a broken reference."
+    }
+  }
+}
