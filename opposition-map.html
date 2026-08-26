@@ -8,6 +8,23 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- One basemap provider for every map here. Same-origin, same as
+     viz-palette and map-permalink. -->
+<script src="./basemap.js"></script>
+<script>
+// Fallback stub. If basemap.js did not load, the map renders its own data on
+// a dark background with no tiles, which is a degraded map rather than a
+// blank page: every map here draws its own geometry.
+window.Basemap = window.Basemap || { dark: function () {
+  // Chainable no-op: callers do Basemap.dark().addTo(map).on('tileerror', ...),
+  // so returning null here would throw and take the whole page down over a
+  // missing decoration.
+  var noop = {};
+  ['addTo', 'on', 'off', 'remove', 'setOpacity', 'bringToBack',
+   'bringToFront'].forEach(function (m) { noop[m] = function () { return noop; }; });
+  return noop;
+} };
+</script>
 <!-- Canonical color scales and legend, shared with restriction-model.html -->
 <script src="./viz-palette.js"></script>
 <!-- View and filter state in the URL, so a filtered view can be cited by
@@ -346,9 +363,7 @@ const map = L.map('map', {
   preferCanvas:true
 });
 map.attributionControl.setPrefix(false);
-L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_nolabels/{z}/{x}/{y}.png', {
-  attribution:'&copy; OpenStreetMap, &copy; CARTO', subdomains:'abcd', maxZoom:19
-}).addTo(map);
+Basemap.dark().addTo(map);
 
 // Dedicated panes so the two layers can be crossfaded as a group. Per-element
 // opacity does not work here: the county polygons render to a canvas and the

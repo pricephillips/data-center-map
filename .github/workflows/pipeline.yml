@@ -158,6 +158,7 @@ jobs:
           node legend_filter_selftest.js
           node zoom_tier_selftest.js
           node facility_freshness_selftest.js
+          node basemap_selftest.js
           echo "Frame audit self-tests:"
           python subframe_audit.py --selftest
           echo "Local meeting feed self-tests (watchlist union):"

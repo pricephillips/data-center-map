@@ -11,30 +11,10 @@
 <!-- ============================================================
      CUSTOMIZATION GUIDE
      ============================================================
-     BASEMAP STYLES (swap the tileLayer URL below):
-       Dark (current):  https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png
-       Light:           https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png
-       Satellite:       https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}
-       OSM Standard:    https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
-       Voyager:         https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png
-
-     COLORS — change these CSS variables in :root:
-       --accent        Atlas marker / cluster color  (default teal  #4f98a3)
-       --accent2       AI DC marker color            (default orange #e8943a)
-       --bg            Page background
-       --surface       Header/footer background
-
-     INITIAL MAP VIEW — change map center and zoom in the JS section below:
-       center: [LAT, LON]   e.g. [38.5, -97] for USA, [51.5, -0.1] for London
-       zoom:   4            lower = more zoomed out, higher = more zoomed in
-
-     MARKER SHAPES — edit the SVG strings in atlasIcon() and aiIcon below:
-       Atlas uses circles, AI DCs use hexagons — swap for any SVG shape
-
-     CLUSTER RADIUS — change maxClusterRadius (default 40px):
-       Lower = clusters break apart sooner as you zoom in
-       Higher = more aggressive clustering
-     ============================================================ -->
+     BASEMAP: every map in this repository resolves its tiles through
+     basemap.js. Change PROVIDER there once rather than here five times.
+     CONFIG.basemapProvider below overrides it for this page only.
+-->
 
 <style>
   :root {
@@ -175,6 +155,17 @@
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- One basemap provider for every map here. Same-origin, same as
+     viz-palette and map-permalink. -->
+<script src="./basemap.js"></script>
+<script>
+window.Basemap = window.Basemap || { dark: function () {
+  var noop = {};
+  ['addTo', 'on', 'off', 'remove', 'setOpacity'].forEach(
+    function (m) { noop[m] = function () { return noop; }; });
+  return noop;
+} };
+</script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
 <!-- View state in the URL, so a view can be cited by link rather than
@@ -212,8 +203,10 @@ const CONFIG = {
   center: [38.5, -97],
   zoom: 4,
 
-  // Basemap tile URL — swap for a different style (see comments in <head>)
-  tileUrl: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+  // Basemap provider name, resolved by basemap.js. Leave unset for the
+  // repository default; see basemap.js for the list and why CARTO is no
+  // longer it.
+  basemapProvider: null,
 
   // How aggressively to cluster Atlas markers (pixels, default 40)
   clusterRadius: 40,
@@ -228,10 +221,7 @@ const CONFIG = {
 
 const map = L.map('map', { center: CONFIG.center, zoom: CONFIG.zoom, preferCanvas: true });
 
-L.tileLayer(CONFIG.tileUrl, {
-  attribution: '© OpenStreetMap contributors © CARTO',
-  subdomains: 'abcd', maxZoom: 19
-}).addTo(map);
+Basemap.dark({ provider: CONFIG.basemapProvider }).addTo(map);
 
 // ── Icons ────────────────────────────────────────────────────
 const rootStyle = getComputedStyle(document.documentElement);

@@ -98,13 +98,29 @@ two-megabyte signal promotion trail never has to cross a browser.</div>
 const RAW = 'https://raw.githubusercontent.com/pricephillips/data-center-map/main';
 const OPS_URLS = [RAW + '/data/operations_summary.json', './data/operations_summary.json'];
 
+// Each attempt is bounded. A host that refuses fast falls through on its own,
+// but a host that hangs would otherwise leave this page on "loading" forever
+// with no error banner, which reads as a broken page rather than an
+// unreachable file. Ten seconds is generous for a JSON of this size and short
+// enough that the fallback still feels like a page load.
+const FETCH_TIMEOUT_MS = 10000;
+
 async function fetchFirst(urls) {
   for (const u of urls) {
+    const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    const timer = ctl ? setTimeout(() => ctl.abort(), FETCH_TIMEOUT_MS) : null;
     try {
-      const r = await fetch(u, { cache: 'no-cache' });
+      const r = await fetch(u, {
+        cache: 'no-cache',
+        signal: ctl ? ctl.signal : undefined
+      });
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return await r.json();
-    } catch (e) { /* try next */ }
+    } catch (e) {
+      /* unreachable, refused, or too slow: try the next url */
+    } finally {
+      if (timer) clearTimeout(timer);
+    }
   }
   return null;
 }
