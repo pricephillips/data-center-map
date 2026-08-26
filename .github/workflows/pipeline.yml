@@ -425,9 +425,17 @@ jobs:
                     data/site_screen_movers.md 2>/dev/null || true
           fi
           git diff --staged --quiet || git commit -m "Auto-build clean feed from master_opposition.csv [skip ci]"
-          # Rebase-retry (2026-08-25): same race hardening as fetch-permits.
+          # Rebase-retry (2026-08-25), repaired 2026-08-26. Two defects, both
+          # of which failed every run rather than only a racing one:
+          #   --autostash, because the commit above stages an explicit list
+          #     and every other regenerated file stays modified-but-unstaged.
+          #     git refuses to start a rebase with unstaged changes, so the
+          #     retry loop repeated the same refusal three times and exited 1.
+          #   $GITHUB_REF_NAME instead of a hardcoded main, because a run on a
+          #     feature branch was rebasing that branch's commits onto main
+          #     and pushing the result.
           for i in 1 2 3; do
-            git pull --rebase origin main && git push && break
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && break
             if [ "$i" = "3" ]; then echo "Push failed after 3 attempts"; exit 1; fi
             echo "Push attempt $i failed (another workflow moved main); retrying in 10s"
             sleep 10

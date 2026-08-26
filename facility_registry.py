@@ -307,6 +307,13 @@ def build_registry(config: dict, root: str = HERE,
     rows: list[dict] = []
     seen: set[str] = set()
     for src in config["sources"]:
+        # A planned source is declared before it is acquired and has no file
+        # yet. facility_manifest.py grew this guard when the planned sources
+        # were added and this module did not, which is the whole defect: the
+        # two modules read the same config and only one of them was taught
+        # that a source can exist on paper before it exists on disk.
+        if not src.get("file"):
+            continue
         path = os.path.join(root, src["file"])
         if not os.path.exists(path):
             continue
@@ -583,10 +590,20 @@ def selftest() -> int:
             w.writerow(["name", "operator", "state", "county", "lat", "lon", "sqft"])
             w.writerow(["Alpha", "Op", "VA", "Loudoun", "39.0", "-77.5", "100"])
             w.writerow(["Beta", "Op", "IA", "Story", "42.0", "-93.5", "200"])
-        cfg = {"sources": [{"source_id": "snap", "file": "snap.csv",
-                            "geography": "United States"}]}
+        cfg = {"sources": [
+            {"source_id": "snap", "file": "snap.csv",
+             "geography": "United States"},
+            # Declared but not yet acquired. Reading the same config as
+            # facility_manifest.py means this module has to survive it.
+            {"source_id": "planned", "file": None,
+             "geography": "United States"},
+            {"source_id": "missing", "file": "not_on_disk.csv",
+             "geography": "United States"},
+        ]}
         first = build_registry(cfg, root=tmp, today="2026-08-01")
         check("registry built from the snapshot", len(first) == 2)
+        check("a planned source with no file is skipped, not a crash",
+              all(r["source_id"] == "snap" for r in first))
         with open(os.path.join(tmp, "data", "facility_registry.csv"), "w",
                   encoding="utf-8", newline="") as fh:
             w = csv.DictWriter(fh, fieldnames=FIELDS, lineterminator="\n")

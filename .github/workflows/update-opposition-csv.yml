@@ -59,7 +59,7 @@ jobs:
           git diff --cached --quiet || git commit -m "Update master_opposition.csv + harvest queue"
           # Rebase-retry (2026-08-25): same race hardening as fetch-permits.
           for i in 1 2 3; do
-            git pull --rebase origin main && git push && break
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && break
             if [ "$i" = "3" ]; then echo "Push failed after 3 attempts"; exit 1; fi
             echo "Push attempt $i failed (another workflow moved main); retrying in 10s"
             sleep 10

@@ -76,7 +76,7 @@ jobs:
           fi
           git commit -m "PUDL county generation features (EIA 860/923 via Catalyst Cooperative, CC-BY-4.0) [reference data] [skip ci]"
           for i in 1 2 3; do
-            git pull --rebase origin main && git push && exit 0
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
             echo "Push attempt $i failed, retrying in 10s"
             sleep 10
           done
