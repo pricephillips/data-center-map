@@ -1,337 +1,337 @@
 project_id,name,state,county,fips,lat,lon,capacity_mw,tier,composite,local_activity,local_enacted,county_model,state_activity,org_capacity,pct_local_activity,pct_local_enacted,pct_county_model,pct_state_activity,pct_org_capacity,events_within_50mi
-prj_1,Project Nebius,AL,Jefferson County,01073,33.42755722,-86.88155065,300,Elevated,73.9,7.223,2.0,0.6613,4.0,17.0,72.5,58.8,76.0,94.5,89.7,11
-prj_2,Project Marvel,AL,Jefferson County,01073,33.3443491,-87.03878951,1.2,Elevated,69.0,7.374,1.0,0.6613,4.0,16.0,72.8,40.0,76.0,94.5,87.5,11
-prj_3,Meta Platforms Montgomery Data Center,AL,Montgomery County,01101,32.27257047,-86.32823838,227,Low,34.1,0.0,0.0,0.6029,4.0,0.0,6.4,15.0,72.0,94.5,9.8,0
-prj_4,DC BLOX Montgomery,AL,Montgomery County,01101,32.26826301,-86.37368203,40,Low,34.1,0.0,0.0,0.6029,4.0,0.0,6.4,15.0,72.0,94.5,9.8,0
-prj_5,DC BLOX Birmingham,AL,Jefferson County,01073,33.50056974,-86.82105075,40,Elevated,67.4,6.387,1.0,0.6613,4.0,16.0,67.4,40.0,76.0,94.5,87.5,12
-prj_6,AUBix + Core Scientific Data Center,AL,Lee County,01081,32.60109865,-85.51370859,16,Low,26.6,0.0,0.0,0.3487,4.0,0.0,6.4,15.0,42.1,94.5,9.8,4
-prj_7,Childersburg Data Center,AL,Talladega County,01121,33.34366468,-86.3344476,,Guarded,41.8,2.359,1.0,0.2692,4.0,6.0,32.9,40.0,27.2,94.5,57.1,10
-prj_8,Tallassee Mill Data Center,AL,Elmore County,01051,32.53337165,-85.89014804,10,Low,22.1,0.0,0.0,0.251,4.0,0.0,6.4,15.0,24.0,94.5,9.8,0
-prj_9,Project Red Clay,AL,Lowndes County,01085,32.25758622,-86.51206583,,Low,17.3,0.0,0.0,0.1604,4.0,0.0,6.4,15.0,4.6,94.5,9.8,0
-prj_10,Edged Energy Prichard Data Center,AL,Mobile County,01097,30.73179294,-88.06418606,,Low,28.9,0.0,0.0,0.4529,4.0,0.0,6.4,15.0,51.3,94.5,9.8,2
-prj_11,Columbiana Mining Facility and Data Center,AL,Shelby County,01117,33.18122958,-86.62287042,55,Guarded,55.3,5.11,1.0,0.3709,4.0,12.0,58.5,40.0,43.3,94.5,75.0,11
-prj_12,Project Leo,AR,Pulaski County,05119,34.61717176,-92.23704641,1000,Guarded,51.0,5.912,1.0,0.5532,1.0,4.0,64.4,40.0,64.3,11.8,44.5,8
-prj_13,Project Pyramid,AR,Crittenden County,05035,35.10663917,-90.211937,,Guarded,49.8,17.765,0.0,0.2617,1.0,20.0,97.0,15.0,24.9,11.8,95.8,24
-prj_14,Clarksville Data Center,AR,Johnson County,05071,35.4541942,-93.44764012,,Low,14.2,0.772,0.0,0.1612,1.0,2.0,16.5,15.0,5.2,11.8,30.5,1
-prj_15,Port of Little Rock Data Center,AR,Pulaski County,05119,34.686928,-92.22558054,100,Guarded,48.9,5.179,1.0,0.5532,1.0,3.0,59.4,40.0,64.3,11.8,37.9,8
-prj_16,Vilonia Cryptomine,AR,Faulkner County,05045,35.09105679,-92.17104118,,Guarded,43.6,5.795,1.0,0.3231,1.0,4.0,63.8,40.0,35.3,11.8,44.5,7
-prj_17,Millstone Nuclear Power Station Data Center,CT,Southeastern Connecticut Planning Region,09180,41.31039607,-72.16759273,300,Low,33.9,0.636,2.0,0.2178,3.0,3.0,13.8,58.8,16.1,72.2,37.9,3
-prj_18,Wallingford Data Center,CT,South Central Connecticut Planning Region,09170,41.49793857,-72.79219892,,Low,37.9,1.865,1.0,0.346,3.0,0.0,31.8,40.0,40.6,72.2,9.8,8
-prj_19,Bloomfield Data Center Proposal,CT,Capitol Planning Region,09110,41.88592351,-72.74415945,,Guarded,40.3,2.425,1.0,0.3426,3.0,2.0,33.6,40.0,39.7,72.2,30.5,7
-prj_20,Trumbull Data Center Investment,CT,Greater Bridgeport Planning Region,09120,41.24085718,-73.14738295,,Low,26.9,0.954,0.0,0.303,3.0,0.0,21.9,15.0,33.5,72.2,9.8,6
-prj_21,Bristol Data Center,CT,Naugatuck Valley Planning Region,09140,41.66989773,-72.93474147,,Low,33.0,1.865,1.0,0.2336,3.0,0.0,31.8,40.0,21.0,72.2,9.8,8
-prj_22,Project Washington,DE,New Castle County,10003,39.61185181,-75.6378833,1200,Guarded,56.8,2.501,2.0,0.8296,2.0,5.0,35.6,58.8,90.3,37.5,51.0,24
-prj_23,"St. Georges Business Park Data Center Development  / ""Frightland Project""",DE,New Castle County,10003,39.54430554,-75.64337652,,Guarded,56.8,2.501,2.0,0.8296,2.0,5.0,35.6,58.8,90.3,37.5,51.0,21
-prj_24,White Clay Creek Business Park Data Center Redevelopment,DE,New Castle County,10003,39.68188899,-75.7238784,,Guarded,56.8,2.501,2.0,0.8296,2.0,5.0,35.6,58.8,90.3,37.5,51.0,24
-prj_25,Project Zodiac,IN,Allen County,18003,41.02969388,-85.04814501,,Low,27.8,1.248,0.0,0.4595,1.0,1.0,23.1,15.0,54.6,11.8,22.5,7
-prj_26,Bristol Data Center,IN,Elkhart County,18039,41.6925709,-85.85815424,,Guarded,46.3,3.872,2.0,0.351,1.0,6.0,46.9,58.8,42.4,11.8,57.1,18
-prj_27,Granger Data Center,IN,St. Joseph County,18141,41.72266213,-86.12540005,1000,Guarded,62.0,5.734,2.0,0.7611,1.0,6.0,62.9,58.8,86.3,11.8,57.1,18
-prj_28,South Bend Data Center,IN,St. Joseph County,18141,41.64845397,-86.30055316,,Elevated,72.2,8.008,4.0,0.7611,1.0,4.0,75.7,89.1,86.3,11.8,44.5,19
-prj_29,Decennial Group Akron Data Center,IN,Fulton County,18049,41.03887181,-86.02830714,500,Low,36.1,2.362,3.0,0.1452,1.0,5.0,33.2,75.9,3.7,11.8,51.0,13
-prj_30,Project Rainier,IN,St. Joseph County,18141,41.69198344,-86.46494887,2400,Guarded,60.2,5.312,2.0,0.7611,1.0,4.0,61.0,58.8,86.3,11.8,44.5,20
-prj_31,Martindale Indianapolis Metrobloks Data Center,IN,Marion County,18097,39.80391442,-86.10002644,72,Elevated,74.6,11.89,2.0,0.8455,1.0,17.0,88.5,58.8,92.6,11.8,89.7,25
-prj_32,Surge Development Knightstown Data Center,IN,Henry County,18065,39.84095834,-85.56599378,,Guarded,40.0,4.077,2.0,0.2178,1.0,6.0,48.1,58.8,16.1,11.8,57.1,24
-prj_33,Decatur Technology Park,IN,Marion County,18097,39.66565427,-86.3005398,250,Elevated,68.7,11.041,1.0,0.8455,1.0,19.0,83.2,40.0,92.6,11.8,93.8,24
-prj_34,Project Louie,IN,Morgan County,18109,39.5927482,-86.46343288,,Guarded,50.5,10.864,1.0,0.2415,1.0,18.0,82.3,40.0,21.6,11.8,92.3,21
-prj_35,Hancock County MegaSite,IN,Hancock County,18059,39.85920062,-85.8714585,,Guarded,62.4,13.714,3.0,0.2321,1.0,19.0,92.4,75.9,20.7,11.8,93.8,25
-prj_36,Project Flo,IN,Marion County,18097,39.72001334,-86.00011831,,Elevated,80.1,13.53,3.0,0.8455,1.0,19.0,91.5,75.9,92.6,11.8,93.8,24
-prj_37,Pittsboro Middle Township Data Center,IN,Hendricks County,18063,39.89679869,-86.44983309,,Guarded,63.1,11.941,2.0,0.3907,1.0,18.0,88.8,58.8,45.4,11.8,92.3,24
-prj_38,Pike Township Data Center,IN,Marion County,18097,39.89538346,-86.20420857,,Elevated,80.2,13.516,3.0,0.8455,1.0,20.0,91.2,75.9,92.6,11.8,95.8,24
-prj_39,Project Maize,IN,LaPorte County,18091,41.71352587,-86.84288513,,Guarded,55.6,6.359,2.0,0.4844,1.0,6.0,67.0,58.8,55.8,11.8,57.1,19
-prj_40,Hobart Tech Park,IN,Lake County,18089,41.50355522,-87.28117326,,Guarded,47.5,3.421,2.0,0.4414,1.0,7.0,43.3,58.8,49.3,11.8,62.8,18
-prj_41,Tract Project West,IA,Warren County,19181,41.45765488,-93.68699672,,Low,13.7,0.0,0.0,0.2018,2.0,0.0,6.4,15.0,13.1,37.5,9.8,4
-prj_42,Google Cedar Rapids,IA,Linn County,19113,41.91422692,-91.72176504,,Guarded,51.6,3.489,2.0,0.5482,2.0,3.0,44.9,58.8,63.7,37.5,37.9,6
-prj_43,QTS Cedar Rapids,IA,Linn County,19113,41.91132019,-91.73705145,,Guarded,51.6,3.489,2.0,0.5482,2.0,3.0,44.9,58.8,63.7,37.5,37.9,6
-prj_44,Meta Davenport Data Center,IA,Scott County,19163,41.61625011,-90.62525425,,Low,25.3,1.23,0.0,0.316,2.0,1.0,22.8,15.0,34.7,37.5,22.5,5
-prj_45,Project Ruthenium,IA,Madison County,19121,41.4982532,-93.80230569,,Low,10.8,0.0,0.0,0.1069,2.0,0.0,6.4,15.0,1.6,37.5,9.8,4
-prj_46,Applied Digital Adair,IA,Adair County,19001,41.46792807,-94.61476686,200,Low,14.1,0.445,0.0,0.1019,2.0,1.0,13.5,15.0,1.3,37.5,22.5,2
-prj_47,Edged Energy Des Moines,IA,Polk County,19153,41.65752558,-93.56339512,13,Low,25.3,0.0,0.0,0.5329,2.0,0.0,6.4,15.0,59.5,37.5,9.8,3
-prj_48,Project Morgan,IA,Dallas County,19049,41.62032029,-93.92530162,,Low,17.6,0.0,0.0,0.2783,2.0,0.0,6.4,15.0,28.7,37.5,9.8,4
-prj_49,Google Council Bluffs,IA,Pottawattamie County,19155,41.22148817,-95.86488585,,Low,25.3,2.718,0.0,0.2032,2.0,1.0,40.2,15.0,13.8,37.5,22.5,5
-prj_50,Tract Altoona,IA,Polk County,19153,41.68257893,-93.53199351,,Low,37.4,1.637,1.0,0.5329,2.0,0.0,26.0,40.0,59.5,37.5,9.8,3
-prj_51,COPT Defense Properties Data Center,IA,Dallas County,19049,41.51929011,-93.9429512,1000,Low,17.6,0.0,0.0,0.2783,2.0,0.0,6.4,15.0,28.7,37.5,9.8,4
-prj_52,Project Alluvion,IA,Polk County,19153,41.51672672,-93.70504356,,Low,25.3,0.0,0.0,0.5329,2.0,0.0,6.4,15.0,59.5,37.5,9.8,4
-prj_53,Project Ginger West,IA,Dallas County,19049,41.53290683,-93.86352515,,Low,17.6,0.0,0.0,0.2783,2.0,0.0,6.4,15.0,28.7,37.5,9.8,4
-prj_54,Project Ginger East,IA,Polk County,19153,41.51556698,-93.72156694,,Low,25.3,0.0,0.0,0.5329,2.0,0.0,6.4,15.0,59.5,37.5,9.8,4
-prj_55,Project Osmium,IA,Warren County,19181,41.49719516,-93.78764456,,Low,13.7,0.0,0.0,0.2018,2.0,0.0,6.4,15.0,13.1,37.5,9.8,4
-prj_56,PowerHouse Louisville,KY,Jefferson County,21111,38.2078029,-85.84407511,525,Guarded,46.1,3.427,1.0,0.5241,2.0,4.0,43.9,40.0,58.8,37.5,44.5,11
-prj_57,Project Lincoln,KY,Oldham County,21185,38.39322445,-85.40823914,,Guarded,58.9,5.765,4.0,0.2997,2.0,6.0,63.2,89.1,32.9,37.5,57.1,11
-prj_58,Franklin–Simpson Data Storage and Service Center,KY,Simpson County,21213,36.66574693,-86.56488544,,Guarded,48.7,5.311,3.0,0.1645,2.0,7.0,60.6,75.9,6.1,37.5,62.8,12
-prj_59,Harrodsburg Data Center,KY,Mercer County,21167,37.77137178,-84.77913548,525,Guarded,43.6,4.619,3.0,0.1616,2.0,2.0,54.9,75.9,5.5,37.5,30.5,5
-prj_60,TeraWulf Hawesville Data Center,KY,Hancock County,21091,37.94146754,-86.78826457,,Low,28.2,2.509,1.0,0.1152,2.0,2.0,36.5,40.0,1.9,37.5,30.5,6
-prj_61,Project Pulse,KY,Clark County,21049,34.05370939,-93.10588436,,Low,14.9,0.0,0.0,0.225,2.0,0.0,6.4,15.0,18.0,37.5,9.8,1
-prj_62,Bates Mill No. 3. Data Center,ME,Androscoggin County,23001,44.09471157,-70.2188496,,Low,36.5,1.71,2.0,0.3348,0.0,3.0,28.7,58.8,37.4,0.6,37.9,5
-prj_63,Loring Air Force Base Data Center,ME,Aroostook County,23003,46.94618137,-67.8909365,2,Low,15.2,0.0,0.0,0.306,0.0,0.0,6.4,15.0,33.9,0.6,9.8,0
-prj_64,Millinocket Data Center,ME,Aroostook County,23003,45.64559665,-68.70503765,60,Low,15.2,0.0,0.0,0.306,0.0,0.0,6.4,15.0,33.9,0.6,9.8,0
-prj_65,Sanford Woods Industrial and Technical Campus,ME,York County,23031,43.42290886,-70.70655916,,Guarded,46.6,3.591,3.0,0.4019,0.0,1.0,46.0,75.9,46.0,0.6,22.5,4
-prj_66,Woodlawn Data Center,MD,Baltimore County,24005,39.30896202,-76.73917251,150,Guarded,53.5,3.456,1.0,0.6719,3.0,3.0,44.2,40.0,76.8,72.2,37.9,24
-prj_67,Brightseat Tech Park Data Center Development,MD,Prince George's County,24033,38.92025496,-76.85650556,,Elevated,72.4,4.031,5.0,0.6912,3.0,12.0,47.8,95.5,78.0,72.2,75.0,35
-prj_68,Laurel Data Center,MD,Prince George's County,24033,39.08928035,-76.9011909,20,Elevated,79.6,7.03,5.0,0.6912,3.0,13.0,70.7,95.5,78.0,72.2,78.0,34
-prj_69,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,MD,Frederick County,24021,39.33289175,-77.4734034,,Elevated,72.8,12.093,3.0,0.3538,3.0,18.0,89.1,75.9,42.7,72.2,92.3,39
-prj_70,Piney Reach Data Center Development,MD,Charles County,24017,38.57919612,-76.88654887,,Guarded,63.0,4.611,3.0,0.4495,3.0,13.0,54.6,75.9,50.7,72.2,78.0,28
-prj_71,Johns Hopkins Data Science and Artificial Intelligence Institute (DSAI),MD,Baltimore County,24005,39.32576868,-76.62440393,,Guarded,58.9,5.244,1.0,0.6719,3.0,4.0,60.0,40.0,76.8,72.2,44.5,21
-prj_72,Atmosphere Dickerson Data Center,MD,Montgomery County,24031,39.21300165,-77.45264836,360,Elevated,83.4,13.906,4.0,0.5647,3.0,20.0,93.0,89.1,65.6,72.2,95.8,38
-prj_73,Westfield Data Center Campus,MA,Hampden County,25013,42.15896563,-72.74102143,,Guarded,42.9,2.425,1.0,0.6339,1.0,2.0,33.6,40.0,74.4,11.8,30.5,5
-prj_74,Project Mitten / The Barn,MI,Washtenaw County,26161,42.12049367,-83.88493822,1400,High,87.2,18.883,9.0,0.7761,1.0,26.0,98.7,99.0,87.4,11.8,98.4,50
-prj_75,Project Cannoli,MI,Wayne County,26163,42.22440467,-83.43455956,1000,Elevated,83.0,26.44,11.0,0.5753,1.0,36.0,99.9,99.6,68.0,11.8,99.9,52
-prj_76,Project Splitrock,MI,Livingston County,26093,42.65834059,-84.02162314,,Elevated,66.7,8.348,6.0,0.3429,1.0,14.0,76.6,97.5,40.2,11.8,81.5,42
-prj_77,32 Mile Road Technical Campus,MI,Macomb County,26099,42.80033403,-82.99099444,,Guarded,58.1,6.558,2.0,0.5143,1.0,10.0,68.3,58.8,57.9,11.8,72.9,25
-prj_78,Benton Charter Township Data Center,MI,Berrien County,26021,42.0793117,-86.38608493,,Low,29.7,2.435,0.0,0.3662,1.0,3.0,34.1,15.0,43.0,11.8,37.9,16
-prj_79,Microsoft Gaines Township Data Center,MI,Kent County,26081,42.83126854,-85.55654658,,Guarded,63.1,6.611,3.0,0.5347,1.0,10.0,68.6,75.9,60.3,11.8,72.9,13
-prj_80,Rocklocker Kalkaska Data Center,MI,Kalkaska County,26079,44.71585977,-85.24739678,,Low,12.7,0.754,0.0,0.1411,1.0,1.0,15.9,15.0,3.1,11.8,22.5,2
-prj_81,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,MI,Washtenaw County,26161,42.20695604,-83.54865588,,High,87.8,25.529,11.0,0.7761,1.0,35.0,99.6,99.6,87.4,11.8,99.6,52
-prj_82,Project Cherry Blossom,MI,Monroe County,26115,41.91971926,-83.35705274,,Elevated,67.9,9.676,4.0,0.3741,1.0,20.0,79.0,89.1,44.6,11.8,95.8,49
-prj_83,Project Ironwood,MI,Monroe County,26115,41.99283162,-83.66842409,,Elevated,76.4,18.841,8.0,0.3741,1.0,29.0,98.4,98.7,44.6,11.8,98.7,50
-prj_84,Project Flex,MI,Oakland County,26125,42.50232798,-83.61177835,,Elevated,84.7,20.911,7.0,0.6794,1.0,30.0,99.0,98.2,77.4,11.8,99.0,51
-prj_85,Deep Green Lansing Data Center,MI,Ingham County,26065,42.73027495,-84.54530739,24,Guarded,58.1,4.431,4.0,0.4845,1.0,4.0,53.7,89.1,56.4,11.8,44.5,17
-prj_86,Pavilion Township Data Center,MI,Kalamazoo County,26077,42.24339147,-85.50878237,,Low,30.2,1.642,0.0,0.4593,1.0,3.0,26.3,15.0,54.3,11.8,37.9,16
-prj_87,Sansone York Township Data Center,MI,Washtenaw County,26161,42.16225032,-83.7038859,1000,High,87.7,24.625,11.0,0.7761,1.0,34.0,99.3,99.6,87.4,11.8,99.3,52
-prj_88,Metrobloks Southfield Data Center,MI,Oakland County,26125,42.48814798,-83.31696816,100,Elevated,83.5,16.554,7.0,0.6794,1.0,20.0,96.0,98.2,77.4,11.8,95.8,48
-prj_89,Clinton Amazon Data Center,MS,Hinds County,28049,32.34892761,-90.36632151,,Guarded,42.5,3.391,1.0,0.439,2.0,3.0,42.4,40.0,49.0,37.5,37.9,6
-prj_90,Ridgeland Amazon Data Center,MS,Madison County,28089,32.40768028,-90.19301896,,Guarded,46.4,4.236,1.0,0.4347,2.0,5.0,51.5,40.0,48.4,37.5,51.0,6
-prj_91,Canton Amazon Data Center,MS,Madison County,28089,32.59492205,-90.09454526,,Guarded,46.4,4.236,1.0,0.4347,2.0,5.0,51.5,40.0,48.4,37.5,51.0,6
-prj_92,Vicksburg Amazon Data Center,MS,Warren County,28149,32.27324166,-90.90165068,,Low,20.4,0.768,0.0,0.2457,2.0,1.0,16.2,15.0,23.1,37.5,22.5,4
-prj_93,Project Taurus,MS,Rankin County,28121,32.26966137,-90.01367672,450,Guarded,43.3,4.236,1.0,0.3266,2.0,5.0,51.5,40.0,35.9,37.5,51.0,5
-prj_94,Meridian Compass Data Center,MS,Lauderdale County,28075,32.39009521,-88.62001053,500,Low,21.7,0.797,0.0,0.2697,2.0,1.0,16.8,15.0,27.5,37.5,22.5,1
-prj_95,Clarksdale Data Center,MS,Coahoma County,28027,34.17249603,-90.56381427,,Low,20.0,0.864,0.0,0.2284,2.0,1.0,18.3,15.0,18.9,37.5,22.5,1
-prj_96,xAI MACROHARDRR,MS,DeSoto County,28033,34.99342701,-90.03423007,,Guarded,54.8,17.765,0.0,0.3107,2.0,20.0,97.0,15.0,34.4,37.5,95.8,24
-prj_97,Nebius Independence Hyperscale Campus,MO,Jackson County,29095,39.10174683,-94.30901867,800,Guarded,53.2,4.199,2.0,0.5589,1.0,7.0,49.3,58.8,65.2,11.8,62.8,11
-prj_98,Project Green,MO,Montgomery County,29139,38.90206436,-91.42407949,,Low,19.1,1.649,0.0,0.1987,1.0,2.0,26.8,15.0,12.2,11.8,30.5,9
-prj_99,Project Spade,MO,Montgomery County,29139,38.88882499,-91.43708207,1200,Low,19.1,1.649,0.0,0.1987,1.0,2.0,26.8,15.0,12.2,11.8,30.5,9
-prj_100,Crusoe Warrenton AI Data Center,MO,Warren County,29219,38.82899456,-91.1825948,,Low,23.4,2.506,0.0,0.2004,1.0,4.0,36.2,15.0,12.6,11.8,44.5,10
-prj_101,Wildwood Ranch AI Data Center,MO,Jasper County,29097,37.07096304,-94.58386453,200,Low,28.9,1.686,0.0,0.4434,1.0,2.0,28.3,15.0,49.7,11.8,30.5,2
-prj_102,CRG Festus Data Center,MO,Jefferson County,29099,38.19524083,-90.42875363,,Low,26.2,0.878,0.0,0.3762,1.0,4.0,18.6,15.0,45.1,11.8,44.5,13
-prj_103,Armory Innovation Data Center,MO,St. Louis County,29189,38.63165907,-90.23951136,120,Elevated,69.9,7.053,3.0,0.6266,1.0,22.0,71.3,75.9,74.0,11.8,98.1,14
-prj_104,Mo Lake Development Cross Creek Data Center,MO,Camden County,29029,38.03465334,-92.7410058,,Low,19.8,0.899,1.0,0.1793,1.0,0.0,18.9,40.0,7.7,11.8,9.8,2
-prj_105,Metrobloks Liberty Data Center Campus,MO,Clay County,29047,39.20719259,-94.45399285,150,Guarded,52.5,4.931,2.0,0.4534,1.0,8.0,56.0,58.8,52.5,11.8,66.7,13
-prj_106,White Cloud Acres,MO,Nodaway County,29147,40.17786437,-94.78400949,600,Low,8.7,0.0,0.0,0.1423,1.0,0.0,6.4,15.0,3.4,11.8,9.8,1
-prj_107,Lambda AI Factory,MO,Jackson County,29095,39.29569711,-94.67402441,24,Guarded,55.6,4.931,2.0,0.5589,1.0,8.0,56.0,58.8,65.2,11.8,66.7,13
-prj_108,Jasper County Powered Data Park / Sarcoxie Data Center,MO,Jasper County,29097,37.12580862,-94.10210599,,Low,28.9,1.686,0.0,0.4434,1.0,2.0,28.3,15.0,49.7,11.8,30.5,2
-prj_109,Oppidan Foristell Data Center Sites,MO,St. Charles County/Warren County,29183,38.81659009,-90.95349831,,Guarded,55.8,5.168,2.0,0.4532,1.0,18.0,59.1,58.8,51.8,11.8,92.3,13
-prj_110,Meramec Valley Technology Park,MO,Franklin County,29071,38.43474091,-90.7592958,,Guarded,45.2,4.203,1.0,0.3731,1.0,14.0,49.6,40.0,44.0,11.8,81.5,14
-prj_111,Gateway Digital Campus,MO,Franklin County,29071,38.47277567,-90.84330248,,Guarded,44.4,4.182,1.0,0.3731,1.0,12.0,49.0,40.0,44.0,11.8,75.0,14
-prj_112,Meta Kansas City Data Center,MO,Clay County,29047,39.32251284,-94.59398023,,Guarded,52.5,4.931,2.0,0.4534,1.0,8.0,56.0,58.8,52.5,11.8,66.7,13
-prj_113,Project Mica,MO,Clay County,29047,39.31526749,-94.59489243,700,Guarded,52.5,4.931,2.0,0.4534,1.0,8.0,56.0,58.8,52.5,11.8,66.7,13
-prj_114,Marshfield Webster Data Center,MO,Webster County,29225,37.36525146,-92.88822467,,Low,13.8,0.904,0.0,0.18,1.0,0.0,19.6,15.0,8.2,11.8,9.8,2
-prj_115,Project Cumulus,MO,St. Charles County,29183,38.81601246,-90.54683674,,Guarded,58.5,6.217,2.0,0.4532,1.0,21.0,66.5,58.8,51.8,11.8,97.6,16
-prj_116,DataOne Vineland,NJ,Cumberland County,34011,39.42766589,-75.0167957,300,Guarded,50.9,2.58,1.0,0.5368,5.0,4.0,38.1,40.0,60.7,98.7,44.5,15
-prj_117,Princeton Nurseries Data Center,NJ,Middlesex County,34023,40.3616451,-74.60748403,,Elevated,79.9,9.56,4.0,0.5723,5.0,10.0,78.4,89.1,67.6,98.7,72.9,40
-prj_118,Nutley Data Center,NJ,Essex County,34013,40.82934313,-74.15375476,,Elevated,68.3,9.12,2.0,0.6165,5.0,1.0,77.2,58.8,73.1,98.7,22.5,23
-prj_119,New Brunswick Data Center,NJ,Middlesex County,34023,40.48746648,-74.4575096,,Elevated,84.8,13.27,5.0,0.5723,5.0,9.0,90.6,95.5,67.6,98.7,70.2,36
-prj_120,East Greenwich Township Data Center,NJ,Gloucester County,34015,39.79936564,-75.19931475,,Elevated,70.2,9.385,2.0,0.5191,5.0,13.0,77.5,58.8,58.3,98.7,78.0,28
-prj_121,CoreWeave Kenilworth,NJ,Union County,34039,40.6779928,-74.27441747,250,Elevated,77.1,11.69,3.0,0.5448,5.0,7.0,87.6,75.9,62.6,98.7,62.8,28
-prj_122,Millville Energy & Data Center Campus,NJ,Cumberland County,34011,39.4088032,-75.0332377,,Guarded,50.9,2.58,1.0,0.5368,5.0,4.0,38.1,40.0,60.7,98.7,44.5,11
-prj_123,Monroe Township Data Center,NJ,Gloucester County,34015,39.63068297,-74.93468954,,Elevated,67.0,5.195,3.0,0.5191,5.0,6.0,59.7,75.9,58.3,98.7,57.1,23
-prj_124,STAMP Data Center,NY,Genesee County,36037,42.9915,-78.304,500,Low,30.6,3.324,0.0,0.2293,2.0,6.0,42.1,15.0,19.2,37.5,57.1,6
-prj_125,Cayuga Data Campus,NY,Tompkins County,36109,42.6023,-76.628,138,Guarded,47.0,4.171,1.0,0.4057,2.0,9.0,48.7,40.0,46.6,37.5,70.2,6
-prj_126,Lysander Data Center,NY,Onondaga County,36067,43.1325,-76.3376,300,Low,33.2,0.901,1.0,0.4517,2.0,0.0,19.2,40.0,51.0,37.5,9.8,6
-prj_127,Niagara Digital Campus Data Center Development,NY,Niagara County,36063,43.08391756,-79.05282532,,Low,33.8,1.86,1.0,0.2846,2.0,2.0,31.2,40.0,30.5,37.5,30.5,6
-prj_128,Oneonta West End Data Center,NY,Otsego County,36077,42.455,-75.055,,Low,27.9,0.854,1.0,0.2454,2.0,2.0,18.0,40.0,22.8,37.5,30.5,1
-prj_129,Brookhaven National Laboratory Data Center,NY,Suffolk County,36103,40.86743817,-72.89549013,,Low,31.0,0.92,0.0,0.5566,2.0,0.0,21.3,15.0,64.7,37.5,9.8,3
-prj_130,Sugar Hill Portland Data Center,NY,Chautauqua County,36013,42.37579809,-79.51981497,,Low,19.2,0.0,0.0,0.3174,2.0,0.0,6.4,15.0,35.0,37.5,9.8,0
-prj_131,Massena Petawatt Data Center Site Advertisement,NY,St. Lawrence County,36089,44.95771162,-74.84814718,200,Low,21.5,0.947,0.0,0.2646,2.0,0.0,21.6,15.0,26.3,37.5,9.8,1
-prj_132,Ilion Data Center,NY,Herkimer County,36043,43.01352625,-75.03366628,,Low,14.5,0.0,0.0,0.2197,2.0,0.0,6.4,15.0,16.5,37.5,9.8,1
-prj_133,Riverview Innovative and Technology Campus Data Center,NY,Erie County,36029,42.98332989,-78.92629003,,Low,39.7,1.86,1.0,0.4583,2.0,2.0,31.2,40.0,54.0,37.5,30.5,6
-prj_134,Rural Hall Data Center,NC,Forsyth County,37067,36.24135237,-80.30180901,,Low,37.7,0.808,0.0,0.48,3.0,13.0,17.4,15.0,54.9,72.2,78.0,7
-prj_135,Person County Mega Park,NC,Person County,37145,36.47985187,-78.98963775,,Low,18.8,0.0,0.0,0.2302,3.0,0.0,6.4,15.0,19.8,72.2,9.8,8
-prj_136,Tarboro Data Center Campus,NC,Edgecombe County,37065,35.90700022,-77.5905037,300,Guarded,46.6,1.682,2.0,0.4323,3.0,4.0,27.7,58.8,47.6,72.2,44.5,3
-prj_137,Fayetteville Data Center Campus,NC,Cumberland County,37051,0.0,0.0,,Low,35.2,0.0,0.0,0.7426,3.0,0.0,6.4,15.0,85.4,72.2,9.8,0
-prj_138,High Point Data Center,NC,Guilford County,37081,36.05205784,-79.95182154,,Low,33.5,0.0,0.0,0.7149,3.0,0.0,6.4,15.0,78.6,72.2,9.8,10
-prj_139,Lenoir Data Center Expansion,NC,Caldwell County,37027,0.0,0.0,,Low,21.6,0.0,0.0,0.286,3.0,0.0,6.4,15.0,31.0,72.2,9.8,0
-prj_140,Rowan County Data Center,NC,Rowan County,37159,35.69406105,-80.37033957,,Guarded,42.3,2.611,1.0,0.3284,3.0,4.0,38.5,40.0,36.2,72.2,44.5,9
-prj_141,Project Delta,NC,Stokes County,37169,36.38118435,-79.94112825,,Low,26.6,0.808,0.0,0.196,3.0,13.0,17.4,15.0,10.6,72.2,78.0,7
-prj_142,AWS Richmond County Campus,NC,Richmond County,37153,34.82060089,-79.72416668,,Low,18.4,0.0,0.0,0.2267,3.0,0.0,6.4,15.0,18.3,72.2,9.8,1
-prj_143,Statesville Data Center Campus,NC,Iredell County,37097,35.77086367,-80.96640357,,Guarded,43.9,1.416,1.0,0.5405,3.0,3.0,24.3,40.0,62.2,72.2,37.9,10
-prj_144,CLT20 Moores Chapel,NC,Mecklenburg County,37119,35.25092167,-81.00084159,,Elevated,65.0,4.333,2.0,0.7356,3.0,8.0,53.1,58.8,82.0,72.2,66.7,12
-prj_145,CLT10 Uptown Expansion,NC,Mecklenburg County,37119,35.22191683,-80.83534781,,Guarded,53.3,2.53,1.0,0.7356,3.0,4.0,37.1,40.0,82.0,72.2,44.5,12
-prj_146,Charlotte University City Data Center,NC,Mecklenburg County,37119,35.30122025,-80.73226971,,Guarded,60.0,3.229,2.0,0.7356,3.0,5.0,41.5,58.8,82.0,72.2,51.0,11
-prj_147,5C Charlotte Data Center,NC,Mecklenburg County,37119,0.0,0.0,,Low,34.4,0.0,0.0,0.7356,3.0,0.0,6.4,15.0,82.0,72.2,9.8,0
-prj_148,NC-1 Campus (Madison) Data Center,NC,Rockingham County,37157,36.40427826,-79.98908995,,Low,31.8,0.808,0.0,0.2863,3.0,13.0,17.4,15.0,31.4,72.2,78.0,7
-prj_149,Microsoft — Catawba County Campus Cluster (Lyle Creek / Boyd Farm / Hickory / Stover North),NC,Catawba County,37035,0.0,0.0,,Low,17.5,0.0,0.0,0.2073,3.0,0.0,6.4,15.0,14.6,72.2,9.8,0
-prj_150,Greensboro Dream Center,NC,Guilford County,37081,36.05768666,-79.74575475,10,Low,33.5,0.0,0.0,0.7149,3.0,0.0,6.4,15.0,78.6,72.2,9.8,8
-prj_151,Marble Data Center Campus,NC,Cherokee County,37039,35.18558998,-83.91616364,,Low,26.9,1.05,1.0,0.1793,3.0,0.0,22.5,40.0,7.7,72.2,9.8,5
-prj_152,Raleigh New Build Data Center,NC,Wake County,37183,0.0,0.0,,Low,31.5,0.0,0.0,0.5907,3.0,0.0,6.4,15.0,70.7,72.2,9.8,0
-prj_153,Maiden iDataCenter Campus,NC,Catawba County; Lincoln County,37035,35.58929658,-81.25730925,,Low,26.5,1.56,0.0,0.2073,3.0,4.0,24.9,15.0,14.6,72.2,44.5,12
-prj_154,T5 Data Centers Kings Mountain,NC,Cleveland County; Gaston County,37045,35.25027157,-81.39640542,,Low,34.0,2.456,1.0,0.1382,3.0,6.0,34.7,40.0,2.5,72.2,57.1,13
-prj_155,American Tower RA1,NC,Wake County,37183,0.0,0.0,,Low,31.5,0.0,0.0,0.5907,3.0,0.0,6.4,15.0,70.7,72.2,9.8,0
-prj_156,Forest City Data Center Campus,NC,Rutherford County,37161,35.31677477,-81.82520272,,Low,19.5,0.652,0.0,0.1605,3.0,2.0,14.1,15.0,4.9,72.2,30.5,9
-prj_157,Lenoir Campus (Existing + Project Cardinal 2024),NC,Caldwell County,37027,35.89389169,-81.54542395,,Low,38.2,1.727,1.0,0.286,3.0,4.0,29.3,40.0,31.0,72.2,44.5,5
-prj_158,Natelli Investments New Hill Digital Campus,NC,Wake County,37183,35.65264621,-78.95610019,250,Elevated,72.9,7.773,3.0,0.5907,3.0,8.0,74.6,75.9,70.7,72.2,66.7,14
-prj_159,Tract Mooresville Technology Park,NC,Iredell County,37097,35.51718123,-80.75378681,,Elevated,68.0,5.844,3.0,0.5405,3.0,9.0,64.1,75.9,62.2,72.2,70.2,10
-prj_160,Project Accelerate,NC,Mecklenburg County,37119,0.0,0.0,,Low,34.4,0.0,0.0,0.7356,3.0,0.0,6.4,15.0,82.0,72.2,9.8,0
-prj_161,Kingsboro Data Center,NC,Edgecombe County,37065,35.92501155,-77.69463669,300,Guarded,46.6,1.682,2.0,0.4323,3.0,4.0,27.7,58.8,47.6,72.2,44.5,5
-prj_162,Vantage New Albany Data Center Campus,OH,Licking County,39089,40.10047343,-82.74714551,192,Guarded,64.5,7.097,5.0,0.3419,2.0,6.0,71.7,95.5,38.5,37.5,57.1,16
-prj_163,AWS Innovation Campus / New Albany Data Center Campus,OH,Licking County,39089,40.09489884,-82.74916286,,Guarded,64.5,7.097,5.0,0.3419,2.0,6.0,71.7,95.5,38.5,37.5,57.1,16
-prj_164,QTS New Albany Data Center Campus,OH,Licking County,39089,40.06443251,-82.75820015,78,Elevated,66.2,7.943,5.0,0.3419,2.0,7.0,75.4,95.5,38.5,37.5,62.8,16
-prj_165,AWS Hillard Campus,OH,Franklin County,39049,40.0189827,-83.12332992,401,Elevated,78.1,11.035,6.0,0.5956,2.0,10.0,82.9,97.5,71.4,37.5,72.9,19
-prj_166,Project Mila / Trenton Industrial Park Data Center,OH,Butler County,39017,39.4544315,-84.45850395,,Guarded,61.8,5.949,4.0,0.4568,2.0,2.0,64.7,89.1,53.3,37.5,30.5,19
-prj_167,Hamilton Data Center,OH,Butler County,39017,39.38353851,-84.55755333,240,Guarded,50.7,4.329,2.0,0.4568,2.0,2.0,52.8,58.8,53.3,37.5,30.5,17
-prj_168,5C Springfield Data Center,OH,Clark County,39023,39.91311998,-83.7233217,150,Guarded,48.1,3.63,3.0,0.2726,2.0,4.0,46.4,75.9,28.1,37.5,44.5,25
-prj_169,Ashville Data Center,OH,Pickaway County,39129,39.74005791,-82.97048559,,Guarded,59.5,7.595,4.0,0.2298,2.0,7.0,74.3,89.1,19.5,37.5,62.8,20
-prj_170,Piqua Data Center,OH,Miami County,39109,40.11175813,-84.24667915,,Low,31.5,3.405,0.0,0.292,2.0,2.0,42.9,15.0,32.3,37.5,30.5,15
-prj_171,Project Galaxy,OH,Shelby County,39149,40.2683695,-84.18982925,,Low,21.8,1.636,0.0,0.207,2.0,2.0,25.7,15.0,14.1,37.5,30.5,14
-prj_172,Google Franklin Furnace Data Center,OH,Scioto County,39145,38.59569705,-82.82726031,,Low,34.8,4.239,0.0,0.2502,2.0,6.0,52.4,15.0,23.4,37.5,57.1,12
-prj_173,Van Wert Mega Site,OH,Van Wert County,39161,40.89245226,-84.55737851,500,Low,16.2,0.904,0.0,0.1756,2.0,0.0,19.6,15.0,7.3,37.5,9.8,9
-prj_174,Stargate Project - Lordstown AI Data Center Campus,OH,Trumbull County,39155,41.14548227,-80.87920589,,Guarded,59.2,6.949,2.0,0.54,2.0,4.0,69.6,58.8,61.5,37.5,44.5,20
-prj_175,Lordstown Data Center,OH,Trumbull County; Mahoning County,39155,41.13519379,-80.86106491,600,Guarded,59.2,6.949,2.0,0.54,2.0,4.0,69.6,58.8,61.5,37.5,44.5,19
-prj_176,Bitdeer Weathersfield Project,OH,Trumbull County,39155,41.16692553,-80.74706385,300,Guarded,58.1,6.071,2.0,0.54,2.0,4.0,66.2,58.8,61.5,37.5,44.5,19
-prj_177,"Cipher Mining's ""Ulysses""",OH,Union County,39159,40.12032121,-83.20573591,200,Guarded,57.1,6.958,4.0,0.2206,2.0,6.0,70.1,89.1,17.4,37.5,57.1,19
-prj_178,Google Lockbourne,OH,Franklin County,39049,39.84852577,-82.99642495,,Elevated,77.1,10.288,6.0,0.5956,2.0,9.0,80.5,97.5,71.4,37.5,70.2,19
-prj_179,Johnstown Cologix Data Center,OH,Licking County,39089,40.13371988,-82.7145744,800,Guarded,59.4,5.27,4.0,0.3419,2.0,6.0,60.3,89.1,38.5,37.5,57.1,16
-prj_180,Project Cosmos,OH,Union County,39159,40.2201438,-83.32361447,,Guarded,57.2,5.951,4.0,0.2206,2.0,10.0,65.0,89.1,17.4,37.5,72.9,21
-prj_181,Cologix Lewis Center Data Center,OH,Delaware County,39041,40.19081248,-83.01106238,120,Elevated,66.9,7.811,5.0,0.3476,2.0,7.0,75.0,95.5,41.8,37.5,62.8,19
-prj_182,Strata Expanse AI Center of Excellence,OH,Lawrence County,39087,38.56759954,-82.78277491,,Low,33.1,4.239,0.0,0.2198,2.0,6.0,52.4,15.0,16.8,37.5,57.1,11
-prj_183,Hannibal Data Center Campus,OH,Monroe County,39111,39.70567776,-80.84146301,300,Low,15.4,0.0,0.0,0.2315,2.0,0.0,6.4,15.0,20.2,37.5,9.8,7
-prj_184,Bitdeer Clarington Data Center,OH,Monroe County,39111,39.70341657,-80.84947879,,Low,15.4,0.0,0.0,0.2315,2.0,0.0,6.4,15.0,20.2,37.5,9.8,7
-prj_185,Meta Bowling Green Data Center,OH,Wood County,39173,41.46794364,-83.64052123,,Guarded,44.9,8.051,0.0,0.2786,2.0,10.0,76.0,15.0,29.3,37.5,72.9,24
-prj_186,NEO-01 / Sandusky Data Center,OH,Sandusky County,39143,41.43007557,-82.71984903,96,Low,16.3,0.0,0.0,0.2505,2.0,0.0,6.4,15.0,23.7,37.5,9.8,12
-prj_187,Microsoft Heath Data Center,OH,Licking County,39089,40.02477167,-82.4893704,,Guarded,43.0,2.698,2.0,0.3419,2.0,2.0,39.7,58.8,38.5,37.5,30.5,15
-prj_188,Microsoft Hebron Data Center,OH,Licking County,39089,39.97039675,-82.4967654,,Low,34.9,1.815,1.0,0.3419,2.0,1.0,30.8,40.0,38.5,37.5,22.5,15
-prj_189,Microsoft New Albany Data Center,OH,Licking County,39089,40.10545505,-82.75829708,,Elevated,66.0,7.811,5.0,0.3419,2.0,7.0,75.0,95.5,38.5,37.5,62.8,16
-prj_190,Urbana Data Center,OH,Champaign County,39021,40.08852371,-83.7608865,,Guarded,43.8,3.63,3.0,0.1961,2.0,4.0,46.4,75.9,10.9,37.5,44.5,24
-prj_191,Akron Data Center Expansion,OH,Fulton County,39051,41.05720574,-81.52212942,,Guarded,53.8,5.722,4.0,0.2158,2.0,5.0,62.6,89.1,15.6,37.5,51.0,17
-prj_192,AWS Wilmington Data Center,OH,Clinton County,39027,39.424014,-83.84240396,,Guarded,40.6,4.216,2.0,0.2023,2.0,3.0,49.9,58.8,13.5,37.5,37.9,25
-prj_193,Mt. Orab Mega Site,OH,Brown County,39015,39.01320104,-83.89244177,,Low,36.4,2.544,2.0,0.1965,2.0,3.0,37.4,58.8,11.8,37.5,37.9,18
-prj_194,J.M. Stuart Revitilization Project,OH,Adams County,39001,38.63781178,-83.69208115,650,Guarded,55.2,4.229,3.0,0.3474,2.0,9.0,50.4,75.9,41.2,37.5,70.2,12
-prj_195,Killen Revitilization Project,OH,Adams County,39001,38.69144702,-83.47869649,650,Guarded,55.2,4.229,3.0,0.3474,2.0,9.0,50.4,75.9,41.2,37.5,70.2,14
-prj_196,Marysville South Data Center,OH,Union County,39159,40.21492701,-83.34128299,800,Guarded,51.6,5.069,3.0,0.2206,2.0,9.0,58.2,75.9,17.4,37.5,70.2,21
-prj_197,Buck Canyon Properties Data Center,OH,Adams County,39001,38.64639927,-83.65890902,1300,Guarded,55.2,4.229,3.0,0.3474,2.0,9.0,50.4,75.9,41.2,37.5,70.2,12
-prj_198,PORTS Technology Center,OH,Pike County,39131,39.01316521,-83.00090893,10000,Low,20.9,1.722,0.0,0.1715,2.0,2.0,29.0,15.0,6.7,37.5,30.5,18
-prj_199,Project BOSC,OH,Allen County,39003,40.79615096,-84.11932669,,Low,37.6,3.517,1.0,0.2879,2.0,1.0,45.5,40.0,31.7,37.5,22.5,7
-prj_200,Perry Township Data Center,OH,Stark County,39151,40.75045298,-81.44956755,240,Guarded,54.7,3.944,3.0,0.4485,2.0,5.0,47.5,75.9,50.4,37.5,51.0,13
-prj_201,Morabito Slavic Village Data Center,OH,Cuyahoga County,39035,41.46127794,-81.65465458,,Guarded,55.9,3.457,3.0,0.572,2.0,2.0,44.5,75.9,67.1,37.5,30.5,16
-prj_202,AWS Salem Township Data Center,PA,Luzerne County,42079,41.08541393,-76.15505141,1920,Elevated,82.8,11.453,3.0,0.8805,3.0,13.0,84.2,75.9,94.3,72.2,78.0,36
-prj_203,Project Hazelnut,PA,Luzerne County,42079,40.96611988,-76.04552288,,High,85.2,10.53,4.0,0.8805,3.0,13.0,81.0,89.1,94.3,72.2,78.0,39
-prj_204,Wildcat Ridge AI Data Center,PA,Lackawanna County,42069,41.50265393,-75.58996376,1600,Elevated,84.9,11.565,3.0,0.9491,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
-prj_205,Project Gravity,PA,Lackawanna County,42069,41.52487025,-75.55982315,,Elevated,84.9,11.565,3.0,0.9491,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
-prj_206,Blakely AI Data Center,PA,Lackawanna County,42069,41.48730234,-75.59677116,400,Elevated,84.9,11.565,3.0,0.9491,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
-prj_207,Project Boson,PA,Lackawanna County,42069,41.51204229,-75.55615342,,Elevated,84.9,11.565,3.0,0.9491,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
-prj_208,Jessup Breaker Street Data Center,PA,Lackawanna County,42069,41.47418356,-75.55167722,600,Elevated,84.9,11.565,3.0,0.9491,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
-prj_209,Project Gold,PA,Lackawanna County,42069,41.25171332,-75.51721079,1500,High,91.3,14.136,4.0,0.9491,3.0,18.0,93.6,89.1,97.8,72.2,92.3,36
-prj_210,East Whiteland Township Data Center,PA,Chester County,42029,40.03918189,-75.58675747,,Elevated,77.2,10.117,2.0,0.833,3.0,15.0,79.9,58.8,91.4,72.2,84.8,34
-prj_211,QTS Salem Data Center,PA,Luzerne County,42079,41.08918402,-76.17975485,,Elevated,82.8,11.453,3.0,0.8805,3.0,13.0,84.2,75.9,94.3,72.2,78.0,36
-prj_212,AWS Keystone Trade Center Campus,PA,Bucks County,42017,40.16092786,-74.7577123,,Elevated,79.8,7.546,4.0,0.812,3.0,6.0,74.0,89.1,89.4,72.2,57.1,43
-prj_213,CoreWeave Lancaster AI Campuses,PA,Lancaster County,42071,40.0432,-76.2576,300,Low,38.3,2.549,0.0,0.4821,3.0,1.0,37.6,15.0,55.2,72.2,22.5,21
-prj_214,Allentown Warehouse Conversion Data Center,PA,Lehigh County,42077,40.56743843,-75.47433818,,Elevated,72.8,9.494,3.0,0.588,3.0,6.0,78.1,75.9,69.8,72.2,57.1,43
-prj_215,PAX – Pennsylvania Digital I,PA,Cumberland County,42041,40.25827177,-77.11782185,1350,Guarded,52.7,4.959,1.0,0.404,3.0,8.0,57.3,40.0,46.3,72.2,66.7,13
-prj_216,TECfusions “Keystone Connect” AI Campus,PA,Westmoreland County,42129,40.55148482,-79.64813466,3000,Low,39.6,1.88,1.0,0.4115,3.0,0.0,32.4,40.0,46.9,72.2,9.8,10
-prj_217,Springdale AI Data Center Redevelopment,PA,Allegheny County,42003,40.53856579,-79.79046974,180,Guarded,46.3,1.88,1.0,0.6252,3.0,0.0,32.4,40.0,73.5,72.2,9.8,10
-prj_218,Homer City Energy + AI Campus,PA,Indiana County,42063,40.51388415,-79.19678004,4500,Low,19.9,0.0,0.0,0.2528,3.0,0.0,6.4,15.0,24.3,72.2,9.8,2
-prj_219,Panther Creek (Nesquehoning) HPC/AI Conversion,PA,Carbon County,42025,40.85810449,-75.86678277,350,Elevated,74.0,11.313,3.0,0.4964,3.0,15.0,83.5,75.9,57.0,72.2,84.8,44
-prj_220,Fairview Crossroads Data Center,PA,York County,42133,40.20763745,-76.88105807,,Elevated,68.4,7.514,1.0,0.7897,3.0,9.0,73.5,40.0,88.4,72.2,70.2,14
-prj_221,Dauphin Highlands Golf Course sold for Data Center,PA,Dauphin County,42043,40.2272952,-76.80957537,,Guarded,63.4,7.514,1.0,0.5755,3.0,9.0,73.5,40.0,68.5,72.2,70.2,14
-prj_222,Hollenback Township Data Center Development Zoning Application,PA,Luzerne County,42079,41.08020287,-76.10642775,,Elevated,77.7,10.546,2.0,0.8805,3.0,13.0,81.4,58.8,94.3,72.2,78.0,36
-prj_223,Jessup Sunnyside Data Center,PA,Lackawanna County,42069,41.46826509,-75.54760961,,Elevated,84.9,11.565,3.0,0.9491,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
-prj_224,McKees Rocks Industrial Site Data Center,PA,Allegheny County,42003,40.4802974,-80.05962827,,Elevated,73.2,6.06,4.0,0.6252,3.0,6.0,65.5,89.1,73.5,72.2,57.1,12
-prj_225,Project Hummingbird,PA,Greene County,42059,39.8340493,-79.94407164,910,Low,20.5,0.908,0.0,0.1955,3.0,0.0,20.1,15.0,10.1,72.2,9.8,8
-prj_226,Zediker Station Data Center,PA,Washington County,42125,40.17611743,-80.16151557,,Elevated,69.2,6.065,3.0,0.7206,3.0,2.0,65.9,75.9,80.7,72.2,30.5,11
-prj_227,Archbald I LLC Data Center Campuses,PA,Lackawanna County,42069,41.51661739,-75.56512591,,Elevated,84.9,11.565,3.0,0.9491,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
-prj_228,Former Air Products Headquarters Data Center,PA,Lehigh County,42077,40.55415027,-75.59980631,,Elevated,69.0,9.393,2.0,0.588,3.0,7.0,77.8,58.8,69.8,72.2,62.8,39
-prj_229,Pennhurst Data Center,PA,Chester County,42029,40.19431755,-75.56108097,,Elevated,79.7,11.841,2.0,0.833,3.0,15.0,88.1,58.8,91.4,72.2,84.8,34
-prj_230,Conshohocken Data Center,PA,Montgomery County,42091,40.086677,-75.317786,,High,87.8,14.456,4.0,0.7393,3.0,17.0,94.5,89.1,83.9,72.2,89.7,37
-prj_231,Storage Data Center Project,PA,Tioga County,42117,41.97718191,-77.14159141,,Low,16.0,0.0,0.0,0.1808,3.0,0.0,6.4,15.0,8.5,72.2,9.8,1
-prj_232,Dickson City Data Centers,PA,Lackawanna County,42069,41.47228006,-75.6389869,,High,86.6,12.389,3.0,0.9491,3.0,17.0,90.0,75.9,97.8,72.2,89.7,26
-prj_233,West Hazleton Data Center,PA,Luzerne County,42079,40.96565469,-76.01156213,,High,86.0,11.4,4.0,0.8805,3.0,13.0,83.8,89.1,94.3,72.2,78.0,39
-prj_234,Sugarloaf Township Data Center,PA,Luzerne County,42079,40.97036803,-76.0721478,,Elevated,81.4,9.683,3.0,0.8805,3.0,13.0,79.3,75.9,94.3,72.2,78.0,39
-prj_235,Linfield Data Center,PA,Montgomery County,42091,40.20092763,-75.57527627,,Elevated,77.8,11.841,2.0,0.7393,3.0,15.0,88.1,58.8,83.9,72.2,84.8,34
-prj_236,Kline Township Data Center,PA,Schuylkill County,42107,40.87754226,-76.01469842,,Elevated,78.2,10.53,4.0,0.5695,3.0,13.0,81.0,89.1,66.5,72.2,78.0,41
-prj_237,Ransom Township Data Center,PA,Lackawanna County,42069,41.4485852,-75.70026061,,High,86.6,12.389,3.0,0.9491,3.0,17.0,90.0,75.9,97.8,72.2,89.7,26
-prj_238,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,PA,Lehigh County,42077,40.64345138,-75.53658984,,Elevated,74.4,10.173,3.0,0.588,3.0,8.0,80.2,75.9,69.8,72.2,66.7,43
-prj_239,Smithfield Gateway Project,PA,Monroe County,42089,41.00617471,-75.15065763,,Elevated,71.4,6.553,4.0,0.546,3.0,6.0,68.0,89.1,63.1,72.2,57.1,39
-prj_240,Project Phoenix,PA,Beaver County,42007,40.633,-80.4153,3600,Guarded,62.1,4.513,2.0,0.6576,3.0,5.0,54.2,58.8,75.1,72.2,51.0,19
-prj_241,Bradford County / Klondike Data Center Project,PA,Bradford County,42015,41.65369277,-76.23256883,218,Low,17.7,0.0,0.0,0.2151,3.0,0.0,6.4,15.0,15.3,72.2,9.8,22
-prj_242,Limerick / Project Laurel Data Center,PA,Montgomery County,42091,40.23218123,-75.57349531,750,Elevated,79.2,13.589,2.0,0.7393,3.0,16.0,92.0,58.8,83.9,72.2,87.5,35
-prj_243,Peach Bottom Data Center,PA,York County,42133,39.73803078,-76.30721563,,Guarded,47.2,2.524,0.0,0.7897,3.0,2.0,36.8,15.0,88.4,72.2,30.5,21
-prj_244,NorthPoint Spring Mountain Data Center,PA,Carbon County,42025,40.91668696,-75.92819869,,Elevated,71.9,9.623,3.0,0.4964,3.0,13.0,78.7,75.9,57.0,72.2,78.0,41
-prj_245,Penn Forest Township Data Center,PA,Carbon County,42025,40.90018884,-75.66877208,,Elevated,76.6,13.961,3.0,0.4964,3.0,14.0,93.3,75.9,57.0,72.2,81.5,43
-prj_246,Tobyhanna Township / Blakeslee Data Center,PA,Monroe County,42089,41.13227151,-75.61026733,,High,85.3,16.337,5.0,0.546,3.0,21.0,95.7,95.5,63.1,72.2,97.6,37
-prj_247,Talen Energy Rezone Request for Possible Data Center in Montour County,PA,Montour County,42093,41.09449749,-76.65469331,,Guarded,44.7,4.429,2.0,0.1936,3.0,4.0,53.4,58.8,9.2,72.2,44.5,19
-prj_248,Fezzik Aliquippa Data Center,PA,Beaver County,42007,40.63013352,-80.23637249,496,Guarded,62.1,4.513,2.0,0.6576,3.0,5.0,54.2,58.8,75.1,72.2,51.0,19
-prj_249,Dorrance Township Data Center Zoning Ordinance Challenge,PA,Luzerne County,42079,41.08587671,-75.95575846,,Elevated,84.4,12.309,3.0,0.8805,3.0,13.0,89.4,75.9,94.3,72.2,78.0,38
-prj_250,Project Green Mountain,PA,Lackawanna County,42069,41.50989356,-75.52445531,,Elevated,84.9,11.565,3.0,0.9491,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
-prj_251,East Manchester Farmland to Data Center Initiative Interest,PA,York County,42133,40.06896237,-76.68420106,,Guarded,64.7,5.633,1.0,0.7897,3.0,8.0,62.4,40.0,88.4,72.2,66.7,14
-prj_252,Conewago Township Data Center Land Considerations,PA,York County,42133,40.02474644,-76.82033606,,Elevated,66.7,6.643,1.0,0.7897,3.0,8.0,68.9,40.0,88.4,72.2,66.7,15
-prj_253,Briar Creek Township Data Center Zoning Overlay,PA,Columbia County,42037,41.12070111,-76.23433152,,Elevated,68.7,10.595,4.0,0.2633,3.0,14.0,81.8,89.1,26.0,72.2,81.5,33
-prj_254,South Hanover Township Data Center,PA,Dauphin County,42043,40.27370582,-76.70247517,,Guarded,61.8,6.655,1.0,0.5755,3.0,8.0,69.2,40.0,68.5,72.2,66.7,13
-prj_255,Lower Mount Bethel Technology Center,PA,Northampton County,42095,40.82152787,-75.1017816,1200,Guarded,62.7,4.154,3.0,0.6158,3.0,3.0,48.4,75.9,72.6,72.2,37.9,46
-prj_256,Sellersville / West Rockhill Township Data Center,PA,Bucks County,42017,40.34879997,-75.32982269,,High,90.7,17.912,4.0,0.812,3.0,19.0,98.1,89.1,89.4,72.2,93.8,40
-prj_257,Iron City No. 1 Power Generator and Compute Center,PA,Clearfield County,42033,41.12090453,-78.1138798,,Low,19.2,0.0,0.0,0.2385,3.0,0.0,6.4,15.0,21.3,72.2,9.8,2
-prj_258,North Coventry Township Data Center,PA,Chester County,42029,40.23595694,-75.65857193,,Elevated,81.1,13.589,2.0,0.833,3.0,16.0,92.0,58.8,91.4,72.2,87.5,37
-prj_259,Prologis Warehouse Data Center,PA,Northampton County,42095,40.7015124,-75.4801445,,Elevated,76.4,10.885,3.0,0.6158,3.0,10.0,82.6,75.9,72.6,72.2,72.9,46
-prj_260,Switch Data Center at Former Pitt Race Complex,PA,Beaver County,42007,40.84777195,-80.34616116,,Guarded,64.3,5.401,2.0,0.6576,3.0,5.0,61.8,58.8,75.1,72.2,51.0,16
-prj_261,Allenwood Data Center,PA,Union County,42119,41.11573034,-76.90130208,300,Low,37.5,2.664,1.0,0.2424,3.0,2.0,39.3,40.0,21.9,72.2,30.5,13
-prj_262,Fort Cherry Development District,PA,Washington County,42125,40.3687382,-80.25693285,,Elevated,76.5,6.967,4.0,0.7206,3.0,6.0,70.4,89.1,80.7,72.2,57.1,12
-prj_263,Starpointe Data Center Project,PA,Washington County,42125,40.42897263,-80.41166631,,Elevated,73.0,5.117,4.0,0.7206,3.0,6.0,58.8,89.1,80.7,72.2,57.1,12
-prj_264,Champion Data Center Project,PA,Washington County,42125,40.41702422,-80.30112451,300,Elevated,75.0,6.06,4.0,0.7206,3.0,6.0,65.5,89.1,80.7,72.2,57.1,12
-prj_265,South Annville Township Data Center,PA,Lebanon County,42075,40.32188693,-76.52813066,,Guarded,53.5,6.52,1.0,0.3338,3.0,8.0,67.7,40.0,37.1,72.2,66.7,17
-prj_266,Newton Township Data Center,PA,Lackawanna County,42069,41.45147677,-75.71165521,,High,86.6,12.389,3.0,0.9491,3.0,17.0,90.0,75.9,97.8,72.2,89.7,26
-prj_267,New Castle Data Center,PA,Schuylkill County,42107,40.77481697,-76.23620462,,Elevated,73.4,8.846,3.0,0.5695,3.0,12.0,76.9,75.9,66.5,72.2,75.0,31
-prj_268,Watts Township Data Center,PA,Perry County,42099,40.43360096,-77.00724929,,Guarded,42.7,5.067,1.0,0.1954,3.0,6.0,57.9,40.0,9.7,72.2,57.1,17
-prj_269,Project Triboro,PA,Lackawanna County,42069,41.44415192,-75.56713892,,Elevated,84.9,11.565,3.0,0.9491,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
-prj_270,Linde Clinton Data Center,PA,Wayne County,42127,41.63476786,-75.44576229,,Guarded,61.0,8.243,3.0,0.2131,3.0,14.0,76.3,75.9,15.0,72.2,81.5,17
-prj_271,East Brandywine Data Center,PA,Chester County,42029,40.02715476,-75.78690503,,Guarded,63.9,4.925,1.0,0.833,3.0,10.0,55.2,40.0,91.4,72.2,72.9,33
-prj_272,Renaissance Boulevard Data Center Campus,PA,Montgomery County,42091,40.08265474,-75.3410236,,High,87.8,14.456,4.0,0.7393,3.0,17.0,94.5,89.1,83.9,72.2,89.7,36
-prj_273,600 River Road Data Center,PA,Montgomery County,42091,40.0939398,-75.32503398,,High,87.8,14.456,4.0,0.7393,3.0,17.0,94.5,89.1,83.9,72.2,89.7,36
-prj_274,3200 Horizon Drive Data Center,PA,Montgomery County,42091,40.08705063,-75.33861848,,High,87.8,14.456,4.0,0.7393,3.0,17.0,94.5,89.1,83.9,72.2,89.7,36
-prj_275,Smithfield Data Center,RI,Providence County,44007,41.935469,-71.52036919,,Guarded,40.2,1.772,1.0,0.5692,2.0,0.0,29.9,40.0,65.9,37.5,9.8,6
-prj_276,Colossus,TN,Shelby County,47157,35.06015556,-90.15650152,150,Elevated,66.1,17.765,0.0,0.7203,2.0,20.0,97.0,15.0,79.5,37.5,95.8,24
-prj_277,Colossus 2,TN,Shelby County,47157,34.99870981,-90.03812933,422,Elevated,66.1,17.765,0.0,0.7203,2.0,20.0,97.0,15.0,79.5,37.5,95.8,24
-prj_278,ExoticRidge Bitcoin Mine,TN,Hawkins County,47073,36.29580681,-83.03926889,8,Low,15.5,0.712,0.0,0.1955,2.0,0.0,15.0,15.0,10.1,37.5,9.8,7
-prj_279,CleanSpark Mountain City Bitcoin Mine,TN,Johnson County,47091,36.44568006,-81.80073638,30,Low,34.1,2.464,2.0,0.1386,2.0,4.0,35.0,58.8,2.8,37.5,44.5,8
-prj_280,Gallatin Data Center Expansion,TN,Sumner County,47165,36.40865292,-86.37040153,300,Low,38.8,2.632,2.0,0.2624,2.0,1.0,38.8,58.8,25.7,37.5,22.5,12
-prj_281,Neural Nexus Data Center,TN,Shelby County,47157,35.14095312,-90.04757753,70,Elevated,66.1,17.765,0.0,0.7203,2.0,20.0,97.0,15.0,79.5,37.5,95.8,24
-prj_282,RadiusDC Nashville I / Trinity Hills Colocation Data Center,TN,Davidson County,47037,36.22227227,-86.78351657,12,Guarded,60.9,5.414,3.0,0.5854,2.0,1.0,62.1,75.9,69.0,37.5,22.5,9
-prj_283,5C Memphis Data Center,TN,Shelby County,47157,35.03183751,-89.93263096,60,Elevated,66.1,17.765,0.0,0.7203,2.0,20.0,97.0,15.0,79.5,37.5,95.8,24
-prj_284,Lawrenceburg / Ethridge Data Center,TN,Lawrence County,47099,35.29402267,-87.32017668,,Low,12.7,0.0,0.0,0.1936,2.0,0.0,6.4,15.0,9.2,37.5,9.8,0
-prj_285,Ridgeline Facility,WV,Tucker County,54093,39.15911839,-79.47121517,,Low,26.7,1.677,0.0,0.0985,4.0,5.0,27.2,15.0,1.0,94.5,51.0,2
-prj_286,"Adams Fork Harless Data Center Energy Campus, Holden",WV,Logan County,54045,37.75306909,-82.11292654,2500,Low,22.5,0.713,0.0,0.166,4.0,2.0,15.5,15.0,6.4,94.5,30.5,1
-prj_287,"Adams Fork Data Center Energy Campus, Wharncliffe",WV,Mingo County,54059,37.5970543,-81.95842838,,Low,22.0,0.713,0.0,0.148,4.0,2.0,15.5,15.0,4.3,94.5,30.5,1
-prj_288,Monarch Compute Campus and Mountaineer Gigasystem,WV,Mason County,54053,38.91458813,-82.11477824,2000,Low,21.9,0.916,0.0,0.1635,4.0,0.0,20.8,15.0,5.8,94.5,9.8,6
-prj_289,QTS Kearneysville Data Center Complex,WV,Jefferson County; Berkeley County,54037,39.40601474,-77.89272666,,Low,32.2,1.798,1.0,0.1173,4.0,2.0,30.4,40.0,2.2,94.5,30.5,27
-prj_290,Penzance Intelligence Center,WV,Berkeley County,54003,39.53777133,-77.88682289,600,Guarded,40.7,1.798,1.0,0.3308,4.0,2.0,30.4,40.0,36.5,94.5,30.5,20
-prj_291,Google Buffalo Data Center,WV,Putnam County,54079,38.64062703,-81.95363899,,Low,25.1,0.916,0.0,0.2277,4.0,0.0,20.8,15.0,18.6,94.5,9.8,5
-prj_292,Appalachian Mega Site / Hog Lick Data Center,WV,Marion County,54049,39.41956843,-80.21658076,200,Low,22.8,0.0,0.0,0.2669,4.0,0.0,6.4,15.0,26.6,94.5,9.8,4
-prj_293,Quakertown Data Center Park,PA,Bucks County,42017,40.41121767,-75.34561374,1000,High,89.7,16.181,4.0,0.812,3.0,18.0,95.4,89.1,89.4,72.2,92.3,40
-prj_294,Cumru Titus Data Center,PA,Berks County,42011,40.30604668,-75.91162467,200,Guarded,49.0,3.26,1.0,0.4476,3.0,8.0,41.8,40.0,50.1,72.2,66.7,37
-prj_295,Nottingham Data Center,NH,Rockingham County,33015,43.17994869,-71.1001181,,Low,39.2,1.744,1.0,0.3712,3.0,1.0,29.6,40.0,43.6,72.2,22.5,5
-prj_296,Andover Data Center,NJ,Sussex County,34037,41.03259839,-74.76603349,,Guarded,42.4,2.446,1.0,0.3321,5.0,2.0,34.4,40.0,36.8,98.7,30.5,25
-prj_297,Jailhouse Studios,TN,Hamilton County,47065,35.04954023,-85.30803088,,Guarded,47.0,2.718,2.0,0.4571,2.0,2.0,40.2,58.8,53.7,37.5,30.5,7
-prj_298,Maysville Data Center,KY,Mason County,21161,38.68393644,-83.81782457,2200,Guarded,51.7,5.055,4.0,0.1478,2.0,11.0,57.6,89.1,4.0,37.5,74.3,12
-prj_299,Albany Kenwood Data Center,NY,Albany County,36001,42.62886666,-73.77148535,,Low,21.8,0.0,0.0,0.3936,2.0,0.0,6.4,15.0,45.7,37.5,9.8,0
-prj_300,Microsoft La Porte Data Center,IN,LaPorte County,18091,41.57726301,-86.67836375,,Elevated,65.7,7.188,4.0,0.4844,1.0,8.0,72.2,89.1,55.8,11.8,66.7,20
-prj_301,JPG Data Center,IN,Jefferson County,18077,38.83318591,-85.41589009,,Low,14.9,0.912,0.0,0.1964,1.0,0.0,20.4,15.0,11.5,11.8,9.8,11
-prj_302,Amazon Wheatfield,IN,Jasper County,18073,41.22626387,-87.00359458,,Guarded,42.8,3.916,3.0,0.1824,1.0,7.0,47.2,75.9,8.8,11.8,62.8,18
-prj_303,Granville Data Center,PA,Mifflin County,42087,40.56908144,-77.61398863,,Low,21.4,0.961,0.0,0.1962,3.0,0.0,22.2,15.0,11.2,72.2,9.8,8
-prj_304,DartPoints Former Lexmark Data Center Redevelopment,KY,Fayette County,21067,38.0752589,-84.48732138,,Guarded,46.0,2.839,2.0,0.5029,2.0,0.0,40.6,58.8,57.6,37.5,9.8,6
-prj_305,Nashville DC Blox Data Center,TN,Davidson County,47037,36.09042198,-86.74633128,,Guarded,46.9,3.517,1.0,0.5854,2.0,1.0,45.5,40.0,69.0,37.5,22.5,9
-prj_306,Muskie Data Campus,KY,Carter County,21043,38.40017631,-82.79634195,,Low,26.6,3.405,0.0,0.1736,2.0,4.0,42.9,15.0,7.0,37.5,44.5,9
-prj_307,Muncy Data Center,PA,Lycoming County,42081,41.22793466,-76.81183441,,Low,38.8,2.664,1.0,0.2682,3.0,2.0,39.3,40.0,26.9,72.2,30.5,13
-prj_308,Gemini Sioux Falls Data Center,SD,Minnehaha County,46099,43.59370023,-96.6401013,500,Low,31.0,1.618,0.0,0.2897,3.0,4.0,25.4,15.0,32.0,72.2,44.5,3
-prj_309,Sequitor Edge Rapid City,SD,Pennington County,46103,44.02731001,-103.1840971,10,Low,20.0,0.0,0.0,0.26,3.0,0.0,6.4,15.0,24.6,72.2,9.8,0
-prj_310,Polaris Forge 1,ND,Dickey County,38021,46.01289235,-98.57186221,400,Low,11.6,0.691,0.0,0.0559,1.0,1.0,14.4,15.0,0.4,11.8,22.5,1
-prj_311,Polaris Forge 2,ND,Cass County,38017,46.96719859,-96.87059463,1000,Low,18.5,0.707,0.0,0.2723,1.0,1.0,14.7,15.0,27.8,11.8,22.5,1
-prj_312,Applied Digital Oliver County,ND,Oliver County,38065,47.10645479,-101.344641,430,Low,21.4,1.402,1.0,0.0447,1.0,2.0,23.8,40.0,0.1,11.8,30.5,3
-prj_313,River Run Energy Center,ND,Mercer County,38057,47.27256043,-101.4503149,1450,Low,21.5,1.402,1.0,0.0798,1.0,2.0,23.8,40.0,0.7,11.8,30.5,3
-prj_314,Project Fighting Pike,ND,Williams County,38105,48.2324742,-103.6344227,455,Low,21.7,0.332,1.0,0.245,1.0,0.0,13.1,40.0,22.3,11.8,9.8,1
-prj_315,Atlas Power Williston,ND,Williams County,38105,48.14614934,-103.7725071,700,Low,21.7,0.332,1.0,0.245,1.0,0.0,13.1,40.0,22.3,11.8,9.8,1
-prj_316,4-3 Salem Township Data Center,PA,Luzerne County,42079,41.09268711,-76.20451035,3500,High,85.8,10.595,4.0,0.8805,3.0,14.0,81.8,89.1,94.3,72.2,81.5,35
-prj_317,Holyoke Data Center,MA,Hampden County,25013,42.197424,-72.600933,20,Guarded,49.8,3.157,2.0,0.6339,1.0,2.0,40.9,58.8,74.4,11.8,30.5,5
-prj_318,Project Domino,IN,Boone County,18011,40.05811921,-86.54115183,1000,Guarded,45.6,3.226,3.0,0.2799,1.0,6.0,41.2,75.9,29.6,11.8,57.1,22
-prj_319,Gravel Pike Data Center,PA,Montgomery County,42091,40.4190452,-75.5133896,,Elevated,78.9,13.741,2.0,0.7393,3.0,14.0,92.7,58.8,83.9,72.2,81.5,37
-prj_320,Sharon Keel Infrastructure Data Center Expansion,PA,Mercer County,42085,41.24401767,-80.50629588,110,Guarded,56.0,7.033,2.0,0.3015,3.0,4.0,71.0,58.8,33.2,72.2,44.5,13
-prj_321,PNK Valley View Data Center,PA,Lackawanna County,42069,41.47914648,-75.51858421,,Elevated,84.9,11.565,3.0,0.9491,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
-prj_322,Ransom Township Mudiita Data Center,PA,Lackawanna County,42069,41.38663332,-75.76165592,750,High,86.9,13.289,3.0,0.9491,3.0,17.0,90.9,75.9,97.8,72.2,89.7,27
-prj_323,Nebius Butler Township Data Center,PA,Schuylkill County,42107,40.7386815,-76.3191425,1200,Guarded,63.3,5.79,2.0,0.5695,3.0,6.0,63.5,58.8,66.5,72.2,57.1,30
-prj_325,Swedeland Discovery Center Data Center Campus,PA,Montgomery County,42091,40.07589993,-75.33279859,,High,87.8,14.456,4.0,0.7393,3.0,17.0,94.5,89.1,83.9,72.2,89.7,36
-prj_326,Stonebridge Lawrence Data Center,PA,Lawrence County,42073,40.99142125,-80.42833073,,Guarded,46.2,5.354,1.0,0.2803,3.0,2.0,61.5,40.0,29.9,72.2,30.5,14
-prj_321,Harper Road Technology Park,MO,Cass,29037,38.7192,-94.4585,,Low,30.1,1.383,1.0,0.2949,1.0,3.0,23.4,40.0,32.6,11.8,37.9,14
-prj_322,Province Group Perry Village Data Center Campus,OH,Lake,39085,41.7631,-81.143,,Guarded,40.8,1.584,2.0,0.43,2.0,2.0,25.1,58.8,47.2,37.5,30.5,11
-prj_323,Meta Hyperion,LA,Richland,22083,32.507,-91.647,,Low,37.1,4.955,0.0,0.2619,2.0,7.0,56.8,15.0,25.3,37.5,62.8,8
-prj_324,Prado AI Industrial Campus,MS,Madison,28089,32.4285,-90.1323,,Guarded,46.4,4.236,1.0,0.4347,2.0,5.0,51.5,40.0,48.4,37.5,51.0,6
-prj_325,New Carlisle Chicago Trail Data Center (Third Site),IN,St. Joseph,18141,41.72,-86.51,,Guarded,60.2,5.312,2.0,0.7611,1.0,4.0,61.0,58.8,86.3,11.8,44.5,21
-prj_326,Project Maize / Google Michigan City Data Center,IN,LaPorte,18091,41.6906,-86.925,,Guarded,55.6,6.359,2.0,0.4844,1.0,6.0,67.0,58.8,55.8,11.8,57.1,19
-prj_327,Meta Project Everest,LA,Richland,22083,32.46,-91.75,,Low,37.1,4.955,0.0,0.2619,2.0,7.0,56.8,15.0,25.3,37.5,62.8,7
-prj_328,Terra Nexus Custer Avenue Data Center,NC,Cumberland,37051,35.08,-78.8,200,Elevated,65.1,3.425,3.0,0.7426,3.0,4.0,43.6,75.9,85.4,72.2,44.5,9
-prj_330,Project Sail Data Center,GA,Coweta,13077,33.354,-84.842,900,Elevated,67.1,9.78,3.0,0.3238,3.0,14.0,79.6,75.9,35.6,72.2,81.5,26
-prj_331,Howell Township Data Center (Project Splitrock),MI,Livingston,26093,42.61,-83.99,,Guarded,64.8,7.49,5.0,0.3429,1.0,13.0,73.1,95.5,40.2,11.8,78.0,44
-prj_332,Natelli Vance County Data Center,NC,Vance,37181,36.34,-78.42,,Low,29.7,1.484,0.0,0.2828,3.0,3.0,24.6,15.0,30.2,72.2,37.9,7
+prj_1,Project Nebius,AL,Jefferson County,01073,33.42755722,-86.88155065,300,Elevated,73.6,7.216,2.0,0.6822,4.0,17.0,72.5,58.8,74.9,94.5,89.7,11
+prj_2,Project Marvel,AL,Jefferson County,01073,33.3443491,-87.03878951,1.2,Elevated,68.8,7.367,1.0,0.6822,4.0,16.0,72.8,40.0,74.9,94.5,87.5,11
+prj_3,Meta Platforms Montgomery Data Center,AL,Montgomery County,01101,32.27257047,-86.32823838,227,Low,35.3,0.0,0.0,0.6964,4.0,0.0,6.4,15.0,76.8,94.5,9.8,0
+prj_4,DC BLOX Montgomery,AL,Montgomery County,01101,32.26826301,-86.37368203,40,Low,35.3,0.0,0.0,0.6964,4.0,0.0,6.4,15.0,76.8,94.5,9.8,0
+prj_5,DC BLOX Birmingham,AL,Jefferson County,01073,33.50056974,-86.82105075,40,Elevated,67.1,6.381,1.0,0.6822,4.0,16.0,67.4,40.0,74.9,94.5,87.5,12
+prj_6,AUBix + Core Scientific Data Center,AL,Lee County,01081,32.60109865,-85.51370859,16,Low,26.4,0.0,0.0,0.3792,4.0,0.0,6.4,15.0,41.2,94.5,9.8,4
+prj_7,Childersburg Data Center,AL,Talladega County,01121,33.34366468,-86.3344476,,Guarded,42.4,2.356,1.0,0.2946,4.0,6.0,32.9,40.0,29.6,94.5,57.1,10
+prj_8,Tallassee Mill Data Center,AL,Elmore County,01051,32.53337165,-85.89014804,10,Low,24.2,0.0,0.0,0.3077,4.0,0.0,6.4,15.0,32.4,94.5,9.8,0
+prj_9,Project Red Clay,AL,Lowndes County,01085,32.25758622,-86.51206583,,Low,17.3,0.0,0.0,0.1772,4.0,0.0,6.4,15.0,4.6,94.5,9.8,0
+prj_10,Edged Energy Prichard Data Center,AL,Mobile County,01097,30.73179294,-88.06418606,,Low,30.0,0.0,0.0,0.506,4.0,0.0,6.4,15.0,55.5,94.5,9.8,2
+prj_11,Columbiana Mining Facility and Data Center,AL,Shelby County,01117,33.18122958,-86.62287042,55,Guarded,55.6,5.106,1.0,0.4213,4.0,12.0,58.5,40.0,44.5,94.5,75.0,11
+prj_12,Project Leo,AR,Pulaski County,05119,34.61717176,-92.23704641,1000,Guarded,49.8,5.906,1.0,0.5494,1.0,4.0,64.4,40.0,59.5,11.8,44.3,8
+prj_13,Project Pyramid,AR,Crittenden County,05035,35.10663917,-90.211937,,Guarded,48.9,17.748,0.0,0.2654,1.0,20.0,97.0,15.0,21.3,11.8,95.8,24
+prj_14,Clarksville Data Center,AR,Johnson County,05071,35.4541942,-93.44764012,,Low,14.0,0.771,0.0,0.1718,1.0,2.0,16.5,15.0,4.3,11.8,30.5,1
+prj_15,Port of Little Rock Data Center,AR,Pulaski County,05119,34.686928,-92.22558054,100,Guarded,47.7,5.174,1.0,0.5494,1.0,3.0,59.4,40.0,59.5,11.8,37.8,8
+prj_16,Vilonia Cryptomine,AR,Faulkner County,05045,35.09105679,-92.17104118,,Guarded,43.9,5.79,1.0,0.3399,1.0,4.0,63.8,40.0,36.6,11.8,44.3,7
+prj_17,Millstone Nuclear Power Station Data Center,CT,Southeastern Connecticut Planning Region,09180,41.31039607,-72.16759273,300,Low,32.6,0.636,2.0,0.2186,3.0,3.0,13.8,58.8,10.9,72.2,37.8,3
+prj_18,Wallingford Data Center,CT,South Central Connecticut Planning Region,09170,41.49793857,-72.79219892,,Low,36.5,1.863,1.0,0.3237,3.0,0.0,31.8,40.0,35.0,72.2,9.8,8
+prj_19,Bloomfield Data Center Proposal,CT,Capitol Planning Region,09110,41.88592351,-72.74415945,,Guarded,40.0,2.422,1.0,0.3535,3.0,2.0,33.6,40.0,38.5,72.2,30.5,7
+prj_20,Trumbull Data Center Investment,CT,Greater Bridgeport Planning Region,09120,41.24085718,-73.14738295,,Low,25.8,0.953,0.0,0.2918,3.0,0.0,21.9,15.0,29.3,72.2,9.8,6
+prj_21,Bristol Data Center,CT,Naugatuck Valley Planning Region,09140,41.66989773,-72.93474147,,Low,32.0,1.863,1.0,0.2411,3.0,0.0,31.8,40.0,17.1,72.2,9.8,8
+prj_22,Project Washington,DE,New Castle County,10003,39.61185181,-75.6378833,1200,Guarded,57.1,2.498,2.0,0.8725,2.0,5.0,35.6,58.8,91.5,37.5,51.0,25
+prj_23,"St. Georges Business Park Data Center Development  / ""Frightland Project""",DE,New Castle County,10003,39.54430554,-75.64337652,,Guarded,57.1,2.498,2.0,0.8725,2.0,5.0,35.6,58.8,91.5,37.5,51.0,22
+prj_24,White Clay Creek Business Park Data Center Redevelopment,DE,New Castle County,10003,39.68188899,-75.7238784,,Guarded,57.1,2.498,2.0,0.8725,2.0,5.0,35.6,58.8,91.5,37.5,51.0,25
+prj_25,Project Zodiac,IN,Allen County,18003,41.02969388,-85.04814501,,Low,28.9,1.246,0.0,0.5377,1.0,1.0,23.1,15.0,59.1,11.8,22.5,7
+prj_26,Bristol Data Center,IN,Elkhart County,18039,41.6925709,-85.85815424,,Guarded,46.9,3.869,2.0,0.4366,1.0,6.0,46.6,58.8,45.4,11.8,57.1,18
+prj_27,Granger Data Center,IN,St. Joseph County,18141,41.72266213,-86.12540005,1000,Guarded,63.1,5.728,2.0,0.8664,1.0,6.0,62.9,58.8,90.5,11.8,57.1,18
+prj_28,South Bend Data Center,IN,St. Joseph County,18141,41.64845397,-86.30055316,,Elevated,73.2,8.0,4.0,0.8664,1.0,4.0,75.7,89.1,90.5,11.8,44.3,19
+prj_29,Decennial Group Akron Data Center,IN,Fulton County,18049,41.03887181,-86.02830714,500,Low,36.6,2.359,3.0,0.1813,1.0,5.0,33.2,75.9,5.5,11.8,51.0,13
+prj_30,Project Rainier,IN,St. Joseph County,18141,41.69198344,-86.46494887,2400,Guarded,61.2,5.307,2.0,0.8664,1.0,4.0,61.0,58.8,90.5,11.8,44.3,20
+prj_31,Martindale Indianapolis Metrobloks Data Center,IN,Marion County,18097,39.80391442,-86.10002644,72,Elevated,74.4,11.879,2.0,0.8742,1.0,17.0,87.9,58.8,92.6,11.8,89.7,25
+prj_32,Surge Development Knightstown Data Center,IN,Henry County,18065,39.84095834,-85.56599378,,Guarded,40.6,4.073,2.0,0.2498,1.0,6.0,47.8,58.8,18.6,11.8,57.1,24
+prj_33,Decatur Technology Park,IN,Marion County,18097,39.66565427,-86.3005398,250,Elevated,68.7,11.03,1.0,0.8742,1.0,19.0,83.2,40.0,92.6,11.8,93.8,24
+prj_34,Project Louie,IN,Morgan County,18109,39.5927482,-86.46343288,,Guarded,51.1,10.854,1.0,0.2769,1.0,18.0,82.0,40.0,24.4,11.8,92.3,21
+prj_35,Hancock County MegaSite,IN,Hancock County,18059,39.85920062,-85.8714585,,Guarded,60.8,13.701,3.0,0.2304,1.0,19.0,91.8,75.9,14.7,11.8,93.8,25
+prj_36,Project Flo,IN,Marion County,18097,39.72001334,-86.00011831,,Elevated,80.1,13.517,3.0,0.8742,1.0,19.0,91.5,75.9,92.6,11.8,93.8,24
+prj_37,Pittsboro Middle Township Data Center,IN,Hendricks County,18063,39.89679869,-86.44983309,,Guarded,62.5,11.929,2.0,0.404,1.0,18.0,88.2,58.8,43.9,11.8,92.3,24
+prj_38,Pike Township Data Center,IN,Marion County,18097,39.89538346,-86.20420857,,Elevated,80.2,13.503,3.0,0.8742,1.0,20.0,91.2,75.9,92.6,11.8,95.8,24
+prj_39,Project Maize,IN,LaPorte County,18091,41.71352587,-86.84288513,,Guarded,57.3,6.353,2.0,0.5611,1.0,6.0,67.0,58.8,62.6,11.8,57.1,19
+prj_40,Hobart Tech Park,IN,Lake County,18089,41.50355522,-87.28117326,,Guarded,46.8,3.418,2.0,0.4462,1.0,7.0,43.3,58.8,46.6,11.8,62.8,18
+prj_41,Tract Project West,IA,Warren County,19181,41.45765488,-93.68699672,,Low,12.5,0.0,0.0,0.1969,2.0,0.0,6.4,15.0,8.3,37.5,9.8,4
+prj_42,Google Cedar Rapids,IA,Linn County,19113,41.91422692,-91.72176504,,Guarded,53.3,3.486,2.0,0.6194,2.0,3.0,44.6,58.8,70.8,37.5,37.8,6
+prj_43,QTS Cedar Rapids,IA,Linn County,19113,41.91132019,-91.73705145,,Guarded,53.3,3.486,2.0,0.6194,2.0,3.0,44.6,58.8,70.8,37.5,37.8,6
+prj_44,Meta Davenport Data Center,IA,Scott County,19163,41.61625011,-90.62525425,,Low,25.1,1.228,0.0,0.3148,2.0,1.0,22.8,15.0,34.1,37.5,22.5,5
+prj_45,Project Ruthenium,IA,Madison County,19121,41.4982532,-93.80230569,,Low,10.9,0.0,0.0,0.1174,2.0,0.0,6.4,15.0,1.9,37.5,9.8,4
+prj_46,Applied Digital Adair,IA,Adair County,19001,41.46792807,-94.61476686,200,Low,14.1,0.445,0.0,0.1101,2.0,1.0,13.5,15.0,1.0,37.5,22.5,2
+prj_47,Edged Energy Des Moines,IA,Polk County,19153,41.65752558,-93.56339512,13,Low,22.9,0.0,0.0,0.4753,2.0,0.0,6.4,15.0,50.0,37.5,9.8,3
+prj_48,Project Morgan,IA,Dallas County,19049,41.62032029,-93.92530162,,Low,17.3,0.0,0.0,0.2866,2.0,0.0,6.4,15.0,27.5,37.5,9.8,4
+prj_49,Google Council Bluffs,IA,Pottawattamie County,19155,41.22148817,-95.86488585,,Low,25.1,2.716,0.0,0.2211,2.0,1.0,40.3,15.0,12.9,37.5,22.5,5
+prj_50,Tract Altoona,IA,Polk County,19153,41.68257893,-93.53199351,,Low,35.0,1.636,1.0,0.4753,2.0,0.0,26.0,40.0,50.0,37.5,9.8,3
+prj_51,COPT Defense Properties Data Center,IA,Dallas County,19049,41.51929011,-93.9429512,1000,Low,17.3,0.0,0.0,0.2866,2.0,0.0,6.4,15.0,27.5,37.5,9.8,4
+prj_52,Project Alluvion,IA,Polk County,19153,41.51672672,-93.70504356,,Low,22.9,0.0,0.0,0.4753,2.0,0.0,6.4,15.0,50.0,37.5,9.8,4
+prj_53,Project Ginger West,IA,Dallas County,19049,41.53290683,-93.86352515,,Low,17.3,0.0,0.0,0.2866,2.0,0.0,6.4,15.0,27.5,37.5,9.8,4
+prj_54,Project Ginger East,IA,Polk County,19153,41.51556698,-93.72156694,,Low,22.9,0.0,0.0,0.4753,2.0,0.0,6.4,15.0,50.0,37.5,9.8,4
+prj_55,Project Osmium,IA,Warren County,19181,41.49719516,-93.78764456,,Low,12.5,0.0,0.0,0.1969,2.0,0.0,6.4,15.0,8.3,37.5,9.8,4
+prj_56,PowerHouse Louisville,KY,Jefferson County,21111,38.2078029,-85.84407511,525,Guarded,44.4,3.424,1.0,0.4912,2.0,4.0,43.9,40.0,52.2,37.5,44.3,11
+prj_57,Project Lincoln,KY,Oldham County,21185,38.39322445,-85.40823914,,Guarded,59.0,5.759,4.0,0.3088,2.0,6.0,63.2,89.1,33.2,37.5,57.1,11
+prj_58,Franklin–Simpson Data Storage and Service Center,KY,Simpson County,21213,36.66574693,-86.56488544,,Guarded,49.4,5.306,3.0,0.1979,2.0,7.0,60.6,75.9,8.8,37.5,62.8,12
+prj_59,Harrodsburg Data Center,KY,Mercer County,21167,37.77137178,-84.77913548,525,Guarded,43.8,4.615,3.0,0.1906,2.0,2.0,54.9,75.9,6.4,37.5,30.5,5
+prj_60,TeraWulf Hawesville Data Center,KY,Hancock County,21091,37.94146754,-86.78826457,,Low,28.3,2.507,1.0,0.1247,2.0,2.0,36.5,40.0,2.2,37.5,30.5,6
+prj_61,Project Pulse,KY,Clark County,21049,34.05370939,-93.10588436,,Low,14.9,0.0,0.0,0.2458,2.0,0.0,6.4,15.0,18.0,37.5,9.8,1
+prj_62,Bates Mill No. 3. Data Center,ME,Androscoggin County,23001,44.09471157,-70.2188496,,Low,36.6,1.708,2.0,0.3502,0.0,3.0,28.7,58.8,37.8,0.6,37.8,5
+prj_63,Loring Air Force Base Data Center,ME,Aroostook County,23003,46.94618137,-67.8909365,2,Low,16.8,0.0,0.0,0.3713,0.0,0.0,6.4,15.0,40.2,0.6,9.8,0
+prj_64,Millinocket Data Center,ME,Aroostook County,23003,45.64559665,-68.70503765,60,Low,16.8,0.0,0.0,0.3713,0.0,0.0,6.4,15.0,40.2,0.6,9.8,0
+prj_65,Sanford Woods Industrial and Technical Campus,ME,York County,23031,43.42290886,-70.70655916,,Guarded,46.0,3.587,3.0,0.409,0.0,1.0,45.7,75.9,44.2,0.6,22.5,4
+prj_66,Woodlawn Data Center,MD,Baltimore County,24005,39.30896202,-76.73917251,150,Guarded,55.6,4.275,1.0,0.6619,3.0,4.0,52.5,40.0,72.9,72.2,44.3,25
+prj_67,Brightseat Tech Park Data Center Development,MD,Prince George's County,24033,38.92025496,-76.85650556,,Elevated,72.9,4.027,5.0,0.7515,3.0,12.0,47.5,95.5,80.1,72.2,75.0,36
+prj_68,Laurel Data Center,MD,Prince George's County,24033,39.08928035,-76.9011909,20,Elevated,80.1,7.023,5.0,0.7515,3.0,13.0,70.7,95.5,80.1,72.2,78.0,35
+prj_69,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,MD,Frederick County,24021,39.33289175,-77.4734034,,Elevated,71.9,12.081,3.0,0.3674,3.0,18.0,88.5,75.9,39.7,72.2,92.3,40
+prj_70,Piney Reach Data Center Development,MD,Charles County,24017,38.57919612,-76.88654887,,Guarded,63.4,4.606,3.0,0.4901,3.0,13.0,54.6,75.9,51.9,72.2,78.0,28
+prj_71,Johns Hopkins Data Science and Artificial Intelligence Institute (DSAI),MD,Baltimore County,24005,39.32576868,-76.62440393,,Guarded,57.9,5.239,1.0,0.6619,3.0,4.0,60.0,40.0,72.9,72.2,44.3,22
+prj_72,Atmosphere Dickerson Data Center,MD,Montgomery County,24031,39.21300165,-77.45264836,360,Elevated,83.9,13.892,4.0,0.6047,3.0,20.0,92.1,89.1,68.9,72.2,95.8,39
+prj_73,Westfield Data Center Campus,MA,Hampden County,25013,42.15896563,-72.74102143,,Guarded,44.0,2.422,1.0,0.7099,1.0,2.0,33.6,40.0,78.9,11.8,30.5,5
+prj_74,Project Mitten / The Barn,MI,Washtenaw County,26161,42.12049367,-83.88493822,1400,High,86.5,18.866,9.0,0.7857,1.0,26.0,98.7,99.0,84.4,11.8,98.4,50
+prj_75,Project Cannoli,MI,Wayne County,26163,42.22440467,-83.43455956,1000,Elevated,83.2,26.415,11.0,0.6033,1.0,36.0,99.9,99.6,68.6,11.8,99.9,52
+prj_76,Project Splitrock,MI,Livingston County,26093,42.65834059,-84.02162314,,Elevated,67.6,8.34,6.0,0.401,1.0,14.0,76.6,97.5,43.5,11.8,81.5,42
+prj_77,32 Mile Road Technical Campus,MI,Macomb County,26099,42.80033403,-82.99099444,,Guarded,57.0,6.552,2.0,0.5016,1.0,10.0,68.3,58.8,53.4,11.8,72.9,25
+prj_78,Benton Charter Township Data Center,MI,Berrien County,26021,42.0793117,-86.38608493,,Low,29.3,2.433,0.0,0.3933,1.0,3.0,34.1,15.0,41.5,11.8,37.8,16
+prj_79,Microsoft Gaines Township Data Center,MI,Kent County,26081,42.83126854,-85.55654658,,Guarded,64.0,6.604,3.0,0.5701,1.0,10.0,68.6,75.9,64.1,11.8,72.9,13
+prj_80,Rocklocker Kalkaska Data Center,MI,Kalkaska County,26079,44.71585977,-85.24739678,,Low,12.7,0.754,0.0,0.1612,1.0,1.0,15.9,15.0,3.1,11.8,22.5,2
+prj_81,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,MI,Washtenaw County,26161,42.20695604,-83.54865588,,High,87.0,25.505,11.0,0.7857,1.0,35.0,99.6,99.6,84.4,11.8,99.6,52
+prj_82,Project Cherry Blossom,MI,Monroe County,26115,41.91971926,-83.35705274,,Elevated,67.5,9.667,4.0,0.3981,1.0,20.0,79.0,89.1,42.9,11.8,95.8,49
+prj_83,Project Ironwood,MI,Monroe County,26115,41.99283162,-83.66842409,,Elevated,76.0,18.823,8.0,0.3981,1.0,29.0,98.4,98.7,42.9,11.8,98.7,50
+prj_84,Project Flex,MI,Oakland County,26125,42.50232798,-83.61177835,,Elevated,83.7,20.891,7.0,0.6673,1.0,30.0,99.0,98.2,73.5,11.8,99.0,51
+prj_85,Deep Green Lansing Data Center,MI,Ingham County,26065,42.73027495,-84.54530739,24,Guarded,57.1,4.427,4.0,0.4924,1.0,4.0,53.7,89.1,52.5,11.8,44.3,17
+prj_86,Pavilion Township Data Center,MI,Kalamazoo County,26077,42.24339147,-85.50878237,,Low,29.3,1.64,0.0,0.4778,1.0,3.0,26.3,15.0,50.7,11.8,37.8,16
+prj_87,Sansone York Township Data Center,MI,Washtenaw County,26161,42.16225032,-83.7038859,1000,High,86.9,24.602,11.0,0.7857,1.0,34.0,99.3,99.6,84.4,11.8,99.3,52
+prj_88,Metrobloks Southfield Data Center,MI,Oakland County,26125,42.48814798,-83.31696816,100,Elevated,82.4,16.538,7.0,0.6673,1.0,20.0,95.7,98.2,73.5,11.8,95.8,48
+prj_89,Clinton Amazon Data Center,MS,Hinds County,28049,32.34892761,-90.36632151,,Guarded,42.3,3.388,1.0,0.4694,2.0,3.0,42.4,40.0,48.1,37.5,37.8,6
+prj_90,Ridgeland Amazon Data Center,MS,Madison County,28089,32.40768028,-90.19301896,,Guarded,47.9,4.232,1.0,0.5042,2.0,5.0,51.2,40.0,54.9,37.5,51.0,6
+prj_91,Canton Amazon Data Center,MS,Madison County,28089,32.59492205,-90.09454526,,Guarded,47.9,4.232,1.0,0.5042,2.0,5.0,51.2,40.0,54.9,37.5,51.0,6
+prj_92,Vicksburg Amazon Data Center,MS,Warren County,28149,32.27324166,-90.90165068,,Low,21.3,0.767,0.0,0.2863,2.0,1.0,16.2,15.0,26.9,37.5,22.5,4
+prj_93,Project Taurus,MS,Rankin County,28121,32.26966137,-90.01367672,450,Guarded,43.5,4.232,1.0,0.3416,2.0,5.0,51.2,40.0,37.1,37.5,51.0,5
+prj_94,Meridian Compass Data Center,MS,Lauderdale County,28075,32.39009521,-88.62001053,500,Low,21.9,0.796,0.0,0.2901,2.0,1.0,16.8,15.0,28.4,37.5,22.5,1
+prj_95,Clarksdale Data Center,MS,Coahoma County,28027,34.17249603,-90.56381427,,Low,20.3,0.863,0.0,0.2584,2.0,1.0,18.3,15.0,20.4,37.5,22.5,1
+prj_96,xAI MACROHARDRR,MS,DeSoto County,28033,34.99342701,-90.03423007,,Guarded,55.3,17.748,0.0,0.3399,2.0,20.0,97.0,15.0,36.6,37.5,95.8,24
+prj_97,Nebius Independence Hyperscale Campus,MO,Jackson County,29095,39.10174683,-94.30901867,800,Guarded,53.9,4.195,2.0,0.5811,1.0,7.0,49.0,58.8,68.2,11.8,62.8,11
+prj_98,Project Green,MO,Montgomery County,29139,38.90206436,-91.42407949,,Low,19.8,1.647,0.0,0.2314,1.0,2.0,26.8,15.0,15.2,11.8,30.5,9
+prj_99,Project Spade,MO,Montgomery County,29139,38.88882499,-91.43708207,1200,Low,19.8,1.647,0.0,0.2314,1.0,2.0,26.8,15.0,15.2,11.8,30.5,9
+prj_100,Crusoe Warrenton AI Data Center,MO,Warren County,29219,38.82899456,-91.1825948,,Low,23.8,2.504,0.0,0.2246,1.0,4.0,36.2,15.0,14.4,11.8,44.3,10
+prj_101,Wildwood Ranch AI Data Center,MO,Jasper County,29097,37.07096304,-94.58386453,200,Low,29.7,1.685,0.0,0.4972,1.0,2.0,28.3,15.0,53.0,11.8,30.5,2
+prj_102,CRG Festus Data Center,MO,Jefferson County,29099,38.19524083,-90.42875363,,Low,25.5,0.877,0.0,0.3967,1.0,4.0,18.6,15.0,42.4,11.8,44.3,13
+prj_103,Armory Innovation Data Center,MO,St. Louis County,29189,38.63165907,-90.23951136,120,Elevated,70.4,7.047,3.0,0.6963,1.0,22.0,71.3,75.9,76.3,11.8,98.1,14
+prj_104,Mo Lake Development Cross Creek Data Center,MO,Camden County,29029,38.03465334,-92.7410058,,Low,21.2,0.898,1.0,0.2222,1.0,0.0,18.9,40.0,13.5,11.8,9.8,2
+prj_105,Metrobloks Liberty Data Center Campus,MO,Clay County,29047,39.20719259,-94.45399285,150,Guarded,52.9,4.926,2.0,0.502,1.0,8.0,56.0,58.8,54.0,11.8,66.7,13
+prj_106,White Cloud Acres,MO,Nodaway County,29147,40.17786437,-94.78400949,600,Low,8.8,0.0,0.0,0.1626,1.0,0.0,6.4,15.0,3.7,11.8,9.8,1
+prj_107,Lambda AI Factory,MO,Jackson County,29095,39.29569711,-94.67402441,24,Guarded,56.4,4.926,2.0,0.5811,1.0,8.0,56.0,58.8,68.2,11.8,66.7,13
+prj_108,Jasper County Powered Data Park / Sarcoxie Data Center,MO,Jasper County,29097,37.12580862,-94.10210599,,Low,29.7,1.685,0.0,0.4972,1.0,2.0,28.3,15.0,53.0,11.8,30.5,2
+prj_109,Oppidan Foristell Data Center Sites,MO,St. Charles County/Warren County,29183,38.81659009,-90.95349831,,Guarded,57.3,5.163,2.0,0.5329,1.0,18.0,59.1,58.8,58.0,11.8,92.3,13
+prj_110,Meramec Valley Technology Park,MO,Franklin County,29071,38.43474091,-90.7592958,,Guarded,45.9,4.199,1.0,0.4609,1.0,14.0,49.3,40.0,47.3,11.8,81.5,14
+prj_111,Gateway Digital Campus,MO,Franklin County,29071,38.47277567,-90.84330248,,Guarded,45.1,4.178,1.0,0.4609,1.0,12.0,48.7,40.0,47.3,11.8,75.0,14
+prj_112,Meta Kansas City Data Center,MO,Clay County,29047,39.32251284,-94.59398023,,Guarded,52.9,4.926,2.0,0.502,1.0,8.0,56.0,58.8,54.0,11.8,66.7,13
+prj_113,Project Mica,MO,Clay County,29047,39.31526749,-94.59489243,700,Guarded,52.9,4.926,2.0,0.502,1.0,8.0,56.0,58.8,54.0,11.8,66.7,13
+prj_114,Marshfield Webster Data Center,MO,Webster County,29225,37.36525146,-92.88822467,,Low,14.2,0.903,0.0,0.2096,1.0,0.0,19.6,15.0,9.7,11.8,9.8,2
+prj_115,Project Cumulus,MO,St. Charles County,29183,38.81601246,-90.54683674,,Guarded,60.1,6.211,2.0,0.5329,1.0,21.0,66.5,58.8,58.0,11.8,97.6,16
+prj_116,DataOne Vineland,NJ,Cumberland County,34011,39.42766589,-75.0167957,300,Guarded,51.2,2.578,1.0,0.5596,5.0,4.0,38.1,40.0,61.9,98.7,44.3,15
+prj_117,Princeton Nurseries Data Center,NJ,Middlesex County,34023,40.3616451,-74.60748403,,Elevated,77.2,9.55,4.0,0.5163,5.0,10.0,78.4,89.1,56.8,98.7,72.9,41
+prj_118,Nutley Data Center,NJ,Essex County,34013,40.82934313,-74.15375476,,Elevated,66.6,9.111,2.0,0.5765,5.0,1.0,77.2,58.8,66.5,98.7,22.5,23
+prj_119,New Brunswick Data Center,NJ,Middlesex County,34023,40.48746648,-74.4575096,,Elevated,82.1,13.258,5.0,0.5163,5.0,9.0,90.6,95.5,56.8,98.7,70.2,36
+prj_120,East Greenwich Township Data Center,NJ,Gloucester County,34015,39.79936564,-75.19931475,,Elevated,69.7,9.376,2.0,0.5121,5.0,13.0,77.5,58.8,56.2,98.7,78.0,29
+prj_121,CoreWeave Kenilworth,NJ,Union County,34039,40.6779928,-74.27441747,250,Elevated,75.7,11.679,3.0,0.5208,5.0,7.0,87.6,75.9,57.3,98.7,62.8,28
+prj_122,Millville Energy & Data Center Campus,NJ,Cumberland County,34011,39.4088032,-75.0332377,,Guarded,51.2,2.578,1.0,0.5596,5.0,4.0,38.1,40.0,61.9,98.7,44.3,11
+prj_123,Monroe Township Data Center,NJ,Gloucester County,34015,39.63068297,-74.93468954,,Elevated,66.5,5.19,3.0,0.5121,5.0,6.0,59.7,75.9,56.2,98.7,57.1,24
+prj_124,STAMP Data Center,NY,Genesee County,36037,42.9915,-78.304,500,Low,31.6,3.321,0.0,0.2744,2.0,6.0,42.1,15.0,23.1,37.5,57.1,6
+prj_125,Cayuga Data Campus,NY,Tompkins County,36109,42.6023,-76.628,138,Guarded,45.8,4.167,1.0,0.3959,2.0,9.0,48.4,40.0,42.1,37.5,70.2,6
+prj_126,Lysander Data Center,NY,Onondaga County,36067,43.1325,-76.3376,300,Low,31.8,0.9,1.0,0.4284,2.0,0.0,19.2,40.0,45.1,37.5,9.8,6
+prj_127,Niagara Digital Campus Data Center Development,NY,Niagara County,36063,43.08391756,-79.05282532,,Low,33.7,1.858,1.0,0.295,2.0,2.0,31.2,40.0,30.1,37.5,30.5,6
+prj_128,Oneonta West End Data Center,NY,Otsego County,36077,42.455,-75.055,,Low,27.8,0.853,1.0,0.2683,2.0,2.0,18.0,40.0,22.5,37.5,30.5,1
+prj_129,Brookhaven National Laboratory Data Center,NY,Suffolk County,36103,40.86743817,-72.89549013,,Low,29.6,0.919,0.0,0.5372,2.0,0.0,21.3,15.0,58.8,37.5,9.8,3
+prj_130,Sugar Hill Portland Data Center,NY,Chautauqua County,36013,42.37579809,-79.51981497,,Low,19.9,0.0,0.0,0.3504,2.0,0.0,6.4,15.0,38.2,37.5,9.8,0
+prj_131,Massena Petawatt Data Center Site Advertisement,NY,St. Lawrence County,36089,44.95771162,-74.84814718,200,Low,23.6,0.946,0.0,0.3186,2.0,0.0,21.6,15.0,34.7,37.5,9.8,1
+prj_132,Ilion Data Center,NY,Herkimer County,36043,43.01352625,-75.03366628,,Low,14.5,0.0,0.0,0.2387,2.0,0.0,6.4,15.0,16.5,37.5,9.8,1
+prj_133,Riverview Innovative and Technology Campus Data Center,NY,Erie County,36029,42.98332989,-78.92629003,,Low,38.5,1.858,1.0,0.4722,2.0,2.0,31.2,40.0,49.3,37.5,30.5,6
+prj_134,Rural Hall Data Center,NC,Forsyth County,37067,36.24135237,-80.30180901,,Guarded,40.1,0.807,0.0,0.5712,3.0,13.0,17.4,15.0,64.4,72.2,78.0,7
+prj_135,Person County Mega Park,NC,Person County,37145,36.47985187,-78.98963775,,Low,18.4,0.0,0.0,0.2461,3.0,0.0,6.4,15.0,18.3,72.2,9.8,8
+prj_136,Tarboro Data Center Campus,NC,Edgecombe County,37065,35.90700022,-77.5905037,300,Guarded,47.5,1.681,2.0,0.4837,3.0,4.0,27.7,58.8,51.2,72.2,44.3,3
+prj_137,Fayetteville Data Center Campus,NC,Cumberland County,37051,0.0,0.0,,Low,36.0,0.0,0.0,0.8184,3.0,0.0,6.4,15.0,88.4,72.2,9.8,0
+prj_138,High Point Data Center,NC,Guilford County,37081,36.05205784,-79.95182154,,Low,33.7,0.0,0.0,0.7401,3.0,0.0,6.4,15.0,79.5,72.2,9.8,10
+prj_139,Lenoir Data Center Expansion,NC,Caldwell County,37027,0.0,0.0,,Low,22.7,0.0,0.0,0.3245,3.0,0.0,6.4,15.0,35.4,72.2,9.8,0
+prj_140,Rowan County Data Center,NC,Rowan County,37159,35.69406105,-80.37033957,,Guarded,42.5,2.608,1.0,0.3472,3.0,4.0,38.5,40.0,37.4,72.2,44.3,9
+prj_141,Project Delta,NC,Stokes County,37169,36.38118435,-79.94112825,,Low,27.5,0.807,0.0,0.2233,3.0,13.0,17.4,15.0,14.1,72.2,78.0,7
+prj_142,AWS Richmond County Campus,NC,Richmond County,37153,34.82060089,-79.72416668,,Low,18.7,0.0,0.0,0.2519,3.0,0.0,6.4,15.0,19.5,72.2,9.8,1
+prj_143,Statesville Data Center Campus,NC,Iredell County,37097,35.77086367,-80.96640357,,Guarded,45.0,1.415,1.0,0.5796,3.0,3.0,24.3,40.0,67.0,72.2,37.8,10
+prj_144,CLT20 Moores Chapel,NC,Mecklenburg County,37119,35.25092167,-81.00084159,,Guarded,64.0,4.329,2.0,0.705,3.0,8.0,53.1,58.8,77.8,72.2,66.7,12
+prj_145,CLT10 Uptown Expansion,NC,Mecklenburg County,37119,35.22191683,-80.83534781,,Guarded,52.2,2.527,1.0,0.705,3.0,4.0,37.1,40.0,77.8,72.2,44.3,12
+prj_146,Charlotte University City Data Center,NC,Mecklenburg County,37119,35.30122025,-80.73226971,,Guarded,58.9,3.226,2.0,0.705,3.0,5.0,41.5,58.8,77.8,72.2,51.0,11
+prj_147,5C Charlotte Data Center,NC,Mecklenburg County,37119,0.0,0.0,,Low,33.3,0.0,0.0,0.705,3.0,0.0,6.4,15.0,77.8,72.2,9.8,0
+prj_148,NC-1 Campus (Madison) Data Center,NC,Rockingham County,37157,36.40427826,-79.98908995,,Low,31.7,0.807,0.0,0.2961,3.0,13.0,17.4,15.0,30.8,72.2,78.0,7
+prj_149,Microsoft — Catawba County Campus Cluster (Lyle Creek / Boyd Farm / Hickory / Stover North),NC,Catawba County,37035,0.0,0.0,,Low,15.8,0.0,0.0,0.1967,3.0,0.0,6.4,15.0,7.6,72.2,9.8,0
+prj_150,Greensboro Dream Center,NC,Guilford County,37081,36.05768666,-79.74575475,10,Low,33.7,0.0,0.0,0.7401,3.0,0.0,6.4,15.0,79.5,72.2,9.8,8
+prj_151,Marble Data Center Campus,NC,Cherokee County,37039,35.18558998,-83.91616364,,Low,26.8,1.049,1.0,0.1967,3.0,0.0,22.5,40.0,7.6,72.2,9.8,5
+prj_152,Raleigh New Build Data Center,NC,Wake County,37183,0.0,0.0,,Low,28.9,0.0,0.0,0.5508,3.0,0.0,6.4,15.0,60.3,72.2,9.8,0
+prj_153,Maiden iDataCenter Campus,NC,Catawba County; Lincoln County,37035,35.58929658,-81.25730925,,Low,24.8,1.558,0.0,0.1967,3.0,4.0,24.9,15.0,7.6,72.2,44.3,12
+prj_154,T5 Data Centers Kings Mountain,NC,Cleveland County; Gaston County,37045,35.25027157,-81.39640542,,Low,34.0,2.453,1.0,0.1333,3.0,6.0,34.7,40.0,2.5,72.2,57.1,13
+prj_155,American Tower RA1,NC,Wake County,37183,0.0,0.0,,Low,28.9,0.0,0.0,0.5508,3.0,0.0,6.4,15.0,60.3,72.2,9.8,0
+prj_156,Forest City Data Center Campus,NC,Rutherford County,37161,35.31677477,-81.82520272,,Low,18.9,0.652,0.0,0.1575,3.0,2.0,14.1,15.0,2.8,72.2,30.5,9
+prj_157,Lenoir Campus (Existing + Project Cardinal 2024),NC,Caldwell County,37027,35.89389169,-81.54542395,,Low,39.3,1.726,1.0,0.3245,3.0,4.0,29.3,40.0,35.4,72.2,44.3,5
+prj_158,Natelli Investments New Hill Digital Campus,NC,Wake County,37183,35.65264621,-78.95610019,250,Elevated,70.3,7.765,3.0,0.5508,3.0,8.0,74.6,75.9,60.3,72.2,66.7,14
+prj_159,Tract Mooresville Technology Park,NC,Iredell County,37097,35.51718123,-80.75378681,,Elevated,69.2,5.839,3.0,0.5796,3.0,9.0,64.1,75.9,67.0,72.2,70.2,10
+prj_160,Project Accelerate,NC,Mecklenburg County,37119,0.0,0.0,,Low,33.3,0.0,0.0,0.705,3.0,0.0,6.4,15.0,77.8,72.2,9.8,0
+prj_161,Kingsboro Data Center,NC,Edgecombe County,37065,35.92501155,-77.69463669,300,Guarded,47.5,1.681,2.0,0.4837,3.0,4.0,27.7,58.8,51.2,72.2,44.3,5
+prj_162,Vantage New Albany Data Center Campus,OH,Licking County,39089,40.10047343,-82.74714551,192,Guarded,60.9,7.091,5.0,0.2769,2.0,6.0,71.7,95.5,24.4,37.5,57.1,16
+prj_163,AWS Innovation Campus / New Albany Data Center Campus,OH,Licking County,39089,40.09489884,-82.74916286,,Guarded,60.9,7.091,5.0,0.2769,2.0,6.0,71.7,95.5,24.4,37.5,57.1,16
+prj_164,QTS New Albany Data Center Campus,OH,Licking County,39089,40.06443251,-82.75820015,78,Guarded,62.6,7.935,5.0,0.2769,2.0,7.0,75.4,95.5,24.4,37.5,62.8,16
+prj_165,AWS Hillard Campus,OH,Franklin County,39049,40.0189827,-83.12332992,401,Elevated,76.8,11.024,6.0,0.5763,2.0,10.0,82.9,97.5,66.1,37.5,72.9,19
+prj_166,Project Mila / Trenton Industrial Park Data Center,OH,Butler County,39017,39.4544315,-84.45850395,,Guarded,59.9,5.943,4.0,0.4381,2.0,2.0,64.7,89.1,45.8,37.5,30.5,19
+prj_167,Hamilton Data Center,OH,Butler County,39017,39.38353851,-84.55755333,240,Guarded,48.8,4.325,2.0,0.4381,2.0,2.0,52.8,58.8,45.8,37.5,30.5,17
+prj_168,5C Springfield Data Center,OH,Clark County,39023,39.91311998,-83.7233217,150,Guarded,48.6,3.626,3.0,0.2954,2.0,4.0,46.1,75.9,30.5,37.5,44.3,25
+prj_169,Ashville Data Center,OH,Pickaway County,39129,39.74005791,-82.97048559,,Guarded,59.6,7.588,4.0,0.2542,2.0,7.0,74.3,89.1,20.1,37.5,62.8,20
+prj_170,Piqua Data Center,OH,Miami County,39109,40.11175813,-84.24667915,,Low,33.2,3.402,0.0,0.3594,2.0,2.0,42.9,15.0,39.1,37.5,30.5,15
+prj_171,Project Galaxy,OH,Shelby County,39149,40.2683695,-84.18982925,,Low,22.7,1.634,0.0,0.244,2.0,2.0,25.7,15.0,17.7,37.5,30.5,14
+prj_172,Google Franklin Furnace Data Center,OH,Scioto County,39145,38.59569705,-82.82726031,,Low,35.5,4.235,0.0,0.2861,2.0,6.0,52.1,15.0,26.6,37.5,57.1,12
+prj_173,Van Wert Mega Site,OH,Van Wert County,39161,40.89245226,-84.55737851,500,Low,15.7,0.903,0.0,0.1808,2.0,0.0,19.6,15.0,5.2,37.5,9.8,9
+prj_174,Stargate Project - Lordstown AI Data Center Campus,OH,Trumbull County,39155,41.14548227,-80.87920589,,Guarded,61.7,6.942,2.0,0.6257,2.0,4.0,69.6,58.8,71.6,37.5,44.3,20
+prj_175,Lordstown Data Center,OH,Trumbull County; Mahoning County,39155,41.13519379,-80.86106491,600,Guarded,61.7,6.942,2.0,0.6257,2.0,4.0,69.6,58.8,71.6,37.5,44.3,19
+prj_176,Bitdeer Weathersfield Project,OH,Trumbull County,39155,41.16692553,-80.74706385,300,Guarded,60.6,6.065,2.0,0.6257,2.0,4.0,66.2,58.8,71.6,37.5,44.3,19
+prj_177,"Cipher Mining's ""Ulysses""",OH,Union County,39159,40.12032121,-83.20573591,200,Guarded,55.9,6.951,4.0,0.2201,2.0,6.0,70.1,89.1,12.4,37.5,57.1,19
+prj_178,Google Lockbourne,OH,Franklin County,39049,39.84852577,-82.99642495,,Elevated,75.7,10.279,6.0,0.5763,2.0,9.0,80.2,97.5,66.1,37.5,70.2,19
+prj_179,Johnstown Cologix Data Center,OH,Licking County,39089,40.13371988,-82.7145744,800,Guarded,55.9,5.265,4.0,0.2769,2.0,6.0,60.3,89.1,24.4,37.5,57.1,16
+prj_180,Project Cosmos,OH,Union County,39159,40.2201438,-83.32361447,,Guarded,55.9,5.946,4.0,0.2201,2.0,10.0,65.0,89.1,12.4,37.5,72.9,21
+prj_181,Cologix Lewis Center Data Center,OH,Delaware County,39041,40.19081248,-83.01106238,120,Elevated,65.9,7.803,5.0,0.3502,2.0,7.0,75.0,95.5,37.8,37.5,62.8,19
+prj_182,Strata Expanse AI Center of Excellence,OH,Lawrence County,39087,38.56759954,-82.78277491,,Low,33.6,4.235,0.0,0.2504,2.0,6.0,52.1,15.0,18.9,37.5,57.1,11
+prj_183,Hannibal Data Center Campus,OH,Monroe County,39111,39.70567776,-80.84146301,300,Low,15.9,0.0,0.0,0.268,2.0,0.0,6.4,15.0,22.0,37.5,9.8,7
+prj_184,Bitdeer Clarington Data Center,OH,Monroe County,39111,39.70341657,-80.84947879,,Low,15.9,0.0,0.0,0.268,2.0,0.0,6.4,15.0,22.0,37.5,9.8,7
+prj_185,Meta Bowling Green Data Center,OH,Wood County,39173,41.46794364,-83.64052123,,Guarded,44.2,8.044,0.0,0.285,2.0,10.0,76.0,15.0,26.3,37.5,72.9,24
+prj_186,NEO-01 / Sandusky Data Center,OH,Sandusky County,39143,41.43007557,-82.71984903,96,Low,15.8,0.0,0.0,0.2674,2.0,0.0,6.4,15.0,21.6,37.5,9.8,12
+prj_187,Microsoft Heath Data Center,OH,Licking County,39089,40.02477167,-82.4893704,,Low,39.5,2.695,2.0,0.2769,2.0,2.0,39.7,58.8,24.4,37.5,30.5,15
+prj_188,Microsoft Hebron Data Center,OH,Licking County,39089,39.97039675,-82.4967654,,Low,31.3,1.814,1.0,0.2769,2.0,1.0,30.8,40.0,24.4,37.5,22.5,15
+prj_189,Microsoft New Albany Data Center,OH,Licking County,39089,40.10545505,-82.75829708,,Guarded,62.5,7.803,5.0,0.2769,2.0,7.0,75.0,95.5,24.4,37.5,62.8,16
+prj_190,Urbana Data Center,OH,Champaign County,39021,40.08852371,-83.7608865,,Guarded,43.9,3.626,3.0,0.2199,2.0,4.0,46.1,75.9,11.8,37.5,44.3,24
+prj_191,Akron Data Center Expansion,OH,Fulton County,39051,41.05720574,-81.52212942,,Guarded,54.0,5.716,4.0,0.2371,2.0,5.0,62.6,89.1,16.2,37.5,51.0,17
+prj_192,AWS Wilmington Data Center,OH,Clinton County,39027,39.424014,-83.84240396,,Low,39.8,4.212,2.0,0.2134,2.0,3.0,49.6,58.8,10.6,37.5,37.8,25
+prj_193,Mt. Orab Mega Site,OH,Brown County,39015,39.01320104,-83.89244177,,Low,36.9,2.542,2.0,0.2232,2.0,3.0,37.4,58.8,13.8,37.5,37.8,18
+prj_194,J.M. Stuart Revitilization Project,OH,Adams County,39001,38.63781178,-83.69208115,650,Guarded,57.0,4.225,3.0,0.4703,2.0,9.0,50.1,75.9,48.7,37.5,70.2,12
+prj_195,Killen Revitilization Project,OH,Adams County,39001,38.69144702,-83.47869649,650,Guarded,57.0,4.225,3.0,0.4703,2.0,9.0,50.1,75.9,48.7,37.5,70.2,14
+prj_196,Marysville South Data Center,OH,Union County,39159,40.21492701,-83.34128299,800,Guarded,50.3,5.064,3.0,0.2201,2.0,9.0,58.2,75.9,12.4,37.5,70.2,21
+prj_197,Buck Canyon Properties Data Center,OH,Adams County,39001,38.64639927,-83.65890902,1300,Guarded,57.0,4.225,3.0,0.4703,2.0,9.0,50.1,75.9,48.7,37.5,70.2,12
+prj_198,PORTS Technology Center,OH,Pike County,39131,39.01316521,-83.00090893,10000,Low,20.8,1.72,0.0,0.1866,2.0,2.0,29.0,15.0,6.1,37.5,30.5,18
+prj_199,Project BOSC,OH,Allen County,39003,40.79615096,-84.11932669,,Low,37.6,3.513,1.0,0.3077,2.0,1.0,45.1,40.0,32.4,37.5,22.5,7
+prj_200,Perry Township Data Center,OH,Stark County,39151,40.75045298,-81.44956755,240,Guarded,53.9,3.941,3.0,0.4686,2.0,5.0,47.2,75.9,47.8,37.5,51.0,13
+prj_201,Morabito Slavic Village Data Center,OH,Cuyahoga County,39035,41.46127794,-81.65465458,,Guarded,53.7,3.453,3.0,0.5337,2.0,2.0,44.2,75.9,58.5,37.5,30.5,16
+prj_202,AWS Salem Township Data Center,PA,Luzerne County,42079,41.08541393,-76.15505141,1920,Elevated,82.8,11.442,3.0,0.9317,3.0,13.0,84.2,75.9,94.3,72.2,78.0,36
+prj_203,Project Hazelnut,PA,Luzerne County,42079,40.96611988,-76.04552288,,High,85.1,10.52,4.0,0.9317,3.0,13.0,80.7,89.1,94.3,72.2,78.0,39
+prj_204,Wildcat Ridge AI Data Center,PA,Lackawanna County,42069,41.50265393,-75.58996376,1600,Elevated,84.9,11.554,3.0,0.9749,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
+prj_205,Project Gravity,PA,Lackawanna County,42069,41.52487025,-75.55982315,,Elevated,84.9,11.554,3.0,0.9749,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
+prj_206,Blakely AI Data Center,PA,Lackawanna County,42069,41.48730234,-75.59677116,400,Elevated,84.9,11.554,3.0,0.9749,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
+prj_207,Project Boson,PA,Lackawanna County,42069,41.51204229,-75.55615342,,Elevated,84.9,11.554,3.0,0.9749,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
+prj_208,Jessup Breaker Street Data Center,PA,Lackawanna County,42069,41.47418356,-75.55167722,600,Elevated,84.9,11.554,3.0,0.9749,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
+prj_209,Project Gold,PA,Lackawanna County,42069,41.25171332,-75.51721079,1500,High,91.0,14.123,4.0,0.9749,3.0,18.0,92.7,89.1,97.8,72.2,92.3,36
+prj_210,East Whiteland Township Data Center,PA,Chester County,42029,40.03918189,-75.58675747,,Elevated,77.5,10.978,2.0,0.858,3.0,15.0,82.6,58.8,89.3,72.2,84.8,35
+prj_211,QTS Salem Data Center,PA,Luzerne County,42079,41.08918402,-76.17975485,,Elevated,82.8,11.442,3.0,0.9317,3.0,13.0,84.2,75.9,94.3,72.2,78.0,36
+prj_212,AWS Keystone Trade Center Campus,PA,Bucks County,42017,40.16092786,-74.7577123,,Elevated,78.7,7.539,4.0,0.8048,3.0,6.0,74.0,89.1,85.3,72.2,57.1,44
+prj_213,CoreWeave Lancaster AI Campuses,PA,Lancaster County,42071,40.0432,-76.2576,300,Low,39.9,2.547,0.0,0.558,3.0,1.0,37.6,15.0,61.5,72.2,22.5,22
+prj_214,Allentown Warehouse Conversion Data Center,PA,Lehigh County,42077,40.56743843,-75.47433818,,Elevated,71.7,9.485,3.0,0.5751,3.0,6.0,78.1,75.9,65.3,72.2,57.1,44
+prj_215,PAX – Pennsylvania Digital I,PA,Cumberland County,42041,40.25827177,-77.11782185,1350,Guarded,52.7,4.955,1.0,0.4415,3.0,8.0,57.3,40.0,46.3,72.2,66.7,14
+prj_216,TECfusions “Keystone Connect” AI Campus,PA,Westmoreland County,42129,40.55148482,-79.64813466,3000,Low,39.1,1.878,1.0,0.4224,3.0,0.0,32.4,40.0,44.8,72.2,9.8,10
+prj_217,Springdale AI Data Center Redevelopment,PA,Allegheny County,42003,40.53856579,-79.79046974,180,Guarded,45.2,1.878,1.0,0.6101,3.0,0.0,32.4,40.0,69.3,72.2,9.8,10
+prj_218,Homer City Energy + AI Campus,PA,Indiana County,42063,40.51388415,-79.19678004,4500,Low,19.6,0.0,0.0,0.2738,3.0,0.0,6.4,15.0,22.8,72.2,9.8,2
+prj_219,Panther Creek (Nesquehoning) HPC/AI Conversion,PA,Carbon County,42025,40.85810449,-75.86678277,350,Elevated,75.6,11.302,3.0,0.5645,3.0,15.0,83.5,75.9,63.5,72.2,84.8,44
+prj_220,Fairview Crossroads Data Center,PA,York County,42133,40.20763745,-76.88105807,,Elevated,67.9,7.507,1.0,0.8059,3.0,9.0,73.5,40.0,86.3,72.2,70.2,15
+prj_221,Dauphin Highlands Golf Course sold for Data Center,PA,Dauphin County,42043,40.2272952,-76.80957537,,Guarded,64.4,7.507,1.0,0.6393,3.0,9.0,73.5,40.0,72.3,72.2,70.2,15
+prj_222,Hollenback Township Data Center Development Zoning Application,PA,Luzerne County,42079,41.08020287,-76.10642775,,Elevated,77.6,10.536,2.0,0.9317,3.0,13.0,81.1,58.8,94.3,72.2,78.0,36
+prj_223,Jessup Sunnyside Data Center,PA,Lackawanna County,42069,41.46826509,-75.54760961,,Elevated,84.9,11.554,3.0,0.9749,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
+prj_224,McKees Rocks Industrial Site Data Center,PA,Allegheny County,42003,40.4802974,-80.05962827,,Elevated,72.2,6.054,4.0,0.6101,3.0,6.0,65.5,89.1,69.3,72.2,57.1,12
+prj_225,Project Hummingbird,PA,Greene County,42059,39.8340493,-79.94407164,910,Low,20.5,0.907,0.0,0.2112,3.0,0.0,20.1,15.0,10.0,72.2,9.8,8
+prj_226,Zediker Station Data Center,PA,Washington County,42125,40.17611743,-80.16151557,,Elevated,70.9,6.059,3.0,0.814,3.0,2.0,65.9,75.9,87.5,72.2,30.5,11
+prj_227,Archbald I LLC Data Center Campuses,PA,Lackawanna County,42069,41.51661739,-75.56512591,,Elevated,84.9,11.554,3.0,0.9749,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
+prj_228,Former Air Products Headquarters Data Center,PA,Lehigh County,42077,40.55415027,-75.59980631,,Elevated,67.9,9.384,2.0,0.5751,3.0,7.0,77.8,58.8,65.3,72.2,62.8,40
+prj_229,Pennhurst Data Center,PA,Chester County,42029,40.19431755,-75.56108097,,Elevated,79.8,12.7,2.0,0.858,3.0,15.0,90.2,58.8,89.3,72.2,84.8,35
+prj_230,Conshohocken Data Center,PA,Montgomery County,42091,40.086677,-75.317786,,High,87.5,15.312,4.0,0.7827,3.0,17.0,94.5,89.1,82.7,72.2,89.7,38
+prj_231,Storage Data Center Project,PA,Tioga County,42117,41.97718191,-77.14159141,,Low,16.1,0.0,0.0,0.2001,3.0,0.0,6.4,15.0,9.1,72.2,9.8,1
+prj_232,Dickson City Data Centers,PA,Lackawanna County,42069,41.47228006,-75.6389869,,High,86.4,12.377,3.0,0.9749,3.0,17.0,89.4,75.9,97.8,72.2,89.7,26
+prj_233,West Hazleton Data Center,PA,Luzerne County,42079,40.96565469,-76.01156213,,High,86.0,11.389,4.0,0.9317,3.0,13.0,83.8,89.1,94.3,72.2,78.0,39
+prj_234,Sugarloaf Township Data Center,PA,Luzerne County,42079,40.97036803,-76.0721478,,Elevated,81.4,9.674,3.0,0.9317,3.0,13.0,79.3,75.9,94.3,72.2,78.0,39
+prj_235,Linfield Data Center,PA,Montgomery County,42091,40.20092763,-75.57527627,,Elevated,78.1,12.7,2.0,0.7827,3.0,15.0,90.2,58.8,82.7,72.2,84.8,35
+prj_236,Kline Township Data Center,PA,Schuylkill County,42107,40.87754226,-76.01469842,,Elevated,79.0,10.52,4.0,0.6161,3.0,13.0,80.7,89.1,70.1,72.2,78.0,41
+prj_237,Ransom Township Data Center,PA,Lackawanna County,42069,41.4485852,-75.70026061,,High,86.4,12.377,3.0,0.9749,3.0,17.0,89.4,75.9,97.8,72.2,89.7,26
+prj_238,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,PA,Lehigh County,42077,40.64345138,-75.53658984,,Elevated,73.2,10.164,3.0,0.5751,3.0,8.0,79.9,75.9,65.3,72.2,66.7,44
+prj_239,Smithfield Gateway Project,PA,Monroe County,42089,41.00617471,-75.15065763,,Elevated,72.5,6.547,4.0,0.5797,3.0,6.0,68.0,89.1,67.6,72.2,57.1,39
+prj_240,Project Phoenix,PA,Beaver County,42007,40.633,-80.4153,3600,Guarded,62.2,4.508,2.0,0.6875,3.0,5.0,54.2,58.8,75.7,72.2,51.0,19
+prj_241,Bradford County / Klondike Data Center Project,PA,Bradford County,42015,41.65369277,-76.23256883,218,Low,18.2,0.0,0.0,0.2423,3.0,0.0,6.4,15.0,17.4,72.2,9.8,22
+prj_242,Limerick / Project Laurel Data Center,PA,Montgomery County,42091,40.23218123,-75.57349531,750,Elevated,79.3,14.446,2.0,0.7827,3.0,16.0,93.2,58.8,82.7,72.2,87.5,36
+prj_243,Peach Bottom Data Center,PA,York County,42133,39.73803078,-76.30721563,,Guarded,46.6,2.522,0.0,0.8059,3.0,2.0,36.8,15.0,86.3,72.2,30.5,22
+prj_244,NorthPoint Spring Mountain Data Center,PA,Carbon County,42025,40.91668696,-75.92819869,,Elevated,73.5,9.614,3.0,0.5645,3.0,13.0,78.7,75.9,63.5,72.2,78.0,41
+prj_245,Penn Forest Township Data Center,PA,Carbon County,42025,40.90018884,-75.66877208,,Elevated,77.9,13.948,3.0,0.5645,3.0,14.0,92.4,75.9,63.5,72.2,81.5,43
+prj_246,Tobyhanna Township / Blakeslee Data Center,PA,Monroe County,42089,41.13227151,-75.61026733,,High,86.4,16.322,5.0,0.5797,3.0,21.0,95.4,95.5,67.6,72.2,97.6,37
+prj_247,Talen Energy Rezone Request for Possible Data Center in Montour County,PA,Montour County,42093,41.09449749,-76.65469331,,Guarded,45.2,4.425,2.0,0.2193,3.0,4.0,53.4,58.8,11.2,72.2,44.3,19
+prj_248,Fezzik Aliquippa Data Center,PA,Beaver County,42007,40.63013352,-80.23637249,496,Guarded,62.2,4.508,2.0,0.6875,3.0,5.0,54.2,58.8,75.7,72.2,51.0,19
+prj_249,Dorrance Township Data Center Zoning Ordinance Challenge,PA,Luzerne County,42079,41.08587671,-75.95575846,,Elevated,84.2,12.297,3.0,0.9317,3.0,13.0,88.8,75.9,94.3,72.2,78.0,38
+prj_250,Project Green Mountain,PA,Lackawanna County,42069,41.50989356,-75.52445531,,Elevated,84.9,11.554,3.0,0.9749,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
+prj_251,East Manchester Farmland to Data Center Initiative Interest,PA,York County,42133,40.06896237,-76.68420106,,Guarded,64.2,5.628,1.0,0.8059,3.0,8.0,62.4,40.0,86.3,72.2,66.7,15
+prj_252,Conewago Township Data Center Land Considerations,PA,York County,42133,40.02474644,-76.82033606,,Elevated,66.1,6.637,1.0,0.8059,3.0,8.0,68.9,40.0,86.3,72.2,66.7,16
+prj_253,Briar Creek Township Data Center Zoning Overlay,PA,Columbia County,42037,41.12070111,-76.23433152,,Elevated,68.6,10.585,4.0,0.2809,3.0,14.0,81.5,89.1,26.0,72.2,81.5,33
+prj_254,South Hanover Township Data Center,PA,Dauphin County,42043,40.27370582,-76.70247517,,Guarded,62.7,6.649,1.0,0.6393,3.0,8.0,69.2,40.0,72.3,72.2,66.7,13
+prj_255,Lower Mount Bethel Technology Center,PA,Northampton County,42095,40.82152787,-75.1017816,1200,Guarded,62.9,4.15,3.0,0.6696,3.0,3.0,48.1,75.9,74.1,72.2,37.8,47
+prj_256,Sellersville / West Rockhill Township Data Center,PA,Bucks County,42017,40.34879997,-75.32982269,,High,89.6,18.765,4.0,0.8048,3.0,19.0,98.1,89.1,85.3,72.2,93.8,41
+prj_257,Iron City No. 1 Power Generator and Compute Center,PA,Clearfield County,42033,41.12090453,-78.1138798,,Low,18.8,0.0,0.0,0.2538,3.0,0.0,6.4,15.0,19.8,72.2,9.8,2
+prj_258,North Coventry Township Data Center,PA,Chester County,42029,40.23595694,-75.65857193,,Elevated,81.0,14.446,2.0,0.858,3.0,16.0,93.2,58.8,89.3,72.2,87.5,38
+prj_259,Prologis Warehouse Data Center,PA,Northampton County,42095,40.7015124,-75.4801445,,Elevated,76.7,10.875,3.0,0.6696,3.0,10.0,82.3,75.9,74.1,72.2,72.9,47
+prj_260,Switch Data Center at Former Pitt Race Complex,PA,Beaver County,42007,40.84777195,-80.34616116,,Guarded,64.5,5.395,2.0,0.6875,3.0,5.0,61.8,58.8,75.7,72.2,51.0,16
+prj_261,Allenwood Data Center,PA,Union County,42119,41.11573034,-76.90130208,300,Low,36.9,2.661,1.0,0.2517,3.0,2.0,39.3,40.0,19.2,72.2,30.5,13
+prj_262,Fort Cherry Development District,PA,Washington County,42125,40.3687382,-80.25693285,,Elevated,78.2,6.961,4.0,0.814,3.0,6.0,70.4,89.1,87.5,72.2,57.1,12
+prj_263,Starpointe Data Center Project,PA,Washington County,42125,40.42897263,-80.41166631,,Elevated,74.7,5.112,4.0,0.814,3.0,6.0,58.8,89.1,87.5,72.2,57.1,12
+prj_264,Champion Data Center Project,PA,Washington County,42125,40.41702422,-80.30112451,300,Elevated,76.7,6.054,4.0,0.814,3.0,6.0,65.5,89.1,87.5,72.2,57.1,12
+prj_265,South Annville Township Data Center,PA,Lebanon County,42075,40.32188693,-76.52813066,,Guarded,54.4,6.514,1.0,0.3721,3.0,8.0,67.7,40.0,40.6,72.2,66.7,17
+prj_266,Newton Township Data Center,PA,Lackawanna County,42069,41.45147677,-75.71165521,,High,86.4,12.377,3.0,0.9749,3.0,17.0,89.4,75.9,97.8,72.2,89.7,26
+prj_267,New Castle Data Center,PA,Schuylkill County,42107,40.77481697,-76.23620462,,Elevated,74.3,8.838,3.0,0.6161,3.0,12.0,76.9,75.9,70.1,72.2,75.0,31
+prj_268,Watts Township Data Center,PA,Perry County,42099,40.43360096,-77.00724929,,Guarded,44.3,5.062,1.0,0.2337,3.0,6.0,57.9,40.0,15.9,72.2,57.1,17
+prj_269,Project Triboro,PA,Lackawanna County,42069,41.44415192,-75.56713892,,Elevated,84.9,11.554,3.0,0.9749,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
+prj_270,Linde Clinton Data Center,PA,Wayne County,42127,41.63476786,-75.44576229,,Guarded,61.1,8.235,3.0,0.2331,3.0,14.0,76.3,75.9,15.6,72.2,81.5,17
+prj_271,East Brandywine Data Center,PA,Chester County,42029,40.02715476,-75.78690503,,Guarded,63.4,4.92,1.0,0.858,3.0,10.0,55.2,40.0,89.3,72.2,72.9,34
+prj_272,Renaissance Boulevard Data Center Campus,PA,Montgomery County,42091,40.08265474,-75.3410236,,High,87.5,15.312,4.0,0.7827,3.0,17.0,94.5,89.1,82.7,72.2,89.7,37
+prj_273,600 River Road Data Center,PA,Montgomery County,42091,40.0939398,-75.32503398,,High,87.5,15.312,4.0,0.7827,3.0,17.0,94.5,89.1,82.7,72.2,89.7,37
+prj_274,3200 Horizon Drive Data Center,PA,Montgomery County,42091,40.08705063,-75.33861848,,High,87.5,15.312,4.0,0.7827,3.0,17.0,94.5,89.1,82.7,72.2,89.7,37
+prj_275,Smithfield Data Center,RI,Providence County,44007,41.935469,-71.52036919,,Low,39.9,1.77,1.0,0.5746,2.0,0.0,29.9,40.0,64.7,37.5,9.8,6
+prj_276,Colossus,TN,Shelby County,47157,35.06015556,-90.15650152,150,Elevated,66.4,17.748,0.0,0.771,2.0,20.0,97.0,15.0,81.0,37.5,95.8,24
+prj_277,Colossus 2,TN,Shelby County,47157,34.99870981,-90.03812933,422,Elevated,66.4,17.748,0.0,0.771,2.0,20.0,97.0,15.0,81.0,37.5,95.8,24
+prj_278,ExoticRidge Bitcoin Mine,TN,Hawkins County,47073,36.29580681,-83.03926889,8,Low,16.3,0.711,0.0,0.222,2.0,0.0,15.0,15.0,13.2,37.5,9.8,7
+prj_279,CleanSpark Mountain City Bitcoin Mine,TN,Johnson County,47091,36.44568006,-81.80073638,30,Low,34.2,2.462,2.0,0.1613,2.0,4.0,35.0,58.8,3.4,37.5,44.3,8
+prj_280,Gallatin Data Center Expansion,TN,Sumner County,47165,36.40865292,-86.37040153,300,Low,37.5,2.63,2.0,0.2587,2.0,1.0,38.8,58.8,20.7,37.5,22.5,12
+prj_281,Neural Nexus Data Center,TN,Shelby County,47157,35.14095312,-90.04757753,70,Elevated,66.4,17.748,0.0,0.771,2.0,20.0,97.0,15.0,81.0,37.5,95.8,24
+prj_282,RadiusDC Nashville I / Trinity Hills Colocation Data Center,TN,Davidson County,47037,36.22227227,-86.78351657,12,Guarded,58.9,5.409,3.0,0.551,2.0,1.0,62.1,75.9,61.0,37.5,22.5,9
+prj_283,5C Memphis Data Center,TN,Shelby County,47157,35.03183751,-89.93263096,60,Elevated,66.4,17.748,0.0,0.771,2.0,20.0,97.0,15.0,81.0,37.5,95.8,24
+prj_284,Lawrenceburg / Ethridge Data Center,TN,Lawrence County,47099,35.29402267,-87.32017668,,Low,13.0,0.0,0.0,0.2121,2.0,0.0,6.4,15.0,10.3,37.5,9.8,0
+prj_285,Ridgeline Facility,WV,Tucker County,54093,39.15911839,-79.47121517,,Low,26.9,1.676,0.0,0.1124,4.0,5.0,27.2,15.0,1.6,94.5,51.0,2
+prj_286,"Adams Fork Harless Data Center Energy Campus, Holden",WV,Logan County,54045,37.75306909,-82.11292654,2500,Low,23.2,0.712,0.0,0.2015,4.0,2.0,15.5,15.0,9.4,94.5,30.5,1
+prj_287,"Adams Fork Data Center Energy Campus, Wharncliffe",WV,Mingo County,54059,37.5970543,-81.95842838,,Low,21.9,0.712,0.0,0.1658,4.0,2.0,15.5,15.0,4.0,94.5,30.5,1
+prj_288,Monarch Compute Campus and Mountaineer Gigasystem,WV,Mason County,54053,38.91458813,-82.11477824,2000,Low,21.6,0.915,0.0,0.1788,4.0,0.0,20.8,15.0,4.9,94.5,9.8,6
+prj_289,QTS Kearneysville Data Center Complex,WV,Jefferson County; Berkeley County,54037,39.40601474,-77.89272666,,Low,31.9,1.797,1.0,0.1121,4.0,2.0,30.4,40.0,1.3,94.5,30.5,28
+prj_290,Penzance Intelligence Center,WV,Berkeley County,54003,39.53777133,-77.88682289,600,Guarded,41.5,1.797,1.0,0.3616,4.0,2.0,30.4,40.0,39.4,94.5,30.5,21
+prj_291,Google Buffalo Data Center,WV,Putnam County,54079,38.64062703,-81.95363899,,Low,25.7,0.915,0.0,0.2638,4.0,0.0,20.8,15.0,21.0,94.5,9.8,5
+prj_292,Appalachian Mega Site / Hog Lick Data Center,WV,Marion County,54049,39.41956843,-80.21658076,200,Low,22.5,0.0,0.0,0.2802,4.0,0.0,6.4,15.0,25.7,94.5,9.8,4
+prj_293,Quakertown Data Center Park,PA,Bucks County,42017,40.41121767,-75.34561374,1000,High,88.8,17.036,4.0,0.8048,3.0,18.0,96.0,89.1,85.3,72.2,92.3,41
+prj_294,Cumru Titus Data Center,PA,Berks County,42011,40.30604668,-75.91162467,200,Guarded,49.3,3.257,1.0,0.486,3.0,8.0,41.8,40.0,51.6,72.2,66.7,38
+prj_295,Nottingham Data Center,NH,Rockingham County,33015,43.17994869,-71.1001181,,Low,37.4,1.742,1.0,0.3351,3.0,1.0,29.6,40.0,36.2,72.2,22.5,5
+prj_296,Andover Data Center,NJ,Sussex County,34037,41.03259839,-74.76603349,,Guarded,43.5,2.444,1.0,0.3766,5.0,2.0,34.4,40.0,40.9,98.7,30.5,25
+prj_297,Jailhouse Studios,TN,Hamilton County,47065,35.04954023,-85.30803088,,Guarded,47.9,2.715,2.0,0.5292,2.0,2.0,40.0,58.8,57.6,37.5,30.5,7
+prj_298,Maysville Data Center,KY,Mason County,21161,38.68393644,-83.81782457,2200,Guarded,52.2,5.05,4.0,0.1858,2.0,11.0,57.6,89.1,5.8,37.5,74.3,12
+prj_299,Albany Kenwood Data Center,NY,Albany County,36001,42.62886666,-73.77148535,,Low,20.1,0.0,0.0,0.357,2.0,0.0,6.4,15.0,38.8,37.5,9.8,0
+prj_300,Microsoft La Porte Data Center,IN,LaPorte County,18091,41.57726301,-86.67836375,,Elevated,67.4,7.181,4.0,0.5611,1.0,8.0,72.2,89.1,62.6,11.8,66.7,20
+prj_301,JPG Data Center,IN,Jefferson County,18077,38.83318591,-85.41589009,,Low,16.2,0.911,0.0,0.2393,1.0,0.0,20.4,15.0,16.8,11.8,9.8,11
+prj_302,Amazon Wheatfield,IN,Jasper County,18073,41.22626387,-87.00359458,,Guarded,42.3,3.912,3.0,0.1956,1.0,7.0,46.9,75.9,7.0,11.8,62.8,18
+prj_303,Granville Data Center,PA,Mifflin County,42087,40.56908144,-77.61398863,,Low,21.5,0.96,0.0,0.2197,3.0,0.0,22.2,15.0,11.5,72.2,9.8,8
+prj_304,DartPoints Former Lexmark Data Center Redevelopment,KY,Fayette County,21067,38.0752589,-84.48732138,,Guarded,45.6,2.836,2.0,0.5101,2.0,0.0,40.6,58.8,55.8,37.5,9.8,6
+prj_305,Nashville DC Blox Data Center,TN,Davidson County,47037,36.09042198,-86.74633128,,Guarded,44.9,3.514,1.0,0.551,2.0,1.0,45.4,40.0,61.0,37.5,22.5,9
+prj_306,Muskie Data Campus,KY,Carter County,21043,38.40017631,-82.79634195,,Low,26.5,3.402,0.0,0.1943,2.0,4.0,42.9,15.0,6.7,37.5,44.3,9
+prj_307,Muncy Data Center,PA,Lycoming County,42081,41.22793466,-76.81183441,,Low,39.2,2.661,1.0,0.2903,3.0,2.0,39.3,40.0,28.7,72.2,30.5,13
+prj_308,Gemini Sioux Falls Data Center,SD,Minnehaha County,46099,43.59370023,-96.6401013,500,Low,30.0,1.616,0.0,0.2879,3.0,4.0,25.4,15.0,28.1,72.2,44.3,3
+prj_309,Sequitor Edge Rapid City,SD,Pennington County,46103,44.02731001,-103.1840971,10,Low,21.1,0.0,0.0,0.2909,3.0,0.0,6.4,15.0,29.0,72.2,9.8,0
+prj_310,Polaris Forge 1,ND,Dickey County,38021,46.01289235,-98.57186221,400,Low,11.6,0.691,0.0,0.0593,1.0,1.0,14.4,15.0,0.4,11.8,22.5,1
+prj_311,Polaris Forge 2,ND,Cass County,38017,46.96719859,-96.87059463,1000,Low,19.4,0.707,0.0,0.2979,1.0,1.0,14.7,15.0,31.1,11.8,22.5,1
+prj_312,Applied Digital Oliver County,ND,Oliver County,38065,47.10645479,-101.344641,430,Low,21.4,1.4,1.0,0.0513,1.0,2.0,23.8,40.0,0.1,11.8,30.5,3
+prj_313,River Run Energy Center,ND,Mercer County,38057,47.27256043,-101.4503149,1450,Low,21.5,1.4,1.0,0.0926,1.0,2.0,23.8,40.0,0.7,11.8,30.5,3
+prj_314,Project Fighting Pike,ND,Williams County,38105,48.2324742,-103.6344227,455,Low,24.5,0.332,1.0,0.3137,1.0,0.0,13.1,40.0,33.6,11.8,9.8,1
+prj_315,Atlas Power Williston,ND,Williams County,38105,48.14614934,-103.7725071,700,Low,24.5,0.332,1.0,0.3137,1.0,0.0,13.1,40.0,33.6,11.8,9.8,1
+prj_316,4-3 Salem Township Data Center,PA,Luzerne County,42079,41.09268711,-76.20451035,3500,High,85.7,10.585,4.0,0.9317,3.0,14.0,81.5,89.1,94.3,72.2,81.5,35
+prj_317,Holyoke Data Center,MA,Hampden County,25013,42.197424,-72.600933,20,Guarded,50.9,3.154,2.0,0.7099,1.0,2.0,40.9,58.8,78.9,11.8,30.5,5
+prj_318,Project Domino,IN,Boone County,18011,40.05811921,-86.54115183,1000,Guarded,45.8,3.223,3.0,0.295,1.0,6.0,41.2,75.9,30.1,11.8,57.1,22
+prj_319,Gravel Pike Data Center,PA,Montgomery County,42091,40.4190452,-75.5133896,,Elevated,78.8,14.598,2.0,0.7827,3.0,14.0,93.6,58.8,82.7,72.2,81.5,38
+prj_320,Sharon Keel Infrastructure Data Center Expansion,PA,Mercer County,42085,41.24401767,-80.50629588,110,Guarded,55.9,7.027,2.0,0.3082,3.0,4.0,71.0,58.8,32.9,72.2,44.3,13
+prj_321,PNK Valley View Data Center,PA,Lackawanna County,42069,41.47914648,-75.51858421,,Elevated,84.9,11.554,3.0,0.9749,3.0,15.0,86.0,75.9,97.8,72.2,84.8,26
+prj_322,Ransom Township Mudiita Data Center,PA,Lackawanna County,42069,41.38663332,-75.76165592,750,High,86.9,13.276,3.0,0.9749,3.0,17.0,90.9,75.9,97.8,72.2,89.7,27
+prj_323,Nebius Butler Township Data Center,PA,Schuylkill County,42107,40.7386815,-76.3191425,1200,Guarded,64.2,5.785,2.0,0.6161,3.0,6.0,63.5,58.8,70.1,72.2,57.1,30
+prj_325,Swedeland Discovery Center Data Center Campus,PA,Montgomery County,42091,40.07589993,-75.33279859,,High,87.5,15.312,4.0,0.7827,3.0,17.0,94.5,89.1,82.7,72.2,89.7,37
+prj_326,Stonebridge Lawrence Data Center,PA,Lawrence County,42073,40.99142125,-80.42833073,,Guarded,47.3,5.348,1.0,0.3171,3.0,2.0,61.5,40.0,34.4,72.2,30.5,14
+prj_321,Harper Road Technology Park,MO,Cass,29037,38.7192,-94.4585,,Low,31.0,1.382,1.0,0.3282,1.0,3.0,23.4,40.0,35.9,11.8,37.8,14
+prj_322,Province Group Perry Village Data Center Campus,OH,Lake,39085,41.7631,-81.143,,Guarded,40.8,1.583,2.0,0.4501,2.0,2.0,25.1,58.8,46.9,37.5,30.5,11
+prj_323,Meta Hyperion,LA,Richland,22083,32.507,-91.647,,Low,38.7,4.951,0.0,0.3042,2.0,7.0,56.8,15.0,31.5,37.5,62.8,8
+prj_324,Prado AI Industrial Campus,MS,Madison,28089,32.4285,-90.1323,,Guarded,47.9,4.232,1.0,0.5042,2.0,5.0,51.2,40.0,54.9,37.5,51.0,6
+prj_325,New Carlisle Chicago Trail Data Center (Third Site),IN,St. Joseph,18141,41.72,-86.51,,Guarded,61.2,5.307,2.0,0.8664,1.0,4.0,61.0,58.8,90.5,11.8,44.3,21
+prj_326,Project Maize / Google Michigan City Data Center,IN,LaPorte,18091,41.6906,-86.925,,Guarded,57.3,6.353,2.0,0.5611,1.0,6.0,67.0,58.8,62.6,11.8,57.1,19
+prj_327,Meta Project Everest,LA,Richland,22083,32.46,-91.75,,Low,38.7,4.951,0.0,0.3042,2.0,7.0,56.8,15.0,31.5,37.5,62.8,7
+prj_328,Terra Nexus Custer Avenue Data Center,NC,Cumberland,37051,35.08,-78.8,200,Elevated,65.8,3.422,3.0,0.8184,3.0,4.0,43.6,75.9,88.4,72.2,44.3,9
+prj_330,Project Sail Data Center,GA,Coweta,13077,33.354,-84.842,900,Elevated,68.7,9.77,3.0,0.3957,3.0,14.0,79.6,75.9,41.8,72.2,81.5,26
+prj_331,Howell Township Data Center (Project Splitrock),MI,Livingston,26093,42.61,-83.99,,Elevated,65.7,7.482,5.0,0.401,1.0,13.0,73.1,95.5,43.5,11.8,78.0,44
+prj_332,Natelli Vance County Data Center,NC,Vance,37181,36.34,-78.42,,Low,30.1,1.483,0.0,0.3067,3.0,3.0,24.6,15.0,32.0,72.2,37.8,7
