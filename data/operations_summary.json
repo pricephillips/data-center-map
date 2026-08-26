@@ -176,13 +176,19 @@
   },
   "promotions": {
     "census_gaps": {
-      "decisions": 2,
+      "decisions": 3,
       "by_action": {
-        "held": 2
+        "held": 3
       },
       "first_run": null,
       "last_run": null,
       "recent": [
+        {
+          "date": "",
+          "action": "held",
+          "what": "NC Cherokee County moratorium",
+          "reason": "no usable date: a dateless row is held out of the clean feed as incomplete, stranding the label"
+        },
         {
           "date": "",
           "action": "held",
@@ -342,11 +348,11 @@
       "priority_1": 2
     },
     "stale_pending": {
-      "scoped": 267,
-      "stale": 233,
-      "priority_1_label_moving": 14,
-      "counties_in_priority_1": 14,
-      "as_of": "2026-08-25"
+      "scoped": 270,
+      "stale": 237,
+      "priority_1_label_moving": 16,
+      "counties_in_priority_1": 16,
+      "as_of": "2026-08-26"
     },
     "decision_dates": {
       "open": 46
