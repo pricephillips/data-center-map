@@ -114,6 +114,30 @@ def build(config: dict, root: str = HERE, today: str | None = None) -> dict:
     today = today or dt.date.today().isoformat()
     entries = []
     for src in config["sources"]:
+        # A planned source has no file yet. It still belongs in the manifest,
+        # because "declared, not yet acquired" is a different state from
+        # "nobody has thought about it", and only one of the two is progress.
+        if not src.get("file"):
+            entries.append({
+                "source_id": src["source_id"],
+                "label": src["label"],
+                "short_label": src.get("short_label", src["label"]),
+                "file": None,
+                "layer": src.get("layer", "A"),
+                "publisher": src.get("publisher"),
+                "landing_urls": src.get("landing_urls", []),
+                "license": src.get("license", "unconfirmed"),
+                "geography": src.get("geography"),
+                "upstream_vintage": src.get("upstream_vintage"),
+                "vintage_status": src.get("vintage_status", "undeclared"),
+                "refresh": src.get("refresh", {}),
+                "acquisition": src.get("acquisition", {}),
+                "notes": src.get("notes", ""),
+                "present": False, "rows": None, "rows_us": None,
+                "sha256_12": None, "repo_last_changed": None,
+                "days_since_repo_change": None,
+            })
+            continue
         path = os.path.join(root, src["file"])
         entry = {
             "source_id": src["source_id"],
@@ -128,6 +152,7 @@ def build(config: dict, root: str = HERE, today: str | None = None) -> dict:
             "upstream_vintage": src.get("upstream_vintage"),
             "vintage_status": src.get("vintage_status", "undeclared"),
             "refresh": src.get("refresh", {}),
+            "acquisition": src.get("acquisition", {}),
             "notes": src.get("notes", ""),
         }
         if not os.path.exists(path):
@@ -150,6 +175,8 @@ def build(config: dict, root: str = HERE, today: str | None = None) -> dict:
 
     piped = [e for e in entries if e["refresh"].get("pipeline")]
     dated = [e for e in entries if e["vintage_status"] == "declared"]
+    pinning = [e for e in entries
+               if (e.get("acquisition") or {}).get("status") == "needs_manual_pin"]
     return {
         "generated": today,
         "sources": entries,
@@ -158,6 +185,7 @@ def build(config: dict, root: str = HERE, today: str | None = None) -> dict:
             "rows": sum(e["rows"] or 0 for e in entries),
             "sources_with_a_pipeline": len(piped),
             "sources_with_a_declared_vintage": len(dated),
+            "sources_awaiting_a_manual_pin": len(pinning),
         },
         "note": ("repo_last_changed is when the file last changed in this "
                  "repository. It is not the age of the data: a snapshot "
@@ -206,6 +234,10 @@ def selftest() -> int:
               days_since(None, "2026-08-26") is None)
 
         cfg = {"sources": [
+            {"source_id": "s0", "label": "Planned source", "file": None,
+             "vintage_status": "undeclared",
+             "acquisition": {"status": "needs_manual_pin"},
+             "refresh": {"cadence": "unknown", "pipeline": False}},
             {"source_id": "s1", "label": "Present source", "file": "multi.csv",
              "vintage_status": "undeclared",
              "refresh": {"cadence": "unknown", "pipeline": False}},
@@ -217,6 +249,11 @@ def selftest() -> int:
         ]}
         m = build(cfg, root=tmp, today="2026-08-26")
         by = {e["source_id"]: e for e in m["sources"]}
+        check("a planned source is declared, not skipped",
+              by["s0"]["present"] is False and by["s0"]["rows"] is None
+              and by["s0"]["file"] is None)
+        check("pinning work is counted",
+              m["totals"]["sources_awaiting_a_manual_pin"] == 1)
         check("missing file reports absent, not zero rows",
               by["s3"]["present"] is False and by["s3"]["rows"] is None)
         check("totals count only present rows", m["totals"]["rows"] == 5)

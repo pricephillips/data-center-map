@@ -41,6 +41,15 @@
   /* One sentence of provenance for one source. Pure: no DOM, no network. */
   function describe(entry) {
     if (!entry) return '';
+    if (!entry.file) {
+      // A declared but unacquired source. It belongs in the manifest, because
+      // "declared, not yet acquired" is progress and "nobody has thought about
+      // it" is not, but it backs no data on this page, so it is not described
+      // here unless the caller asks for it.
+      var acq = entry.acquisition || {};
+      return entry.label + ': declared, not yet acquired' +
+             (acq.status ? ' (' + acq.status.replace(/_/g, ' ') + ')' : '') + '.';
+    }
     if (entry.present === false) {
       return entry.label + ': file absent from this build.';
     }
@@ -95,12 +104,16 @@
     return attempt();
   }
 
-  function lines(manifest, only) {
+  function lines(manifest, only, includePlanned) {
     var sources = (manifest && manifest.sources) || [];
     if (only && only.length) {
       sources = sources.filter(function (s) {
         return only.indexOf(s.source_id) >= 0;
       });
+    }
+    if (!includePlanned) {
+      // Default: describe only the sources whose data this page is showing.
+      sources = sources.filter(function (s) { return !!s.file; });
     }
     return sources.map(describe).filter(Boolean);
   }
@@ -111,7 +124,7 @@
     if (!el) return Promise.resolve(null);
     return fetchFirst(opts.urls || MANIFEST_URLS, opts.fetchImpl)
       .then(function (manifest) {
-        var body = lines(manifest, opts.sources);
+        var body = lines(manifest, opts.sources, opts.includePlanned);
         if (!body.length) { el.textContent = ''; return manifest; }
         el.innerHTML =
           '<span class="freshness-label">Data provenance</span>' +

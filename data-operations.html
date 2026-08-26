@@ -346,25 +346,51 @@ function renderGates(d) {
 function renderProvenance(d) {
   const sources = d.facility_sources;
   if (!sources || !sources.length) return;
-  const rows = sources.map(s =>
+  const reg = d.facility_registry;
+  const acquired = sources.filter(s => s.file);
+  const planned = sources.filter(s => !s.file);
+  const row = s =>
     '<tr><td>' + esc(s.label) + '</td>' +
-    '<td class="num">' + n(s.rows) + '</td>' +
-    '<td>' + (s.vintage_status === 'declared' ? esc(s.upstream_vintage)
-                                              : '<span class="muted">not recorded</span>') + '</td>' +
-    '<td>' + esc(s.repo_last_changed || '') + '</td>' +
+    '<td>' + esc(s.layer || 'A') + '</td>' +
+    '<td class="num">' + (s.file ? n(s.rows) : '<span class="muted">not acquired</span>') + '</td>' +
+    '<td>' + (s.vintage_status === 'declared' && s.upstream_vintage
+                ? esc(s.upstream_vintage)
+                : '<span class="muted">not recorded</span>') + '</td>' +
+    '<td>' + (s.file ? esc(s.repo_last_changed || '') : '') + '</td>' +
     '<td>' + ((s.refresh && s.refresh.pipeline)
                 ? pill(s.refresh.cadence || 'on a pipeline')
-                : '<span class="muted">manual snapshot</span>') + '</td></tr>').join('');
+                : '<span class="muted">' +
+                  esc(((s.acquisition || {}).status || 'manual snapshot')
+                        .replace(/_/g, ' ')) + '</span>') + '</td></tr>';
+  const blocked = planned
+    .filter(s => (s.acquisition || {}).blocked_on)
+    .map(s => '<tr><td>' + esc(s.label) + '</td><td style="white-space:normal">' +
+              esc(s.acquisition.blocked_on) + '</td></tr>').join('');
   show('provenance',
     '<h1>Facility layer provenance</h1>' +
-    '<p>The existing-facility layer is the largest dataset here and the only ' +
-    'one with no acquisition pipeline behind it. Where the upstream vintage is ' +
-    'not recorded, the age of the data is genuinely unknown, and the ' +
-    'repository change date is provenance about this repository rather than ' +
-    'about the data.</p>' +
-    '<div class="scroll"><table><thead><tr><th>Source</th><th class="num">Rows</th>' +
-    '<th>Upstream vintage</th><th>Changed here</th><th>Refresh</th>' +
-    '</tr></thead><tbody>' + rows + '</tbody></table></div>');
+    '<p>The existing-facility layer is the largest dataset here and the one ' +
+    'with the least acquisition behind it. Where the upstream vintage is not ' +
+    'recorded, the age of the data is genuinely unknown, and the repository ' +
+    'change date is provenance about this repository rather than about the ' +
+    'data. A source with no rows is declared and not yet acquired, which is a ' +
+    'different state from one nobody has considered.</p>' +
+    (reg
+      ? '<div class="kpis">' +
+        '<div class="kpi"><b>' + n(reg.rows) + '</b><span>Registry rows, one per source record</span></div>' +
+        '<div class="kpi"><b>' + n(reg.distinct_sites) + '</b><span>Distinct physical sites after clustering</span></div>' +
+        '<div class="kpi"><b>' + n(reg.with_coordinates) + '</b><span>With coordinates</span></div>' +
+        '</div>'
+      : '') +
+    '<div class="scroll"><table><thead><tr><th>Source</th><th>Layer</th>' +
+    '<th class="num">Rows</th><th>Upstream vintage</th><th>Changed here</th>' +
+    '<th>Acquisition</th></tr></thead><tbody>' +
+    acquired.map(row).join('') + planned.map(row).join('') +
+    '</tbody></table></div>' +
+    (blocked
+      ? '<h3>What each unacquired source is waiting on</h3>' +
+        '<div class="scroll"><table><thead><tr><th>Source</th><th>Blocked on</th>' +
+        '</tr></thead><tbody>' + blocked + '</tbody></table></div>'
+      : ''));
 }
 
 (async function init() {

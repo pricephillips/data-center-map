@@ -140,6 +140,8 @@ jobs:
           python operations_summary.py --selftest
           echo "Layer audit self-tests:"
           python layer_audit.py --selftest
+          echo "Facility registry self-tests:"
+          python facility_registry.py --selftest
           echo "Signal harvest self-tests:"
           python signal_harvest.py --selftest
           echo "Front-end syntax gate self-tests:"
@@ -280,10 +282,17 @@ jobs:
         continue-on-error: true
         run: python site_screener.py --selftest && python site_screener.py --batch
 
-      - name: Facility snapshot freshness manifest
+      - name: Facility layer (registry + freshness manifest)
         id: facility_manifest
         continue-on-error: true
         run: |
+          # Layer A registry: derived from the declared snapshots, never
+          # rewriting them, with a stable facility_id so a project that
+          # reaches operating status has somewhere to graduate to. Reporting
+          # only: without --promote the gate runs and records what would be
+          # promoted, exactly as the census gap builder did before promotion
+          # was turned on.
+          python facility_registry.py
           # Publishes rows, repository change date and declared upstream
           # vintage for every Layer A snapshot, so the Infrastructure
           # surfaces can state their own provenance instead of showing
@@ -364,7 +373,9 @@ jobs:
             git add docs/visibility_matrix.md 2>/dev/null || true
           fi
           if [ "${{ steps.facility_manifest.outcome }}" = "success" ]; then
-            git add data/facility_manifest.json 2>/dev/null || true
+            git add data/facility_manifest.json data/facility_registry.csv \
+                    data/facility_registry_summary.json \
+                    data/facility_promotion_report.csv 2>/dev/null || true
           fi
           if [ "${{ steps.operations_summary.outcome }}" = "success" ]; then
             git add data/operations_summary.json 2>/dev/null || true

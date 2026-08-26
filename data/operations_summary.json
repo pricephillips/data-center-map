@@ -440,6 +440,12 @@
         "mechanism": "manual snapshot",
         "pipeline": false
       },
+      "acquisition": {
+        "status": "needs_manual_pin",
+        "mechanism": "periodic re-pull, diffed into Layer A candidates",
+        "blocked_on": "A direct download URL for the current release, plus the release cadence. The CI egress proxy blocks osti.gov, msdlive.org and immm-sfa.github.io, so neither can be resolved from a workflow; both are one manual look at the record page. Until then the snapshot is what it is and the manifest says so.",
+        "rule": "A re-pull never overwrites atlas.csv. It diffs against data/facility_registry.csv and writes the difference to data/facility_candidates.csv, so an upstream change enters through the same gate as everything else."
+      },
       "notes": "Largest dataset in the repository and the only one that cannot answer when it was last true. Pass 3 replaces the overwrite with a diff into Layer A candidates.",
       "present": true,
       "rows": 1479,
@@ -467,6 +473,12 @@
         "mechanism": "manual snapshot",
         "pipeline": false
       },
+      "acquisition": {
+        "status": "needs_manual_pin",
+        "mechanism": "periodic re-pull, diffed into Layer A candidates",
+        "blocked_on": "A machine-readable export URL. Attribution is recorded on the Notion Complete Centers page; the export path is not.",
+        "rule": "Same as the atlas: diff into candidates, never overwrite the snapshot."
+      },
       "notes": "29 rows, 27 of them United States. Capital-cost and power figures are publisher estimates, not filings.",
       "present": true,
       "rows": 29,
@@ -474,7 +486,159 @@
       "sha256_12": "62e41f7d669e",
       "repo_last_changed": "2026-08-20",
       "days_since_repo_change": 6
+    },
+    {
+      "source_id": "hyperscaler_footprints",
+      "label": "Hyperscaler self-published region and campus locations",
+      "short_label": "Operator pages",
+      "file": null,
+      "layer": "A",
+      "publisher": "Microsoft, Amazon Web Services, Google, Meta",
+      "landing_urls": [],
+      "license": "unconfirmed",
+      "geography": "United States",
+      "upstream_vintage": null,
+      "vintage_status": "undeclared",
+      "refresh": {
+        "cadence": "unknown",
+        "mechanism": "planned",
+        "pipeline": false
+      },
+      "acquisition": {
+        "status": "needs_manual_pin",
+        "mechanism": "one config per operator, candidates first, gated promotion",
+        "blocked_on": "Four page URLs and a note on each page's shape (table, embedded JSON, or map layer). The egress proxy blocks arbitrary hosts from CI, so a reviewer has to open each page once, exactly as the PA DEP layer pin requires.",
+        "rule": "First-party pages are strong evidence of existence and weak evidence of location precision. A promoted row cites the operator page and carries whatever geography the operator states, never a geocode inferred from a campus name."
+      },
+      "notes": "Highest-value unbuilt source: first-party, citable, and covering the operators clients ask about by name.",
+      "present": false,
+      "rows": null,
+      "rows_us": null,
+      "sha256_12": null,
+      "repo_last_changed": null,
+      "days_since_repo_change": null
+    },
+    {
+      "source_id": "permit_graduations",
+      "label": "Layer B projects that reached operating status",
+      "short_label": "Graduations",
+      "file": null,
+      "layer": "A",
+      "publisher": "This repository",
+      "landing_urls": [],
+      "license": "n/a",
+      "geography": "United States",
+      "upstream_vintage": null,
+      "vintage_status": "declared",
+      "refresh": {
+        "cadence": "every pipeline run",
+        "mechanism": "facility_registry.py",
+        "pipeline": true
+      },
+      "acquisition": {
+        "status": "live",
+        "mechanism": "mechanical detection in facility_registry.py",
+        "blocked_on": null,
+        "rule": "A project whose phase is operational, or whose stated opening year has passed, is a facility. Detection is mechanical; promotion still passes the same gate as any other candidate."
+      },
+      "notes": "The graduation path the registry existed to make possible. Six projects are currently promotable, three are already in the registry under a snapshot source, one is held.",
+      "present": false,
+      "rows": null,
+      "rows_us": null,
+      "sha256_12": null,
+      "repo_last_changed": null,
+      "days_since_repo_change": null
+    },
+    {
+      "source_id": "pa_dep_datacenter",
+      "label": "Pennsylvania DEP data center layer",
+      "short_label": "PA DEP",
+      "file": null,
+      "layer": "A",
+      "publisher": "Pennsylvania Department of Environmental Protection",
+      "landing_urls": [],
+      "license": "unconfirmed",
+      "geography": "Pennsylvania",
+      "upstream_vintage": null,
+      "vintage_status": "undeclared",
+      "refresh": {
+        "cadence": "weekly once pinned",
+        "mechanism": "planned",
+        "pipeline": false
+      },
+      "acquisition": {
+        "status": "needs_manual_pin",
+        "mechanism": "ArcGIS feature layer, existing permit machinery",
+        "blocked_on": "One layer URL from browser dev tools. Once pinned, configs/pa_dep_datacenter_ingest.json is written and it joins the weekly permit run with no new code.",
+        "rule": "Permits are Layer B until a permit reaches built or operating status, at which point the graduation path above applies."
+      },
+      "notes": "Carried forward unchanged from the 2026-08-25 plan. A pinning task, not a build task.",
+      "present": false,
+      "rows": null,
+      "rows_us": null,
+      "sha256_12": null,
+      "repo_last_changed": null,
+      "days_since_repo_change": null
+    },
+    {
+      "source_id": "ercot_large_load",
+      "label": "ERCOT large load interconnection queue",
+      "short_label": "ERCOT queue",
+      "file": null,
+      "layer": "B",
+      "publisher": "Electric Reliability Council of Texas",
+      "landing_urls": [],
+      "license": "unconfirmed",
+      "geography": "Texas",
+      "upstream_vintage": null,
+      "vintage_status": "undeclared",
+      "refresh": {
+        "cadence": "unknown",
+        "mechanism": "planned",
+        "pipeline": false
+      },
+      "acquisition": {
+        "status": "needs_manual_pin",
+        "mechanism": "tabular adapter into Layer B",
+        "blocked_on": "The stable report URL from the ERCOT data product library.",
+        "rule": "An interconnection request is the earliest facility signal there is, and it is a request, not a facility. It lands in Layer B and reaches Layer A only through the graduation path. docs/interconnection_queue_scoping.md already establishes that the LBNL queue is generation-only and cannot serve as a facility universe; this is the load-side queue, which can."
+      },
+      "notes": "Layer B on purpose. Listed here because it is part of the facility-universe programme and because putting a queue position into Layer A would be the exact error the announcement rule already blocks.",
+      "present": false,
+      "rows": null,
+      "rows_us": null,
+      "sha256_12": null,
+      "repo_last_changed": null,
+      "days_since_repo_change": null
     }
   ],
+  "facility_registry": {
+    "generated": "2026-08-26",
+    "rows": 1506,
+    "distinct_sites": 665,
+    "by_source": {
+      "osti_im3_atlas": 1479,
+      "epoch_frontier": 27
+    },
+    "by_state": {
+      "Virginia": 319,
+      "Texas": 127,
+      "California": 112,
+      "Oregon": 109,
+      "Ohio": 93,
+      "Washington": 82,
+      "Arizona": 65,
+      "Iowa": 64,
+      "New Jersey": 53,
+      "Illinois": 50
+    },
+    "with_coordinates": 1506,
+    "decisions_this_run": {
+      "promotable": 6,
+      "blocked": 3,
+      "held": 1
+    },
+    "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable."
+  },
   "note": "Every figure here is read from an audit trail the pipeline writes on its own runs. A missing input becomes a null section rather than a zero: an operations page that invents a number is worse than one with a gap in it."
 }

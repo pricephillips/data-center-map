@@ -29,7 +29,7 @@ eq('small number unchanged', F.fmtInt(29), '29');
 eq('missing count is not zero', F.fmtInt(null), 'unknown');
 
 const undated = {
-  label: 'IM3 Atlas', present: true, rows: 1479, rows_us: 1479,
+  label: 'IM3 Atlas', file: 'atlas.csv', present: true, rows: 1479, rows_us: 1479,
   repo_last_changed: '2026-08-20', days_since_repo_change: 6,
   vintage_status: 'undeclared', upstream_vintage: null,
   refresh: { cadence: 'unknown', pipeline: false }
@@ -45,7 +45,7 @@ ok('never calls the commit date a vintage',
    line.indexOf('upstream vintage 2026-08-20') < 0);
 
 const dated = F.describe({
-  label: 'Piped source', present: true, rows: 10, rows_us: 4,
+  label: 'Piped source', file: 'piped.csv', present: true, rows: 10, rows_us: 4,
   repo_last_changed: '2026-08-25', days_since_repo_change: 1,
   vintage_status: 'declared', upstream_vintage: '2026-07',
   refresh: { cadence: 'monthly', pipeline: true }
@@ -56,8 +56,20 @@ ok('US subset shown when it differs',
 ok('pipeline cadence is shown', dated.indexOf('refreshed monthly') >= 0);
 ok('singular day', dated.indexOf('(1 day ago)') >= 0);
 
+const planned = F.describe({
+  label: 'Hyperscaler pages', file: null,
+  acquisition: { status: 'needs_manual_pin' }
+});
+ok('a planned source reads as declared but unacquired',
+   planned.indexOf('declared, not yet acquired') >= 0 &&
+   planned.indexOf('needs manual pin') >= 0);
+ok('planned sources are left out of a page provenance line by default',
+   F.lines({ sources: [{ label: 'P', file: null }, undated] }).length === 1);
+ok('and included when the caller asks',
+   F.lines({ sources: [{ label: 'P', file: null }, undated] }, null, true).length === 2);
+
 eq('absent file says so',
-   F.describe({ label: 'Gone', present: false }),
+   F.describe({ label: 'Gone', file: 'gone.csv', present: false }),
    'Gone: file absent from this build.');
 
 // Fallback chain: raw first, then the Pages origin.
@@ -96,7 +108,7 @@ F.fetchFirst(['a', 'b', 'c'], fakeFetch({ b: manifest })).then(m => {
   const G = boot(doc);
   const hostile = {
     sources: [{
-      label: '<img src=x onerror=alert(1)>', present: true, rows: 1,
+      label: '<img src=x onerror=alert(1)>', file: 'h.csv', present: true, rows: 1,
       rows_us: 1, repo_last_changed: '2026-08-20', days_since_repo_change: 0,
       vintage_status: 'undeclared', refresh: {}
     }]

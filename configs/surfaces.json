@@ -233,6 +233,18 @@
       "closed_via_summary",
       "Provenance table shown on the Data Operations page and inline on the Infrastructure surfaces."
     ],
+    "data/facility_promotion_report.csv": [
+      "internal_operational",
+      "Append-only decision trail for Layer A candidate promotion, in the same shape as the census gap trail."
+    ],
+    "data/facility_registry.csv": [
+      "closed_via_summary",
+      "Layer A registry, one row per source record with a stable facility_id. Row and site counts are shown on the Data Operations page; the rows stay internal until the layer has an acquisition pipeline behind it."
+    ],
+    "data/facility_registry_summary.json": [
+      "closed_via_summary",
+      "Registry counts shown on the Data Operations page."
+    ],
     "data/gap_promotion_report.csv": [
       "closed_via_summary",
       "Rolled into data/operations_summary.json and shown on the Data Operations page."

@@ -30,6 +30,7 @@ Reads
   data/landmark_feasibility.csv      landmark gate, per window
   data/emergence_bounds.csv          emergence gate, per stratum
   data/facility_manifest.json        Layer A provenance
+  data/facility_registry_summary.json Layer A registry counts
 
 Writes
   data/operations_summary.json
@@ -232,6 +233,7 @@ def build(root: str = HERE, today: str | None = None) -> dict:
     C = lambda name: read_csv(os.path.join(data, name))
 
     facility = J("facility_manifest.json")
+    registry = J("facility_registry_summary.json")
     return {
         "generated": today or dt.date.today().isoformat(),
         "coverage": coverage_section(J("coverage_gap_summary.json")),
@@ -252,6 +254,7 @@ def build(root: str = HERE, today: str | None = None) -> dict:
         "gates": gates_section(C("landmark_feasibility.csv"),
                                C("emergence_bounds.csv")),
         "facility_sources": (facility or {}).get("sources"),
+        "facility_registry": registry,
         "note": ("Every figure here is read from an audit trail the pipeline "
                  "writes on its own runs. A missing input becomes a null "
                  "section rather than a zero: an operations page that invents "
@@ -351,6 +354,8 @@ def selftest() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         os.makedirs(os.path.join(tmp, "data"))
         out = build(root=tmp, today="2026-08-26")
+        check("facility registry section is null when absent",
+              out["facility_registry"] is None)
         check("every section is null on an empty tree",
               out["coverage"] is None and out["calibration"] is None
               and out["promotions"]["census_gaps"] is None
