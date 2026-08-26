@@ -27,11 +27,8 @@ Every page under the hub, its embed, and the datasets that embed loads. Verified
 | Infrastructure | Complete Centers | `developments-dashboard.html` | `ai_centers.csv`, `atlas.csv`, `data/facility_manifest.json` |
 | Infrastructure | Proposed Centers | `proposals-map.html` | `data/proposals.csv` |
 | Infrastructure | Proposed Centers | `trackdatacenters-proposals.html` | `data/proposals.csv` |
-| Data Operations | Data Operations (embed pending) | `data-operations.html` | `data/operations_summary.json` |
+| Data Operations | Data Operations | `data-operations.html` | `data/operations_summary.json` |
 
-### Pages built but not yet embedded
-
-- **Data Operations** (`data-operations.html`): Built 2026-08-26. The Notion page that embeds it cannot be created until this branch merges and GitHub Pages deploys the file, because an embed pointing at a 404 is worse than no page. Creating that page and adding its URL here is the remaining manual step.
 
 ### Repository pages on no Notion page
 
