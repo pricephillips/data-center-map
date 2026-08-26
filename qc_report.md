@@ -1,13 +1,13 @@
 # Master Opposition QC Report
 
-- Records scanned: **1618**
-- Passed to feed: **1602**
-- Blocked / quarantined: **16**
+- Records scanned: **1634**
+- Passed to feed: **1613**
+- Blocked / quarantined: **21**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- DUPLICATE: 10
+- DUPLICATE: 15
 - LEG_SOURCE_WEAK: 4
 - STATEWIDE_CAPITAL_SINK: 1
 - STUDY_SOURCE_WEAK: 1
@@ -35,4 +35,9 @@
 | Abilene, TX (Oracle/OpenAI drop flagship Stargate Abilene expansion; Meta in talks for Crusoe capacity) | project | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Douglas County Commission | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | County board OKs one - year data center moratorium - Northwoods Star Journal | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| County board OKs one - year data center moratorium - Northwoods Star Journal | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Garfield Township Issues Moratorium on Data Centers | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| City Council to receive AI data center petition from Save Lubbock | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Garfield Township Issues Moratorium on Data Centers | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| City Council to receive AI data center petition from Save Lubbock | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | County board OKs one - year data center moratorium - Northwoods Star Journal | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
