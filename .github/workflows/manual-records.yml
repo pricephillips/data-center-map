@@ -69,10 +69,14 @@ jobs:
             exit 0
           fi
           git commit -m "Apply manual record corrections/uploads via QC gates"
-          # Rebase-retry: same race hardening as the other committing workflows.
+          # Rebase-retry: same race hardening as the other committing
+          # workflows, branch-aware (this workflow runs on branch pushes
+          # too), and a failed rebase is aborted before the retry so a
+          # worktree stuck mid-rebase cannot fail every subsequent pull.
           for i in 1 2 3; do
-            git pull --rebase && git push && { echo "committed=yes" >> "$GITHUB_OUTPUT"; exit 0; }
+            git pull --rebase origin "$GITHUB_REF_NAME" && git push && { echo "committed=yes" >> "$GITHUB_OUTPUT"; exit 0; }
             echo "Push attempt $i failed (another workflow moved the branch); retrying in 10s"
+            git rebase --abort 2>/dev/null || true
             sleep 10
           done
           echo "Push failed after 3 attempts"
