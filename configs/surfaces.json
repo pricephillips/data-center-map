@@ -225,6 +225,10 @@
       "planned",
       "The external lower bound recall is measured against. Shown as a source and a count, never as a source of record."
     ],
+    "data/facility_candidates.csv": [
+      "internal_operational",
+      "Layer A pre-promotion intake from the signal harvester. Nothing here is a source of record."
+    ],
     "data/facility_manifest.json": [
       "closed_via_summary",
       "Provenance table shown on the Data Operations page and inline on the Infrastructure surfaces."
@@ -264,6 +268,14 @@
     "data/landmark_recovery_priority.csv": [
       "candidate",
       "Ranks the 46 outstanding decision dates by whether recovery moves a frame."
+    ],
+    "data/layer_audit.csv": [
+      "internal_operational",
+      "Dataset barrier audit. Findings are for maintainers; a client has no use for a writer map."
+    ],
+    "data/layer_audit_summary.json": [
+      "internal_operational",
+      "Same audit."
     ],
     "data/local_meeting_feed.csv": [
       "candidate",

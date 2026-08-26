@@ -138,6 +138,10 @@ jobs:
           python facility_manifest.py --selftest
           echo "Operations summary self-tests:"
           python operations_summary.py --selftest
+          echo "Layer audit self-tests:"
+          python layer_audit.py --selftest
+          echo "Signal harvest self-tests:"
+          python signal_harvest.py --selftest
           echo "Front-end syntax gate self-tests:"
           python scripts/check_inline_js.py --selftest
           # A syntax error in a page loader takes a client-visible surface
@@ -287,6 +291,16 @@ jobs:
           # statement about the data, not a build failure.
           python facility_manifest.py
 
+      - name: Dataset barriers (one writer per file, no undeclared crossings)
+        id: layer_audit
+        continue-on-error: true
+        run: |
+          # Reporting only in CI. A new generated file with no declared layer
+          # is a nag, not a build failure; --strict is for the pre-delivery
+          # check. See ARCHITECTURE.md for the two rules and the four
+          # declared exceptions.
+          python layer_audit.py
+
       - name: Operations summary (audit trails into one client-loadable artifact)
         id: operations_summary
         continue-on-error: true
@@ -354,6 +368,9 @@ jobs:
           fi
           if [ "${{ steps.operations_summary.outcome }}" = "success" ]; then
             git add data/operations_summary.json 2>/dev/null || true
+          fi
+          if [ "${{ steps.layer_audit.outcome }}" = "success" ]; then
+            git add data/layer_audit.csv data/layer_audit_summary.json 2>/dev/null || true
           fi
           if [ "${{ steps.coverage.outcome }}" = "success" ]; then
             git add data/coverage_gap_report.csv data/coverage_gap_summary.json \

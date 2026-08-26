@@ -6,6 +6,24 @@ that faced opposition. To quantify opposition's marginal impact, every opposed
 project needs unopposed comparables. This module builds that control group
 from sources already in the repository.
 
+Layer E, derived (declared 2026-08-26, ARCHITECTURE.md). data/baseline_universe.csv
+mixes rows describing Layer A facilities with rows describing Layer B projects,
+and had been read in places as though it were source data for either. It is
+neither. It is a derived pool built for matching, it is never hand-edited, and
+it is regenerable in full from four named inputs:
+
+  data/proposals.csv          Layer B, the project registry
+  data/project_lifecycles.csv Layer B, for opposed/unopposed designation
+  ai_centers.csv              Layer A, frontier sites snapshot
+  atlas.csv                   Layer A, built facilities snapshot
+
+The source column on every row says which of those it came from, and that
+column is the only safe way to read the file: a query that ignores it is
+mixing a built facility with a proposed project. If a fact needs to be true of
+facilities, read Layer A. If it needs to be true of projects, read Layer B.
+This file answers one question only, which is what an unopposed comparable
+looks like.
+
 Additive only. Reads existing files, writes three NEW files:
 
   data/baseline_universe.csv   unified registry of U.S. data center developments
