@@ -75,28 +75,44 @@ def content_hash(path: str) -> str:
     return h.hexdigest()[:12]
 
 
+def _is_shallow(root: str) -> bool:
+    try:
+        out = subprocess.run(
+            ["git", "-C", root, "rev-parse", "--is-shallow-repository"],
+            capture_output=True, text=True, timeout=20)
+        return out.stdout.strip() == "true"
+    except (OSError, subprocess.SubprocessError):
+        return False
+
+
 def repo_last_changed(path: str, root: str = HERE) -> str | None:
     """Date the file last changed in this repository, ISO day precision.
 
-    This is provenance about the repository, never about the data. Falls back
-    to the filesystem timestamp where git is unavailable (a fresh checkout in
-    a container without history, for instance).
+    Provenance about the repository, never about the data. Returns None where
+    it cannot be known, and the surfaces then say nothing rather than
+    something wrong.
+
+    A shallow checkout is the case that matters. CI checks out at depth 1, so
+    `git log -1 -- atlas.csv` returns the tip commit whether or not that
+    commit touched the file, and every run would report the snapshot as having
+    changed today. The filesystem timestamp is no better there: in a fresh
+    checkout it is the checkout time. A freshness signal that reports "changed
+    today" on a file frozen for months is worse than one that admits it does
+    not know, which is the whole reason this module exists.
     """
     rel = os.path.relpath(path, root)
+    if _is_shallow(root):
+        return None
     try:
         out = subprocess.run(
             ["git", "-C", root, "log", "-1", "--format=%cI", "--", rel],
             capture_output=True, text=True, timeout=20)
-        stamp = out.stdout.strip()
-        if stamp:
-            return stamp[:10]
+        if out.returncode == 0:
+            stamp = out.stdout.strip()
+            return stamp[:10] if stamp else None
     except (OSError, subprocess.SubprocessError):
         pass
-    try:
-        return dt.datetime.utcfromtimestamp(
-            os.path.getmtime(path)).date().isoformat()
-    except OSError:
-        return None
+    return None
 
 
 def days_since(day: str | None, today: str) -> int | None:
@@ -110,8 +126,26 @@ def days_since(day: str | None, today: str) -> int | None:
     return (b - a).days
 
 
+def prior_entries(root: str) -> dict:
+    """Last run's manifest, keyed by source_id.
+
+    The committed manifest is how this module remembers a change date across
+    runs. Git can only supply one on a full checkout, and CI does not have
+    one, so carrying the previous answer forward is what keeps the date
+    correct rather than merely available.
+    """
+    try:
+        with open(os.path.join(root, "data", "facility_manifest.json"),
+                  encoding="utf-8") as fh:
+            return {e.get("source_id"): e
+                    for e in (json.load(fh).get("sources") or [])}
+    except (OSError, ValueError):
+        return {}
+
+
 def build(config: dict, root: str = HERE, today: str | None = None) -> dict:
     today = today or dt.date.today().isoformat()
+    prior = prior_entries(root)
     entries = []
     for src in config["sources"]:
         # A planned source has no file yet. It still belongs in the manifest,
@@ -162,12 +196,25 @@ def build(config: dict, root: str = HERE, today: str | None = None) -> dict:
             entries.append(entry)
             continue
         total, us = row_counts(path)
-        changed = repo_last_changed(path, root)
+        digest = content_hash(path)
+        # The content hash decides the date, not the checkout. If the file is
+        # byte-identical to what the last manifest described, it did not
+        # change and the previous date still stands. If it differs, it changed
+        # since that run and today is the honest answer. Git is consulted only
+        # to bootstrap a source with no prior entry, and only where the
+        # checkout has the history to answer.
+        was = prior.get(src["source_id"]) or {}
+        if was.get("sha256_12") == digest and was.get("repo_last_changed"):
+            changed = was["repo_last_changed"]
+        elif was.get("sha256_12") and was["sha256_12"] != digest:
+            changed = today
+        else:
+            changed = repo_last_changed(path, root)
         entry.update({
             "present": True,
             "rows": total,
             "rows_us": us,
-            "sha256_12": content_hash(path),
+            "sha256_12": digest,
             "repo_last_changed": changed,
             "days_since_repo_change": days_since(changed, today),
         })
@@ -262,8 +309,32 @@ def selftest() -> int:
         check("declared vintage count is honest",
               m["totals"]["sources_with_a_declared_vintage"] == 1)
         check("vintage is never inferred from the repository",
-              by["s1"]["upstream_vintage"] is None
-              and by["s1"]["repo_last_changed"] is not None)
+              by["s1"]["upstream_vintage"] is None)
+
+        # The change date has to survive a shallow checkout, which is what CI
+        # uses. Git there answers with the tip commit whatever the file, so
+        # the committed manifest is the memory and the content hash is what
+        # decides whether that memory still applies.
+        manifest_path = os.path.join(tmp, "data", "facility_manifest.json")
+        with open(manifest_path, "w", encoding="utf-8") as fh:
+            json.dump({"sources": [{
+                "source_id": "s1",
+                "sha256_12": by["s1"]["sha256_12"],
+                "repo_last_changed": "2026-01-15",
+            }]}, fh)
+        again = build(cfg, root=tmp, today="2026-08-26")
+        by2 = {e["source_id"]: e for e in again["sources"]}
+        check("an unchanged file keeps its recorded change date",
+              by2["s1"]["repo_last_changed"] == "2026-01-15")
+
+        with open(multi, "a", encoding="utf-8", newline="") as fh:
+            fh.write("D,United States,new row\n")
+        after = build(cfg, root=tmp, today="2026-08-26")
+        by3 = {e["source_id"]: e for e in after["sources"]}
+        check("a changed file takes today's date",
+              by3["s1"]["repo_last_changed"] == "2026-08-26")
+        check("and its hash moves with it",
+              by3["s1"]["sha256_12"] != by2["s1"]["sha256_12"])
 
     failed = [n for n, ok in checks if not ok]
     for n, ok in checks:
