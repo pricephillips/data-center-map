@@ -536,8 +536,25 @@ document.addEventListener('DOMContentLoaded', function () {
     updateChoroplethVisuals();
   }
 
-  Papa.parse('data/proposals.csv', {
-    download:true,
+  // Raw first, then the Pages origin. GitHub Pages sends no CORS headers, so
+  // an embedded iframe fails silently on the Pages origin; this loader was
+  // relative-only.
+  const RAW = 'https://raw.githubusercontent.com/pricephillips/data-center-map/main';
+  const PROPOSAL_URLS = [RAW + '/data/proposals.csv', './data/proposals.csv'];
+
+  function parseFirst(urls, cfg) {
+    let i = 0;
+    (function attempt() {
+      if (i >= urls.length) { cfg.complete({ data: [], errors: [] }); return; }
+      Papa.parse(urls[i++], Object.assign({}, cfg, {
+        download: true,
+        complete(res) { (res && res.data && res.data.length) ? cfg.complete(res) : attempt(); },
+        error() { attempt(); }
+      }));
+    })();
+  }
+
+  parseFirst(PROPOSAL_URLS, {
     header:true,
     dynamicTyping:true,
     skipEmptyLines:true,

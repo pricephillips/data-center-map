@@ -1,0 +1,68 @@
+{
+  "generated": "2026-08-26",
+  "sources": [
+    {
+      "source_id": "osti_im3_atlas",
+      "label": "OSTI IM3 Open Source Data Center Atlas",
+      "short_label": "IM3 Atlas",
+      "file": "atlas.csv",
+      "layer": "A",
+      "publisher": "Pacific Northwest National Laboratory, IM3 / MultiSector Dynamics, US DOE Office of Science",
+      "landing_urls": [
+        "https://www.osti.gov/biblio/2550666",
+        "https://immm-sfa.github.io/datacenter-atlas/",
+        "https://data.msdlive.org/records/65g71-a4731"
+      ],
+      "license": "unconfirmed",
+      "geography": "United States",
+      "upstream_vintage": null,
+      "vintage_status": "undeclared",
+      "refresh": {
+        "cadence": "unknown",
+        "mechanism": "manual snapshot",
+        "pipeline": false
+      },
+      "notes": "Largest dataset in the repository and the only one that cannot answer when it was last true. Pass 3 replaces the overwrite with a diff into Layer A candidates.",
+      "present": true,
+      "rows": 1479,
+      "rows_us": null,
+      "sha256_12": "7a8c78d3ed6c",
+      "repo_last_changed": "2026-08-20",
+      "days_since_repo_change": 6
+    },
+    {
+      "source_id": "epoch_frontier",
+      "label": "Epoch AI Frontier Data Centers",
+      "short_label": "Frontier sites",
+      "file": "ai_centers.csv",
+      "layer": "A",
+      "publisher": "Epoch AI",
+      "landing_urls": [
+        "https://epoch.ai/data/data-centers"
+      ],
+      "license": "unconfirmed",
+      "geography": "Global; the surfaces show the United States rows.",
+      "upstream_vintage": null,
+      "vintage_status": "undeclared",
+      "refresh": {
+        "cadence": "unknown",
+        "mechanism": "manual snapshot",
+        "pipeline": false
+      },
+      "notes": "29 rows, 27 of them United States. Capital-cost and power figures are publisher estimates, not filings.",
+      "present": true,
+      "rows": 29,
+      "rows_us": 27,
+      "sha256_12": "62e41f7d669e",
+      "repo_last_changed": "2026-08-20",
+      "days_since_repo_change": 6
+    }
+  ],
+  "totals": {
+    "sources": 2,
+    "rows": 1508,
+    "sources_with_a_pipeline": 0,
+    "sources_with_a_declared_vintage": 0
+  },
+  "note": "repo_last_changed is when the file last changed in this repository. It is not the age of the data: a snapshot committed today can be years old upstream. Where vintage_status is undeclared, the honest reading is that the age of the data is unknown, and the surfaces say so."
+}

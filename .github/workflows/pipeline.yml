@@ -96,6 +96,11 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       - name: Install dependencies
         run: pip install pandas scikit-learn mapie
 
@@ -129,6 +134,20 @@ jobs:
           python adjacency_scan.py --selftest
           echo "Visibility audit self-tests:"
           python visibility_audit.py --selftest
+          echo "Facility manifest self-tests:"
+          python facility_manifest.py --selftest
+          echo "Front-end syntax gate self-tests:"
+          python scripts/check_inline_js.py --selftest
+          # A syntax error in a page loader takes a client-visible surface
+          # down silently, and nothing checked for one: the .js self-tests
+          # existed but were in no workflow, so a broken chain could ship.
+          echo "Front-end syntax (node --check over every module and inline block):"
+          python scripts/check_inline_js.py
+          echo "Front-end module self-tests:"
+          node permalink_selftest.js
+          node legend_filter_selftest.js
+          node zoom_tier_selftest.js
+          node facility_freshness_selftest.js
           echo "Frame audit self-tests:"
           python subframe_audit.py --selftest
           echo "Local meeting feed self-tests (watchlist union):"
@@ -255,6 +274,17 @@ jobs:
         continue-on-error: true
         run: python site_screener.py --selftest && python site_screener.py --batch
 
+      - name: Facility snapshot freshness manifest
+        id: facility_manifest
+        continue-on-error: true
+        run: |
+          # Publishes rows, repository change date and declared upstream
+          # vintage for every Layer A snapshot, so the Infrastructure
+          # surfaces can state their own provenance instead of showing
+          # undated counts. Reporting only: an undeclared vintage is a true
+          # statement about the data, not a build failure.
+          python facility_manifest.py
+
       - name: Surface visibility audit (what the client can see vs what exists)
         id: visibility
         continue-on-error: true
@@ -306,6 +336,9 @@ jobs:
                   data/group_registry_audit_summary.json 2>/dev/null || true
           if [ "${{ steps.visibility.outcome }}" = "success" ]; then
             git add docs/visibility_matrix.md 2>/dev/null || true
+          fi
+          if [ "${{ steps.facility_manifest.outcome }}" = "success" ]; then
+            git add data/facility_manifest.json 2>/dev/null || true
           fi
           if [ "${{ steps.coverage.outcome }}" = "success" ]; then
             git add data/coverage_gap_report.csv data/coverage_gap_summary.json \

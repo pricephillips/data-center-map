@@ -108,6 +108,12 @@
   .popup-row    { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; margin: 3px 0; }
   .popup-label  { color: #888; }
   .popup-val    { color: #ddd; text-align: right; max-width: 180px; }
+  .freshness-bar { padding: 8px 16px; border-top: 1px solid #1f2937; background: #0b1220;
+    color: #9ca3af; font-size: 11px; line-height: 1.5; }
+  .freshness-bar:empty { display: none; }
+  .freshness-label { display: block; color: #e5e7eb; font-weight: 600; font-size: 10px;
+    letter-spacing: .04em; text-transform: uppercase; margin-bottom: 3px; }
+  .freshness-line { display: block; }
 </style>
 </head>
 <body>
@@ -159,6 +165,8 @@
   </div>
 </div>
 
+<div id="facility-freshness" class="freshness-bar"></div>
+
 <div class="stats-bar">
   <span>Visible: <b id="vis-count">—</b> locations</span>
   <span>IM3 Atlas: <b id="stat-atlas">—</b></span>
@@ -172,6 +180,9 @@
 <!-- View state in the URL, so a view can be cited by link rather than
      by screenshot. Same-origin, same as viz-palette. -->
 <script src="./map-permalink.js"></script>
+<!-- Freshness signal for the Layer A snapshots. Same-origin, same as
+     map-permalink. -->
+<script src="./facility-freshness.js"></script>
 <script>
 // Fallback stub. If map-permalink.js did not load (missing on the host, or a
 // cached 404 during a deploy), every page below would otherwise throw a
@@ -302,10 +313,29 @@ let currentQuery = '';
 function num(v) { const n = parseFloat(v); return isNaN(n) ? 0 : n; }
 
 // ── Load CSVs ─────────────────────────────────────────────────
+// Fetch chains are raw-first. GitHub Pages sends no CORS headers, so an
+// embedded iframe fails silently on the Pages origin; these two loads were
+// relative-only, the last place in the repository the rule had not reached.
+const RAW = 'https://raw.githubusercontent.com/pricephillips/data-center-map/main';
+const ATLAS_URLS = [RAW + '/atlas.csv', './atlas.csv'];
+const AI_URLS    = [RAW + '/ai_centers.csv', './ai_centers.csv'];
+
+function parseFirst(urls, cfg) {
+  let i = 0;
+  (function attempt() {
+    if (i >= urls.length) { cfg.complete({ data: [] }); return; }
+    Papa.parse(urls[i++], Object.assign({}, cfg, {
+      download: true,
+      complete(res) { (res && res.data && res.data.length) ? cfg.complete(res) : attempt(); },
+      error() { attempt(); }
+    }));
+  })();
+}
+
 function loadAtlas() {
   return new Promise(resolve => {
-    Papa.parse('./atlas.csv', {
-      download: true, header: true, skipEmptyLines: true,
+    parseFirst(ATLAS_URLS, {
+      header: true, skipEmptyLines: true,
       complete({ data }) {
         data.forEach(d => {
           const lat = num(d.lat), lon = num(d.lon);
@@ -334,8 +364,8 @@ function loadAtlas() {
 
 function loadAI() {
   return new Promise(resolve => {
-    Papa.parse('./ai_centers.csv', {
-      download: true, header: true, skipEmptyLines: true,
+    parseFirst(AI_URLS, {
+      header: true, skipEmptyLines: true,
       complete({ data }) {
         data.forEach(d => {
           const lat = num(d.lat), lon = num(d.lon);
@@ -368,6 +398,11 @@ function loadAI() {
     });
   });
 }
+
+// Provenance line. The counts below are only as current as the snapshots
+// behind them, and until this shipped the page could not say how current
+// that was.
+if (window.FacilityFreshness) FacilityFreshness.render('facility-freshness');
 
 Promise.all([loadAtlas(), loadAI()]).then(() => {
   document.getElementById('loader').style.display = 'none';

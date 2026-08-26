@@ -9,6 +9,9 @@
 <!-- Filter state in the URL, so a filtered view can be cited by link
      rather than by screenshot. No map on this page. -->
 <script src="./map-permalink.js"></script>
+<!-- Freshness signal for the Layer A snapshots. Same-origin, same as
+     map-permalink. -->
+<script src="./facility-freshness.js"></script>
 <script>
 // Fallback stub. If map-permalink.js did not load (missing on the host, or a
 // cached 404 during a deploy), every page below would otherwise throw a
@@ -143,6 +146,13 @@ tbody td  { padding:12px 14px; font-size:13px }
   background:var(--panel); color:var(--muted); font-size:12px; text-decoration:none }
 .nav-pill:hover { color:var(--text); border-color:var(--atlas) }
 .nav-pill.active { color:var(--atlas); border-color:var(--atlas); background:var(--panel2) }
+.freshness-bar { margin:0 0 18px; padding:10px 12px; border:1px solid var(--border);
+  border-radius:8px; background:var(--panel); color:var(--muted); font-size:12px;
+  line-height:1.5 }
+.freshness-bar:empty { display:none }
+.freshness-label { display:block; color:var(--text); font-weight:600;
+  letter-spacing:.02em; text-transform:uppercase; font-size:11px; margin-bottom:4px }
+.freshness-line { display:block }
 </style>
 <script>
   try { if (window.self === window.top) document.getElementById('site-nav').style.display = 'flex'; }
@@ -152,6 +162,7 @@ tbody td  { padding:12px 14px; font-size:13px }
   <h1>Data Center Development Tracker</h1>
   <p>Tracking existing US data centers using the OSTI IM3 Open Source Atlas, plus major hyperscale AI sites. Use the charts and table below to explore facility concentration, ownership, and power capacity.</p>
 </div>
+<div id="facility-freshness" class="freshness-bar"></div>
 
 <!-- Atlas KPIs -->
 <div class="section-label"><span class="dot dot-atlas"></span>Existing Data Centers (OSTI IM3 Atlas)</div>
@@ -433,8 +444,32 @@ function tryInit(){
   trender();
 }
 
-Papa.parse('./atlas.csv',      {download:true,header:true,skipEmptyLines:true,complete({data}){atlasLoaded=data;tryInit();}});
-Papa.parse('./ai_centers.csv', {download:true,header:true,skipEmptyLines:true,complete({data}){aiLoaded=data;tryInit();}});
+// Fetch chains are raw-first. GitHub Pages sends no CORS headers, so an
+// embedded iframe (Notion / Simple.ink) fails silently on the Pages origin.
+// These two loads were relative-only, which is the one place the standing
+// rule had never been applied; the facility surfaces were the last holdout.
+const RAW = 'https://raw.githubusercontent.com/pricephillips/data-center-map/main';
+const ATLAS_URLS = [RAW + '/atlas.csv', './atlas.csv'];
+const AI_URLS    = [RAW + '/ai_centers.csv', './ai_centers.csv'];
+
+function parseFirst(urls, onData) {
+  let i = 0;
+  (function attempt() {
+    if (i >= urls.length) { onData([]); return; }
+    const url = urls[i++];
+    Papa.parse(url, {download:true, header:true, skipEmptyLines:true,
+      complete({data}) { (data && data.length) ? onData(data) : attempt(); },
+      error() { attempt(); }});
+  })();
+}
+
+parseFirst(ATLAS_URLS, d => { atlasLoaded = d; tryInit(); });
+parseFirst(AI_URLS,    d => { aiLoaded    = d; tryInit(); });
+
+// Provenance line. The counts above are only as current as the snapshots
+// behind them, and until this shipped the page could not say how current
+// that was.
+if (window.FacilityFreshness) FacilityFreshness.render('facility-freshness');
 
 function tResetFilters() {
   document.getElementById('tq').value = '';

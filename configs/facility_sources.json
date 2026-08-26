@@ -1,0 +1,69 @@
+{
+  "_comment": [
+    "Layer A source registry: existing and operating data centers.",
+    "facility_manifest.py reads this to publish a freshness signal for every",
+    "facility snapshot the client-visible surfaces load. Acquisition configs",
+    "added by the facility pipelines attach to the same source_id values, so",
+    "a source gains a pipeline without changing how the surface names it.",
+    "",
+    "vintage_status is deliberately explicit. 'undeclared' means nobody has",
+    "recorded when the upstream data was true, which is a real state of the",
+    "world here and the thing the freshness signal exists to expose. It is",
+    "never inferred from the repository commit date: a snapshot committed",
+    "today can be two years old upstream."
+  ],
+  "sources": [
+    {
+      "source_id": "osti_im3_atlas",
+      "label": "OSTI IM3 Open Source Data Center Atlas",
+      "short_label": "IM3 Atlas",
+      "file": "atlas.csv",
+      "layer": "A",
+      "kind": "static_snapshot",
+      "publisher": "Pacific Northwest National Laboratory, IM3 / MultiSector Dynamics, US DOE Office of Science",
+      "landing_urls": [
+        "https://www.osti.gov/biblio/2550666",
+        "https://immm-sfa.github.io/datacenter-atlas/",
+        "https://data.msdlive.org/records/65g71-a4731"
+      ],
+      "url_provenance": "Located by search 2026-08-26. Record contents were NOT fetched: the CI egress proxy blocks osti.gov, msdlive.org and the atlas site, so the DOI, version and license remain unconfirmed. Confirming them is a one-time manual task, the same shape as the PA DEP layer pin.",
+      "derivation": "Facility locations derived from OpenStreetMap, with facility area, county and state computed by the publisher.",
+      "geography": "United States",
+      "license": "unconfirmed",
+      "upstream_vintage": null,
+      "vintage_precision": null,
+      "vintage_status": "undeclared",
+      "refresh": {
+        "cadence": "unknown",
+        "mechanism": "manual snapshot",
+        "pipeline": false
+      },
+      "notes": "Largest dataset in the repository and the only one that cannot answer when it was last true. Pass 3 replaces the overwrite with a diff into Layer A candidates."
+    },
+    {
+      "source_id": "epoch_frontier",
+      "label": "Epoch AI Frontier Data Centers",
+      "short_label": "Frontier sites",
+      "file": "ai_centers.csv",
+      "layer": "A",
+      "kind": "static_snapshot",
+      "publisher": "Epoch AI",
+      "landing_urls": [
+        "https://epoch.ai/data/data-centers"
+      ],
+      "url_provenance": "Attribution recorded on the Notion Complete Centers page: 'Epoch Frontier Dataset (lacking proprietary data)'. URL not fetched; egress blocked in CI.",
+      "derivation": "Publisher-maintained register of frontier training sites with power and capital-cost estimates.",
+      "geography": "Global; the surfaces show the United States rows.",
+      "license": "unconfirmed",
+      "upstream_vintage": null,
+      "vintage_precision": null,
+      "vintage_status": "undeclared",
+      "refresh": {
+        "cadence": "unknown",
+        "mechanism": "manual snapshot",
+        "pipeline": false
+      },
+      "notes": "29 rows, 27 of them United States. Capital-cost and power figures are publisher estimates, not filings."
+    }
+  ]
+}

@@ -76,12 +76,12 @@
   },
   "dispositions": {
     "ai_centers.csv": [
-      "surfaced_no_provenance",
-      "Same."
+      "surfaced_no_pipeline",
+      "Same: visible with provenance, still a hand-placed snapshot with no refresh path."
     ],
     "atlas.csv": [
-      "surfaced_no_provenance",
-      "Surfaced on the Infrastructure pages as a static snapshot with no date, no row count, and no acquisition pipeline behind it."
+      "surfaced_no_pipeline",
+      "Provenance now ships with the page (rows, repository change date, and the fact that the upstream vintage is unrecorded). What is still missing is acquisition: nothing refreshes this file. Pass 3."
     ],
     "change_log.csv": [
       "internal_operational",

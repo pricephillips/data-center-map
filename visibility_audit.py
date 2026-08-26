@@ -84,6 +84,12 @@ EXPORT_HINT = re.compile(r"\.download\s*=\s*$|location\.href\s*=\s*$")
 # rejoin the concatenation before classifying the reference.
 CONST_RE = re.compile(r"""(?:const|let|var)\s+(\w+)\s*=\s*['"]([^'"]+)['"]""")
 CONCAT_RE = re.compile(r"(\w+)\s*\+\s*$")
+# A page can also load a dataset through a shared module it includes, which is
+# how the facility surfaces reach data/facility_manifest.json. Following the
+# local script tags keeps that dataset counted as surfaced instead of
+# reporting it invisible because no HTML file names it.
+SCRIPT_SRC_RE = re.compile(r"""<script[^>]*\bsrc\s*=\s*['"]([^'"]+)['"]""",
+                           re.I)
 
 
 # --------------------------------------------------------------------------
@@ -124,6 +130,18 @@ def normalize_ref(ref: str) -> str | None:
     return ref or None
 
 
+def local_modules(text: str) -> list[str]:
+    """Repo-local .js files a page includes, in document order."""
+    out = []
+    for src in SCRIPT_SRC_RE.findall(text):
+        if src.startswith(("http://", "https://", "//")):
+            continue
+        if not src.endswith(".js"):
+            continue
+        out.append(src.lstrip("./"))
+    return out
+
+
 def surface_reads(html_path: str, root: str = HERE) -> tuple[set[str], set[str], bool]:
     """(repo-relative paths read, external hosts read, chain is raw-first).
 
@@ -134,6 +152,11 @@ def surface_reads(html_path: str, root: str = HERE) -> tuple[set[str], set[str],
     """
     with open(html_path, encoding="utf-8", errors="ignore") as fh:
         text = fh.read()
+    for module in local_modules(text):
+        mod_path = os.path.join(root, module)
+        if os.path.isfile(mod_path):
+            with open(mod_path, encoding="utf-8", errors="ignore") as fh:
+                text += "\n" + fh.read()
     reads: set[str] = set()
     external: set[str] = set()
     first_raw: dict[str, int] = {}
@@ -231,7 +254,7 @@ def audit(reg: dict, root: str = HERE) -> dict:
             readers = sorted(h for h, i in per_surface.items()
                              if path in i["reads"])
             klass, note = disposition(path, reg)
-            if klass not in ("surfaced_no_provenance",):
+            if klass not in ("surfaced_no_pipeline",):
                 klass, note = "surfaced", ""
             rows.append({"path": path, "class": klass, "note": note,
                          "readers": readers})
@@ -259,7 +282,7 @@ def summarize(result: dict) -> dict:
     counts = Counter(r["class"] for r in result["rows"])
     return {
         "outputs": len(result["rows"]),
-        "surfaced": counts["surfaced"] + counts["surfaced_no_provenance"],
+        "surfaced": counts["surfaced"] + counts["surfaced_no_pipeline"],
         "unclassified": counts["unclassified"],
         "by_class": dict(sorted(counts.items())),
         "broken_references": len(result["broken"]),
@@ -273,13 +296,13 @@ def summarize(result: dict) -> dict:
 # rendering
 # --------------------------------------------------------------------------
 
-CLASS_ORDER = ["surfaced", "surfaced_no_provenance", "planned", "candidate",
+CLASS_ORDER = ["surfaced", "surfaced_no_pipeline", "planned", "candidate",
                "internal_ruling", "internal_operational", "methodology",
                "archive", "unclassified"]
 
 CLASS_HEADING = {
     "surfaced": "Surfaced",
-    "surfaced_no_provenance": "Surfaced without provenance",
+    "surfaced_no_pipeline": "Surfaced, no acquisition pipeline",
     "planned": "Closure planned",
     "candidate": "Closure candidate, undecided",
     "internal_ruling": "Internal by recorded ruling",
@@ -291,7 +314,7 @@ CLASS_HEADING = {
 
 CLASS_BLURB = {
     "surfaced": "Read by at least one embedded page.",
-    "surfaced_no_provenance": "Read by a page, but the page cannot say when the data was last true.",
+    "surfaced_no_pipeline": "Read by a page and carrying its provenance, but nothing refreshes it. The page can say how old the file is; nobody can make it newer.",
     "planned": "Invisible today with a named closure in the current pass.",
     "candidate": "Invisible today, plausibly surfaceable, no decision recorded yet.",
     "internal_ruling": "Invisible on purpose, under a ruling that does not expire with sample size.",
@@ -480,6 +503,18 @@ def selftest() -> int:
         check("concatenated raw url resolves",
               "data/shown.csv" in c_reads)
         check("concatenated chain counts as raw-first", c_raw_first is True)
+        open(os.path.join(tmp, "shared.js"), "w").write(
+            f"var U = ['{raw}/data/hidden.csv', './data/hidden.csv'];")
+        viamod = os.path.join(tmp, "viamod.html")
+        open(viamod, "w").write(
+            '<script src="./shared.js"></script>\n'
+            '<script src="https://cdn.example.com/lib.js"></script>')
+        m_reads, _, _ = surface_reads(viamod, tmp)
+        check("dataset loaded through a shared module counts",
+              "data/hidden.csv" in m_reads)
+        check("third-party script is not followed",
+              local_modules('<script src="https://cdn.example.com/lib.js">'
+                            "</script>") == [])
         reads_b, _, raw_first_b = surface_reads(bad, tmp)
         check("relative-only page is not raw-first", raw_first_b is False)
 
