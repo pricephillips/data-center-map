@@ -1,5 +1,5 @@
 {
-  "files_written": 110,
+  "files_written": 114,
   "layers": {
     "A": "Facilities",
     "B": "Proposed projects",
@@ -9,8 +9,9 @@
   },
   "findings": {
     "cross_layer_declared": 2,
-    "multi_writer_declared": 2
+    "multi_writer_declared": 2,
+    "undeclared_file": 4
   },
-  "undeclared_findings": 0,
-  "clean": true
+  "undeclared_findings": 4,
+  "clean": false
 }
