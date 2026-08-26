@@ -123,7 +123,7 @@ jobs:
               git add data/baseline_dated_external_rejects.csv
           git diff --cached --quiet || git commit -m "Permit candidates fetched and ingested into dated baseline [skip ci]"
           for i in 1 2 3; do
-            git pull --rebase origin main && git push && exit 0
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
             echo "Push attempt $i failed, retrying in 10s"
             sleep 10
           done

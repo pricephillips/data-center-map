@@ -87,7 +87,7 @@ jobs:
           fi
           git commit -m "Local signal proxies (alignment, meetings, execution risk) [skip ci]"
           for i in 1 2 3; do
-            git pull --rebase origin main && git push && exit 0
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
             echo "Push attempt $i failed, retrying in 10s"
             sleep 10
           done

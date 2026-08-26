@@ -119,7 +119,7 @@ jobs:
           for i in 1 2 3; do
             git push && break
             echo "push rejected (attempt $i); rebasing on latest main"
-            git pull --rebase origin main || true
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" || true
           done
 
       - name: Surface HOLD verdict (visible, non-blocking)
