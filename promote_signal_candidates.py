@@ -36,6 +36,7 @@ sys.path.insert(0, os.path.join(ROOT, "qc"))
 
 import qc_pipeline as qc
 import signal_harvest as sh
+from promotion_trail import new_decisions
 
 MASTER_CSV = os.path.join(ROOT, "master_opposition.csv")
 QUEUE_CSV = os.path.join(ROOT, "data", "signal_candidates.csv")
@@ -147,15 +148,34 @@ def rewrite_queue(kept: list[dict], queue_csv: str) -> None:
         w.writerows(kept)
 
 
-def append_report(rows: list[dict], report_csv: str) -> None:
+def append_report(rows: list[dict], report_csv: str) -> int:
+    """Append decisions, not re-statements of decisions.
+
+    The queue carries candidates forward across runs, so an unconditional
+    append re-recorded the same verdict on the same article every night: 7,342
+    rows described 1,937 decisions, 1,344 of them re-decided identically. The
+    Data Operations page reports this count as evidence the platform screens
+    what it harvests, and a count inflated nearly fourfold by repetition
+    overstates that evidence. Returns the number actually recorded.
+    """
     if not rows:
-        return
+        return 0
+    existing = load_csv(report_csv) if os.path.exists(report_csv) else []
+    # Keyed on url AND title: one batch legitimately emits two verdicts for
+    # one URL, promoting the first occurrence and marking the rest duplicate.
+    # Keying on url alone made those two rows overwrite each other's recorded
+    # state, so every run saw a change and recorded both again forever.
+    fresh, _ = new_decisions(existing, rows, key_fields=("url", "title"),
+                             state_fields=("action", "blocking_reasons"))
+    if not fresh:
+        return 0
     new_file = not os.path.exists(report_csv)
     with open(report_csv, "a", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=REPORT_FIELDS, extrasaction="ignore")
         if new_file:
             w.writeheader()
-        w.writerows(rows)
+        w.writerows(fresh)
+    return len(fresh)
 
 
 def main() -> int:
@@ -238,11 +258,28 @@ def selftest() -> int:
         check("queue rewrite keeps only blocked rows",
               len(load_csv(tmp_queue)) == 1)
 
+        # This previously asserted that appending the same report twice
+        # doubled the rows, which encoded the duplication defect as the
+        # expected behaviour. The queue carries candidates across runs, so
+        # that path ran nightly and inflated the trail nearly fourfold.
         tmp_report = os.path.join(td, "report.csv")
-        append_report(report, tmp_report)
-        append_report(report, tmp_report)  # append mode, header once
-        check("report appends without duplicating the header",
-              len(load_csv(tmp_report)) == 2 * len(report))
+        first = append_report(report, tmp_report)
+        again = append_report(report, tmp_report)
+        check("report writes the header once and every decision once",
+              len(load_csv(tmp_report)) == len(report) and first == len(report))
+        check("re-deciding the same articles the same way records nothing",
+              again == 0 and len(load_csv(tmp_report)) == len(report))
+        # Flip every verdict to promoted. The row that was already promoted
+        # has not changed and must stay unrecorded; the other two have and
+        # must be recorded. Asserting the exact split is the point: a rule
+        # that recorded all three would be back to logging non-events.
+        changed = [dict(r, action="promoted", blocking_reasons="")
+                   for r in report]
+        already = sum(1 for r in report
+                      if r["action"] == "promoted" and not r["blocking_reasons"])
+        moved = append_report(changed, tmp_report)
+        check("only the verdicts that actually changed are recorded",
+              moved == len(report) - already and already >= 1)
 
     print(f"selftest: {'OK' if not failures else f'{len(failures)} FAILURES'}")
     return 1 if failures else 0

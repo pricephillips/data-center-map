@@ -8,6 +8,23 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- One basemap provider for every map here. Same-origin, same as
+     viz-palette and map-permalink. -->
+<script src="./basemap.js"></script>
+<script>
+// Fallback stub. If basemap.js did not load, the map renders its own data on
+// a dark background with no tiles, which is a degraded map rather than a
+// blank page: every map here draws its own geometry.
+window.Basemap = window.Basemap || { dark: function () {
+  // Chainable no-op: callers do Basemap.dark().addTo(map).on('tileerror', ...),
+  // so returning null here would throw and take the whole page down over a
+  // missing decoration.
+  var noop = {};
+  ['addTo', 'on', 'off', 'remove', 'setOpacity', 'bringToBack',
+   'bringToFront'].forEach(function (m) { noop[m] = function () { return noop; }; });
+  return noop;
+} };
+</script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
 <!-- View state in the URL. Also keeps the older bare #state-slug links
@@ -433,9 +450,7 @@ function navToView(center, zoom, opts) {
 
 // Basemap with automatic fallback: if Carto CDN is blocked, switch to OSM
 let _tileErrors = 0, _tileFellBack = false;
-const baseTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-  subdomains:'abcd', maxZoom:19, updateWhenIdle:true, attribution:'© OpenStreetMap contributors © CARTO'
-}).addTo(map);
+const baseTiles = Basemap.dark().addTo(map);
 baseTiles.on('tileerror', () => {
   _tileErrors++;
   if (_tileErrors >= 3 && !_tileFellBack) {

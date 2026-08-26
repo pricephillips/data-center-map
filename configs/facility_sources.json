@@ -1,0 +1,189 @@
+{
+  "_comment": [
+    "Layer A source registry: existing and operating data centers.",
+    "facility_manifest.py reads this to publish a freshness signal for every",
+    "facility snapshot the client-visible surfaces load. Acquisition configs",
+    "added by the facility pipelines attach to the same source_id values, so",
+    "a source gains a pipeline without changing how the surface names it.",
+    "",
+    "vintage_status is deliberately explicit. 'undeclared' means nobody has",
+    "recorded when the upstream data was true, which is a real state of the",
+    "world here and the thing the freshness signal exists to expose. It is",
+    "never inferred from the repository commit date: a snapshot committed",
+    "today can be two years old upstream."
+  ],
+  "sources": [
+    {
+      "source_id": "osti_im3_atlas",
+      "label": "OSTI IM3 Open Source Data Center Atlas",
+      "short_label": "IM3 Atlas",
+      "file": "atlas.csv",
+      "layer": "A",
+      "kind": "static_snapshot",
+      "publisher": "Pacific Northwest National Laboratory, IM3 / MultiSector Dynamics, US DOE Office of Science",
+      "landing_urls": [
+        "https://www.osti.gov/biblio/2550666",
+        "https://immm-sfa.github.io/datacenter-atlas/",
+        "https://data.msdlive.org/records/65g71-a4731"
+      ],
+      "url_provenance": "Located by search 2026-08-26. Record contents were NOT fetched: the CI egress proxy blocks osti.gov, msdlive.org and the atlas site, so the DOI, version and license remain unconfirmed. Confirming them is a one-time manual task, the same shape as the PA DEP layer pin.",
+      "derivation": "Facility locations derived from OpenStreetMap, with facility area, county and state computed by the publisher.",
+      "geography": "United States",
+      "license": "unconfirmed",
+      "upstream_vintage": null,
+      "vintage_precision": null,
+      "vintage_status": "undeclared",
+      "refresh": {
+        "cadence": "unknown",
+        "mechanism": "manual snapshot",
+        "pipeline": false
+      },
+      "notes": "Largest dataset in the repository and the only one that cannot answer when it was last true. Pass 3 replaces the overwrite with a diff into Layer A candidates.",
+      "acquisition": {
+        "status": "needs_manual_pin",
+        "mechanism": "periodic re-pull, diffed into Layer A candidates",
+        "blocked_on": "A direct download URL for the current release, plus the release cadence. The CI egress proxy blocks osti.gov, msdlive.org and immm-sfa.github.io, so neither can be resolved from a workflow; both are one manual look at the record page. Until then the snapshot is what it is and the manifest says so.",
+        "rule": "A re-pull never overwrites atlas.csv. It diffs against data/facility_registry.csv and writes the difference to data/facility_candidates.csv, so an upstream change enters through the same gate as everything else."
+      }
+    },
+    {
+      "source_id": "epoch_frontier",
+      "label": "Epoch AI Frontier Data Centers",
+      "short_label": "Frontier sites",
+      "file": "ai_centers.csv",
+      "layer": "A",
+      "kind": "static_snapshot",
+      "publisher": "Epoch AI",
+      "landing_urls": [
+        "https://epoch.ai/data/data-centers"
+      ],
+      "url_provenance": "Attribution recorded on the Notion Complete Centers page: 'Epoch Frontier Dataset (lacking proprietary data)'. URL not fetched; egress blocked in CI.",
+      "derivation": "Publisher-maintained register of frontier training sites with power and capital-cost estimates.",
+      "geography": "Global; the surfaces show the United States rows.",
+      "license": "unconfirmed",
+      "upstream_vintage": null,
+      "vintage_precision": null,
+      "vintage_status": "undeclared",
+      "refresh": {
+        "cadence": "unknown",
+        "mechanism": "manual snapshot",
+        "pipeline": false
+      },
+      "notes": "29 rows, 27 of them United States. Capital-cost and power figures are publisher estimates, not filings.",
+      "acquisition": {
+        "status": "needs_manual_pin",
+        "mechanism": "periodic re-pull, diffed into Layer A candidates",
+        "blocked_on": "A machine-readable export URL. Attribution is recorded on the Notion Complete Centers page; the export path is not.",
+        "rule": "Same as the atlas: diff into candidates, never overwrite the snapshot."
+      }
+    },
+    {
+      "source_id": "hyperscaler_footprints",
+      "label": "Hyperscaler self-published region and campus locations",
+      "short_label": "Operator pages",
+      "file": null,
+      "layer": "A",
+      "kind": "planned",
+      "publisher": "Microsoft, Amazon Web Services, Google, Meta",
+      "landing_urls": [],
+      "url_provenance": "Not yet pinned. Each operator publishes its own region and campus list under its own name, which makes these first-party and fully citable, and they cover exactly the operators clients ask about.",
+      "geography": "United States",
+      "license": "unconfirmed",
+      "upstream_vintage": null,
+      "vintage_status": "undeclared",
+      "refresh": {
+        "cadence": "unknown",
+        "mechanism": "planned",
+        "pipeline": false
+      },
+      "acquisition": {
+        "status": "needs_manual_pin",
+        "mechanism": "one config per operator, candidates first, gated promotion",
+        "blocked_on": "Four page URLs and a note on each page's shape (table, embedded JSON, or map layer). The egress proxy blocks arbitrary hosts from CI, so a reviewer has to open each page once, exactly as the PA DEP layer pin requires.",
+        "rule": "First-party pages are strong evidence of existence and weak evidence of location precision. A promoted row cites the operator page and carries whatever geography the operator states, never a geocode inferred from a campus name."
+      },
+      "notes": "Highest-value unbuilt source: first-party, citable, and covering the operators clients ask about by name."
+    },
+    {
+      "source_id": "permit_graduations",
+      "label": "Layer B projects that reached operating status",
+      "short_label": "Graduations",
+      "file": null,
+      "layer": "A",
+      "kind": "internal",
+      "publisher": "This repository",
+      "landing_urls": [],
+      "url_provenance": "Internal. Built from data/proposals.csv phase and yearOpened.",
+      "geography": "United States",
+      "license": "n/a",
+      "upstream_vintage": null,
+      "vintage_status": "declared",
+      "refresh": {
+        "cadence": "every pipeline run",
+        "mechanism": "facility_registry.py",
+        "pipeline": true
+      },
+      "acquisition": {
+        "status": "live",
+        "mechanism": "mechanical detection in facility_registry.py",
+        "blocked_on": null,
+        "rule": "A project whose phase is operational, or whose stated opening year has passed, is a facility. Detection is mechanical; promotion still passes the same gate as any other candidate."
+      },
+      "notes": "The graduation path the registry existed to make possible. Six projects are currently promotable, three are already in the registry under a snapshot source, one is held."
+    },
+    {
+      "source_id": "pa_dep_datacenter",
+      "label": "Pennsylvania DEP data center layer",
+      "short_label": "PA DEP",
+      "file": null,
+      "layer": "A",
+      "kind": "planned",
+      "publisher": "Pennsylvania Department of Environmental Protection",
+      "landing_urls": [],
+      "url_provenance": "discover_arcgis_layer.py ran in CI and returned zero candidates, so the layer cannot be resolved programmatically. See data/arcgis_discovery_pa_dep_datacenter.md.",
+      "geography": "Pennsylvania",
+      "license": "unconfirmed",
+      "upstream_vintage": null,
+      "vintage_status": "undeclared",
+      "refresh": {
+        "cadence": "weekly once pinned",
+        "mechanism": "planned",
+        "pipeline": false
+      },
+      "acquisition": {
+        "status": "needs_manual_pin",
+        "mechanism": "ArcGIS feature layer, existing permit machinery",
+        "blocked_on": "One layer URL from browser dev tools. Once pinned, configs/pa_dep_datacenter_ingest.json is written and it joins the weekly permit run with no new code.",
+        "rule": "Permits are Layer B until a permit reaches built or operating status, at which point the graduation path above applies."
+      },
+      "notes": "Carried forward unchanged from the 2026-08-25 plan. A pinning task, not a build task."
+    },
+    {
+      "source_id": "ercot_large_load",
+      "label": "ERCOT large load interconnection queue",
+      "short_label": "ERCOT queue",
+      "file": null,
+      "layer": "B",
+      "kind": "planned",
+      "publisher": "Electric Reliability Council of Texas",
+      "landing_urls": [],
+      "url_provenance": "Not pinned. The ERCOT data product library needs one manual look to identify the stable report URL for the tabular adapter.",
+      "geography": "Texas",
+      "license": "unconfirmed",
+      "upstream_vintage": null,
+      "vintage_status": "undeclared",
+      "refresh": {
+        "cadence": "unknown",
+        "mechanism": "planned",
+        "pipeline": false
+      },
+      "acquisition": {
+        "status": "needs_manual_pin",
+        "mechanism": "tabular adapter into Layer B",
+        "blocked_on": "The stable report URL from the ERCOT data product library.",
+        "rule": "An interconnection request is the earliest facility signal there is, and it is a request, not a facility. It lands in Layer B and reaches Layer A only through the graduation path. docs/interconnection_queue_scoping.md already establishes that the LBNL queue is generation-only and cannot serve as a facility universe; this is the load-side queue, which can."
+      },
+      "notes": "Layer B on purpose. Listed here because it is part of the facility-universe programme and because putting a queue position into Layer A would be the exact error the announcement rule already blocks."
+    }
+  ]
+}

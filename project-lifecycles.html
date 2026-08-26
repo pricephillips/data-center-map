@@ -197,6 +197,16 @@ window.MapPermalink = window.MapPermalink || (function () {
   </div>
 </div>
 
+<!-- Denominators. The strip above reports counts; without the denominator
+     behind each one, a reader cannot tell a thin sample from a complete one,
+     and the bottleneck that actually holds the predictive layer closed stays
+     invisible. This panel is that bottleneck, stated. -->
+<div class="analysis-strip" id="coverage-strip" style="display:none">
+  <h3>Coverage behind those numbers <span class="tag">denominators</span></h3>
+  <div class="analysis-grid" id="coverage-grid"></div>
+  <div id="gate-note" class="lbl" style="margin-top:10px"></div>
+</div>
+
 <div class="kpis">
   <div class="kpi"><b id="kpi-total">–</b><span>Projects tracked</span></div>
   <div class="kpi k-advanced"><b id="kpi-advanced">–</b><span>Advanced (confirmed)</span></div>
@@ -276,6 +286,26 @@ const DATA_URLS = [
   'https://raw.githubusercontent.com/pricephillips/data-center-map/main/data/project_lifecycles.csv',
   'data/project_lifecycles.csv'
 ];
+
+// Optional. The operations summary carries the landmark gate's per-window
+// frame counts, which is what this page's numbers are actually waiting on. If
+// it does not load, the coverage panel still renders its own denominators and
+// simply omits the gate table.
+const OPS_URLS = [
+  'https://raw.githubusercontent.com/pricephillips/data-center-map/main/data/operations_summary.json',
+  'data/operations_summary.json'
+];
+
+async function fetchJsonFirst(urls) {
+  for (const u of urls) {
+    try {
+      const r = await fetch(u, { cache: 'no-cache' });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return await r.json();
+    } catch (e) { /* try next */ }
+  }
+  return null;
+}
 
 function showError(msg) {
   const b = document.getElementById('error-banner');
@@ -453,6 +483,67 @@ function initKPIs() {
     ? Math.round(100 * blocked.length / decidedOpposed.length) + '%' : '–';
   document.getElementById('an-median-delay').textContent = median != null ? fmtDays(median) : '–';
   document.getElementById('an-dated').textContent = dated.length;
+
+  renderCoverage(decidedOpposed);
+}
+
+// ---- denominators -------------------------------------------------------
+function share(part, whole) {
+  return whole ? Math.round(100 * part / whole) + '%' : '–';
+}
+
+function coverageCell(value, sub, label) {
+  return '<div class="analysis-cell"><div class="big">' + value + '</div>' +
+         '<div class="lbl">' + label +
+         (sub ? '<br><b>' + sub + '</b>' : '') + '</div></div>';
+}
+
+function renderCoverage(decidedOpposed) {
+  const isDay = v => /^\d{4}-\d{2}-\d{2}$/.test(v || '');
+  const decided = DATA.filter(p => p.decided === 'yes');
+  const decidedDated = decided.filter(p => isDay(p.decision_date));
+  const anchored = DATA.filter(p => isDay(p.announced_date));
+  const opposed = DATA.filter(p => +p.n_opposition_events > 0);
+  const opposedAnchored = opposed.filter(p => isDay(p.announced_date));
+  const doDated = decidedOpposed.filter(p => isDay(p.decision_date) && isDay(p.announced_date));
+
+  const cells = [
+    coverageCell(share(decidedDated.length, decided.length),
+      decidedDated.length + ' of ' + decided.length + ' decided projects',
+      'carry a verified, sourced decision date. This is the binding constraint ' +
+      'on the outcome model: an undated decision cannot enter a training frame.'),
+    coverageCell(share(anchored.length, DATA.length),
+      anchored.length + ' of ' + DATA.length + ' projects',
+      'carry a day-precision announcement date, which is the anchor every ' +
+      'timeline is measured from. The rest cannot be placed on a timeline at all.'),
+    coverageCell(share(opposedAnchored.length, opposed.length),
+      opposedAnchored.length + ' of ' + opposed.length + ' opposed projects',
+      'are anchored and therefore eligible to be scored once the gate opens.'),
+    coverageCell(share(doDated.length, decidedOpposed.length),
+      doDated.length + ' of ' + decidedOpposed.length + ' decided and opposed',
+      'are both anchored and dated, which is the frame the outcome model draws ' +
+      'from before any observation window is applied.')
+  ];
+  document.getElementById('coverage-grid').innerHTML = cells.join('');
+  document.getElementById('coverage-strip').style.display = '';
+}
+
+function renderGate(ops) {
+  const g = ops && ops.gates && ops.gates.landmark;
+  const el = document.getElementById('gate-note');
+  if (!g || !el) return;
+  const rows = (g.windows || []).map(w =>
+    'W=' + w.window_days + ': n=' + w.n + ', blocked ' + w.n_blocked +
+    ', not blocked ' + w.n_not_blocked).join(' &middot; ');
+  el.innerHTML =
+    '<b>Outcome gate: ' + String(g.status || '').toLowerCase() + '.</b> ' +
+    'Floors are ' + (g.floors || 'unrecorded') + ', registered before the data ' +
+    'could meet them and applied unchanged. Frame sizes by observation window: ' +
+    rows + '. ' +
+    (ops.worklists && ops.worklists.decision_dates
+      ? 'Recovering the ' + ops.worklists.decision_dates.open +
+        ' outstanding decision dates is what moves these counts; nothing else does.'
+      : '');
 }
 
 function initControls() {
@@ -558,6 +649,9 @@ document.addEventListener('keydown', e => {
   initKPIs();
   initControls();
   render();
+  // Optional and last: the page is fully usable without the gate table, so
+  // it never waits on this fetch.
+  renderGate(await fetchJsonFirst(OPS_URLS));
 })();
 </script>
 

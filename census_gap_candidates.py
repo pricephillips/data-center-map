@@ -83,6 +83,8 @@ import re
 import sys
 import urllib.request
 
+from promotion_trail import new_decisions
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "data")
 GAP_CSV = os.path.join(DATA, "coverage_gap_report.csv")
@@ -441,18 +443,29 @@ def promote(candidates: list[dict]) -> tuple[int, int]:
         w.writeheader()
         w.writerows(held)
 
+    # Append decisions, not re-statements of decisions. The nightly run
+    # re-decides every open candidate, so an unconditional append recorded
+    # "Cherokee County held" once per run for a single hold. A trail that
+    # repeats its non-events buries its events, and the decision counts are
+    # now shown on the Data Operations page as evidence.
+    fresh, suppressed = new_decisions(
+        read_csv(PROMOTION_REPORT), report,
+        key_fields=("state", "county", "instrument"),
+        state_fields=("action", "reason"))
     exists = os.path.exists(PROMOTION_REPORT)
-    with open(PROMOTION_REPORT, "a", encoding="utf-8", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=["state", "county", "instrument",
-                                           "date", "data_source", "action",
-                                           "reason"], lineterminator="\r\n")
-        if not exists:
-            w.writeheader()
-        w.writerows(report)
+    if fresh:
+        with open(PROMOTION_REPORT, "a", encoding="utf-8", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=["state", "county", "instrument",
+                                               "date", "data_source", "action",
+                                               "reason"],
+                               lineterminator="\r\n")
+            if not exists:
+                w.writeheader()
+            w.writerows(fresh)
 
     print(f"promotion: {len(promoted)} appended to master, {len(held)} held "
-          f"in the exception queue; decisions appended to "
-          f"{PROMOTION_REPORT}")
+          f"in the exception queue; {len(fresh)} new decisions appended to "
+          f"{PROMOTION_REPORT} ({suppressed} unchanged since the last run)")
     return (len(promoted), len(held))
 
 

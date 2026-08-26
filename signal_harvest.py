@@ -19,10 +19,23 @@ loop. The worklist is ordered so the highest-value rows sit at the top: a
 recognized mechanism keyword plus a resolvable county plus a domain that is
 not already saturated in the database.
 
+The harvester sees two different things and used to file them in one place.
+An article about a county adopting a moratorium is a Layer C opposition event.
+An article about a data center opening, breaking ground, or being announced is
+a Layer A facility signal, and it was landing in the opposition worklist with
+an empty mechanism_hint and a low priority, where it was either misfiled or
+quietly ignored. Facility signals now route to their own candidates file, which
+keeps the opposition worklist about opposition and gives the facility layer its
+first standing intake. A row carrying both an opposition mechanism and a
+facility verb stays with opposition: the mechanism is the stronger signal and
+the reviewer needs it in the queue that gets worked.
+
 Outputs
 -------
-  data/signal_candidates.csv   ranked worklist, one row per candidate article
-  data/signal_harvest_log.csv  append-only run log (query, window, counts)
+  data/signal_candidates.csv    ranked opposition worklist, one row per article
+  data/facility_candidates.csv  Layer A facility signals (openings, ground
+                                breaking, announcements, expansions)
+  data/signal_harvest_log.csv   append-only run log (query, window, counts)
 
 Usage
 -----
@@ -56,6 +69,7 @@ FIPS_LOOKUP_JSON = os.path.join(HERE, "data", "county_fips_lookup.json")
 COUNTY_AGG_CSV = os.path.join(HERE, "data", "county_aggregate.csv")
 
 OUT_CSV = os.path.join(HERE, "data", "signal_candidates.csv")
+FACILITY_CSV = os.path.join(HERE, "data", "facility_candidates.csv")
 LOG_CSV = os.path.join(HERE, "data", "signal_harvest_log.csv")
 
 GDELT_URL = "https://api.gdeltproject.org/api/v2/doc/doc"
@@ -85,6 +99,44 @@ MECHANISM_HINTS = [
     (r"\bwithdrew|withdrawn|pulled (its|their) application\b", "project_withdrawal"),
     (r"\bpetition\b", "other_opposition"),
 ]
+
+# Layer A facility signals. These describe a facility's own lifecycle rather
+# than any community response to it, which is why they belong in a different
+# file and not merely a different row type. Deliberately narrow: a verb that
+# could describe either a facility or a policy (approves, considers, reviews)
+# is left out, because a false facility candidate costs more than a missed one
+# when the file is meant to seed a registry.
+FACILITY_HINTS = [
+    (r"\bopens?\b|\bopened\b|\bgoes? (online|live)\b|\bwent online\b|"
+     r"\bnow (open|operational)\b|\bbegins? operations?\b", "operational"),
+    (r"\bbreaks? ground\b|\bbroke ground\b|\bgroundbreaking\b|"
+     r"\bconstruction (begins|starts|underway)\b|\bstarts? construction\b",
+     "construction_start"),
+    (r"\bannounces? (a |its |plans? )?(new )?(data cent(er|re)|campus)\b|"
+     r"\bto build (a |its )?(new )?data cent(er|re)\b|\bunveils?\b|"
+     r"\bplans? (a |its )?(new )?\$?[\d.]*\s*(billion|million)?\s*data cent(er|re)\b",
+     "announcement"),
+    (r"\bexpands?\b|\bexpansion\b|\bphase (two|three|2|3|ii|iii)\b|"
+     r"\badds? (a )?(second|third|new) (building|campus|phase)\b", "expansion"),
+    (r"\bbuys? (land|acreage|a site)\b|\bacquires? (land|a site|acreage)\b|"
+     r"\bpurchased? \d+ acres\b", "site_acquisition"),
+]
+
+# Routing guard. MECHANISM_HINTS is a list of recognized mechanisms, not a
+# complete vocabulary of opposition, so a headline can describe a fight without
+# matching any of them: "Residents sue after data center opens" carries no
+# mechanism hint under the patterns above, and a facility verb alone would
+# route it to the facility file, out of the queue a reviewer works. The guard
+# is broad and errs toward keeping rows in the opposition worklist, because a
+# facility candidate that should have been an opposition candidate is a missed
+# event while the reverse is only a row a reviewer skips.
+OPPOSITION_GUARD = re.compile(
+    r"\boppos|\bprotest|\bresidents?\b|\bneighbors?\b|\bsue[sd]?\b|\bsuing\b|"
+    r"\blawsuit|\bpetition|\breject|\bdenie[sd]\b|\bdeny\b|\bhalt|\bpause[sd]?\b|"
+    r"\bblock(s|ed|ing)?\b|\bban(s|ned|ning)?\b|\bmoratori|\bfight|\bbacklash|"
+    r"\bconcerns?\b|\bpushback\b|\bobject(s|ed|ion|ions)?\b|\bcritic|"
+    r"\bagainst\b|\bopposition\b|\breferendum\b|\brecall\b",
+    re.IGNORECASE)
 
 STATE_ABBREV = {
     "AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas",
@@ -201,6 +253,27 @@ def mechanism_hint(title):
     return "; ".join(dict.fromkeys(hits))
 
 
+def facility_hint(title):
+    """Layer A facility-lifecycle signal in a headline, or "" if none."""
+    t = (title or "").lower()
+    hits = [name for pat, name in FACILITY_HINTS if re.search(pat, t)]
+    return "; ".join(dict.fromkeys(hits))
+
+
+def is_facility_signal(row):
+    """A facility signal is an article with a facility verb, no opposition
+    mechanism, and nothing in the headline that reads as community response.
+
+    When a mechanism is present it wins: it is the stronger claim and the
+    reviewer needs the row in the queue that gets worked. The guard covers the
+    case a mechanism list cannot, which is opposition described in words no
+    mechanism pattern matches.
+    """
+    if not row.get("facility_hint") or row.get("mechanism_hint"):
+        return False
+    return not OPPOSITION_GUARD.search(row.get("title") or "")
+
+
 def locate(title, cidx, state_filter=None):
     """Best-effort county/state from the headline. Returns (county, state,
     confidence). Ambiguous county names across states resolve only when the
@@ -263,6 +336,13 @@ FIELDS = ["priority", "seen_date", "query_label", "title", "domain", "url",
           "mechanism_hint", "county", "state", "location_confidence",
           "county_already_tracked", "harvested_on"]
 
+# Layer A candidates. Deliberately not the same shape as the opposition
+# worklist: these rows describe a facility, carry no mechanism or priority
+# ordering built for opposition review, and are pre-promotion by construction.
+# Nothing here is a source of record.
+FACILITY_FIELDS = ["seen_date", "facility_signal", "title", "domain", "url",
+                   "county", "state", "location_confidence", "harvested_on"]
+
 
 def harvest(days=7, state_filter=None, fixture=None, articles_by_label=None):
     seen = known_urls()
@@ -292,7 +372,7 @@ def harvest(days=7, state_filter=None, fixture=None, articles_by_label=None):
                     print(f"signal_harvest: query '{label}' failed ({exc}); continuing")
                     articles_by_label[label] = []
 
-    rows, dupes, out_of_scope = [], 0, 0
+    rows, facility_rows, dupes, out_of_scope = [], [], 0, 0
     emitted = set()
     for label, articles in articles_by_label.items():
         for a in articles:
@@ -317,46 +397,78 @@ def harvest(days=7, state_filter=None, fixture=None, articles_by_label=None):
                 "domain": (a.get("domain") or "").lower(),
                 "url": url,
                 "mechanism_hint": mechanism_hint(title),
+                "facility_hint": facility_hint(title),
                 "county": county,
                 "state": st,
                 "location_confidence": conf,
                 "county_already_tracked": "yes" if (county.lower(), st) in tracked_counties else "no",
                 "harvested_on": date.today().isoformat(),
             }
+            if is_facility_signal(row):
+                facility_rows.append({
+                    "seen_date": row["seen_date"],
+                    "facility_signal": row["facility_hint"],
+                    "title": row["title"],
+                    "domain": row["domain"],
+                    "url": row["url"],
+                    "county": row["county"],
+                    "state": row["state"],
+                    "location_confidence": row["location_confidence"],
+                    "harvested_on": row["harvested_on"],
+                })
+                emitted.add(nu)
+                continue
+            row.pop("facility_hint", None)
             row["priority"] = priority(row)
             rows.append(row)
             emitted.add(nu)
 
     rows.sort(key=lambda r: -r["priority"])
-    return rows, {"already_in_database": dupes, "filtered_out_of_scope": out_of_scope}
+    facility_rows.sort(key=lambda r: (r["seen_date"], r["title"]), reverse=True)
+    return rows, facility_rows, {"already_in_database": dupes,
+                                 "filtered_out_of_scope": out_of_scope,
+                                 "facility_signals": len(facility_rows)}
 
 
-def _existing_candidate_count():
+def _existing_row_count(path):
     try:
-        with open(OUT_CSV, newline="", encoding="utf-8-sig") as fh:
+        with open(path, newline="", encoding="utf-8-sig") as fh:
             return sum(1 for _ in csv.DictReader(fh))
     except (OSError, csv.Error):
         return 0
 
 
-def write_outputs(rows, stats, days):
-    os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)
-    # A run that returns nothing must not erase a run that returned something.
-    # The harvest log records this happening: two runs on 2026-07-24 returned
-    # 249 candidates each and a third returned 0, and the committed worklist
-    # ended up empty. GDELT throttles repeat callers, so an empty return is far
-    # more often a throttled call than a genuine absence of coverage. The log
-    # row is written either way, so the empty run stays visible.
-    prior = _existing_candidate_count()
+def _existing_candidate_count():
+    return _existing_row_count(OUT_CSV)
+
+
+def _write_or_keep(path, fields, rows, label):
+    """Write rows, unless there are none and the file already holds some.
+
+    A run that returns nothing must not erase a run that returned something.
+    The harvest log records this happening: two runs on 2026-07-24 returned
+    249 candidates each and a third returned 0, and the committed worklist
+    ended up empty. GDELT throttles repeat callers, so an empty return is far
+    more often a throttled call than a genuine absence of coverage.
+    """
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    prior = _existing_row_count(path)
     if not rows and prior:
-        print(f"signal_harvest: 0 candidates returned; keeping the existing "
-              f"{prior}-row worklist at {OUT_CSV} rather than clearing it. "
+        print(f"signal_harvest: 0 {label} returned; keeping the existing "
+              f"{prior}-row file at {path} rather than clearing it. "
               f"An empty return is usually a throttled call.")
-    else:
-        with open(OUT_CSV, "w", newline="", encoding="utf-8") as fh:
-            w = csv.DictWriter(fh, fieldnames=FIELDS)
-            w.writeheader()
-            w.writerows(rows)
+        return
+    with open(path, "w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=fields, lineterminator="\n")
+        w.writeheader()
+        w.writerows(rows)
+
+
+def write_outputs(rows, facility_rows, stats, days):
+    # The log row is written either way below, so an empty run stays visible.
+    _write_or_keep(OUT_CSV, FIELDS, rows, "candidates")
+    _write_or_keep(FACILITY_CSV, FACILITY_FIELDS, facility_rows,
+                   "facility signals")
     leak_hits = LEAK_RE.findall(",".join(r["title"] for r in rows))
     # Headlines are third-party text, not generated language, so a hit here is
     # reported rather than fatal. It flags rows a reviewer must reword before
@@ -365,17 +477,20 @@ def write_outputs(rows, stats, days):
     with open(LOG_CSV, "a", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=["run_date", "window_days", "candidates",
                                            "already_in_database", "filtered_out_of_scope",
-                                           "headline_vocab_flags"])
+                                           "headline_vocab_flags", "facility_signals"],
+                           lineterminator="\n")
         if not log_exists:
             w.writeheader()
         w.writerow({"run_date": date.today().isoformat(), "window_days": days,
                     "candidates": len(rows),
                     "already_in_database": stats["already_in_database"],
                     "filtered_out_of_scope": stats["filtered_out_of_scope"],
-                    "headline_vocab_flags": len(leak_hits)})
+                    "headline_vocab_flags": len(leak_hits),
+                    "facility_signals": stats.get("facility_signals", 0)})
     print(f"signal_harvest: {len(rows)} candidates -> {OUT_CSV} "
           f"({stats['already_in_database']} already in the database, "
           f"{stats['filtered_out_of_scope']} outside the state filter)")
+    print(f"signal_harvest: {len(facility_rows)} facility signals -> {FACILITY_CSV}")
     if leak_hits:
         print(f"signal_harvest: {len(leak_hits)} candidate headlines contain scorekeeping "
               f"vocabulary. Reword before any of that phrasing reaches a deliverable.")
@@ -399,7 +514,8 @@ def harvest_to_queue(days=7, state_filter=None, repo_root=None):
     reported, because a harvest problem must never be able to stop the
     nightly CSV build; the worst case is a stale queue.
     """
-    global HERE, OPPOSITION_CANDIDATES, FIPS_LOOKUP_JSON, COUNTY_AGG_CSV, OUT_CSV, LOG_CSV
+    global HERE, OPPOSITION_CANDIDATES, FIPS_LOOKUP_JSON, COUNTY_AGG_CSV
+    global OUT_CSV, FACILITY_CSV, LOG_CSV
     if repo_root:
         HERE = os.path.abspath(repo_root)
         OPPOSITION_CANDIDATES = [os.path.join(HERE, "master_opposition_clean.csv"),
@@ -407,10 +523,11 @@ def harvest_to_queue(days=7, state_filter=None, repo_root=None):
         FIPS_LOOKUP_JSON = os.path.join(HERE, "data", "county_fips_lookup.json")
         COUNTY_AGG_CSV = os.path.join(HERE, "data", "county_aggregate.csv")
         OUT_CSV = os.path.join(HERE, "data", "signal_candidates.csv")
+        FACILITY_CSV = os.path.join(HERE, "data", "facility_candidates.csv")
         LOG_CSV = os.path.join(HERE, "data", "signal_harvest_log.csv")
     try:
-        rows, stats = harvest(days=days, state_filter=state_filter)
-        write_outputs(rows, stats, days)
+        rows, facility_rows, stats = harvest(days=days, state_filter=state_filter)
+        write_outputs(rows, facility_rows, stats, days)
         return len(rows)
     except Exception as exc:
         print(f"signal_harvest: harvest skipped ({exc}). The CSV build is unaffected.")
@@ -422,26 +539,36 @@ def harvest_to_queue(days=7, state_filter=None, repo_root=None):
 # ---------------------------------------------------------------------------
 
 def _selftest_no_clobber():
-    """A zero-candidate run must not empty a populated worklist."""
-    global OUT_CSV, LOG_CSV
+    """A zero-candidate run must not empty a populated worklist, and the same
+    protection has to cover the facility file, which is written by the same
+    throttled call."""
+    global OUT_CSV, FACILITY_CSV, LOG_CSV
     import tempfile
     td = tempfile.mkdtemp()
-    keep_out, keep_log = OUT_CSV, LOG_CSV
+    keep_out, keep_fac, keep_log = OUT_CSV, FACILITY_CSV, LOG_CSV
     OUT_CSV = os.path.join(td, "signal_candidates.csv")
+    FACILITY_CSV = os.path.join(td, "facility_candidates.csv")
     LOG_CSV = os.path.join(td, "signal_harvest_log.csv")
     try:
         row = {k: "" for k in FIELDS}
         row.update({"title": "County adopts a data center ordinance",
                     "priority": "5.0", "county": "Loudoun", "state": "VA"})
-        stats = {"already_in_database": 0, "filtered_out_of_scope": 0}
-        write_outputs([row], stats, 7)
-        first = _existing_candidate_count()
-        write_outputs([], stats, 7)
-        after = _existing_candidate_count()
+        frow = {k: "" for k in FACILITY_FIELDS}
+        frow.update({"title": "Data center opens in Story County",
+                     "facility_signal": "operational", "state": "IA"})
+        stats = {"already_in_database": 0, "filtered_out_of_scope": 0,
+                 "facility_signals": 1}
+        write_outputs([row], [frow], stats, 7)
+        first = _existing_row_count(OUT_CSV)
+        first_fac = _existing_row_count(FACILITY_CSV)
+        write_outputs([], [], stats, 7)
+        after = _existing_row_count(OUT_CSV)
+        after_fac = _existing_row_count(FACILITY_CSV)
         log_rows = sum(1 for _ in open(LOG_CSV, encoding="utf-8")) - 1
-        return first == 1 and after == 1 and log_rows == 2
+        return (first == 1 and after == 1 and first_fac == 1
+                and after_fac == 1 and log_rows == 2)
     finally:
-        OUT_CSV, LOG_CSV = keep_out, keep_log
+        OUT_CSV, FACILITY_CSV, LOG_CSV = keep_out, keep_fac, keep_log
 
 
 def selftest():
@@ -474,19 +601,65 @@ def selftest():
     expect(locate("Loudoun County data center vote", cidx, state_filter={"OH"}) is None,
            "state filter excludes out-of-scope rows")
 
+    expect("operational" in facility_hint("Data center opens quietly"),
+           "an opening is a facility signal")
+    expect("construction_start" in facility_hint("Meta breaks ground on Iowa campus"),
+           "ground breaking is a facility signal")
+    expect("expansion" in facility_hint("Operator expands its Loudoun campus"),
+           "an expansion is a facility signal")
+    expect(facility_hint("County adopts data center moratorium") == "",
+           "a policy headline carries no facility signal")
+    expect(facility_hint("Board approves data center rezoning") == "",
+           "approves is deliberately not a facility verb: it describes policy "
+           "at least as often as it describes a building")
+    expect(is_facility_signal({"facility_hint": "operational", "mechanism_hint": "",
+                               "title": "Data center opens quietly"}),
+           "facility verb with no mechanism routes to the facility file")
+    expect(not is_facility_signal({"facility_hint": "operational",
+                                   "mechanism_hint": "moratorium",
+                                   "title": "Data center opens despite moratorium"}),
+           "an opposition mechanism keeps the row in the opposition worklist")
+    expect(not is_facility_signal({"facility_hint": "", "mechanism_hint": "",
+                                   "title": "Something else entirely"}),
+           "a headline with neither signal stays where it was")
+    expect(not is_facility_signal({"facility_hint": "operational",
+                                   "mechanism_hint": "",
+                                   "title": "Residents sue after data center opens"}),
+           "opposition described in words no mechanism pattern matches still "
+           "stays in the opposition worklist")
+    expect(not is_facility_signal({"facility_hint": "construction_start",
+                                   "mechanism_hint": "",
+                                   "title": "Company breaks ground amid neighbor concerns"}),
+           "the guard keeps a contested ground breaking with opposition")
+
     fake = {"fixture": [
         {"url": "https://example.com/story-a", "title": "Fairfield County adopts data center moratorium",
          "domain": "example.com", "seendate": "20260720T000000Z"},
         {"url": "https://msn.com/story-b", "title": "Data center opens quietly",
          "domain": "msn.com", "seendate": "20260720T000000Z"},
+        {"url": "https://example.com/story-c",
+         "title": "Residents file a lawsuit after the data center opens in Loudoun County",
+         "domain": "example.com", "seendate": "20260720T000000Z"},
     ]}
-    rows, stats = harvest(articles_by_label=fake)
-    expect(len(rows) == 2, "both fixture articles emitted as candidates")
+    rows, facility_rows, stats = harvest(articles_by_label=fake)
+    expect(len(rows) == 2, "opposition worklist keeps the two opposition articles")
+    expect(len(facility_rows) == 1, "the opening routes out of the opposition worklist")
+    expect(facility_rows[0]["url"].endswith("story-b"),
+           "the routed row is the opening, not the lawsuit")
+    expect(facility_rows[0]["facility_signal"] == "operational",
+           "the facility signal is recorded on the row")
+    expect(all(r["url"].endswith(("story-a", "story-c")) for r in rows),
+           "no facility-only row remains in the opposition worklist")
     expect(rows[0]["url"].endswith("story-a"), "mechanism plus recency ranks the moratorium story first")
-    expect(rows[1]["priority"] < rows[0]["priority"], "aggregator domain demoted")
     expect(all(f in rows[0] for f in FIELDS), "all worklist fields present")
+    expect("facility_hint" not in rows[0],
+           "the internal hint does not leak into the worklist schema")
+    expect(all(f in facility_rows[0] for f in FACILITY_FIELDS),
+           "all facility candidate fields present")
+    expect(stats["facility_signals"] == 1, "the run log counts routed signals")
 
-    expect(_selftest_no_clobber(), "zero-candidate run does not clear the worklist")
+    expect(_selftest_no_clobber(),
+           "zero-candidate run clears neither the worklist nor the facility file")
 
     print("ALL PASS" if ok else "FAILURES PRESENT")
     return ok
@@ -504,8 +677,9 @@ def main():
     state_filter = None
     if args.states:
         state_filter = {s.strip().upper() for s in args.states.split(",") if s.strip()}
-    rows, stats = harvest(days=args.days, state_filter=state_filter, fixture=args.fixture)
-    write_outputs(rows, stats, args.days)
+    rows, facility_rows, stats = harvest(days=args.days, state_filter=state_filter,
+                                         fixture=args.fixture)
+    write_outputs(rows, facility_rows, stats, args.days)
 
 
 if __name__ == "__main__":

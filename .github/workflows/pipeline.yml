@@ -96,6 +96,11 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       - name: Install dependencies
         run: pip install pandas scikit-learn mapie
 
@@ -127,6 +132,33 @@ jobs:
           python fetch_county_adjacency.py --selftest
           echo "Adjacency scan self-tests:"
           python adjacency_scan.py --selftest
+          echo "Visibility audit self-tests:"
+          python visibility_audit.py --selftest
+          echo "Facility manifest self-tests:"
+          python facility_manifest.py --selftest
+          echo "Operations summary self-tests:"
+          python operations_summary.py --selftest
+          echo "County model selection-rule self-tests:"
+          python county_policy_model.py --selftest
+          echo "Layer audit self-tests:"
+          python layer_audit.py --selftest
+          echo "Facility registry self-tests:"
+          python facility_registry.py --selftest
+          echo "Signal harvest self-tests:"
+          python signal_harvest.py --selftest
+          echo "Front-end syntax gate self-tests:"
+          python scripts/check_inline_js.py --selftest
+          # A syntax error in a page loader takes a client-visible surface
+          # down silently, and nothing checked for one: the .js self-tests
+          # existed but were in no workflow, so a broken chain could ship.
+          echo "Front-end syntax (node --check over every module and inline block):"
+          python scripts/check_inline_js.py
+          echo "Front-end module self-tests:"
+          node permalink_selftest.js
+          node legend_filter_selftest.js
+          node zoom_tier_selftest.js
+          node facility_freshness_selftest.js
+          node basemap_selftest.js
           echo "Frame audit self-tests:"
           python subframe_audit.py --selftest
           echo "Local meeting feed self-tests (watchlist union):"
@@ -253,6 +285,54 @@ jobs:
         continue-on-error: true
         run: python site_screener.py --selftest && python site_screener.py --batch
 
+      - name: Facility layer (registry + freshness manifest)
+        id: facility_manifest
+        continue-on-error: true
+        run: |
+          # Layer A registry: derived from the declared snapshots, never
+          # rewriting them, with a stable facility_id so a project that
+          # reaches operating status has somewhere to graduate to. Reporting
+          # only: without --promote the gate runs and records what would be
+          # promoted, exactly as the census gap builder did before promotion
+          # was turned on.
+          python facility_registry.py
+          # Publishes rows, repository change date and declared upstream
+          # vintage for every Layer A snapshot, so the Infrastructure
+          # surfaces can state their own provenance instead of showing
+          # undated counts. Reporting only: an undeclared vintage is a true
+          # statement about the data, not a build failure.
+          python facility_manifest.py
+
+      - name: Dataset barriers (one writer per file, no undeclared crossings)
+        id: layer_audit
+        continue-on-error: true
+        run: |
+          # Reporting only in CI. A new generated file with no declared layer
+          # is a nag, not a build failure; --strict is for the pre-delivery
+          # check. See ARCHITECTURE.md for the two rules and the four
+          # declared exceptions.
+          python layer_audit.py
+
+      - name: Operations summary (audit trails into one client-loadable artifact)
+        id: operations_summary
+        continue-on-error: true
+        run: |
+          # Runs after the coverage, detection and promotion steps so the
+          # summary reflects this run's trails. Every input is optional: a
+          # missing one becomes a null section and the page omits the panel,
+          # which is why this can never fail the build.
+          python operations_summary.py
+
+      - name: Surface visibility audit (what the client can see vs what exists)
+        id: visibility
+        continue-on-error: true
+        run: |
+          # Runs last, after every generator, so the inventory reflects this
+          # run rather than the previous one. Reporting only: an output with
+          # no disposition is a decision nobody has made yet, not a build
+          # failure. --strict is for a pre-delivery check, not for CI.
+          python visibility_audit.py
+
       - name: Commit generated feed + reports
         run: |
           git config user.name  "github-actions[bot]"
@@ -282,6 +362,7 @@ jobs:
           if [ "${{ steps.county_layer.outcome }}" = "success" ]; then
             git add data/county_aggregate.csv data/county_aggregate_manifest.json \
                     data/county_policy_scores.csv data/county_policy_intervals.csv data/county_policy_intervals.md data/county_policy_metrics.json \
+                    data/county_model_spec_history.csv \
                     data/county_policy_report.md 2>/dev/null || true
           fi
           # Audit artifacts. group_registry_audit runs in the always-on
@@ -292,6 +373,20 @@ jobs:
           # outputs ran in CI but never appeared in the repo.
           git add data/group_registry_audit.csv \
                   data/group_registry_audit_summary.json 2>/dev/null || true
+          if [ "${{ steps.visibility.outcome }}" = "success" ]; then
+            git add docs/visibility_matrix.md 2>/dev/null || true
+          fi
+          if [ "${{ steps.facility_manifest.outcome }}" = "success" ]; then
+            git add data/facility_manifest.json data/facility_registry.csv \
+                    data/facility_registry_summary.json \
+                    data/facility_promotion_report.csv 2>/dev/null || true
+          fi
+          if [ "${{ steps.operations_summary.outcome }}" = "success" ]; then
+            git add data/operations_summary.json 2>/dev/null || true
+          fi
+          if [ "${{ steps.layer_audit.outcome }}" = "success" ]; then
+            git add data/layer_audit.csv data/layer_audit_summary.json 2>/dev/null || true
+          fi
           if [ "${{ steps.coverage.outcome }}" = "success" ]; then
             git add data/coverage_gap_report.csv data/coverage_gap_summary.json \
                     data/national_restriction_worklist.csv \
@@ -334,15 +429,20 @@ jobs:
                     data/site_screen_movers.md 2>/dev/null || true
           fi
           git diff --staged --quiet || git commit -m "Auto-build clean feed from master_opposition.csv [skip ci]"
-          # Rebase-retry (2026-08-25): same race hardening as fetch-permits.
-          # Branch-aware (2026-08-26): this workflow also runs on branch
-          # pushes, and rebasing a PR branch onto origin/main from the
-          # shallow checkout produced add/add conflicts on every committed
-          # file; pull the triggering branch itself instead. A failed rebase
-          # is aborted before the retry, because a worktree stuck mid-rebase
-          # fails every subsequent pull with "unmerged files".
+          # Rebase-retry (2026-08-25), repaired 2026-08-26. Two defects, both
+          # of which failed every run rather than only a racing one:
+          #   --autostash, because the commit above stages an explicit list
+          #     and every other regenerated file stays modified-but-unstaged.
+          #     git refuses to start a rebase with unstaged changes, so the
+          #     retry loop repeated the same refusal three times and exited 1.
+          #   $GITHUB_REF_NAME instead of a hardcoded main, because a run on a
+          #     feature branch was rebasing that branch's commits onto main
+          #     and pushing the result.
+          # A failed rebase is also aborted before each retry, because a
+          # worktree stuck mid-rebase fails every subsequent pull with
+          # "unmerged files".
           for i in 1 2 3; do
-            git pull --rebase origin "$GITHUB_REF_NAME" && git push && break
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && break
             if [ "$i" = "3" ]; then echo "Push failed after 3 attempts"; exit 1; fi
             echo "Push attempt $i failed (another workflow moved the branch); retrying in 10s"
             git rebase --abort 2>/dev/null || true

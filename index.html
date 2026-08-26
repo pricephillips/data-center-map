@@ -11,30 +11,10 @@
 <!-- ============================================================
      CUSTOMIZATION GUIDE
      ============================================================
-     BASEMAP STYLES (swap the tileLayer URL below):
-       Dark (current):  https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png
-       Light:           https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png
-       Satellite:       https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}
-       OSM Standard:    https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
-       Voyager:         https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png
-
-     COLORS — change these CSS variables in :root:
-       --accent        Atlas marker / cluster color  (default teal  #4f98a3)
-       --accent2       AI DC marker color            (default orange #e8943a)
-       --bg            Page background
-       --surface       Header/footer background
-
-     INITIAL MAP VIEW — change map center and zoom in the JS section below:
-       center: [LAT, LON]   e.g. [38.5, -97] for USA, [51.5, -0.1] for London
-       zoom:   4            lower = more zoomed out, higher = more zoomed in
-
-     MARKER SHAPES — edit the SVG strings in atlasIcon() and aiIcon below:
-       Atlas uses circles, AI DCs use hexagons — swap for any SVG shape
-
-     CLUSTER RADIUS — change maxClusterRadius (default 40px):
-       Lower = clusters break apart sooner as you zoom in
-       Higher = more aggressive clustering
-     ============================================================ -->
+     BASEMAP: every map in this repository resolves its tiles through
+     basemap.js. Change PROVIDER there once rather than here five times.
+     CONFIG.basemapProvider below overrides it for this page only.
+-->
 
 <style>
   :root {
@@ -108,6 +88,12 @@
   .popup-row    { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; margin: 3px 0; }
   .popup-label  { color: #888; }
   .popup-val    { color: #ddd; text-align: right; max-width: 180px; }
+  .freshness-bar { padding: 8px 16px; border-top: 1px solid #1f2937; background: #0b1220;
+    color: #9ca3af; font-size: 11px; line-height: 1.5; }
+  .freshness-bar:empty { display: none; }
+  .freshness-label { display: block; color: #e5e7eb; font-weight: 600; font-size: 10px;
+    letter-spacing: .04em; text-transform: uppercase; margin-bottom: 3px; }
+  .freshness-line { display: block; }
 </style>
 </head>
 <body>
@@ -159,6 +145,8 @@
   </div>
 </div>
 
+<div id="facility-freshness" class="freshness-bar"></div>
+
 <div class="stats-bar">
   <span>Visible: <b id="vis-count">—</b> locations</span>
   <span>IM3 Atlas: <b id="stat-atlas">—</b></span>
@@ -167,11 +155,25 @@
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- One basemap provider for every map here. Same-origin, same as
+     viz-palette and map-permalink. -->
+<script src="./basemap.js"></script>
+<script>
+window.Basemap = window.Basemap || { dark: function () {
+  var noop = {};
+  ['addTo', 'on', 'off', 'remove', 'setOpacity'].forEach(
+    function (m) { noop[m] = function () { return noop; }; });
+  return noop;
+} };
+</script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
 <!-- View state in the URL, so a view can be cited by link rather than
      by screenshot. Same-origin, same as viz-palette. -->
 <script src="./map-permalink.js"></script>
+<!-- Freshness signal for the Layer A snapshots. Same-origin, same as
+     map-permalink. -->
+<script src="./facility-freshness.js"></script>
 <script>
 // Fallback stub. If map-permalink.js did not load (missing on the host, or a
 // cached 404 during a deploy), every page below would otherwise throw a
@@ -201,8 +203,10 @@ const CONFIG = {
   center: [38.5, -97],
   zoom: 4,
 
-  // Basemap tile URL — swap for a different style (see comments in <head>)
-  tileUrl: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+  // Basemap provider name, resolved by basemap.js. Leave unset for the
+  // repository default; see basemap.js for the list and why CARTO is no
+  // longer it.
+  basemapProvider: null,
 
   // How aggressively to cluster Atlas markers (pixels, default 40)
   clusterRadius: 40,
@@ -217,10 +221,7 @@ const CONFIG = {
 
 const map = L.map('map', { center: CONFIG.center, zoom: CONFIG.zoom, preferCanvas: true });
 
-L.tileLayer(CONFIG.tileUrl, {
-  attribution: '© OpenStreetMap contributors © CARTO',
-  subdomains: 'abcd', maxZoom: 19
-}).addTo(map);
+Basemap.dark({ provider: CONFIG.basemapProvider }).addTo(map);
 
 // ── Icons ────────────────────────────────────────────────────
 const rootStyle = getComputedStyle(document.documentElement);
@@ -302,10 +303,29 @@ let currentQuery = '';
 function num(v) { const n = parseFloat(v); return isNaN(n) ? 0 : n; }
 
 // ── Load CSVs ─────────────────────────────────────────────────
+// Fetch chains are raw-first. GitHub Pages sends no CORS headers, so an
+// embedded iframe fails silently on the Pages origin; these two loads were
+// relative-only, the last place in the repository the rule had not reached.
+const RAW = 'https://raw.githubusercontent.com/pricephillips/data-center-map/main';
+const ATLAS_URLS = [RAW + '/atlas.csv', './atlas.csv'];
+const AI_URLS    = [RAW + '/ai_centers.csv', './ai_centers.csv'];
+
+function parseFirst(urls, cfg) {
+  let i = 0;
+  (function attempt() {
+    if (i >= urls.length) { cfg.complete({ data: [] }); return; }
+    Papa.parse(urls[i++], Object.assign({}, cfg, {
+      download: true,
+      complete(res) { (res && res.data && res.data.length) ? cfg.complete(res) : attempt(); },
+      error() { attempt(); }
+    }));
+  })();
+}
+
 function loadAtlas() {
   return new Promise(resolve => {
-    Papa.parse('./atlas.csv', {
-      download: true, header: true, skipEmptyLines: true,
+    parseFirst(ATLAS_URLS, {
+      header: true, skipEmptyLines: true,
       complete({ data }) {
         data.forEach(d => {
           const lat = num(d.lat), lon = num(d.lon);
@@ -334,8 +354,8 @@ function loadAtlas() {
 
 function loadAI() {
   return new Promise(resolve => {
-    Papa.parse('./ai_centers.csv', {
-      download: true, header: true, skipEmptyLines: true,
+    parseFirst(AI_URLS, {
+      header: true, skipEmptyLines: true,
       complete({ data }) {
         data.forEach(d => {
           const lat = num(d.lat), lon = num(d.lon);
@@ -368,6 +388,11 @@ function loadAI() {
     });
   });
 }
+
+// Provenance line. The counts below are only as current as the snapshots
+// behind them, and until this shipped the page could not say how current
+// that was.
+if (window.FacilityFreshness) FacilityFreshness.render('facility-freshness');
 
 Promise.all([loadAtlas(), loadAI()]).then(() => {
   document.getElementById('loader').style.display = 'none';
