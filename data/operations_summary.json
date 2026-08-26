@@ -176,13 +176,19 @@
   },
   "promotions": {
     "census_gaps": {
-      "decisions": 4,
+      "decisions": 5,
       "by_action": {
-        "held": 4
+        "held": 5
       },
       "first_run": null,
       "last_run": null,
       "recent": [
+        {
+          "date": "",
+          "action": "held",
+          "what": "NC Cherokee County moratorium",
+          "reason": "no usable date: a dateless row is held out of the clean feed as incomplete, stranding the label"
+        },
         {
           "date": "",
           "action": "held",
