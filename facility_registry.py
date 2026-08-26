@@ -72,6 +72,8 @@ import re
 import sys
 from collections import Counter, OrderedDict
 
+from promotion_trail import new_decisions
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "data")
 SOURCES = os.path.join(HERE, "configs", "facility_sources.json")
@@ -460,6 +462,10 @@ def summarize(registry: list[dict], decisions: list[dict]) -> dict:
         "with_coordinates": sum(1 for r in registry if r["lat"] and r["lon"]),
         "decisions_this_run": dict(Counter(d["action"]
                                            for d in decisions).most_common()),
+        "decisions_note": ("what the gate decided this run. A decision is "
+                           "written to the trail only when it differs from "
+                           "the last one recorded for that candidate, so a "
+                           "steady-state run decides without recording."),
         "note": ("distinct_sites counts clusters, not rows: a campus present "
                  "in two snapshots is one site with two provenance records. "
                  "The snapshots themselves are never rewritten by this "
@@ -662,14 +668,32 @@ def main() -> int:
         w.writeheader()
         w.writerows(registry)
 
+    # Append decisions, not re-statements of decisions. This runs on the
+    # nightly schedule and re-decides the same candidates every time, so
+    # appending unconditionally buried 10 real decisions under 40 rows inside
+    # one day. The Data Operations page reports these counts as evidence that
+    # the platform maintains itself, and a count inflated by repetition
+    # overstates that evidence.
+    fresh, suppressed = new_decisions(
+        read_csv(REPORT), decisions,
+        key_fields=("stream", "name", "state", "county"),
+        state_fields=("action", "reason"))
     exists = os.path.exists(REPORT)
-    with open(REPORT, "a", encoding="utf-8", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=REPORT_FIELDS, lineterminator="\n")
-        if not exists:
-            w.writeheader()
-        w.writerows(decisions)
+    if fresh:
+        with open(REPORT, "a", encoding="utf-8", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=REPORT_FIELDS,
+                               lineterminator="\n")
+            if not exists:
+                w.writeheader()
+            w.writerows(fresh)
 
+    # Summarize what the gate decided, not merely what was newly written.
+    # A steady-state run decides ten things and records none of them, and a
+    # summary reporting an empty decision set would read as "the gate did
+    # not run" rather than "nothing changed".
     summary = summarize(registry, decisions)
+    summary["decisions_newly_recorded"] = len(fresh)
+    summary["decisions_unchanged_since_last_run"] = suppressed
     with open(SUMMARY, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(summary, fh, indent=2)
         fh.write("\n")

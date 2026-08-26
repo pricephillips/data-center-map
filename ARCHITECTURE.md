@@ -54,7 +54,7 @@ Existing and operating data centers.
 |---|---|
 | Key | `facility_id`, planned. The snapshots have no stable key today, which is the first thing the facility registry has to fix. |
 | Files | `atlas.csv`, `ai_centers.csv`, `data/facility_*` |
-| Writers | `facility_manifest.py` (provenance), `signal_harvest.py` (candidates only) |
+| Writers | `facility_registry.py` (registry and promotion trail), `facility_manifest.py` (provenance), `signal_harvest.py` (candidates only) |
 | Sources of record | `atlas.csv` and `ai_centers.csv`, both hand-placed snapshots |
 
 This is the largest dataset in the repository and the only layer with no
@@ -67,6 +67,12 @@ means the age of the data is genuinely unknown and the pages say so.
 `data/facility_candidates.csv` is the layer's first standing intake: facility
 openings, ground breakings, announcements and expansions the signal harvester
 already saw. Nothing in it is a source of record.
+
+`data/facility_registry.csv` gives the layer the stable identifiers it never
+had, derived from the snapshots and regenerable from them. `first_seen` is
+preserved across regenerations, because a derived file that resets its own
+history every run cannot answer when something appeared, which is most of what
+a registry is for.
 
 ### Layer B, proposed projects
 
@@ -106,7 +112,7 @@ reference geography that frame is built on.
 | | |
 |---|---|
 | Key | `fips` |
-| Files | `data/external_restriction_census*`, `data/county_aggregate.csv`, `data/county_policy_*`, `data/restriction_*`, `data/bill_*`, `data/stale_pending_*`, the county reference geography |
+| Files | `data/external_restriction_census*`, `data/county_aggregate.csv`, `data/county_policy_*`, `data/county_model_spec_history.csv`, `data/restriction_*`, `data/bill_*`, `data/stale_pending_*`, the county reference geography |
 | Writers | `county_aggregator.py`, `county_policy_model.py`, `county_policy_intervals.py`, `restriction_worklist.py`, `census_gap_candidates.py`, `bill_sync.py`, `stale_pending_audit.py`, `refresh_external_census.py`, the county fetchers |
 | Source of record | The tracker itself. `data/external_restriction_census.csv` is an external lower bound and a pointer, never a source of record: nothing is ingestable from it until a primary source URL is supplied |
 
@@ -166,6 +172,31 @@ where a Layer D census gap becomes a Layer C opposition record. The crossing is
 the module's purpose. It is gated on being complete, dated, sourced,
 dedup-guarded and census-corroborated, it appends only, and every promote, hold
 and block decision is written to `data/gap_promotion_report.csv`.
+
+## Decision trails
+
+Four modules run a gate and record what it decided: census gap candidates,
+facility candidates, harvested signals, and the county model's specification.
+All four are append-only, and all four had the same defect: they appended on
+every run, so a nightly schedule that re-decided the same candidates the same
+way buried the events under repetitions of the non-events. The harvested-signal
+trail reached 7,342 rows describing 1,947 decisions.
+
+That is not a tidiness problem. Three of these trails are shown on the Data
+Operations page as evidence that the platform maintains itself, and a decision
+count inflated nearly fourfold by re-statement overstates that evidence, which
+is the one thing this repository is not allowed to do.
+
+The rule, implemented once in `promotion_trail.py` and applied by all four: a
+decision is recorded when the candidate has no prior decision on record, or
+when its decision differs from the most recent one recorded for it. Re-deciding
+a candidate the same way is not an event. `promotion_trail.py` holds the
+decision and nothing else, with no file access of its own, so each trail keeps
+exactly one writer and the layer audit still attributes it correctly.
+
+The county model's specification history follows the same rule for the same
+reason: it records when the model's variable set moved, not that a run
+happened.
 
 ## Working with the layers
 

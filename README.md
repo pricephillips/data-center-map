@@ -124,6 +124,26 @@ the same input.
 | `control_comparison.py` | Balance diagnostics + outcome/delay distributions |
 | `triage_accelerator.py` | Re-scores review candidates with corroborating evidence (suggestions only; never auto-applied) |
 
+### Standing audits and registries (run in CI, reporting only)
+
+These do not transform data. Each measures a property of the repository that
+nothing else was measuring, and each writes an artifact rather than only a
+console line, so a regression shows up as a diff.
+
+| Module | What it measures | Artifact |
+|---|---|---|
+| `layer_audit.py` | Dataset barriers: one writing process per file, no undeclared layer crossing. Resolves write targets by AST walk, because a module that only reads a path mentions it the same way one that writes it does | `data/layer_audit.csv` |
+| `visibility_audit.py` | The gap between what the client-visible surface shows and what the pipeline produces. An output invisible for no stated reason reports as unclassified | `docs/visibility_matrix.md` |
+| `facility_registry.py` | Layer A registry with stable `facility_id`, wrapping the snapshots additively; gated promotion of facility candidates and Layer B graduations | `data/facility_registry.csv` |
+| `facility_manifest.py` | Freshness of every Layer A snapshot: rows, content hash, and whether the upstream vintage is recorded at all | `data/facility_manifest.json` |
+| `operations_summary.py` | Collapses every promotion trail, coverage figure, gate status and open queue into one small artifact a page can load | `data/operations_summary.json` |
+| `promotion_trail.py` | Shared decision: a trail records a decision when it differs from the last one recorded for that candidate, never on every run. Pure functions, no I/O, so each trail keeps its own writer | (helper) |
+| `scripts/check_inline_js.py` | `node --check` over every `.js` module and every inline `<script>` block | (gate only) |
+
+Registries these read: `configs/layers.json` (layer definitions and declared
+exceptions), `configs/surfaces.json` (Notion page to embed to dataset map),
+`configs/facility_sources.json` (Layer A sources and their acquisition state).
+
 ### Models (run manually, outside CI)
 
 These require `scikit-learn`, `lifelines`, and `pandas`, and are intentionally
@@ -151,6 +171,9 @@ excluded from CI until Phase 5's calibration gate.
 | `data/baseline_universe.csv` | Unopposed comparables for matching |
 | `data/matched_controls.csv` | Matched opposed/unopposed pairs |
 | `county_votes.json` | 2024 presidential county results (political-geography layer) |
+| `data/county_model_spec_history.csv` | Every change to the county model's variable set, with the coefficient evidence behind it. Appended on change, never per run |
+| `data/facility_registry.csv` | Layer A registry: one row per source record, with a stable `facility_id` and a cluster id grouping records that describe one physical site |
+| `data/operations_summary.json` | What the Data Operations page loads: coverage, promotion trails, calibration history, open queues, gate status |
 
 `.md` files in `data/` are generated documentation that travels with its
 CSVs - the methodology and limitations layer for each dataset. They are not

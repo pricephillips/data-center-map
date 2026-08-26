@@ -176,9 +176,9 @@
   },
   "promotions": {
     "census_gaps": {
-      "decisions": 3,
+      "decisions": 1,
       "by_action": {
-        "held": 3
+        "held": 1
       },
       "first_run": null,
       "last_run": null,
@@ -188,47 +188,23 @@
           "action": "held",
           "what": "NC Cherokee County moratorium",
           "reason": "no usable date: a dateless row is held out of the clean feed as incomplete, stranding the label"
-        },
-        {
-          "date": "",
-          "action": "held",
-          "what": "NC Cherokee County moratorium",
-          "reason": "no usable date: a dateless row is held out of the clean feed as incomplete, stranding the label"
-        },
-        {
-          "date": "",
-          "action": "held",
-          "what": "NC Cherokee County moratorium",
-          "reason": "no usable date: a dateless row is held out of the clean feed as incomplete, stranding the label"
         }
       ]
     },
     "harvested_signals": {
-      "decisions": 7342,
+      "decisions": 1947,
       "by_action": {
-        "blocked": 4551,
-        "promoted": 2791
+        "blocked": 1070,
+        "promoted": 877
       },
       "first_run": "2026-08-13",
       "last_run": "2026-08-26",
       "recent": [
         {
           "date": "2026-08-26",
-          "action": "promoted",
+          "action": "blocked",
           "what": "",
-          "reason": ""
-        },
-        {
-          "date": "2026-08-26",
-          "action": "promoted",
-          "what": "",
-          "reason": ""
-        },
-        {
-          "date": "2026-08-26",
-          "action": "promoted",
-          "what": "",
-          "reason": ""
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
         },
         {
           "date": "2026-08-26",
@@ -246,13 +222,25 @@
           "date": "2026-08-26",
           "action": "blocked",
           "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+          "reason": "UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map."
         },
         {
           "date": "2026-08-26",
           "action": "blocked",
           "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
+        },
+        {
+          "date": "2026-08-26",
+          "action": "promoted",
+          "what": "",
+          "reason": ""
+        },
+        {
+          "date": "2026-08-26",
+          "action": "blocked",
+          "what": "",
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.; DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
         },
         {
           "date": "2026-08-26",
@@ -644,7 +632,10 @@
       "blocked": 3,
       "held": 1
     },
-    "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable."
+    "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
+    "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
+    "decisions_newly_recorded": 0,
+    "decisions_unchanged_since_last_run": 10
   },
   "note": "Every figure here is read from an audit trail the pipeline writes on its own runs. A missing input becomes a null section rather than a zero: an operations page that invents a number is worse than one with a gap in it."
 }

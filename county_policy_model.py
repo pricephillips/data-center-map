@@ -76,7 +76,7 @@ SEED = 7
 #
 # What changed and why. The previous design froze a hand-written list of
 # five variable subsets and required the shipped model to score within
-# AUC_TOLERANCE of the best point in that frozen grid. That rule is
+# 0.01 AUC of the best point in that frozen grid. That rule is
 # self-defeating: on 2026-08-26 a subset scored 0.8074 while sign-unstable,
 # which lifted the tolerance floor above every sign-stable point in the
 # grid, and the module refused to ship anything at all. The frozen list
@@ -114,7 +114,6 @@ SEED = 7
 # Promotion is unaffected: calibration_gate.py still governs whether any of
 # this reaches a client surface.
 C_GRID = (1.0, 0.3, 0.1, 0.03, 0.01)
-AUC_TOLERANCE = 0.01
 STABILITY_COST_ALARM = 0.05
 SPEC_HISTORY = P("data", "county_model_spec_history.csv")
 MIN_VARS = 3          # never eliminate below a describable model
@@ -641,15 +640,20 @@ def main() -> int:
     a, b = metrics["roc_auc"], metrics["brier"]
     w(f"- Repeated stratified CV ({N_SPLITS} folds x {N_REPEATS} repeats, "
       f"seed {SEED}).")
-    w(f"- Specification selected by fixed criterion (see metrics JSON for "
-      f"the full grid): spec '{sel['spec']}' with C = {C_REG}. Tier 3 "
-      f"variables are strongly collinear (density x population +0.87, "
-      f"income x education +0.69), so sign stability requires shrinkage; "
-      f"only sign-stable specifications within {AUC_TOLERANCE} AUC of the "
-      f"grid best are admissible, and among those the criterion retains "
-      f"as many variables as possible. Under strong shrinkage, coefficient "
-      f"magnitudes are compressed toward zero by design; read relative "
-      f"ordering and sign, not absolute size.")
+    w(f"- Specification selected by a registered rule, not a fixed variable "
+      f"list: '{sel['spec']}' with C = {C_REG}, {len(feats)} variables. Tier "
+      f"3 variables are strongly collinear (density x population +0.87, "
+      f"income x education +0.69), so a coefficient's sign can flip across "
+      f"folds; only specifications where every coefficient holds its sign "
+      f"across all {N_SPLITS * N_REPEATS} folds are admissible, and among "
+      f"those the rule takes the highest median AUC, then the most variables "
+      f"retained. Candidates are regenerated from the data on every run, so "
+      f"a variable enters when it holds a direction and leaves when it stops; "
+      f"see data/county_model_spec_history.csv for every such change and its "
+      f"evidence. Requiring stability cost {cost} median AUC against the best "
+      f"specification tried. Under shrinkage, coefficient magnitudes are "
+      f"compressed toward zero by design; read relative ordering and sign, "
+      f"not absolute size.")
     w(f"- ROC AUC: {a['p50']:.2f} (p10 {a['p10']:.2f}, p90 {a['p90']:.2f}).")
     w(f"- Brier: {b['p50']:.3f} vs base-rate Brier "
       f"{b['base_rate_brier']:.3f}.")
