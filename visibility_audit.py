@@ -296,13 +296,15 @@ def summarize(result: dict) -> dict:
 # rendering
 # --------------------------------------------------------------------------
 
-CLASS_ORDER = ["surfaced", "surfaced_no_pipeline", "planned", "candidate",
+CLASS_ORDER = ["surfaced", "surfaced_no_pipeline", "closed_via_summary",
+               "planned", "candidate",
                "internal_ruling", "internal_operational", "methodology",
                "archive", "unclassified"]
 
 CLASS_HEADING = {
     "surfaced": "Surfaced",
     "surfaced_no_pipeline": "Surfaced, no acquisition pipeline",
+    "closed_via_summary": "Surfaced through a summary",
     "planned": "Closure planned",
     "candidate": "Closure candidate, undecided",
     "internal_ruling": "Internal by recorded ruling",
@@ -315,6 +317,7 @@ CLASS_HEADING = {
 CLASS_BLURB = {
     "surfaced": "Read by at least one embedded page.",
     "surfaced_no_pipeline": "Read by a page and carrying its provenance, but nothing refreshes it. The page can say how old the file is; nobody can make it newer.",
+    "closed_via_summary": "Too large or too detailed to hand a browser, so a module rolls it into a summary the page loads instead. Visible as figures, internal as rows.",
     "planned": "Invisible today with a named closure in the current pass.",
     "candidate": "Invisible today, plausibly surfaceable, no decision recorded yet.",
     "internal_ruling": "Invisible on purpose, under a ruling that does not expire with sample size.",
@@ -357,10 +360,21 @@ def render(result: dict, summary: dict, reg: dict) -> str:
     A("")
     A("| Section | Page | Embed | Datasets loaded |")
     A("|---|---|---|---|")
+    pending = []
     for html, info in result["surfaces"].items():
         for page in info["owners"]:
             reads = ", ".join(f"`{r}`" for r in info["reads"]) or "none"
-            A(f"| {page['section']} | {page['page']} | `{html}` | {reads} |")
+            mark = " (embed pending)" if page.get("status") == "pending_embed" else ""
+            A(f"| {page['section']} | {page['page']}{mark} | `{html}` | {reads} |")
+            if page.get("status") == "pending_embed":
+                pending.append(page)
+    A("")
+    if pending:
+        A("### Pages built but not yet embedded")
+        A("")
+        for page in pending:
+            A(f"- **{page['page']}** (`{page['embeds'][0]}`): "
+              f"{page.get('status_note', 'no note recorded')}")
     A("")
 
     if result["unreferenced"]:

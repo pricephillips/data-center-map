@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Operations</title>
+<style>
+:root {
+  --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
+  --muted:#8a96a4; --border:#2c3544;
+  --accent:#ea580c; --accent2:#fbbf24; --ok:#4f98a3; --warn:#fbbf24; --hold:#9b59b6;
+}
+* { box-sizing:border-box; margin:0; padding:0 }
+body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(--text);
+  padding:20px; min-height:100vh }
+h2 { font-weight:700; margin-bottom:4px }
+h1 { font-size:15px; font-weight:700; margin-bottom:8px }
+h3 { font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase;
+  letter-spacing:.05em; margin:14px 0 6px }
+p { font-size:13px; line-height:1.6; color:var(--text) }
+.sub { color:var(--muted); font-size:13px; margin-bottom:16px }
+.muted { color:var(--muted) }
+
+#error-banner { display:none; background:#3a1520; border:1px solid #7a2535; color:#ffb4c0;
+  padding:12px 14px; border-radius:10px; margin-bottom:14px; font-size:13px }
+.disclaimer { background:var(--panel2); border:1px solid var(--border); border-left:3px solid var(--accent);
+  border-radius:8px; padding:11px 13px; font-size:12.5px; line-height:1.6; margin-bottom:16px }
+
+.kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:16px }
+.kpi { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:12px 14px }
+.kpi b { display:block; font-size:20px; font-weight:700 }
+.kpi span { font-size:11px; color:var(--muted) }
+
+.card { background:var(--panel); border:1px solid var(--border); border-radius:10px;
+  padding:14px 16px; margin-bottom:14px }
+.grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:14px }
+
+table { width:100%; border-collapse:collapse; font-size:12px; margin-top:8px }
+th, td { text-align:left; padding:5px 8px; border-bottom:1px solid var(--border); white-space:nowrap }
+th { color:var(--muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.04em }
+td.num, th.num { text-align:right; font-variant-numeric:tabular-nums }
+.scroll { overflow-x:auto }
+
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:600;
+  border:1px solid var(--border); background:var(--panel2); color:var(--muted) }
+.pill.promote, .pill.promoted, .pill.open { color:var(--ok); border-color:var(--ok) }
+.pill.hold, .pill.held, .pill.closed, .pill.locked { color:var(--warn); border-color:var(--warn) }
+.pill.blocked { color:var(--hold); border-color:var(--hold) }
+
+.bar { position:relative; height:6px; border-radius:3px; background:var(--panel2); min-width:70px }
+.bar > i { position:absolute; inset:0 auto 0 0; border-radius:3px; background:var(--ok); display:block }
+.bar.low > i { background:var(--warn) }
+
+.footer { color:var(--muted); font-size:11.5px; line-height:1.6; margin-top:18px;
+  border-top:1px solid var(--border); padding-top:12px }
+code { background:var(--panel2); padding:1px 5px; border-radius:4px; font-size:11.5px }
+</style>
+</head>
+<body>
+
+<h2>Data Operations</h2>
+<div class="sub" id="stamp">Coverage, promotion trails, calibration and open work &middot; loading current artifacts&hellip;</div>
+<div id="error-banner"></div>
+
+<div class="disclaimer"><b>What this page is.</b> The platform measures its own
+coverage against an external census, turns the gaps into ranked work, builds
+and promotes candidates through a gate, promotes or blocks harvested signals
+with a recorded reason, and retrains models that promote only on holding
+calibration. Every one of those steps writes an audit trail. This page reads
+those trails. Nothing here is an estimate or a projection; where an input is
+missing, the panel is omitted rather than filled in.</div>
+
+<div class="kpis" id="kpis"></div>
+
+<div class="card" id="coverage" style="display:none"></div>
+
+<div class="grid2">
+  <div class="card" id="trail-census_gaps" style="display:none"></div>
+  <div class="card" id="trail-harvested_signals" style="display:none"></div>
+</div>
+
+<div class="card" id="calibration" style="display:none"></div>
+<div class="card" id="worklists" style="display:none"></div>
+<div class="card" id="gates" style="display:none"></div>
+<div class="card" id="provenance" style="display:none"></div>
+
+<div class="footer">Every number on this page is read live from
+<code>data/operations_summary.json</code>, which
+<code>operations_summary.py</code> writes from the pipeline's own audit trails
+on each run. The summary is computed in a module with self-tests rather than in
+this page, so a figure a reader sees here is derived once and checked, and the
+two-megabyte signal promotion trail never has to cross a browser.</div>
+
+<script>
+// Fallback chains put raw.githubusercontent.com FIRST, per the standing
+// frontend rule: GitHub Pages sends no CORS headers, so a relative path that
+// works on the canonical host fails silently inside a Notion embed.
+const RAW = 'https://raw.githubusercontent.com/pricephillips/data-center-map/main';
+const OPS_URLS = [RAW + '/data/operations_summary.json', './data/operations_summary.json'];
+
+async function fetchFirst(urls) {
+  for (const u of urls) {
+    try {
+      const r = await fetch(u, { cache: 'no-cache' });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return await r.json();
+    } catch (e) { /* try next */ }
+  }
+  return null;
+}
+
+function banner(html) {
+  const el = document.getElementById('error-banner');
+  el.innerHTML = html;
+  el.style.display = 'block';
+}
+
+function esc(s) {
+  return String(s === null || s === undefined ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+function pct(x, dp) {
+  if (x === null || x === undefined || x === '' || isNaN(x)) return 'n/a';
+  return (Number(x) * 100).toFixed(dp === undefined ? 1 : dp) + '%';
+}
+function n(x) {
+  if (x === null || x === undefined || x === '') return 'n/a';
+  return Number(x).toLocaleString();
+}
+function pill(text) {
+  const cls = String(text || '').toLowerCase().replace(/[^a-z]/g, '');
+  return '<span class="pill ' + cls + '">' + esc(text) + '</span>';
+}
+function bar(value) {
+  if (value === null || value === undefined || isNaN(value)) return '';
+  const w = Math.max(0, Math.min(1, Number(value))) * 100;
+  return '<span class="bar' + (w < 60 ? ' low' : '') + '"><i style="width:' +
+         w.toFixed(0) + '%"></i></span>';
+}
+function show(id, html) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = html;
+  el.style.display = '';
+}
+
+function renderKpis(d) {
+  const out = [];
+  const cov = d.coverage && d.coverage.national;
+  if (cov) {
+    out.push(['Coverage recall', pct(cov.recall_any), 'census counties with any record']);
+    out.push(['Confirmed recall', pct(cov.recall_confirmed), 'with a terminal confirmation']);
+    out.push(['Counties not yet recorded', n(cov.missing), 'of ' + n(cov.census_in_scope) + ' in the census']);
+  }
+  const cal = d.calibration;
+  if (cal) {
+    out.push(['Last retrain verdict', esc(cal.last_verdict),
+              n(cal.current_streak) + ' in a row, to ' + esc(cal.last_run)]);
+  }
+  const wl = d.worklists || {};
+  if (wl.national_restriction) {
+    out.push(['Open collection rows', n(wl.national_restriction.rows),
+              'national restriction worklist']);
+  }
+  document.getElementById('kpis').innerHTML = out.map(([label, value, note]) =>
+    '<div class="kpi"><b>' + value + '</b><span>' + esc(label) +
+    (note ? '<br>' + note : '') + '</span></div>').join('');
+}
+
+function renderCoverage(d) {
+  const cov = d.coverage;
+  if (!cov) return;
+  const rows = cov.states.map(s =>
+    '<tr><td>' + esc(s.state) + '</td>' +
+    '<td class="num">' + n(s.census_in_scope) + '</td>' +
+    '<td class="num">' + n(s.covered_confirmed) + '</td>' +
+    '<td class="num">' + n(s.covered_unconfirmed) + '</td>' +
+    '<td class="num">' + n(s.missing) + '</td>' +
+    '<td class="num">' + pct(s.recall_any, 0) + '</td>' +
+    '<td class="num">' + pct(s.recall_confirmed, 0) + ' ' + bar(s.recall_confirmed) + '</td>' +
+    '<td class="num">' + n(s.label_false_negatives) + '</td></tr>').join('');
+  show('coverage',
+    '<h1>Coverage against the external census</h1>' +
+    '<p>The census is a manually curated lower bound, not a ground truth, and ' +
+    'the unit is the county rather than the instrument episode. ' +
+    '<b>Recall (any)</b> is the share of census counties carrying any restrictive ' +
+    'record. <b>Confirmed</b> requires a terminal confirmation, so the gap ' +
+    'between the two columns is confirmation depth, not missing collection. ' +
+    'States are ordered weakest confirmed recall first, which is the order the ' +
+    'work should be done in.</p>' +
+    '<div class="scroll"><table><thead><tr>' +
+    '<th>State</th><th class="num">In census</th><th class="num">Confirmed</th>' +
+    '<th class="num">Unconfirmed</th><th class="num">No record</th>' +
+    '<th class="num">Recall (any)</th><th class="num">Recall (confirmed)</th>' +
+    '<th class="num">Label gaps</th>' +
+    '</tr></thead><tbody>' + rows + '</tbody></table></div>');
+}
+
+const TRAIL_TITLES = {
+  census_gaps: ['Census gap promotions',
+    'Any census-enacted county with no tracker record becomes a fully populated ' +
+    'ingest candidate. Rows that pass the promotion gate (complete, dated, ' +
+    'sourced, dedup-guarded, census-corroborated) enter the feed; rows that fail ' +
+    'stay in the exception queue with the reason recorded. A held row is not a ' +
+    'missed county, it is a county waiting on a dated primary source.'],
+  harvested_signals: ['Harvested signal promotions',
+    'Candidate opposition records found by the signal harvester, each promoted ' +
+    'into the feed or blocked with a recorded reason. The blocked share is not ' +
+    'waste: it is the filter doing its job on a wide net.']
+};
+
+function renderTrail(key, trail) {
+  if (!trail) return;
+  const [title, blurb] = TRAIL_TITLES[key] || [key, ''];
+  const counts = Object.entries(trail.by_action).map(([action, count]) =>
+    '<tr><td>' + pill(action) + '</td><td class="num">' + n(count) + '</td>' +
+    '<td class="num">' + pct(count / trail.decisions, 0) + '</td></tr>').join('');
+  const recent = trail.recent.map(r =>
+    '<tr><td>' + esc(r.date) + '</td><td>' + pill(r.action) + '</td>' +
+    '<td>' + esc(r.what) + '</td></tr>').join('');
+  show('trail-' + key,
+    '<h1>' + esc(title) + '</h1>' +
+    '<p>' + blurb + '</p>' +
+    '<h3>' + n(trail.decisions) + ' decisions recorded' +
+    (trail.first_run ? ', ' + esc(trail.first_run) + ' to ' + esc(trail.last_run) : '') +
+    '</h3>' +
+    '<table><thead><tr><th>Decision</th><th class="num">Count</th>' +
+    '<th class="num">Share</th></tr></thead><tbody>' + counts + '</tbody></table>' +
+    '<h3>Most recent</h3>' +
+    '<div class="scroll"><table><thead><tr><th>Date</th><th>Decision</th>' +
+    '<th>Subject</th></tr></thead><tbody>' + recent + '</tbody></table></div>');
+}
+
+function renderCalibration(d) {
+  const cal = d.calibration;
+  if (!cal) return;
+  const rows = cal.recent.map(r =>
+    '<tr><td>' + esc(r.timestamp) + '</td><td>' + esc(r.model) + '</td>' +
+    '<td class="num">' + n(r.n) + '</td>' +
+    '<td class="num">' + esc(r.ece) + '</td>' +
+    '<td class="num">' + esc(r.brier_skill_score) + '</td>' +
+    '<td>' + pill(r.verdict) + '</td></tr>').join('');
+  show('calibration',
+    '<h1>Retraining and the calibration gate</h1>' +
+    '<p>A model is promoted only when it passes the gate on expected ' +
+    'calibration error, skill against the base rate, and discrimination. A ' +
+    'HOLD is the system correctly declining to promote an under-qualified ' +
+    'model, not a build failure, and it is recorded here for the same reason a ' +
+    'PROMOTE is.</p>' +
+    '<h3>' + n(cal.runs) + ' recorded runs &middot; ' +
+    Object.entries(cal.by_verdict).map(([v, c]) => n(c) + ' ' + esc(v)).join(', ') +
+    '</h3>' +
+    '<div class="scroll"><table><thead><tr><th>Run</th><th>Model</th>' +
+    '<th class="num">n</th><th class="num">ECE</th>' +
+    '<th class="num">Brier skill</th><th>Verdict</th>' +
+    '</tr></thead><tbody>' + rows + '</tbody></table></div>');
+}
+
+function renderWorklists(d) {
+  const wl = d.worklists || {};
+  if (!Object.keys(wl).length) return;
+  const items = [];
+  if (wl.national_restriction) {
+    const byClass = Object.entries(wl.national_restriction.by_task_class)
+      .map(([k, v]) => n(v) + ' ' + esc(k.replace(/_/g, ' '))).join(', ');
+    items.push(['Restriction collection and reconciliation',
+                n(wl.national_restriction.rows) + ' open',
+                byClass + '. ' + n(wl.national_restriction.priority_1) +
+                ' are priority 1, meaning resolving them moves a county label.']);
+  }
+  if (wl.stale_pending) {
+    items.push(['Confirmation depth',
+                n(wl.stale_pending.priority_1_label_moving) + ' label-moving',
+                n(wl.stale_pending.stale) + ' of ' + n(wl.stale_pending.scoped) +
+                ' non-terminal records are old enough to re-verify, as of ' +
+                esc(wl.stale_pending.as_of) + '. Age is a prompt to check, never ' +
+                'evidence that a status changed.']);
+  }
+  if (wl.decision_dates) {
+    items.push(['Decision dates',
+                n(wl.decision_dates.open) + ' outstanding',
+                'Each is one targeted search for a terminal milestone. This is ' +
+                'the primary constraint on the project outcome gate below.']);
+  }
+  if (wl.announced_dates) {
+    items.push(['Announcement dates',
+                n(wl.announced_dates.open) + ' outstanding',
+                'Projects that cannot be anchored to a timeline at all until an ' +
+                'announcement date is sourced.']);
+  }
+  show('worklists',
+    '<h1>Open work</h1>' +
+    '<p>What the platform currently knows it does not know. These are queues ' +
+    'with owners and criteria, not a backlog of unclassified problems.</p>' +
+    '<div class="scroll"><table><thead><tr><th>Queue</th><th>Open</th>' +
+    '<th>Detail</th></tr></thead><tbody>' +
+    items.map(([a, b, c]) => '<tr><td>' + esc(a) + '</td><td>' + b +
+      '</td><td style="white-space:normal">' + c + '</td></tr>').join('') +
+    '</tbody></table></div>');
+}
+
+function renderGates(d) {
+  const g = d.gates || {};
+  if (!Object.keys(g).length) return;
+  let html = '<h1>Modeling gates</h1>' +
+    '<p>Two models are written but not fit, because their pre-registered ' +
+    'admission criteria are not met. The criteria were registered before the ' +
+    'data could satisfy them, and they are reported here open or closed rather ' +
+    'than quietly relaxed.</p>';
+  if (g.landmark) {
+    html += '<h3>Project outcome, by observation window &middot; ' +
+      pill(g.landmark.status) + '</h3>' +
+      '<p class="muted" style="font-size:12px">Floors: ' + esc(g.landmark.floors) +
+      '. A window is admissible only when every floor is met.</p>' +
+      '<div class="scroll"><table><thead><tr><th class="num">Window (days)</th>' +
+      '<th class="num">n</th><th class="num">Blocked</th>' +
+      '<th class="num">Not blocked</th><th>Gate</th></tr></thead><tbody>' +
+      g.landmark.windows.map(w =>
+        '<tr><td class="num">' + n(w.window_days) + '</td>' +
+        '<td class="num">' + n(w.n) + '</td>' +
+        '<td class="num">' + n(w.n_blocked) + '</td>' +
+        '<td class="num">' + n(w.n_not_blocked) + '</td>' +
+        '<td>' + pill(w.gate) + '</td></tr>').join('') +
+      '</tbody></table></div>';
+  }
+  if (g.emergence) {
+    html += '<h3>Opposition emergence &middot; ' + pill(g.emergence.status) + '</h3>' +
+      '<p class="muted" style="font-size:12px">The gate turns on the random ' +
+      'stratum alone. The purposive cell is coded first by design and pooling ' +
+      'the two would overstate progress toward an estimate that depends ' +
+      'entirely on the random draw.</p>' +
+      '<div class="scroll"><table><thead><tr><th>Stratum</th>' +
+      '<th class="num">Frame</th><th class="num">Coded</th>' +
+      '<th class="num">Coverage</th></tr></thead><tbody>' +
+      g.emergence.strata.map(s =>
+        '<tr><td>' + esc(s.stratum) + '</td>' +
+        '<td class="num">' + n(s.frame_n) + '</td>' +
+        '<td class="num">' + n(s.n_coded) + '</td>' +
+        '<td class="num">' + pct(s.coverage, 0) + '</td></tr>').join('') +
+      '</tbody></table></div>';
+  }
+  show('gates', html);
+}
+
+function renderProvenance(d) {
+  const sources = d.facility_sources;
+  if (!sources || !sources.length) return;
+  const rows = sources.map(s =>
+    '<tr><td>' + esc(s.label) + '</td>' +
+    '<td class="num">' + n(s.rows) + '</td>' +
+    '<td>' + (s.vintage_status === 'declared' ? esc(s.upstream_vintage)
+                                              : '<span class="muted">not recorded</span>') + '</td>' +
+    '<td>' + esc(s.repo_last_changed || '') + '</td>' +
+    '<td>' + ((s.refresh && s.refresh.pipeline)
+                ? pill(s.refresh.cadence || 'on a pipeline')
+                : '<span class="muted">manual snapshot</span>') + '</td></tr>').join('');
+  show('provenance',
+    '<h1>Facility layer provenance</h1>' +
+    '<p>The existing-facility layer is the largest dataset here and the only ' +
+    'one with no acquisition pipeline behind it. Where the upstream vintage is ' +
+    'not recorded, the age of the data is genuinely unknown, and the ' +
+    'repository change date is provenance about this repository rather than ' +
+    'about the data.</p>' +
+    '<div class="scroll"><table><thead><tr><th>Source</th><th class="num">Rows</th>' +
+    '<th>Upstream vintage</th><th>Changed here</th><th>Refresh</th>' +
+    '</tr></thead><tbody>' + rows + '</tbody></table></div>');
+}
+
+(async function init() {
+  const d = await fetchFirst(OPS_URLS);
+  if (!d) {
+    document.getElementById('stamp').textContent =
+      'Operations summary unavailable.';
+    banner('<b>Could not load <code>data/operations_summary.json</code>.</b> ' +
+           'Nothing on this page is rendered from a cached or assumed value, ' +
+           'so the panels stay empty rather than showing stale figures.');
+    return;
+  }
+  document.getElementById('stamp').textContent =
+    'Read from the pipeline audit trails, generated ' + d.generated;
+  renderKpis(d);
+  renderCoverage(d);
+  Object.entries(d.promotions || {}).forEach(([k, v]) => renderTrail(k, v));
+  renderCalibration(d);
+  renderWorklists(d);
+  renderGates(d);
+  renderProvenance(d);
+})();
+</script>
+</body>
+</html>

@@ -136,6 +136,8 @@ jobs:
           python visibility_audit.py --selftest
           echo "Facility manifest self-tests:"
           python facility_manifest.py --selftest
+          echo "Operations summary self-tests:"
+          python operations_summary.py --selftest
           echo "Front-end syntax gate self-tests:"
           python scripts/check_inline_js.py --selftest
           # A syntax error in a page loader takes a client-visible surface
@@ -285,6 +287,16 @@ jobs:
           # statement about the data, not a build failure.
           python facility_manifest.py
 
+      - name: Operations summary (audit trails into one client-loadable artifact)
+        id: operations_summary
+        continue-on-error: true
+        run: |
+          # Runs after the coverage, detection and promotion steps so the
+          # summary reflects this run's trails. Every input is optional: a
+          # missing one becomes a null section and the page omits the panel,
+          # which is why this can never fail the build.
+          python operations_summary.py
+
       - name: Surface visibility audit (what the client can see vs what exists)
         id: visibility
         continue-on-error: true
@@ -339,6 +351,9 @@ jobs:
           fi
           if [ "${{ steps.facility_manifest.outcome }}" = "success" ]; then
             git add data/facility_manifest.json 2>/dev/null || true
+          fi
+          if [ "${{ steps.operations_summary.outcome }}" = "success" ]; then
+            git add data/operations_summary.json 2>/dev/null || true
           fi
           if [ "${{ steps.coverage.outcome }}" = "success" ]; then
             git add data/coverage_gap_report.csv data/coverage_gap_summary.json \

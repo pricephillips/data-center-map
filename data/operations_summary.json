@@ -1,0 +1,480 @@
+{
+  "generated": "2026-08-26",
+  "coverage": {
+    "national": {
+      "census_in_scope": 87,
+      "recall_any": 0.989,
+      "label_false_negatives": 3,
+      "unjoined_frame": 0,
+      "label_positive_no_tracker_record": 0,
+      "recall_confirmed": 0.448,
+      "missing": 1
+    },
+    "states": [
+      {
+        "state": "CO",
+        "census_in_scope": 2,
+        "covered_confirmed": 0,
+        "covered_unconfirmed": 2,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.0,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "ID",
+        "census_in_scope": 1,
+        "covered_confirmed": 0,
+        "covered_unconfirmed": 1,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.0,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "NE",
+        "census_in_scope": 1,
+        "covered_confirmed": 0,
+        "covered_unconfirmed": 1,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.0,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "PA",
+        "census_in_scope": 1,
+        "covered_confirmed": 0,
+        "covered_unconfirmed": 1,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.0,
+        "label_false_negatives": 1
+      },
+      {
+        "state": "WI",
+        "census_in_scope": 1,
+        "covered_confirmed": 0,
+        "covered_unconfirmed": 1,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.0,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "KS",
+        "census_in_scope": 8,
+        "covered_confirmed": 1,
+        "covered_unconfirmed": 7,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.125,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "IA",
+        "census_in_scope": 10,
+        "covered_confirmed": 2,
+        "covered_unconfirmed": 8,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.2,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "GA",
+        "census_in_scope": 19,
+        "covered_confirmed": 8,
+        "covered_unconfirmed": 11,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.421,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "KY",
+        "census_in_scope": 4,
+        "covered_confirmed": 2,
+        "covered_unconfirmed": 2,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.5,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "IL",
+        "census_in_scope": 2,
+        "covered_confirmed": 1,
+        "covered_unconfirmed": 1,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.5,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "MD",
+        "census_in_scope": 2,
+        "covered_confirmed": 1,
+        "covered_unconfirmed": 1,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.5,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "IN",
+        "census_in_scope": 15,
+        "covered_confirmed": 8,
+        "covered_unconfirmed": 7,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.533,
+        "label_false_negatives": 1
+      },
+      {
+        "state": "ND",
+        "census_in_scope": 5,
+        "covered_confirmed": 3,
+        "covered_unconfirmed": 2,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.6,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "NC",
+        "census_in_scope": 8,
+        "covered_confirmed": 5,
+        "covered_unconfirmed": 2,
+        "missing": 1,
+        "recall_any": 0.875,
+        "recall_confirmed": 0.625,
+        "label_false_negatives": 1
+      },
+      {
+        "state": "TN",
+        "census_in_scope": 7,
+        "covered_confirmed": 7,
+        "covered_unconfirmed": 0,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 1.0,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "VA",
+        "census_in_scope": 1,
+        "covered_confirmed": 1,
+        "covered_unconfirmed": 0,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 1.0,
+        "label_false_negatives": 0
+      }
+    ],
+    "note": "Census is a lower bound and the unit is the county, not the instrument episode. recall_any is the share of census counties with ANY tracker restrictive record; recall_confirmed requires a terminal confirmation. label_false_negatives are census-enacted counties the county model currently trains on as negatives. unjoined_frame counts census counties that do not match the national county frame at all, which is a census name defect, not a coverage result. label_positive_no_tracker_record counts the reverse direction: the aggregate labels the county enacted while the clean feed carries no county-level restrictive record, which is a divergence between county_aggregator.py's label rule and this module's mechanism view, reported here and not reconciled here."
+  },
+  "promotions": {
+    "census_gaps": {
+      "decisions": 2,
+      "by_action": {
+        "held": 2
+      },
+      "first_run": null,
+      "last_run": null,
+      "recent": [
+        {
+          "date": "",
+          "action": "held",
+          "what": "NC Cherokee County moratorium",
+          "reason": "no usable date: a dateless row is held out of the clean feed as incomplete, stranding the label"
+        },
+        {
+          "date": "",
+          "action": "held",
+          "what": "NC Cherokee County moratorium",
+          "reason": "no usable date: a dateless row is held out of the clean feed as incomplete, stranding the label"
+        }
+      ]
+    },
+    "harvested_signals": {
+      "decisions": 7342,
+      "by_action": {
+        "blocked": 4551,
+        "promoted": 2791
+      },
+      "first_run": "2026-08-13",
+      "last_run": "2026-08-26",
+      "recent": [
+        {
+          "date": "2026-08-26",
+          "action": "promoted",
+          "what": "",
+          "reason": ""
+        },
+        {
+          "date": "2026-08-26",
+          "action": "promoted",
+          "what": "",
+          "reason": ""
+        },
+        {
+          "date": "2026-08-26",
+          "action": "promoted",
+          "what": "",
+          "reason": ""
+        },
+        {
+          "date": "2026-08-26",
+          "action": "promoted",
+          "what": "",
+          "reason": ""
+        },
+        {
+          "date": "2026-08-26",
+          "action": "blocked",
+          "what": "",
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
+        },
+        {
+          "date": "2026-08-26",
+          "action": "blocked",
+          "what": "",
+          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+        },
+        {
+          "date": "2026-08-26",
+          "action": "blocked",
+          "what": "",
+          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+        },
+        {
+          "date": "2026-08-26",
+          "action": "blocked",
+          "what": "",
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.; DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+        }
+      ]
+    }
+  },
+  "calibration": {
+    "runs": 10,
+    "by_verdict": {
+      "PROMOTE": 10
+    },
+    "last_verdict": "PROMOTE",
+    "last_run": "2026-08-24",
+    "current_streak": 10,
+    "recent": [
+      {
+        "timestamp": "2026-08-24",
+        "model": "outcome_model",
+        "n": "89",
+        "ece": "0.0726",
+        "brier_skill_score": "0.2068",
+        "verdict": "PROMOTE"
+      },
+      {
+        "timestamp": "2026-08-17",
+        "model": "outcome_model",
+        "n": "88",
+        "ece": "0.1389",
+        "brier_skill_score": "0.1651",
+        "verdict": "PROMOTE"
+      },
+      {
+        "timestamp": "2026-08-12",
+        "model": "outcome_model",
+        "n": "87",
+        "ece": "0.0853",
+        "brier_skill_score": "0.2292",
+        "verdict": "PROMOTE"
+      },
+      {
+        "timestamp": "2026-08-10",
+        "model": "outcome_model",
+        "n": "86",
+        "ece": "0.1155",
+        "brier_skill_score": "0.1954",
+        "verdict": "PROMOTE"
+      },
+      {
+        "timestamp": "2026-08-03",
+        "model": "outcome_model",
+        "n": "86",
+        "ece": "0.1155",
+        "brier_skill_score": "0.1954",
+        "verdict": "PROMOTE"
+      },
+      {
+        "timestamp": "2026-07-27",
+        "model": "outcome_model",
+        "n": "85",
+        "ece": "0.1262",
+        "brier_skill_score": "0.1183",
+        "verdict": "PROMOTE"
+      },
+      {
+        "timestamp": "2026-07-24",
+        "model": "outcome_model",
+        "n": "85",
+        "ece": "0.1262",
+        "brier_skill_score": "0.1183",
+        "verdict": "PROMOTE"
+      },
+      {
+        "timestamp": "2026-07-23",
+        "model": "outcome_model",
+        "n": "85",
+        "ece": "0.1262",
+        "brier_skill_score": "0.1183",
+        "verdict": "PROMOTE"
+      }
+    ]
+  },
+  "worklists": {
+    "national_restriction": {
+      "rows": 3,
+      "by_task_class": {
+        "reconcile_label": 2,
+        "ingest_missing": 1
+      },
+      "priority_1": 2
+    },
+    "stale_pending": {
+      "scoped": 267,
+      "stale": 233,
+      "priority_1_label_moving": 14,
+      "counties_in_priority_1": 14,
+      "as_of": "2026-08-25"
+    },
+    "decision_dates": {
+      "open": 46
+    },
+    "announced_dates": {
+      "open": 15
+    }
+  },
+  "gates": {
+    "landmark": {
+      "status": "CLOSED",
+      "floors": "n>=40, blocked>=12, not_blocked>=12",
+      "windows": [
+        {
+          "window_days": "30",
+          "n": "24",
+          "n_blocked": "18",
+          "n_not_blocked": "6",
+          "gate": "INFEASIBLE"
+        },
+        {
+          "window_days": "60",
+          "n": "19",
+          "n_blocked": "13",
+          "n_not_blocked": "6",
+          "gate": "INFEASIBLE"
+        },
+        {
+          "window_days": "90",
+          "n": "18",
+          "n_blocked": "13",
+          "n_not_blocked": "5",
+          "gate": "INFEASIBLE"
+        },
+        {
+          "window_days": "120",
+          "n": "15",
+          "n_blocked": "11",
+          "n_not_blocked": "4",
+          "gate": "INFEASIBLE"
+        },
+        {
+          "window_days": "180",
+          "n": "12",
+          "n_blocked": "8",
+          "n_not_blocked": "4",
+          "gate": "INFEASIBLE"
+        }
+      ]
+    },
+    "emergence": {
+      "status": "LOCKED",
+      "random_coverage": 0.0,
+      "strata": [
+        {
+          "stratum": "random",
+          "frame_n": "159",
+          "n_coded": "0",
+          "coverage": "0.0",
+          "undet_share": "0.0"
+        },
+        {
+          "stratum": "purposive",
+          "frame_n": "12",
+          "n_coded": "9",
+          "coverage": "0.75",
+          "undet_share": "0.2222222222222222"
+        }
+      ]
+    }
+  },
+  "facility_sources": [
+    {
+      "source_id": "osti_im3_atlas",
+      "label": "OSTI IM3 Open Source Data Center Atlas",
+      "short_label": "IM3 Atlas",
+      "file": "atlas.csv",
+      "layer": "A",
+      "publisher": "Pacific Northwest National Laboratory, IM3 / MultiSector Dynamics, US DOE Office of Science",
+      "landing_urls": [
+        "https://www.osti.gov/biblio/2550666",
+        "https://immm-sfa.github.io/datacenter-atlas/",
+        "https://data.msdlive.org/records/65g71-a4731"
+      ],
+      "license": "unconfirmed",
+      "geography": "United States",
+      "upstream_vintage": null,
+      "vintage_status": "undeclared",
+      "refresh": {
+        "cadence": "unknown",
+        "mechanism": "manual snapshot",
+        "pipeline": false
+      },
+      "notes": "Largest dataset in the repository and the only one that cannot answer when it was last true. Pass 3 replaces the overwrite with a diff into Layer A candidates.",
+      "present": true,
+      "rows": 1479,
+      "rows_us": null,
+      "sha256_12": "7a8c78d3ed6c",
+      "repo_last_changed": "2026-08-20",
+      "days_since_repo_change": 6
+    },
+    {
+      "source_id": "epoch_frontier",
+      "label": "Epoch AI Frontier Data Centers",
+      "short_label": "Frontier sites",
+      "file": "ai_centers.csv",
+      "layer": "A",
+      "publisher": "Epoch AI",
+      "landing_urls": [
+        "https://epoch.ai/data/data-centers"
+      ],
+      "license": "unconfirmed",
+      "geography": "Global; the surfaces show the United States rows.",
+      "upstream_vintage": null,
+      "vintage_status": "undeclared",
+      "refresh": {
+        "cadence": "unknown",
+        "mechanism": "manual snapshot",
+        "pipeline": false
+      },
+      "notes": "29 rows, 27 of them United States. Capital-cost and power figures are publisher estimates, not filings.",
+      "present": true,
+      "rows": 29,
+      "rows_us": 27,
+      "sha256_12": "62e41f7d669e",
+      "repo_last_changed": "2026-08-20",
+      "days_since_repo_change": 6
+    }
+  ],
+  "note": "Every figure here is read from an audit trail the pipeline writes on its own runs. A missing input becomes a null section rather than a zero: an operations page that invents a number is worse than one with a gap in it."
+}

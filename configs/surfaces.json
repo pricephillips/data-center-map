@@ -69,6 +69,16 @@
         "proposals-map.html",
         "trackdatacenters-proposals.html"
       ]
+    },
+    {
+      "section": "Data Operations",
+      "page": "Data Operations",
+      "notion_url": null,
+      "status": "pending_embed",
+      "status_note": "Built 2026-08-26. The Notion page that embeds it cannot be created until this branch merges and GitHub Pages deploys the file, because an embed pointing at a 404 is worse than no page. Creating that page and adding its URL here is the remaining manual step.",
+      "embeds": [
+        "data-operations.html"
+      ]
     }
   ],
   "unreferenced_expected": {
@@ -140,8 +150,8 @@
       "Roll-call detail behind the stage ladder."
     ],
     "data/calibration_history.csv": [
-      "planned",
-      "Retrain and calibration history: every gate verdict with its date."
+      "closed_via_summary",
+      "Rolled into data/operations_summary.json and shown on the Data Operations page."
     ],
     "data/control_comparison.md": [
       "internal_ruling",
@@ -188,8 +198,8 @@
       "Per-county gap detail behind the recall headline."
     ],
     "data/coverage_gap_summary.json": [
-      "planned",
-      "Coverage recall and the per-state gap map belong on a data operations page."
+      "closed_via_summary",
+      "Rolled into data/operations_summary.json and shown on the Data Operations page."
     ],
     "data/date_recovery_negative_spans.md": [
       "internal_operational",
@@ -208,16 +218,20 @@
       "Emergence gate criteria and stratum coverage."
     ],
     "data/emergence_bounds.csv": [
-      "candidate",
-      "Manski bounds; only meaningful once random-stratum coverage is nonzero."
+      "closed_via_summary",
+      "Per-stratum coverage shown on the Data Operations page; the bounds themselves stay internal until the random stratum is nonzero."
     ],
     "data/external_restriction_census.csv": [
       "planned",
       "The external lower bound recall is measured against. Shown as a source and a count, never as a source of record."
     ],
+    "data/facility_manifest.json": [
+      "closed_via_summary",
+      "Provenance table shown on the Data Operations page and inline on the Infrastructure surfaces."
+    ],
     "data/gap_promotion_report.csv": [
-      "planned",
-      "The promotion audit trail is the strongest available evidence that the platform maintains itself."
+      "closed_via_summary",
+      "Rolled into data/operations_summary.json and shown on the Data Operations page."
     ],
     "data/group_registry_audit.csv": [
       "internal_ruling",
@@ -240,8 +254,8 @@
       "Why the landmark gate is closed and which recoveries move a frame. The honest roadmap for the lifecycle product."
     ],
     "data/landmark_feasibility.csv": [
-      "candidate",
-      "Per-window feasibility behind the gate verdict."
+      "closed_via_summary",
+      "Per-window gate table shown on the Data Operations page."
     ],
     "data/landmark_model_report.md": [
       "candidate",
@@ -260,12 +274,16 @@
       "Matched pairs support the same gated comparison and invite it if surfaced."
     ],
     "data/national_restriction_worklist.csv": [
-      "planned",
-      "Open collection and reconciliation work, shown as a count, not as rows."
+      "closed_via_summary",
+      "Row counts and task classes shown on the Data Operations page; the rows themselves stay internal."
     ],
     "data/negative_audit_codings.csv": [
       "internal_operational",
       "Coding sheet for the verified-negative audit. Rows carry researcher notes."
+    ],
+    "data/operations_summary.json": [
+      "planned",
+      "Single small artifact the operations page loads, written by operations_summary.py from the audit trails."
     ],
     "data/outcome_model_features.csv": [
       "internal_ruling",
@@ -324,8 +342,8 @@
       "Harvest run log."
     ],
     "data/signal_promotion_report.csv": [
-      "planned",
-      "The second promotion audit trail, alongside gap_promotion_report.csv: every promote, block and duplicate decision on harvested signals."
+      "closed_via_summary",
+      "Rolled into data/operations_summary.json and shown on the Data Operations page. The raw trail is two megabytes and stays server side."
     ],
     "data/site_screen.csv": [
       "candidate",
@@ -348,8 +366,8 @@
       "Same spike."
     ],
     "data/stale_pending_summary.json": [
-      "planned",
-      "Confirmation-depth queue: the honest remaining gap behind recall_confirmed."
+      "closed_via_summary",
+      "Rolled into data/operations_summary.json and shown on the Data Operations page."
     ],
     "data/subframe_audit_tva.csv": [
       "candidate",
