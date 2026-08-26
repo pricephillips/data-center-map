@@ -127,6 +127,8 @@ jobs:
           python fetch_county_adjacency.py --selftest
           echo "Adjacency scan self-tests:"
           python adjacency_scan.py --selftest
+          echo "Visibility audit self-tests:"
+          python visibility_audit.py --selftest
           echo "Frame audit self-tests:"
           python subframe_audit.py --selftest
           echo "Local meeting feed self-tests (watchlist union):"
@@ -253,6 +255,16 @@ jobs:
         continue-on-error: true
         run: python site_screener.py --selftest && python site_screener.py --batch
 
+      - name: Surface visibility audit (what the client can see vs what exists)
+        id: visibility
+        continue-on-error: true
+        run: |
+          # Runs last, after every generator, so the inventory reflects this
+          # run rather than the previous one. Reporting only: an output with
+          # no disposition is a decision nobody has made yet, not a build
+          # failure. --strict is for a pre-delivery check, not for CI.
+          python visibility_audit.py
+
       - name: Commit generated feed + reports
         run: |
           git config user.name  "github-actions[bot]"
@@ -292,6 +304,9 @@ jobs:
           # outputs ran in CI but never appeared in the repo.
           git add data/group_registry_audit.csv \
                   data/group_registry_audit_summary.json 2>/dev/null || true
+          if [ "${{ steps.visibility.outcome }}" = "success" ]; then
+            git add docs/visibility_matrix.md 2>/dev/null || true
+          fi
           if [ "${{ steps.coverage.outcome }}" = "success" ]; then
             git add data/coverage_gap_report.csv data/coverage_gap_summary.json \
                     data/national_restriction_worklist.csv \
