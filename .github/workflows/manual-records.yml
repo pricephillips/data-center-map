@@ -1,0 +1,91 @@
+name: Manual records (corrections + uploads)
+
+# Applies data/manual_corrections.csv and data/manual_additions.csv to
+# master_opposition.csv through the SAME gates the automated ingest uses
+# (QC gate, URL + content dedup, provenance tagging). Edit either intake —
+# in a clone or straight in the GitHub web editor — push, and this workflow
+# does the rest: gate-passing changes land in master_opposition.csv, blocked
+# rows stay in the intake with their reasons, and every decision is appended
+# to data/manual_records_report.csv. Re-runs are no-ops: applied ledger rows
+# are marked in place and promoted additions leave the intake.
+#
+# Commits made here use GITHUB_TOKEN, which does not retrigger push
+# workflows, so the Build Clean Feed pipeline is dispatched explicitly after
+# a commit on main; on other branches the daily pipeline cron covers it.
+
+on:
+  push:
+    paths:
+      - 'data/manual_corrections.csv'
+      - 'data/manual_additions.csv'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: manual-records
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Gate — self-tests (BLOCKING; a failure stops the apply)
+        run: |
+          echo "Manual records self-tests:"
+          python manual_records.py --selftest
+          echo "QC gate self-tests:"
+          python qc/qc_pipeline.py --selftest
+          echo "Leak audit self-tests:"
+          python leak_audit.py --selftest
+
+      - name: Apply corrections + uploads through the QC gates
+        run: python manual_records.py --apply
+
+      - name: Leak audit (GATE)
+        run: python leak_audit.py
+
+      - name: Commit results
+        id: commit
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add master_opposition.csv data/manual_corrections.csv \
+                  data/manual_additions.csv data/manual_records_report.csv \
+                  data/manual_removed_rows.csv 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "committed=no" >> "$GITHUB_OUTPUT"
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Apply manual record corrections/uploads via QC gates"
+          # Rebase-retry: same race hardening as the other committing workflows.
+          for i in 1 2 3; do
+            git pull --rebase && git push && { echo "committed=yes" >> "$GITHUB_OUTPUT"; exit 0; }
+            echo "Push attempt $i failed (another workflow moved the branch); retrying in 10s"
+            sleep 10
+          done
+          echo "Push failed after 3 attempts"
+          exit 1
+
+      - name: Rebuild the clean feed now (main only)
+        if: steps.commit.outputs.committed == 'yes' && github.ref == 'refs/heads/main'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'pipeline.yml',
+              ref: 'main'
+            });

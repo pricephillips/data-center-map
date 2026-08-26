@@ -111,6 +111,15 @@ INTERNAL_QUOTES = {
     ("data/bill_sync_cache.json", "motion_text"),
     ("data/dispute_watch_cache.json", "party"),
     ("data/dispute_watch.csv", "party"),
+    # Registered 2026-08-26 with manual_records.py. new_value is the verbatim
+    # replacement value for a named master column (Summary, Community
+    # Outcome, ...), i.e. transported record content whose destination
+    # columns are all in INHERITED_FIELDS ("loss of farmland" in a Summary
+    # correction was the first hit). detail quotes gate reasons and recorded
+    # values for the audit trail. Both files are internal intake/ledger
+    # artifacts and never ship to a client.
+    ("data/manual_corrections.csv", "new_value"),
+    ("data/manual_records_report.csv", "detail"),
 }
 
 # Columns and keys copied verbatim from the source of record. The pipeline
@@ -340,6 +349,16 @@ def selftest() -> int:
                 field="party"), BLOCKING)
     eq("prose in a bill sync report still blocks",
        classify("data/bill_sync_report.md", "a win for opponents"), BLOCKING)
+    # --- 2026-08-26 registrations (manual corrections/uploads intake) ---
+    eq("correction ledger new_value quote is advisory",
+       classify("data/manual_corrections.csv", "loss of farmland",
+                field="new_value"), ADVISORY)
+    eq("manual records report detail quote is advisory",
+       classify("data/manual_records_report.csv", "recorded 'win' without",
+                field="detail"), ADVISORY)
+    eq("a composed new_value elsewhere still blocks",
+       classify("data/other_intake.csv", "a clear win",
+                field="new_value"), BLOCKING)
 
     eq("same column elsewhere stays blocking",
        classify("data/some_report.csv", "a win",
