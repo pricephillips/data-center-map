@@ -138,6 +138,8 @@ jobs:
           python facility_manifest.py --selftest
           echo "Operations summary self-tests:"
           python operations_summary.py --selftest
+          echo "County model selection-rule self-tests:"
+          python county_policy_model.py --selftest
           echo "Layer audit self-tests:"
           python layer_audit.py --selftest
           echo "Facility registry self-tests:"
@@ -359,6 +361,7 @@ jobs:
           if [ "${{ steps.county_layer.outcome }}" = "success" ]; then
             git add data/county_aggregate.csv data/county_aggregate_manifest.json \
                     data/county_policy_scores.csv data/county_policy_intervals.csv data/county_policy_intervals.md data/county_policy_metrics.json \
+                    data/county_model_spec_history.csv \
                     data/county_policy_report.md 2>/dev/null || true
           fi
           # Audit artifacts. group_registry_audit runs in the always-on

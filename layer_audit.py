@@ -78,6 +78,16 @@ def _resolve(node: ast.AST, env: dict) -> str | None:
         left, right = _resolve(node.left, env), _resolve(node.right, env)
         if left is not None and right is not None:
             return left + right
+    if isinstance(node, ast.BoolOp) and isinstance(node.op, ast.Or):
+        # `path or DEFAULT` is the standard override idiom, and a file
+        # written behind one was invisible to this audit: the one-writer rule
+        # cannot govern a path it never sees. Resolve to the first operand
+        # that is knowable, which is the default.
+        for operand in node.values:
+            resolved = _resolve(operand, env)
+            if resolved is not None:
+                return resolved
+        return None
     if isinstance(node, ast.JoinedStr):
         parts = []
         for value in node.values:
@@ -339,6 +349,11 @@ def go():
     check("follows a write helper", "data/via_helper.csv" in w)
     check("append mode counts as a write", "data/appended.csv" in w)
 
+    check("an override idiom resolves to its default",
+          "data/hist.csv" in writes('DEFAULT = "data/hist.csv"\n'
+                                    'def w(rows, path=None):\n'
+                                    '    target = path or DEFAULT\n'
+                                    '    open(target, "a").write("x")\n'))
     check("P() helper resolves",
           "data/p.csv" in writes('P = lambda *a: "/".join(a)\n'
                                  'OUT = P("data", "p.csv")\n'
