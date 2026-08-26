@@ -26,14 +26,10 @@
     "stability_cost": 0.0,
     "stability_cost_note": "median AUC given up by requiring every coefficient to hold its sign across all folds. Reported, not used as a veto; a gap beyond 0.05 is a hard stop.",
     "stability_cost_alarm": 0.05,
-    "changed_this_run": true,
+    "changed_this_run": false,
     "entered": [],
-    "left": [
-      "land_sqmi"
-    ],
-    "change_reasons": [
-      "land_sqmi: coefficient changed sign across folds, ranging -0.0374 to +0.0373, so its direction is not supported by the data"
-    ],
+    "left": [],
+    "change_reasons": [],
     "grid": [
       {
         "spec": "full_pool",
