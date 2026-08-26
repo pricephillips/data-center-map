@@ -212,6 +212,11 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
 // ---------------------------------------------------------------------------
 const RAW = 'https://raw.githubusercontent.com/pricephillips/data-center-map/main';
 const SCORE_URLS   = [RAW + '/data/county_policy_scores.csv', './data/county_policy_scores.csv'];
+// Venn-Abers probability intervals, optional. county_policy_intervals.py rules
+// that any external use of the score quotes the interval and never the point
+// alone; this tooltip was quoting the point alone. If the file does not load
+// the tooltip simply omits the interval rather than implying precision.
+const INTERVAL_URLS = [RAW + '/data/county_policy_intervals.csv', './data/county_policy_intervals.csv'];
 const COUNTY_URLS  = [RAW + '/data/county_aggregate.csv',     './data/county_aggregate.csv'];
 const PROPOSAL_URLS = [RAW + '/data/proposals.csv',           './data/proposals.csv'];
 const LIFECYCLE_URLS = [RAW + '/data/project_lifecycles.csv', './data/project_lifecycles.csv'];
@@ -438,6 +443,9 @@ function countyTooltip(feat) {
   let body;
   if (s) {
     body = `Enacted-restriction score: <b>${(s.score*100).toFixed(1)}%</b>` +
+      (s.interval
+        ? `<br><span style="color:#8b97a6">Interval ${(s.interval.lo*100).toFixed(1)}% to ${(s.interval.hi*100).toFixed(1)}%</span>`
+        : '') +
       (s.decile ? ` (decile ${s.decile}/10)` : '') +
       (s.enacted ? '<br><span style="color:#fbbf24">Enacted restrictive policy on record</span>' : '');
     if (c) {
@@ -1000,9 +1008,9 @@ function applyPendingFilters() {
 // ---------------------------------------------------------------------------
 (async function init() {
   document.getElementById('badge').textContent = 'loading data';
-  const [scoreText, countyText, propText, lifeText, predText, geo] = await Promise.all([
+  const [scoreText, countyText, propText, lifeText, predText, intervalText, geo] = await Promise.all([
     fetchFirst(SCORE_URLS), fetchFirst(COUNTY_URLS), fetchFirst(PROPOSAL_URLS),
-    fetchFirst(LIFECYCLE_URLS), fetchFirst(PRED_URLS),
+    fetchFirst(LIFECYCLE_URLS), fetchFirst(PRED_URLS), fetchFirst(INTERVAL_URLS),
     (async () => { try { const r = await fetch(COUNTY_GEO_URL); return r.ok ? await r.json() : null; }
                    catch (e) { return null; } })()
   ]);
@@ -1014,6 +1022,14 @@ function applyPendingFilters() {
     if (fips.length === 5 && score !== null)
       SCORES[fips] = { score, decile: parseInt(r.score_decile,10)||null,
                        enacted: String(r.has_enacted_restrictive) === '1' };
+  });
+  // Intervals are merged in only where both files agree on the county, so a
+  // stale interval file can add an interval to a county it knows but can
+  // never invent one.
+  parseCsv(intervalText).forEach(r => {
+    const fips = String(r.fips||'').padStart(5,'0');
+    const lo = num(r.va_p_lower), hi = num(r.va_p_upper);
+    if (SCORES[fips] && lo !== null && hi !== null) SCORES[fips].interval = { lo, hi };
   });
   parseCsv(countyText).forEach(r => {
     const fips = String(r.fips||'').padStart(5,'0');
