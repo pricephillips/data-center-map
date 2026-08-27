@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-26",
+  "generated": "2026-08-27",
   "coverage": {
     "national": {
       "census_in_scope": 87,
@@ -216,61 +216,61 @@
       ]
     },
     "harvested_signals": {
-      "decisions": 1947,
+      "decisions": 2009,
       "by_action": {
-        "blocked": 1070,
-        "promoted": 877
+        "blocked": 1098,
+        "promoted": 911
       },
       "first_run": "2026-08-13",
-      "last_run": "2026-08-26",
+      "last_run": "2026-08-27",
       "recent": [
         {
-          "date": "2026-08-26",
-          "action": "blocked",
-          "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
-        },
-        {
-          "date": "2026-08-26",
+          "date": "2026-08-27",
           "action": "promoted",
           "what": "",
           "reason": ""
         },
         {
-          "date": "2026-08-26",
+          "date": "2026-08-27",
           "action": "blocked",
           "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
+          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
         },
         {
-          "date": "2026-08-26",
+          "date": "2026-08-27",
           "action": "blocked",
           "what": "",
-          "reason": "UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map."
+          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
         },
         {
-          "date": "2026-08-26",
-          "action": "blocked",
-          "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
-        },
-        {
-          "date": "2026-08-26",
+          "date": "2026-08-27",
           "action": "promoted",
           "what": "",
           "reason": ""
         },
         {
-          "date": "2026-08-26",
+          "date": "2026-08-27",
+          "action": "blocked",
+          "what": "",
+          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+        },
+        {
+          "date": "2026-08-27",
           "action": "blocked",
           "what": "",
           "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.; DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
         },
         {
-          "date": "2026-08-26",
+          "date": "2026-08-27",
+          "action": "promoted",
+          "what": "",
+          "reason": ""
+        },
+        {
+          "date": "2026-08-27",
           "action": "blocked",
           "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.; DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
         }
       ]
     }
@@ -360,11 +360,11 @@
       "priority_1": 2
     },
     "stale_pending": {
-      "scoped": 270,
+      "scoped": 271,
       "stale": 237,
       "priority_1_label_moving": 16,
       "counties_in_priority_1": 16,
-      "as_of": "2026-08-26"
+      "as_of": "2026-08-27"
     },
     "decision_dates": {
       "open": 46
@@ -470,7 +470,7 @@
       "rows_us": null,
       "sha256_12": "7a8c78d3ed6c",
       "repo_last_changed": "2026-08-26",
-      "days_since_repo_change": 0
+      "days_since_repo_change": 1
     },
     {
       "source_id": "epoch_frontier",
@@ -503,7 +503,7 @@
       "rows_us": 27,
       "sha256_12": "62e41f7d669e",
       "repo_last_changed": "2026-08-26",
-      "days_since_repo_change": 0
+      "days_since_repo_change": 1
     },
     {
       "source_id": "hyperscaler_footprints",
@@ -631,7 +631,7 @@
     }
   ],
   "facility_registry": {
-    "generated": "2026-08-26",
+    "generated": "2026-08-27",
     "rows": 1506,
     "distinct_sites": 665,
     "by_source": {
@@ -652,14 +652,14 @@
     },
     "with_coordinates": 1506,
     "decisions_this_run": {
+      "blocked": 7,
       "promotable": 6,
-      "blocked": 3,
-      "held": 1
+      "held": 2
     },
     "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
     "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
-    "decisions_newly_recorded": 0,
-    "decisions_unchanged_since_last_run": 10
+    "decisions_newly_recorded": 2,
+    "decisions_unchanged_since_last_run": 13
   },
   "note": "Every figure here is read from an audit trail the pipeline writes on its own runs. A missing input becomes a null section rather than a zero: an operations page that invents a number is worse than one with a gap in it."
 }
