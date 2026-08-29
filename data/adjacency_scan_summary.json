@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-08-28",
+  "as_of": "2026-08-29",
   "trigger_days": 180,
   "seed_counties": 332,
   "seed_basis": {
@@ -11,16 +11,16 @@
   "candidate_counties": 1001,
   "priority_1": 38,
   "priority_2": 108,
-  "priority_3": 240,
-  "priority_4": 615,
-  "fresh_trigger_counties": 768,
+  "priority_3": 239,
+  "priority_4": 616,
+  "fresh_trigger_counties": 763,
   "cross_state_candidates": 180,
   "adjacency_pairs_loaded": 17924,
   "small_jurisdiction_candidates": 784,
   "candidates_with_no_automated_meeting_source": 998,
   "note": "Adjacency is a search prompt, never evidence. No label, score, or client-facing claim may be derived from a row in this queue. Census-only seeds are included because a census-enacted county with no tracker record still radiates diffusion pressure; excluding them would make the scan inherit the coverage gap it exists to close. An undated seed cannot produce a fresh trigger, so date recovery on enacted counties directly increases the queue's sensitivity. small_jurisdiction is a detection difficulty tier, not a risk factor, and meeting_source reports whether local_meeting_feed.py has any automated agenda route into the county at all.",
   "watchlist_rows": 175,
-  "watchlist_added": 1,
+  "watchlist_added": 0,
   "watchlist_retired_this_run": 29,
   "watchlist_still_queued": 146
 }

@@ -1,13 +1,13 @@
 # Master Opposition QC Report
 
-- Records scanned: **1697**
-- Passed to feed: **1628**
-- Blocked / quarantined: **69**
+- Records scanned: **1710**
+- Passed to feed: **1632**
+- Blocked / quarantined: **78**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- DUPLICATE: 63
+- DUPLICATE: 72
 - LEG_SOURCE_WEAK: 4
 - STATEWIDE_CAPITAL_SINK: 1
 - STUDY_SOURCE_WEAK: 1
@@ -89,3 +89,12 @@
 | City Council to receive AI data center petition from Save Lubbock | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | August 27 Playbook : Meta Settles Lawsuit With PA | generic | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Council requests legislation to place data center measure on fall ballot | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Freeport News : Stephenson County considers a moratorium on data center , a local non - profit seeks input on life in northwest Illinois , and a program on chimney swifts promises to sweep you away | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Martin Is Latest Florida County To Consider Moratorium On Data Centers | 1290 WJNO | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Martin Is Latest Florida County To Consider Moratorium On Data Centers | NewsRadio WIOD | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Palm Beach County approves 1 - year AI data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Indiana House Democrats ask Legislature to investigate NIPSCO | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Salem Twp . supervisors restrict public comment to residents , taxpayers | public_comment | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Lancaster County Considers Data Center Moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Lowndes County approves 60 - day data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| August 27 Playbook : Meta Settles Lawsuit With PA | generic | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
