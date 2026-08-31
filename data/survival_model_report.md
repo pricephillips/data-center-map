@@ -1,12 +1,12 @@
 # Time-to-Decision Survival Model — First Iteration (Phase 3)
 
-Generated 2026-08-24 by `survival_model.py`. Figures re-derived from current CSVs at generation time.
+Generated 2026-08-31 by `survival_model.py`. Figures re-derived from current CSVs at generation time.
 
 **Internal diagnostic only — NOT client-facing.** Small sample, retrospective, predictive-not-causal. Hazard ratios describe association with the RATE of reaching a decision, not causes of it.
 
 ## Sample and censoring
 
-- Opposed projects in the model: **104** (24 reached a terminal decision = events; 80 still pending = right-censored).
+- Opposed projects in the model: **105** (24 reached a terminal decision = events; 81 still pending = right-censored).
 - Of the 24 events: 6 `advanced_confirmed`, 18 `blocked_confirmed`.
 - Time axis is announced→decision in days. Censored projects are observed to their last known activity date (last opposition event or status update).
 - 56 opposed projects were EXCLUDED from the time axis because their announcement date is only year-precision (too coarse to floor without fabricating months).

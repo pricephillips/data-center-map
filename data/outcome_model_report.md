@@ -1,6 +1,6 @@
 # Outcome Model — First Iteration (Phase 3)
 
-Generated 2026-08-24 by `outcome_model.py`. All figures re-derived from current CSVs at generation time; the exact feature matrix is in `outcome_model_features.csv`.
+Generated 2026-08-31 by `outcome_model.py`. All figures re-derived from current CSVs at generation time; the exact feature matrix is in `outcome_model_features.csv`.
 
 **Internal diagnostic only — NOT client-facing.** This is a retrospective association analysis on a small, selection-affected sample. Feature importance is predictive association, not causation. Nothing here supports effect-size or cost claims.
 
@@ -29,7 +29,7 @@ The wide fold-to-fold range is the honest picture at n=89: each test fold holds 
 
 AUC drop when permuted; sign = direction of the fold-averaged standardized coefficient (+ associates with blocked_confirmed, - with advanced_confirmed).
 
-- `mech_public_comment`: +0.194 (coef -1.38, toward advanced)
+- `mech_public_comment`: +0.193 (coef -1.38, toward advanced)
 - `hyperscaler_involved`: +0.035 (coef -0.59, toward advanced)
 - `capacity_missing`: +0.026 (coef +0.53, toward blocked)
 - `log10_capacity_mw`: -0.022 (coef -0.02, toward advanced)

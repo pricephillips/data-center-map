@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-24",
+  "generated": "2026-08-31",
   "n": 89,
   "n_blocked": 27,
   "base_rate": 0.3034,
@@ -13,50 +13,50 @@
     "p90": 0.9306
   },
   "brier": {
-    "p10": 0.1065,
-    "p50": 0.166,
-    "p90": 0.2396,
+    "p10": 0.1066,
+    "p50": 0.1659,
+    "p90": 0.2399,
     "base_rate_brier": 0.2113
   },
   "top_features": [
     {
       "name": "mech_public_comment",
-      "auc_drop": 0.1935,
-      "mean_std_coef": -1.3795
+      "auc_drop": 0.1933,
+      "mean_std_coef": -1.379
     },
     {
       "name": "hyperscaler_involved",
       "auc_drop": 0.0345,
-      "mean_std_coef": -0.5851
+      "mean_std_coef": -0.5853
     },
     {
       "name": "capacity_missing",
       "auc_drop": 0.0261,
-      "mean_std_coef": 0.5274
+      "mean_std_coef": 0.5281
     },
     {
       "name": "log10_capacity_mw",
-      "auc_drop": -0.0217,
+      "auc_drop": -0.0219,
       "mean_std_coef": -0.02
     },
     {
       "name": "county_margin_2024",
-      "auc_drop": 0.0181,
-      "mean_std_coef": 0.5228
+      "auc_drop": 0.0177,
+      "mean_std_coef": 0.5229
     },
     {
       "name": "days_to_first_opposition",
-      "auc_drop": 0.016,
-      "mean_std_coef": -0.4535
+      "auc_drop": 0.0158,
+      "mean_std_coef": -0.4546
     },
     {
       "name": "mech_zoning_restriction",
-      "auc_drop": -0.0122,
-      "mean_std_coef": -0.01
+      "auc_drop": -0.0125,
+      "mean_std_coef": -0.0104
     },
     {
       "name": "n_opposition_events",
-      "auc_drop": 0.0117,
+      "auc_drop": 0.0118,
       "mean_std_coef": -0.3164
     }
   ],

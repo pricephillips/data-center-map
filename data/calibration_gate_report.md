@@ -1,16 +1,16 @@
 # Calibration Gate — Latest Verdict
 
-Run 2026-08-24T07:58:02Z on `outcome_model` out-of-fold predictions.
+Run 2026-08-31T14:52:14Z on `outcome_model` out-of-fold predictions.
 
 ## Verdict: **PROMOTE**
 
-PASSED: ECE 0.073 <= 0.15, Brier skill 0.207 >= 0.05, discrimination ok
+PASSED: ECE 0.073 <= 0.15, Brier skill 0.206 >= 0.05, discrimination ok
 
 ## Metrics
 
 - Sample: 89 projects, 27 blocked (base rate 0.30)
 - Brier score: **0.168** (base-rate baseline 0.211)
-- Brier skill score: **0.207** (>0 beats the baseline; floor 0.05)
+- Brier skill score: **0.206** (>0 beats the baseline; floor 0.05)
 - Expected calibration error (ECE): **0.073** (ceiling 0.15)
 - Discrimination (positives predicted higher than negatives): yes (mean pred: blocked 0.62 vs advanced 0.26)
 
@@ -34,7 +34,6 @@ A model is promoted only when ECE <= 0.15, Brier skill >= 0.05, discrimination h
 
 | Run | n | ECE | Brier skill | Verdict |
 |---|---|---|---|---|
-| 2026-07-23 | 85 | 0.1262 | 0.1183 | PROMOTE |
 | 2026-07-24 | 85 | 0.1262 | 0.1183 | PROMOTE |
 | 2026-07-27 | 85 | 0.1262 | 0.1183 | PROMOTE |
 | 2026-08-03 | 86 | 0.1155 | 0.1954 | PROMOTE |
@@ -42,3 +41,4 @@ A model is promoted only when ECE <= 0.15, Brier skill >= 0.05, discrimination h
 | 2026-08-12 | 87 | 0.0853 | 0.2292 | PROMOTE |
 | 2026-08-17 | 88 | 0.1389 | 0.1651 | PROMOTE |
 | 2026-08-24 | 89 | 0.0726 | 0.2068 | PROMOTE |
+| 2026-08-31 | 89 | 0.0725 | 0.2063 | PROMOTE |
