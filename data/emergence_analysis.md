@@ -1,6 +1,6 @@
 # Emergence Analysis: Verified-Negative Audit
 
-Generated 2026-08-24. Gate thresholds registered 2026-07-27. This is the analysis layer over negative_audit.py; the audit frame design itself is registered separately and is not modified here.
+Generated 2026-08-31. Gate thresholds registered 2026-07-27. This is the analysis layer over negative_audit.py; the audit frame design itself is registered separately and is not modified here.
 
 ## Gate decision
 
@@ -20,7 +20,7 @@ The worklist front-loads rows whose outcome is blocked_confirmed, because a proj
 | Stratum | Frame | Coded | Coverage |
 | :-- | :-- | :-- | :-- |
 | purposive (blocked_confirmed) | 12 | 9 | 75.0% |
-| random (all other frame rows) | 159 | 0 | 0.0% |
+| random (all other frame rows) | 158 | 0 | 0.0% |
 
 Note the shape of the coded set: every coded row to date falls in the purposive cell and none in the random stratum. A combined coverage figure over the whole frame would therefore overstate progress toward an emergence estimate, which depends entirely on the random stratum. Random-stratum coverage is the number that matters and it is the one in the gate table above.
 
