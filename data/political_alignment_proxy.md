@@ -55,7 +55,7 @@ Proxy score 2. A verified chamber roll call shows a restrictive measure passing 
   - 2026-02-04 (unidentified): restrictive (feed qc_leg_stance: restrictive)
   - 2026-01-13 (SB 887): restrictive (feed qc_leg_stance: restrictive)
   - 2026-02-18 (SB 1168): unclear (verified roll call: 88 yes / 15 no)
-  - 2026-02-20 (AB 2619): restrictive (verified roll call: 111 yes / 28 no)
+  - 2026-02-20 (AB 2619): restrictive (feed qc_leg_stance: restrictive)
 - This proxy reads the public statewide legislative record only. Governor's position, local board and EDO stance, and utility/regulator posture are not covered and must be researched separately; see political_alignment_worklist.py.
 
 ### Political alignment proxy: CO
