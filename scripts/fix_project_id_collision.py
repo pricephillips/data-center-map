@@ -493,36 +493,49 @@ def verify(root: str) -> int:
         else:
             print(f"  PASS   data/project_lifecycles.csv: {len(lrows)} rows, all project_ids distinct")
 
-    # Cross-check: a project's coordinates should sit in the state it claims.
+    # Cross-check: a row's coordinates should sit in the state it claims.
     # Contamination showed up here first -- PA projects pinned in Louisiana.
+    #
+    # The boxes come from state_bounds.py, which covers all 50 states plus DC
+    # and PR. This check used to carry its own nine-state table, listing only
+    # the states the collision happened to touch, and that narrowness cost it:
+    # it reported two bad rows when there were six. The other four named
+    # Kentucky, Arizona and Texas, none of which were in the table, so they
+    # were never examined. control_group.py now blocks on this at build time;
+    # what runs here is the same check against the published artifact.
     bu = os.path.join(root, "data", "baseline_universe.csv")
     if os.path.isfile(bu):
-        BOX = {  # rough state bounding boxes, only for the states in the affected block
-            "PA": (39.7, 42.3, -80.6, -74.6), "OH": (38.3, 42.4, -84.9, -80.4),
-            "MO": (35.9, 40.7, -95.9, -88.9), "LA": (28.8, 33.1, -94.1, -88.7),
-            "MS": (30.1, 35.1, -91.7, -88.0), "IN": (37.7, 41.8, -88.2, -84.7),
-            "GA": (30.3, 35.1, -85.7, -80.8), "MI": (41.6, 48.4, -90.5, -82.3),
-            "NC": (33.7, 36.6, -84.4, -75.4),
-        }
-        bad = []
-        for r in read_rows(bu):
-            st, lat, lon = r.get("state"), r.get("lat"), r.get("lon")
-            if st not in BOX or not lat or not lon:
-                continue
-            try:
-                la, lo = float(lat), float(lon)
-            except ValueError:
-                continue
-            s, n, w, e = BOX[st]
-            if not (s <= la <= n and w <= lo <= e):
-                bad.append(f"{r.get('universe_id')} {r.get('name','')[:40]} ({st} @ {la},{lo})")
+        sys.path.insert(0, root)
+        try:
+            import state_bounds
+        except ImportError:
+            print("  SKIP   state_bounds.py not importable; state cross-check not run")
+            return problems
+        # control_group.KNOWN_BAD is the one debt list of rows that are wrong
+        # and awaiting a source. Reporting them is useful; failing on them
+        # every run is not, because this script cannot fix them -- they need a
+        # citation or a CMS-side correction. Anything NOT on that list is new
+        # and is a genuine failure.
+        try:
+            from control_group import KNOWN_BAD
+        except Exception:
+            KNOWN_BAD = {}
+        rows_bu = read_rows(bu)
+        bad = state_bounds.violations(rows_bu, "universe_id", exempt=set(KNOWN_BAD))
+        known = state_bounds.violations(rows_bu, "universe_id")
         if bad:
-            print(f"  FAIL   {len(bad)} project(s) plotted outside their own state:")
-            for b in bad[:10]:
-                print("           " + b)
+            print(f"  FAIL   {len(bad)} NEW row(s) plotted outside the state they claim:")
+            for rid, name, st, la, lo in bad[:10]:
+                print(f"           {rid} {name[:40]} ({st} @ {la},{lo})")
             problems += 1
         else:
-            print("  PASS   data/baseline_universe.csv: no project plotted outside its state")
+            print("  PASS   data/baseline_universe.csv: no new row plotted outside its state")
+        carried = [b for b in known if b[0] in KNOWN_BAD]
+        if carried:
+            print(f"  NOTE   {len(carried)} known-bad row(s) still on file "
+                  f"(control_group.KNOWN_BAD; each needs a source, not a guess):")
+            for rid, name, st, la, lo in carried:
+                print(f"           {rid} {name[:38]} ({st} @ {la},{lo})")
 
     return problems
 

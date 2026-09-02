@@ -117,6 +117,20 @@ them through this table.
 After the migration `prj_321`-`prj_326` denote six Pennsylvania projects, which is
 why the migration must never be run twice.
 
+A second gate covers the same failure from the other side. The id collision was
+visible for weeks in `data/baseline_universe.csv` as rows whose coordinates were
+not in the state they named, and nothing looked. `state_bounds.py` holds one
+padded bounding box per state (50 plus DC and PR) and `control_group.py` blocks
+the universe build on any row that contradicts itself that way, whatever the
+cause. `qc/qc_pipeline.py` reads the same table for its `COORD_OUTSIDE_STATE`
+check on opposition records, where it previously carried six states inline and
+was therefore a silent no-op for the other forty-four.
+
+`control_group.KNOWN_BAD` exempts rows that are known-bad and awaiting a source,
+so the gate can block on everything else instead of being switched off. It is a
+debt list: an entry is removed when the row is fixed, and the block is expected
+to disappear with the last one.
+
 A permit that reaches built or operating status is the intended graduation path
 from Layer B into Layer A. That is mechanical once the facility registry has
 stable identifiers, and it does not exist yet.

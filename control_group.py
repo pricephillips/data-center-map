@@ -67,6 +67,8 @@ import re
 import sys
 from collections import defaultdict
 
+import state_bounds
+
 ROOT = os.path.dirname(os.path.abspath(__file__))
 P = lambda *a: os.path.join(ROOT, *a)
 
@@ -445,6 +447,51 @@ state/tier alone and should be down-weighted or manually reviewed.
 """
 
 
+# ---------------------------------------------------------------------------
+# Geographic contradiction gate
+#
+# baseline_universe.csv is where the July 2026 id collision became visible: it
+# published a Pennsylvania project at 32.507, -91.647, which is Richland
+# Parish, Louisiana. A row whose coordinates are not in the state it names is
+# wrong whatever the cause, and nothing checked. This is that check, at the
+# point the universe is written, covering every state rather than the handful
+# an incident happened to touch.
+#
+# KNOWN_BAD is a debt list, not a switch. Each row here is a real error that
+# needs a source to fix, so the gate blocks on everything else instead of
+# being turned off until they are. Removing an entry is how a fix lands; the
+# list is expected to shrink to nothing and this block to go with it.
+KNOWN_BAD = {
+    # ai_centers.csv carries a bad geocode: the address of record is in one
+    # state and the coordinates are in another. Three of these are exact
+    # city-centre coordinates, the signature of a geocoder falling back to a
+    # city when it cannot place the street address. Fixing them means
+    # geocoding the address with a citation, or nulling the coordinates
+    # pending one -- not moving the pin to somewhere plausible.
+    "aic_0003": "New Albany, OH address; plotted at 33.948,-84.5499 (Smyrna, GA)",
+    "aic_0018": "Goodyear, AZ address; plotted at 32.8998,-97.0403 (Fort Worth, TX)",
+    "aic_0020": "Holly Ridge, LA address; plotted at 45.5051,-122.9752 (Beaverton, OR)",
+    "aic_0021": "Claude, TX address; plotted at 35.7796,-78.6382 (Raleigh, NC)",
+    "aic_0024": "Afton, TX address; plotted at 39.7684,-86.1581 (Indianapolis, IN)",
+    # This one is the opposite: the coordinates and the address agree, and the
+    # state column is what is wrong. proposals.csv id 61 reads state
+    # "Kentucky", address "Southwest Arkansas Mega Site", coordinates in Clark
+    # County, Arkansas -- a county name that exists in both states. It is a
+    # CMS-owned row (id below the manual-addition floor), so correcting it
+    # in-repo would be overwritten by the next export and would reintroduce
+    # the two-writer problem the id migration removed. It has to be fixed at
+    # the source.
+    "prj_61": "address and coordinates say Arkansas; state column says Kentucky",
+}
+
+
+def geo_audit(records: list[dict]) -> list[str]:
+    """Rows plotted outside the state they claim, excluding the known-bad set."""
+    bad = state_bounds.violations(records, "universe_id", exempt=set(KNOWN_BAD))
+    return [f"{rid} {name} claims {st} but is plotted at {lat},{lon}"
+            for rid, name, st, lat, lon in bad]
+
+
 def leak_audit(paths: list[str]) -> list[str]:
     pat = re.compile(r'\b(win|wins|loss|losses|lost)\b', re.IGNORECASE)
     hits = []
@@ -505,6 +552,17 @@ def main() -> int:
           f"(k={K_CONTROLS})")
     scoped = Counter(m["match_scope"] for m in matches)
     print(f"match scope: {dict(scoped)}")
+
+    geo = geo_audit(records)
+    if geo:
+        print("GEO AUDIT FAILED: row(s) plotted outside the state they claim.")
+        for g in geo[:20]:
+            print("  " + g)
+        print("  A state/coordinate contradiction means the row is joined to the "
+              "wrong place. Fix the source, or add the id to KNOWN_BAD with the "
+              "reason if it is a tracked defect awaiting a citation.")
+        return 1
+    print(f"geo audit: clean ({len(KNOWN_BAD)} known-bad row(s) exempt)")
 
     hits = leak_audit([OUT_UNIVERSE, OUT_MATCHES, OUT_NOTES])
     if hits:

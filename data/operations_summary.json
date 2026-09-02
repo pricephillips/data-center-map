@@ -276,14 +276,22 @@
     }
   },
   "calibration": {
-    "runs": 11,
+    "runs": 12,
     "by_verdict": {
-      "PROMOTE": 11
+      "PROMOTE": 12
     },
     "last_verdict": "PROMOTE",
-    "last_run": "2026-08-31",
-    "current_streak": 11,
+    "last_run": "2026-09-02",
+    "current_streak": 12,
     "recent": [
+      {
+        "timestamp": "2026-09-02",
+        "model": "outcome_model",
+        "n": "87",
+        "ece": "0.1103",
+        "brier_skill_score": "0.227",
+        "verdict": "PROMOTE"
+      },
       {
         "timestamp": "2026-08-31",
         "model": "outcome_model",
@@ -334,14 +342,6 @@
       },
       {
         "timestamp": "2026-07-27",
-        "model": "outcome_model",
-        "n": "85",
-        "ece": "0.1262",
-        "brier_skill_score": "0.1183",
-        "verdict": "PROMOTE"
-      },
-      {
-        "timestamp": "2026-07-24",
         "model": "outcome_model",
         "n": "85",
         "ece": "0.1262",
@@ -421,16 +421,16 @@
       "strata": [
         {
           "stratum": "random",
-          "frame_n": "158",
+          "frame_n": "162",
           "n_coded": "0",
           "coverage": "0.0",
           "undet_share": "0.0"
         },
         {
           "stratum": "purposive",
-          "frame_n": "12",
+          "frame_n": "14",
           "n_coded": "9",
-          "coverage": "0.75",
+          "coverage": "0.6428571428571429",
           "undet_share": "0.2222222222222222"
         }
       ]

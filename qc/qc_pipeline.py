@@ -105,11 +105,37 @@ CAPITAL_COUNTIES = {
     "Washington": "Thurston", "West Virginia": "Kanawha", "Wisconsin": "Dane",
     "Wyoming": "Laramie",
 }
-STATE_BBOX = {
-    "Iowa": (40.3, 43.6, -96.7, -90.1), "West Virginia": (37.1, 40.7, -82.7, -77.7),
-    "Pennsylvania": (39.7, 42.3, -80.6, -74.6), "Kentucky": (36.4, 39.2, -89.6, -81.9),
-    "Illinois": (36.9, 42.6, -91.6, -87.0), "Texas": (25.8, 36.6, -106.7, -93.5),
-}
+# State bounding boxes come from state_bounds.py at the repo root, which is the
+# single copy shared with control_group.py's geographic gate. This table used to
+# be six states inlined here, which meant COORD_OUTSIDE_STATE was a silent no-op
+# for the other forty-four: `box` came back None and the check returned no
+# issues, so a record could name any of those states and sit anywhere in the
+# country without a word. The fallback below keeps this module runnable on its
+# own, with the same six states and the same blind spot, rather than crashing.
+try:
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    import state_bounds as _SB
+    STATE_BOXES = _SB.BOXES                     # keyed by USPS code, list of boxes
+    _resolve_state = _SB.normalize_state
+except ImportError:                             # pragma: no cover - degraded mode
+    _SB = None
+    _FALLBACK = {
+        "IA": (40.3, 43.6, -96.7, -90.1), "WV": (37.1, 40.7, -82.7, -77.7),
+        "PA": (39.7, 42.3, -80.6, -74.6), "KY": (36.4, 39.2, -89.6, -81.9),
+        "IL": (36.9, 42.6, -91.6, -87.0), "TX": (25.8, 36.6, -106.7, -93.5),
+    }
+    STATE_BOXES = {k: [v] for k, v in _FALLBACK.items()}
+    _NAMES = {"iowa": "IA", "west virginia": "WV", "pennsylvania": "PA",
+              "kentucky": "KY", "illinois": "IL", "texas": "TX"}
+
+    def _resolve_state(value):
+        if not value:
+            return None
+        v = str(value).strip()
+        if len(v) == 2 and v.upper() in STATE_BOXES:
+            return v.upper()
+        return _NAMES.get(v.lower())
+
 US_BBOX = (17.0, 72.0, -180.0, -64.0)
 
 OPERATORS = [
@@ -365,8 +391,9 @@ def check_coordinates(record: dict) -> list[Issue]:
                           f"Coordinates ({lat}, {lon}) look like lat/lon were swapped.")]
         return [Issue("HIGH", "COORD_OUTSIDE_US", "Coordinates",
                       f"Coordinates ({lat}, {lon}) fall outside the US.")]
-    box = STATE_BBOX.get(state_of(record))
-    if box and not _in_box(lat, lon, box):
+    code = _resolve_state(state_of(record))
+    boxes = STATE_BOXES.get(code) if code else None
+    if boxes and not any(_in_box(lat, lon, b) for b in boxes):
         return [Issue("MEDIUM", "COORD_OUTSIDE_STATE", "Coordinates",
                       f"Coordinates ({lat}, {lon}) fall outside {state_of(record)}'s bounding box.")]
     return []

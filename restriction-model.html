@@ -207,9 +207,17 @@ const INTERVAL_URLS = [RAW + '/data/county_policy_intervals.csv', './data/county
 // and the coefficient evidence behind the move. Optional: without it the page
 // still shows the current specification, just not how it got there.
 const SPEC_HISTORY_URLS = [RAW + '/data/county_model_spec_history.csv', './data/county_model_spec_history.csv'];
-// Plotly's county GeoJSON: raw.githubusercontent.com origin (CORS headers,
-// embed-safe), feature.id is the 5-digit county FIPS.
-const COUNTY_GEO_URL = 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json';
+// Plotly's county GeoJSON: feature.id is the 5-digit county FIPS. Two
+// independent origins for the same file, because one source here is a single
+// point of failure with an outsized blast radius -- a 3.2 MB cross-origin
+// request that this whole map is drawn on, and the request most likely to fail
+// where the page is embedded in an iframe. jsdelivr is tried first (a CDN built
+// for this, and not subject to raw.githubusercontent's rate limiting), with the
+// raw origin as the fallback. Both send CORS headers.
+const COUNTY_GEO_URLS = [
+  'https://cdn.jsdelivr.net/gh/plotly/datasets@master/geojson-counties-fips.json',
+  'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json'
+];
 // ── Boundary vintage reconciliation ───────────────────────────────────────────
 // The county geojson above is a pre-2015 vintage, so 13 scored counties cannot
 // be drawn with it and 12 drawable polygons no longer exist as counties. The
@@ -507,11 +515,13 @@ async function buildScoreMap() {
   const [scoresText, intervalsText, geo] = await Promise.all([
     fetchFirst(SCORE_URLS, false),
     fetchFirst(INTERVAL_URLS, false),
-    (async () => { try {
-      const r = await fetch(COUNTY_GEO_URL);
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return await r.json();
-    } catch (e) { return null; } })()
+    (async () => {
+      for (const u of COUNTY_GEO_URLS) {
+        try { const r = await fetch(u); if (r.ok) return await r.json(); }
+        catch (e) { /* try the next origin */ }
+      }
+      return null;
+    })()
   ]);
   const scores = scoresText ? parseScoresCsv(scoresText) : null;
   const intervals = intervalsText ? parseIntervalsCsv(intervalsText) : null;
