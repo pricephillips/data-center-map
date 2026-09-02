@@ -283,7 +283,49 @@ def load_csv(path: str) -> list[dict]:
         return list(csv.DictReader(fh))
 
 
+# Project ids are minted as "prj_" + proposals.csv `id`, so that column is a
+# primary key: every downstream artifact (links, lifecycles, baseline universe,
+# matched controls, model features) joins on it. proposals.csv is fed by two
+# writers — the CMS export, which owns the contiguous low id space, and manual
+# additions curated in-repo. A manual addition that reuses a CMS id does not
+# error anywhere: the joins simply fan out, and one project silently inherits
+# another's coordinates, developer, and opposition events. To keep the writers
+# from colliding, manual additions are numbered from MANUAL_ID_FLOOR upward.
+MANUAL_ID_FLOOR = 1000
+
+
+def assert_unique_project_ids(rows: list[dict]) -> None:
+    """Fail loudly on duplicate proposals ids.
+
+    A collision is unrecoverable at this layer: with two rows sharing an id
+    there is no way to tell which project any downstream row refers to. Better
+    to stop the pipeline than to publish a project pinned to another project's
+    coordinates with another project's opposition attached.
+    """
+    seen: dict[str, str] = {}
+    dupes: list[str] = []
+    for r in rows:
+        pid = (r.get("id") or "").strip()
+        name = (r.get("name") or "").strip()
+        if not pid:
+            dupes.append(f"  (blank id): {name}")
+        elif pid in seen:
+            dupes.append(f"  prj_{pid}: {seen[pid]}  <->  {name}")
+        else:
+            seen[pid] = name
+    if dupes:
+        raise SystemExit(
+            "project_resolution: duplicate or missing ids in proposals.csv.\n"
+            + "\n".join(dupes)
+            + f"\n\nproject_id is the join key for every downstream artifact; a "
+              f"collision silently merges two projects. Renumber the manual "
+              f"addition to an unused id >= {MANUAL_ID_FLOOR} (the CMS export "
+              f"owns the low id space) and re-run."
+        )
+
+
 def prep_projects(rows: list[dict]) -> list[dict]:
+    assert_unique_project_ids(rows)
     projects = []
     for r in rows:
         announced, precision = parse_partial_date(r.get("date", ""))
