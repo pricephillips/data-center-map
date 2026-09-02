@@ -1,6 +1,6 @@
 # Calibration Gate — Latest Verdict
 
-Run 2026-09-02T18:39:51Z on `outcome_model` out-of-fold predictions.
+Run 2026-09-02T21:48:19Z on `outcome_model` out-of-fold predictions.
 
 ## Verdict: **PROMOTE**
 
@@ -34,11 +34,11 @@ A model is promoted only when ECE <= 0.15, Brier skill >= 0.05, discrimination h
 
 | Run | n | ECE | Brier skill | Verdict |
 |---|---|---|---|---|
-| 2026-07-27 | 85 | 0.1262 | 0.1183 | PROMOTE |
 | 2026-08-03 | 86 | 0.1155 | 0.1954 | PROMOTE |
 | 2026-08-10 | 86 | 0.1155 | 0.1954 | PROMOTE |
 | 2026-08-12 | 87 | 0.0853 | 0.2292 | PROMOTE |
 | 2026-08-17 | 88 | 0.1389 | 0.1651 | PROMOTE |
 | 2026-08-24 | 89 | 0.0726 | 0.2068 | PROMOTE |
 | 2026-08-31 | 89 | 0.0725 | 0.2063 | PROMOTE |
+| 2026-09-02 | 87 | 0.1103 | 0.227 | PROMOTE |
 | 2026-09-02 | 87 | 0.1103 | 0.227 | PROMOTE |
