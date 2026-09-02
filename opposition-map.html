@@ -996,19 +996,48 @@ function updateProjectStats(vis) {
 // Faint enough to read as ground rather than as data. Fixed, never animated.
 const UNDERLAY_OPACITY = 0.22;
 
+// Anything that is not an explicit project request resolves to the primary
+// view. This is what lands an old ?mode=auto permalink on county context
+// rather than on a mode that no longer exists, and what makes an unknown
+// value in a hash harmless.
+function resolveMode(m) {
+  return m === 'project' ? 'project' : 'county';
+}
+
+// What each pane should look like, as a pure function of the mode and the
+// underlay checkbox. Zoom is deliberately not a parameter: the whole class of
+// bug this replaced came from layer visibility being a function of zoom, so
+// the absence of that input is the fix, and it is asserted in
+// map_mode_selftest.js rather than left to inspection.
+function layerState(m, underlay) {
+  const countyMode = resolveMode(m) === 'county';
+  return {
+    county: countyMode ? 1 : (underlay ? UNDERLAY_OPACITY : 0),
+    pin: countyMode ? 0 : 1,
+    // Exactly one layer is ever hit-testable, and it is always the one the
+    // reader chose. This is the invariant the crossfade could not hold: it
+    // left the fainter pin pane interactive on top of the dominant county
+    // one, so pins swallowed county hovers at z7.
+    countyHit: countyMode,
+    pinHit: !countyMode,
+    // Export renders the county canvas. Pins are DOM markers with no canvas
+    // representation, so exporting while they are the subject would silently
+    // omit them.
+    exportAllowed: countyMode
+  };
+}
+
 // Both layers stay added to the map once their data exists; only pane opacity
 // and hit-testing change. Adding and removing layers on every mode change was
 // itself a source of churn, and nothing here needs it.
 function applyLayerVisibility() {
   const cp = map.getPane('countyPane'), pp = map.getPane('pinPane');
   if (!cp || !pp) return;
-  const countyMode = mode === 'county';
-  cp.style.opacity = countyMode ? '1' : (showUnderlay ? String(UNDERLAY_OPACITY) : '0');
-  pp.style.opacity = countyMode ? '0' : '1';
-  // Exactly one layer is ever hit-testable, and it is always the one the
-  // reader chose. This is the invariant the crossfade could not hold.
-  cp.style.pointerEvents = countyMode ? 'auto' : 'none';
-  pp.style.pointerEvents = countyMode ? 'none' : 'auto';
+  const w = layerState(mode, showUnderlay);
+  cp.style.opacity = String(w.county);
+  pp.style.opacity = String(w.pin);
+  cp.style.pointerEvents = w.countyHit ? 'auto' : 'none';
+  pp.style.pointerEvents = w.pinHit ? 'auto' : 'none';
   if (typeof syncExportButton === 'function') syncExportButton();
 }
 
@@ -1021,10 +1050,7 @@ function syncBadge() {
 }
 
 function setMode(m) {
-  // Anything that is not an explicit project request resolves to the primary
-  // view. This also lands old ?mode=auto permalinks on county context rather
-  // than on a mode that no longer exists.
-  mode = m === 'project' ? 'project' : 'county';
+  mode = resolveMode(m);
   if (typeof PERMA !== 'undefined' && PERMA) PERMA.set('mode', mode === 'county' ? null : mode);
   const county = mode === 'county';
   document.getElementById('mode-county').setAttribute('aria-pressed', String(county));
@@ -1082,7 +1108,7 @@ function countyExportCanvas() {
 function syncExportButton() {
   const btn = document.getElementById('exportPng');
   if (!btn) return;
-  const ok = mode === 'county' && !!countyExportCanvas();
+  const ok = layerState(mode, showUnderlay).exportAllowed && !!countyExportCanvas();
   btn.disabled = !ok;
   btn.title = ok
     ? 'Download the county shading as a PNG'
