@@ -117,6 +117,25 @@ eq('no zoomend handler touches layer visibility',
 eq('the removed crossfade is really gone',
    /tierWeights|Z_COUNTY|Z_PINS|applyZoomTier/.test(s), false);
 
+// ---- nothing may draw outside the controlled panes -------------------------
+// The pane opacity/hit-testing model only holds if every piece of the pin
+// layer actually lives in pinPane. markercluster's cluster-coverage hull is
+// the one that did not: polygonOptions defaults to {}, so Leaflet gave the
+// polygon no pane and it landed in overlayPane (z-index 400), above the county
+// layer at 380 and outside pinPane's control. It painted over the county map
+// in a mode where the pin layer was meant to be subordinate. Measured, not
+// assumed: the polygon's element resolved to .leaflet-overlay-pane.
+eq('the cluster group sets polygonOptions', /polygonOptions:\s*\{/.test(s), true);
+eq('the coverage hull is drawn into pinPane',
+   /polygonOptions:\s*\{[\s\S]{0,200}?pane:\s*'pinPane'/.test(s), true);
+// Every pane named anywhere in the page must be one of the two we control,
+// or a Leaflet built-in we do not put data in.
+const panesUsed = [...s.matchAll(/pane:\s*'([A-Za-z]+)'/g)].map(m => m[1]);
+eq('every explicitly named pane is a controlled one',
+   panesUsed.every(p => p === 'pinPane' || p === 'countyPane'), true);
+eq('both controlled panes are actually used',
+   panesUsed.includes('pinPane') && panesUsed.includes('countyPane'), true);
+
 // ---- export gate -----------------------------------------------------------
 // Export renders the county canvas. Pins are DOM markers with no canvas
 // representation, so the gate must be shut wherever pins are the subject.

@@ -819,6 +819,21 @@ function drawPins() {
   MARKERS = {};
   pinCluster = L.markerClusterGroup({
     clusterPane:'pinPane',
+    // Hovering a cluster draws a convex hull of what it contains. By default
+    // markercluster gives that polygon no pane, so it lands in overlayPane
+    // (z-index 400) -- above the county layer at 380, and outside pinPane's
+    // opacity and pointer-events control. That is a hole in the one invariant
+    // this page rests on: it let the pin layer paint over the county layer in
+    // a mode where the pin layer was supposed to be subordinate or absent.
+    // Naming the pane puts it back under that control. The colour is neutral
+    // rather than Leaflet's default blue, which now reads as the "advanced"
+    // outcome, and rather than any outcome hue: the hull means "these are the
+    // projects here", not a result.
+    polygonOptions: {
+      pane: 'pinPane',
+      color: '#f8fafc', weight: 1.5, opacity: 0.85,
+      fillColor: '#f8fafc', fillOpacity: 0.08, dashArray: '4,3'
+    },
     maxClusterRadius:44, chunkedLoading:true,
     iconCreateFunction: cl => {
       const counts = {};
