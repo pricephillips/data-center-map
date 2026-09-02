@@ -1,6 +1,6 @@
 # Data Quality Report — master_opposition.csv
 
-**Rows processed:** 4817
+**Rows processed:** 4957
 
 This pass is **backward compatible**: existing columns keep their names and meanings, values were fixed in place only where the correction is unambiguous, and all new structure was added as additional columns. The HTML map and Notion sync continue to work without modification.
 
@@ -13,7 +13,7 @@ This pass is **backward compatible**: existing columns keep their names and mean
 260 cell(s) repaired
 
 **3. Validation flag: source_url_valid (new column)**  
-1801 valid; 0 non-empty but still non-URL (flagged for review)
+1810 valid; 0 non-empty but still non-URL (flagged for review)
 
 **4. Sources — backfilled from Source URL where empty**  
 0 row(s) now have a populated Sources list (Source URL was confirmed == Sources[0] in 100% of dual-filled rows)
@@ -28,13 +28,13 @@ Columns: is_air_quality, is_anti_ai, is_community_impact, is_contract_guarantees
 79 statewide row(s) had County nulled (geocoder assigned the capital's county); 1 had a capital City cleared (neutralizes the gate's STATEWIDE_CAPITAL_SINK block). is_statewide flag set. Coordinates retained; map should render via is_statewide.
 
 **8. Geography backfill from headline (feed now matches what the gate validated)**  
-6 blank State value(s) and 11 blank County value(s) recovered from the Incident/Summary text (conservative: blanks only, never overwrites). Removes 'Unknown state' dashboard buckets for real events.
+7 blank State value(s) and 11 blank County value(s) recovered from the Incident/Summary text (conservative: blanks only, never overwrites). Removes 'Unknown state' dashboard buckets for real events.
 
 **9. Incident split into location_name + project_descriptor (new columns)**  
 685 row(s) had a parenthetical descriptor extracted; Incident left intact for backward compatibility
 
 **10. project_id + project_row_count + is_primary_record (new columns)**  
-1481 distinct projects identified; 159 span multiple rows; 29 row(s) unified by manual cross-venue override. Largest clusters: xai_colossus (29), garfield_township_issues_moratorium_on_data_centers_unknown (11), freeport_news_stephenson_county_considers_a_moratorium_on_data_center_a_local_non_profit_seeks_input_on_life_in_northwest_illinois_and_a_program_on_chimney_swifts_promises_to_sweep_you_away_il (11), port_washington_wi (9), palm_beach_county_approves_1_year_ai_data_center_moratorium_fl (9). Heuristic = location_name + state, plus PROJECT_OVERRIDES for cross-venue projects.
+1483 distinct projects identified; 159 span multiple rows; 29 row(s) unified by manual cross-venue override. Largest clusters: xai_colossus (29), freeport_news_stephenson_county_considers_a_moratorium_on_data_center_a_local_non_profit_seeks_input_on_life_in_northwest_illinois_and_a_program_on_chimney_swifts_promises_to_sweep_you_away_il (12), garfield_township_issues_moratorium_on_data_centers_unknown (11), palm_beach_county_approves_1_year_ai_data_center_moratorium_fl (10), lancaster_county_considers_data_center_moratorium_unknown (10). Heuristic = location_name + state, plus PROJECT_OVERRIDES for cross-venue projects.
 
 **11. Date enrichment: action_year + date_parseable + data_era (new columns)**  
 0 unparseable date(s) flagged; 5 row(s) tagged crypto_era_pre2022 (e.g. the lone 2014 Chelan County PUD record) so the two opposition waves can be analyzed separately
@@ -70,4 +70,4 @@ Every item in the original critique is now addressed in the data. What remains i
 
 ## Row-level change log
 
-357 individual value fixes recorded in `change_log.csv` (columns: row, field, before, after).
+358 individual value fixes recorded in `change_log.csv` (columns: row, field, before, after).

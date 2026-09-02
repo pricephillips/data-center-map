@@ -16,7 +16,7 @@ Unit is the resolved project in data/project_lifecycles.csv, all periods pooled.
 The two rates differ because the populations differ: one project can carry several decided records, and many decided records are not yet linked to a project entity. Neither number is wrong; quoting either without its unit is.
 
 ## Political context
-- Incident share in Trump-won counties: 67% (n=983)
+- Incident share in Trump-won counties: 67% (n=984)
 - County base rate (share of counties Trump won): 85%
 - Relative to the share of counties Trump won (85%), tracked opposition is UNDER-represented in Trump-won counties at 67%. Quote the pair, never the share alone; an exposure denominator (where projects are proposed) is the fair comparison and siting is not uniform.
 
