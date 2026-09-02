@@ -2,13 +2,55 @@
 
 Prepared 2026-09-02. Answers one question: what can we scrape alongside
 `trackdatacenters.com` to close the western hole in the project and event
-layers. Scoping only. Nothing here is built, and nothing here writes to
-`master_opposition.csv` or `data/proposals.csv` — every candidate below lands
-in a worklist a person clears, per the two standing rules at the top of
-`docs/tooling_scan.md`.
+layers. The scan came first and the top of the list is now built; the status
+table below says which parts. Nothing here writes to `master_opposition.csv`
+or `data/proposals.csv` — every candidate lands in a worklist a person clears,
+per the two standing rules at the top of `docs/tooling_scan.md`.
 
 "West" throughout means WA OR CA NV ID MT WY UT CO AZ NM AK HI: 449 counties,
 78.6M people.
+
+## Status: what of this is now built
+
+Updated 2026-09-02, same day. Items 1 through 3 and half of 5 in the
+recommended order at the bottom are implemented; the rest stands as scoped.
+
+| # | Step | Status |
+| :-- | :-- | :-- |
+| 1 | Place gazetteer in `signal_harvest.locate()` | **Built.** `gazetteer.py`, wired into `locate()` as a second pass. The 5-char county rule is replaced rather than removed: a short name now matches in the literal "<name> County" form, so Pima and Ada resolve where before they could not match at all. |
+| 2 | WA SEPA Register as a Socrata config | **Built, pending one CI run.** `configs/wa_sepa.json` plus `discover_socrata_dataset.py`, which resolves the 4x4 resource id the way `discover_arcgis_layer.py` resolves an ArcGIS layer. `fetch_permits.py` reads either discoverer's output, so no new fetch code. |
+| 3 | Overpass pull into `data/facility_candidates.csv` | **Built.** `fetch_osm_facilities.py` writes `data/facility_candidates_osm.csv`; `facility_registry.osm_candidates()` gates it. |
+| 4 | Email `jwklee` for the tracker CSV | Not started; needs a person, not code. |
+| 5 | Granicus + PrimeGov probes in `local_meeting_feed.py` | Not started. |
+| 6 | CEQAnet pin, then Oregon PAPA adapter | Not started. |
+| 7 | Western PUC docket scan | Not started. |
+
+Two things about item 1 are worth stating plainly, because the measured
+result is smaller than the scan implied and the reason matters.
+
+**The place pass is gated on a national index, and shipping it does not turn
+it on.** "This name occurs once in the index, so it is unambiguous" is only
+sound if the index covers the country. Built from repo records alone it does
+not: it holds exactly one Portland, and a headline reading "Portland moves to
+keep data center deals out of the shadows" resolved to Chautauqua County, New
+York, when the article is about Oregon. So `gazetteer.py` records
+`national: false` in its manifest when the Census fetch has not run, and
+`resolve()` then refuses every match the headline does not also state a
+state for. The `.github/workflows/acquire-geo-sources.yml` run is what flips
+it; until then the change is inert by construction rather than wrong.
+
+**Measured against the live 227-row worklist.** County-level resolution
+(`high` or `medium`) goes 27 -> 27 with the gate closed, and 27 -> 47 once the
+Census index lands, with rows carrying no geography at all going 164 -> 146.
+Those numbers are from the 802-row offline gazetteer; the Census county
+subdivision file adds roughly 36,000 names, so the second column is a floor
+rather than an estimate.
+
+Four false attributions found by spot-checking the first draft are now
+refused by name, and each is a selftest: "El Reno" no longer resolves to Reno
+NV, "Buckeye Country 105.5" no longer resolves to Maricopa County, and
+"Industry warns of blackouts" and "The Rapid Buildout of Data Centers" no
+longer resolve at all.
 
 ## The hole, measured
 

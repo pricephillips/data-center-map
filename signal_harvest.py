@@ -59,6 +59,8 @@ import urllib.parse
 import urllib.request
 from datetime import date, datetime, timedelta
 
+import gazetteer
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 OPPOSITION_CANDIDATES = [
@@ -71,6 +73,15 @@ COUNTY_AGG_CSV = os.path.join(HERE, "data", "county_aggregate.csv")
 OUT_CSV = os.path.join(HERE, "data", "signal_candidates.csv")
 FACILITY_CSV = os.path.join(HERE, "data", "facility_candidates.csv")
 LOG_CSV = os.path.join(HERE, "data", "signal_harvest_log.csv")
+
+# Counties whose bare name is shorter than this match only in the literal
+# form "<name> County", because the bare word is ordinary English. See
+# locate().
+SHORT_COUNTY_LEN = 5
+
+# Ordering used to decide whether the place pass may improve on the county
+# pass. Only ranks that locate() actually emits appear here.
+CONFIDENCE_RANK = {"none": 0, "low": 1, "state_only": 2, "medium": 3, "high": 4}
 
 GDELT_URL = "https://api.gdeltproject.org/api/v2/doc/doc"
 USER_AGENT = "hawthorn-dc-tracker/1.0 (opposition monitoring; contact repo owner)"
@@ -274,29 +285,59 @@ def is_facility_signal(row):
     return not OPPOSITION_GUARD.search(row.get("title") or "")
 
 
-def locate(title, cidx, state_filter=None):
+def locate(title, cidx, state_filter=None, pidx=None, national=False):
     """Best-effort county/state from the headline. Returns (county, state,
     confidence). Ambiguous county names across states resolve only when the
-    state is also named in the headline."""
+    state is also named in the headline.
+
+    Two passes, county names first and place names second. The county pass is
+    the older and stricter of the two and keeps precedence: a headline naming
+    both a county and a town inside it should key on the county it named.
+
+    The place pass exists because matching county names alone is not a neutral
+    filter. The jurisdiction that acts on a data center differs by region — a
+    Virginia headline says "Loudoun County", an Arizona headline says Tucson —
+    so a county-only index reads the east and drops the west. See gazetteer.py
+    for the ambiguity rules, which refuse far more often than they guess.
+    """
     t = title or ""
     tl = t.lower()
     named_states = [ab for ab, full in STATE_ABBREV.items()
                     if re.search(rf"\b{re.escape(full)}\b", t, re.IGNORECASE)]
     best = None
     for name_l, options in cidx.items():
-        if len(name_l) < 5:
-            continue  # short county names produce too many false hits
-        if re.search(rf"\b{re.escape(name_l)}\b", tl):
-            if len(options) == 1:
-                cand = (options[0][0], options[0][1], "high" if named_states else "medium")
+        if len(name_l) < SHORT_COUNTY_LEN:
+            # Short county names produce too many false hits on their own —
+            # Ada, Lyon, Kern, Nye, Iron, Pima are all ordinary English or
+            # ordinary nouns. Requiring the literal "<name> county" removes the
+            # false hits without removing the counties: Pima and Ada are the
+            # third and sixth ranked western opposition counties we hold, and
+            # under the old unconditional skip neither could ever match.
+            if not re.search(rf"\b{re.escape(name_l)}\s+(county|parish|borough)\b", tl):
+                continue
+        elif not re.search(rf"\b{re.escape(name_l)}\b", tl):
+            continue
+        if len(options) == 1:
+            cand = (options[0][0], options[0][1], "high" if named_states else "medium")
+        else:
+            match = [o for o in options if o[1] in named_states]
+            if len(match) == 1:
+                cand = (match[0][0], match[0][1], "high")
             else:
-                match = [o for o in options if o[1] in named_states]
-                if len(match) == 1:
-                    cand = (match[0][0], match[0][1], "high")
-                else:
-                    cand = (options[0][0], "", "low")
-            if best is None or cand[2] == "high":
-                best = cand
+                cand = (options[0][0], "", "low")
+        if best is None or cand[2] == "high":
+            best = cand
+
+    if pidx and (best is None or best[2] not in ("high", "medium")):
+        hit = gazetteer.resolve(t, pidx, named_states=named_states,
+                                national=national)
+        if hit:
+            county, state, _fips, conf = hit
+            # Never downgrade: a county-pass result already better than what
+            # the place pass offers stands.
+            if best is None or CONFIDENCE_RANK.get(conf, 0) > CONFIDENCE_RANK.get(best[2], 0):
+                best = (county, state, conf)
+
     if best is None and named_states:
         best = ("", named_states[0], "state_only")
     if best is None:
@@ -347,6 +388,13 @@ FACILITY_FIELDS = ["seen_date", "facility_signal", "title", "domain", "url",
 def harvest(days=7, state_filter=None, fixture=None, articles_by_label=None):
     seen = known_urls()
     cidx = county_index()
+    # Place index. Absent file -> empty dict -> county-only behaviour, exactly
+    # as before this index existed. Building the gazetteer is a separate job
+    # (gazetteer.py --build), so a harvest never blocks on it.
+    pidx = gazetteer.load_index()
+    # Whether the place index may be treated as complete. A sparse index cannot
+    # support "this name occurs once, so it is unambiguous"; see gazetteer.py.
+    pidx_national = gazetteer.index_is_national()
     tracked_counties = set()
     for path in OPPOSITION_CANDIDATES:
         rows = load_csv(path)
@@ -384,7 +432,8 @@ def harvest(days=7, state_filter=None, fixture=None, articles_by_label=None):
             if nu in emitted:
                 continue
             title = (a.get("title") or "").strip()
-            loc = locate(title, cidx, state_filter)
+            loc = locate(title, cidx, state_filter, pidx=pidx,
+                         national=pidx_national)
             if loc is None:
                 out_of_scope += 1
                 continue
@@ -600,6 +649,39 @@ def selftest():
     expect(conf == "low", "ambiguous county without a named state is low confidence")
     expect(locate("Loudoun County data center vote", cidx, state_filter={"OH"}) is None,
            "state filter excludes out-of-scope rows")
+
+    # Short county names. The bare word is refused; the literal "<name> County"
+    # is accepted. Before this rule Pima and Ada could never match at all.
+    short_idx = {"pima": [("Pima", "AZ")], "ada": [("Ada", "ID")]}
+    c, s, conf = locate("Pima County supervisors reject data center rezoning", short_idx)
+    expect((c, s) == ("Pima", "AZ"), "short county name resolves in the literal 'X County' form")
+    c, s, conf = locate("Ada is a common word in this headline about data centers", short_idx)
+    expect(conf == "none", "bare short county name does not match")
+
+    # Place pass. A town-named headline that the county index cannot see.
+    pidx = {"tucson": [("Pima", "AZ", "04019")],
+            "aurora": [("Adams", "CO", "08001"), ("Kane", "IL", "17089")]}
+    c, s, conf = locate("Tucson council rejects Project Blue data center", cidx,
+                        pidx=pidx, national=True)
+    expect((c, s, conf) == ("Pima", "AZ", "medium"),
+           "a town-named headline resolves through the place index")
+    c, s, conf = locate("Tucson council rejects Project Blue data center", cidx,
+                        pidx=pidx, national=False)
+    expect(conf == "none",
+           "a sparse place index withholds the uniqueness inference")
+    c, s, conf = locate("Aurora weighs a data center moratorium", cidx, pidx=pidx,
+                        national=True)
+    expect(conf == "none", "an ambiguous town with no state named still does not resolve")
+    c, s, conf = locate("Aurora, Colorado weighs a data center moratorium", cidx, pidx=pidx)
+    expect((c, s, conf) == ("Adams", "CO", "high"),
+           "the same town resolves once the headline names the state")
+    c, s, conf = locate("Loudoun County and Tucson both appear here", cidx, pidx=pidx,
+                        national=True)
+    expect((c, s) == ("Loudoun", "VA"),
+           "the county pass keeps precedence over the place pass")
+    c, s, conf = locate("Tucson council rejects data center", cidx, pidx=None)
+    expect(conf == "none",
+           "with no place index the harvester behaves exactly as it did before")
 
     expect("operational" in facility_hint("Data center opens quietly"),
            "an opening is a facility signal")

@@ -1,0 +1,15 @@
+{
+  "adapter": "socrata",
+  "source": "wa_sepa",
+  "url": null,
+  "where": "upper(title) like '%DATA CENTER%' OR upper(description) like '%DATA CENTER%'",
+  "page_size": 1000,
+  "discovery": {
+    "kind": "socrata",
+    "domain": "data.wa.gov",
+    "queries": ["SEPA register", "State Environmental Policy Act"],
+    "keywords": ["sepa", "environmental policy", "register", "ecology"],
+    "score_threshold": 2,
+    "note": "Washington's SEPA Register: every SEPA and NEPA record filed with the Department of Ecology since 2000, statewide, published on data.wa.gov (Socrata). Registered because it is the highest coverage-per-hour western source found in the 2026-09-02 scan: one config covers a whole state, where the eastern equivalent is one config per county. The 4x4 resource id is resolved by discover_socrata_dataset.py in CI rather than pinned by hand. The where clause is a guess at the column names until discovery reports the schema; fetch_permits.py logs a socrata error rather than writing a bad candidate file if it is wrong, and the fix is one edit here."
+  }
+}

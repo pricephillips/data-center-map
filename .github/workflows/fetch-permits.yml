@@ -69,10 +69,17 @@ jobs:
             CFG="configs/$NAME"
             SOURCE="$(basename "$NAME" .json)"
             echo "=== $SOURCE ==="
-            NEEDS=$(python -c "import json,sys; c=json.load(open(sys.argv[1])); print('yes' if (not c.get('url') and c.get('discovery')) else 'no')" "$CFG")
-            if [ "$NEEDS" = "yes" ]; then
-              python discover_arcgis_layer.py --config "$CFG" || true
-            fi
+            # Which discoverer a source needs is declared in its own config
+            # (discovery.kind), so adding a Socrata jurisdiction stays a config
+            # drop rather than a workflow edit — the same rule that made
+            # --list-sources replace a hardcoded source name here.
+            NEEDS=$(python -c "import json,sys; c=json.load(open(sys.argv[1])); print('' if c.get('url') or not c.get('discovery') else (c['discovery'].get('kind') or 'arcgis'))" "$CFG")
+            case "$NEEDS" in
+              arcgis)  python discover_arcgis_layer.py    --config "$CFG" || true ;;
+              socrata) python discover_socrata_dataset.py --config "$CFG" || true ;;
+              "")      : ;;
+              *)       echo "Unknown discovery.kind '$NEEDS' for $SOURCE; skipping discovery." ;;
+            esac
             if ! python fetch_permits.py --config "$CFG"; then
               echo "FETCH FAILED for $SOURCE; continuing with remaining sources."
               FAILED="$FAILED $SOURCE"
@@ -117,6 +124,8 @@ jobs:
               git add data/permit_candidates_*.csv
           ls data/arcgis_discovery_*.json >/dev/null 2>&1 && \
               git add data/arcgis_discovery_*.json data/arcgis_discovery_*.md
+          ls data/socrata_discovery_*.json >/dev/null 2>&1 && \
+              git add data/socrata_discovery_*.json data/socrata_discovery_*.md
           [ -f data/baseline_dated_external.csv ] && \
               git add data/baseline_dated_external.csv
           [ -f data/baseline_dated_external_rejects.csv ] && \
