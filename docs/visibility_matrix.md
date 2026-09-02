@@ -114,7 +114,7 @@ Invisible today, plausibly surfaceable, no decision recorded yet.
 | `data/landmark_model_report.md` | Gate status and per-window frame counts are the honest roadmap for the lifecycle product. |
 | `data/landmark_recovery_priority.csv` | Ranks the 46 outstanding decision dates by whether recovery moves a frame. |
 | `data/local_meeting_feed.csv` | Earliest-signal feed; needs a defensibility read before it faces a client. |
-| `data/site_screen.csv` | Site screening scores; not yet reviewed for external framing. |
+| `data/site_screen.csv` | Site screening scores; not yet reviewed for external framing. Composite blends non-independent components, see site_screener.py header before use. |
 | `data/site_screen_history.csv` | Screening history; same review as site_screen.csv. |
 | `data/site_screen_movers.md` | Week-over-week movers; same review as site_screen.csv. |
 | `data/subframe_audit_tva.csv` | Per-county detail behind the TVA frame audit. |
