@@ -1,13 +1,13 @@
 # Master Opposition QC Report
 
-- Records scanned: **1773**
-- Passed to feed: **1644**
-- Blocked / quarantined: **129**
+- Records scanned: **1801**
+- Passed to feed: **1655**
+- Blocked / quarantined: **146**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- DUPLICATE: 123
+- DUPLICATE: 140
 - LEG_SOURCE_WEAK: 4
 - STATEWIDE_CAPITAL_SINK: 1
 - STUDY_SOURCE_WEAK: 1
@@ -149,3 +149,20 @@
 | Palm Springs City Council approves temporary data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Palm Springs City Council to consider temporary data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | San Antonio City Council debates data center moratorium , stricter development rules | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Freeport News : Stephenson County considers a moratorium on data center , a local non - profit seeks input on life in northwest Illinois , and a program on chimney swifts promises to sweep you away | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Palm Beach County approves 1 - year AI data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Salem Twp . supervisors restrict public comment to residents , taxpayers | public_comment | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Lancaster County Considers Data Center Moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Fremont County implements data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Garfield Township Issues Moratorium on Data Centers | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| San Antonio City Council debates data center moratorium , stricter development rules | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Vermillion County commissioners vote down data center ordinance | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Freeport News : Stephenson County considers a moratorium on data center , a local non - profit seeks input on life in northwest Illinois , and a program on chimney swifts promises to sweep you away | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Martin Is Latest Florida County To Consider Moratorium On Data Centers | 1290 WJNO | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Martin Is Latest Florida County To Consider Moratorium On Data Centers | NewsRadio WIOD | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Palm Beach County approves 1 - year AI data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Elkhart City Council expected to vote on data center moratorium on Thursday | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Lancaster County Considers Data Center Moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Fremont County implements data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Palm Springs City Council approves temporary data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Palm Springs City Council to consider temporary data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
