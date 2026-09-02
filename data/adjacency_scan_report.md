@@ -43,7 +43,7 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 | 1 | WA | Snohomish County | 2 | King County, WA (2026-06-09) | 85 | 1 | 4 | no | none |
 | 1 | WI | Rock County | 2 | Dane County, WI (2026-06-04) | 90 | 1 | 0 | no | none |
 | 1 | WI | Sheboygan County | 2 | Manitowoc County, WI (2026-04-28) | 127 | 1 | 0 | no | none |
-| 1 | GA | Lee County | 1 | Dougherty County, GA (2026-07-21) | 43 | 1 | 0 | yes | ambiguous |
+| 1 | GA | Lee County | 1 | Dougherty County, GA (2026-09-02) | 0 | 1 | 0 | yes | ambiguous |
 | 1 | NC | Stokes County | 1 | Surry County, NC (2026-07-21) | 43 | 1 | 1 | yes | none |
 | 1 | NC | Yadkin County | 1 | Surry County, NC (2026-07-21) | 43 | 1 | 0 | yes | none |
 | 1 | KS | Shawnee County | 1 | Douglas County, KS (2026-07-14) | 50 | 1 | 0 | no | none |
