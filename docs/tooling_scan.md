@@ -514,3 +514,44 @@ seed; refresh cadence and attribution (CC-BY-4.0) documented in the
 census source column. Remaining known gap: municipal-level census rows
 are out of scope for the county label but represent the next recall
 surface.
+
+---
+
+## 2026-09-02: Pass 3, western coverage scan (scoping, not built)
+
+Triggered by a reader question about why `opposition-map.html` looks empty
+west of the Rockies. Two separate causes, and only one of them is a source
+problem.
+
+`data/proposals.csv` has zero western rows out of 338 — the pin layer's blank
+is inherited from trackdatacenters.com, whose registry is East and Midwest
+only, and `scripts/scrape-trackdatacenters-proposals.py` applies no
+geographic filter of its own. The county layer is not blank: 156 events
+across 72 western counties, but at 1.98 events per million people against
+4.70 elsewhere, and against a p99 ramp ceiling of 14 most of them render
+close to the no-data grey.
+
+Full scan in `docs/western_coverage_sources.md`. Headline findings:
+
+- The cheapest fix is internal. `signal_harvest.locate()` resolves geography
+  from headlines against a county-name gazetteer with no place names, and
+  164 of 227 rows in the current `data/signal_candidates.csv` carry
+  `location_confidence = "none"`. Western headlines name cities, not
+  counties, so the loss is regionally skewed.
+- `local_meeting_feed.py` discovery resolves 3 of 808 jurisdictions and has
+  no Granicus or PrimeGov probe. This is the evidence for promoting the
+  Tier 2 `civic-scraper` entry above.
+- Washington's SEPA Register is on `data.wa.gov`, which is Socrata, and
+  therefore drops into `fetch_permits.py` as a config with no new code.
+  Statewide, back to 2000. Best coverage-per-hour on the list.
+- Oregon DLCD PAPA notices and California CEQAnet are the statewide
+  equivalents for those states; both need an adapter or a pin.
+- The west has no load interconnection queue to scrape. Non-ISO utilities
+  connect large loads through state-approved retail tariffs, which relocates
+  the signal to state PUC dockets and means the FERC show-cause timeline in
+  `docs/interconnection_queue_scoping.md` will not improve western
+  disclosure.
+- `jwklee/data-center-opposition-tracker` is an independent, county-coded,
+  vocabulary-controlled opposition dataset. Sized against ours it deepens
+  about twenty thin western counties and adds two new ones. Enrichment, not
+  a gap-filler. CSV on request; email rather than scrape.
