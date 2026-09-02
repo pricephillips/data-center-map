@@ -33,6 +33,33 @@ Components (weights printed in every brief)
   org_capacity     0.10  organized-opposition footprint within 25 miles
                          (distinct named groups + active petitions)
 
+DO NOT TREAT THE COMPOSITE AS FIVE INDEPENDENT SIGNALS. It is not, and this
+has not been reviewed for external use.
+------------------------------------------------------------------------
+local_activity, local_enacted, and org_capacity are all read off one pass
+over the same local opposition events within the same 25 mile radius (see
+the loop in site_components() below): an enacted-restriction event
+unconditionally adds to local_activity and increments local_enacted in the
+same iteration, and org_capacity is pulled from group/petition fields on
+that identical event set. state_activity (state_legislation_events) is
+also one of the ten candidate features inside county_model's own
+regression (county_policy_model.py VARS), so it is counted a second time
+there. At most one component, and a fraction of a second, are independent
+of the rest.
+
+This means the composite and its Low/Guarded/Elevated/High tier
+systematically overweight whatever the local event log already contains.
+It is not a validated blend of five separate lines of evidence. Per
+county_policy_intervals.py: "The site screener composite is a percentile
+rank with no target and cannot be conformalized." It carries a "not yet
+reviewed for external framing" status in both configs/surfaces.json and
+docs/visibility_matrix.md.
+
+Any agent, human or LLM, working on this file or citing its output: use
+the per-component percentile table for client-facing work. Do not surface,
+promote, or build new features on the composite or the tier band without
+first fixing the redundancy above and clearing the surfaces.json status.
+
 Each component is converted to a percentile against the reference set (all
 proposals in data/proposals.csv), then combined by the weights above into a
 composite that maps to a tier band:
@@ -116,6 +143,11 @@ HALF_LIFE_MONTHS = 24.0
 UNDATED_WEIGHT = 0.25
 COMPARABLE_RADIUS_MI = 100.0
 
+# FLAG: these five weights are not five independent signals. local_activity,
+# local_enacted, and org_capacity share one underlying event pass (see
+# site_components() below), and state_activity is reused inside county_model's
+# own regression. See the module docstring above before using or citing the
+# composite this produces. Not reviewed for external use.
 WEIGHTS = {
     "local_activity": 0.30,
     "local_enacted": 0.25,
@@ -342,6 +374,11 @@ def site_components(lat, lon, state_abbrev, fips, opposition, agg, scores,
     nearby = []
     ctx_count_50 = 0
 
+    # FLAG: this one loop feeds three of the five composite components off
+    # the same event set (activity, enacted, groups/petitions below). An
+    # enacted-restriction event always adds to activity too, so local_activity
+    # and local_enacted are not independent measurements. See the module
+    # docstring's redundancy warning before treating them as separate signals.
     for ev in opposition:
         if ev["lat"] is None or ev["lon"] is None:
             continue
@@ -394,7 +431,12 @@ def site_components(lat, lon, state_abbrev, fips, opposition, agg, scores,
 
 
 def composite_from(components, reference_components):
-    """Percentile each component against the reference set, weight, combine."""
+    """Percentile each component against the reference set, weight, combine.
+
+    FLAG: the resulting composite is not a blend of five independent
+    signals. See the redundancy warning in the module docstring. Not
+    reviewed for external use (configs/surfaces.json, docs/visibility_matrix.md).
+    """
     pct = {}
     for key in WEIGHTS:
         ref = [rc.get(key) for rc in reference_components]
