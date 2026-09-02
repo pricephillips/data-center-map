@@ -46,7 +46,7 @@ prj_30,Project Rainier,IN,advanced_confirmed,yes,2400.0,0.0148,2,atl_01392,Agric
 prj_30,Project Rainier,IN,advanced_confirmed,yes,2400.0,0.0148,3,prj_295,Nottingham Data Center,proposals_unopposed,NH,,-0.0244,1.5392,margin,national+caliper,national_fallback
 prj_31,Martindale Indianapolis Metrobloks Data Center,IN,pending,no,72.0,,1,prj_26,Bristol Data Center,proposals_unopposed,IN,,-0.3238,1.0000,no_shared_covariates,state,in_state
 prj_31,Martindale Indianapolis Metrobloks Data Center,IN,pending,no,72.0,,2,prj_37,Pittsboro Middle Township Data Center,proposals_unopposed,IN,,-0.2150,1.0000,no_shared_covariates,state,in_state
-prj_31,Martindale Indianapolis Metrobloks Data Center,IN,pending,no,72.0,,3,prj_301,JPG Data Center,proposals_unopposed,IN,,-0.3610,1.0000,no_shared_covariates,state,in_state
+prj_31,Martindale Indianapolis Metrobloks Data Center,IN,pending,no,72.0,,3,prj_39,Project Maize,proposals_unopposed,IN,,,1.0000,no_shared_covariates,state,in_state
 prj_32,Surge Development Knightstown Data Center,IN,advanced_confirmed,yes,,-0.4771,1,prj_302,Amazon Wheatfield,proposals_unopposed,IN,,-0.5431,0.0660,margin,state+tercile+caliper,in_state
 prj_32,Surge Development Knightstown Data Center,IN,advanced_confirmed,yes,,-0.4771,2,prj_156,Forest City Data Center Campus,proposals_unopposed,NC,,-0.4781,1.5010,margin,national+caliper,national_fallback
 prj_32,Surge Development Knightstown Data Center,IN,advanced_confirmed,yes,,-0.4771,3,prj_241,Bradford County / Klondike Data Center Project,proposals_unopposed,PA,218.0,-0.4792,1.5021,margin,national+caliper,national_fallback
@@ -533,48 +533,33 @@ prj_317,Holyoke Data Center,MA,pending,no,20.0,0.0889,3,prj_52,Project Alluvion,
 prj_318,Project Domino,IN,advanced_confirmed,yes,1000.0,-0.1601,1,prj_37,Pittsboro Middle Township Data Center,proposals_unopposed,IN,,-0.2150,0.0549,margin,state+tercile+caliper,in_state
 prj_318,Project Domino,IN,advanced_confirmed,yes,1000.0,-0.1601,2,prj_10,Edged Energy Prichard Data Center,proposals_unopposed,AL,,-0.1645,1.5044,margin,national+caliper,national_fallback
 prj_318,Project Domino,IN,advanced_confirmed,yes,1000.0,-0.1601,3,prj_49,Google Council Bluffs,proposals_unopposed,IA,,-0.1997,1.5396,margin,national+caliper,national_fallback
-prj_321,Harper Road Technology Park,MO,pending,no,,-0.3209,1,prj_16,Vilonia Cryptomine,proposals_unopposed,AR,,-0.3232,1.5023,margin,national+caliper,national_fallback
-prj_321,Harper Road Technology Park,MO,pending,no,,-0.3209,2,prj_26,Bristol Data Center,proposals_unopposed,IN,,-0.3238,1.5029,margin,national+caliper,national_fallback
-prj_321,Harper Road Technology Park,MO,pending,no,,-0.3209,3,prj_292,Appalachian Mega Site / Hog Lick Data Center,proposals_unopposed,WV,200.0,-0.3124,1.5085,margin,national+caliper,national_fallback
-prj_322,Province Group Perry Village Data Center Campus,OH,blocked_confirmed,yes,,-0.1435,1,prj_181,Cologix Lewis Center Data Center,proposals_unopposed,OH,120.0,-0.0659,0.0776,margin,state+tercile+caliper,in_state
-prj_322,Province Group Perry Village Data Center Campus,OH,blocked_confirmed,yes,,-0.1435,2,atl_00324,Unknown,atlas,OH,,-0.1415,0.7020,margin,state+tercile+caliper,in_state
-prj_322,Province Group Perry Village Data Center Campus,OH,blocked_confirmed,yes,,-0.1435,3,atl_01043,Carrier Services Group,atlas,OH,,-0.0942,0.7493,margin,state+tercile+caliper,in_state
-prj_323,Meta Hyperion,LA,advanced_confirmed,yes,,-0.3940,1,prj_218,Homer City Energy + AI Campus,proposals_unopposed,PA,4500.0,-0.3912,1.5028,margin,national+caliper,national_fallback
-prj_323,Meta Hyperion,LA,advanced_confirmed,yes,,-0.3940,2,prj_45,Project Ruthenium,proposals_unopposed,IA,,-0.3858,1.5082,margin,national+caliper,national_fallback
-prj_323,Meta Hyperion,LA,advanced_confirmed,yes,,-0.3940,3,prj_270,Linde Clinton Data Center,proposals_unopposed,PA,,-0.3709,1.5231,margin,national+caliper,national_fallback
-prj_324,Prado AI Industrial Campus,MS,pending,no,,-0.1729,1,prj_131,Massena Petawatt Data Center Site Advertisement,proposals_unopposed,NY,200.0,-0.1800,1.5071,margin,national+caliper,national_fallback
-prj_324,Prado AI Industrial Campus,MS,pending,no,,-0.1729,2,prj_10,Edged Energy Prichard Data Center,proposals_unopposed,AL,,-0.1645,1.5084,margin,national+caliper,national_fallback
-prj_324,Prado AI Industrial Campus,MS,pending,no,,-0.1729,3,prj_49,Google Council Bluffs,proposals_unopposed,IA,,-0.1997,1.5268,margin,national+caliper,national_fallback
-prj_326,Project Maize / Google Michigan City Data Center,IN,advanced_confirmed,yes,,-0.1414,1,prj_37,Pittsboro Middle Township Data Center,proposals_unopposed,IN,,-0.2150,0.0736,margin,state+tercile+caliper,in_state
-prj_326,Project Maize / Google Michigan City Data Center,IN,advanced_confirmed,yes,,-0.1414,2,prj_294,Cumru Titus Data Center,proposals_unopposed,PA,200.0,-0.1218,1.5196,margin,national+caliper,national_fallback
-prj_326,Project Maize / Google Michigan City Data Center,IN,advanced_confirmed,yes,,-0.1414,3,prj_10,Edged Energy Prichard Data Center,proposals_unopposed,AL,,-0.1645,1.5231,margin,national+caliper,national_fallback
-prj_321,Harper Road Technology Park,MO,pending,no,,-0.3209,1,prj_16,Vilonia Cryptomine,proposals_unopposed,AR,,-0.3232,1.5023,margin,national+caliper,national_fallback
-prj_321,Harper Road Technology Park,MO,pending,no,,-0.3209,2,prj_26,Bristol Data Center,proposals_unopposed,IN,,-0.3238,1.5029,margin,national+caliper,national_fallback
-prj_321,Harper Road Technology Park,MO,pending,no,,-0.3209,3,prj_292,Appalachian Mega Site / Hog Lick Data Center,proposals_unopposed,WV,200.0,-0.3124,1.5085,margin,national+caliper,national_fallback
-prj_322,Province Group Perry Village Data Center Campus,OH,blocked_confirmed,yes,,-0.1435,1,prj_181,Cologix Lewis Center Data Center,proposals_unopposed,OH,120.0,-0.0659,0.0776,margin,state+tercile+caliper,in_state
-prj_322,Province Group Perry Village Data Center Campus,OH,blocked_confirmed,yes,,-0.1435,2,atl_00324,Unknown,atlas,OH,,-0.1415,0.7020,margin,state+tercile+caliper,in_state
-prj_322,Province Group Perry Village Data Center Campus,OH,blocked_confirmed,yes,,-0.1435,3,atl_01043,Carrier Services Group,atlas,OH,,-0.0942,0.7493,margin,state+tercile+caliper,in_state
-prj_323,Meta Hyperion,LA,advanced_confirmed,yes,,-0.3940,1,prj_218,Homer City Energy + AI Campus,proposals_unopposed,PA,4500.0,-0.3912,1.5028,margin,national+caliper,national_fallback
-prj_323,Meta Hyperion,LA,advanced_confirmed,yes,,-0.3940,2,prj_45,Project Ruthenium,proposals_unopposed,IA,,-0.3858,1.5082,margin,national+caliper,national_fallback
-prj_323,Meta Hyperion,LA,advanced_confirmed,yes,,-0.3940,3,prj_270,Linde Clinton Data Center,proposals_unopposed,PA,,-0.3709,1.5231,margin,national+caliper,national_fallback
-prj_324,Prado AI Industrial Campus,MS,pending,no,,-0.1729,1,prj_131,Massena Petawatt Data Center Site Advertisement,proposals_unopposed,NY,200.0,-0.1800,1.5071,margin,national+caliper,national_fallback
-prj_324,Prado AI Industrial Campus,MS,pending,no,,-0.1729,2,prj_10,Edged Energy Prichard Data Center,proposals_unopposed,AL,,-0.1645,1.5084,margin,national+caliper,national_fallback
-prj_324,Prado AI Industrial Campus,MS,pending,no,,-0.1729,3,prj_49,Google Council Bluffs,proposals_unopposed,IA,,-0.1997,1.5268,margin,national+caliper,national_fallback
-prj_326,Project Maize / Google Michigan City Data Center,IN,advanced_confirmed,yes,,-0.1414,1,prj_37,Pittsboro Middle Township Data Center,proposals_unopposed,IN,,-0.2150,0.0736,margin,state+tercile+caliper,in_state
-prj_326,Project Maize / Google Michigan City Data Center,IN,advanced_confirmed,yes,,-0.1414,2,prj_294,Cumru Titus Data Center,proposals_unopposed,PA,200.0,-0.1218,1.5196,margin,national+caliper,national_fallback
-prj_326,Project Maize / Google Michigan City Data Center,IN,advanced_confirmed,yes,,-0.1414,3,prj_10,Edged Energy Prichard Data Center,proposals_unopposed,AL,,-0.1645,1.5231,margin,national+caliper,national_fallback
-prj_327,Meta Project Everest,LA,pending,no,,-0.3940,1,prj_218,Homer City Energy + AI Campus,proposals_unopposed,PA,4500.0,-0.3912,1.5028,margin,national+caliper,national_fallback
-prj_327,Meta Project Everest,LA,pending,no,,-0.3940,2,prj_45,Project Ruthenium,proposals_unopposed,IA,,-0.3858,1.5082,margin,national+caliper,national_fallback
-prj_327,Meta Project Everest,LA,pending,no,,-0.3940,3,prj_270,Linde Clinton Data Center,proposals_unopposed,PA,,-0.3709,1.5231,margin,national+caliper,national_fallback
-prj_329,PRSM Group Cumberland County Data Center,NC,pending,no,225.0,0.1341,1,prj_134,Rural Hall Data Center,proposals_unopposed,NC,,0.1317,0.0024,margin,state+tercile+caliper,in_state
-prj_329,PRSM Group Cumberland County Data Center,NC,pending,no,225.0,0.1341,2,prj_138,High Point Data Center,proposals_unopposed,NC,,0.2184,0.0843,margin,state+caliper,in_state
-prj_329,PRSM Group Cumberland County Data Center,NC,pending,no,225.0,0.1341,3,prj_150,Greensboro Dream Center,proposals_unopposed,NC,10.0,0.2184,0.7182,margin+log_mw,state+caliper,in_state
-prj_330,Project Sail Data Center,GA,advanced_confirmed,yes,900.0,-0.3386,1,atl_01141,UPS Data Center,atlas,GA,,-0.3311,0.7075,margin,state+tercile+caliper,in_state
-prj_330,Project Sail Data Center,GA,advanced_confirmed,yes,900.0,-0.3386,2,prj_61,Project Pulse,proposals_unopposed,KY,,-0.3532,1.5146,margin,national+caliper,national_fallback
-prj_330,Project Sail Data Center,GA,advanced_confirmed,yes,900.0,-0.3386,3,prj_26,Bristol Data Center,proposals_unopposed,IN,,-0.3238,1.5148,margin,national+caliper,national_fallback
-prj_331,Howell Township Data Center (Project Splitrock),MI,blocked_confirmed,yes,,-0.2395,1,prj_135,Person County Mega Park,proposals_unopposed,NC,,-0.2371,1.5024,margin,national+caliper,national_fallback
-prj_331,Howell Township Data Center (Project Splitrock),MI,blocked_confirmed,yes,,-0.2395,2,prj_296,Andover Data Center,proposals_unopposed,NJ,,-0.2494,1.5099,margin,national+caliper,national_fallback
-prj_331,Howell Township Data Center (Project Splitrock),MI,blocked_confirmed,yes,,-0.2395,3,prj_130,Sugar Hill Portland Data Center,proposals_unopposed,NY,,-0.2198,1.5197,margin,national+caliper,national_fallback
-prj_332,Natelli Vance County Data Center,NC,advanced_confirmed,yes,,0.1335,1,prj_134,Rural Hall Data Center,proposals_unopposed,NC,,0.1317,0.0018,margin,state+tercile+caliper,in_state
-prj_332,Natelli Vance County Data Center,NC,advanced_confirmed,yes,,0.1335,2,prj_138,High Point Data Center,proposals_unopposed,NC,,0.2184,0.0849,margin,state+caliper,in_state
-prj_332,Natelli Vance County Data Center,NC,advanced_confirmed,yes,,0.1335,3,prj_150,Greensboro Dream Center,proposals_unopposed,NC,10.0,0.2184,0.0849,margin,state+caliper,in_state
+prj_326,Stonebridge Lawrence Data Center,PA,pending,no,,-0.3377,1,prj_270,Linde Clinton Data Center,proposals_unopposed,PA,,-0.3709,0.0332,margin,state+tercile+caliper,in_state
+prj_326,Stonebridge Lawrence Data Center,PA,pending,no,,-0.3377,2,prj_320,Sharon Keel Infrastructure Data Center Expansion,proposals_unopposed,PA,110.0,-0.3016,0.0361,margin,state+tercile+caliper,in_state
+prj_326,Stonebridge Lawrence Data Center,PA,pending,no,,-0.3377,3,prj_216,TECfusions “Keystone Connect” AI Campus,proposals_unopposed,PA,3000.0,-0.2842,0.0535,margin,state+tercile+caliper,in_state
+prj_1001,Harper Road Technology Park,MO,pending,no,,-0.3209,1,prj_16,Vilonia Cryptomine,proposals_unopposed,AR,,-0.3232,1.5023,margin,national+caliper,national_fallback
+prj_1001,Harper Road Technology Park,MO,pending,no,,-0.3209,2,prj_26,Bristol Data Center,proposals_unopposed,IN,,-0.3238,1.5029,margin,national+caliper,national_fallback
+prj_1001,Harper Road Technology Park,MO,pending,no,,-0.3209,3,prj_292,Appalachian Mega Site / Hog Lick Data Center,proposals_unopposed,WV,200.0,-0.3124,1.5085,margin,national+caliper,national_fallback
+prj_1002,Province Group Perry Village Data Center Campus,OH,blocked_confirmed,yes,,-0.1435,1,prj_181,Cologix Lewis Center Data Center,proposals_unopposed,OH,120.0,-0.0659,0.0776,margin,state+tercile+caliper,in_state
+prj_1002,Province Group Perry Village Data Center Campus,OH,blocked_confirmed,yes,,-0.1435,2,atl_00324,Unknown,atlas,OH,,-0.1415,0.7020,margin,state+tercile+caliper,in_state
+prj_1002,Province Group Perry Village Data Center Campus,OH,blocked_confirmed,yes,,-0.1435,3,atl_01043,Carrier Services Group,atlas,OH,,-0.0942,0.7493,margin,state+tercile+caliper,in_state
+prj_1003,Meta Hyperion,LA,advanced_confirmed,yes,,-0.3940,1,prj_218,Homer City Energy + AI Campus,proposals_unopposed,PA,4500.0,-0.3912,1.5028,margin,national+caliper,national_fallback
+prj_1003,Meta Hyperion,LA,advanced_confirmed,yes,,-0.3940,2,prj_45,Project Ruthenium,proposals_unopposed,IA,,-0.3858,1.5082,margin,national+caliper,national_fallback
+prj_1003,Meta Hyperion,LA,advanced_confirmed,yes,,-0.3940,3,prj_270,Linde Clinton Data Center,proposals_unopposed,PA,,-0.3709,1.5231,margin,national+caliper,national_fallback
+prj_1004,Prado AI Industrial Campus,MS,pending,no,,-0.1729,1,prj_131,Massena Petawatt Data Center Site Advertisement,proposals_unopposed,NY,200.0,-0.1800,1.5071,margin,national+caliper,national_fallback
+prj_1004,Prado AI Industrial Campus,MS,pending,no,,-0.1729,2,prj_10,Edged Energy Prichard Data Center,proposals_unopposed,AL,,-0.1645,1.5084,margin,national+caliper,national_fallback
+prj_1004,Prado AI Industrial Campus,MS,pending,no,,-0.1729,3,prj_49,Google Council Bluffs,proposals_unopposed,IA,,-0.1997,1.5268,margin,national+caliper,national_fallback
+prj_1007,Meta Project Everest,LA,pending,no,,-0.3940,1,prj_218,Homer City Energy + AI Campus,proposals_unopposed,PA,4500.0,-0.3912,1.5028,margin,national+caliper,national_fallback
+prj_1007,Meta Project Everest,LA,pending,no,,-0.3940,2,prj_45,Project Ruthenium,proposals_unopposed,IA,,-0.3858,1.5082,margin,national+caliper,national_fallback
+prj_1007,Meta Project Everest,LA,pending,no,,-0.3940,3,prj_270,Linde Clinton Data Center,proposals_unopposed,PA,,-0.3709,1.5231,margin,national+caliper,national_fallback
+prj_1009,PRSM Group Cumberland County Data Center,NC,pending,no,225.0,0.1341,1,prj_134,Rural Hall Data Center,proposals_unopposed,NC,,0.1317,0.0024,margin,state+tercile+caliper,in_state
+prj_1009,PRSM Group Cumberland County Data Center,NC,pending,no,225.0,0.1341,2,prj_138,High Point Data Center,proposals_unopposed,NC,,0.2184,0.0843,margin,state+caliper,in_state
+prj_1009,PRSM Group Cumberland County Data Center,NC,pending,no,225.0,0.1341,3,prj_150,Greensboro Dream Center,proposals_unopposed,NC,10.0,0.2184,0.7182,margin+log_mw,state+caliper,in_state
+prj_1010,Project Sail Data Center,GA,advanced_confirmed,yes,900.0,-0.3386,1,atl_01141,UPS Data Center,atlas,GA,,-0.3311,0.7075,margin,state+tercile+caliper,in_state
+prj_1010,Project Sail Data Center,GA,advanced_confirmed,yes,900.0,-0.3386,2,prj_61,Project Pulse,proposals_unopposed,KY,,-0.3532,1.5146,margin,national+caliper,national_fallback
+prj_1010,Project Sail Data Center,GA,advanced_confirmed,yes,900.0,-0.3386,3,prj_26,Bristol Data Center,proposals_unopposed,IN,,-0.3238,1.5148,margin,national+caliper,national_fallback
+prj_1011,Howell Township Data Center (Project Splitrock),MI,blocked_confirmed,yes,,-0.2395,1,prj_135,Person County Mega Park,proposals_unopposed,NC,,-0.2371,1.5024,margin,national+caliper,national_fallback
+prj_1011,Howell Township Data Center (Project Splitrock),MI,blocked_confirmed,yes,,-0.2395,2,prj_296,Andover Data Center,proposals_unopposed,NJ,,-0.2494,1.5099,margin,national+caliper,national_fallback
+prj_1011,Howell Township Data Center (Project Splitrock),MI,blocked_confirmed,yes,,-0.2395,3,prj_130,Sugar Hill Portland Data Center,proposals_unopposed,NY,,-0.2198,1.5197,margin,national+caliper,national_fallback
+prj_1012,Natelli Vance County Data Center,NC,advanced_confirmed,yes,,0.1335,1,prj_134,Rural Hall Data Center,proposals_unopposed,NC,,0.1317,0.0018,margin,state+tercile+caliper,in_state
+prj_1012,Natelli Vance County Data Center,NC,advanced_confirmed,yes,,0.1335,2,prj_138,High Point Data Center,proposals_unopposed,NC,,0.2184,0.0849,margin,state+caliper,in_state
+prj_1012,Natelli Vance County Data Center,NC,advanced_confirmed,yes,,0.1335,3,prj_150,Greensboro Dream Center,proposals_unopposed,NC,10.0,0.2184,0.0849,margin,state+caliper,in_state

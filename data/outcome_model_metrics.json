@@ -1,63 +1,63 @@
 {
-  "generated": "2026-08-31",
-  "n": 89,
-  "n_blocked": 27,
-  "base_rate": 0.3034,
+  "generated": "2026-09-02",
+  "n": 87,
+  "n_blocked": 26,
+  "base_rate": 0.2989,
   "cv": {
     "folds": 5,
     "repeats": 10
   },
   "roc_auc": {
-    "p10": 0.6667,
-    "p50": 0.8397,
-    "p90": 0.9306
+    "p10": 0.645,
+    "p50": 0.85,
+    "p90": 0.9308
   },
   "brier": {
-    "p10": 0.1066,
-    "p50": 0.1659,
-    "p90": 0.2399,
-    "base_rate_brier": 0.2113
+    "p10": 0.1013,
+    "p50": 0.1667,
+    "p90": 0.2504,
+    "base_rate_brier": 0.2095
   },
   "top_features": [
     {
       "name": "mech_public_comment",
-      "auc_drop": 0.1933,
-      "mean_std_coef": -1.379
+      "auc_drop": 0.1927,
+      "mean_std_coef": -1.411
     },
     {
       "name": "hyperscaler_involved",
-      "auc_drop": 0.0345,
-      "mean_std_coef": -0.5853
+      "auc_drop": 0.0385,
+      "mean_std_coef": -0.6133
     },
     {
       "name": "capacity_missing",
-      "auc_drop": 0.0261,
-      "mean_std_coef": 0.5281
+      "auc_drop": 0.0257,
+      "mean_std_coef": 0.5877
     },
     {
       "name": "log10_capacity_mw",
-      "auc_drop": -0.0219,
-      "mean_std_coef": -0.02
+      "auc_drop": -0.0246,
+      "mean_std_coef": -0.0375
     },
     {
       "name": "county_margin_2024",
-      "auc_drop": 0.0177,
-      "mean_std_coef": 0.5229
+      "auc_drop": 0.0189,
+      "mean_std_coef": 0.5354
     },
     {
       "name": "days_to_first_opposition",
-      "auc_drop": 0.0158,
-      "mean_std_coef": -0.4546
+      "auc_drop": 0.0114,
+      "mean_std_coef": -0.384
     },
     {
-      "name": "mech_zoning_restriction",
-      "auc_drop": -0.0125,
-      "mean_std_coef": -0.0104
+      "name": "n_opposition_groups",
+      "auc_drop": -0.0093,
+      "mean_std_coef": -0.123
     },
     {
-      "name": "n_opposition_events",
-      "auc_drop": 0.0118,
-      "mean_std_coef": -0.3164
+      "name": "mech_legislation",
+      "auc_drop": -0.0086,
+      "mean_std_coef": -0.0763
     }
   ],
   "feature_columns": [
