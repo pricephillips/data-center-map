@@ -541,8 +541,15 @@ function renderGate(ops) {
     'could meet them and applied unchanged. Frame sizes by observation window: ' +
     rows + '. ' +
     (ops.worklists && ops.worklists.decision_dates
-      ? 'Recovering the ' + ops.worklists.decision_dates.open +
-        ' outstanding decision dates is what moves these counts; nothing else does.'
+      ? 'The ' + ops.worklists.decision_dates.open + ' projects on the decision-date ' +
+        'worklist \u2014 decided and opposed and anchored, but undated \u2014 are the only ' +
+        'ones that can enter a frame once dated; nothing else moves these counts. ' +
+        'That worklist is almost entirely advanced outcomes, which is the constraint that ' +
+        'matters: a denial is reported on a dated public record far more reliably than an ' +
+        'approval, so the dated subset runs heavily blocked against a much lower blocked ' +
+        'share among all decided projects. Until the advanced arm is dated, the ' +
+        'not-blocked floor cannot be met, and a frame drawn from what is dated today would ' +
+        'not be representative of the decided set.'
       : '');
 }
 

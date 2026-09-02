@@ -56,7 +56,14 @@ window.MapPermalink = window.MapPermalink || (function () {
   --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
   --muted:#8a96a4; --border:#2c3544;
   --accent:#ea580c; --accent2:#fbbf24; --tier1:#4f98a3; --tier2:#8a96a4; --tier3:#9b59b6;
-  --blocked:#ef4444; --advanced:#22c55e; --pending:#eab308;
+  /* Outcome palette. "Advanced" is sky blue rather than green for two
+     measured reasons: green vs the old yellow separated by only dE 4.2 under
+     protanopia (indistinguishable), and the county choropleth beneath the pins
+     is inferno, whose warm end is the same red-orange-yellow as the other two
+     outcomes. Blue is the one hue absent from that ramp. This trio measures
+     worst-adjacent dE 20.4 under CVD. project-lifecycles.html already uses
+     blue for advanced, so this also aligns the two pages. */
+  --blocked:#ef4444; --advanced:#38bdf8; --pending:#fbbf24;
 }
 * { box-sizing:border-box; margin:0; padding:0 }
 html, body { height:100% }
@@ -107,8 +114,8 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
   color:var(--muted); font:600 11.5px/1 Inter,system-ui,sans-serif; cursor:pointer }
 .chip[aria-pressed="true"] { color:var(--text) }
 .chip.blocked[aria-pressed="true"] { background:rgba(239,68,68,.18); border-color:var(--blocked); color:#fecaca }
-.chip.advanced[aria-pressed="true"] { background:rgba(34,197,94,.16); border-color:var(--advanced); color:#bbf7d0 }
-.chip.pending[aria-pressed="true"] { background:rgba(234,179,8,.16); border-color:var(--pending); color:#fde68a }
+.chip.advanced[aria-pressed="true"] { background:rgba(56,189,248,.16); border-color:var(--advanced); color:#bae6fd }
+.chip.pending[aria-pressed="true"] { background:rgba(251,191,36,.16); border-color:var(--pending); color:#fde68a }
 
 .stat { background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:9px 11px; margin:10px 0 }
 .stat b { display:block; font-size:19px; font-weight:700 }
@@ -139,7 +146,64 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
   border-radius:8px; padding:7px 11px; font-size:11.5px; color:var(--muted) }
 .badge b { color:var(--text) }
 
-.marker-dot { border-radius:50%; border:2px solid rgba(0,0,0,.5); box-shadow:0 0 0 1px rgba(255,255,255,.15) }
+/* Outcome markers. Colour is NOT the only encoding: each outcome also has its
+   own shape. The three outcome hues are a status set, and the red/amber pair
+   sits directly on top of an inferno choropleth whose warm end is the same
+   red-orange-yellow, so hue alone separates neither the outcomes from each
+   other under a colour vision deficiency nor the pins from the ground beneath
+   them. Square = blocked, circle = advanced, diamond = pending. */
+.marker-dot { border:2px solid rgba(6,10,16,.72); box-shadow:0 0 0 1px rgba(255,255,255,.18) }
+.marker-dot.s-blocked_confirmed  { border-radius:3px }
+.marker-dot.s-advanced_confirmed { border-radius:50% }
+.marker-dot.s-pending            { border-radius:2px; transform:rotate(45deg) }
+/* A lawsuit ring in cyan, not amber: amber is the pending outcome colour and a
+   ring in the same hue reads as an outcome rather than an attribute. */
+.marker-dot.lawsuit { box-shadow:0 0 0 2px rgba(103,232,249,.95),0 0 0 3.5px rgba(6,10,16,.85) }
+.marker-dot.sel { box-shadow:0 0 0 3px #f8fafc,0 0 0 5px rgba(6,10,16,.9) }
+
+/* Cluster icon: a donut of the outcome mix, not a single colour. The old icon
+   painted the whole cluster red if ANY child was blocked, so one blocked
+   project in twenty read as twenty blocked ones. */
+.cl-wrap { position:relative; display:flex; align-items:center; justify-content:center }
+.cl-wrap .ccount { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font:700 12px Inter,system-ui,sans-serif; color:#eef2f7; pointer-events:none }
+
+/* Legend swatches echo the marker shapes so the legend and the map agree. */
+.sw.osh { border:1.5px solid rgba(6,10,16,.6) }
+.sw.osh.blocked_confirmed  { border-radius:3px }
+.sw.osh.advanced_confirmed { border-radius:50% }
+.sw.osh.pending            { border-radius:2px; transform:rotate(45deg) }
+
+/* Result list. The map had no way to answer "which projects are in this
+   filter" except hunting for pins, so the filters had no readable output. */
+.listhead { display:flex; align-items:baseline; justify-content:space-between; gap:8px;
+  margin:16px 0 0; padding-top:14px; border-top:1px solid var(--border) }
+.listhead h3 { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em }
+.listhead .ct { font-size:11px; color:var(--muted) }
+.plist { margin:0 -18px }
+.prow { display:flex; gap:9px; align-items:flex-start; width:100%; text-align:left;
+  padding:9px 18px; border:0; border-bottom:1px solid var(--border); background:transparent;
+  color:var(--text); cursor:pointer; font:inherit }
+.prow:hover, .prow:focus-visible { background:var(--panel2); outline:none }
+.prow[aria-current="true"] { background:rgba(79,152,163,.16); box-shadow:inset 3px 0 0 var(--tier1) }
+.prow .shp { width:11px; height:11px; margin-top:3px; flex:none }
+.prow .txt { min-width:0; flex:1 }
+.prow .nm { display:block; font-size:12.5px; font-weight:600; line-height:1.35; overflow-wrap:anywhere }
+.prow .mt { display:block; font-size:11px; color:var(--muted); margin-top:2px }
+.prow .op { flex:none; font-size:11px; color:var(--muted); white-space:nowrap; margin-top:2px }
+.empty { padding:18px 0 6px; font-size:12.5px; color:var(--muted); line-height:1.55 }
+.linkbtn { background:none; border:0; padding:0; color:var(--accent2); cursor:pointer;
+  font:inherit; text-decoration:underline }
+.controls label.chk { display:flex; align-items:center; gap:8px; text-transform:none; letter-spacing:0;
+  font-size:12.5px; color:#c6cfda; margin-top:12px; cursor:pointer }
+.controls label.chk input { width:auto }
+
+/* Three tiles stacked pushed the result list below the fold on a laptop, which
+   is where the list is least useful. Side by side they fit above it. */
+#project-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin:12px 0 0 }
+#project-stats .stat { margin:0; padding:8px 9px }
+#project-stats .stat b { font-size:17px }
+#project-stats .stat span { font-size:10px; line-height:1.35; display:block }
 /* Dark inner halo first, amber glow second: the amber alone vanishes against
    the pale-yellow top of the sequential ramp underneath. */
 .enacted-star { filter:drop-shadow(0 0 1px rgba(6,10,16,.95)) drop-shadow(0 0 3px rgba(251,191,36,.75)) }
@@ -153,8 +217,7 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
       <div class="sub" id="sub">County context and project detail for U.S. data center opposition.</div>
     </header>
     <div class="modebar" role="group" aria-label="Map mode">
-      <button class="modebtn" id="mode-auto" aria-pressed="true">Auto</button>
-      <button class="modebtn" id="mode-county" aria-pressed="false">County context</button>
+      <button class="modebtn" id="mode-county" aria-pressed="true">County context</button>
       <button class="modebtn" id="mode-project" aria-pressed="false">Project pins</button>
     </div>
     <div class="panel-scroll">
@@ -188,9 +251,17 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
       <div id="project-panel" hidden>
         <div class="legend">
           <h3>Project outcome</h3>
-          <div class="row"><span class="sw" style="background:var(--blocked)"></span> blocked (confirmed terminal)</div>
-          <div class="row"><span class="sw" style="background:var(--advanced)"></span> advanced (confirmed)</div>
-          <div class="row"><span class="sw" style="background:var(--pending)"></span> pending / undecided</div>
+          <div class="row"><span class="sw osh blocked_confirmed" style="background:var(--blocked)"></span>
+            blocked (confirmed terminal)</div>
+          <div class="row"><span class="sw osh advanced_confirmed" style="background:var(--advanced)"></span>
+            advanced (confirmed)</div>
+          <div class="row"><span class="sw osh pending" style="background:var(--pending)"></span>
+            pending / undecided</div>
+          <div class="row"><span class="sw" style="background:transparent;border:2px solid #67e8f9"></span>
+            cyan ring: a lawsuit is on record</div>
+          <div class="row" style="color:var(--muted);margin-top:7px">
+            Marker size grows with recorded opposition events. Clusters show the outcome mix of
+            what they contain.</div>
         </div>
         <div class="controls">
           <label>Show outcomes</label>
@@ -199,14 +270,27 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
             <button class="chip advanced" data-outcome="advanced_confirmed" aria-pressed="true">Advanced</button>
             <button class="chip pending" data-outcome="pending" aria-pressed="true">Pending</button>
           </div>
-          <label for="opp-only" style="display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;
-            font-size:12.5px;color:#c6cfda;margin-top:12px;cursor:pointer">
-            <input type="checkbox" id="opp-only" style="width:auto"> Only projects with recorded opposition
+          <label for="opp-only" class="chk">
+            <input type="checkbox" id="opp-only"> Only projects with recorded opposition
+          </label>
+          <label for="underlay" class="chk">
+            <input type="checkbox" id="underlay" checked> County shading as a faint underlay
           </label>
           <label for="proj-search">Search</label>
-          <input id="proj-search" type="search" placeholder="project or state" autocomplete="off">
+          <input id="proj-search" type="search" placeholder="project, state or county" autocomplete="off">
+          <label for="proj-sort">Sort by</label>
+          <select id="proj-sort">
+            <option value="opp">Recorded opposition (most first)</option>
+            <option value="capacity">Capacity (largest first)</option>
+            <option value="name">Project name (A–Z)</option>
+            <option value="state">State, then name</option>
+          </select>
         </div>
         <div id="project-stats"></div>
+        <div class="listhead">
+          <h3>Projects</h3><span class="ct" id="list-count"></span>
+        </div>
+        <div class="plist" id="project-list"></div>
         <div class="note" id="risk-note"></div>
       </div>
     </div>
@@ -241,8 +325,17 @@ const LIFECYCLE_URLS = [RAW + '/data/project_lifecycles.csv', './data/project_li
 // file does not exist and the pin popups show "risk band pending" rather than
 // a fabricated number. Never block the map on it.
 const PRED_URLS = [RAW + '/data/landmark_model_predictions.csv', './data/landmark_model_predictions.csv'];
-// Plotly county GeoJSON (raw.githubusercontent origin, sends CORS headers).
-const COUNTY_GEO_URL = 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json';
+// Plotly county GeoJSON. Two independent origins for the same file, because a
+// single source here is a single point of failure with an outsized blast
+// radius: this is a 3.2 MB cross-origin request, and when it failed the page
+// silently opened in project-pins mode -- the pin layer became the whole map
+// with no county context and no explanation. jsdelivr is tried first (a CDN
+// built for this, and not subject to raw.githubusercontent's rate limiting),
+// with the raw origin as the fallback. Both send CORS headers.
+const COUNTY_GEO_URLS = [
+  'https://cdn.jsdelivr.net/gh/plotly/datasets@master/geojson-counties-fips.json',
+  'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json'
+];
 
 // ---------------------------------------------------------------------------
 // Boundary crosswalk, carried over verbatim from restriction-model.html. The
@@ -342,8 +435,13 @@ function countColor(n) {
 }
 
 const OUTCOME_COLOR = {
-  blocked_confirmed:'#ef4444', advanced_confirmed:'#22c55e', pending:'#eab308'
+  blocked_confirmed:'#ef4444', advanced_confirmed:'#38bdf8', pending:'#fbbf24'
 };
+// Painting order for the cluster donut, so a cluster's ring reads the same way
+// every time regardless of which outcome happens to be most common in it.
+const OUTCOME_ORDER = ['blocked_confirmed','pending','advanced_confirmed'];
+// A lawsuit is an attribute, not an outcome, so it gets a hue no outcome uses.
+const LAWSUIT_RING = '#67e8f9';
 const OUTCOME_LABEL = {
   blocked_confirmed:'Blocked (confirmed)', advanced_confirmed:'Advanced (confirmed)',
   pending:'Pending / undecided'
@@ -396,7 +494,13 @@ function syncFilterKeys() {
 
 let countyLayer = null, pinCluster = null;
 let SCORES = {}, COUNTY = {}, PROJECTS = [], PRED = {};
-let mode = 'auto';
+// County context is the primary view and the default. There is no zoom-driven
+// handoff: see the mode-switching section for why that was removed.
+let mode = 'county';
+// In project mode the county shading can stay as a faint, non-interactive
+// underlay so the reader keeps the geographic frame. It is a checkbox the
+// reader controls, at a fixed opacity -- never a function of zoom.
+let showUnderlay = true;
 const filters = {
   outcomes: new Set(['blocked_confirmed','advanced_confirmed','pending']),
   oppOnly: false, search: ''
@@ -613,21 +717,60 @@ function visibleProjects() {
   return PROJECTS.filter(p =>
     filters.outcomes.has(p.outcome) &&
     (!filters.oppOnly || p.nOpp > 0) &&
-    (!q || p.name.toLowerCase().includes(q) || p.state.toLowerCase().includes(q))
+    (!q || p.name.toLowerCase().includes(q) || p.state.toLowerCase().includes(q) ||
+           (p.county || '').toLowerCase().includes(q))
   );
 }
 
-function pinIcon(p) {
+// Marker diameter carries opposition volume. sqrt, because a marker is read by
+// area and a linear radius would make ten events look a hundred times the size
+// of one. Floored at 11px so an unopposed project is still a comfortable hit
+// target, capped so a single heavily-documented project cannot swallow its
+// neighbours.
+function pinSize(nOpp) {
+  if (!nOpp) return 11;
+  return Math.min(23, 12 + Math.sqrt(nOpp) * 2.7);
+}
+
+function pinIcon(p, selected) {
   const color = OUTCOME_COLOR[p.outcome] || '#94a3b8';
-  const r = p.nOpp > 0 ? 9 : 7;
-  // Dark ring outside the amber one so the marker stays legible over both
-  // ends of the choropleth ramp beneath it.
-  const ring = p.hasLawsuit
-    ? 'box-shadow:0 0 0 2px rgba(251,191,36,.9),0 0 0 3.5px rgba(6,10,16,.85);' : '';
+  const d = pinSize(p.nOpp);
+  const cls = ['marker-dot', 's-' + p.outcome];
+  if (p.hasLawsuit) cls.push('lawsuit');
+  if (selected) cls.push('sel');
   return L.divIcon({
-    className:'', iconSize:[r*2,r*2], iconAnchor:[r,r],
-    html:`<div class="marker-dot" style="width:${r*2}px;height:${r*2}px;background:${color};${ring}"></div>`
+    className:'', iconSize:[d,d], iconAnchor:[d/2,d/2],
+    html:`<div class="${cls.join(' ')}" style="width:${d}px;height:${d}px;background:${color}"></div>`
   });
+}
+
+// Cluster icon: a donut of the outcome mix. The previous icon was a single
+// colour chosen by `anyBlocked ? red : slate`, which made one blocked project
+// among twenty advanced ones render as a solid red cluster -- the icon said
+// "blocked" about a group that was 95% not blocked.
+function clusterIcon(counts, total) {
+  const size = Math.max(30, Math.min(50, 28 + Math.log2(total + 1) * 3.4));
+  const r = size / 2, sw = Math.max(5, size * 0.17), rad = r - sw / 2;
+  const C = 2 * Math.PI * rad;
+  const present = OUTCOME_ORDER.filter(k => counts[k]);
+  // A 2px gap between adjacent arcs, so neighbouring segments stay countable
+  // instead of merging into one band. Only when there is more than one.
+  const gap = present.length > 1 ? 2 : 0;
+  let off = 0, segs = '';
+  present.forEach(k => {
+    const frac = counts[k] / total;
+    const len = Math.max(0.75, C * frac - gap);
+    segs += `<circle cx="${r}" cy="${r}" r="${rad}" fill="none" stroke="${OUTCOME_COLOR[k]}"` +
+            ` stroke-width="${sw}" stroke-dasharray="${len} ${C - len}"` +
+            ` stroke-dashoffset="${-off}" transform="rotate(-90 ${r} ${r})"></circle>`;
+    off += C * frac;
+  });
+  const html =
+    `<div class="cl-wrap" style="width:${size}px;height:${size}px">` +
+      `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true">` +
+        `<circle cx="${r}" cy="${r}" r="${rad}" fill="rgba(11,14,19,.88)"></circle>${segs}` +
+      `</svg><span class="ccount">${total}</span></div>`;
+  return L.divIcon({ className:'', iconSize:[size,size], iconAnchor:[size/2,size/2], html });
 }
 
 function pinPopup(p) {
@@ -643,43 +786,162 @@ function pinPopup(p) {
   if (p.announced) rows.push(['Announced', p.announced]);
   if (p.decision) rows.push(['Decision', p.decision]);
   rows.push(['Opposition events', String(p.nOpp) + (p.hasLawsuit ? ' (incl. lawsuit)' : '')]);
-  const grid = rows.map(([k,v]) => `<span class="k">${k}</span><span>${v}</span>`).join('');
+  const grid = rows.map(([k,v]) => `<span class="k">${esc(k)}</span><span>${esc(v)}</span>`).join('');
   const oc = OUTCOME_COLOR[p.outcome] || '#94a3b8';
-  return `<div class="pop"><h4>${p.name}</h4>` +
+  return `<div class="pop"><h4>${esc(p.name)}</h4>` +
     `<div style="margin:2px 0 8px"><span class="band" style="background:${oc};color:#0b0e13">` +
     `${OUTCOME_LABEL[p.outcome]||p.outcome}</span> ${band}</div>` +
     `<div class="grid">${grid}</div>` +
-    (p.url ? `<div style="margin-top:6px"><a href="${p.url}" target="_blank" rel="noopener">Source &#8599;</a></div>` : '') +
+    (p.url ? `<div style="margin-top:6px"><a href="${esc(p.url)}" target="_blank" rel="noopener">Source &#8599;</a></div>` : '') +
     `</div>`;
+}
+
+// Marker and project indexes, so the result list can address a pin by project
+// id and repaint it when the selection moves.
+let MARKERS = {};
+let BY_ID = {};
+let SELECTED = null;
+let LAST_VISIBLE = 0;
+
+const SORTS = {
+  opp:      (a,b) => b.nOpp - a.nOpp || a.name.localeCompare(b.name),
+  capacity: (a,b) => (b.capacity||0) - (a.capacity||0) || a.name.localeCompare(b.name),
+  name:     (a,b) => a.name.localeCompare(b.name),
+  state:    (a,b) => (a.state||'').localeCompare(b.state||'') || a.name.localeCompare(b.name)
+};
+function currentSort() {
+  const el = document.getElementById('proj-sort');
+  return SORTS[el && el.value] || SORTS.opp;
 }
 
 function drawPins() {
   if (pinCluster) { map.removeLayer(pinCluster); pinCluster = null; }
+  MARKERS = {};
   pinCluster = L.markerClusterGroup({
     clusterPane:'pinPane',
+    // Hovering a cluster draws a convex hull of what it contains. By default
+    // markercluster gives that polygon no pane, so it lands in overlayPane
+    // (z-index 400) -- above the county layer at 380, and outside pinPane's
+    // opacity and pointer-events control. That is a hole in the one invariant
+    // this page rests on: it let the pin layer paint over the county layer in
+    // a mode where the pin layer was supposed to be subordinate or absent.
+    // Naming the pane puts it back under that control. The colour is neutral
+    // rather than Leaflet's default blue, which now reads as the "advanced"
+    // outcome, and rather than any outcome hue: the hull means "these are the
+    // projects here", not a result.
+    polygonOptions: {
+      pane: 'pinPane',
+      color: '#f8fafc', weight: 1.5, opacity: 0.85,
+      fillColor: '#f8fafc', fillOpacity: 0.08, dashArray: '4,3'
+    },
     maxClusterRadius:44, chunkedLoading:true,
     iconCreateFunction: cl => {
-      const kids = cl.getAllChildMarkers();
-      const anyBlocked = kids.some(m => m.options._outcome === 'blocked_confirmed');
-      const color = anyBlocked ? '#ef4444' : '#64748b';
-      const n = cl.getChildCount();
-      return L.divIcon({
-        className:'', iconSize:[34,34],
-        html:`<div style="width:34px;height:34px;border-radius:50%;background:${color}cc;border:2px solid #0b0e13;`+
-             `display:flex;align-items:center;justify-content:center;font:700 12px Inter;color:#0b0e13">${n}</div>`
+      const counts = {};
+      cl.getAllChildMarkers().forEach(m => {
+        const o = m.options._outcome; counts[o] = (counts[o] || 0) + 1;
       });
+      return clusterIcon(counts, cl.getChildCount());
     }
   });
-  const vis = visibleProjects();
+  const vis = visibleProjects().sort(currentSort());
+  BY_ID = {};
   vis.forEach(p => {
+    BY_ID[p.pid] = p;
     const m = L.marker([p.lat,p.lon], { icon:pinIcon(p), pane:'pinPane' });
     m.options._outcome = p.outcome;
-    m.bindPopup(pinPopup(p), { maxWidth:300 });
-    m.bindTooltip(`<b>${p.name}</b><br>${OUTCOME_LABEL[p.outcome]||p.outcome}`, { className:'tip', direction:'top' });
+    m.options._pid = p.pid;
+    m.bindPopup(pinPopup(p), { maxWidth:320 });
+    m.bindTooltip(
+      `<b>${esc(p.name)}</b><br>${OUTCOME_LABEL[p.outcome]||p.outcome}` +
+      (p.nOpp ? ` &middot; ${p.nOpp} opposition event${p.nOpp===1?'':'s'}` : ''),
+      { className:'tip', direction:'top' });
+    m.on('popupopen', () => selectProject(p.pid, false));
+    m.on('popupclose', () => { if (SELECTED === p.pid) selectProject(null, false); });
+    MARKERS[p.pid] = m;
     pinCluster.addLayer(m);
   });
   map.addLayer(pinCluster);
+  LAST_VISIBLE = vis.length;
+  if (SELECTED && !MARKERS[SELECTED]) SELECTED = null;
   updateProjectStats(vis);
+  renderProjectList(vis);
+  applyLayerVisibility();
+  syncBadge();
+}
+
+// --- result list -----------------------------------------------------------
+// The filters had no readable output before this: the only way to see what a
+// filter had selected was to hunt for pins on the map, and a filter that
+// matched three projects looked much like one that matched none.
+function esc(v) {
+  return String(v == null ? '' : v).replace(/[&<>"']/g,
+    c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderProjectList(vis) {
+  const box = document.getElementById('project-list');
+  const count = document.getElementById('list-count');
+  if (!box) return;
+  count.textContent = vis.length
+    ? `${vis.length.toLocaleString()} of ${PROJECTS.length.toLocaleString()}` : '';
+  if (!vis.length) {
+    box.innerHTML = `<div class="empty">No project matches these filters. ` +
+      `<button type="button" class="linkbtn" id="clear-filters">Clear filters</button></div>`;
+    const c = document.getElementById('clear-filters');
+    if (c) c.onclick = clearFilters;
+    return;
+  }
+  box.innerHTML = vis.map(p => {
+    const meta = [p.county, p.state].filter(Boolean).join(', ');
+    const cap = p.capacity ? ` &middot; ${p.capacity.toLocaleString()} MW` : '';
+    return `<button class="prow" type="button" data-pid="${esc(p.pid)}"` +
+      ` aria-current="${SELECTED === p.pid}">` +
+      `<span class="shp marker-dot s-${p.outcome}" style="background:${OUTCOME_COLOR[p.outcome]||'#94a3b8'}"></span>` +
+      `<span class="txt"><span class="nm">${esc(p.name)}</span>` +
+      `<span class="mt">${esc(meta)}${cap}</span></span>` +
+      `<span class="op">${p.nOpp || 0} opp${p.hasLawsuit ? ' &middot; suit' : ''}</span></button>`;
+  }).join('');
+  box.querySelectorAll('.prow').forEach(row => {
+    row.onclick = () => selectProject(row.dataset.pid, true);
+  });
+}
+
+// Focus a project from the list: reveal it (markercluster has to open the
+// cluster it is inside first, or openPopup fires on a marker that is not on
+// the map), then open its popup.
+function selectProject(pid, fly) {
+  const prev = SELECTED;
+  SELECTED = pid;
+  document.querySelectorAll('#project-list .prow').forEach(r => {
+    r.setAttribute('aria-current', String(!!pid && r.dataset.pid === pid));
+  });
+  // Repaint the marker that lost the selection and the one that gained it.
+  // Clusters redraw themselves from their children, so nothing else is needed.
+  [...new Set([prev, pid])].forEach(id => {
+    if (!id) return;
+    const mk = MARKERS[id], pr = BY_ID[id];
+    if (mk && pr) mk.setIcon(pinIcon(pr, id === SELECTED));
+  });
+  const m = pid && MARKERS[pid];
+  if (!m || !fly) return;
+  const go = () => { m.openPopup(); };
+  if (pinCluster && typeof pinCluster.zoomToShowLayer === 'function') {
+    pinCluster.zoomToShowLayer(m, go);
+  } else {
+    map.setView(m.getLatLng(), Math.max(map.getZoom(), 9));
+    go();
+  }
+}
+
+function clearFilters() {
+  filters.outcomes = new Set(['blocked_confirmed','advanced_confirmed','pending']);
+  filters.oppOnly = false;
+  filters.search = '';
+  document.querySelectorAll('#outcome-chips .chip').forEach(c => c.setAttribute('aria-pressed','true'));
+  document.getElementById('opp-only').checked = false;
+  document.getElementById('proj-search').value = '';
+  syncFilterKeys();
+  drawPins();
 }
 
 function updateProjectStats(vis) {
@@ -687,11 +949,14 @@ function updateProjectStats(vis) {
   const total = vis.length;
   const blocked = vis.filter(p => p.outcome === 'blocked_confirmed').length;
   const opp = vis.filter(p => p.nOpp > 0).length;
-  const noCoord = PROJECTS.length; // all in PROJECTS already have coords
+  const suits = vis.filter(p => p.hasLawsuit).length;
   el.innerHTML =
-    `<div class="stat"><b>${total}</b><span>projects shown</span></div>` +
-    `<div class="stat"><b>${blocked}</b><span>blocked (confirmed terminal)</span></div>` +
-    `<div class="stat"><b>${opp}</b><span>with recorded opposition</span></div>`;
+    `<div class="stat"><b>${total.toLocaleString()}</b><span>shown` +
+      (total !== PROJECTS.length ? ` of ${PROJECTS.length.toLocaleString()}` : '') +
+      `</span></div>` +
+    `<div class="stat"><b>${blocked.toLocaleString()}</b><span>blocked</span></div>` +
+    `<div class="stat"><b>${opp.toLocaleString()}</b><span>opposed` +
+      (suits ? `, ${suits} sued` : '') + `</span></div>`;
   const missing = PROJECTS.__missingCoords || 0;
   const note = document.getElementById('risk-note');
   const anyBands = Object.keys(PRED).length > 0;
@@ -708,94 +973,113 @@ function updateProjectStats(vis) {
 // ---------------------------------------------------------------------------
 // Mode switching
 // ---------------------------------------------------------------------------
-// Zoom thresholds for the auto handoff. Below Z_COUNTY the county shading is
-// the whole map; above Z_PINS the pins are, with the counties left as faint
-// context so the reader keeps the geographic frame. Between them the two
-// crossfade, which is the range where a reader is moving from "which counties"
-// to "which projects" and wants to see both at once.
-const Z_COUNTY = 6;
-const Z_PINS = 8;
-const COUNTY_CONTEXT_OPACITY = 0.28;
+// The map has two modes and nothing switches between them but the reader.
+//
+// WHAT WAS WRONG
+// --------------
+// Mode used to default to "auto", which crossfaded the county and pin panes by
+// zoom: county alone below z6, pins alone above z8, both in between. Three
+// separate defects came out of that, all measured in a browser rather than
+// argued from the code:
+//
+//   1. The pin pane sits above the county pane (z-index 640 vs 380) and the
+//      crossfade only ever changed opacity, never stacking or hit-testing. At
+//      z7 the panes measured county 0.64 / pin 0.50 -- county the dominant
+//      layer -- yet the pin pane still had pointer-events:auto, so the fainter
+//      layer on top swallowed every county hover. The 0.15 pointer-events
+//      floor was far too low to prevent this.
+//   2. The sidebar switched on `w.pin < 0.5`, which at exactly z7 (w.pin ===
+//      0.5) is false. So at the one zoom where the county layer was visibly
+//      dominant, the sidebar showed the project panel and the badge read
+//      "Project pins". The UI contradicted the map.
+//   3. The county GeoJSON had a single source URL and no fallback. When it
+//      failed -- a 3.2 MB cross-origin fetch, most likely to fail exactly where
+//      this map is embedded in an iframe -- the boot fell through to
+//      setMode('project') with no message, and the pin layer became the entire
+//      map. That is the intermittent version of the same symptom, and it is
+//      why it looked like "sometimes".
+//
+// THE FIX
+// -------
+// Auto mode is gone. County context is the primary view and the default, the
+// two modes are mutually exclusive, and pane visibility is a pure function of
+// mode -- there is no zoomend handler touching layer opacity at all, so no
+// zoom can hand the map to a layer the reader did not ask for. The county
+// underlay in project mode is a fixed opacity behind an explicit checkbox and
+// is never interactive, so it cannot compete for hover either.
 
-function tierWeights(z) {
-  if (z <= Z_COUNTY) return { county: 1, pin: 0 };
-  if (z >= Z_PINS) return { county: COUNTY_CONTEXT_OPACITY, pin: 1 };
-  const t = (z - Z_COUNTY) / (Z_PINS - Z_COUNTY);
-  return { county: 1 - (1 - COUNTY_CONTEXT_OPACITY) * t, pin: t };
+// Faint enough to read as ground rather than as data. Fixed, never animated.
+const UNDERLAY_OPACITY = 0.22;
+
+// Anything that is not an explicit project request resolves to the primary
+// view. This is what lands an old ?mode=auto permalink on county context
+// rather than on a mode that no longer exists, and what makes an unknown
+// value in a hash harmless.
+function resolveMode(m) {
+  return m === 'project' ? 'project' : 'county';
 }
 
-// Applies pane opacity for the current zoom. Panes below a visibility floor
-// also stop receiving pointer events, so a layer that has faded out cannot
-// still swallow hovers meant for the one that faded in.
-function applyZoomTier() {
+// What each pane should look like, as a pure function of the mode and the
+// underlay checkbox. Zoom is deliberately not a parameter: the whole class of
+// bug this replaced came from layer visibility being a function of zoom, so
+// the absence of that input is the fix, and it is asserted in
+// map_mode_selftest.js rather than left to inspection.
+function layerState(m, underlay) {
+  const countyMode = resolveMode(m) === 'county';
+  return {
+    county: countyMode ? 1 : (underlay ? UNDERLAY_OPACITY : 0),
+    pin: countyMode ? 0 : 1,
+    // Exactly one layer is ever hit-testable, and it is always the one the
+    // reader chose. This is the invariant the crossfade could not hold: it
+    // left the fainter pin pane interactive on top of the dominant county
+    // one, so pins swallowed county hovers at z7.
+    countyHit: countyMode,
+    pinHit: !countyMode,
+    // Export renders the county canvas. Pins are DOM markers with no canvas
+    // representation, so exporting while they are the subject would silently
+    // omit them.
+    exportAllowed: countyMode
+  };
+}
+
+// Both layers stay added to the map once their data exists; only pane opacity
+// and hit-testing change. Adding and removing layers on every mode change was
+// itself a source of churn, and nothing here needs it.
+function applyLayerVisibility() {
   const cp = map.getPane('countyPane'), pp = map.getPane('pinPane');
   if (!cp || !pp) return;
-  const w = mode === 'auto' ? tierWeights(map.getZoom())
-          : mode === 'county' ? { county: 1, pin: 0 }
-          : { county: 0, pin: 1 };
+  const w = layerState(mode, showUnderlay);
   cp.style.opacity = String(w.county);
   pp.style.opacity = String(w.pin);
-  cp.style.pointerEvents = w.county < 0.15 ? 'none' : 'auto';
-  pp.style.pointerEvents = w.pin < 0.15 ? 'none' : 'auto';
-  if (mode === 'auto') syncAutoPanels(w);
+  cp.style.pointerEvents = w.countyHit ? 'auto' : 'none';
+  pp.style.pointerEvents = w.pinHit ? 'auto' : 'none';
   if (typeof syncExportButton === 'function') syncExportButton();
 }
 
-// In auto mode the sidebar follows whichever layer the reader is actually
-// looking at, switching at the crossfade midpoint. Locked modes set their own
-// panel in setMode() and are left alone here.
-let _autoShowing = null;
-function syncAutoPanels(w) {
-  const showCounty = w.pin < 0.5;
-  if (_autoShowing === showCounty) return;
-  _autoShowing = showCounty;
-  document.getElementById('county-panel').hidden = !showCounty;
-  document.getElementById('project-panel').hidden = showCounty;
-  document.getElementById('sub').textContent = showCounty
-    ? 'County shading: enacted-restriction context and political geography.'
-    : 'Project pins: outcome, opposition detail, and risk band when scoreable.';
-  document.getElementById('badge').innerHTML = showCounty
-    ? `<b>County context</b> \u2014 zoom in for projects`
-    : `<b>Project pins</b> \u2014 zoom out for county context`;
+function syncBadge() {
+  const el = document.getElementById('badge');
+  if (!el) return;
+  el.innerHTML = mode === 'county'
+    ? '<b>County context</b> \u2014 enacted-restriction shading'
+    : `<b>Project pins</b> \u2014 ${LAST_VISIBLE.toLocaleString()} shown`;
 }
 
 function setMode(m) {
-  mode = m;
-  if (typeof PERMA !== 'undefined' && PERMA) PERMA.set('mode', m);
-  const auto = m === 'auto', county = m === 'county';
-  document.getElementById('mode-auto').setAttribute('aria-pressed', auto);
-  document.getElementById('mode-county').setAttribute('aria-pressed', county);
-  document.getElementById('mode-project').setAttribute('aria-pressed', m === 'project');
-
-  // Auto keeps both layers on the map and lets opacity decide which reads.
-  // The locked modes keep the original behaviour of removing the other layer
-  // outright, so nothing about them changes.
-  if (auto) {
-    if (window.__geo) drawCounties(window.__geo);
-    drawPins();
-    _autoShowing = null;
-    applyZoomTier();
-    return;
-  }
-
+  mode = resolveMode(m);
+  if (typeof PERMA !== 'undefined' && PERMA) PERMA.set('mode', mode === 'county' ? null : mode);
+  const county = mode === 'county';
+  document.getElementById('mode-county').setAttribute('aria-pressed', String(county));
+  document.getElementById('mode-project').setAttribute('aria-pressed', String(!county));
   document.getElementById('county-panel').hidden = !county;
   document.getElementById('project-panel').hidden = county;
   document.getElementById('sub').textContent = county
     ? 'County shading: enacted-restriction context and political geography.'
     : 'Project pins: outcome, opposition detail, and risk band when scoreable.';
-  if (county) {
-    if (pinCluster) map.removeLayer(pinCluster);
-    if (window.__geo) drawCounties(window.__geo);
-    document.getElementById('badge').innerHTML = `<b>County context</b> mode`;
-  } else {
-    if (countyLayer) map.removeLayer(countyLayer);
-    drawPins();
-    document.getElementById('badge').innerHTML = `<b>Project pins</b> mode`;
-  }
-  applyZoomTier();
+  if (window.__geo) drawCounties(window.__geo);
+  drawPins();
+  applyLayerVisibility();
+  syncBadge();
 }
-
-map.on('zoomend', applyZoomTier);
 
 // ---------------------------------------------------------------------------
 // PNG export
@@ -811,15 +1095,10 @@ map.on('zoomend', applyZoomTier);
 // are the dominant layer would silently omit its own subject. The button is
 // disabled in that state rather than producing a misleading artifact.
 //
-// The gate is the invariant rather than a tuned number: export is available
-// only while the county shading reads at least as strongly as the pins. A
-// fixed weight drifts the moment the crossfade thresholds move, and at 0.55 it
-// already allowed a window where pins were the more visible layer and would
-// still have been absent from the file.
-const EXPORT_MIN_COUNTY_WEIGHT = 0.5;
-function exportAllowed(w) {
-  return w.county >= w.pin && w.county >= EXPORT_MIN_COUNTY_WEIGHT;
-}
+// With the crossfade gone the gate is simply the mode: county shading is what
+// this exports, so it is available in the mode that shows county shading. The
+// old weight-based gate allowed export at z7, where the sidebar was already
+// claiming the map was in project mode.
 
 function countyExportSubtitle(metric) {
   const scored = Object.keys(SCORES).length;
@@ -844,14 +1123,11 @@ function countyExportCanvas() {
 function syncExportButton() {
   const btn = document.getElementById('exportPng');
   if (!btn) return;
-  const w = mode === 'auto' ? tierWeights(map.getZoom())
-          : mode === 'county' ? { county: 1, pin: 0 }
-          : { county: 0, pin: 1 };
-  const ok = exportAllowed(w) && !!countyExportCanvas();
+  const ok = layerState(mode, showUnderlay).exportAllowed && !!countyExportCanvas();
   btn.disabled = !ok;
   btn.title = ok
     ? 'Download the county shading as a PNG'
-    : 'Export covers county shading only. Switch to County context, or zoom out, to enable it.';
+    : 'Export covers county shading only. Switch to County context to enable it.';
 }
 
 function exportCountyPng() {
@@ -958,12 +1234,10 @@ function exportCountyPng() {
 }
 
 document.getElementById('exportPng').addEventListener('click', exportCountyPng);
-map.on('zoomend', syncExportButton);
 
 // ---------------------------------------------------------------------------
 // Wire controls
 // ---------------------------------------------------------------------------
-document.getElementById('mode-auto').onclick = () => setMode('auto');
 document.getElementById('mode-county').onclick = () => setMode('county');
 document.getElementById('mode-project').onclick = () => setMode('project');
 document.getElementById('county-metric').onchange = () => {
@@ -978,14 +1252,21 @@ document.querySelectorAll('#outcome-chips .chip').forEach(chip => {
     chip.setAttribute('aria-pressed', String(!on));
     if (on) filters.outcomes.delete(o); else filters.outcomes.add(o);
     syncFilterKeys();
-    if (mode !== 'county') drawPins();
+    drawPins();
   };
 });
-document.getElementById('opp-only').onchange = e => { filters.oppOnly = e.target.checked; syncFilterKeys(); if (mode!=='county') drawPins(); };
+document.getElementById('opp-only').onchange = e => {
+  filters.oppOnly = e.target.checked; syncFilterKeys(); drawPins();
+};
+document.getElementById('proj-sort').onchange = () => drawPins();
+document.getElementById('underlay').onchange = e => {
+  showUnderlay = e.target.checked;
+  applyLayerVisibility();
+};
 let searchT;
 document.getElementById('proj-search').oninput = e => {
   clearTimeout(searchT);
-  searchT = setTimeout(() => { filters.search = e.target.value.trim(); syncFilterKeys(); if (mode!=='county') drawPins(); }, 180);
+  searchT = setTimeout(() => { filters.search = e.target.value.trim(); syncFilterKeys(); drawPins(); }, 180);
 };
 
 // Applies parked permalink state to the controls and the filter object.
@@ -1026,8 +1307,13 @@ function applyPendingFilters() {
   const [scoreText, countyText, propText, lifeText, predText, intervalText, geo] = await Promise.all([
     fetchFirst(SCORE_URLS), fetchFirst(COUNTY_URLS), fetchFirst(PROPOSAL_URLS),
     fetchFirst(LIFECYCLE_URLS), fetchFirst(PRED_URLS), fetchFirst(INTERVAL_URLS),
-    (async () => { try { const r = await fetch(COUNTY_GEO_URL); return r.ok ? await r.json() : null; }
-                   catch (e) { return null; } })()
+    (async () => {
+      for (const u of COUNTY_GEO_URLS) {
+        try { const r = await fetch(u); if (r.ok) return await r.json(); }
+        catch (e) { /* try the next origin */ }
+      }
+      return null;
+    })()
   ]);
 
   // County scores
@@ -1076,18 +1362,21 @@ function applyPendingFilters() {
   // the default view and then re-rendering over it.
   applyPendingFilters();
 
-  // County mode needs both geo and scores; if either is missing, open in
-  // project mode so the page is still useful. A link asking for project
-  // mode is honoured; a link asking for county mode is not, when the data
-  // county mode needs did not load.
+  // County context is the primary view, so it is what opens unless the link
+  // explicitly asks for pins. Old ?mode=auto links resolve to county too;
+  // setMode() folds any unknown mode onto the primary one.
   if (geo && scoreText) {
-    // Auto is the default because the handoff is the point: a reader should
-    // not have to know a button exists to see projects. An explicit mode in
-    // the link still locks, so existing permalinks behave as they did.
-    const want = PENDING.mode;
-    setMode(want === 'project' || want === 'county' ? want : 'auto');
+    setMode(PENDING.mode === 'project' ? 'project' : 'county');
   } else {
-    // County data did not load, so there is nothing to hand off to.
+    // County mode has nothing to draw, so the page opens on pins. This used to
+    // happen silently, which is how a transient failure on a 3.2 MB
+    // cross-origin file turned into "the pin layer took over the map". Say so.
+    document.getElementById('mode-county').disabled = true;
+    document.getElementById('mode-county').title =
+      'County shading is unavailable: its boundary or score data did not load.';
+    banner('<b>County context is unavailable.</b> The county boundaries or scores did not load, ' +
+           'so the map has opened on project pins. The county layer is the primary view; reload to ' +
+           'retry it.');
     setMode('project');
   }
 })();

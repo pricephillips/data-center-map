@@ -85,6 +85,52 @@ Announced, proposed and under-construction projects, and their lifecycles.
 | Writers | `project_resolution.py`, the scrapers, `apply_link_suggestions.py`, `triage_accelerator.py` (drafts only) |
 | Sources of record | `data/proposals.csv`, plus the hand-maintained overlay and verified-date files, each row of which carries a source and URL |
 
+`project_id` is `prj_` + the `id` column of `data/proposals.csv`, and every
+Layer B artifact joins on it, so that column is a primary key. Two writers feed
+the file: the CMS export, which owns the contiguous id space from 1 upward, and
+manual additions curated in-repo. **Manual additions are numbered from 1000
+upward** so the two writers cannot collide. They did collide once (2026-07,
+ids 321-326 minted twice), and nothing errored: the joins fanned out and six
+projects inherited another project's coordinates, developer and opposition
+events. `project_resolution.assert_unique_project_ids` now stops the pipeline on
+any duplicate rather than publishing a merged project.
+
+The manual-addition block was renumbered on 2026-09-02. Dated session records
+under `data/` still carry the pre-migration ids and are left as written; translate
+them through this table.
+
+| was | now | project |
+|---|---|---|
+| prj_321 | prj_1001 | Harper Road Technology Park (MO) |
+| prj_322 | prj_1002 | Province Group Perry Village (OH) |
+| prj_323 | prj_1003 | Meta Hyperion (LA) |
+| prj_324 | prj_1004 | Prado AI Industrial Campus (MS) |
+| prj_325 | prj_1005 | New Carlisle Chicago Trail, Third Site (IN) |
+| prj_326 | prj_1006 | Project Maize / Google Michigan City (IN) |
+| prj_327 | prj_1007 | Meta Project Everest (LA) |
+| prj_328 | prj_1008 | Terra Nexus Custer Avenue (NC) |
+| prj_329 | prj_1009 | PRSM Group Cumberland County (NC) |
+| prj_330 | prj_1010 | Project Sail (GA) |
+| prj_331 | prj_1011 | Howell Township / Project Splitrock (MI) |
+| prj_332 | prj_1012 | Natelli Vance County (NC) |
+
+After the migration `prj_321`-`prj_326` denote six Pennsylvania projects, which is
+why the migration must never be run twice.
+
+A second gate covers the same failure from the other side. The id collision was
+visible for weeks in `data/baseline_universe.csv` as rows whose coordinates were
+not in the state they named, and nothing looked. `state_bounds.py` holds one
+padded bounding box per state (50 plus DC and PR) and `control_group.py` blocks
+the universe build on any row that contradicts itself that way, whatever the
+cause. `qc/qc_pipeline.py` reads the same table for its `COORD_OUTSIDE_STATE`
+check on opposition records, where it previously carried six states inline and
+was therefore a silent no-op for the other forty-four.
+
+`control_group.KNOWN_BAD` exempts rows that are known-bad and awaiting a source,
+so the gate can block on everything else instead of being switched off. It is a
+debt list: an entry is removed when the row is fixed, and the block is expected
+to disappear with the last one.
+
 A permit that reaches built or operating status is the intended graduation path
 from Layer B into Layer A. That is mechanical once the facility registry has
 stable identifiers, and it does not exist yet.

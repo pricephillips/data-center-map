@@ -3,7 +3,7 @@
 Run date: 2026-09-02
 Compared against: 2026-09-01
 
-Sites screened: 336 | tier changes: 4 | composite moves of 3 points or more: 5 | newly screened: 0
+Sites screened: 336 | tier changes: 4 | composite moves of 3 points or more: 5 | newly screened: 11
 
 ## Tier changes
 
@@ -23,6 +23,22 @@ Sites screened: 336 | tier changes: 4 | composite moves of 3 points or more: 5 |
 | Swedeland Discovery Center Data Center Campus | Montgomery County, PA | High | 88.5 | +27.3 |
 | Nebius Butler Township Data Center | Schuylkill County, PA | Guarded | 60.2 | +23.7 |
 | Stonebridge Lawrence Data Center | Lawrence County, PA | Guarded | 45.3 | -10.4 |
+
+## Newly screened sites
+
+| Site | County, State | Tier | Composite |
+| :-- | :-- | :-- | --: |
+| Harper Road Technology Park | Cass, MO | Low | 31.1 |
+| Province Group Perry Village Data Center Campus | Lake, OH | Guarded | 41.2 |
+| Meta Hyperion | Richland, LA | Low | 36.5 |
+| Prado AI Industrial Campus | Madison, MS | Guarded | 51.3 |
+| New Carlisle Chicago Trail Data Center (Third Site) | St. Joseph, IN | Guarded | 61.2 |
+| Project Maize / Google Michigan City Data Center | LaPorte, IN | Guarded | 55.7 |
+| Meta Project Everest | Richland, LA | Low | 36.5 |
+| Terra Nexus Custer Avenue Data Center | Cumberland, NC | Guarded | 63.3 |
+| Project Sail Data Center | Coweta, GA | Elevated | 69.6 |
+| Howell Township Data Center (Project Splitrock) | Livingston, MI | Elevated | 67.8 |
+| Natelli Vance County Data Center | Vance, NC | Low | 25.4 |
 
 ## Reading this report
 

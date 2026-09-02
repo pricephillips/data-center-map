@@ -156,7 +156,7 @@ jobs:
           echo "Front-end module self-tests:"
           node permalink_selftest.js
           node legend_filter_selftest.js
-          node zoom_tier_selftest.js
+          node map_mode_selftest.js
           node facility_freshness_selftest.js
           node basemap_selftest.js
           echo "Frame audit self-tests:"
