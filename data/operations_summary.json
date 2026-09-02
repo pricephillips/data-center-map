@@ -276,14 +276,22 @@
     }
   },
   "calibration": {
-    "runs": 12,
+    "runs": 13,
     "by_verdict": {
-      "PROMOTE": 12
+      "PROMOTE": 13
     },
     "last_verdict": "PROMOTE",
     "last_run": "2026-09-02",
-    "current_streak": 12,
+    "current_streak": 13,
     "recent": [
+      {
+        "timestamp": "2026-09-02",
+        "model": "outcome_model",
+        "n": "87",
+        "ece": "0.1103",
+        "brier_skill_score": "0.227",
+        "verdict": "PROMOTE"
+      },
       {
         "timestamp": "2026-09-02",
         "model": "outcome_model",
@@ -338,14 +346,6 @@
         "n": "86",
         "ece": "0.1155",
         "brier_skill_score": "0.1954",
-        "verdict": "PROMOTE"
-      },
-      {
-        "timestamp": "2026-07-27",
-        "model": "outcome_model",
-        "n": "85",
-        "ece": "0.1262",
-        "brier_skill_score": "0.1183",
         "verdict": "PROMOTE"
       }
     ]
