@@ -13,11 +13,6 @@ These rows are excluded from the clean feed and from every count. They are recov
 | state_only | 195 |
 | low | 814 |
 | none | 1457 |
-| high | 273 |
-| medium | 723 |
-| state_only | 196 |
-| low | 790 |
-| none | 1490 |
 
 ## Mechanism hint
 
