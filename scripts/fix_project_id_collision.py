@@ -100,6 +100,11 @@ PROPOSALS = "data/proposals.csv"
 # free-text notes. These are inputs, not pipeline outputs, so nothing regenerates
 # them and the references have to be migrated here.
 CURATED = [
+    # The real home of the manual-addition block. data/proposals.csv is
+    # regenerated nightly from this file, so renumbering only the generated
+    # copy is undone by the next scrape -- which is exactly what happened on
+    # 2026-09-03.
+    "data/proposals_added.csv",
     "data/project_links_manual.csv",
     "data/project_decision_dates.csv",
     "data/project_duplicates.csv",

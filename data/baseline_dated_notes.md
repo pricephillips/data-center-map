@@ -1,6 +1,6 @@
 # Dated Baseline — Coverage and Definitions
 
-Generated 2026-09-02 by `baseline_dated.py`.
+Generated 2026-09-03 by `baseline_dated.py`.
 
 ## Frame
 
