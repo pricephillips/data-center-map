@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-02",
+  "generated": "2026-09-03",
   "coverage": {
     "national": {
       "census_in_scope": 87,
@@ -216,74 +216,82 @@
       ]
     },
     "harvested_signals": {
-      "decisions": 2793,
+      "decisions": 2896,
       "by_action": {
-        "blocked": 1539,
-        "promoted": 1254
+        "blocked": 1575,
+        "promoted": 1321
       },
       "first_run": "2026-08-13",
-      "last_run": "2026-09-02",
+      "last_run": "2026-09-03",
       "recent": [
         {
-          "date": "2026-09-02",
-          "action": "blocked",
-          "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
-        },
-        {
-          "date": "2026-09-02",
-          "action": "blocked",
-          "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
-        },
-        {
-          "date": "2026-09-02",
+          "date": "2026-09-03",
           "action": "promoted",
           "what": "",
           "reason": ""
         },
         {
-          "date": "2026-09-02",
-          "action": "blocked",
-          "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
-        },
-        {
-          "date": "2026-09-02",
-          "action": "blocked",
-          "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
-        },
-        {
-          "date": "2026-09-02",
-          "action": "blocked",
-          "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
-        },
-        {
-          "date": "2026-09-02",
+          "date": "2026-09-03",
           "action": "promoted",
-          "what": "WI Milwaukee",
+          "what": "Scott",
           "reason": ""
         },
         {
-          "date": "2026-09-02",
+          "date": "2026-09-03",
           "action": "promoted",
-          "what": "Dakota zoning_restriction",
+          "what": "",
           "reason": ""
+        },
+        {
+          "date": "2026-09-03",
+          "action": "blocked",
+          "what": "",
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
+        },
+        {
+          "date": "2026-09-03",
+          "action": "promoted",
+          "what": "",
+          "reason": ""
+        },
+        {
+          "date": "2026-09-03",
+          "action": "blocked",
+          "what": "",
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
+        },
+        {
+          "date": "2026-09-03",
+          "action": "blocked",
+          "what": "",
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
+        },
+        {
+          "date": "2026-09-03",
+          "action": "blocked",
+          "what": "",
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
         }
       ]
     }
   },
   "calibration": {
-    "runs": 12,
+    "runs": 13,
     "by_verdict": {
-      "PROMOTE": 12
+      "PROMOTE": 13
     },
     "last_verdict": "PROMOTE",
     "last_run": "2026-09-02",
-    "current_streak": 12,
+    "current_streak": 13,
     "recent": [
+      {
+        "timestamp": "2026-09-02",
+        "model": "outcome_model",
+        "n": "87",
+        "ece": "0.1103",
+        "brier_skill_score": "0.227",
+        "verdict": "PROMOTE"
+      },
       {
         "timestamp": "2026-09-02",
         "model": "outcome_model",
@@ -338,14 +346,6 @@
         "n": "86",
         "ece": "0.1155",
         "brier_skill_score": "0.1954",
-        "verdict": "PROMOTE"
-      },
-      {
-        "timestamp": "2026-07-27",
-        "model": "outcome_model",
-        "n": "85",
-        "ece": "0.1262",
-        "brier_skill_score": "0.1183",
         "verdict": "PROMOTE"
       }
     ]
@@ -470,7 +470,7 @@
       "rows_us": null,
       "sha256_12": "7a8c78d3ed6c",
       "repo_last_changed": "2026-08-26",
-      "days_since_repo_change": 7
+      "days_since_repo_change": 8
     },
     {
       "source_id": "epoch_frontier",
@@ -503,7 +503,7 @@
       "rows_us": 27,
       "sha256_12": "62e41f7d669e",
       "repo_last_changed": "2026-08-26",
-      "days_since_repo_change": 7
+      "days_since_repo_change": 8
     },
     {
       "source_id": "hyperscaler_footprints",
@@ -631,7 +631,7 @@
     }
   ],
   "facility_registry": {
-    "generated": "2026-09-02",
+    "generated": "2026-09-03",
     "rows": 1506,
     "distinct_sites": 665,
     "by_source": {
@@ -652,9 +652,9 @@
     },
     "with_coordinates": 1506,
     "decisions_this_run": {
-      "held": 6,
       "promotable": 6,
-      "blocked": 3
+      "held": 5,
+      "blocked": 4
     },
     "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
     "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
