@@ -1,6 +1,6 @@
 # Landmark Outcome Model
 
-Generated 2026-09-02. Landmark t0 = announced_date (anchor re-registered 2026-07-28; the original 2026-07-23 opposition anchor was infeasible, see module docstring and data/landmark_diagnostics.md). Features from events in [t0, t0+W] only; days_to_first_opposition right-censored at the window boundary; training frame conditioned on being undecided at t0+W. Selection criterion pre-registered 2026-07-23 and carried over unchanged; candidate windows [30, 60, 90, 120, 180], floors n>=40, blocked>=12, not_blocked>=12.
+Generated 2026-09-03. Landmark t0 = announced_date (anchor re-registered 2026-07-28; the original 2026-07-23 opposition anchor was infeasible, see module docstring and data/landmark_diagnostics.md). Features from events in [t0, t0+W] only; days_to_first_opposition right-censored at the window boundary; training frame conditioned on being undecided at t0+W. Selection criterion pre-registered 2026-07-23 and carried over unchanged; candidate windows [30, 60, 90, 120, 180], floors n>=40, blocked>=12, not_blocked>=12.
 
 ## Frame coverage
 

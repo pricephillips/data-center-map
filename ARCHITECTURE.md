@@ -86,14 +86,34 @@ Announced, proposed and under-construction projects, and their lifecycles.
 | Sources of record | `data/proposals.csv`, plus the hand-maintained overlay and verified-date files, each row of which carries a source and URL |
 
 `project_id` is `prj_` + the `id` column of `data/proposals.csv`, and every
-Layer B artifact joins on it, so that column is a primary key. Two writers feed
-the file: the CMS export, which owns the contiguous id space from 1 upward, and
-manual additions curated in-repo. **Manual additions are numbered from 1000
-upward** so the two writers cannot collide. They did collide once (2026-07,
-ids 321-326 minted twice), and nothing errored: the joins fanned out and six
-projects inherited another project's coordinates, developer and opposition
-events. `project_resolution.assert_unique_project_ids` now stops the pipeline on
-any duplicate rather than publishing a merged project.
+Layer B artifact joins on it, so that column is a primary key.
+
+**`data/proposals.csv` is a generated file, not a source of record.**
+`scripts/scrape-trackdatacenters-proposals.py` rebuilds it whole every night
+from three inputs, and anything hand-edited in it is gone by morning:
+
+| input | what it owns |
+|---|---|
+| the TrackDataCenters API | the scraped rows, with ids assigned by that source |
+| `data/proposals_manual_overlay.csv` | field-level corrections to scraped rows, keyed by id |
+| `data/proposals_added.csv` | projects the source does not carry, appended verbatim with their own ids |
+
+The id space is shared between the source and `proposals_added.csv`, so
+**manual additions are numbered from 1000 upward** and the two cannot collide.
+They did collide once (2026-07, ids 321-326 minted twice) and nothing errored:
+the joins fanned out and six projects inherited another project's coordinates,
+developer and opposition events.
+
+That is now guarded twice over, because the first repair got it wrong in an
+instructive way. `project_resolution.assert_unique_project_ids` stops the
+pipeline on any duplicate rather than publishing a merged project -- and it
+duly fired on 2026-09-03, because the 2026-09-02 migration had renumbered
+`data/proposals.csv` and not `data/proposals_added.csv`, so the next scrape
+regenerated the collision from the source that still held it. Renumbering the
+generated file was treating a symptom. The scraper's own guard against an
+appended row reusing a scraped id could not help either: it compared the API's
+integer ids against csv.DictReader's strings, so it never matched and appended
+the colliding row instead of skipping it. Both are fixed.
 
 The manual-addition block was renumbered on 2026-09-02. Dated session records
 under `data/` still carry the pre-migration ids and are left as written; translate
@@ -130,6 +150,38 @@ was therefore a silent no-op for the other forty-four.
 so the gate can block on everything else instead of being switched off. It is a
 debt list: an entry is removed when the row is fixed, and the block is expected
 to disappear with the last one.
+
+`project_id` is `prj_` + the `id` column of `data/proposals.csv`, and every
+Layer B artifact joins on it, so that column is a primary key. Two writers feed
+the file: the CMS export, which owns the contiguous id space from 1 upward, and
+manual additions curated in-repo. **Manual additions are numbered from 1000
+upward** so the two writers cannot collide. They did collide once (2026-07,
+ids 321-326 minted twice), and nothing errored: the joins fanned out and six
+projects inherited another project's coordinates, developer and opposition
+events. `project_resolution.assert_unique_project_ids` now stops the pipeline on
+any duplicate rather than publishing a merged project.
+
+The manual-addition block was renumbered on 2026-09-02. Dated session records
+under `data/` still carry the pre-migration ids and are left as written; translate
+them through this table.
+
+| was | now | project |
+|---|---|---|
+| prj_321 | prj_1001 | Harper Road Technology Park (MO) |
+| prj_322 | prj_1002 | Province Group Perry Village (OH) |
+| prj_323 | prj_1003 | Meta Hyperion (LA) |
+| prj_324 | prj_1004 | Prado AI Industrial Campus (MS) |
+| prj_325 | prj_1005 | New Carlisle Chicago Trail, Third Site (IN) |
+| prj_326 | prj_1006 | Project Maize / Google Michigan City (IN) |
+| prj_327 | prj_1007 | Meta Project Everest (LA) |
+| prj_328 | prj_1008 | Terra Nexus Custer Avenue (NC) |
+| prj_329 | prj_1009 | PRSM Group Cumberland County (NC) |
+| prj_330 | prj_1010 | Project Sail (GA) |
+| prj_331 | prj_1011 | Howell Township / Project Splitrock (MI) |
+| prj_332 | prj_1012 | Natelli Vance County (NC) |
+
+After the migration `prj_321`-`prj_326` denote six Pennsylvania projects, which is
+why the migration must never be run twice.
 
 A permit that reaches built or operating status is the intended graduation path
 from Layer B into Layer A. That is mechanical once the facility registry has

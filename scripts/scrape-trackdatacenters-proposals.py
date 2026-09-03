@@ -151,8 +151,15 @@ def apply_manual_preservation(rows, out_path):
             for c in reader.fieldnames or []:
                 if c not in fieldnames:
                     fieldnames.append(c)   # e.g. outcome_detail
-            existing_ids = {r["id"] for r in rows}
-            added = [r for r in reader if r["id"] not in existing_ids]
+            # Compare ids as text on both sides. The scraped rows carry
+            # whatever type the API returned, which for this source is an int,
+            # while csv.DictReader always yields str -- so `321 not in {"321"}`
+            # was true and this guard could never actually skip a colliding
+            # manual row. It silently appended one instead, producing a
+            # duplicate id in the output and, downstream, two projects merged
+            # under one project_id.
+            existing_ids = {str(r["id"]).strip() for r in rows}
+            added = [r for r in reader if str(r["id"]).strip() not in existing_ids]
         rows.extend(added)
         print(f"manual additions: {len(added)} project(s) appended")
 

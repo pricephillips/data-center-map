@@ -67,24 +67,74 @@ def load_feed(path: str) -> list[dict]:
 
 
 def load_vote_margins(path: str) -> dict[str, dict]:
-    """Map (state, identifier) -> {yes, no, chambers: {chamber: (yes, no)}},
-    when bill_sync.py --resolve has produced verified roll-call rows."""
+    """Map (state, identifier) -> {result, yes, no, vote_date, events}.
+
+    A bill carries several roll-call events in one session (committee
+    reports, amendments, then final passage), and they disagree: CO SB 24
+    and DE HB 445 each record both a 'pass' and a 'fail' event. Summing
+    every event's yeas and nays would invent a tally no chamber ever took,
+    so pass/fail is read from the legislature's own reported `result` on the
+    most recent event, and the reported margin is that same event's tally.
+
+    Within an event the tally counts distinct legislators, not rows. The feed
+    carries one row per (legislator x linked opposition incident), so a bill
+    linked to three incidents repeats every legislator's vote three times.
+    Counting rows made Maryland HB 1532's final passage read 315-81 in a
+    141-seat chamber; it is 104-27 of 141 once each member is counted once.
+    Identity is legislator_id, falling back to the name when the id is blank,
+    and a row with neither is counted rather than dropped.
+    """
     if not os.path.exists(path):
         return {}
-    tallies: dict[str, dict] = {}
+
+    # (key, vote_date, chamber, motion_text) identifies one roll call. Chamber
+    # belongs in the key: Oklahoma HB 2992 had a "Fourth Reading" in both
+    # chambers on 2026-05-05, and without it the two merged into one event of
+    # 147 legislators in a 101-seat House.
+    events: dict[tuple, dict] = {}
     with open(path, newline="", encoding="utf-8") as f:
         for r in csv.DictReader(f):
             key = f"{(r.get('state') or '').strip().upper()}:{(r.get('identifier') or '').strip()}"
+            ev_key = (key, (r.get("vote_date") or "").strip(),
+                      (r.get("chamber") or "").strip().lower(),
+                      (r.get("motion_text") or "").strip())
+            ev = events.setdefault(ev_key, {
+                "key": key,
+                "vote_date": (r.get("vote_date") or "").strip(),
+                "result": (r.get("result") or "").strip().lower(),
+                "chamber": (r.get("chamber") or "").strip().lower(),
+                "yes": 0, "no": 0, "seen": set(), "dupes": 0,
+            })
             opt = (r.get("option") or "").strip().lower()
-            chamber = (r.get("chamber") or "").strip().lower()
-            entry = tallies.setdefault(key, {"yes": 0, "no": 0,
-                                              "chambers": defaultdict(lambda: [0, 0])})
-            if opt == "yes":
-                entry["yes"] += 1
-                entry["chambers"][chamber][0] += 1
-            elif opt == "no":
-                entry["no"] += 1
-                entry["chambers"][chamber][1] += 1
+            if opt not in ("yes", "no"):
+                continue
+            who = ((r.get("legislator_id") or "").strip()
+                   or (r.get("legislator_name") or "").strip())
+            if who:
+                if who in ev["seen"]:
+                    ev["dupes"] += 1
+                    continue
+                ev["seen"].add(who)
+            ev[opt] += 1
+
+    by_bill: dict[str, list[dict]] = defaultdict(list)
+    for ev in events.values():
+        by_bill[ev["key"]].append(ev)
+
+    tallies: dict[str, dict] = {}
+    for key, evs in by_bill.items():
+        # Latest recorded chamber action. Undated events sort first so a
+        # dated event always wins.
+        latest = sorted(evs, key=lambda e: (e["vote_date"], e["yes"] + e["no"]))[-1]
+        tallies[key] = {
+            "result": latest["result"],
+            "yes": latest["yes"],
+            "no": latest["no"],
+            "vote_date": latest["vote_date"],
+            "chamber": latest["chamber"],
+            "events": len(evs),
+            "duplicate_rows": latest["dupes"],
+        }
     return tallies
 
 
@@ -96,21 +146,76 @@ def alignment_rows(feed: list[dict], state: str) -> list[dict]:
                 ("supportive", "restrictive", "unclear")]
 
 
+def bill_mentioned_in(identifier: str, descriptor: str) -> bool:
+    """True when a bill identifier is named in a feed descriptor.
+
+    Matched on word boundaries, not as a substring: a descriptor naming
+    'HB 1030' must NOT match bill 'HB 1'. Internal spacing is flexible so
+    'HB1030' and 'HB 1030' both match.
+
+    The trailing guard rejects year-prefixed numbering. Colorado writes its
+    bills 'SB26-102' (2026 session, bill 102), and a bare word boundary
+    matches at the hyphen, so bill 'SB 26' matched the descriptor
+    'HB26-1030 + SB26-102 both died in committee' and reported that bill as
+    having passed 64-0 -- the opposite of what the descriptor says. A
+    descriptor written that way now matches nothing rather than the wrong
+    bill, which is the right trade for something published as evidence.
+    """
+    m = re.match(r"^\s*([A-Za-z]+)\s*0*(\d+)\s*$", identifier or "")
+    if not m:
+        return False
+    prefix, number = m.group(1), m.group(2)
+    pat = re.compile(rf"\b{re.escape(prefix)}\s*0*{re.escape(number)}\b(?!\s*-\s*\d)",
+                     re.IGNORECASE)
+    return bool(pat.search(descriptor or ""))
+
+
 def row_verified_outcome(row: dict, margins: dict[str, dict]) -> tuple[str, str]:
     """(outcome, evidence). outcome is 'passed', 'failed', or '' (no verified
     vote). A verified vote overrides the feed's qc_leg_stance for direction
-    of THIS record's actual chamber outcome."""
+    of THIS record's actual chamber outcome.
+
+    The clean feed carries no bill-level key, so a record is tied to its
+    roll calls by the bill identifiers named in its project_descriptor. One
+    descriptor can cover several bills ('SB 326, HB 233, HB 445 -- data
+    center energy/ratepayer bills'), so every named bill's tallies are
+    summed.
+    """
     state = (row.get("State") or "").strip().upper()
-    ident = (row.get("project_descriptor") or "").strip()
-    key = f"{state}:{ident}"
-    m = margins.get(key)
-    if not m:
+    descriptor = (row.get("project_descriptor") or "").strip()
+    if not state or not descriptor:
         return "", ""
-    total_yes, total_no = m["yes"], m["no"]
-    if total_yes == 0 and total_no == 0:
+
+    matched = []
+    for key, m in margins.items():
+        key_state, _, identifier = key.partition(":")
+        if key_state != state:
+            continue
+        if not bill_mentioned_in(identifier, descriptor):
+            continue
+        if m.get("result") not in ("pass", "fail"):
+            continue
+        matched.append((identifier, m))
+
+    if not matched:
         return "", ""
-    outcome = "passed" if total_yes > total_no else "failed"
-    ev = f"verified roll call: {total_yes} yes / {total_no} no"
+
+    results = {m["result"] for _, m in matched}
+    if "pass" in results:
+        # A descriptor covering several bills counts as advancing when any
+        # one of them cleared its most recent recorded chamber action.
+        outcome = "passed"
+    elif results == {"fail"}:
+        outcome = "failed"
+    else:
+        return "", ""
+
+    parts = []
+    for identifier, m in sorted(matched):
+        parts.append(f"{identifier} {m['result']}ed "
+                     f"{m['yes']} yes / {m['no']} no"
+                     + (f" on {m['vote_date']}" if m["vote_date"] else ""))
+    ev = "verified roll call, latest recorded action: " + "; ".join(parts)
     return outcome, ev
 
 
@@ -222,17 +327,125 @@ def selftest() -> int:
                                row(stance="supportive", ident="HB 2")],
                               "XX", {})["score"] == 3))
 
-    margins_pass = {"XX:HB 1": {"yes": 80, "no": 5, "chambers": {}}}
+    margins_pass = {"XX:HB 1": {"result": "pass", "yes": 80, "no": 5,
+                                "vote_date": "2026-03-01", "events": 1}}
     checks.append(("verified restrictive bill passing -> 2",
                    score_state([row(stance="restrictive", ident="HB 1"),
                                row(stance="supportive", ident="HB 2")],
                               "XX", margins_pass)["score"] == 2))
 
-    margins_fail = {"XX:HB 1": {"yes": 5, "no": 80, "chambers": {}}}
+    margins_fail = {"XX:HB 1": {"result": "fail", "yes": 5, "no": 80,
+                                "vote_date": "2026-03-01", "events": 1}}
     checks.append(("verified restrictive bill failing -> 4",
                    score_state([row(stance="restrictive", ident="HB 1"),
                                row(stance="supportive", ident="HB 2")],
                               "XX", margins_fail)["score"] == 4))
+
+    # The descriptor names the bill in prose rather than equalling it, which
+    # is how the real feed reads.
+    margins_prose = {"XX:SB 484": {"result": "pass", "yes": 70, "no": 3,
+                                   "vote_date": "2026-03-01", "events": 1}}
+    checks.append(("bill named inside a prose descriptor still joins",
+                   score_state([row(stance="restrictive",
+                                    ident="SB 484 data center water protections")],
+                               "XX", margins_prose)["score"] == 2))
+
+    checks.append(("HB 1 does not match a descriptor naming HB 1030",
+                   not bill_mentioned_in("HB 1", "HB 1030 tax measure")))
+    checks.append(("HB 1030 matches its own descriptor",
+                   bill_mentioned_in("HB 1030", "HB 1030 tax measure")))
+    checks.append(("spacing variant matches",
+                   bill_mentioned_in("HB 1030", "statewide HB1030")))
+    checks.append(("unrelated bill does not match",
+                   not bill_mentioned_in("SB 22", "HB 1030 tax measure")))
+
+    # One descriptor covering several bills sums every named bill's tallies.
+    margins_multi = {"XX:SB 326": {"result": "fail", "yes": 1, "no": 40,
+                                   "vote_date": "2026-02-01", "events": 2},
+                     "XX:HB 233": {"result": "fail", "yes": 2, "no": 30,
+                                   "vote_date": "2026-02-02", "events": 1}}
+    outcome, ev = row_verified_outcome(
+        {"State": "XX",
+         "project_descriptor": "SB 326, HB 233 -- ratepayer bills"},
+        margins_multi)
+    checks.append(("multi-bill descriptor, all failing -> failed",
+                   outcome == "failed" and "SB 326 failed" in ev
+                   and "HB 233 failed" in ev))
+
+    # One bill clearing its latest action means the package advanced.
+    margins_mixed = dict(margins_multi)
+    margins_mixed["XX:HB 233"] = {"result": "pass", "yes": 40, "no": 2,
+                                  "vote_date": "2026-02-02", "events": 1}
+    checks.append(("multi-bill descriptor, any passing -> passed",
+                   row_verified_outcome(
+                       {"State": "XX",
+                        "project_descriptor": "SB 326, HB 233 -- ratepayer bills"},
+                       margins_mixed)[0] == "passed"))
+
+    # Latest recorded action decides, not a sum across the session.
+    import io
+    csv_text = (
+        "state,identifier,chamber,vote_date,result,motion_text,option\r\n"
+        "XX,HB 7,house,2026-01-10,pass,Committee report,yes\r\n"
+        "XX,HB 7,house,2026-01-10,pass,Committee report,yes\r\n"
+        "XX,HB 7,house,2026-03-20,fail,Third reading,no\r\n")
+    tmp = "/tmp/_votes_selftest.csv"
+    open(tmp, "w", newline="").write(csv_text)
+    loaded = load_vote_margins(tmp)
+    checks.append(("latest action decides, not a session sum",
+                   loaded["XX:HB 7"]["result"] == "fail"
+                   and loaded["XX:HB 7"]["events"] == 2))
+    os.remove(tmp)
+
+    # A tally counts legislators, not rows. The feed carries one row per
+    # (legislator x linked opposition incident), so a bill linked to three
+    # incidents repeats every member three times. Counting rows made Maryland
+    # HB 1532 read 315-81 in a 141-seat chamber.
+    csv_text = (
+        "state,identifier,chamber,vote_date,result,motion_text,legislator_id,"
+        "legislator_name,option\r\n"
+        "XX,HB 8,house,2026-02-01,pass,Third reading,L1,Ann,yes\r\n"
+        "XX,HB 8,house,2026-02-01,pass,Third reading,L1,Ann,yes\r\n"
+        "XX,HB 8,house,2026-02-01,pass,Third reading,L1,Ann,yes\r\n"
+        "XX,HB 8,house,2026-02-01,pass,Third reading,L2,Bob,no\r\n"
+        "XX,HB 8,house,2026-02-01,pass,Third reading,L2,Bob,no\r\n"
+        "XX,HB 9,house,2026-02-01,pass,Third reading,,Cy,yes\r\n"
+        "XX,HB 9,house,2026-02-01,pass,Third reading,,Cy,yes\r\n")
+    open(tmp, "w", newline="").write(csv_text)
+    loaded = load_vote_margins(tmp)
+    checks.append(("a legislator is counted once per roll call",
+                   loaded["XX:HB 8"]["yes"] == 1 and loaded["XX:HB 8"]["no"] == 1
+                   and loaded["XX:HB 8"]["duplicate_rows"] == 3))
+    checks.append(("identity falls back to the name when the id is blank",
+                   loaded["XX:HB 9"]["yes"] == 1))
+    os.remove(tmp)
+
+    # Chamber belongs in the event key. Oklahoma HB 2992 had a "Fourth
+    # Reading" in both chambers on the same day; without chamber the two
+    # merged into one event of 147 legislators in a 101-seat House.
+    csv_text = (
+        "state,identifier,chamber,vote_date,result,motion_text,legislator_id,option\r\n"
+        "XX,HB 10,lower,2026-05-05,pass,Fourth Reading,L1,yes\r\n"
+        "XX,HB 10,lower,2026-05-05,pass,Fourth Reading,L2,yes\r\n"
+        "XX,HB 10,upper,2026-05-05,pass,Fourth Reading,S1,no\r\n")
+    open(tmp, "w", newline="").write(csv_text)
+    loaded = load_vote_margins(tmp)
+    checks.append(("the two chambers are separate roll calls, not one",
+                   loaded["XX:HB 10"]["events"] == 2
+                   and loaded["XX:HB 10"]["yes"] + loaded["XX:HB 10"]["no"] <= 2))
+    os.remove(tmp)
+
+    checks.append(("year-prefixed numbering is not a match",
+                   not bill_mentioned_in("SB 26",
+                       "HB26-1030 + SB26-102 both died in committee")))
+    checks.append(("a plain reference still matches",
+                   bill_mentioned_in("SB 326", "SB 326, HB 233 -- ratepayer bills")))
+    checks.append(("a trailing dash before prose still matches",
+                   bill_mentioned_in("HB 445", "HB 445 -- data center energy")))
+    checks.append(("no vote data leaves outcome unverified",
+                   row_verified_outcome(
+                       {"State": "XX", "project_descriptor": "HB 9"},
+                       {})[0] == ""))
 
     try:
         leak_audit("the community outcome was a loss")
