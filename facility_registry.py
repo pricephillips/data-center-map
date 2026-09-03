@@ -79,6 +79,7 @@ DATA = os.path.join(HERE, "data")
 SOURCES = os.path.join(HERE, "configs", "facility_sources.json")
 REGISTRY = os.path.join(DATA, "facility_registry.csv")
 CANDIDATES = os.path.join(DATA, "facility_candidates.csv")
+OSM_CANDIDATES = os.path.join(DATA, "facility_candidates_osm.csv")
 PROPOSALS = os.path.join(DATA, "proposals.csv")
 REPORT = os.path.join(DATA, "facility_promotion_report.csv")
 SUMMARY = os.path.join(DATA, "facility_registry_summary.json")
@@ -387,6 +388,41 @@ def harvest_candidates(rows: list[dict]) -> list[dict]:
     return out
 
 
+def osm_candidates(rows: list[dict]) -> list[dict]:
+    """OpenStreetMap objects tagged as data centers, from
+    fetch_osm_facilities.py.
+
+    Unlike the harvest stream this one can carry a real facility name and real
+    coordinates, so it is the first candidate stream capable of clearing the
+    gate on its own evidence rather than waiting for a person to supply the
+    missing field. An unnamed object still holds: OSM maps plenty of data
+    centers with no name tag, and a registry row has to name what it asserts
+    exists.
+
+    No deduplication happens here. facility_id() keys on name, state, county
+    and coordinates, so a re-pull of unchanged OSM data mints ids the gate
+    already knows and blocks; see the note in fetch_osm_facilities.py on why
+    a second opinion about facility identity does not belong in this file.
+    """
+    out = []
+    for r in rows:
+        out.append({
+            "stream": "osm",
+            "name": (r.get("name") or "").strip(),
+            "operator": (r.get("operator") or "").strip(),
+            "state": (r.get("state") or "").strip(),
+            "county": (r.get("county") or "").strip(),
+            "lat": (r.get("lat") or "").strip(),
+            "lon": (r.get("lon") or "").strip(),
+            "capacity_mw": "",
+            "signal": (r.get("signal") or "").strip(),
+            "evidence_url": (r.get("evidence_url") or "").strip(),
+            "osm_id": f"{(r.get('osm_type') or '').strip()}/"
+                      f"{(r.get('osm_id') or '').strip()}",
+        })
+    return out
+
+
 def gate(candidate: dict, known_ids: set[str]) -> tuple[str, str, str]:
     """(action, reason, facility_id). action is promoted, held or blocked."""
     signal = (candidate.get("signal") or "").strip()
@@ -587,6 +623,30 @@ def selftest() -> int:
     check("so a harvest row is held for a reviewer",
           hdec[0]["action"] == "held" and "facility name" in hdec[0]["reason"])
 
+    osm = osm_candidates([
+        {"osm_type": "way", "osm_id": "1", "name": "Desert Campus",
+         "operator": "Example", "state": "AZ", "county": "", "lat": "33.4",
+         "lon": "-112.1", "signal": "operational",
+         "evidence_url": "https://www.openstreetmap.org/way/1"},
+        {"osm_type": "node", "osm_id": "2", "name": "", "operator": "",
+         "state": "AZ", "county": "", "lat": "33.5", "lon": "-112.2",
+         "signal": "operational",
+         "evidence_url": "https://www.openstreetmap.org/node/2"}])
+    opro, odec = run_gate(osm, registry, "2026-08-26")
+    by_url = {d["evidence_url"]: d for d in odec}
+    check("a named OSM object with coordinates clears the gate",
+          by_url["https://www.openstreetmap.org/way/1"]["action"] == "promoted")
+    check("an unnamed OSM object is held, not promoted",
+          by_url["https://www.openstreetmap.org/node/2"]["action"] == "held")
+    check("OSM promotion carries the object as its evidence",
+          opro and opro[0]["evidence_url"].startswith(
+              "https://www.openstreetmap.org/"))
+    # The anti-redundancy claim in fetch_osm_facilities.py, asserted rather
+    # than described: a second pull of unchanged data promotes nothing.
+    again = run_gate(osm, registry + opro, "2026-08-27")[1]
+    check("re-pulling unchanged OSM data promotes nothing a second time",
+          all(d["action"] != "promoted" for d in again))
+
     import tempfile
     with tempfile.TemporaryDirectory() as tmp:
         os.makedirs(os.path.join(tmp, "data"))
@@ -649,6 +709,7 @@ def main() -> int:
 
     registry = build_registry(config)
     candidates = (harvest_candidates(read_csv(CANDIDATES))
+                  + osm_candidates(read_csv(OSM_CANDIDATES))
                   + graduation_candidates(read_csv(PROPOSALS)))
     promoted, decisions = run_gate(candidates, registry, today)
 

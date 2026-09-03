@@ -1,0 +1,101 @@
+name: Acquire geo sources
+
+# Two acquisition jobs that need unrestricted egress and therefore cannot run
+# from a sandbox. Both write CANDIDATE or reference files only; neither one
+# touches master_opposition.csv, data/proposals.csv, or atlas.csv.
+#
+#   gazetteer   Census county-subdivision gazetteer -> data/place_gazetteer.csv.
+#               This is the file that lets signal_harvest resolve a headline
+#               that names a town rather than a county. Until it has run once
+#               with network access the gazetteer is built from repo records
+#               only, and gazetteer.py records that in its manifest as
+#               national=false, which makes the resolver withhold its
+#               uniqueness inference. So this job is not an optimization: it is
+#               what turns the place pass on.
+#
+#   osm         OpenStreetMap data centers via Overpass ->
+#               data/facility_candidates_osm.csv, gated into the registry by
+#               facility_registry.py. Removes the dependency on the IM3 atlas
+#               snapshot that configs/facility_sources.json records as
+#               needs_manual_pin, since the atlas is OSM-derived and Overpass
+#               is reachable where osti.gov is not.
+#
+# Weekly rather than nightly. Neither source moves fast, Overpass is a shared
+# public endpoint that should not be hit harder than the data warrants, and the
+# Census file changes once a year.
+
+on:
+  workflow_dispatch:
+    inputs:
+      job:
+        description: 'Which acquisition to run: gazetteer, osm, or both'
+        required: false
+        default: 'both'
+  schedule:
+    # Sundays 05:30 UTC, ahead of the Tuesday permit fetch and well clear of
+    # the daily 06:40 UTC pipeline run.
+    - cron: "30 5 * * 0"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: acquire-geo-sources
+  cancel-in-progress: false
+
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Selftests first
+        # A scheduled job that commits data should prove its own logic before
+        # it writes any. These are offline and take seconds.
+        run: |
+          python gazetteer.py --selftest
+          python fetch_osm_facilities.py --selftest
+          python facility_registry.py --selftest
+
+      - name: Build the place gazetteer
+        if: ${{ github.event.inputs.job != 'osm' }}
+        run: python gazetteer.py --build
+
+      - name: Fetch OSM data center objects
+        if: ${{ github.event.inputs.job != 'gazetteer' }}
+        # Overpass throttles, and a throttled state is recorded and skipped
+        # rather than fatal, so a partial run still commits what it got. The
+        # non-zero exit on partial failure is deliberately not allowed to fail
+        # the job for the same reason.
+        run: python fetch_osm_facilities.py || true
+
+      - name: Run the facility gate over the new candidates
+        if: ${{ github.event.inputs.job != 'gazetteer' }}
+        # Report only. Promotion into the registry stays an explicit
+        # --promote run, exactly as it was before this workflow existed.
+        run: python facility_registry.py
+
+      - name: Commit what changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for f in data/place_gazetteer.csv data/place_gazetteer_manifest.json \
+                   data/facility_candidates_osm.csv \
+                   data/facility_candidates_osm_log.csv \
+                   data/facility_promotion_report.csv \
+                   data/facility_registry_summary.json; do
+            [ -f "$f" ] && git add "$f"
+          done
+          git diff --cached --quiet || git commit -m "Refresh place gazetteer and OSM facility candidates [skip ci]"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
+            echo "Push attempt $i failed, retrying in 10s"
+            sleep 10
+          done
+          echo "Push failed after 3 attempts."
+          exit 1

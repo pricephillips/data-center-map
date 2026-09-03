@@ -8,6 +8,11 @@ These rows are excluded from the clean feed and from every count. They are recov
 
 | confidence | rows |
 | :-- | --: |
+| high | 274 |
+| medium | 732 |
+| state_only | 195 |
+| low | 814 |
+| none | 1457 |
 | high | 273 |
 | medium | 723 |
 | state_only | 196 |
@@ -33,7 +38,7 @@ These rows are excluded from the clean feed and from every count. They are recov
 | not_attempted | 3472 |
 
 Rows ready for a reviewer to open: 0
-Rows whose county and mechanism are already covered by a sourced row: 57
+Rows whose county and mechanism are already covered by a sourced row: 58
 
 ## Outlets, top 15
 

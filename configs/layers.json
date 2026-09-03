@@ -24,7 +24,9 @@
         "data/facility_*.md",
         "data/facility_registry.csv",
         "data/facility_promotion_report.csv",
-        "data/facility_registry_summary.json"
+        "data/facility_registry_summary.json",
+        "data/facility_candidates_osm.csv",
+        "data/facility_candidates_osm_log.csv"
       ]
     },
     "B": {
@@ -100,7 +102,9 @@
         "data/stale_pending_*.csv",
         "data/stale_pending_*.json",
         "data/stale_pending_*.md",
-        "data/county_model_spec_history.csv"
+        "data/county_model_spec_history.csv",
+        "data/place_gazetteer.csv",
+        "data/place_gazetteer_manifest.json"
       ]
     },
     "E": {
@@ -174,7 +178,9 @@
         "data/arcgis_discovery_*.json",
         "data/arcgis_discovery_*.md",
         "data/_pudl_*.parquet",
-        "data/audit_discovered_opposition.csv"
+        "data/audit_discovered_opposition.csv",
+        "data/socrata_discovery_*.json",
+        "data/socrata_discovery_*.md"
       ]
     }
   },

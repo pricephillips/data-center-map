@@ -248,23 +248,36 @@ def main() -> int:
     # source is a pending registration, not a fetch failure, and must not
     # break the scheduled workflow for sources that do work.
     if not cfg.get("url"):
-        disc_path = os.path.join(
-            args.outdir, f"arcgis_discovery_{cfg.get('source')}.json")
+        # Two discoverers now write this block, and which one ran is a property
+        # of the source rather than of this code, so both output paths are
+        # checked rather than the ArcGIS one being assumed. A Socrata source
+        # registers exactly like an ArcGIS one — "url": null plus a discovery
+        # block — and self-completes the same way.
         resolved = None
-        if os.path.exists(disc_path):
+        for kind in ("arcgis", "socrata"):
+            disc_path = os.path.join(
+                args.outdir, f"{kind}_discovery_{cfg.get('source')}.json")
+            if not os.path.exists(disc_path):
+                continue
             try:
                 with open(disc_path, encoding="utf-8") as fh:
-                    resolved = (json.load(fh) or {}).get("resolved")
+                    found = (json.load(fh) or {}).get("resolved")
             except Exception:
-                resolved = None
+                found = None
+            if found and found.get("query_url"):
+                resolved = found
+                break
         if resolved and resolved.get("query_url"):
             cfg["url"] = resolved["query_url"]
             print(f"{cfg.get('source')}: url resolved by discovery -> "
                   f"{cfg['url']}")
         else:
+            tool = ("discover_socrata_dataset.py"
+                    if (cfg.get("discovery") or {}).get("kind") == "socrata"
+                    else "discover_arcgis_layer.py")
             print(f"{cfg.get('source')}: no service url yet (discovery "
                   f"unresolved); skipping fetch. Run "
-                  f"discover_arcgis_layer.py --config {args.config} in CI, "
+                  f"{tool} --config {args.config} in CI, "
                   f"or pin the url into the config by hand.")
             return 0
 

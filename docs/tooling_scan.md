@@ -514,3 +514,76 @@ seed; refresh cadence and attribution (CC-BY-4.0) documented in the
 census source column. Remaining known gap: municipal-level census rows
 are out of scope for the county label but represent the next recall
 surface.
+
+---
+
+## 2026-09-02: Pass 3, western coverage scan (scoping, not built)
+
+Triggered by a reader question about why `opposition-map.html` looks empty
+west of the Rockies. Two separate causes, and only one of them is a source
+problem.
+
+`data/proposals.csv` has zero western rows out of 338 — the pin layer's blank
+is inherited from trackdatacenters.com, whose registry is East and Midwest
+only, and `scripts/scrape-trackdatacenters-proposals.py` applies no
+geographic filter of its own. The county layer is not blank: 156 events
+across 72 western counties, but at 1.98 events per million people against
+4.70 elsewhere, and against a p99 ramp ceiling of 14 most of them render
+close to the no-data grey.
+
+Full scan in `docs/western_coverage_sources.md`. Headline findings:
+
+- The cheapest fix is internal. `signal_harvest.locate()` resolves geography
+  from headlines against a county-name gazetteer with no place names, and
+  164 of 227 rows in the current `data/signal_candidates.csv` carry
+  `location_confidence = "none"`. Western headlines name cities, not
+  counties, so what goes unresolved is regionally skewed.
+- `local_meeting_feed.py` discovery resolves 3 of 808 jurisdictions and has
+  no Granicus or PrimeGov probe. This is the evidence for promoting the
+  Tier 2 `civic-scraper` entry above.
+- Washington's SEPA Register is on `data.wa.gov`, which is Socrata, and
+  therefore drops into `fetch_permits.py` as a config with no new code.
+  Statewide, back to 2000. Best coverage-per-hour on the list.
+- Oregon DLCD PAPA notices and California CEQAnet are the statewide
+  equivalents for those states; both need an adapter or a pin.
+- The west has no load interconnection queue to scrape. Non-ISO utilities
+  connect large loads through state-approved retail tariffs, which relocates
+  the signal to state PUC dockets and means the FERC show-cause timeline in
+  `docs/interconnection_queue_scoping.md` will not improve western
+  disclosure.
+- `jwklee/data-center-opposition-tracker` is an independent, county-coded,
+  vocabulary-controlled opposition dataset. Sized against ours it deepens
+  about twenty thin western counties and adds two new ones. Enrichment, not
+  a gap-filler. CSV on request; email rather than scrape.
+
+### 2026-09-02, same day: items 1 to 3 built
+
+The scan above is no longer purely a scan. Three of its seven recommended
+steps are implemented in the same change:
+
+- `gazetteer.py` builds `data/place_gazetteer.csv` from the Census national
+  county-subdivision file, with an offline fallback derived from the
+  (City, County, State) triples already in `master_opposition_clean.csv` and
+  `data/proposals.csv`. The cousubs file is chosen over the places file
+  because its GEOID already carries the county, which removes any need for a
+  relationship file, a point-in-polygon pass, or 32,000 geocoder calls.
+  `signal_harvest.locate()` gains a second pass against it, and the 5-char
+  county rule now matches short names in the literal "<name> County" form
+  instead of skipping them, which is what lets Pima and Ada resolve.
+- `fetch_osm_facilities.py` pulls OpenStreetMap data centers through Overpass
+  into `data/facility_candidates_osm.csv`, gated into the registry by a new
+  `facility_registry.osm_candidates()` stream. This is the route around the
+  `needs_manual_pin` status on `osti_im3_atlas`: the IM3 atlas is OSM-derived,
+  and Overpass answers where osti.gov does not.
+- `discover_socrata_dataset.py` resolves a Socrata four-by-four from a portal
+  catalog the way `discover_arcgis_layer.py` resolves an ArcGIS layer, and
+  `configs/wa_sepa.json` registers Washington's SEPA Register against it.
+  `fetch_permits.py` now reads either discoverer's resolved block, so a
+  Socrata jurisdiction is a config drop like an ArcGIS one.
+
+One design note that generalizes beyond this change. The place resolver
+refuses to treat "this name appears once in my index" as evidence of
+uniqueness unless the index is national, and records which it is in the build
+manifest. A sparse index makes every rare name look unique, which is how a
+Portland headline about Oregon lands in Chautauqua County, New York. Any
+future index-backed matcher here should carry the same flag.
