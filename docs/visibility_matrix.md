@@ -6,7 +6,7 @@ What the client-visible surface shows, against what the pipeline produces. The p
 
 - Generated outputs inventoried: 155
 - Read by a client-visible page: 14
-- Invisible with no disposition on record: 5
+- Invisible with no disposition on record: 6
 - Broken references: 0
 - Absent optional references: 1
 - Fetch chains not raw-first: 0
@@ -255,10 +255,12 @@ Dated handoffs and decision records. Historical by construction.
 | `data/landmark_gate_and_decision_dates_2026-07-23.md` | Dated handoff or decision record. Historical, not live. |
 | `data/negative_audit_design_and_batch1_2026-07-23.md` | Dated handoff or decision record. Historical, not live. |
 
-### Unclassified (needs a disposition) (5)
+### Unclassified (needs a disposition) (6)
 
 No disposition on record. Each row here is either a closure to implement or a line to add to configs/surfaces.json.
 
+- `data/README_incentive_agreement_registry.md`
+- `data/incentive_agreement_registry.csv`
 - `data/manual_additions.csv`
 - `data/manual_corrections.csv`
 - `data/manual_records_report.csv`
