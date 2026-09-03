@@ -21,11 +21,11 @@
   "with_coordinates": 1506,
   "decisions_this_run": {
     "promotable": 6,
-    "held": 5,
-    "blocked": 4
+    "blocked": 3,
+    "held": 2
   },
   "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
   "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
   "decisions_newly_recorded": 0,
-  "decisions_unchanged_since_last_run": 15
+  "decisions_unchanged_since_last_run": 11
 }

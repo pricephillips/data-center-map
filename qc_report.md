@@ -1,13 +1,13 @@
 # Master Opposition QC Report
 
-- Records scanned: **1820**
-- Passed to feed: **1664**
-- Blocked / quarantined: **156**
+- Records scanned: **1828**
+- Passed to feed: **1669**
+- Blocked / quarantined: **159**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- DUPLICATE: 150
+- DUPLICATE: 153
 - LEG_SOURCE_WEAK: 4
 - STATEWIDE_CAPITAL_SINK: 1
 - STUDY_SOURCE_WEAK: 1
@@ -173,6 +173,9 @@
 | Lancaster County Considers Data Center Moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Palm Springs City Council approves temporary data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Palm Springs City Council to consider temporary data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Freeport News : Stephenson County considers a moratorium on data center , a local non - profit seeks input on life in northwest Illinois , and a program on chimney swifts promises to sweep you away | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Palm Beach County approves 1 - year AI data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Lancaster County Considers Data Center Moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Freeport News : Stephenson County considers a moratorium on data center , a local non - profit seeks input on life in northwest Illinois , and a program on chimney swifts promises to sweep you away | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Palm Beach County approves 1 - year AI data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Lancaster County Considers Data Center Moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
