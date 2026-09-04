@@ -12,8 +12,9 @@ per the two standing rules at the top of `docs/tooling_scan.md`.
 
 ## Status: what of this is now built
 
-Updated 2026-09-02, same day. Items 1 through 3 and half of 5 in the
-recommended order at the bottom are implemented; the rest stands as scoped.
+Updated 2026-09-03. Items 1, 2, 3 and 5 in the recommended order at the bottom
+are implemented, along with the two map-side fixes the original measurement
+turned up; 4, 6 and 7 stand as scoped.
 
 | # | Step | Status |
 | :-- | :-- | :-- |
@@ -21,7 +22,7 @@ recommended order at the bottom are implemented; the rest stands as scoped.
 | 2 | WA SEPA Register as a Socrata config | **Built, pending one CI run.** `configs/wa_sepa.json` plus `discover_socrata_dataset.py`, which resolves the 4x4 resource id the way `discover_arcgis_layer.py` resolves an ArcGIS layer. `fetch_permits.py` reads either discoverer's output, so no new fetch code. |
 | 3 | Overpass pull into `data/facility_candidates.csv` | **Built.** `fetch_osm_facilities.py` writes `data/facility_candidates_osm.csv`; `facility_registry.osm_candidates()` gates it. |
 | 4 | Email `jwklee` for the tracker CSV | Not started; needs a person, not code. |
-| 5 | Granicus + PrimeGov probes in `local_meeting_feed.py` | Not started. |
+| 5 | Granicus + PrimeGov probes in `local_meeting_feed.py` | **Built.** Both probes and both fetchers added, and the four probes now share one slug helper instead of three drifted copies of the same `.replace()` chain. |
 | 6 | CEQAnet pin, then Oregon PAPA adapter | Not started. |
 | 7 | Western PUC docket scan | Not started. |
 
@@ -51,6 +52,38 @@ refused by name, and each is a selftest: "El Reno" no longer resolves to Reno
 NV, "Buckeye Country 105.5" no longer resolves to Maricopa County, and
 "Industry warns of blackouts" and "The Rapid Buildout of Data Centers" no
 longer resolve at all.
+
+## The two map fixes
+
+Both come straight from the measurement at the top and neither is about
+acquisition, so they are recorded here rather than left implicit.
+
+**A blank region on a pin map is ambiguous by construction.** It reads as "no
+projects here" when it can equally mean "this registry does not cover here",
+and for the west it is the second. Project-pins mode now carries a coverage
+note computed from the loaded rows rather than written as prose, so it states
+what is true on the day it renders and retires itself the moment the registry
+gains western projects. Verified against the real registry: 329 projects with
+coordinates, 0 western, note shown; with six western pins injected the note
+disappears on its own.
+
+**A county with one recorded event was rendering as a county with none.** The
+count ramp starts at the bottom of the sequential scale, but a count scale
+never renders a zero — `countColor()` returns null and the county takes the
+no-data fill — so the ramp's bottom is a real value competing with the absence
+of one, and it was invisible: composited over the basemap, one event sat at
+contrast 1.74 against the no-data grey, against the 3:1 that non-text contrast
+needs. `SequentialScale` gained an optional `minPosition`, set for the count
+scale only at 0.30, the smallest floor that clears 3:1 for a single event.
+
+The effect on the current data, counting counties rendered under 3:1 against
+the no-data fill: **568 before (62 of them western), 0 after.** That is 88
+percent of every county carrying at least one recorded event. The floor moves
+the ramp, not the data: ordering, saturation and the legend's tick values are
+unchanged, the legend gradient now starts where the map's does, and the
+distribution histogram still bins on the unfloored position so it keeps
+showing the true shape. The calibrated-score scale is deliberately untouched —
+its low end is a meaningful probability and lifting it would misreport one.
 
 ## The hole, measured
 

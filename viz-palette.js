@@ -144,11 +144,34 @@
       ? clean[Math.min(clean.length - 1, Math.floor(clean.length * p))]
       : this.floor;
     this.ceiling = Math.max(this.floor, ceil);
+    // Lowest point on the ramp any rendered value may occupy. Zero for a scale
+    // whose bottom is meaningful, non-zero for a scale whose bottom has to stay
+    // separable from the no-data fill. See MIN_POSITION_SEPARABLE.
+    this.minPosition = clamp01(opts.minPosition || 0);
   }
 
-  SequentialScale.prototype.position = function (v) {
+  // A count scale renders only values it has, never zero: a county with no
+  // record takes the NODATA fill instead. That makes the bottom of the ramp a
+  // real value competing with the absence of one, and at the ramp's own bottom
+  // it lost: one recorded event composited over the basemap sat at contrast
+  // 1.74 against the no-data grey, well under the 3:1 that non-text contrast
+  // needs, so counties with one or two events read as empty. 0.30 is the
+  // smallest floor that clears 3:1 for a single event against a p99 ceiling of
+  // 14; it is a floor on the ramp and not on the data, so the ordering and the
+  // legend's tick values are unchanged.
+  var MIN_POSITION_SEPARABLE = 0.30;
+
+  /** Position ignoring the floor, in [0,1]. The histogram bins on this, so a
+   *  floored scale still shows the true shape of its distribution. */
+  SequentialScale.prototype.rawPosition = function (v) {
     if (v === null || !isFinite(v)) return null;
     return clamp01(Math.sqrt(Math.max(0, v) / this.ceiling));
+  };
+
+  SequentialScale.prototype.position = function (v) {
+    var t = this.rawPosition(v);
+    if (t === null) return null;
+    return this.minPosition + (1 - this.minPosition) * t;
   };
 
   SequentialScale.prototype.color = function (v) {
@@ -189,6 +212,18 @@
     return out;
   };
 
+  /** CSS gradient for THIS scale, honouring its floor, so the legend ramp is
+   *  the ramp the map actually paints rather than the full colour range. */
+  SequentialScale.prototype.gradientCss = function (steps) {
+    steps = steps || 12;
+    var parts = [], i, t;
+    for (i = 0; i <= steps; i++) {
+      t = this.minPosition + (1 - this.minPosition) * (i / steps);
+      parts.push(sequential(t) + ' ' + Math.round((i / steps) * 100) + '%');
+    }
+    return 'linear-gradient(to right,' + parts.join(',') + ')';
+  };
+
   /** CSS gradient matching the rendered ramp, sampled from the same function. */
   function gradientCss(steps) {
     steps = steps || 12;
@@ -226,10 +261,15 @@
     var fmt = opts.format || function (v) { return (v * 100).toFixed(0) + '%'; };
     var ticks = scale.ticks(opts.ticks || 4);
     var bins = opts.bins || 40;
+    var minPos = scale.minPosition || 0;
     var counts = new Array(bins).fill(0), i, t, max = 0;
 
     for (i = 0; i < scale.values.length; i++) {
-      t = scale.position(scale.values[i]);
+      // Bin on the unfloored position: a floored scale compresses its rendered
+      // range, and binning on that would pile the distribution into the top
+      // bins and misreport the shape the histogram exists to show.
+      t = scale.rawPosition ? scale.rawPosition(scale.values[i])
+                            : scale.position(scale.values[i]);
       if (t === null) continue;
       counts[Math.min(bins - 1, Math.floor(t * bins))]++;
     }
@@ -240,7 +280,8 @@
       // sqrt on the bar height too: one bin holds most of the country and a
       // linear height would flatten every other bin to nothing.
       var h = max ? Math.max(counts[i] ? 1 : 0, Math.round(Math.sqrt(counts[i] / max) * 18)) : 0;
-      barsHtml += '<i style="height:' + h + 'px;background:' + sequential(i / (bins - 1)) + '"></i>';
+      barsHtml += '<i style="height:' + h + 'px;background:'
+        + sequential(minPos + (1 - minPos) * (i / (bins - 1))) + '"></i>';
     }
 
     var ticksHtml = ticks.map(function (v, ix) {
@@ -251,7 +292,8 @@
     el.innerHTML =
       '<div class="vp-title">' + (opts.title || '') + '</div>' +
       '<div class="vp-dist">' + barsHtml + '</div>' +
-      '<div class="vp-ramp" style="background:' + gradientCss() + '"></div>' +
+      '<div class="vp-ramp" style="background:'
+        + (scale.gradientCss ? scale.gradientCss() : gradientCss()) + '"></div>' +
       '<div class="vp-ticks">' + ticksHtml + '</div>' +
       (opts.note ? '<div class="vp-note">' + opts.note + '</div>' : '');
   }
@@ -289,6 +331,29 @@
     ck('position saturates at the ceiling', s.position(s.ceiling * 4) === 1);
     ck('zero maps to the ramp floor, not to transparent', s.position(0) === 0);
 
+    // A scale with no floor is unchanged by the floor's existence: the score
+    // scale's low end is a meaningful probability and must not be lifted.
+    ck('an unfloored scale is unmoved', s.position(0.02) === s.rawPosition(0.02));
+
+    // Floored count scale. The floor lifts the bottom of the RAMP without
+    // touching the data: ordering, saturation and the legend's tick values all
+    // stay put, and only the colour a low count is painted with changes.
+    var c = new SequentialScale([1, 1, 2, 3, 5, 14], { floor: 1, minPosition: 0.30 });
+    ck('a floored scale lifts its bottom off the ramp floor',
+       c.position(1) > c.rawPosition(1) && c.position(1) >= 0.30);
+    ck('the floor clears the separability threshold for a single record',
+       c.position(1) >= MIN_POSITION_SEPARABLE);
+    ck('a floored scale is still monotone', c.position(1) < c.position(5));
+    ck('a floored scale still saturates at the ceiling',
+       Math.abs(c.position(c.ceiling) - 1) < 1e-9);
+    ck('the floor does not move the tick values',
+       JSON.stringify(c.ticks(4))
+       === JSON.stringify(new SequentialScale([1, 1, 2, 3, 5, 14], { floor: 1 }).ticks(4)));
+    ck('the legend ramp starts where the map ramp starts',
+       c.gradientCss().indexOf(sequential(0.30)) !== -1);
+    ck('the histogram still bins on the true distribution',
+       c.rawPosition(1) < 0.30);
+
     var lo = s.style(0.01, false), hi = s.style(0.9, false);
     ck('fill opacity is constant across the range',
        lo.fillOpacity === hi.fillOpacity && lo.fillOpacity === FILL_OPACITY);
@@ -321,6 +386,7 @@
 
   global.VizPalette = {
     SequentialScale: SequentialScale,
+    MIN_POSITION_SEPARABLE: MIN_POSITION_SEPARABLE,
     sequential: sequential,
     diverging: diverging,
     gradientCss: gradientCss,
