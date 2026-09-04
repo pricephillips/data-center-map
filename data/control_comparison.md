@@ -1,6 +1,6 @@
 # Opposed vs. Matched Controls — Descriptive Comparison
 
-Generated 2026-09-03 by `control_comparison.py`. All figures re-derived from the current CSVs at generation time.
+Generated 2026-09-04 by `control_comparison.py`. All figures re-derived from the current CSVs at generation time.
 
 **This report is descriptive and diagnostic only.** Differences shown here are associations in an observational, selection-affected sample. Nothing in this document quantifies the effect or cost of opposition, and no figure here should appear in a client-facing deliverable.
 
