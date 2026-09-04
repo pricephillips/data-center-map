@@ -3,9 +3,13 @@
 Run date: 2026-09-04
 Compared against: 2026-09-03
 
-Sites screened: 336 | tier changes: 0 | composite moves of 3 points or more: 0 | newly screened: 0
+Sites screened: 336 | tier changes: 1 | composite moves of 3 points or more: 0 | newly screened: 0
 
-No site moved by the reporting threshold since the prior run.
+## Tier changes
+
+| Site | County, State | From | To | Composite change |
+| :-- | :-- | :-- | :-- | --: |
+| Hancock County MegaSite | Hancock County, IN | Elevated | Guarded | -0.1 |
 
 ## Reading this report
 

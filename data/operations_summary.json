@@ -216,61 +216,61 @@
       ]
     },
     "harvested_signals": {
-      "decisions": 2949,
+      "decisions": 3023,
       "by_action": {
-        "blocked": 1596,
-        "promoted": 1353
+        "blocked": 1631,
+        "promoted": 1392
       },
       "first_run": "2026-08-13",
-      "last_run": "2026-09-03",
+      "last_run": "2026-09-04",
       "recent": [
         {
-          "date": "2026-09-03",
+          "date": "2026-09-04",
           "action": "blocked",
           "what": "",
           "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.; DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
         },
         {
-          "date": "2026-09-03",
+          "date": "2026-09-04",
           "action": "blocked",
           "what": "",
           "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.; DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
         },
         {
-          "date": "2026-09-03",
-          "action": "promoted",
-          "what": "",
-          "reason": ""
-        },
-        {
-          "date": "2026-09-03",
+          "date": "2026-09-04",
           "action": "blocked",
           "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.; DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
         },
         {
-          "date": "2026-09-03",
-          "action": "promoted",
+          "date": "2026-09-04",
+          "action": "blocked",
           "what": "",
-          "reason": ""
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.; DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
         },
         {
-          "date": "2026-09-03",
-          "action": "promoted",
+          "date": "2026-09-04",
+          "action": "blocked",
           "what": "",
-          "reason": ""
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.; DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
         },
         {
-          "date": "2026-09-03",
-          "action": "promoted",
+          "date": "2026-09-04",
+          "action": "blocked",
           "what": "",
-          "reason": ""
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.; DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
         },
         {
-          "date": "2026-09-03",
-          "action": "promoted",
+          "date": "2026-09-04",
+          "action": "blocked",
           "what": "",
-          "reason": ""
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
+        },
+        {
+          "date": "2026-09-04",
+          "action": "blocked",
+          "what": "",
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.; DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
         }
       ]
     }
@@ -653,13 +653,13 @@
     "with_coordinates": 1506,
     "decisions_this_run": {
       "promotable": 6,
-      "blocked": 3,
-      "held": 2
+      "held": 4,
+      "blocked": 3
     },
     "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
     "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
     "decisions_newly_recorded": 0,
-    "decisions_unchanged_since_last_run": 11
+    "decisions_unchanged_since_last_run": 13
   },
   "note": "Every figure here is read from an audit trail the pipeline writes on its own runs. A missing input becomes a null section rather than a zero: an operations page that invents a number is worse than one with a gap in it."
 }

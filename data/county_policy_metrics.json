@@ -23,7 +23,7 @@
         "population"
       ]
     },
-    "stability_cost": 0.0009,
+    "stability_cost": 0.0013,
     "stability_cost_note": "median AUC given up by requiring every coefficient to hold its sign across all folds. Reported, not used as a veto; a gap beyond 0.05 is a hard stop.",
     "stability_cost_alarm": 0.05,
     "changed_this_run": false,
@@ -54,7 +54,7 @@
         "spec": "full_pool_minus1",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.8006,
+        "auc_median": 0.8005,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -72,7 +72,7 @@
         "spec": "full_pool_minus2",
         "C": 1.0,
         "n_vars": 8,
-        "auc_median": 0.8009,
+        "auc_median": 0.8008,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -89,7 +89,7 @@
         "spec": "no_shift",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.804,
+        "auc_median": 0.8037,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -107,7 +107,7 @@
         "spec": "no_shift_minus1",
         "C": 1.0,
         "n_vars": 8,
-        "auc_median": 0.8036,
+        "auc_median": 0.8031,
         "sign_stable": false,
         "variables": [
           "existing_dc_count",
@@ -124,7 +124,7 @@
         "spec": "no_shift_minus2",
         "C": 1.0,
         "n_vars": 7,
-        "auc_median": 0.8031,
+        "auc_median": 0.8029,
         "sign_stable": true,
         "variables": [
           "existing_dc_count",
@@ -158,7 +158,7 @@
         "spec": "drop_density_minus1",
         "C": 1.0,
         "n_vars": 8,
-        "auc_median": 0.8002,
+        "auc_median": 0.8003,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -175,7 +175,7 @@
         "spec": "drop_density_minus2",
         "C": 1.0,
         "n_vars": 7,
-        "auc_median": 0.8009,
+        "auc_median": 0.8008,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -259,7 +259,7 @@
         "spec": "full_pool",
         "C": 0.3,
         "n_vars": 10,
-        "auc_median": 0.7997,
+        "auc_median": 0.7996,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -278,7 +278,7 @@
         "spec": "full_pool_minus1",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.7999,
+        "auc_median": 0.7997,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -296,8 +296,8 @@
         "spec": "full_pool_minus2",
         "C": 0.3,
         "n_vars": 8,
-        "auc_median": 0.8001,
-        "sign_stable": true,
+        "auc_median": 0.8003,
+        "sign_stable": false,
         "variables": [
           "margin_shift",
           "existing_dc_count",
@@ -310,10 +310,26 @@
         ]
       },
       {
+        "spec": "full_pool_minus3",
+        "C": 0.3,
+        "n_vars": 7,
+        "auc_median": 0.8003,
+        "sign_stable": true,
+        "variables": [
+          "margin_shift",
+          "existing_dc_count",
+          "n_projects_tracked",
+          "state_legislation_events",
+          "pop_density_sqmi",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
         "spec": "no_shift",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.8037,
+        "auc_median": 0.8034,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -331,7 +347,7 @@
         "spec": "no_shift_minus1",
         "C": 0.3,
         "n_vars": 8,
-        "auc_median": 0.8035,
+        "auc_median": 0.8029,
         "sign_stable": false,
         "variables": [
           "existing_dc_count",
@@ -348,7 +364,7 @@
         "spec": "no_shift_minus2",
         "C": 0.3,
         "n_vars": 7,
-        "auc_median": 0.8029,
+        "auc_median": 0.8022,
         "sign_stable": true,
         "variables": [
           "existing_dc_count",
@@ -364,7 +380,7 @@
         "spec": "drop_density",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.7999,
+        "auc_median": 0.8,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -382,7 +398,7 @@
         "spec": "drop_density_minus1",
         "C": 0.3,
         "n_vars": 8,
-        "auc_median": 0.8001,
+        "auc_median": 0.8,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -399,7 +415,7 @@
         "spec": "drop_density_minus2",
         "C": 0.3,
         "n_vars": 7,
-        "auc_median": 0.8002,
+        "auc_median": 0.8004,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -483,7 +499,7 @@
         "spec": "full_pool",
         "C": 0.1,
         "n_vars": 10,
-        "auc_median": 0.7997,
+        "auc_median": 0.7995,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -520,7 +536,7 @@
         "spec": "full_pool_minus2",
         "C": 0.1,
         "n_vars": 8,
-        "auc_median": 0.7999,
+        "auc_median": 0.7996,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -553,7 +569,7 @@
         "spec": "no_shift",
         "C": 0.1,
         "n_vars": 9,
-        "auc_median": 0.8041,
+        "auc_median": 0.8037,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -571,7 +587,7 @@
         "spec": "no_shift_minus1",
         "C": 0.1,
         "n_vars": 8,
-        "auc_median": 0.8055,
+        "auc_median": 0.8053,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -604,7 +620,7 @@
         "spec": "no_shift_minus3",
         "C": 0.1,
         "n_vars": 6,
-        "auc_median": 0.8042,
+        "auc_median": 0.8036,
         "sign_stable": true,
         "variables": [
           "existing_dc_count",
@@ -619,7 +635,7 @@
         "spec": "drop_density",
         "C": 0.1,
         "n_vars": 9,
-        "auc_median": 0.7999,
+        "auc_median": 0.7996,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -637,7 +653,7 @@
         "spec": "drop_density_minus1",
         "C": 0.1,
         "n_vars": 8,
-        "auc_median": 0.7995,
+        "auc_median": 0.7993,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -654,7 +670,7 @@
         "spec": "drop_density_minus2",
         "C": 0.1,
         "n_vars": 7,
-        "auc_median": 0.7997,
+        "auc_median": 0.7998,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -738,7 +754,7 @@
         "spec": "full_pool",
         "C": 0.03,
         "n_vars": 10,
-        "auc_median": 0.8,
+        "auc_median": 0.7998,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -757,7 +773,7 @@
         "spec": "full_pool_minus1",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.8005,
+        "auc_median": 0.8004,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -775,7 +791,7 @@
         "spec": "full_pool_minus2",
         "C": 0.03,
         "n_vars": 8,
-        "auc_median": 0.8002,
+        "auc_median": 0.8001,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -792,7 +808,7 @@
         "spec": "no_shift",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.803,
+        "auc_median": 0.8027,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -810,7 +826,7 @@
         "spec": "no_shift_minus1",
         "C": 0.03,
         "n_vars": 8,
-        "auc_median": 0.804,
+        "auc_median": 0.8042,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -843,7 +859,7 @@
         "spec": "no_shift_minus3",
         "C": 0.03,
         "n_vars": 6,
-        "auc_median": 0.8046,
+        "auc_median": 0.804,
         "sign_stable": true,
         "variables": [
           "existing_dc_count",
@@ -858,7 +874,7 @@
         "spec": "drop_density",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.7988,
+        "auc_median": 0.7985,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -876,7 +892,7 @@
         "spec": "drop_density_minus1",
         "C": 0.03,
         "n_vars": 8,
-        "auc_median": 0.7979,
+        "auc_median": 0.7976,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -961,7 +977,7 @@
         "spec": "full_pool",
         "C": 0.01,
         "n_vars": 10,
-        "auc_median": 0.796,
+        "auc_median": 0.7955,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -980,7 +996,7 @@
         "spec": "full_pool_minus1",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.796,
+        "auc_median": 0.7955,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -998,7 +1014,7 @@
         "spec": "no_shift",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.8006,
+        "auc_median": 0.8004,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -1033,7 +1049,7 @@
         "spec": "drop_density",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.7969,
+        "auc_median": 0.7965,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1079,9 +1095,9 @@
     ]
   },
   "roc_auc": {
-    "p10": 0.7609,
-    "p50": 0.8046,
-    "p90": 0.8289
+    "p10": 0.7608,
+    "p50": 0.804,
+    "p90": 0.8284
   },
   "brier": {
     "p10": 0.0768,
@@ -1092,53 +1108,53 @@
   "calibration": {
     "raw_slope": 1.094,
     "raw_intercept": 0.171,
-    "post_recalibration_slope": 0.994,
-    "post_recalibration_intercept": -0.012,
+    "post_recalibration_slope": 0.995,
+    "post_recalibration_intercept": -0.011,
     "brier_calibrated": 0.0814,
     "note": "raw scores are compressed by shrinkage; the model includes a cross-fitted logistic recalibration layer. calibrated_score in the scores file is cross-fitted: no county's calibration was fit on itself. Post slope near 1 and intercept near 0 indicate the calibrated scores are honest probabilities."
   },
   "coefficients": {
     "existing_dc_count": {
-      "min": -0.396,
-      "median": -0.376,
-      "max": -0.329,
+      "min": -0.397,
+      "median": -0.378,
+      "max": -0.33,
       "sign_stable": true
     },
     "n_projects_tracked": {
-      "min": 0.458,
-      "median": 0.525,
+      "min": 0.459,
+      "median": 0.526,
       "max": 0.588,
       "sign_stable": true
     },
     "state_legislation_events": {
-      "min": -0.167,
-      "median": -0.112,
-      "max": -0.069,
+      "min": -0.159,
+      "median": -0.107,
+      "max": -0.058,
       "sign_stable": true
     },
     "pop_density_sqmi": {
-      "min": 0.228,
-      "median": 0.298,
-      "max": 0.35,
+      "min": 0.224,
+      "median": 0.294,
+      "max": 0.346,
       "sign_stable": true
     },
     "pct_bachelors_plus": {
-      "min": 0.158,
-      "median": 0.214,
-      "max": 0.263,
+      "min": 0.159,
+      "median": 0.215,
+      "max": 0.264,
       "sign_stable": true
     },
     "population": {
-      "min": 0.32,
-      "median": 0.408,
-      "max": 0.458,
+      "min": 0.322,
+      "median": 0.41,
+      "max": 0.46,
       "sign_stable": true
     }
   },
   "aggregate_manifest": {
     "generated": "2026-09-04",
     "counties": 3222,
-    "event_rows_with_county": 1367,
+    "event_rows_with_county": 1369,
     "event_match_rate": 0.9905,
     "enacted_restriction_counties": 329,
     "dc_presence_counties": 399,
@@ -1146,7 +1162,7 @@
       "county_census_features.csv": "c94063d9123016f5",
       "county_votes.json": "b521eb017a7acfa5",
       "atlas.csv": "7a8c78d3ed6cea2d",
-      "master_opposition.csv": "970bbf8e7924e52a",
+      "master_opposition.csv": "442800632f977802",
       "baseline_universe.csv": "d286fc130cda0fb6",
       "project_lifecycles.csv": "af160cc2a943494a"
     }

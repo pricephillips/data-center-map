@@ -83,7 +83,7 @@ Only counties carrying a signal are listed below.
 | reverify_stale_nonterminal_restrictive | VA | Mecklenburg County | - | - | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | VA | New Kent County | - | - | 0 | 1 | 1 | 1 |
 | reverify_stale_nonterminal_restrictive | VA | Orange County | - | - | 0 | 1 | 1 | 1 |
-| reverify_stale_nonterminal_restrictive | VA | Prince William County | - | - | 0 | 2 | 1 | 4 |
+| reverify_stale_nonterminal_restrictive | VA | Prince William County | - | - | 0 | 3 | 1 | 4 |
 | reverify_stale_nonterminal_restrictive | VA | Spotsylvania County | - | - | 1 | 2 | 1 | - |
 | confirm_unconfirmed_coverage | GA | Coweta County | replaced | covered_unconfirmed | 1 | 1 | 0 | - |
 | confirm_unconfirmed_coverage | KY | Simpson County | active | covered_unconfirmed | 1 | 0 | 0 | - |
