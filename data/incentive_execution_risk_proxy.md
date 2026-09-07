@@ -1,3 +1,17 @@
+### Incentive execution risk proxy: Benton, 
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 94
+  - candidate docket (tax increment): Newell Rubbermaid, Inc. v. Bosgraaf, W.D. Mich. (2015-06-09)
+  - candidate docket (tax increment): Staco Electric Construction Co. v. City of Kansas City, MO, W.D. Mo. (2020-03-04)
+  - candidate docket (tax increment): Securities and Exchange Commission v. City of Victorville, C.D. Cal. (2013-04-29)
+  - candidate docket (tax increment): Rethink35 v. Texas Department of Transportation (TXDOT), W.D. Tex. (2024-01-26)
+  - candidate docket (tax increment): Bouricius v. Mesa County, D. Colo. (2018-05-11)
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
 ### Incentive execution risk proxy: Buffalo, 
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
@@ -229,6 +243,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
+### Incentive execution risk proxy: Lee County, 
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
 ### Incentive execution risk proxy: Lincoln, 
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
@@ -355,6 +378,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
+### Incentive execution risk proxy: Sierra, 
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
 ### Incentive execution risk proxy: Simpson, 
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
@@ -455,6 +487,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Madison County, AL
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: Mobile, AL
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
@@ -1744,11 +1785,11 @@ Proxy score 4. Local meeting activity on file for the county. A 1 is never assig
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 25
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
-  - local meeting: 2026-09-24T00:00:00  (legistar)
-  - local meeting: 2026-09-17T00:00:00 Cancelled (legistar)
-  - local meeting: 2026-09-16T00:00:00 ZHO (legistar)
-  - local meeting: 2026-09-16T00:00:00 ZHO Recommendation Meeting - **3:00 PM or Immediately Following ZHO** (legistar)
-  - local meeting: 2026-09-10T00:00:00  (legistar)
+  - local meeting: 2026-10-29T00:00:00  (legistar)
+  - local meeting: 2026-10-22T00:00:00  (legistar)
+  - local meeting: 2026-10-15T00:00:00  (legistar)
+  - local meeting: 2026-10-08T00:00:00 Cancelled (legistar)
+  - local meeting: 2026-10-01T00:00:00  (legistar)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Grundy County, IL
@@ -6126,7 +6167,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 14
+- Local meeting items on file: 12
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
   - local meeting: Wed, 02 Sep 2026 10:48:43 -0500 Planning Commission Meeting Agenda (civicplus_rss)
   - local meeting: Mon, 31 Aug 2026 11:09:46 -0500 Parks and Recreation Advisory Commission August Meeting Agenda (civicplus_rss)
