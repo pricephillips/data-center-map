@@ -1,6 +1,6 @@
 # Opposed vs. Control — Time to Terminal Decision (first iteration)
 
-Generated 2026-09-02 by `dated_comparison.py`. **Internal diagnostic — NOT client-facing.** Descriptive comparison only; the two arms carry different censoring structures, so no significance test is valid or reported.
+Generated 2026-09-07 by `dated_comparison.py`. **Internal diagnostic — NOT client-facing.** Descriptive comparison only; the two arms carry different censoring structures, so no significance test is valid or reported.
 
 ## Arms
 
@@ -14,10 +14,10 @@ Generated 2026-09-02 by `dated_comparison.py`. **Internal diagnostic — NOT cli
 
 ## Matched-subset comparison
 
-Same estimators, restricted to matched sets (opposed project + its state/capacity/margin-matched controls, both with usable spans): **151** opposed (27 events) vs **348** matched control spans (137 interval-censored).
+Same estimators, restricted to matched sets (opposed project + its state/capacity/margin-matched controls, both with usable spans): **151** opposed (27 events) vs **349** matched control spans (138 interval-censored).
 
 - Matched opposed median: **not reached**
-- Matched control median: **3179-4487 days** (interval-censored NPMLE band)
+- Matched control median: **3179-3757 days** (interval-censored NPMLE band)
 
 Matching narrows the selection gap but the censoring asymmetry between arms remains; treat any difference as descriptive.
 

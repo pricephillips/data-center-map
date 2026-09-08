@@ -1,6 +1,6 @@
 # Data Quality Report — master_opposition.csv
 
-**Rows processed:** 5443
+**Rows processed:** 5513
 
 This pass is **backward compatible**: existing columns keep their names and meanings, values were fixed in place only where the correction is unambiguous, and all new structure was added as additional columns. The HTML map and Notion sync continue to work without modification.
 
