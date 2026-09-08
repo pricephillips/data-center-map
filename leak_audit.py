@@ -120,6 +120,24 @@ INTERNAL_QUOTES = {
     # artifacts and never ship to a client.
     ("data/manual_corrections.csv", "new_value"),
     ("data/manual_records_report.csv", "detail"),
+    # Registered 2026-09-08 with gazetteer.py. The place columns are Census
+    # county-subdivision names, transported verbatim from the 2024 national
+    # gazetteer: "Lost Creek township" exists in Indiana, Missouri and twice
+    # in Nebraska, and "Long Lost Lake township" is in Clearwater County,
+    # Minnesota. Ten rows, all of them proper nouns naming real places.
+    #
+    # Same class as the CourtListener party names above — a person called Win
+    # Maung is not scorekeeping vocabulary and neither is a lake in Minnesota.
+    # The alternative fixes are both worse than the hit: dropping these places
+    # would put holes in a geographic index whose whole job is completeness,
+    # and renaming them would falsify federal reference data.
+    #
+    # Registered as file-plus-column, so the exemption cannot spread: a
+    # composed column named `place` anywhere else still blocks. Only the two
+    # columns carrying the transported name are covered, and the file is a
+    # Layer D reference index that never ships to a client.
+    ("data/place_gazetteer.csv", "place"),
+    ("data/place_gazetteer.csv", "place_norm"),
 }
 
 # Columns and keys copied verbatim from the source of record. The pipeline
