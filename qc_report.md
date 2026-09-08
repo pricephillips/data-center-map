@@ -1,13 +1,13 @@
 # Master Opposition QC Report
 
-- Records scanned: **1834**
-- Passed to feed: **1675**
-- Blocked / quarantined: **159**
+- Records scanned: **1879**
+- Passed to feed: **1678**
+- Blocked / quarantined: **201**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- DUPLICATE: 153
+- DUPLICATE: 195
 - LEG_SOURCE_WEAK: 4
 - STATEWIDE_CAPITAL_SINK: 1
 - STUDY_SOURCE_WEAK: 1
@@ -179,3 +179,45 @@
 | Freeport News : Stephenson County considers a moratorium on data center , a local non - profit seeks input on life in northwest Illinois , and a program on chimney swifts promises to sweep you away | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Palm Beach County approves 1 - year AI data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Lancaster County Considers Data Center Moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| LEGISLATIVE ROUNDUP : State Reps . Walsh , Pugh seek action on data center legislation | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| California lawmakers conclude the legislative session . Here what they passed | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| California lawmakers conclude another legislative session , here what they passed | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Council approves amending zoning | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| GOP consensus elusive on timing , scope of data centers bill | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Trump Big Beautiful Bill Cleared the Way for More Data Centers . Dems Are Hoping You Know That . | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| LEGISLATIVE ROUNDUP : State Reps . Walsh , Pugh seek action on data center legislation | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Sunrise Beach holds public hearing on Data Center Ordinance | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Residents voiced their opinion at Sloan Data Center Town Hall meeting | public_comment | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Council approves amending zoning | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Judge dismisses Edgerton , Kansas , lawsuit against citizens in data center debate | project | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| LEGISLATIVE ROUNDUP : State Reps . Walsh , Pugh seek action on data center legislation | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Sunrise Beach holds public hearing on Data Center Ordinance | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Ypsilanti City Council continues data center moratorium discussion | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| California lawmakers conclude the legislative session . Here what they passed | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| California lawmakers conclude another legislative session , here what they passed | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Residents voiced their opinion at Sloan Data Center Town Hall meeting | public_comment | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Council approves amending zoning | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| GOP consensus elusive on timing , scope of data centers bill | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Trump Big Beautiful Bill Cleared the Way for More Data Centers . Dems Are Hoping You Know That . | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Judge dismisses Edgerton , Kansas , lawsuit against citizens in data center debate | project | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| LEGISLATIVE ROUNDUP : State Reps . Walsh , Pugh seek action on data center legislation | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Sunrise Beach holds public hearing on Data Center Ordinance | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Ypsilanti City Council continues data center moratorium discussion | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Warnock Calls For Statewide Moratorium On New Data Centers | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Council approves amending zoning | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Judge dismisses Edgerton , Kansas , lawsuit against citizens in data center debate | project | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| LEGISLATIVE ROUNDUP : State Reps . Walsh , Pugh seek action on data center legislation | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Warren City Council votes to approve 12 - month data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Sunrise Beach holds public hearing on Data Center Ordinance | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Ypsilanti City Council continues data center moratorium discussion | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| California lawmakers conclude the legislative session . Here what they passed | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| California lawmakers conclude another legislative session , here what they passed | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Council approves amending zoning | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| GOP consensus elusive on timing , scope of data centers bill | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Trump Big Beautiful Bill Cleared the Way for More Data Centers . Dems Are Hoping You Know That . | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Judge dismisses Edgerton , Kansas , lawsuit against citizens in data center debate | project | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| LEGISLATIVE ROUNDUP : State Reps . Walsh , Pugh seek action on data center legislation | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Warren City Council votes to approve 12 - month data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Ypsilanti City Council continues data center moratorium discussion | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Warnock Calls For Statewide Moratorium On New Data Centers | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| ...and 1 more | | | see quarantine.json |
