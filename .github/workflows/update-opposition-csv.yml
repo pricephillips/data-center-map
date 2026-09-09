@@ -62,6 +62,11 @@ jobs:
             git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && break
             if [ "$i" = "3" ]; then echo "Push failed after 3 attempts"; exit 1; fi
             echo "Push attempt $i failed (another workflow moved main); retrying in 10s"
+            # A failed rebase must be aborted before the retry: a worktree stuck
+            # mid-rebase fails every subsequent pull with "already a rebase-merge
+            # directory", so without this the second and third attempts cannot
+            # even start. Same guard pipeline.yml and manual-records.yml carry.
+            git rebase --abort 2>/dev/null || true
             sleep 10
           done
 
