@@ -63,6 +63,14 @@ on:
       - 'data/county_fips_lookup.json'
       - 'configs/audit_frames.json'
       - 'configs/frames/*.csv'
+      # Every configs/*.json, not just the frame registry. Source configs
+      # carry load-bearing invariants that only a self-test checks -- a probe
+      # source must have "adapter": null so fetch_permits.list_sources()
+      # cannot enumerate it, and discover_endpoint's self-test asserts the two
+      # sets never intersect. Registering six probe sources changed nothing
+      # this filter matched, so that assertion ran locally and nowhere else.
+      # A config is code when a gate depends on its shape.
+      - 'configs/*.json'
       # Code that produces the artifacts. Without these, pushing a pipeline
       # change did not run the pipeline, so a module could ship and its
       # outputs would never be generated. That is why the screener, the
