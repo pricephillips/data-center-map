@@ -28,16 +28,10 @@
     "stability_cost": 0.0012,
     "stability_cost_note": "median AUC given up by requiring every coefficient to hold its sign across all folds. Reported, not used as a veto; a gap beyond 0.05 is a hard stop.",
     "stability_cost_alarm": 0.05,
-    "changed_this_run": true,
-    "entered": [
-      "margin_2024",
-      "median_hh_income"
-    ],
+    "changed_this_run": false,
+    "entered": [],
     "left": [],
-    "change_reasons": [
-      "margin_2024: sign stable this run, positive in all folds, median coefficient +0.0781",
-      "median_hh_income: sign stable this run, positive in all folds, median coefficient +0.0580"
-    ],
+    "change_reasons": [],
     "grid": [
       {
         "spec": "full_pool",
@@ -1125,17 +1119,17 @@
     }
   },
   "aggregate_manifest": {
-    "generated": "2026-09-08",
+    "generated": "2026-09-09",
     "counties": 3222,
-    "event_rows_with_county": 1385,
-    "event_match_rate": 0.9906,
+    "event_rows_with_county": 1393,
+    "event_match_rate": 0.9907,
     "enacted_restriction_counties": 329,
     "dc_presence_counties": 399,
     "inputs": {
       "county_census_features.csv": "c94063d9123016f5",
       "county_votes.json": "b521eb017a7acfa5",
       "atlas.csv": "7a8c78d3ed6cea2d",
-      "master_opposition.csv": "76c0ba6cecce55ca",
+      "master_opposition.csv": "a72379cf08254847",
       "baseline_universe.csv": "0124c5bc92d5d829",
       "project_lifecycles.csv": "39143253cb52f523"
     }

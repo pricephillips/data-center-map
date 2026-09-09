@@ -1,13 +1,13 @@
 # Master Opposition QC Report
 
-- Records scanned: **1879**
-- Passed to feed: **1678**
-- Blocked / quarantined: **201**
+- Records scanned: **1897**
+- Passed to feed: **1684**
+- Blocked / quarantined: **213**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- DUPLICATE: 195
+- DUPLICATE: 207
 - LEG_SOURCE_WEAK: 4
 - STATEWIDE_CAPITAL_SINK: 1
 - STUDY_SOURCE_WEAK: 1
@@ -191,6 +191,7 @@
 | Council approves amending zoning | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Judge dismisses Edgerton , Kansas , lawsuit against citizens in data center debate | project | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | LEGISLATIVE ROUNDUP : State Reps . Walsh , Pugh seek action on data center legislation | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Walker County committee weighs potential data center rules amid new facility moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Sunrise Beach holds public hearing on Data Center Ordinance | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Ypsilanti City Council continues data center moratorium discussion | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | California lawmakers conclude the legislative session . Here what they passed | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
@@ -202,6 +203,7 @@
 | Judge dismisses Edgerton , Kansas , lawsuit against citizens in data center debate | project | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | LEGISLATIVE ROUNDUP : State Reps . Walsh , Pugh seek action on data center legislation | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Sunrise Beach holds public hearing on Data Center Ordinance | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| Butte - Silver Bow moves toward temporary data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Ypsilanti City Council continues data center moratorium discussion | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Warnock Calls For Statewide Moratorium On New Data Centers | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Council approves amending zoning | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
@@ -218,6 +220,4 @@
 | Judge dismisses Edgerton , Kansas , lawsuit against citizens in data center debate | project | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | LEGISLATIVE ROUNDUP : State Reps . Walsh , Pugh seek action on data center legislation | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Warren City Council votes to approve 12 - month data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
-| Ypsilanti City Council continues data center moratorium discussion | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
-| Warnock Calls For Statewide Moratorium On New Data Centers | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
-| ...and 1 more | | | see quarantine.json |
+| ...and 13 more | | | see quarantine.json |
