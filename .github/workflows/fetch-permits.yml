@@ -51,6 +51,20 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Gate — discoverer self-tests (BLOCKING; a failure stops the run)
+        run: |
+          # Every other acquisition workflow runs its own modules' self-tests
+          # before doing any work -- acquire-geo-sources.yml gates on gazetteer
+          # and fetch_osm_facilities, bill-sync.yml on bill_sync. This one
+          # gated on nothing, so all three discoverers could reach a live
+          # portal with a regression in them. All three are offline and take
+          # about a second between them; a discoverer that cannot pass its own
+          # self-test has no business resolving a source id that the fetch
+          # then acts on.
+          python discover_arcgis_layer.py    --selftest
+          python discover_socrata_dataset.py --selftest
+          python discover_endpoint.py        --selftest
+
       - name: Resolve config list (scheduled runs cover every registered source)
         id: cfg
         run: |
