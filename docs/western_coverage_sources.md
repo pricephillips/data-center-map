@@ -14,10 +14,11 @@ per the two standing rules at the top of `docs/tooling_scan.md`.
 
 Updated 2026-09-09. Items 1, 2, 3 and 5 in the recommended order at the bottom
 are implemented, along with the two map-side fixes the original measurement
-turned up. Item 6 is now registered for reconnaissance rather than built: the
-thing blocking it was never the adapter, it was that nobody had confirmed what
-the two sites serve, so that question is now asked by a scheduled job instead
-of sitting in this memo. Items 4 and 7 stand as scoped.
+turned up. Items 6 and 7 are now registered for reconnaissance rather than
+built: the thing blocking both was never the adapter, it was that nobody had
+confirmed what the sites serve, so that question is now asked by a scheduled
+job instead of sitting in this memo. Item 4 stands as scoped — it needs a
+person, not code.
 
 | # | Step | Status |
 | :-- | :-- | :-- |
@@ -27,7 +28,7 @@ of sitting in this memo. Items 4 and 7 stand as scoped.
 | 4 | Email `jwklee` for the tracker CSV | Not started; needs a person, not code. |
 | 5 | Granicus + PrimeGov probes in `local_meeting_feed.py` | **Built.** Both probes and both fetchers added, and the four probes now share one slug helper instead of three drifted copies of the same `.replace()` chain. |
 | 6 | CEQAnet pin, then Oregon PAPA adapter | **Reconnaissance registered.** `configs/ca_ceqanet.json` and `configs/or_dlcd_papa.json` register both sites as probe sources, and `discover_endpoint.py` reports in CI what each candidate URL actually serves. Neither can fetch anything: both carry `"adapter": null`, so `fetch_permits.list_sources()` does not enumerate them. The adapter, if one is warranted, gets written against the report rather than against a guess. |
-| 7 | Western PUC docket scan | Not started, but now cheap to begin: each commission is one more probe config, which is the same open-ended "real but no API" question item 6 had. |
+| 7 | Western PUC docket scan | **Reconnaissance registered.** All four commissions named in Finding 4 are probe sources: `configs/wa_utc_dockets.json`, `configs/co_puc_efilings.json`, `configs/or_puc_edockets.json`, `configs/az_acc_edocket.json`. Same terms as item 6 — `"adapter": null`, no fetch possible, a report per commission saying what each route actually serves. The open-ended part was always "none is a documented API"; that is now a question with a scheduled answer rather than an estimate. |
 
 Two things about item 1 are worth stating plainly, because the measured
 result is smaller than the scan implied and the reason matters.
@@ -276,6 +277,59 @@ specificity, genuinely western. It also means the FERC show-cause timeline in
 the interconnection memo — RTO compliance filings, which landed in late August
 2026 — does **not** improve western disclosure, because these utilities are not
 FERC-jurisdictional RTOs. Do not expect the west to be fixed by that docket.
+
+### What the four commissions actually expose
+
+Recorded 2026-09-09 while registering them. None of this is a substitute for
+the probe reports — that is the point of the probes — but it is what a search
+turns up without reaching any of the hosts, and it changes the ranking Finding
+4 implies.
+
+**Washington UTC is the outlier, in a good way.** A public citation exposes
+`apiproxy.utc.wa.gov/cases/GetDocument?docID=&year=&docketNumber=` — a host
+literally named apiproxy, taking a parameter triple. Every other commission in
+this scan exposes a search form. Case pages also live at a predictable
+`/casedocket/<year>/<number>`, which makes a docket number from any other
+source directly resolvable even with no index at all.
+
+**Colorado's E-Filings runs on the Oracle PL/SQL Web Toolkit** (`/pls/efi/`),
+so its document and filing routes are plain GET parameters with no viewstate —
+an unusually tractable shape for a filings system. It also publishes something
+called an "Index of Major Docket Activity and Index of Dockets and Decisions
+Tracking Data", which is probed first: a published index would beat querying
+the system row by row.
+
+**Oregon is mid-migration.** The commission has a published eDockets and
+eDiscovery Replacement Project. That is worth knowing before writing an
+adapter rather than after, so the replacement page is itself a probe.
+
+**Arizona's eDocket looks like a single-page app** — `/search/<thing>/
+item-detail/<numeric id>` — which usually means a JSON backend worth finding
+rather than a page worth scraping. Its documented filter set (company name,
+docket number, document code, decision number, filed date range) is close to
+what a large-load tariff query needs.
+
+### The pattern that makes these worth the effort
+
+Counting tracked facilities against recorded opposition events by county, in
+`data/county_aggregate.csv` as of 2026-09-09:
+
+| County | Facilities | Recorded events |
+| :-- | --: | --: |
+| Grant, WA | 39 | 1 |
+| Umatilla, OR | 31 | 1 |
+| Morrow, OR | 28 | 1 |
+| Douglas, WA | 13 | 1 |
+| Maricopa, AZ | 63 | 14 |
+
+The first four are the Northwest's largest data center clusters, and each
+generates one recorded event. Maricopa, with a comparable facility count and
+an order of magnitude more events, is what observation looks like when it is
+working. **A county hosting thirty data centers and producing one recorded
+event is far more likely to be under-observed than quiet** — and that is the
+specific gap a tariff docket naming the customer and the load would close,
+because in non-ISO territory it is filed regardless of whether any local
+reporter covers it.
 
 ## Finding 5: national sources, ranked by ease
 
