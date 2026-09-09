@@ -110,6 +110,11 @@ def candidates_from(results: list[dict], keywords: list[str]) -> list[dict]:
             "description": str(res.get("description") or "").strip()[:400],
             "updated_at": str(res.get("updatedAt") or "").strip(),
             "rows": res.get("rows_count"),
+            # The catalog already tells us the dataset's columns, and not
+            # recording them is what let configs/wa_sepa.json ship a $where
+            # clause guessing at column names. Socrata answers such a query
+            # with a 400, so the guess cost a weekly job rather than a row.
+            "columns": [str(c) for c in (res.get("columns_field_name") or [])],
             "score": score(r, keywords),
         })
     # Highest score first, then most recently updated, then id for stability:
@@ -137,6 +142,10 @@ def resolve(candidates: list[dict], threshold: int, domain: str):
         "resource_id": top["id"],
         "name": top["name"],
         "query_url": to_query_url(domain, top["id"]),
+        # fetch_permits.py checks a configured $where against these before
+        # sending it, so a column-name guess is reported as a pending
+        # registration instead of a 400.
+        "columns": top.get("columns") or [],
     }, clearing
 
 
@@ -155,7 +164,10 @@ def write_report(out: dict, source: str) -> tuple[str, str]:
         r = out["resolved"]
         lines += ["## Resolved", "",
                   f"- **{r['name']}** (`{r['resource_id']}`)",
-                  f"- Query URL: `{r['query_url']}`", "",
+                  f"- Query URL: `{r['query_url']}`",
+                  "- Columns: " + (", ".join(f"`{c}`" for c in r["columns"])
+                                   if r.get("columns") else "_not reported_"),
+                  "",
                   "fetch_permits.py picks this up automatically on the next "
                   "run. It still needs a column map at "
                   f"`configs/{source}_ingest.json` before anything reaches the "

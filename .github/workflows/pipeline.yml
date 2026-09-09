@@ -164,6 +164,7 @@ jobs:
           python discover_arcgis_layer.py --selftest
           python discover_socrata_dataset.py --selftest
           python discover_endpoint.py --selftest
+          python fetch_permits.py --selftest
           echo "Front-end syntax gate self-tests:"
           python scripts/check_inline_js.py --selftest
           # A syntax error in a page loader takes a client-visible surface

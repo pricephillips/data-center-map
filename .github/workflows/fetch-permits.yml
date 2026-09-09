@@ -64,6 +64,7 @@ jobs:
           python discover_arcgis_layer.py    --selftest
           python discover_socrata_dataset.py --selftest
           python discover_endpoint.py        --selftest
+          python fetch_permits.py            --selftest
 
       - name: Resolve config list (scheduled runs cover every registered source)
         id: cfg
