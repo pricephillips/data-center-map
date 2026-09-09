@@ -31,20 +31,35 @@ jobs:
       - name: Self-test census refresh module
         run: python refresh_external_census.py --selftest
 
-      - name: Fetch and merge external restriction census
-        run: python refresh_external_census.py --refresh --merge
+      # --merge was never a flag this module accepts. It has only ever
+      # accepted --selftest and --refresh, so this workflow has failed on
+      # every run since it was written and has never once been green. The
+      # name was aspirational: the module refuses to merge by design, and
+      # says so in its docstring -- the seeded census is the source of
+      # record and only a person promotes into it.
+      - name: Refresh external restriction census (writes a delta for review)
+        run: python refresh_external_census.py --refresh
 
-      - name: Commit updated census
+      - name: Commit the delta and report
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/external_restriction_census.csv \
-                  data/external_restriction_census_refresh_report.md 2>/dev/null || true
+          # Stage what the module actually writes. It previously staged
+          # data/external_restriction_census.csv, which the module only ever
+          # READS -- so even with a working invocation this step committed
+          # nothing and discarded the delta, the one artifact the run exists
+          # to produce. Each path is guarded separately because a single
+          # missing pathspec aborts the whole `git add`, the same trap
+          # documented in fetch-permits.yml.
+          [ -f data/external_restriction_census_delta.csv ] && \
+              git add data/external_restriction_census_delta.csv
+          [ -f data/external_restriction_census_refresh_report.md ] && \
+              git add data/external_restriction_census_refresh_report.md
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
           fi
-          git commit -m "External restriction census: monthly auto-merge [skip ci]"
+          git commit -m "External restriction census: monthly delta for review [skip ci]"
           for i in 1 2 3; do
             git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
             echo "Push attempt $i failed, retrying in 10s"

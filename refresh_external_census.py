@@ -3,12 +3,23 @@
 """refresh_external_census.py
 
 Refreshes the external restriction census against the current
-Moratorium Nation dataset and writes a delta file for
-coverage_audit.py and restriction_worklist.py to consume.
+Moratorium Nation dataset and writes a delta file for review.
 
 It never overwrites data/external_restriction_census.csv; the seeded
 census remains the source of record, and this module only surfaces new
 or changed rows for review and ingest.
+
+Correction, 2026-09-09: this docstring previously said the delta was
+written "for coverage_audit.py and restriction_worklist.py to consume".
+Neither module references it -- both read the seeded census directly --
+so the delta has no automated consumer and is a worklist for a person,
+in the same sense as data/permit_candidates_*.csv. That is the intended
+shape, not a gap to close by wiring it into an audit: promoting an
+upstream row into the census is a review decision.
+
+The workflow that runs this had never succeeded before that date. It
+invoked a --merge flag this module has never accepted, and its commit
+step staged the census (read-only here) rather than the delta.
 """
 
 from __future__ import annotations
