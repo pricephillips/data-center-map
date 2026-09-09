@@ -59,6 +59,10 @@ import sys
 import urllib.error
 import urllib.request
 
+# The audit's own pattern, imported rather than copied so the two cannot
+# drift. See emit_json_keys() for why a probe needs it at all.
+from leak_audit import LEAK_RE
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = HERE
 DATA = os.path.join(HERE, "data")
@@ -91,8 +95,9 @@ NEXT_STEP = {
         "OData service. $metadata describes the entity sets; a small adapter "
         "in fetch_permits.py can page it with $top/$skip."),
     "json": (
-        "Returns JSON but matches no known portal family. Read the shape in "
-        "the sample below before deciding whether an adapter is warranted."),
+        "Returns JSON but matches no known portal family. The top-level keys "
+        "are listed below; read the shape before deciding whether an adapter "
+        "is warranted."),
     "csv": (
         "Returns tabular data directly. This is the cheapest possible case: "
         "the tabular adapter in fetch_permits.py may take it with a config "
@@ -202,7 +207,8 @@ def classify(resp: dict) -> tuple[str, str]:
     if status >= 400:
         return "error", f"HTTP {status}"
 
-    if "edmx" in low[:4000] or "<service" in low[:4000] and "app:" in low[:4000]:
+    head = low[:4000]
+    if "edmx" in head or ("<service" in head and "app:" in head):
         return "odata", "body declares an OData/Edmx service document"
 
     if doc is not None:
@@ -227,6 +233,37 @@ def classify(resp: dict) -> tuple[str, str]:
         return "csv", "non-HTML text body; check whether it is delimited"
 
     return "error", f"empty body (HTTP {status})"
+
+
+MAX_JSON_KEYS = 40
+
+
+def emit_json_keys(body: str) -> list:
+    """Top-level key names of a JSON body, bounded and vocabulary-safe.
+
+    A probe report is a generated artifact, so leak_audit scans it, and its
+    blocking tier rejects scorekeeping vocabulary. An earlier draft of this
+    module put 600 characters of the fetched page into the report as a
+    `sample` field: the first probe landing on a commission news page reading
+    "applicant wins approval" would have taken the nightly pipeline red, which
+    is exactly how the Census gazetteer took main red for four nights.
+
+    So no raw body text reaches the report at all. Structured key names do,
+    because they are the one part of a response that answers "what shape is
+    this" without carrying page prose -- and even those are filtered through
+    the audit's own pattern, so this cannot emit something the audit will
+    reject even if a portal does ship a column named for it.
+    """
+    doc = _json_or_none(body)
+    if isinstance(doc, list):
+        doc = next((d for d in doc if isinstance(d, dict)), None)
+    if not isinstance(doc, dict):
+        return []
+    out = []
+    for k in list(doc)[:MAX_JSON_KEYS]:
+        k = str(k)
+        out.append("[redacted]" if LEAK_RE.search(k) else k)
+    return out
 
 
 def keyword_hits(body: str, keywords: list[str]) -> list[str]:
@@ -264,7 +301,7 @@ def probe_config(cfg: dict, timeout: int = DEFAULT_TIMEOUT,
             "evidence": evidence,
             "keyword_hits": keyword_hits(body, keywords),
             "next_step": NEXT_STEP.get(family, ""),
-            "sample": body.strip()[:600],
+            "json_keys": emit_json_keys(body),
         })
     return {
         "source": cfg.get("source") or "unknown",
@@ -322,6 +359,9 @@ def write_report(report: dict, outdir: str = DATA) -> tuple[str, str]:
         lines.append("- Keywords present: " +
                      (", ".join(f["keyword_hits"]) if f["keyword_hits"]
                       else "_none_"))
+        if f.get("json_keys"):
+            lines.append("- Top-level keys: "
+                         + ", ".join(f"`{k}`" for k in f["json_keys"]))
         if f["next_step"]:
             lines += ["", f"{f['next_step']}"]
         lines.append("")
@@ -472,6 +512,38 @@ def selftest() -> int:
        len(probe_config(
            {"source": "x", "discovery": {"probes": [{"note": "no url"}]}},
            fetcher=lambda u, t: _resp())["findings"]) == 0)
+
+    # --- no raw body text reaches the report -----------------------------
+    # This is the defect that took main red for four nights, in a different
+    # file: a generated artifact carrying text nobody vetted, scanned by an
+    # audit whose blocking tier stops the pipeline. Asserted directly rather
+    # than trusted, and asserted against a body that actually contains the
+    # vocabulary rather than against a stand-in that does not.
+    hostile = ("<html><body>Commission news: the applicant wins approval and "
+               "the appeal was lost on procedural grounds.</body></html>")
+    hcfg = {"source": "hostile", "discovery": {"kind": "probe", "keywords": [],
+            "probes": [{"url": "https://h.test/", "note": ""}]}}
+    hrep = probe_config(hcfg, fetcher=lambda u, t: _resp(
+        hostile, ctype="text/html"))
+    ck("no finding carries raw body text",
+       all("sample" not in f for f in hrep["findings"]))
+    ck("a report built from vocabulary-bearing HTML is audit-clean",
+       not LEAK_RE.search(json.dumps(hrep)))
+
+    # JSON keys are the one structured thing that does reach the report, and
+    # they are filtered too, so a portal shipping such a column cannot leak.
+    ck("json keys are reported for a JSON body",
+       emit_json_keys(json.dumps({"permit_id": 1, "status": "open"}))
+       == ["permit_id", "status"]),
+    ck("a key carrying the vocabulary is redacted, not emitted",
+       emit_json_keys(json.dumps({"wins": 1, "county": "X"}))
+       == ["[redacted]", "county"])
+    ck("a JSON array reports the first object's keys",
+       emit_json_keys(json.dumps([{"a": 1, "b": 2}])) == ["a", "b"])
+    ck("a non-JSON body reports no keys", emit_json_keys("<html/>") == [])
+    ck("key count is bounded",
+       len(emit_json_keys(json.dumps({str(i): i for i in range(200)})))
+       == MAX_JSON_KEYS)
 
     # --- the anti-promotion properties ----------------------------------
     # These are the point of a probe, so they are asserted rather than
