@@ -385,6 +385,12 @@ buy-versus-build question, not a scrape.
 
 ## Recommended order
 
+**This table is the original 2026-09-02 recommendation, kept as the record of
+what was proposed and why. It is not a status board — the Status section at the
+top of this document is.** Two rows have been overtaken since: row 1's "164 of
+227" is the superseded estimate corrected above, and row 7's "do it after 1–6
+have landed" has happened.
+
 | # | Step | Effort | Why first |
 | :-- | :-- | :-- | :-- |
 | 1 | Place gazetteer in `signal_harvest.locate()`, plus retire the 5-char rule for gazetteer-resolved places | 1 day | Fixes 164 of 227 unlocated candidates; the only item that improves every future harvest rather than adding one source |
