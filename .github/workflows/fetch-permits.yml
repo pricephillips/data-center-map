@@ -62,6 +62,22 @@ jobs:
             echo "configs=$LIST" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Probe unresolved sources (reconnaissance only, never a fetch)
+        run: |
+          # Sources whose machine-readable route is not yet known register as
+          # discovery.kind "probe" with "adapter": null. They are deliberately
+          # absent from --list-sources, so the fetch loop below never sees
+          # them; this step is the only thing that touches them, and all it
+          # produces is a report saying what each candidate URL actually is.
+          # Enumerated from the configs the same way the fetch loop is, so
+          # adding a probe source stays a config drop rather than a workflow
+          # edit.
+          for NAME in $(python discover_endpoint.py --list-probe-sources); do
+            echo "=== probe $NAME ==="
+            python discover_endpoint.py --config "configs/$NAME" || \
+              echo "Probe failed for $NAME; continuing."
+          done
+
       - name: Discover, fetch, and ingest each source
         run: |
           FAILED=""
@@ -126,6 +142,8 @@ jobs:
               git add data/arcgis_discovery_*.json data/arcgis_discovery_*.md
           ls data/socrata_discovery_*.json >/dev/null 2>&1 && \
               git add data/socrata_discovery_*.json data/socrata_discovery_*.md
+          ls data/probe_discovery_*.json >/dev/null 2>&1 && \
+              git add data/probe_discovery_*.json data/probe_discovery_*.md
           [ -f data/baseline_dated_external.csv ] && \
               git add data/baseline_dated_external.csv
           [ -f data/baseline_dated_external_rejects.csv ] && \

@@ -12,24 +12,27 @@ per the two standing rules at the top of `docs/tooling_scan.md`.
 
 ## Status: what of this is now built
 
-Updated 2026-09-03. Items 1, 2, 3 and 5 in the recommended order at the bottom
+Updated 2026-09-09. Items 1, 2, 3 and 5 in the recommended order at the bottom
 are implemented, along with the two map-side fixes the original measurement
-turned up; 4, 6 and 7 stand as scoped.
+turned up. Item 6 is now registered for reconnaissance rather than built: the
+thing blocking it was never the adapter, it was that nobody had confirmed what
+the two sites serve, so that question is now asked by a scheduled job instead
+of sitting in this memo. Items 4 and 7 stand as scoped.
 
 | # | Step | Status |
 | :-- | :-- | :-- |
-| 1 | Place gazetteer in `signal_harvest.locate()` | **Built.** `gazetteer.py`, wired into `locate()` as a second pass. The 5-char county rule is replaced rather than removed: a short name now matches in the literal "<name> County" form, so Pima and Ada resolve where before they could not match at all. |
-| 2 | WA SEPA Register as a Socrata config | **Built, pending one CI run.** `configs/wa_sepa.json` plus `discover_socrata_dataset.py`, which resolves the 4x4 resource id the way `discover_arcgis_layer.py` resolves an ArcGIS layer. `fetch_permits.py` reads either discoverer's output, so no new fetch code. |
+| 1 | Place gazetteer in `signal_harvest.locate()` | **Built and live.** `gazetteer.py`, wired into `locate()` as a second pass. The 5-char county rule is replaced rather than removed: a short name now matches in the literal "<name> County" form, so Pima and Ada resolve where before they could not match at all. The Census index landed 2026-09-06, so the national gate described below is open. |
+| 2 | WA SEPA Register as a Socrata config | **Built.** `configs/wa_sepa.json` plus `discover_socrata_dataset.py`, which resolves the 4x4 resource id the way `discover_arcgis_layer.py` resolves an ArcGIS layer. `fetch_permits.py` reads either discoverer's output, so no new fetch code. |
 | 3 | Overpass pull into `data/facility_candidates.csv` | **Built.** `fetch_osm_facilities.py` writes `data/facility_candidates_osm.csv`; `facility_registry.osm_candidates()` gates it. |
 | 4 | Email `jwklee` for the tracker CSV | Not started; needs a person, not code. |
 | 5 | Granicus + PrimeGov probes in `local_meeting_feed.py` | **Built.** Both probes and both fetchers added, and the four probes now share one slug helper instead of three drifted copies of the same `.replace()` chain. |
-| 6 | CEQAnet pin, then Oregon PAPA adapter | Not started. |
-| 7 | Western PUC docket scan | Not started. |
+| 6 | CEQAnet pin, then Oregon PAPA adapter | **Reconnaissance registered.** `configs/ca_ceqanet.json` and `configs/or_dlcd_papa.json` register both sites as probe sources, and `discover_endpoint.py` reports in CI what each candidate URL actually serves. Neither can fetch anything: both carry `"adapter": null`, so `fetch_permits.list_sources()` does not enumerate them. The adapter, if one is warranted, gets written against the report rather than against a guess. |
+| 7 | Western PUC docket scan | Not started, but now cheap to begin: each commission is one more probe config, which is the same open-ended "real but no API" question item 6 had. |
 
 Two things about item 1 are worth stating plainly, because the measured
 result is smaller than the scan implied and the reason matters.
 
-**The place pass is gated on a national index, and shipping it does not turn
+**The place pass is gated on a national index, and shipping it did not turn
 it on.** "This name occurs once in the index, so it is unambiguous" is only
 sound if the index covers the country. Built from repo records alone it does
 not: it holds exactly one Portland, and a headline reading "Portland moves to
@@ -37,15 +40,34 @@ keep data center deals out of the shadows" resolved to Chautauqua County, New
 York, when the article is about Oregon. So `gazetteer.py` records
 `national: false` in its manifest when the Census fetch has not run, and
 `resolve()` then refuses every match the headline does not also state a
-state for. The `.github/workflows/acquire-geo-sources.yml` run is what flips
-it; until then the change is inert by construction rather than wrong.
+state for.
 
-**Measured against the live 227-row worklist.** County-level resolution
-(`high` or `medium`) goes 27 -> 27 with the gate closed, and 27 -> 47 once the
-Census index lands, with rows carrying no geography at all going 164 -> 146.
-Those numbers are from the 802-row offline gazetteer; the Census county
-subdivision file adds roughly 36,000 names, so the second column is a floor
-rather than an estimate.
+`.github/workflows/acquire-geo-sources.yml` ran on 2026-09-06 and flipped it.
+The manifest now reads `national: true`, 32,856 rows over 16,686 distinct
+place names, and the place pass is live.
+
+That run also broke `main`, and the way it broke is worth recording next to
+the source scan rather than only in the fix. Ten of those 32,856 Census
+county-subdivision names contain a word `leak_audit.py` treats as scorekeeping
+vocabulary at the blocking tier: one township name shared by four counties, a
+Minnesota lake, and five others, all of them ordinary proper nouns naming real
+places. (They are listed in `leak_audit.py`'s exemption comment rather than
+here, because writing them out in prose trips the same audit.) `pipeline.yml`
+runs the audit as
+a hard gate, so the nightly build aborted before its commit step for four
+consecutive nights. The names are federal reference data and are exempted as
+exact file-plus-column pairs. **The generalizable point: the file was checked
+for exactly this before it shipped, but against the 799-row offline build,
+which contains none of those names. A check run against a stand-in for what a
+generator produces is not a check of what it produces.**
+
+**Measured against the live worklist.** On the 146 rows in
+`data/signal_candidates.csv` as of 2026-09-09, county-level resolution
+(`high` or `medium`) stands at 18 and rows carrying no geography at all at 93.
+The earlier estimate in this memo — 27 -> 47 on a 227-row worklist — was
+computed from the 802-row offline gazetteer and is superseded by the figures
+above; the worklist has itself turned over since, so the two are not a
+before-and-after pair and should not be read as one.
 
 Four false attributions found by spot-checking the first draft are now
 refused by name, and each is a selftest: "El Reno" no longer resolves to Reno
@@ -169,7 +191,16 @@ plan amendment or zone change, and DLCD must publish proposals and adoptions
 weekly. That is precisely the instrument an Oregon data center rezoning uses,
 captured statewide before the vote. Delivery is PAPA Online plus a
 subscription notification service and an on-demand reporting service (2017).
-Not Socrata, so a small adapter rather than a config — call it Tier 2.
+
+The scan called this "not Socrata, so a small adapter rather than a config".
+That was an assumption, not a finding, and `configs/or_dlcd_papa.json` now
+tests it directly: its first probe asks `data.oregon.gov` — which is a Socrata
+portal — whether plan amendments are published there, because if they are the
+source collapses to a config like `configs/wa_sepa.json` with no new code at
+all. Its second probe asks whether the public reporting tool at
+`db.lcd.state.or.us/PAPA_Subscription/` is a `__VIEWSTATE` postback form; if
+it is, "a small adapter" is the wrong shape and the route to look for is the
+reporting or subscription service instead of the form.
 
 **California — CEQAnet.** The State Clearinghouse database of every CEQA
 document filed for state review since 1990, carrying project title, location,
@@ -177,6 +208,17 @@ lead agency, contact and description. California is the largest western state
 by tracked facilities (112) and by recorded events (25), and every
 discretionary data center there files a CEQA notice. API and bulk-export path
 are unconfirmed and need a pin, exactly like the PA DEP layer.
+
+Two corrections to the original entry. The host in the 2026-09-02 scan,
+`ceqanet.opr.ca.gov`, is stale: OPR is now the Office of Land Use and Climate
+Innovation and the database is served from `ceqanet.lci.ca.gov`.
+`configs/ca_ceqanet.json` probes both, so whether the old address redirects or
+is retired becomes a recorded fact rather than an assumption. And the entry
+treated the site as the only route; the config also probes `data.ca.gov` and
+`catalog.data.gov`, both CKAN, because a CEQA dataset published on either
+would be materially cheaper than the site itself. CEQAnet is also *not*
+comprehensive — only documents submitted to the State Clearinghouse reach it —
+so it is a floor on California coverage, not a census of it.
 
 Two California specifics worth carrying alongside CEQAnet, both of which fire
 *earlier* than a land-use decision. Air-district Authority to Construct
