@@ -146,6 +146,16 @@ jobs:
           python facility_registry.py --selftest
           echo "Signal harvest self-tests:"
           python signal_harvest.py --selftest
+          # Also gated in fetch-permits.yml, where a regression would reach a
+          # live portal. Repeated here because this gate runs on every push
+          # touching a .py file and that one runs weekly: a discoverer broken
+          # on a Wednesday should not stay unnoticed until the next Tuesday.
+          # Same reason leak_audit is gated in two workflows. All three are
+          # offline and take about a second between them.
+          echo "Source discoverer self-tests:"
+          python discover_arcgis_layer.py --selftest
+          python discover_socrata_dataset.py --selftest
+          python discover_endpoint.py --selftest
           echo "Front-end syntax gate self-tests:"
           python scripts/check_inline_js.py --selftest
           # A syntax error in a page loader takes a client-visible surface
