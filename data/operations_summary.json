@@ -216,10 +216,10 @@
       ]
     },
     "harvested_signals": {
-      "decisions": 3460,
+      "decisions": 3467,
       "by_action": {
-        "blocked": 1853,
-        "promoted": 1607
+        "blocked": 1856,
+        "promoted": 1611
       },
       "first_run": "2026-08-13",
       "last_run": "2026-09-10",
@@ -227,50 +227,50 @@
         {
           "date": "2026-09-10",
           "action": "promoted",
-          "what": "",
+          "what": "Scott",
+          "reason": ""
+        },
+        {
+          "date": "2026-09-10",
+          "action": "promoted",
+          "what": "Texas",
+          "reason": ""
+        },
+        {
+          "date": "2026-09-10",
+          "action": "promoted",
+          "what": "VA",
+          "reason": ""
+        },
+        {
+          "date": "2026-09-10",
+          "action": "promoted",
+          "what": "IA Allamakee",
           "reason": ""
         },
         {
           "date": "2026-09-10",
           "action": "blocked",
-          "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
+          "what": "IA Allamakee",
+          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+        },
+        {
+          "date": "2026-09-10",
+          "action": "blocked",
+          "what": "IA Allamakee",
+          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+        },
+        {
+          "date": "2026-09-10",
+          "action": "blocked",
+          "what": "zoning_restriction",
+          "reason": "UNPLACEABLE: Local action has no county, city, or coordinates; it cannot be placed on the map."
         },
         {
           "date": "2026-09-10",
           "action": "promoted",
           "what": "",
           "reason": ""
-        },
-        {
-          "date": "2026-09-10",
-          "action": "blocked",
-          "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.; DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
-        },
-        {
-          "date": "2026-09-10",
-          "action": "blocked",
-          "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed.; DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
-        },
-        {
-          "date": "2026-09-10",
-          "action": "promoted",
-          "what": "",
-          "reason": ""
-        },
-        {
-          "date": "2026-09-10",
-          "action": "promoted",
-          "what": "",
-          "reason": ""
-        },
-        {
-          "date": "2026-09-10",
-          "action": "blocked",
-          "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
         }
       ]
     }
@@ -654,12 +654,12 @@
     "decisions_this_run": {
       "promotable": 1042,
       "held": 383,
-      "blocked": 315
+      "blocked": 316
     },
     "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
     "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
-    "decisions_newly_recorded": 135,
-    "decisions_unchanged_since_last_run": 1605
+    "decisions_newly_recorded": 134,
+    "decisions_unchanged_since_last_run": 1607
   },
   "note": "Every figure here is read from an audit trail the pipeline writes on its own runs. A missing input becomes a null section rather than a zero: an operations page that invents a number is worse than one with a gap in it."
 }

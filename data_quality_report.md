@@ -1,6 +1,6 @@
 # Data Quality Report — master_opposition.csv
 
-**Rows processed:** 6533
+**Rows processed:** 6569
 
 This pass is **backward compatible**: existing columns keep their names and meanings, values were fixed in place only where the correction is unambiguous, and all new structure was added as additional columns. The HTML map and Notion sync continue to work without modification.
 
@@ -13,7 +13,7 @@ This pass is **backward compatible**: existing columns keep their names and mean
 260 cell(s) repaired
 
 **3. Validation flag: source_url_valid (new column)**  
-1919 valid; 0 non-empty but still non-URL (flagged for review)
+1921 valid; 0 non-empty but still non-URL (flagged for review)
 
 **4. Sources — backfilled from Source URL where empty**  
 0 row(s) now have a populated Sources list (Source URL was confirmed == Sources[0] in 100% of dual-filled rows)
