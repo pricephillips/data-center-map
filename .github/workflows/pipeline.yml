@@ -63,6 +63,14 @@ on:
       - 'data/county_fips_lookup.json'
       - 'configs/audit_frames.json'
       - 'configs/frames/*.csv'
+      # Every configs/*.json, not just the frame registry. Source configs
+      # carry load-bearing invariants that only a self-test checks -- a probe
+      # source must have "adapter": null so fetch_permits.list_sources()
+      # cannot enumerate it, and discover_endpoint's self-test asserts the two
+      # sets never intersect. Registering six probe sources changed nothing
+      # this filter matched, so that assertion ran locally and nowhere else.
+      # A config is code when a gate depends on its shape.
+      - 'configs/*.json'
       # Code that produces the artifacts. Without these, pushing a pipeline
       # change did not run the pipeline, so a module could ship and its
       # outputs would never be generated. That is why the screener, the
@@ -146,6 +154,17 @@ jobs:
           python facility_registry.py --selftest
           echo "Signal harvest self-tests:"
           python signal_harvest.py --selftest
+          # Also gated in fetch-permits.yml, where a regression would reach a
+          # live portal. Repeated here because this gate runs on every push
+          # touching a .py file and that one runs weekly: a discoverer broken
+          # on a Wednesday should not stay unnoticed until the next Tuesday.
+          # Same reason leak_audit is gated in two workflows. All three are
+          # offline and take about a second between them.
+          echo "Source discoverer self-tests:"
+          python discover_arcgis_layer.py --selftest
+          python discover_socrata_dataset.py --selftest
+          python discover_endpoint.py --selftest
+          python fetch_permits.py --selftest
           echo "Front-end syntax gate self-tests:"
           python scripts/check_inline_js.py --selftest
           # A syntax error in a page loader takes a client-visible surface

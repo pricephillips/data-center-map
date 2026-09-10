@@ -116,6 +116,45 @@ def fetch_socrata(cfg):
     return rows
 
 
+WHERE_IDENT = re.compile(r"\b([a-z_][a-z0-9_]*)\b")
+
+# SoQL words that appear in a $where but are not column names. Anything left
+# after these is treated as a column reference.
+SOQL_WORDS = frozenset({
+    "and", "or", "not", "like", "in", "is", "null", "between", "true", "false",
+    "upper", "lower", "trim", "length", "starts_with", "contains", "within_box",
+    "within_circle", "date_trunc_y", "date_trunc_ym", "date_trunc_ymd", "case",
+})
+
+
+def where_columns(where: str) -> set:
+    """Column names a $where clause references.
+
+    Deliberately blunt: every bare identifier that is not a known SoQL word,
+    with quoted string literals stripped first so a value like 'DATA CENTER'
+    cannot be mistaken for a column. Over-reporting a column is safe -- the
+    caller only ever compares against a schema it actually has -- while
+    under-reporting would put back the failure this exists to catch.
+    """
+    if not where:
+        return set()
+    stripped = re.sub(r"'[^']*'", " ", str(where))
+    return {m for m in WHERE_IDENT.findall(stripped.lower())
+            if m not in SOQL_WORDS}
+
+
+def unknown_where_columns(where: str, columns) -> list:
+    """Columns the $where names that the dataset does not have.
+
+    Empty when the schema is unknown: discovery may not have reported columns,
+    and refusing to fetch on no evidence would be worse than trying.
+    """
+    known = {str(c).lower() for c in (columns or [])}
+    if not known:
+        return []
+    return sorted(where_columns(where) - known)
+
+
 ADAPTERS = {"arcgis": fetch_arcgis, "socrata": fetch_socrata}
 
 
@@ -216,8 +255,79 @@ def list_sources() -> list[str]:
     return out
 
 
+def selftest() -> int:
+    """Offline checks for the $where/schema reconciliation.
+
+    fetch_permits.py had no self-test until 2026-09-09, which is not a
+    coincidence: the wa_sepa where clause was registered as an explicit guess
+    at column names, and there was nothing that could have checked a guess.
+    """
+    checks: list[tuple[str, bool]] = []
+
+    def ck(name, cond):
+        checks.append((name, bool(cond)))
+
+    W = "upper(title) like '%DATA CENTER%' OR upper(description) like '%X%'"
+
+    ck("column references are extracted from a where clause",
+       where_columns(W) == {"title", "description"})
+    ck("string literals are not mistaken for columns",
+       "data" not in where_columns(W) and "center" not in where_columns(W))
+    ck("SoQL keywords are not mistaken for columns",
+       not ({"upper", "like", "or"} & where_columns(W)))
+    ck("an empty where names no columns", where_columns("") == set())
+    ck("a where naming one column reports it",
+       where_columns("status = 'OPEN'") == {"status"})
+
+    # The wa_sepa case exactly: the guess names title/description, the real
+    # dataset has neither.
+    real = ["sepa_number", "project_name", "project_description", "county"]
+    ck("the wa_sepa guess is caught against a real schema",
+       unknown_where_columns(W, real) == ["description", "title"])
+    ck("a where matching the schema is accepted",
+       unknown_where_columns("upper(project_name) like '%DATA CENTER%'",
+                             real) == [])
+    ck("column comparison is case-insensitive",
+       unknown_where_columns("upper(COUNTY) like '%KING%'", real) == [])
+
+    # Refusing to fetch on no evidence would be worse than trying, so an
+    # unknown schema must never block a source that works today.
+    ck("no reported schema blocks nothing", unknown_where_columns(W, []) == [])
+    ck("a null schema blocks nothing", unknown_where_columns(W, None) == [])
+    ck("no where clause is never a mismatch",
+       unknown_where_columns("", real) == [])
+
+    # list_sources is the discriminator the acquisition workflow iterates, and
+    # probe sources must stay out of it.
+    srcs = list_sources()
+    ck("list_sources returns adapter-bearing configs only",
+       srcs and all(s.endswith(".json") for s in srcs))
+    probe_cfgs = []
+    cfg_dir = os.path.join(ROOT, "configs")
+    for name in sorted(os.listdir(cfg_dir) if os.path.isdir(cfg_dir) else []):
+        if not name.endswith(".json"):
+            continue
+        try:
+            with open(os.path.join(cfg_dir, name), encoding="utf-8") as fh:
+                c = json.load(fh)
+        except Exception:
+            continue
+        if isinstance(c, dict) and (c.get("discovery") or {}).get("kind") == "probe":
+            probe_cfgs.append(name)
+    ck("probe sources are never enumerated as fetchable",
+       not (set(srcs) & set(probe_cfgs)))
+
+    ok = sum(1 for _, c in checks if c)
+    for name, cond in checks:
+        if not cond:
+            print(f"  FAIL {name}")
+    print(f"fetch_permits selftest: {ok}/{len(checks)}")
+    return 0 if ok == len(checks) else 1
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--config")
     ap.add_argument("--outdir", default=os.path.join(ROOT, "data"))
     ap.add_argument("--list-sources", action="store_true",
@@ -225,6 +335,8 @@ def main() -> int:
                          "one per line, and exit")
     args = ap.parse_args()
 
+    if args.selftest:
+        return selftest()
     if args.list_sources:
         for name in list_sources():
             print(name)
@@ -271,6 +383,32 @@ def main() -> int:
             cfg["url"] = resolved["query_url"]
             print(f"{cfg.get('source')}: url resolved by discovery -> "
                   f"{cfg['url']}")
+            # A resolved url is not the same as a usable query. A config
+            # registered before anyone could see the portal carries a $where
+            # guessing at column names, and Socrata answers a $where naming a
+            # column it does not have with a 400 -- which is how wa_sepa took
+            # the whole weekly acquisition job red on 2026-09-08 while its
+            # discovery had in fact worked perfectly.
+            #
+            # Now that discovery records the dataset's columns, that guess is
+            # checkable before the request. A mismatch is the same class of
+            # thing as unresolved discovery above -- a registration still
+            # pending, not a source that broke -- so it skips cleanly for the
+            # same reason: it must not fail the scheduled run for the sources
+            # that do work. The message carries the real column names, so the
+            # fix is one edit to the config.
+            missing = unknown_where_columns(cfg.get("where"),
+                                            resolved.get("columns"))
+            if missing:
+                print(f"{cfg.get('source')}: the configured where clause "
+                      f"names {len(missing)} column(s) this dataset does not "
+                      f"have ({', '.join(missing)}); skipping fetch rather "
+                      f"than sending a query the portal will reject.")
+                print(f"{cfg.get('source')}: available columns are "
+                      f"{', '.join(resolved['columns'])}")
+                print(f"{cfg.get('source')}: edit \"where\" in "
+                      f"{args.config} to use them.")
+                return 0
         else:
             tool = ("discover_socrata_dataset.py"
                     if (cfg.get("discovery") or {}).get("kind") == "socrata"

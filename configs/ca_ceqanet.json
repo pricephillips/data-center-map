@@ -1,0 +1,32 @@
+{
+  "adapter": null,
+  "source": "ca_ceqanet",
+  "url": null,
+  "discovery": {
+    "kind": "probe",
+    "keywords": ["ceqa", "state clearinghouse", "environmental", "lead agency", "negative declaration"],
+    "probes": [
+      {
+        "url": "https://ceqanet.lci.ca.gov/",
+        "note": "Current site root. CEQAnet moved host when OPR became the Office of Land Use and Climate Innovation; the 2026-09-02 scan recorded the old ceqanet.opr.ca.gov address."
+      },
+      {
+        "url": "https://ceqanet.opr.ca.gov/",
+        "note": "Former host, probed to confirm whether it redirects or is retired — the answer decides whether anything else in the repo still citing it needs changing."
+      },
+      {
+        "url": "https://ceqanet.lci.ca.gov/Search",
+        "note": "Search page. If results are reachable by GET query string this becomes a tabular or HTML adapter; if it is a viewstate postback it is not worth scraping."
+      },
+      {
+        "url": "https://data.ca.gov/api/3/action/package_search?q=CEQA&rows=25",
+        "note": "California's open-data portal runs CKAN. A CEQA dataset published here would be a far cheaper route than the site itself."
+      },
+      {
+        "url": "https://catalog.data.gov/api/3/action/package_search?q=CEQAnet&rows=25",
+        "note": "Federal catalog, as a second CKAN route: state datasets are frequently harvested here even when the state portal does not surface them."
+      }
+    ],
+    "note": "California is the largest western state by tracked facilities (112) and by recorded events (25), and every discretionary data center there files a CEQA notice, so CEQAnet is the highest-value unresolved western source. It has stayed unresolved because its API and bulk-export path are unconfirmed and confirming them needs a look from an unrestricted network. Registered 2026-09-09 as a probe rather than a fetch: nothing here can start a download, and the report only says what each URL is and which tool could take it onward."
+  }
+}

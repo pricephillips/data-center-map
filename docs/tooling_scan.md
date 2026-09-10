@@ -587,3 +587,27 @@ uniqueness unless the index is national, and records which it is in the build
 manifest. A sparse index makes every rare name look unique, which is how a
 Portland headline about Oregon lands in Chautauqua County, New York. Any
 future index-backed matcher here should carry the same flag.
+
+### 2026-09-03: item 5 built, plus the two map fixes
+
+`local_meeting_feed.py` gains PrimeGov and Granicus probes and fetchers. The
+discovery step was resolving 3 jurisdictions out of 808, and the two platforms
+it probed are not the ones a western city is likely to run. Same underlying
+point as the place gazetteer: west of the Rockies the body that acts on a data
+center is usually a city, so a probe set aimed only at county platforms cannot
+reach the jurisdiction doing the deciding. The Granicus probe is deliberately
+the strictest of the four — its response is HTML rather than JSON, so a 200 is
+not accepted unless the page also names the jurisdiction — and its fetcher
+emits a row only when it finds both a date and an agenda link, because a wrong
+hearing date costs more than a missed one. The four probes now share a single
+slug helper; three of them had been carrying separate copies of the same
+`.replace()` chain, and the copies had already drifted over whether to strip
+"Municipality".
+
+Two visualization fixes from the same measurement, detailed in
+`docs/western_coverage_sources.md`: a computed, self-retiring coverage note in
+project-pins mode, and a `minPosition` floor on the count ramp so a county with
+one recorded event is separable from a county with none. The second is worth
+generalizing: any scale whose zero is rendered as a different category, rather
+than as the bottom of the ramp, has this problem, and the fix belongs to the
+scale rather than to the page.

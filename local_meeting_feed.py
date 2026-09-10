@@ -10,6 +10,15 @@ unauthenticated interfaces we can poll on a schedule:
   civicclerk    OData REST (Events, then publishedFiles for the agenda PDF)
   civicplus_rss AgendaCenter RSS feed, resolved to the agenda/minutes PDF
   legistar      OData REST (Matters / EventItems / Votes / RollCalls)
+  primegov      JSON PublicPortal (ListUpcomingMeetings)
+  granicus      ViewPublisher HTML, parsed conservatively
+
+The last two were added 2026-09-03. Discovery was resolving 3 jurisdictions
+out of 808, and the two platforms it probed are not the ones a western city is
+likely to run; PrimeGov and Granicus are. That matters for the same reason the
+place gazetteer does: west of the Rockies the body that acts on a data center
+is usually a city, so a probe set aimed only at county platforms cannot reach
+the jurisdiction doing the deciding.
 
 Not every jurisdiction runs one of these, and Aurora, CO's eSCRIBE portal
 confirmed no documented API. For a jurisdiction with none, this module
@@ -106,6 +115,17 @@ def slugify(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "", name.lower())
 
 
+def strip_county_words(name: str) -> str:
+    """Bare jurisdiction name, with the administrative suffix removed.
+
+    Four probes now build a client slug from the same name, and three of them
+    were each carrying their own chain of .replace() calls that had already
+    drifted apart (one stripped "Municipality", another did not). One function,
+    so a slug is the same string whichever probe asks for it."""
+    return re.sub(r"\b(county|borough|parish|municipality|city and borough|census area)\b",
+                  "", name, flags=re.IGNORECASE).strip()
+
+
 # ---------------------------------------------------------------------------
 # Jurisdiction list (dashboard-wide, not hardcoded to any specific sites)
 # ---------------------------------------------------------------------------
@@ -198,8 +218,7 @@ def jur_key(state: str, county: str) -> str:
 def probe_civicclerk(county: str) -> dict | None:
     """{client}.api.civicclerk.com/v1/Events, no auth. Client slug is a
     guess from the county name; confirmed to generalize for Wyandotte/KCK."""
-    candidates = [slugify(county.replace("County", "").replace("Borough", "")
-                          .replace("Parish", "").replace("Municipality", ""))]
+    candidates = [slugify(strip_county_words(county))]
     for slug in candidates:
         if not slug:
             continue
@@ -238,8 +257,7 @@ def probe_legistar(county: str) -> dict | None:
                     if w.lower() not in ("county", "borough", "parish", "municipality")]
     if not county_words:
         return None
-    slug = slugify(county.replace("County", "").replace("Borough", "")
-                   .replace("Parish", "").replace("Municipality", ""))
+    slug = slugify(strip_county_words(county))
     if not slug:
         return None
     status, body = http_get(f"https://webapi.legistar.com/v1/{slug}/bodies?$top=50")
@@ -256,7 +274,64 @@ def probe_legistar(county: str) -> dict | None:
     return {"platform": "legistar", "base_url": f"https://webapi.legistar.com/v1/{slug}"}
 
 
-PROBES = [probe_civicclerk, probe_legistar]  # civicplus_rss needs a known domain; override-only
+def probe_primegov(county: str) -> dict | None:
+    """{client}.primegov.com/api/v2/PublicPortal/ListUpcomingMeetings, no auth.
+
+    Added because discovery was resolving 3 of 808 jurisdictions and neither of
+    the two platforms it probed is the one a western city is likely to run.
+    PrimeGov and Granicus below are both common in exactly the places the
+    county-only probe set could never reach.
+
+    The response is a JSON array of meetings, which is a strong enough shape
+    test on its own: an unprovisioned slug returns an error page or a redirect,
+    not a list.
+    """
+    slug = slugify(strip_county_words(county))
+    if not slug:
+        return None
+    url = f"https://{slug}.primegov.com/api/v2/PublicPortal/ListUpcomingMeetings"
+    status, body = http_get(url)
+    if status != 200 or not body.strip().startswith(b"["):
+        return None
+    try:
+        json.loads(body)
+    except Exception:
+        return None
+    return {"platform": "primegov", "base_url": f"https://{slug}.primegov.com"}
+
+
+def probe_granicus(county: str) -> dict | None:
+    """{client}.granicus.com/ViewPublisher.php?view_id=N.
+
+    Granicus publishes agendas as HTML rather than JSON, so the shape test is
+    weaker than the others' and the confirmation has to be stricter to
+    compensate: a 200 alone is not accepted, because Granicus serves a generic
+    landing page for slugs it does not host. The page must also carry the
+    jurisdiction's own name word, which its masthead does.
+    """
+    bare = strip_county_words(county)
+    slug = slugify(bare)
+    words = [w.lower() for w in re.findall(r"[A-Za-z]+", bare)]
+    if not slug or not words:
+        return None
+    url = f"https://{slug}.granicus.com/ViewPublisher.php?view_id=1"
+    status, body = http_get(url)
+    if status != 200 or not body:
+        return None
+    text = body.decode("utf-8", errors="replace").lower()
+    if "granicus" not in text:
+        return None
+    if not re.search(rf"\b{re.escape(words[0])}\b", text):
+        return None       # a real Granicus page, but not this jurisdiction's
+    return {"platform": "granicus",
+            "base_url": f"https://{slug}.granicus.com"}
+
+
+# Ordered cheapest and most decisive first. A jurisdiction stops at its first
+# confirmed platform, so putting the two JSON probes ahead of the HTML one
+# keeps the weakest shape test as the last resort rather than the first answer.
+PROBES = [probe_civicclerk, probe_legistar, probe_primegov, probe_granicus]
+# civicplus_rss still needs a known domain and stays override-only.
 
 
 def discover_one(state: str, county: str, ambiguous_names: set[str]) -> dict:
@@ -390,8 +465,85 @@ def fetch_civicplus_rss(base_url: str, jurisdiction: str, state: str, county: st
     return rows
 
 
+def fetch_primegov(base_url: str, jurisdiction: str, state: str, county: str) -> list[dict]:
+    status, body = http_get(
+        f"{base_url}/api/v2/PublicPortal/ListUpcomingMeetings")
+    if status != 200 or not body:
+        return []
+    try:
+        meetings = json.loads(body)
+    except Exception:
+        return []
+    rows = []
+    for mt in meetings if isinstance(meetings, list) else []:
+        # PrimeGov attaches several documents per meeting (agenda, packet,
+        # minutes). The agenda is the one that carries a rezoning item before
+        # the vote, so it is what the row cites when present.
+        doc = ""
+        for d in (mt.get("documentList") or []):
+            name = (d.get("templateName") or d.get("name") or "").lower()
+            if "agenda" in name and d.get("id"):
+                doc = f"{base_url}/Portal/Meeting?meetingTemplateId={d['id']}"
+                break
+        rows.append({
+            "jurisdiction": jurisdiction, "state": state, "county": county,
+            "body": mt.get("title") or mt.get("meetingGroupName") or "",
+            "meeting_datetime": mt.get("dateTime") or mt.get("date") or "",
+            "item_title": mt.get("title") or "",
+            "item_status": mt.get("meetingStatus") or "",
+            "document_url": doc,
+            "platform": "primegov",
+            "source_url": f"{base_url}/api/v2/PublicPortal/ListUpcomingMeetings",
+        })
+    return rows
+
+
+def fetch_granicus(base_url: str, jurisdiction: str, state: str, county: str) -> list[dict]:
+    """Granicus ViewPublisher rows.
+
+    HTML rather than an API, so this parses conservatively: a row is emitted
+    only when it carries both a date-looking cell and an agenda link. Granicus
+    templates vary between clients, and a loose parse would put rows with
+    invented dates into a feed whose whole purpose is knowing when a hearing
+    is. Missing a meeting costs a reviewer nothing; a wrong date costs trust.
+    """
+    url = f"{base_url}/ViewPublisher.php?view_id=1"
+    status, body = http_get(url)
+    if status != 200 or not body:
+        return []
+    html = body.decode("utf-8", errors="replace")
+    rows = []
+    for tr in re.findall(r"<tr[^>]*>(.*?)</tr>", html, re.S | re.I):
+        cells = [re.sub(r"<[^>]+>", " ", c) for c in
+                 re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", tr, re.S | re.I)]
+        text = " ".join(cells)
+        m = re.search(r"\b([A-Z][a-z]{2,8}\s+\d{1,2},?\s+\d{4})\b", text)
+        if not m:
+            continue
+        link = re.search(r'href=["\']([^"\']*(?:AgendaViewer|agenda)[^"\']*)["\']',
+                         tr, re.I)
+        if not link:
+            continue
+        href = link.group(1).replace("&amp;", "&")
+        if href.startswith("//"):
+            href = "https:" + href
+        elif href.startswith("/"):
+            href = base_url + href
+        rows.append({
+            "jurisdiction": jurisdiction, "state": state, "county": county,
+            "body": re.sub(r"\s+", " ", cells[0]).strip() if cells else "",
+            "meeting_datetime": m.group(1).replace(",", ""),
+            "item_title": re.sub(r"\s+", " ", cells[0]).strip() if cells else "",
+            "item_status": "",
+            "document_url": href,
+            "platform": "granicus", "source_url": url,
+        })
+    return rows
+
+
 FETCHERS = {"civicclerk": fetch_civicclerk, "legistar": fetch_legistar,
-            "civicplus_rss": fetch_civicplus_rss}
+            "civicplus_rss": fetch_civicplus_rss,
+            "primegov": fetch_primegov, "granicus": fetch_granicus}
 
 
 def fetch(state_filter: str | None) -> list[dict]:
@@ -522,9 +674,57 @@ def selftest() -> int:
     check(len(rows) == 1 and rows[0]["item_title"] == "Agenda Item",
           "civicplus_rss adapter parses RSS items")
 
+    # --- primegov and granicus (2026-09-03) ---
+    primegov_body = json.dumps([{
+        "title": "Planning Commission", "dateTime": "2026-09-15T18:00:00",
+        "meetingStatus": "Scheduled",
+        "documentList": [{"templateName": "Packet", "id": 11},
+                         {"templateName": "Agenda", "id": 22}],
+    }]).encode()
+    with mock.patch(f"{__name__}.http_get", return_value=(200, primegov_body)):
+        rows = fetch_primegov("https://mesa.primegov.com", "Maricopa County, AZ",
+                              "AZ", "Maricopa County")
+    check(len(rows) == 1 and rows[0]["platform"] == "primegov",
+          "primegov adapter normalizes a meeting")
+    check(rows[0]["document_url"].endswith("meetingTemplateId=22"),
+          "primegov adapter prefers the agenda over the packet")
+    check(rows[0]["meeting_datetime"] == "2026-09-15T18:00:00",
+          "primegov adapter carries the meeting time")
+
+    granicus_body = (
+        b"<html><body>granicus<table>"
+        b"<tr><td>City Council</td><td>September 15, 2026</td>"
+        b"<td><a href='//example.granicus.com/AgendaViewer.php?view_id=1&amp;clip_id=9'>Agenda</a></td></tr>"
+        b"<tr><td>Header row with no date and no link</td></tr>"
+        b"<tr><td>Board</td><td>October 2, 2026</td><td>video only</td></tr>"
+        b"</table></body></html>")
+    with mock.patch(f"{__name__}.http_get", return_value=(200, granicus_body)):
+        rows = fetch_granicus("https://example.granicus.com", "Pima County, AZ",
+                              "AZ", "Pima County")
+    check(len(rows) == 1, "granicus adapter emits only rows with a date and an agenda link")
+    check(rows[0]["meeting_datetime"] == "September 15 2026",
+          "granicus adapter reads the meeting date")
+    check(rows[0]["document_url"] == "https://example.granicus.com/AgendaViewer.php?view_id=1&clip_id=9",
+          "granicus adapter resolves a protocol-relative link and unescapes it")
+
+    check(set(FETCHERS) >= {p.__name__.replace("probe_", "") for p in PROBES},
+          "every probed platform has a fetcher, so discovery cannot record a "
+          "platform nothing can poll")
+
+    check(strip_county_words("Anchorage Municipality") == "Anchorage"
+          and strip_county_words("North Slope Borough") == "North Slope",
+          "one slug helper strips every administrative suffix")
+
     with mock.patch(f"{__name__}.http_get", return_value=(500, b"")):
         rows = fetch_civicclerk("https://x.api.civicclerk.com", "Test County, VA", "VA", "Test County")
     check(rows == [], "adapters return no rows on a non-200 response")
+
+    with mock.patch(f"{__name__}.http_get", return_value=(200, b"<html>granicus</html>")):
+        check(probe_granicus("Nowhere County") is None,
+              "a granicus page that does not name the jurisdiction is refused")
+    with mock.patch(f"{__name__}.http_get", return_value=(200, b"not json")):
+        check(probe_primegov("Nowhere County") is None,
+              "a primegov slug returning non-JSON is refused")
 
     with mock.patch(f"{__name__}.http_get", return_value=(0, b"")):
         rows = fetch_legistar("https://webapi.legistar.com/v1/test", "Test City, VA", "VA", "Test City")

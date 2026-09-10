@@ -52,6 +52,10 @@ import sys
 import urllib.parse
 import urllib.request
 
+# The audit's own pattern, imported rather than copied so the two cannot
+# drift. See safe_columns() for why a discoverer needs it.
+from leak_audit import LEAK_RE
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "data")
 
@@ -97,6 +101,27 @@ def score(result: dict, keywords: list[str]) -> int:
     return sum(1 for k in keywords if k.lower() in blob)
 
 
+def safe_columns(names) -> list:
+    """Portal column names, with any carrying scorekeeping vocabulary redacted.
+
+    These are written into data/socrata_discovery_*.json, which is a generated
+    artifact that leak_audit scans and whose blocking tier stops the pipeline.
+    A column named "loss" is entirely plausible on a public portal -- hydrology,
+    insurance, energy -- and would have taken the nightly build red the first
+    time discovery resolved such a dataset.
+
+    Redacting only the offending name keeps the rest of the schema useful:
+    fetch_permits.unknown_where_columns() compares a configured $where against
+    this list, so a redacted entry simply cannot be matched, which is the safe
+    direction -- it reports the clause as pending rather than sending it.
+    """
+    out = []
+    for n in (names or []):
+        n = str(n)
+        out.append("[redacted]" if LEAK_RE.search(n) else n)
+    return out
+
+
 def candidates_from(results: list[dict], keywords: list[str]) -> list[dict]:
     out = []
     for r in results:
@@ -110,6 +135,11 @@ def candidates_from(results: list[dict], keywords: list[str]) -> list[dict]:
             "description": str(res.get("description") or "").strip()[:400],
             "updated_at": str(res.get("updatedAt") or "").strip(),
             "rows": res.get("rows_count"),
+            # The catalog already tells us the dataset's columns, and not
+            # recording them is what let configs/wa_sepa.json ship a $where
+            # clause guessing at column names. Socrata answers such a query
+            # with a 400, so the guess cost a weekly job rather than a row.
+            "columns": safe_columns(res.get("columns_field_name")),
             "score": score(r, keywords),
         })
     # Highest score first, then most recently updated, then id for stability:
@@ -137,6 +167,10 @@ def resolve(candidates: list[dict], threshold: int, domain: str):
         "resource_id": top["id"],
         "name": top["name"],
         "query_url": to_query_url(domain, top["id"]),
+        # fetch_permits.py checks a configured $where against these before
+        # sending it, so a column-name guess is reported as a pending
+        # registration instead of a 400.
+        "columns": top.get("columns") or [],
     }, clearing
 
 
@@ -155,7 +189,10 @@ def write_report(out: dict, source: str) -> tuple[str, str]:
         r = out["resolved"]
         lines += ["## Resolved", "",
                   f"- **{r['name']}** (`{r['resource_id']}`)",
-                  f"- Query URL: `{r['query_url']}`", "",
+                  f"- Query URL: `{r['query_url']}`",
+                  "- Columns: " + (", ".join(f"`{c}`" for c in r["columns"])
+                                   if r.get("columns") else "_not reported_"),
+                  "",
                   "fetch_permits.py picks this up automatically on the next "
                   "run. It still needs a column map at "
                   f"`configs/{source}_ingest.json` before anything reaches the "
@@ -237,6 +274,18 @@ def selftest() -> int:
         nonlocal ok
         print(("PASS  " if cond else "FAIL  ") + msg)
         ok = ok and cond
+
+    expect(safe_columns(["county", "loss", "project_name"])
+           == ["county", "[redacted]", "project_name"],
+           "a portal column carrying the vocabulary is redacted")
+    expect(safe_columns(["loss_ratio", "winner_id"])
+           == ["loss_ratio", "winner_id"],
+           "a longer word containing it is left alone (word-boundary match)")
+    expect(safe_columns(None) == [] and safe_columns([]) == [],
+           "no reported columns is an empty list")
+    expect(not LEAK_RE.search(json.dumps(
+        {"columns": safe_columns(["wins", "lost", "ok"])})),
+        "a serialized resolved block is audit-clean by construction")
 
     expect(to_query_url("data.wa.gov", "abcd-1234")
            == "https://data.wa.gov/resource/abcd-1234.json",

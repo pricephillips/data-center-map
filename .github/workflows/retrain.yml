@@ -119,6 +119,13 @@ jobs:
           for i in 1 2 3; do
             git push && break
             echo "push rejected (attempt $i); rebasing on latest main"
+            # The `|| true` below swallows a conflicted rebase, which would
+            # otherwise leave the worktree mid-rebase and make the next
+            # iteration's rebase fail with "already a rebase-merge directory"
+            # -- silently here, since the failure is swallowed too. Aborting
+            # first means each attempt starts clean. Same guard pipeline.yml
+            # and manual-records.yml carry.
+            git rebase --abort 2>/dev/null || true
             git pull --rebase --autostash origin "$GITHUB_REF_NAME" || true
           done
 

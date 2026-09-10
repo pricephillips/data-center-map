@@ -1,0 +1,28 @@
+{
+  "adapter": null,
+  "source": "co_puc_efilings",
+  "url": null,
+  "discovery": {
+    "kind": "probe",
+    "keywords": ["proceeding", "docket", "tariff", "large load", "data center", "public utilities commission"],
+    "probes": [
+      {
+        "url": "https://www.dora.state.co.us/PUC/DocketsDecisions/DocketsDataArchive.htm",
+        "note": "Titled 'Index of Major Docket Activity and Index of Dockets and Decisions Tracking Data'. The words 'tracking data' and 'archive' are why this is probed first: a published index file would beat querying the filings system row by row."
+      },
+      {
+        "url": "https://www.dora.state.co.us/pls/efi/efi.show_document?p_dms_document_id=1027836&p_session_id=",
+        "note": "The E-Filings document route. The /pls/ path is the Oracle PL/SQL Web Toolkit, which means plain GET parameters and no viewstate — an unusually tractable shape for a filings system. Probed with a document id from a public citation."
+      },
+      {
+        "url": "https://www.dora.state.co.us/pls/efi/EFI.Show_Filing?p_fil=G_828577&p_session_id=",
+        "note": "The filing-level route from the same toolkit. Confirms whether the empty p_session_id is accepted, which decides whether anything here is reachable without establishing a session first."
+      },
+      {
+        "url": "https://puc.colorado.gov/puc-decisions",
+        "note": "The modern decisions page, in case the current route has moved off the dora.state.co.us host."
+      }
+    ],
+    "note": "Colorado PUC E-Filings, searchable from 1994 forward. Registered 2026-09-09 for item 7. Colorado matters for this project beyond its size: ten Colorado counties in data/county_aggregate.csv carry at least one recorded opposition event, and eight of the ten carry exactly one -- Denver at 3 and Logan at 2 are the only exceptions. A docket route here would deepen counties already visible at the thinnest possible margin rather than only adding new ones."
+  }
+}

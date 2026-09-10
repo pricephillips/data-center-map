@@ -12,23 +12,28 @@ per the two standing rules at the top of `docs/tooling_scan.md`.
 
 ## Status: what of this is now built
 
-Updated 2026-09-02, same day. Items 1 through 3 and half of 5 in the
-recommended order at the bottom are implemented; the rest stands as scoped.
+Updated 2026-09-09. Items 1, 2, 3 and 5 in the recommended order at the bottom
+are implemented, along with the two map-side fixes the original measurement
+turned up. Items 6 and 7 are now registered for reconnaissance rather than
+built: the thing blocking both was never the adapter, it was that nobody had
+confirmed what the sites serve, so that question is now asked by a scheduled
+job instead of sitting in this memo. Item 4 stands as scoped — it needs a
+person, not code.
 
 | # | Step | Status |
 | :-- | :-- | :-- |
-| 1 | Place gazetteer in `signal_harvest.locate()` | **Built.** `gazetteer.py`, wired into `locate()` as a second pass. The 5-char county rule is replaced rather than removed: a short name now matches in the literal "<name> County" form, so Pima and Ada resolve where before they could not match at all. |
-| 2 | WA SEPA Register as a Socrata config | **Built, pending one CI run.** `configs/wa_sepa.json` plus `discover_socrata_dataset.py`, which resolves the 4x4 resource id the way `discover_arcgis_layer.py` resolves an ArcGIS layer. `fetch_permits.py` reads either discoverer's output, so no new fetch code. |
+| 1 | Place gazetteer in `signal_harvest.locate()` | **Built and live.** `gazetteer.py`, wired into `locate()` as a second pass. The 5-char county rule is replaced rather than removed: a short name now matches in the literal "<name> County" form, so Pima and Ada resolve where before they could not match at all. The Census index landed 2026-09-06, so the national gate described below is open. |
+| 2 | WA SEPA Register as a Socrata config | **Built.** `configs/wa_sepa.json` plus `discover_socrata_dataset.py`, which resolves the 4x4 resource id the way `discover_arcgis_layer.py` resolves an ArcGIS layer. `fetch_permits.py` reads either discoverer's output, so no new fetch code. |
 | 3 | Overpass pull into `data/facility_candidates.csv` | **Built.** `fetch_osm_facilities.py` writes `data/facility_candidates_osm.csv`; `facility_registry.osm_candidates()` gates it. |
 | 4 | Email `jwklee` for the tracker CSV | Not started; needs a person, not code. |
-| 5 | Granicus + PrimeGov probes in `local_meeting_feed.py` | Not started. |
-| 6 | CEQAnet pin, then Oregon PAPA adapter | Not started. |
-| 7 | Western PUC docket scan | Not started. |
+| 5 | Granicus + PrimeGov probes in `local_meeting_feed.py` | **Built.** Both probes and both fetchers added, and the four probes now share one slug helper instead of three drifted copies of the same `.replace()` chain. |
+| 6 | CEQAnet pin, then Oregon PAPA adapter | **Reconnaissance registered.** `configs/ca_ceqanet.json` and `configs/or_dlcd_papa.json` register both sites as probe sources, and `discover_endpoint.py` reports in CI what each candidate URL actually serves. Neither can fetch anything: both carry `"adapter": null`, so `fetch_permits.list_sources()` does not enumerate them. The adapter, if one is warranted, gets written against the report rather than against a guess. |
+| 7 | Western PUC docket scan | **Reconnaissance registered.** All four commissions named in Finding 4 are probe sources: `configs/wa_utc_dockets.json`, `configs/co_puc_efilings.json`, `configs/or_puc_edockets.json`, `configs/az_acc_edocket.json`. Same terms as item 6 — `"adapter": null`, no fetch possible, a report per commission saying what each route actually serves. The open-ended part was always "none is a documented API"; that is now a question with a scheduled answer rather than an estimate. |
 
 Two things about item 1 are worth stating plainly, because the measured
 result is smaller than the scan implied and the reason matters.
 
-**The place pass is gated on a national index, and shipping it does not turn
+**The place pass is gated on a national index, and shipping it did not turn
 it on.** "This name occurs once in the index, so it is unambiguous" is only
 sound if the index covers the country. Built from repo records alone it does
 not: it holds exactly one Portland, and a headline reading "Portland moves to
@@ -36,21 +41,72 @@ keep data center deals out of the shadows" resolved to Chautauqua County, New
 York, when the article is about Oregon. So `gazetteer.py` records
 `national: false` in its manifest when the Census fetch has not run, and
 `resolve()` then refuses every match the headline does not also state a
-state for. The `.github/workflows/acquire-geo-sources.yml` run is what flips
-it; until then the change is inert by construction rather than wrong.
+state for.
 
-**Measured against the live 227-row worklist.** County-level resolution
-(`high` or `medium`) goes 27 -> 27 with the gate closed, and 27 -> 47 once the
-Census index lands, with rows carrying no geography at all going 164 -> 146.
-Those numbers are from the 802-row offline gazetteer; the Census county
-subdivision file adds roughly 36,000 names, so the second column is a floor
-rather than an estimate.
+`.github/workflows/acquire-geo-sources.yml` ran on 2026-09-06 and flipped it.
+The manifest now reads `national: true`, 32,856 rows over 16,686 distinct
+place names, and the place pass is live.
+
+That run also broke `main`, and the way it broke is worth recording next to
+the source scan rather than only in the fix. Ten of those 32,856 Census
+county-subdivision names contain a word `leak_audit.py` treats as scorekeeping
+vocabulary at the blocking tier: one township name shared by four counties, a
+Minnesota lake, and five others, all of them ordinary proper nouns naming real
+places. (They are listed in `leak_audit.py`'s exemption comment rather than
+here, because writing them out in prose trips the same audit.) `pipeline.yml`
+runs the audit as
+a hard gate, so the nightly build aborted before its commit step for four
+consecutive nights. The names are federal reference data and are exempted as
+exact file-plus-column pairs. **The generalizable point: the file was checked
+for exactly this before it shipped, but against the 799-row offline build,
+which contains none of those names. A check run against a stand-in for what a
+generator produces is not a check of what it produces.**
+
+**Measured against the live worklist.** On the 146 rows in
+`data/signal_candidates.csv` as of 2026-09-09, county-level resolution
+(`high` or `medium`) stands at 18 and rows carrying no geography at all at 93.
+The earlier estimate in this memo — 27 -> 47 on a 227-row worklist — was
+computed from the 802-row offline gazetteer and is superseded by the figures
+above; the worklist has itself turned over since, so the two are not a
+before-and-after pair and should not be read as one.
 
 Four false attributions found by spot-checking the first draft are now
 refused by name, and each is a selftest: "El Reno" no longer resolves to Reno
 NV, "Buckeye Country 105.5" no longer resolves to Maricopa County, and
 "Industry warns of blackouts" and "The Rapid Buildout of Data Centers" no
 longer resolve at all.
+
+## The two map fixes
+
+Both come straight from the measurement at the top and neither is about
+acquisition, so they are recorded here rather than left implicit.
+
+**A blank region on a pin map is ambiguous by construction.** It reads as "no
+projects here" when it can equally mean "this registry does not cover here",
+and for the west it is the second. Project-pins mode now carries a coverage
+note computed from the loaded rows rather than written as prose, so it states
+what is true on the day it renders and retires itself the moment the registry
+gains western projects. Verified against the real registry: 329 projects with
+coordinates, 0 western, note shown; with six western pins injected the note
+disappears on its own.
+
+**A county with one recorded event was rendering as a county with none.** The
+count ramp starts at the bottom of the sequential scale, but a count scale
+never renders a zero — `countColor()` returns null and the county takes the
+no-data fill — so the ramp's bottom is a real value competing with the absence
+of one, and it was invisible: composited over the basemap, one event sat at
+contrast 1.74 against the no-data grey, against the 3:1 that non-text contrast
+needs. `SequentialScale` gained an optional `minPosition`, set for the count
+scale only at 0.30, the smallest floor that clears 3:1 for a single event.
+
+The effect on the current data, counting counties rendered under 3:1 against
+the no-data fill: **568 before (62 of them western), 0 after.** That is 88
+percent of every county carrying at least one recorded event. The floor moves
+the ramp, not the data: ordering, saturation and the legend's tick values are
+unchanged, the legend gradient now starts where the map's does, and the
+distribution histogram still bins on the unfloored position so it keeps
+showing the true shape. The calibrated-score scale is deliberately untouched —
+its low end is a meaningful probability and lifting it would misreport one.
 
 ## The hole, measured
 
@@ -136,7 +192,16 @@ plan amendment or zone change, and DLCD must publish proposals and adoptions
 weekly. That is precisely the instrument an Oregon data center rezoning uses,
 captured statewide before the vote. Delivery is PAPA Online plus a
 subscription notification service and an on-demand reporting service (2017).
-Not Socrata, so a small adapter rather than a config — call it Tier 2.
+
+The scan called this "not Socrata, so a small adapter rather than a config".
+That was an assumption, not a finding, and `configs/or_dlcd_papa.json` now
+tests it directly: its first probe asks `data.oregon.gov` — which is a Socrata
+portal — whether plan amendments are published there, because if they are the
+source collapses to a config like `configs/wa_sepa.json` with no new code at
+all. Its second probe asks whether the public reporting tool at
+`db.lcd.state.or.us/PAPA_Subscription/` is a `__VIEWSTATE` postback form; if
+it is, "a small adapter" is the wrong shape and the route to look for is the
+reporting or subscription service instead of the form.
 
 **California — CEQAnet.** The State Clearinghouse database of every CEQA
 document filed for state review since 1990, carrying project title, location,
@@ -144,6 +209,17 @@ lead agency, contact and description. California is the largest western state
 by tracked facilities (112) and by recorded events (25), and every
 discretionary data center there files a CEQA notice. API and bulk-export path
 are unconfirmed and need a pin, exactly like the PA DEP layer.
+
+Two corrections to the original entry. The host in the 2026-09-02 scan,
+`ceqanet.opr.ca.gov`, is stale: OPR is now the Office of Land Use and Climate
+Innovation and the database is served from `ceqanet.lci.ca.gov`.
+`configs/ca_ceqanet.json` probes both, so whether the old address redirects or
+is retired becomes a recorded fact rather than an assumption. And the entry
+treated the site as the only route; the config also probes `data.ca.gov` and
+`catalog.data.gov`, both CKAN, because a CEQA dataset published on either
+would be materially cheaper than the site itself. CEQAnet is also *not*
+comprehensive — only documents submitted to the State Clearinghouse reach it —
+so it is a floor on California coverage, not a census of it.
 
 Two California specifics worth carrying alongside CEQAnet, both of which fire
 *earlier* than a land-use decision. Air-district Authority to Construct
@@ -202,6 +278,59 @@ the interconnection memo — RTO compliance filings, which landed in late August
 2026 — does **not** improve western disclosure, because these utilities are not
 FERC-jurisdictional RTOs. Do not expect the west to be fixed by that docket.
 
+### What the four commissions actually expose
+
+Recorded 2026-09-09 while registering them. None of this is a substitute for
+the probe reports — that is the point of the probes — but it is what a search
+turns up without reaching any of the hosts, and it changes the ranking Finding
+4 implies.
+
+**Washington UTC is the outlier, in a good way.** A public citation exposes
+`apiproxy.utc.wa.gov/cases/GetDocument?docID=&year=&docketNumber=` — a host
+literally named apiproxy, taking a parameter triple. Every other commission in
+this scan exposes a search form. Case pages also live at a predictable
+`/casedocket/<year>/<number>`, which makes a docket number from any other
+source directly resolvable even with no index at all.
+
+**Colorado's E-Filings runs on the Oracle PL/SQL Web Toolkit** (`/pls/efi/`),
+so its document and filing routes are plain GET parameters with no viewstate —
+an unusually tractable shape for a filings system. It also publishes something
+called an "Index of Major Docket Activity and Index of Dockets and Decisions
+Tracking Data", which is probed first: a published index would beat querying
+the system row by row.
+
+**Oregon is mid-migration.** The commission has a published eDockets and
+eDiscovery Replacement Project. That is worth knowing before writing an
+adapter rather than after, so the replacement page is itself a probe.
+
+**Arizona's eDocket looks like a single-page app** — `/search/<thing>/
+item-detail/<numeric id>` — which usually means a JSON backend worth finding
+rather than a page worth scraping. Its documented filter set (company name,
+docket number, document code, decision number, filed date range) is close to
+what a large-load tariff query needs.
+
+### The pattern that makes these worth the effort
+
+Counting tracked facilities against recorded opposition events by county, in
+`data/county_aggregate.csv` as of 2026-09-09:
+
+| County | Facilities | Recorded events |
+| :-- | --: | --: |
+| Grant, WA | 39 | 1 |
+| Umatilla, OR | 31 | 1 |
+| Morrow, OR | 28 | 1 |
+| Douglas, WA | 13 | 1 |
+| Maricopa, AZ | 63 | 14 |
+
+The first four are the Northwest's largest data center clusters, and each
+generates one recorded event. Maricopa, with a comparable facility count and
+an order of magnitude more events, is what observation looks like when it is
+working. **A county hosting thirty data centers and producing one recorded
+event is far more likely to be under-observed than quiet** — and that is the
+specific gap a tariff docket naming the customer and the load would close,
+because in non-ISO territory it is filed regardless of whether any local
+reporter covers it.
+
 ## Finding 5: national sources, ranked by ease
 
 **OpenStreetMap via Overpass.** Free, no key, one HTTP POST, `telecom=data_center`.
@@ -255,6 +384,12 @@ best available external validation set for our project list, and a
 buy-versus-build question, not a scrape.
 
 ## Recommended order
+
+**This table is the original 2026-09-02 recommendation, kept as the record of
+what was proposed and why. It is not a status board — the Status section at the
+top of this document is.** Two rows have been overtaken since: row 1's "164 of
+227" is the superseded estimate corrected above, and row 7's "do it after 1–6
+have landed" has happened.
 
 | # | Step | Effort | Why first |
 | :-- | :-- | :-- | :-- |

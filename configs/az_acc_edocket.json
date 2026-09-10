@@ -1,0 +1,28 @@
+{
+  "adapter": null,
+  "source": "az_acc_edocket",
+  "url": null,
+  "discovery": {
+    "kind": "probe",
+    "keywords": ["docket", "tariff", "large load", "data center", "corporation commission", "utilities"],
+    "probes": [
+      {
+        "url": "https://edocket.azcc.gov/search/docket-search",
+        "note": "Docket search. The /search/<thing>/item-detail/<numeric id> URL shape elsewhere on this host is characteristic of a single-page app talking to a JSON backend, which would be the thing to find rather than the page itself."
+      },
+      {
+        "url": "https://edocket.azcc.gov/search/document-search",
+        "note": "Document search, which the site describes as filterable by company name, docket number, document code, decision number and filed date range. That filter set is close to what a large-load tariff query needs."
+      },
+      {
+        "url": "https://edocket.azcc.gov/search/docket-search/item-detail/29465",
+        "note": "One docket detail page by numeric id, from a public citation. Confirms whether detail pages render server-side or arrive empty and hydrate from an API — the answer decides whether this is a scrape or an adapter."
+      },
+      {
+        "url": "https://edocket.azcc.gov/",
+        "note": "Portal root, for whatever route listing or client bundle reference it exposes."
+      }
+    ],
+    "note": "Arizona Corporation Commission eDocket. Registered 2026-09-09 for item 7. Arizona has the densest existing western coverage to build on: five counties carry recorded opposition events, 24 in total, led by Maricopa at 14 against 63 tracked facilities. So a docket route here is depth and corroboration rather than discovery -- which also makes it the best of the four for checking a new source against what is already known."
+  }
+}

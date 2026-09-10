@@ -1,0 +1,28 @@
+{
+  "adapter": null,
+  "source": "or_dlcd_papa",
+  "url": null,
+  "discovery": {
+    "kind": "probe",
+    "keywords": ["papa", "plan amendment", "post-acknowledgement", "dlcd", "land conservation"],
+    "probes": [
+      {
+        "url": "https://data.oregon.gov/api/catalog/v1?q=plan%20amendment&limit=25",
+        "note": "data.oregon.gov is a Socrata portal. If PAPA notices are published here the whole source collapses to a config like configs/wa_sepa.json with no new code, so this is probed first."
+      },
+      {
+        "url": "https://db.lcd.state.or.us/PAPA_Subscription/Default.aspx",
+        "note": "The public reporting tool for proposed and adopted PAPAs. Expected to be ASP.NET WebForms; a viewstate finding here is the evidence that the 'small adapter' in the source scan is the wrong shape."
+      },
+      {
+        "url": "https://www.oregon.gov/lcd/nn/pages/papa-notices.aspx",
+        "note": "The notices page. Probed for a download link, feed, or report route rather than for the notices themselves."
+      },
+      {
+        "url": "https://www.oregon.gov/lcd/cpu/pages/proposed-plan-amendments.aspx",
+        "note": "Proposed amendments page, the pre-decision half of the register and the half that matters for opposition timing."
+      }
+    ],
+    "note": "Oregon requires every city and county to file a Post-Acknowledgement Plan Amendment notice with DLCD for any comprehensive plan amendment or zone change, and DLCD must publish proposals and adoptions weekly — precisely the instrument an Oregon data center rezoning uses, captured statewide before the vote. The 2026-09-02 scan called this 'not Socrata, so a small adapter'; that was an assumption, and the first probe here tests it directly. Registered 2026-09-09."
+  }
+}

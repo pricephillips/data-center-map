@@ -291,6 +291,7 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
           <h3>Projects</h3><span class="ct" id="list-count"></span>
         </div>
         <div class="plist" id="project-list"></div>
+        <div class="note" id="coverage-note" hidden></div>
         <div class="note" id="risk-note"></div>
       </div>
     </div>
@@ -407,11 +408,17 @@ function num(v) { const n = parseFloat(v); return Number.isFinite(n) ? n : null;
 // calibrated score rendered as two different colours across the platform.
 // Scales are rebuilt from the data on load; see rebuildScales().
 let SCORE_SCALE = new VizPalette.SequentialScale([], { floor: 0.35 });
-let COUNT_SCALE = new VizPalette.SequentialScale([], { floor: 1 });
+// The count scale never renders a zero -- countColor() returns null and the
+// county takes the no-data fill -- so its bottom is a real value sitting next
+// to the absence of one, and it has to stay separable from that. See
+// MIN_POSITION_SEPARABLE in viz-palette.js.
+let COUNT_SCALE = new VizPalette.SequentialScale([], {
+  floor: 1, minPosition: VizPalette.MIN_POSITION_SEPARABLE });
 
 function rebuildScales(scoreValues, countValues) {
   SCORE_SCALE = new VizPalette.SequentialScale(scoreValues, { floor: 0.35 });
-  COUNT_SCALE = new VizPalette.SequentialScale(countValues, { floor: 1 });
+  COUNT_SCALE = new VizPalette.SequentialScale(countValues, {
+    floor: 1, minPosition: VizPalette.MIN_POSITION_SEPARABLE });
 }
 
 function policyColor(score) {
@@ -944,6 +951,43 @@ function clearFilters() {
   drawPins();
 }
 
+// The thirteen states west of the Great Plains, as data/proposals.csv spells
+// them: the file carries full state names, and buildProjects uppercases them.
+const WESTERN_STATES = new Set([
+  'WASHINGTON', 'OREGON', 'CALIFORNIA', 'NEVADA', 'IDAHO', 'MONTANA',
+  'WYOMING', 'UTAH', 'COLORADO', 'ARIZONA', 'NEW MEXICO', 'ALASKA', 'HAWAII'
+]);
+
+// A blank region on a pin map is ambiguous by construction: it reads as "no
+// projects here", when it can equally mean "this registry does not cover here".
+// For the west it is currently the second, and the map said nothing. The pin
+// layer's only coordinate source is data/proposals.csv, scraped from
+// trackdatacenters.com, which carries no rows in any of the states above --
+// the scraper applies no geographic filter, so this is inherited upstream
+// coverage rather than anything this repository decides.
+//
+// The note is computed from the loaded rows rather than written as prose, so
+// it states what is true on the day it renders and retires itself the moment
+// the registry gains a western project. A caveat that cannot go out of date by
+// being forgotten is worth more than a more carefully worded one that can.
+function registryCoverageNote(projects) {
+  const west = projects.filter(p => WESTERN_STATES.has(p.state));
+  if (west.length > 5) return '';
+  const states = new Set(west.map(p => p.state));
+  if (!west.length) {
+    return '<b>No western coverage in this layer.</b> The project registry ' +
+      'carries no rows in the thirteen states from the Rockies to the coast, ' +
+      'so the blank area west of the Plains means the registry does not reach ' +
+      'there — not that nothing is proposed there. County context mode is ' +
+      'built on a different source and does cover those states.';
+  }
+  return `<b>Thin western coverage in this layer.</b> The project registry ` +
+    `carries ${west.length} project${west.length === 1 ? '' : 's'} across ` +
+    `${states.size} of the thirteen states from the Rockies to the coast, so ` +
+    `blank area out west understates activity rather than measuring it. ` +
+    `County context mode is built on a different source.`;
+}
+
 function updateProjectStats(vis) {
   const el = document.getElementById('project-stats');
   const total = vis.length;
@@ -968,6 +1012,15 @@ function updateProjectStats(vis) {
         'coverage, so pins show outcome and opposition detail but no predicted risk band. Bands appear ' +
         'automatically once the model is fit; nothing here is a placeholder number.') +
     (missing ? `<br><br>${missing} project${missing===1?'':'s'} without recorded coordinates are omitted from the map and remain in the tracker table.` : '');
+  // Coverage is a property of the registry, not of the current filters, so it
+  // is computed from PROJECTS rather than from the visible subset: filtering
+  // down to zero western pins is the reader's own doing and needs no caveat.
+  const cov = registryCoverageNote(PROJECTS);
+  const covEl = document.getElementById('coverage-note');
+  if (covEl) {
+    covEl.innerHTML = cov;
+    covEl.hidden = !cov;
+  }
 }
 
 // ---------------------------------------------------------------------------
