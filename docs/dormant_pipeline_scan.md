@@ -69,6 +69,22 @@ for coverage.
 `capacity_mw` falling to 3 takes the cost layer with it: `cost_translation.py`
 never imputes MW by rule, so no capacity means no dollar figure.
 
+**Confirmed persistent on 2026-09-11.** The next night's scrape (commit
+`b04b579`, run started 10:59 UTC) left all six columns exactly where they were
+— `date` 10, `lastUpdated` 12, `bringingOwnEnergy` 0, `moratoriumExempt` 0,
+`size_acres` 7, `capacity_mw` 3 — while the same run added a new project, so
+`name`, `lat` and `phase` all moved 338 → 339. The API is returning fresh,
+working data for every other field and nothing for these six. That rules out a
+one-off bad response and settles it as standing schema drift.
+`data/project_lifecycles.csv` rebuilt on the same run still reads
+`announced_date` 10.
+
+Worth noting how this looks from the outside: the run that caused it
+(2026-09-10, run #144) is recorded as `conclusion: success`, and so is the one
+that confirmed it. The workflow has now gone green twice while a third of the
+record arrives empty. That is the argument for the guard below, stated more
+plainly than any inventory could.
+
 The repair is two pieces, and the second is the one worth the effort:
 
 1. Find the current upstream field names and remap them. One look at a live API
