@@ -4,9 +4,9 @@ Generated 2026-09-11. Frame design registered 2026-07-23 (module docstring): cen
 
 ## Coverage
 
-- Frame size: 175
+- Frame size: 176
 - Coded: 9 (5%)
-- Remaining: 166
+- Remaining: 167
 
 ## Coding mix (coded rows)
 
