@@ -13,9 +13,12 @@ Usage:
 
 import argparse
 import csv
+import difflib
 import json
+import os
 import subprocess
 import tempfile
+from datetime import date
 from pathlib import Path
 
 BASE_URL = "https://www.trackdatacenters.com"
@@ -102,6 +105,111 @@ def flatten(record):
         'updatedAt': record.get('updatedAt', ''),
     }
 
+
+
+# ---------------------------------------------------------------------------
+# Field audit: what the source actually sent
+#
+# flatten() reads every field with record.get(name, ''), so the scraper cannot
+# tell a field the source renamed from a field the source left blank. The
+# population guard below catches the consequence -- a column going empty -- but
+# not the cause, and the cause is the part a person has to go and look up.
+#
+# It does not have to be looked up. A renamed field is still in the response,
+# under its new name, in a key nothing reads. Comparing the keys the API sent
+# against the keys flatten() asked for names both halves of the rename, and
+# difflib pairs them. The answer arrives with the next scheduled run instead of
+# requiring someone with a browser.
+#
+# The read-key set is probed from flatten() rather than listed here, so adding
+# a field to the mapping cannot leave this audit describing the old one.
+# ---------------------------------------------------------------------------
+
+
+class _KeyProbe(dict):
+    """A stand-in record that remembers which top-level keys were asked for."""
+
+    def __init__(self, seen):
+        super().__init__()
+        self._seen = seen
+
+    def get(self, key, default=None):
+        self._seen.add(key)
+        return default
+
+    def __getitem__(self, key):
+        self._seen.add(key)
+        return ""
+
+
+def api_keys_read():
+    """Top-level response keys flatten() consults, probed from flatten itself."""
+    seen = set()
+    flatten(_KeyProbe(seen))
+    return seen
+
+
+def field_audit(records, keys_read=None):
+    """Compare the keys the source sent against the keys the mapping wants.
+
+    Returns a dict with:
+      absent    keys flatten() reads that no record carries -- a field the
+                source dropped or renamed away
+      unmapped  keys the source sent that flatten() never reads -- where a
+                renamed field will be sitting
+      renames   a suggested pairing of the two by name similarity, which is a
+                prompt for a human, never applied automatically
+    """
+    keys_read = api_keys_read() if keys_read is None else set(keys_read)
+    observed = set()
+    for r in records:
+        observed |= set(r.keys())
+    absent = sorted(keys_read - observed)
+    unmapped = sorted(observed - keys_read)
+    renames = {}
+    for gone in absent:
+        near = difflib.get_close_matches(gone, unmapped, n=3, cutoff=0.6)
+        if near:
+            renames[gone] = near
+    return {"observed": sorted(observed), "absent": absent,
+            "unmapped": unmapped, "renames": renames,
+            "n_records": len(records)}
+
+
+def write_field_audit(audit, out_dir="data"):
+    lines = ["# Scraper field audit", "",
+             f"Generated {date.today().isoformat()} by "
+             "`scripts/scrape-trackdatacenters-proposals.py`.", "",
+             f"{audit['n_records']} records; "
+             f"{len(audit['observed'])} distinct top-level keys in the response.",
+             ""]
+    if not audit["absent"] and not audit["unmapped"]:
+        lines.append("Every key the source sent is mapped, and every key the "
+                     "mapping reads was present. Nothing to do.")
+    if audit["absent"]:
+        lines += ["## Read by the mapping, absent from the response", "",
+                  "These are the fields that will arrive empty. A field here "
+                  "was dropped or renamed by the source; it is not a data gap.",
+                  ""]
+        lines += [f"- `{k}`" for k in audit["absent"]] + [""]
+    if audit["unmapped"]:
+        lines += ["## Sent by the response, read by nothing", "",
+                  "Candidate landing places for anything in the list above.", ""]
+        lines += [f"- `{k}`" for k in audit["unmapped"]] + [""]
+    if audit["renames"]:
+        lines += ["## Suggested pairings", "",
+                  "By name similarity only. A prompt to go and check the "
+                  "response, never a mapping to apply unread: two fields can "
+                  "have similar names and different meanings.", "",
+                  "| absent | candidates |", "|---|---|"]
+        lines += [f"| `{k}` | {', '.join('`' + c + '`' for c in v)} |"
+                  for k, v in sorted(audit["renames"].items())]
+        lines.append("")
+    path = os.path.join(out_dir, "scraper_field_audit.md")
+    os.makedirs(out_dir, exist_ok=True)
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("\n".join(lines) + "\n")
+    return path
 
 
 # ---------------------------------------------------------------------------
@@ -297,6 +405,17 @@ def scrape(out_path: Path, allow_field_loss=False):
             if len(all_records) >= total:
                 break
             cursor = page['nextCursor']
+    # Before the guard, because the guard may stop the run and this is the
+    # diagnostic that says why: the guard reports which columns emptied, this
+    # reports which keys the source actually sent.
+    fa = field_audit(all_records)
+    fa_path = write_field_audit(fa, str(out_path.parent))
+    print(f"field audit: {len(fa['observed'])} keys in the response, "
+          f"{len(fa['absent'])} read-but-absent, "
+          f"{len(fa['unmapped'])} sent-but-unread -> {fa_path}")
+    for gone, near in sorted(fa["renames"].items()):
+        print(f"  possible rename: {gone} -> {', '.join(near)}")
+
     rows = [flatten(r) for r in all_records]
     # Before the overlay, so the guard compares mapping output to mapping
     # output, and before the write, so a collapse leaves the file untouched.
@@ -352,6 +471,38 @@ def selftest():
     check("an always-sparse field is ignored",
           population_violations(
               [{"date": "x"}] * (FIELD_LOSS_MIN_PRIOR - 1), [], ["date"]) == [])
+
+    # --- field audit -------------------------------------------------------
+    keys = api_keys_read()
+    check("the read-key set is probed from flatten, not listed",
+          {"date", "capacity_mw", "municipality", "id"} <= keys)
+    check("a key flatten never reads is not in the set", "nonsense" not in keys)
+
+    # The real 2026-09-10 shape: six fields gone, six new names present.
+    renamed = [{"id": 1, "name": "A", "announcedDate": "2026-01-01",
+                "capacityMw": 100, "sizeAcres": 10, "updatedAtIso": "x",
+                "ownEnergy": True, "exemptFromMoratorium": False}]
+    fa = field_audit(renamed, keys)
+    check("a field the source stopped sending is reported absent",
+          "date" in fa["absent"] and "capacity_mw" in fa["absent"])
+    check("a key the source sent that nothing reads is reported",
+          "announcedDate" in fa["unmapped"] and "capacityMw" in fa["unmapped"])
+    check("a mapped key that is present is not reported either way",
+          "name" not in fa["absent"] and "name" not in fa["unmapped"])
+    check("similar names are paired as a possible rename",
+          "capacityMw" in fa["renames"].get("capacity_mw", []))
+    check("pairing is a suggestion, never applied",
+          isinstance(fa["renames"], dict) and "observed" in fa)
+
+    clean = field_audit([{k: "" for k in keys}], keys)
+    check("a response carrying every mapped key reports nothing absent",
+          clean["absent"] == [])
+    check("a response carrying only mapped keys reports nothing unread",
+          clean["unmapped"] == [])
+    check("an empty response does not invent unmapped keys",
+          field_audit([], keys)["unmapped"] == [])
+    check("an empty response reports every mapped key as absent",
+          len(field_audit([], keys)["absent"]) == len(keys))
 
     n_ok = sum(1 for _, ok in checks if ok)
     print(f"\n{n_ok}/{len(checks)} checks passed")
