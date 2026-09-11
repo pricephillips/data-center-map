@@ -28,6 +28,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/proposals.csv
+          # The field audit is how a rename gets diagnosed without anyone
+          # opening a browser, so it has to be committed even when the scrape
+          # is otherwise a no-op.
+          # `|| true` matters: run blocks execute under `bash -e`, so a bare
+          # `[ -f x ] && git add x` aborts the whole step the first time the
+          # file is absent.
+          [ -f data/scraper_field_audit.md ] && git add data/scraper_field_audit.md || true
           git diff --cached --quiet || git commit -m "chore: update proposals csv from trackdatacenters [$(date -u +%Y-%m-%dT%H:%M:%SZ)]"
           git push
           
