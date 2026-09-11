@@ -504,43 +504,35 @@ proposes the column map, the terminal-status vocabulary and the source URL. It
 runs from `fetch-permits.yml` in exactly the branch that previously only echoed
 "candidates fetched only, not promoted".
 
-Validated against the one real example in the tree: from the Loudoun candidate
-headers alone it reproduces the hand-written config exactly —
-`name: PlanName`, `announced_date: PlanApplicationDate`, `status: PlanStatus`,
-`terminal_statuses: [approved, denied]`, and the source URL. Eleven-check
-selftest, with the Loudoun reproduction as one of the checks.
+Validated across the vocabularies the common portal platforms use — Accela,
+Socrata-style snake_case, Legistar, CivicPlus, plain ArcGIS — rather than
+against any one jurisdiction. Only one source in the tree has both fetched rows
+and a hand-written config, which makes it the only pair available to check
+against; it is a fixture, not a target. Patterns tuned to one county's column
+names would propose nothing useful for the other nine sources, which is the
+whole point of the item.
 
-Two things it deliberately does not do. It writes
-`data/ingest_scaffold_<source>.json` and **never** the live config, because a
-wrong column map does not fail — it silently dates or names every row of a
-jurisdiction wrongly, which is worse than a crash and is why this stays gated
-on a person like every other promotion path here. And it leaves `state` empty:
-`loudoun_lola` is Virginia and nothing in the fetched rows or the fetch config
-says so, so it is emitted blank with a note rather than guessed from a source
-name.
+It reproduces that hand-written config exactly (`name: PlanName`,
+`announced_date: PlanApplicationDate`, `status: PlanStatus`,
+`terminal_statuses: [approved, denied]`, plus the source URL), and resolves all
+three fields on Accela, snake_case, Legistar and CivicPlus shapes too.
 
-Every proposal carries its evidence — the header chosen, the headers rejected,
-the observed status counts — because a proposal a reviewer cannot check is
-worse than no proposal.
+The traps matter more than the hits, because a wrong proposal here does not
+fail — it labels or dates every row of a jurisdiction with the wrong field and
+exits clean:
 
-Generalisation checked separately, because reproducing one hand-written config
-could just be overfitting to it. Against a synthetic source using none of
-Loudoun's naming — `CaseNumber`, `ProjectTitle`, `FiledDate`, `CaseStatus` — it
-proposes `ProjectTitle` over `CaseNumber` for the name, resolves `FiledDate`
-through the "filed" pattern, and proposes `approved` and `denied` while
-correctly excluding "Under Review".
+| header set | proposes |
+|---|---|
+| `ApplicantName`, `PermitStatus` | status only; **no name** |
+| `OwnerName`, `Acres` | **nothing** |
+| `ProjectName`, `Status` (no date column) | name and status; **no date** |
+| `ProjectName`, `Applicability` | name only; **no date** |
 
-**One honest limit on this item.** `fetch-permits.yml` fires only on
-`workflow_dispatch` and its Tuesday schedule, never on push, so the workflow
-wiring itself has not been exercised by CI and will not be until 2026-09-15.
-What is verified is the module (selftest, the Loudoun reproduction, the
-synthetic source) and the branch logic run by hand against a source with
-fetched rows and no ingest config. The wiring risk is bounded rather than
-absent: `$SOURCE` is already used on the three lines immediately above the
-insertion, and the call carries `|| true` so a scaffold failure cannot fail the
-run. It also cannot be exercised earlier by dispatch, because the branch only
-fires for a source that has candidates and no ingest config, and today no such
-source exists.
+A person or contact column will match a bare `name` pattern all day, so
+applicant, owner, agent, engineer and the rest are excluded outright; and a
+header is eligible for the date slot only if it actually says date. In each
+case the field comes back unresolved, listed in the scaffold, for a reviewer to
+fill in. Nineteen-check selftest covering all of the above.
 
 Worth recording that the selftest earned its place immediately. The first
 implementation anchored its patterns as `\bstatus\b`, which matches nothing in

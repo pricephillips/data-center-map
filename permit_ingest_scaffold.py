@@ -25,9 +25,9 @@ silently dates or names every row of a jurisdiction wrongly.
 
 Two fields are deliberately left for the person:
 
-  state       Not inferable. `loudoun_lola` is Virginia and nothing in the
-              fetched rows or the fetch config says so. Emitted empty with a
-              note rather than guessed from a source name.
+  state       Not inferable. A source id like `loudoun_lola` is Virginia and
+              nothing in the fetched rows or the fetch config says so. Emitted
+              empty with a note rather than guessed from a source name.
   as_of       Emitted as today's date, which is when the scaffold was built,
               not when the upstream data was true. Confirm it against the
               source's own vintage before promoting anything.
@@ -60,25 +60,56 @@ DATA = P("data")
 
 # Ordered most-specific first: the first pattern that matches a header wins for
 # that field, so "PlanApplicationDate" beats a bare "Date" for announced_date.
+#
 # No \b anchors. Portal schemas are overwhelmingly CamelCase, and "PlanStatus"
-# has no word boundary between "n" and "S", so r"\bstatus\b" matches nothing
-# in exactly the sources this is for. The selftest that reproduces the Loudoun
-# map is what caught it.
-NAME_PATTERNS = [r"project[_ ]?name", r"plan[_ ]?name", r"name", r"title",
-                 r"description"]
+# has no word boundary between "n" and "S", so r"\bstatus\b" matches nothing in
+# exactly the sources this is for.
+#
+# These cover the vocabularies the common portal platforms use -- Accela,
+# Socrata, Legistar, CivicPlus, plain ArcGIS feature layers -- rather than any
+# one jurisdiction's. Only one source in the tree has both fetched rows and a
+# hand-written config to check against, which makes it the only available
+# fixture and emphatically not a target: patterns tuned to one county's column
+# names would propose nothing useful for the next nine.
+NAME_PATTERNS = [r"project[_ ]?name", r"plan[_ ]?name", r"case[_ ]?name",
+                 r"permit[_ ]?name", r"development[_ ]?name", r"site[_ ]?name",
+                 r"name", r"title", r"description"]
+
+# A name column naming a PERSON is not the project's name. An applicant, owner,
+# agent or engineer column will happily match r"name" and produce a column map
+# that labels every row of a jurisdiction with a contact instead of a project.
+# Proposing nothing is better: the unresolved field is visible in the scaffold
+# and a reviewer fills it in.
+NAME_EXCLUDE = re.compile(
+    r"applicant|owner|contact|agent|engineer|architect|staff|planner|"
+    r"reviewer|assigned|inspector|company|firm", re.IGNORECASE)
+
+# A header is only eligible to be a date at all if it says so. Without this an
+# ordinary word column can win the slot on a portal that carries no date.
+DATE_ELIGIBLE = re.compile(r"date|_dt\b|datetime|_on\b", re.IGNORECASE)
 DATE_PATTERNS = [r"applicat", r"filed", r"received", r"submit", r"announc",
-                 r"created", r"date"]
-STATUS_PATTERNS = [r"status", r"disposition", r"decision", r"outcome"]
+                 r"open", r"created", r"intro", r"date"]
+
+STATUS_PATTERNS = [r"status", r"disposition", r"decision", r"outcome",
+                   r"final[_ ]?action", r"action", r"stage", r"phase"]
 
 # permit_ingest.py's own default, kept identical so a scaffold that proposes
 # nothing still describes what the ingest would do.
 DEFAULT_TERMINAL = ["approved", "denied", "withdrawn", "issued", "final"]
 
 
-def _match(headers, patterns):
-    """First header matching the most specific pattern. Returns (choice, why)."""
+def _match(headers, patterns, eligible=None, exclude=None):
+    """First header matching the most specific pattern. Returns (choice, why).
+
+    `eligible` narrows the candidate headers before ranking; `exclude` drops
+    headers that match it. Both exist so a field can decline to propose rather
+    than reach for the least-bad header in the table.
+    """
+    pool = [h for h in headers
+            if (eligible is None or eligible.search(h))
+            and (exclude is None or not exclude.search(h))]
     for pat in patterns:
-        for h in headers:
+        for h in pool:
             if re.search(pat, h, re.IGNORECASE):
                 return h, pat
     return None, None
@@ -87,10 +118,11 @@ def _match(headers, patterns):
 def propose_columns(headers):
     """Column map plus the evidence for each choice."""
     out, why = {}, {}
-    for field, pats in (("name", NAME_PATTERNS),
-                        ("announced_date", DATE_PATTERNS),
-                        ("status", STATUS_PATTERNS)):
-        choice, pat = _match(headers, pats)
+    for field, pats, eligible, exclude in (
+            ("name", NAME_PATTERNS, None, NAME_EXCLUDE),
+            ("announced_date", DATE_PATTERNS, DATE_ELIGIBLE, None),
+            ("status", STATUS_PATTERNS, None, None)):
+        choice, pat = _match(headers, pats, eligible, exclude)
         if choice:
             out[field] = choice
             why[field] = {"chose": choice, "matched_pattern": pat,
@@ -209,14 +241,55 @@ def selftest():
         checks.append((label, ok))
         print(f"{'PASS' if ok else 'FAIL'}  {label}")
 
-    # The one real example in the tree: reproduce the hand-written Loudoun map
-    # from the headers its fetch actually produced.
-    loudoun = ["PlanApplicationDate", "PlanDescription", "PlanName",
+    # The only source in the tree with both fetched rows and a hand-written
+    # config, so the only pair available to check against. It is a fixture, not
+    # a target -- the cross-platform cases below exist because reproducing one
+    # jurisdiction proves nothing about the next nine.
+    fixture = ["PlanApplicationDate", "PlanDescription", "PlanName",
                "PlanNumber", "PlanStatus", "PlanType"]
-    cols, why = propose_columns(loudoun)
-    check("reproduces the hand-written Loudoun column map",
+    cols, why = propose_columns(fixture)
+    check("reproduces the one hand-written column map in the tree",
           cols == {"name": "PlanName", "announced_date": "PlanApplicationDate",
                    "status": "PlanStatus"})
+
+    # Vocabularies from the platforms most county portals actually run.
+    accela = propose_columns(
+        ["RecordID", "ApplicantName", "ProjectName", "OpenedDate",
+         "RecordStatus"])[0]
+    check("Accela shape resolves all three",
+          accela == {"name": "ProjectName", "announced_date": "OpenedDate",
+                     "status": "RecordStatus"})
+    socrata = propose_columns(
+        ["permit_number", "description", "issue_date", "permit_status"])[0]
+    check("snake_case shape resolves all three",
+          socrata.get("announced_date") == "issue_date"
+          and socrata.get("status") == "permit_status")
+    legistar = propose_columns(
+        ["FileNumber", "Title", "IntroDate", "FinalAction"])[0]
+    check("a final-action column is read as status",
+          legistar.get("status") == "FinalAction")
+    civic = propose_columns(
+        ["app_no", "development_name", "date_received", "current_stage",
+         "owner_contact"])[0]
+    check("a stage column is read as status",
+          civic == {"name": "development_name",
+                    "announced_date": "date_received",
+                    "status": "current_stage"})
+
+    # The traps. A wrong proposal here is worse than none, because it labels or
+    # dates every row of a jurisdiction with the wrong field and never errors.
+    trap = propose_columns(["CaseID", "ApplicantName", "Acreage",
+                            "PermitStatus"])[0]
+    check("an applicant is not proposed as the project name",
+          "name" not in trap and trap.get("status") == "PermitStatus")
+    check("an owner is not proposed as the project name",
+          "name" not in propose_columns(["ID", "OwnerName", "Acres"])[0])
+    check("a table with no date column proposes no date",
+          "announced_date" not in
+          propose_columns(["ID", "ProjectName", "Status"])[0])
+    check("an ordinary word column cannot win the date slot",
+          "announced_date" not in
+          propose_columns(["ProjectName", "Applicability"])[0])
     check("prefers an application date over a bare date column",
           propose_columns(["Date", "ApplicationDate"])[0]["announced_date"]
           == "ApplicationDate")
@@ -233,11 +306,11 @@ def selftest():
     check("proposes nothing rather than guessing when no header matches",
           missing == {})
 
-    # Loudoun's real status distribution.
+    # The fixture's real status distribution.
     vals = (["Approved"] * 371 + ["In Review"] * 135
             + ["Submitted - Online"] * 9 + ["Submitted"] * 7 + ["Denied"])
     terminal, observed = propose_terminal_statuses(vals)
-    check("reproduces the hand-written Loudoun terminal statuses",
+    check("reproduces the terminal statuses of the one hand-written config",
           terminal == ["approved", "denied"])
     check("counts every observed status value",
           observed["Approved"] == 371 and observed["Denied"] == 1)
