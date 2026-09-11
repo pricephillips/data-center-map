@@ -493,12 +493,41 @@ discovery kind and an unresolved URL. Six western probe sources were registered
 2026-09-09 and their first run is 2026-09-15 — pending, and correctly excluded
 from this scan.
 
-The right move is to let the 2026-09-15 run happen and read the probe reports
-before building anything. The standing gap is that each newly resolved source
-still needs a hand-written `configs/<source>_ingest.json`; only Loudoun has one.
-A generic ingest-config generator from a resolved discovery report would make
-each new jurisdiction a config drop rather than a build, which is the stated
-design intent of `fetch-permits.yml` and is not yet true end to end.
+The right move on the probe sources themselves is still to let the 2026-09-15
+run happen and read the reports before building anything against them.
+
+The standing gap was separate and is **addressed on this branch**. Each newly
+resolved source needed a hand-written `configs/<source>_ingest.json`, and only
+Loudoun had one, so a resolved layer produced candidates and stopped there.
+`permit_ingest_scaffold.py` now reads the rows a fetch just produced and
+proposes the column map, the terminal-status vocabulary and the source URL. It
+runs from `fetch-permits.yml` in exactly the branch that previously only echoed
+"candidates fetched only, not promoted".
+
+Validated against the one real example in the tree: from the Loudoun candidate
+headers alone it reproduces the hand-written config exactly —
+`name: PlanName`, `announced_date: PlanApplicationDate`, `status: PlanStatus`,
+`terminal_statuses: [approved, denied]`, and the source URL. Eleven-check
+selftest, with the Loudoun reproduction as one of the checks.
+
+Two things it deliberately does not do. It writes
+`data/ingest_scaffold_<source>.json` and **never** the live config, because a
+wrong column map does not fail — it silently dates or names every row of a
+jurisdiction wrongly, which is worse than a crash and is why this stays gated
+on a person like every other promotion path here. And it leaves `state` empty:
+`loudoun_lola` is Virginia and nothing in the fetched rows or the fetch config
+says so, so it is emitted blank with a note rather than guessed from a source
+name.
+
+Every proposal carries its evidence — the header chosen, the headers rejected,
+the observed status counts — because a proposal a reviewer cannot check is
+worse than no proposal.
+
+Worth recording that the selftest earned its place immediately. The first
+implementation anchored its patterns as `\bstatus\b`, which matches nothing in
+`PlanStatus`: there is no word boundary between "n" and "S", and portal schemas
+are overwhelmingly CamelCase. The check that reproduces the real Loudoun map
+failed on the first run and the anchors came out.
 
 ### C5. Cost translation, from built to client-facing
 

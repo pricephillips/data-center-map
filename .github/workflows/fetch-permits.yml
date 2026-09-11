@@ -65,6 +65,7 @@ jobs:
           python discover_socrata_dataset.py --selftest
           python discover_endpoint.py        --selftest
           python fetch_permits.py            --selftest
+          python permit_ingest_scaffold.py   --selftest
 
       - name: Resolve config list (scheduled runs cover every registered source)
         id: cfg
@@ -120,6 +121,13 @@ jobs:
             INGEST_CFG="configs/${SOURCE}_ingest.json"
             if [ ! -f "$INGEST_CFG" ]; then
               echo "No ingest column-map at $INGEST_CFG yet; candidates fetched only, not promoted."
+              # Propose one from the rows just fetched, so the human step is
+              # confirming a draft rather than reading an unfamiliar schema.
+              # Writes data/ingest_scaffold_<source>.json and never the live
+              # config: a wrong column map does not fail, it silently dates or
+              # names every row of a jurisdiction wrongly, so it stays gated on
+              # a person the way every other promotion path here is.
+              python permit_ingest_scaffold.py --source "$SOURCE" || true
               continue
             fi
             if [ ! -f "$CANDIDATES" ]; then
@@ -153,6 +161,8 @@ jobs:
           # including data/permit_candidates_*.csv which always exists.
           ls data/permit_candidates_*.csv >/dev/null 2>&1 && \
               git add data/permit_candidates_*.csv
+          ls data/ingest_scaffold_*.json >/dev/null 2>&1 && \
+              git add data/ingest_scaffold_*.json
           ls data/arcgis_discovery_*.json >/dev/null 2>&1 && \
               git add data/arcgis_discovery_*.json data/arcgis_discovery_*.md
           ls data/socrata_discovery_*.json >/dev/null 2>&1 && \
