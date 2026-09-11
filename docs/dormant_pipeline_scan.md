@@ -523,6 +523,25 @@ Every proposal carries its evidence — the header chosen, the headers rejected,
 the observed status counts — because a proposal a reviewer cannot check is
 worse than no proposal.
 
+Generalisation checked separately, because reproducing one hand-written config
+could just be overfitting to it. Against a synthetic source using none of
+Loudoun's naming — `CaseNumber`, `ProjectTitle`, `FiledDate`, `CaseStatus` — it
+proposes `ProjectTitle` over `CaseNumber` for the name, resolves `FiledDate`
+through the "filed" pattern, and proposes `approved` and `denied` while
+correctly excluding "Under Review".
+
+**One honest limit on this item.** `fetch-permits.yml` fires only on
+`workflow_dispatch` and its Tuesday schedule, never on push, so the workflow
+wiring itself has not been exercised by CI and will not be until 2026-09-15.
+What is verified is the module (selftest, the Loudoun reproduction, the
+synthetic source) and the branch logic run by hand against a source with
+fetched rows and no ingest config. The wiring risk is bounded rather than
+absent: `$SOURCE` is already used on the three lines immediately above the
+insertion, and the call carries `|| true` so a scaffold failure cannot fail the
+run. It also cannot be exercised earlier by dispatch, because the branch only
+fires for a source that has candidates and no ingest config, and today no such
+source exists.
+
 Worth recording that the selftest earned its place immediately. The first
 implementation anchored its patterns as `\bstatus\b`, which matches nothing in
 `PlanStatus`: there is no word boundary between "n" and "S", and portal schemas
