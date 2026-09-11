@@ -29,7 +29,7 @@ Per-county interval on the enacted-restriction probability, cross Venn-Abers ove
 | median interval width | 0.0685 |
 | p90 interval width | 0.2028 |
 | max interval width | 0.6250 |
-| counties with width over 0.10 | 799 |
+| counties with width over 0.10 | 807 |
 | median width, counties with an enacted restriction | 0.1552 |
 
 A wide interval is the model saying it does not know, which is information: those counties are where the enacted-restriction evidence is thinnest relative to profile. Any external use quotes the interval, never the point alone.
