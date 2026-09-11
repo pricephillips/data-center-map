@@ -110,9 +110,12 @@ whole tree before acting, and two did not survive that: the migration script
 **Done:** `census_join.py`, and the two stray root worklists with the two
 now-orphaned patterns they had in `configs/layers.json`.
 **Held:** `qc/fetch_notion.py`, `qc/enrichment.py`.
-**Withdrawn:** `scripts/fix_project_id_collision.py`. In each case the reason to remove is that keeping it costs
-something — a second writer, a second copy to keep in sync, or a hazard — not
-merely that it is unused.
+**Withdrawn:** `scripts/fix_project_id_collision.py`.
+
+The bar throughout is that keeping a thing has to cost something — a second
+writer, a second copy to keep in sync, a hazard — not merely that nothing calls
+it. Two entries failed that bar on re-reading, and the corrections are recorded
+in place rather than quietly deleted.
 
 ### `census_join.py` — redundant
 
@@ -128,7 +131,7 @@ kind. Its Connecticut planning-region caveat moved to
 `fetch_census_features.py`, which is the module that actually produces the file
 the caveat is about.
 
-### `qc/fetch_notion.py` — superseded, and now a hazard
+### `qc/fetch_notion.py` — superseded, but held
 
 Pulls the Notion database into `records.json` for the gate. `qc/README.md` calls
 it "the one file not exercised in the build", and that has been true since
@@ -327,32 +330,78 @@ the repository. Every other module writes to `data/`. So its output has never
 landed anywhere a surface or an audit could read it, which is the whole reason
 it reads as dormant.
 
-Decide which it is. If the contagion measure is wanted, change `out/` to
-`data/`, add a `configs/layers.json` pattern for it as Layer E, and wire it —
-about an hour. If not, delete it. What is not defensible is a working analysis
-writing to a directory nothing collects. Note the `group_distance()` scaffold
-inside it is genuinely blocked on group geocodes and is honest about that.
+**Done on this branch**, kept rather than deleted. The default output directory
+moved from `out/` to `data/`, a twelve-check selftest was added covering the
+geometry and the contagion window logic, and it is wired into `pipeline.yml`
+after the clean feed with its outputs declared as Layer E.
+
+Nothing about the module needed fixing — `outdir` was always a parameter, and
+the `out/` default was the whole defect. It ran, exited clean, and put its
+results where nothing collected them.
+
+The result argues for keeping it. Contagion comes out at 626 of 1439 dated
+incidents within 50 miles of an enacted block from the prior year, against
+43.1 pct under a 50-permutation date-shuffled null: **z = +0.5**, which is no
+evidence of spatial contagion beyond baseline geography. A negative result on a
+claim the platform might otherwise be tempted to make is worth keeping current,
+and it is cheaper to keep true than to re-derive. The `group_distance()`
+scaffold remains genuinely blocked on group geocodes and says so.
 
 ### B6. Reconcile the four stale claims in the standing documents
 
-Free, and the standing documents are load-bearing here. Found during this scan:
+Free, and the standing documents are load-bearing here. **Three done on this
+branch; the fourth fixed itself.** Found during this scan:
 
 - ARCHITECTURE says the Layer B → Layer A graduation path "does not exist yet."
   It does: `facility_registry.graduation_candidates()` is implemented, has three
   selftests, and `data/facility_promotion_report.csv` carries **10 rows** with
   `stream=layer_b_graduation`. `configs/facility_sources.json` already records
-  that source as `live`, so the config and the prose disagree.
+  that source as `live`, so the config and the prose disagree. **Corrected.**
 - ARCHITECTURE repeats the entire `prj_321`–`prj_332` migration table twice,
   along with the "`project_id` is `prj_` + the `id` column" paragraph and the
   2026-07 collision narrative. Two copies of a translation table is one copy
-  that can go stale unnoticed.
+  that can go stale unnoticed. **Corrected**, second copy removed.
 - PHASE_STATUS lists Phase 4 as "Scaffolded in CI, NOT implemented".
   `cost_translation.py` is implemented, runs in `retrain.yml`, and has produced
   `data/cost_anchors.csv`, `data/cost_translation_methodology.md` and
   `data/cost_translation_demo.csv`. What is deferred is *client-facing
-  publication*, which is a different claim and the accurate one.
+  publication*, which is a different claim and the accurate one. **Corrected**,
+  and the row now also names what blocks publication today: the scraper
+  regression took `capacity_mw` to 3 rows, and the module never imputes MW.
 - PHASE_STATUS's weekly-freshness claim for the landmark worklists, per B3.
+  **No longer false**: wiring `landmark_diagnostics.py` made the sentence true
+  rather than needing the sentence rewritten, which was the better repair.
 
+
+### B7. The layer audit can detect a file it cannot attribute
+
+Found while declaring the proximity outputs, and worth recording because it is
+the same shape as everything else here: a check that quietly covers less than
+it appears to.
+
+`layer_audit.py` resolves what a module writes with an AST walk, by design and
+for a good reason recorded in ARCHITECTURE. The walk resolves string constants,
+names and concatenation. It cannot resolve `os.path.join(outdir, "name.csv")`
+where `outdir` is a function parameter, which is how `proximity_analysis.py`
+writes both of its outputs.
+
+The file-level half of the audit still works — removing the new patterns from
+`configs/layers.json` does produce the undeclared nag, verified by experiment.
+What fails is attribution, and it fails silently into a misleading message:
+
+```
+UNDECLARED  data/proximity_report.md [no writing module found; hand maintained or retired]
+```
+
+"No writing module found" is true of a hand-maintained file and equally true of
+a module whose paths are computed, and the audit cannot tell them apart. Two of
+the six standing undeclared findings really are hand-maintained; this one would
+have read identically while having a writer sitting in the tree.
+
+Not fixed here. Making one module's paths static to satisfy the auditor is the
+tail wagging the dog, and changing the resolver is a real piece of work on a
+module that gates the pipeline. Recorded so the next person reading that
+message knows it has two meanings.
 ---
 
 ## 3. Real work, still worth doing — priority list

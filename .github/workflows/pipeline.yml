@@ -166,6 +166,7 @@ jobs:
           python discover_endpoint.py --selftest
           python fetch_permits.py --selftest
           echo "Front-end syntax gate self-tests:"
+          python proximity_analysis.py --selftest
           python link_disagreement_audit.py --selftest
           python scripts/scrape-trackdatacenters-proposals.py --selftest
           python scripts/check_inline_js.py --selftest
@@ -198,6 +199,18 @@ jobs:
           # Registry defect audit: reporting only, never blocks. Rebuild of
           # the registry itself stays inside project_resolution's chain.
           python group_registry_audit.py || true
+
+      - name: Proximity analysis (contagion, clustering, density)
+        # Reads the clean feed built above. Its default output directory was
+        # out/ -- a directory nothing else writes and which is not in the
+        # repository -- so the analysis ran clean and left its results where
+        # nothing collected them. Now writes to data/ like everything else
+        # derived. The contagion measure currently reports no effect beyond
+        # baseline geography, which is a result worth keeping current rather
+        # than a reason not to run it.
+        id: proximity
+        continue-on-error: true
+        run: python proximity_analysis.py
 
       - name: Verification status + untagged review worklist
         id: verification
@@ -383,6 +396,9 @@ jobs:
           # Staged only on a green audit step: the worklist is absent by
           # design when project resolution did not run, and a stale copy is
           # worse than none for a file whose whole purpose is to shrink.
+          if [ "${{ steps.proximity.outcome }}" = "success" ]; then
+            git add data/proximity_report.md data/contagion_rows.csv 2>/dev/null || true
+          fi
           if [ "${{ steps.link_disagreement.outcome }}" = "success" ]; then
             git add data/link_disagreement_worklist.csv \
                     data/link_disagreement_report.md 2>/dev/null || true

@@ -1,8 +1,14 @@
 """
 proximity_analysis.py
 ========================================================================
-Spatial analysis over incident coordinates. Standalone; not part of the feed
-build. Produces out/proximity_report.md plus out/contagion_rows.csv.
+Spatial analysis over incident coordinates, run after the clean feed is built.
+Produces data/proximity_report.md plus data/contagion_rows.csv.
+
+The default output directory was `out/` until 2026-09-11, a directory no other
+module writes to and which is not in the repository. The analysis ran, exited
+clean, and dropped its results somewhere nothing collected them, which is why
+it read as dormant while being perfectly functional. Everything derived lands
+in data/; so does this.
 
 What it computes today (all from existing lat/lon):
   1. Contagion: share of new incidents arising within RADIUS_MILES of an
@@ -137,7 +143,7 @@ def group_distance(groups: list[dict], facilities: list[dict]) -> list[dict]:
     return out
 
 
-def main(path: str, outdir: str = "out",
+def main(path: str, outdir: str = "data",
          radius: float = RADIUS_MILES, lookback: int = LOOKBACK_DAYS):
     os.makedirs(outdir, exist_ok=True)
     pts = _load(path)
@@ -186,14 +192,75 @@ def main(path: str, outdir: str = "out",
     print(f"\nwritten: {rpath}")
 
 
+def selftest():
+    """Geometry and window logic only. No files, no feed, no network."""
+    from datetime import datetime as _dt
+    checks = []
+
+    def check(label, ok):
+        checks.append((label, ok))
+        print(f"{'PASS' if ok else 'FAIL'}  {label}")
+
+    # ~69 miles per degree of latitude at the equator.
+    d = haversine_miles(0.0, 0.0, 1.0, 0.0)
+    check("a degree of latitude is about 69 miles", 68.0 < d < 70.0)
+    check("zero distance to itself", haversine_miles(40.0, -83.0, 40.0, -83.0) == 0.0)
+    check("distance is symmetric",
+          round(haversine_miles(40.0, -83.0, 41.0, -84.0), 6)
+          == round(haversine_miles(41.0, -84.0, 40.0, -83.0), 6))
+
+    def pt(lat, lon, day, block=False):
+        return {"lat": lat, "lon": lon, "dt": _dt(2026, 1, day),
+                "state": "OH", "incident": f"i{day}", "block": block}
+
+    # A block, then an incident 10 days later at the same spot: inside both
+    # the radius and the lookback, so it counts once.
+    hits, n, _, rows = contagion([pt(40.0, -83.0, 1, block=True), pt(40.0, -83.0, 11)])
+    check("an incident near a prior block counts as a hit", hits == 1 and n == 2)
+    check("the hit row names the block it was near",
+          rows and rows[0]["near_block"] == "i1")
+
+    # Same pair, but the block is outside the radius.
+    far, _, _, _ = contagion([pt(40.0, -83.0, 1, block=True), pt(45.0, -83.0, 11)])
+    check("a block beyond the radius does not count", far == 0)
+
+    # Same pair, but the block is after the incident.
+    later, _, _, _ = contagion([pt(40.0, -83.0, 11, block=True), pt(40.0, -83.0, 1)])
+    check("a block after the incident does not count", later == 0)
+
+    # Same pair, but the block is outside the lookback.
+    stale, _, _, _ = contagion([pt(40.0, -83.0, 1, block=True), pt(40.0, -83.0, 11)],
+                               lookback=5)
+    check("a block older than the lookback does not count", stale == 0)
+
+    med, w8, nn = nearest_neighbor([pt(40.0, -83.0, 1), pt(40.0, -83.0, 2)])
+    check("co-located incidents are within eight miles", w8 == 2 and nn == 2)
+    check("co-located incidents have zero median distance", med == 0)
+
+    g = group_distance([{"canonical_name": "G", "lat": 40.0, "lon": -83.0}],
+                       [{"incident": "F", "lat": 40.0, "lon": -83.0}])
+    check("a group at a facility is not beyond eight miles",
+          g[0]["beyond_8mi"] is False and g[0]["nearest_facility"] == "F")
+    g2 = group_distance([{"canonical_name": "G", "lat": 41.0, "lon": -83.0}],
+                        [{"incident": "F", "lat": 40.0, "lon": -83.0}])
+    check("a group a degree away is beyond eight miles", g2[0]["beyond_8mi"] is True)
+
+    n_ok = sum(1 for _, ok in checks if ok)
+    print(f"\n{n_ok}/{len(checks)} checks passed")
+    return 0 if n_ok == len(checks) else 1
+
+
 if __name__ == "__main__":
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("csv", nargs="?", default="master_opposition_clean.csv")
-    ap.add_argument("outdir", nargs="?", default="out")
+    ap.add_argument("outdir", nargs="?", default="data")
     ap.add_argument("--radius", type=float, default=RADIUS_MILES,
                     help="contagion radius in miles")
     ap.add_argument("--lookback", type=int, default=LOOKBACK_DAYS,
                     help="contagion lookback window in days")
+    ap.add_argument("--selftest", action="store_true")
     a = ap.parse_args()
+    if a.selftest:
+        raise SystemExit(selftest())
     main(a.csv, a.outdir, radius=a.radius, lookback=a.lookback)
