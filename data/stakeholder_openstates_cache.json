@@ -6806,6 +6806,1279 @@
    ]
   }
  },
+ "https://v3.openstates.org/bills?jurisdiction=or&identifier=HB+4084&include=sponsorships&per_page=20&sort=updated_desc": {
+  "fetched": "2026-09-11T16:13:29.458926+00:00",
+  "payload": {
+   "pagination": {
+    "max_page": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_items": 5
+   },
+   "results": [
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2026-01-29T19:15:10.263758+00:00",
+     "extras": {},
+     "first_action_date": "2026-02-02T16:50:03+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/9b08e1e9-5a70-48c1-983d-508a3281c378",
+      "name": "House"
+     },
+     "id": "ocd-bill/7f9039ae-0e4b-4975-b555-c84980cdbed8",
+     "identifier": "HB 4084",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:or/government",
+      "name": "Oregon"
+     },
+     "latest_action_date": "2026-04-06T17:33:05+00:00",
+     "latest_action_description": "Chapter 50, (2026 Laws): Effective date June 5, 2026.",
+     "latest_passage_date": "2026-03-10T20:49:13+00:00",
+     "openstates_url": "https://openstates.org/or/bills/2026R1/HB4084/",
+     "session": "2026R1",
+     "sponsorships": [],
+     "subject": [],
+     "title": "Relating to economic development; and prescribing an effective date.",
+     "updated_at": "2026-08-25T14:52:44.649283+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2024-02-01T20:50:31.268845+00:00",
+     "extras": {},
+     "first_action_date": "2024-02-05T16:09:01+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/9b08e1e9-5a70-48c1-983d-508a3281c378",
+      "name": "House"
+     },
+     "id": "ocd-bill/bcb6fe0f-478f-4082-b3e8-f22565147714",
+     "identifier": "HB 4084",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:or/government",
+      "name": "Oregon"
+     },
+     "latest_action_date": "2024-03-28T20:51:09+00:00",
+     "latest_action_description": "Chapter 33, (2024 Laws): Effective date March 27, 2024.",
+     "latest_passage_date": "2024-03-08T00:02:53+00:00",
+     "openstates_url": "https://openstates.org/or/bills/2024R1/HB4084/",
+     "session": "2024R1",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "c0051cf6-ec19-4893-95bb-731daa76e8bf",
+       "name": "Susan McLain",
+       "person": {
+        "current_role": {
+         "district": "29",
+         "division_id": "ocd-division/country:us/state:or/sldl:29",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/62f98553-cc00-497f-ac14-97e0fc0e62c2",
+        "name": "Susan McLain",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "3dab03fd-c8ca-4afa-a651-87214c7cf758",
+       "name": "Shelly Boshart Davis",
+       "person": {
+        "current_role": {
+         "district": "15",
+         "division_id": "ocd-division/country:us/state:or/sldl:15",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/52af68c5-c141-4e35-912b-11d71b83af33",
+        "name": "Shelly Davis",
+        "party": "Republican"
+       },
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "12c07984-fea8-4842-9702-188644de8d3f",
+       "name": "Hoa Nguyen",
+       "person": {
+        "id": "ocd-person/fb69d630-1f0b-49e1-999b-0aefb2bb502f",
+        "name": "Hoa Nguyen",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "36d5bb5d-447e-4ce8-b6b0-db227ad2b85e",
+       "name": "Janelle Bynum",
+       "person": {
+        "id": "ocd-person/d4add60f-a052-4d57-aa04-c8dc54964898",
+        "name": "Janelle Bynum",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "428f3e4e-6a4d-455c-925a-5b4c9587232f",
+       "name": "Mark Gamba",
+       "person": {
+        "current_role": {
+         "district": "41",
+         "division_id": "ocd-division/country:us/state:or/sldl:41",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/6adb2361-6526-450f-b2b1-e9f32311ca7d",
+        "name": "Mark Gamba",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "538223d8-ee87-46b6-8395-b5a17caea59a",
+       "name": "Ken Helm",
+       "person": {
+        "current_role": {
+         "district": "27",
+         "division_id": "ocd-division/country:us/state:or/sldl:27",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/3770e09c-3492-4388-8047-e3dc83f026f3",
+        "name": "Ken Helm",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "3e4947cd-1531-446c-b32f-56dd5e8a424c",
+       "name": "Emerson Levy",
+       "person": {
+        "current_role": {
+         "district": "53",
+         "division_id": "ocd-division/country:us/state:or/sldl:53",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/2be8d7ed-5767-4a67-a5e9-b519691c14ef",
+        "name": "Em Levy",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "947ded14-8c29-41ec-b80f-065a056d3d64",
+       "name": "John Lively",
+       "person": {
+        "current_role": {
+         "district": "7",
+         "division_id": "ocd-division/country:us/state:or/sldl:7",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/13afc78a-1028-462e-8f98-6df3f7f028d5",
+        "name": "John Lively",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "bdafa579-8228-46a5-96d7-b795a1d02406",
+       "name": "Rob Nosse",
+       "person": {
+        "current_role": {
+         "district": "42",
+         "division_id": "ocd-division/country:us/state:or/sldl:42",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/2aa7ebf4-d8a7-42c6-8e20-1edef58aa545",
+        "name": "Rob Nosse",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "9a98dcf8-1924-4ab7-a3e3-b23e31fac5af",
+       "name": "Lisa Reynolds",
+       "person": {
+        "current_role": {
+         "district": "17",
+         "division_id": "ocd-division/country:us/state:or/sldu:17",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/53afaba4-8ddc-4784-87c3-aaede576ac44",
+        "name": "Lisa Reynolds",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "e6b02d53-3921-43e8-ab42-229c9f1c5445",
+       "name": "Ricki Ruiz",
+       "person": {
+        "current_role": {
+         "district": "50",
+         "division_id": "ocd-division/country:us/state:or/sldl:50",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/fce6eed7-4438-4f31-b47a-ee054c28d4f7",
+        "name": "Ricki Ruiz",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "82ab26dc-ba80-4036-9098-53f2758a691d",
+       "name": "Nathan Sosa",
+       "person": {
+        "current_role": {
+         "district": "30",
+         "division_id": "ocd-division/country:us/state:or/sldl:30",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/5615af6a-5232-45e0-b85b-bcb41e08391e",
+        "name": "Nathan Sosa",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "8b3121b8-c1c3-4afa-8ea1-741fe39851ba",
+       "name": "Thuy Tran",
+       "person": {
+        "current_role": {
+         "district": "45",
+         "division_id": "ocd-division/country:us/state:or/sldl:45",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/52058824-2f35-4f6b-877f-d48301bd99a0",
+        "name": "Thuy Tran",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "893c1cb8-b1ff-4505-809c-630ffed8675e",
+       "name": "Andrea Valderrama",
+       "person": {
+        "current_role": {
+         "district": "47",
+         "division_id": "ocd-division/country:us/state:or/sldl:47",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/3efec526-6660-45fa-9a10-b02716b2a779",
+        "name": "Andrea Valderrama",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "451dd210-959f-4634-bc2b-386ed84fde22",
+       "name": "Jules Walters",
+       "person": {
+        "current_role": {
+         "district": "37",
+         "division_id": "ocd-division/country:us/state:or/sldl:37",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/55ecfa8d-e89f-4a7b-af2d-6822f1025607",
+        "name": "Jules Walters",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "dfc9fc53-d868-4281-95f6-0d8e3acb5641",
+       "name": "Wlnsvey Campos",
+       "person": {
+        "current_role": {
+         "district": "18",
+         "division_id": "ocd-division/country:us/state:or/sldu:18",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/72027f00-3e3c-47c7-ab62-cc89ebb1ed72",
+        "name": "Wlnsvey Campos",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "f588742b-1a69-4795-9040-2c349b95a3e1",
+       "name": "Michael Dembrow",
+       "person": {
+        "id": "ocd-person/1bee2e7b-d7ee-4a86-b351-82ca5789612a",
+        "name": "Michael Dembrow",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "c65d654d-754a-43b4-a973-98b9eb2eeb69",
+       "name": "Lew Frederick",
+       "person": {
+        "current_role": {
+         "district": "22",
+         "division_id": "ocd-division/country:us/state:or/sldu:22",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/2256d4a8-f19b-4e1d-ba35-771cc0349b0b",
+        "name": "Lew Frederick",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "97b0b0cc-58e9-405e-a355-cd9e80ee0593",
+       "name": "Sara Gelser Blouin",
+       "person": {
+        "current_role": {
+         "district": "8",
+         "division_id": "ocd-division/country:us/state:or/sldu:8",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/10b42647-1509-4e86-9155-4622c2d17315",
+        "name": "Sara Gelser Blouin",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "d16ca907-fbbb-4c0a-aeda-8153c2d66a97",
+       "name": "Jeff Golden",
+       "person": {
+        "current_role": {
+         "district": "3",
+         "division_id": "ocd-division/country:us/state:or/sldu:3",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/0240017c-38e7-45da-8841-c40b007965dc",
+        "name": "Jeff Golden",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "b3dc2438-7663-4f61-9cea-695127945546",
+       "name": "Kayse Jama",
+       "person": {
+        "current_role": {
+         "district": "24",
+         "division_id": "ocd-division/country:us/state:or/sldu:24",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/7532bf1f-c85e-4683-a401-ca87af088e5e",
+        "name": "Kayse Jama",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "8d49c3bc-d965-4b39-bc52-203313eeb5af",
+       "name": "Deb Patterson",
+       "person": {
+        "current_role": {
+         "district": "10",
+         "division_id": "ocd-division/country:us/state:or/sldu:10",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/6c867cbf-9d0b-4dd8-9537-55e834a42dc4",
+        "name": "Deb Patterson",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "d0dffe3d-10b0-41ff-bf35-497fef76b699",
+       "name": "Suzanne Weber",
+       "person": {
+        "current_role": {
+         "district": "16",
+         "division_id": "ocd-division/country:us/state:or/sldu:16",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/835d23bd-afb1-4e82-93c4-4b1b1822aeb4",
+        "name": "Suzanne Weber",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "7bb36225-fc1d-4cc3-80cb-272db48f13eb",
+       "name": "Bobby Levy",
+       "person": {
+        "current_role": {
+         "district": "58",
+         "division_id": "ocd-division/country:us/state:or/sldl:58",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/4c9f2660-6dd3-49f5-a503-6fe5bc5c7787",
+        "name": "Bobby Levy",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "eadcd77b-9798-4b03-8efa-d228f2854d3e",
+       "name": "Kevin Mannix",
+       "person": {
+        "current_role": {
+         "district": "21",
+         "division_id": "ocd-division/country:us/state:or/sldl:21",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/af99b8a9-452f-44e0-8404-83dfe05dbfd7",
+        "name": "Kevin Mannix",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "4fc64773-8b89-40ec-bb62-ced49b739d44",
+       "name": "Emily McIntire",
+       "person": {
+        "current_role": {
+         "district": "56",
+         "division_id": "ocd-division/country:us/state:or/sldl:56",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/2ef0c138-ff50-4a2b-9914-1a5edb506b49",
+        "name": "Emily McIntire",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "ec857f55-fdc1-40e3-9b9a-fe4e1b39de04",
+       "name": "Boomer Wright",
+       "person": {
+        "current_role": {
+         "district": "9",
+         "division_id": "ocd-division/country:us/state:or/sldl:9",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/a95c31b3-9bfa-4ab1-93d1-278082ead92a",
+        "name": "Boomer Wright",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "be3e4e4f-ab42-4e90-9e2c-3bbab223ede6",
+       "name": "Court Boice",
+       "person": {
+        "current_role": {
+         "district": "1",
+         "division_id": "ocd-division/country:us/state:or/sldl:1",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/aa0eac5e-9089-4c72-8edb-4493e1c4a0ad",
+        "name": "Court Boice",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "625541f9-7149-47e6-9b59-3925e149b304",
+       "name": "Anna Scharf",
+       "person": {
+        "current_role": {
+         "district": "23",
+         "division_id": "ocd-division/country:us/state:or/sldl:23",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/a22ec130-3ba7-4304-9e6f-3a950b8454cb",
+        "name": "Anna Scharf",
+        "party": "Republican"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "c58fb179-828e-42e4-9c7a-ec36312d2b53",
+       "name": "Mark Owens",
+       "person": {
+        "current_role": {
+         "district": "60",
+         "division_id": "ocd-division/country:us/state:or/sldl:60",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/f73d5af2-f2b6-47d0-a55a-84ac528343ff",
+        "name": "Mark Owens",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "6d08e864-1aea-4d91-9237-5f3aba2672d3",
+       "name": "Tracy Cramer",
+       "person": {
+        "id": "ocd-person/d75108e0-8e10-4a2b-8232-be657513e7d5",
+        "name": "Tracy Cramer",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "57a36c91-00f9-49f1-809b-47494617de42",
+       "name": "Christine Goodwin",
+       "person": {
+        "id": "ocd-person/87faee77-0559-48da-800f-6d417b15d927",
+        "name": "Christine Goodwin",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "ba497294-afe0-47d6-a454-2e0ac150fb12",
+       "name": "Dacia Grayber",
+       "person": {
+        "current_role": {
+         "district": "28",
+         "division_id": "ocd-division/country:us/state:or/sldl:28",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/f08a3b2f-8e56-41e4-bf5f-84a43fd5aab5",
+        "name": "Dacia Grayber",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "bee0404a-f4bc-4238-b5d1-bc9e123ac084",
+       "name": "Jason Kropf",
+       "person": {
+        "current_role": {
+         "district": "54",
+         "division_id": "ocd-division/country:us/state:or/sldl:54",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/47e270fe-abc4-4f5d-9bad-2b7979442f5d",
+        "name": "Jason Kropf",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "881b08c7-a611-4bc8-a5f8-bf39c35fe984",
+       "name": "Maxine Dexter",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "6af1544c-8ba5-412e-9ecc-64d0cdcdb9e2",
+       "name": "Kate Lieber",
+       "person": {
+        "current_role": {
+         "district": "14",
+         "division_id": "ocd-division/country:us/state:or/sldu:14",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/cc87cb36-e12e-42e1-ac5e-c2d50e1d2018",
+        "name": "Kate Lieber",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "b771b92b-4dd0-4e83-aaa1-7f71212e5719",
+       "name": "David Brock Smith",
+       "person": {
+        "current_role": {
+         "district": "1",
+         "division_id": "ocd-division/country:us/state:or/sldu:1",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/26a734f0-51f9-4959-a213-bc345c1050ec",
+        "name": "David Smith",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "ebdcd112-1e2f-47e2-a52b-8705cc49912a",
+       "name": "Daniel Bonham",
+       "person": {
+        "id": "ocd-person/9bb85e98-3001-46d7-85fb-5843675d17ba",
+        "name": "Daniel Bonham",
+        "party": "Republican"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [],
+     "title": "Relating to the education of foster children; declaring an emergency.",
+     "updated_at": "2024-11-23T08:01:58.243175+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2022-01-27T18:02:28.765665+00:00",
+     "extras": {},
+     "first_action_date": "2022-02-01T15:39:06+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/9b08e1e9-5a70-48c1-983d-508a3281c378",
+      "name": "House"
+     },
+     "id": "ocd-bill/5e3a8d06-dce8-41bf-a224-b05f31bc0b6e",
+     "identifier": "HB 4084",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:or/government",
+      "name": "Oregon"
+     },
+     "latest_action_date": "2022-03-04T19:58:00+00:00",
+     "latest_action_description": "In committee upon adjournment.",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/or/bills/2022R1/HB4084/",
+     "session": "2022R1",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "aa562ec6-85f4-4eff-a13b-c59b3d7db7c6",
+       "name": "Boomer Wright",
+       "person": {
+        "current_role": {
+         "district": "9",
+         "division_id": "ocd-division/country:us/state:or/sldl:9",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/a95c31b3-9bfa-4ab1-93d1-278082ead92a",
+        "name": "Boomer Wright",
+        "party": "Republican"
+       },
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "9018aebd-afbc-4ab7-bff9-da5771618cbf",
+       "name": "Lily Morgan",
+       "person": {
+        "id": "ocd-person/f1f20c9f-d853-4e59-a933-256892e5904e",
+        "name": "Lily Morgan",
+        "party": "Republican"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "afbe6a0b-2659-4915-b620-a316740c916d",
+       "name": "Jessica George",
+       "person": {
+        "id": "ocd-person/7520fd0c-547e-456c-8fed-64020c45328f",
+        "name": "Jessica George",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "ad01e84e-7626-4858-865c-95b36e821189",
+       "name": "Bobby Levy",
+       "person": {
+        "current_role": {
+         "district": "58",
+         "division_id": "ocd-division/country:us/state:or/sldl:58",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/4c9f2660-6dd3-49f5-a503-6fe5bc5c7787",
+        "name": "Bobby Levy",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "f11191c3-c33b-4edc-89aa-9cbde94508c1",
+       "name": "Ron Noble",
+       "person": {
+        "id": "ocd-person/792b5a9b-9b0c-45f3-94a0-1bae11051fb7",
+        "name": "Ron Noble",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "4eea5d7a-269a-4b1a-9d89-89922764b7de",
+       "name": "Dick Anderson",
+       "person": {
+        "current_role": {
+         "district": "5",
+         "division_id": "ocd-division/country:us/state:or/sldu:5",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/5e28a30c-5ca9-4221-a331-9321267fbae6",
+        "name": "Dick Anderson",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "cdbf5ecf-5ab9-4081-9b51-0526f77756cb",
+       "name": "Suzanne Weber",
+       "person": {
+        "current_role": {
+         "district": "16",
+         "division_id": "ocd-division/country:us/state:or/sldu:16",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/835d23bd-afb1-4e82-93c4-4b1b1822aeb4",
+        "name": "Suzanne Weber",
+        "party": "Republican"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [],
+     "title": "Relating to persons with mental illness; prescribing an effective date.",
+     "updated_at": "2022-03-09T00:02:29.314472+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2020-02-04T08:02:03.760921+00:00",
+     "extras": {},
+     "first_action_date": "2020-01-27T17:27:27+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/9b08e1e9-5a70-48c1-983d-508a3281c378",
+      "name": "House"
+     },
+     "id": "ocd-bill/7b8f1fa0-9c11-4c86-bce1-06ac944d9066",
+     "identifier": "HB 4084",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:or/government",
+      "name": "Oregon"
+     },
+     "latest_action_date": "2020-03-09T06:59:00+00:00",
+     "latest_action_description": "In committee upon adjournment.",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/or/bills/2020 Regular Session/HB4084/",
+     "session": "2020 Regular Session",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "fb476ccb-87b1-42af-ac9f-c3a7271d9375",
+       "name": "Rick Lewis",
+       "person": {
+        "current_role": {
+         "district": "18",
+         "division_id": "ocd-division/country:us/state:or/sldl:18",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/dc371425-a173-439f-903c-6e2e3fd145cd",
+        "name": "Rick Lewis",
+        "party": "Republican"
+       },
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "6718971a-472e-4c29-91f9-6912508f832b",
+       "name": "David Brock Smith",
+       "person": {
+        "current_role": {
+         "district": "1",
+         "division_id": "ocd-division/country:us/state:or/sldu:1",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/26a734f0-51f9-4959-a213-bc345c1050ec",
+        "name": "David Smith",
+        "party": "Republican"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "43eea167-5246-49ec-a181-17fff7d39461",
+       "name": "Shelly Boshart Davis",
+       "person": {
+        "current_role": {
+         "district": "15",
+         "division_id": "ocd-division/country:us/state:or/sldl:15",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/52af68c5-c141-4e35-912b-11d71b83af33",
+        "name": "Shelly Davis",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "0e092c55-f04c-41df-a2b4-c2bbf3e5926f",
+       "name": "Brian Clem",
+       "person": {
+        "id": "ocd-person/ba758446-c582-49fb-9ab5-bd4407ef48f1",
+        "name": "Brian Clem",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "649a56ab-f3ab-4fad-97c6-d3db8ac06723",
+       "name": "Margaret Doherty",
+       "person": {
+        "id": "ocd-person/267f8b40-29f8-4819-858c-9c1acc25563c",
+        "name": "Margaret Doherty",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "ec32d941-bf1d-421f-a41d-eae554983807",
+       "name": "Christine Drazan",
+       "person": {
+        "current_role": {
+         "district": "26",
+         "division_id": "ocd-division/country:us/state:or/sldu:26",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/9c7dcacb-50b9-4338-924b-cf6d333dc43a",
+        "name": "Christine Drazan",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "c8f64597-ba90-4926-86c6-043383053fca",
+       "name": "Paul Evans",
+       "person": {
+        "current_role": {
+         "district": "20",
+         "division_id": "ocd-division/country:us/state:or/sldl:20",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/8334f7e1-d712-44b4-8570-d0d0a6d131d3",
+        "name": "Paul Evans",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "aec50031-7c84-4126-8c58-289975adbeda",
+       "name": "Gary Leif",
+       "person": {
+        "id": "ocd-person/a5a4aff5-3298-449b-98c9-54031c238df4",
+        "name": "Gary Leif",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "aba37e83-3e77-4b85-a64b-510987602650",
+       "name": "Mark Meek",
+       "person": {
+        "current_role": {
+         "district": "20",
+         "division_id": "ocd-division/country:us/state:or/sldu:20",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/d6379fd3-d283-4c6e-864b-7dca170b593d",
+        "name": "Mark Meek",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "7ff620d6-1532-4fc2-b9ad-7a13ed85cfa6",
+       "name": "Ron Noble",
+       "person": {
+        "id": "ocd-person/792b5a9b-9b0c-45f3-94a0-1bae11051fb7",
+        "name": "Ron Noble",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "24cb82fe-fb8b-4649-825c-79862410fbc4",
+       "name": "Rob Nosse",
+       "person": {
+        "current_role": {
+         "district": "42",
+         "division_id": "ocd-division/country:us/state:or/sldl:42",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/2aa7ebf4-d8a7-42c6-8e20-1edef58aa545",
+        "name": "Rob Nosse",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "6bfdd326-f6a0-46ec-b4c5-b21185ceb45f",
+       "name": "Carla Piluso",
+       "person": {
+        "id": "ocd-person/62527bd3-be44-49cb-8693-c3f83b666822",
+        "name": "Carla Piluso",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "d848e694-e3e1-4e59-8ae4-9605be792c6a",
+       "name": "Greg Smith",
+       "person": {
+        "current_role": {
+         "district": "57",
+         "division_id": "ocd-division/country:us/state:or/sldl:57",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/72dc94e8-e5d5-4376-aab5-06f6b3a771c7",
+        "name": "Greg Smith",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "e3bfe730-c09c-480e-ad08-0238cf69dcb8",
+       "name": "Brian Boquist",
+       "person": {
+        "id": "ocd-person/a3e2d670-179f-4614-bbfd-be3c8fd4df35",
+        "name": "Brian Boquist",
+        "party": "Independent"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "61b4f7ce-2c44-4125-8f98-739819ce1487",
+       "name": "Alissa Keny-Guyer",
+       "person": {
+        "id": "ocd-person/4729c2f4-7d7a-41fc-a5fa-1b2f792c7191",
+        "name": "Alissa Keny-Guyer",
+        "party": "Democratic"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [],
+     "title": "Relating to rural system development charges to support affordable multifamily housing; prescribing an effective date.",
+     "updated_at": "2020-05-27T10:02:44.615847+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2018-01-25T08:02:10.554104+00:00",
+     "extras": {},
+     "first_action_date": "2018-01-22T18:07:03+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/9b08e1e9-5a70-48c1-983d-508a3281c378",
+      "name": "House"
+     },
+     "id": "ocd-bill/304060fe-46b7-44f5-b630-148e1e40d7d5",
+     "identifier": "HB 4084",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:or/government",
+      "name": "Oregon"
+     },
+     "latest_action_date": "2018-03-04T00:54:00+00:00",
+     "latest_action_description": "In committee upon adjournment.",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/or/bills/2018 Regular Session/HB4084/",
+     "session": "2018 Regular Session",
+     "sponsorships": [
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "27331250-57f0-4808-b1cc-158ef31cb490",
+       "name": "Tawna Sanchez",
+       "person": {
+        "current_role": {
+         "district": "43",
+         "division_id": "ocd-division/country:us/state:or/sldl:43",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/c138ec96-0a6f-4dee-be06-be286b68cfbb",
+        "name": "Tawna Sanchez",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "4263ddfa-0268-4fad-8393-5734065a4ba0",
+       "name": "Alissa Keny-Guyer",
+       "person": {
+        "id": "ocd-person/4729c2f4-7d7a-41fc-a5fa-1b2f792c7191",
+        "name": "Alissa Keny-Guyer",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "d2ac0ad6-69d6-47e3-b42e-72d0016ac729",
+       "name": "John Lively",
+       "person": {
+        "current_role": {
+         "district": "7",
+         "division_id": "ocd-division/country:us/state:or/sldl:7",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/13afc78a-1028-462e-8f98-6df3f7f028d5",
+        "name": "John Lively",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "68e3bcc8-99c4-4dca-bf11-14dc772b76f1",
+       "name": "Mitch Greenlick",
+       "person": {
+        "id": "ocd-person/f53a9cca-6c1f-4b37-b47a-1ceb5f843bbf",
+        "name": "Mitch Greenlick",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "b92b8a7a-de5d-4065-893b-2eacf9486d2f",
+       "name": "Susan McLain",
+       "person": {
+        "current_role": {
+         "district": "29",
+         "division_id": "ocd-division/country:us/state:or/sldl:29",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/62f98553-cc00-497f-ac14-97e0fc0e62c2",
+        "name": "Susan McLain",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "d315b51f-9a94-4f4a-a409-65182da86786",
+       "name": "Carla Piluso",
+       "person": {
+        "id": "ocd-person/62527bd3-be44-49cb-8693-c3f83b666822",
+        "name": "Carla Piluso",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "8f3f0b5e-622a-451e-9cb3-0b01a2e1eac5",
+       "name": "Sheri Malstrom",
+       "person": {
+        "id": "ocd-person/a89dcef8-03f8-4b8a-8eca-dbe45e1c685e",
+        "name": "Sheri Malstrom",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "81038e92-e96c-4299-a3d6-077f15ab4ba9",
+       "name": "Karin Power",
+       "person": {
+        "id": "ocd-person/0e51a60d-6881-471a-ac1d-ae544381b415",
+        "name": "Karin Power",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "796d5d6a-4ac5-4557-80ee-6f793cf5209c",
+       "name": "Jeff Reardon",
+       "person": {
+        "id": "ocd-person/1561bf76-8f96-4253-a66c-fca2747a39ce",
+        "name": "Jeff Reardon",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "b70e833f-f2c9-45d1-a774-93c3ae2c7fb8",
+       "name": "Andrea Salinas",
+       "person": {
+        "id": "ocd-person/d3080378-22b0-44e2-8266-0ad7910eec85",
+        "name": "Andrea Salinas",
+        "party": "Democratic"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [],
+     "title": "Relating to charity care provided by hospitals; declaring an emergency.",
+     "updated_at": "2020-04-29T00:55:56.353809+00:00"
+    }
+   ]
+  }
+ },
  "https://v3.openstates.org/bills?jurisdiction=tn&identifier=HB+1847&include=sponsorships&per_page=20&sort=updated_desc": {
   "fetched": "2026-09-11T16:12:03.297362+00:00",
   "payload": {
@@ -8561,6 +9834,163 @@
    ]
   }
  },
+ "https://v3.openstates.org/people?jurisdiction=ks&org_classification=executive&include=offices&per_page=20": {
+  "fetched": "2026-09-11T16:13:16.168243+00:00",
+  "payload": {
+   "pagination": {
+    "max_page": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_items": 4
+   },
+   "results": [
+    {
+     "birth_date": "",
+     "created_at": "2026-05-01T06:45:14.457446+00:00",
+     "current_role": {
+      "district": "",
+      "division_id": "",
+      "org_classification": "executive",
+      "title": "Lt_Governor"
+     },
+     "death_date": "",
+     "email": "",
+     "extras": {},
+     "family_name": "Toland",
+     "gender": "",
+     "given_name": "David",
+     "id": "ocd-person/33e1e312-76c0-4d83-81d3-fa07768eab34",
+     "image": "https://www.governor.ks.gov/home/showpublishedimage/827/638816867442470000",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:ks/government",
+      "name": "Kansas"
+     },
+     "name": "David Toland",
+     "offices": [
+      {
+       "address": "Kansas Statehouse, 300 SW 10th Ave., Ste. 241S; Topeka, KS 66612-1590",
+       "classification": "capitol",
+       "fax": "",
+       "name": "Capitol Office",
+       "voice": "785-296-3232"
+      }
+     ],
+     "openstates_url": "https://openstates.org/person/david-toland-1Ztq2MQPZM4N6QYNsPP4ku/",
+     "party": "Democratic",
+     "updated_at": "2026-05-01T06:45:15.037882+00:00"
+    },
+    {
+     "birth_date": "",
+     "created_at": "2026-05-01T06:45:15.471180+00:00",
+     "current_role": {
+      "district": "",
+      "division_id": "",
+      "org_classification": "executive",
+      "title": "Attorney General"
+     },
+     "death_date": "",
+     "email": "",
+     "extras": {},
+     "family_name": "Kobach",
+     "gender": "",
+     "given_name": "Kris",
+     "id": "ocd-person/10fdb8a1-6fed-43c9-a7ee-289b859b60ab",
+     "image": "https://www.naag.org/wp-content/uploads/2022/11/ag-KS-Kobach.png",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:ks/government",
+      "name": "Kansas"
+     },
+     "name": "Kris Kobach",
+     "offices": [
+      {
+       "address": "120 S.W. 10th Ave., 2nd Fl.; Topeka, KS 66612-1597",
+       "classification": "capitol",
+       "fax": "",
+       "name": "Capitol Office",
+       "voice": "785-296-2215"
+      }
+     ],
+     "openstates_url": "https://openstates.org/person/kris-kobach-W3pLPPwIJHNw5hj7Ljs4J/",
+     "party": "Republican",
+     "updated_at": "2026-05-01T06:45:16.062561+00:00"
+    },
+    {
+     "birth_date": "1950-01-24",
+     "created_at": "2020-08-04T05:08:10.942042+00:00",
+     "current_role": {
+      "district": "",
+      "division_id": "",
+      "org_classification": "executive",
+      "title": "Governor"
+     },
+     "death_date": "",
+     "email": "",
+     "extras": {},
+     "family_name": "Kelly",
+     "gender": "",
+     "given_name": "Laura",
+     "id": "ocd-person/2654d836-700f-464d-a0dd-81cb0bd77b9e",
+     "image": "https://governor.kansas.gov/wp-content/uploads/2019/01/Kansas-Governor.jpg",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:ks/government",
+      "name": "Kansas"
+     },
+     "name": "Laura Kelly",
+     "offices": [
+      {
+       "address": "Capitol, 300 SW 10th Ave., Ste. 241S; Topeka, KS 66612-1590",
+       "classification": "capitol",
+       "fax": "",
+       "name": "Capitol Office",
+       "voice": "785-368-8500"
+      }
+     ],
+     "openstates_url": "https://openstates.org/person/laura-kelly-1AKTukyrByPk0SHkQXzSHe/",
+     "party": "Democratic",
+     "updated_at": "2023-01-12T22:29:49.121284+00:00"
+    },
+    {
+     "birth_date": "",
+     "created_at": "2020-10-27T22:19:57.765331+00:00",
+     "current_role": {
+      "district": "",
+      "division_id": "",
+      "org_classification": "executive",
+      "title": "Secretary Of State"
+     },
+     "death_date": "",
+     "email": "sos@sos.ks.gov",
+     "extras": {},
+     "family_name": "Schwab",
+     "gender": "",
+     "given_name": "Scott",
+     "id": "ocd-person/5ef16835-fd08-407d-abaf-0407a665ada1",
+     "image": "https://sos.ks.gov/images/about-the-office/ss-headshot.jpg",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:ks/government",
+      "name": "Kansas"
+     },
+     "name": "Scott Schwab",
+     "offices": [
+      {
+       "address": "120 SW 10th Ave. ; ; Topeka, KS 66612-",
+       "classification": "capitol",
+       "fax": "801-705-2898",
+       "name": "Capitol Office",
+       "voice": "785-296-4564"
+      }
+     ],
+     "openstates_url": "https://openstates.org/person/scott-schwab-2t9bKO0A98d73ImmeM8S4P/",
+     "party": "Republican",
+     "updated_at": "2023-01-12T22:29:48.457018+00:00"
+    }
+   ]
+  }
+ },
  "https://v3.openstates.org/people?jurisdiction=mi&org_classification=executive&include=offices&per_page=20": {
   "fetched": "2026-09-11T16:11:03.008929+00:00",
   "payload": {
@@ -9270,6 +10700,129 @@
      "openstates_url": "https://openstates.org/person/mike-dewine-1gJH8vmumkd6lFH5Aotnpd/",
      "party": "Republican",
      "updated_at": "2023-01-10T19:49:44.612612+00:00"
+    }
+   ]
+  }
+ },
+ "https://v3.openstates.org/people?jurisdiction=or&org_classification=executive&include=offices&per_page=20": {
+  "fetched": "2026-09-11T16:13:22.423912+00:00",
+  "payload": {
+   "pagination": {
+    "max_page": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_items": 3
+   },
+   "results": [
+    {
+     "birth_date": "1979-03-01",
+     "created_at": "2018-10-18T16:10:56.895343+00:00",
+     "current_role": {
+      "district": "",
+      "division_id": "",
+      "org_classification": "executive",
+      "title": "Attorney General"
+     },
+     "death_date": "",
+     "email": "rep.danrayfield@oregonlegislature.gov",
+     "extras": {
+      "title": "Speaker"
+     },
+     "family_name": "Rayfield",
+     "gender": "Male",
+     "given_name": "Dan",
+     "id": "ocd-person/201cf42b-d036-4582-a6ff-f23b3ab3f442",
+     "image": "https://www.naag.org/wp-content/uploads/2025/01/ag-OR-Rayfield-Dan.png",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:or/government",
+      "name": "Oregon"
+     },
+     "name": "Dan Rayfield",
+     "offices": [
+      {
+       "address": "Justice Bldg., 1162 Court St., NE; Salem, OR 97301",
+       "classification": "capitol",
+       "fax": "",
+       "name": "Capitol Office",
+       "voice": "503-378-6002"
+      }
+     ],
+     "openstates_url": "https://openstates.org/person/dan-rayfield-yaz9eyPFQBW16jvosBN5e/",
+     "party": "Democratic",
+     "updated_at": "2026-05-01T07:57:59.356510+00:00"
+    },
+    {
+     "birth_date": "1966-09-30",
+     "created_at": "2024-08-01T21:22:42.740810+00:00",
+     "current_role": {
+      "district": "",
+      "division_id": "",
+      "org_classification": "executive",
+      "title": "Governor"
+     },
+     "death_date": "",
+     "email": "",
+     "extras": {},
+     "family_name": "Kotek",
+     "gender": "",
+     "given_name": "Tina",
+     "id": "ocd-person/c136922d-c34a-4b53-a56b-2201b139d469",
+     "image": "https://www.oregon.gov/gov/headshots/meet-tina-image-2000px.jpg",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:or/government",
+      "name": "Oregon"
+     },
+     "name": "Tina Kotek",
+     "offices": [
+      {
+       "address": "Office of the Governor; State Capitol; 900 Court St. NE, Suite 254; Salem, OR 97301-4047",
+       "classification": "capitol",
+       "fax": "",
+       "name": "Capitol Office",
+       "voice": "503-378-4582"
+      }
+     ],
+     "openstates_url": "https://openstates.org/person/tina-kotek-5saSP3DgrcHSCDPG6RqqW9/",
+     "party": "Democratic",
+     "updated_at": "2024-10-18T17:48:22.448791+00:00"
+    },
+    {
+     "birth_date": "",
+     "created_at": "2019-11-17T12:13:03.658626+00:00",
+     "current_role": {
+      "district": "",
+      "division_id": "",
+      "org_classification": "executive",
+      "title": "Secretary Of State"
+     },
+     "death_date": "",
+     "email": "oregon.sos@sos.oregon.gov",
+     "extras": {},
+     "family_name": "Read",
+     "gender": "",
+     "given_name": "Tobias",
+     "id": "ocd-person/73710d6f-5ce6-4015-8b6f-92fa17458afc",
+     "image": "https://sos.oregon.gov/PublishingImages/Tobias-Read.jpg",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:or/government",
+      "name": "Oregon"
+     },
+     "name": "Tobias Read",
+     "offices": [
+      {
+       "address": "900 Court Street NE, Capitol Room 136; Salem, OR 97301",
+       "classification": "capitol",
+       "fax": "",
+       "name": "Capitol Office",
+       "voice": "503-986-1523"
+      }
+     ],
+     "openstates_url": "https://openstates.org/person/tobias-read-3VpmWop5NMBsOmzgGTJ232/",
+     "party": "Democratic",
+     "updated_at": "2026-05-01T07:58:00.571342+00:00"
     }
    ]
   }

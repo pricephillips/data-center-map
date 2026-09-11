@@ -2,7 +2,7 @@
 
 Generated 2026-09-11.
 
-- Published rows: **128** (103 county, 25 state)
+- Published rows: **130** (103 county, 27 state)
 - Published with a warning flag: **1**
 - Withheld rows: **7**
 - Counties covered: **36**
@@ -37,14 +37,10 @@ published with the unusable contact or relevance field blanked.
 ## Acquisition notes
 
 - CA: no governor returned by OpenStates
-- KS: executive lookup failed (429: {"detail":"exceeded limit of 10/min: 13"})
-- KS: no governor returned by OpenStates
 - KS: SB 98 lists no sponsors
 - NJ: no governor returned by OpenStates
 - NV: no matched data center bill to draw sponsors from
-- OR: executive lookup failed (429: {"detail":"exceeded limit of 10/min: 13"})
-- OR: no governor returned by OpenStates
-- OR: sponsor lookup for HB 4084 failed (429: {"detail":"exceeded limit of 10/min: 16"})
+- OR: HB 4084 lists no sponsors
 - PA: no matched data center bill to draw sponsors from
 - TX: no matched data center bill to draw sponsors from
 - VA: no governor returned by OpenStates
