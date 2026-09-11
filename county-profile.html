@@ -51,6 +51,43 @@ button.primary:hover { filter:brightness(1.1) }
 .flag { display:inline-block; padding:3px 9px; border-radius:999px; font-size:11px; font-weight:600 }
 .flag.on { background:#3a2116; border:1px solid var(--accent); color:var(--accent2) }
 .flag.off { background:var(--panel2); border:1px solid var(--border); color:var(--muted) }
+.flag.warn { background:#3a1520; border:1px solid #7a2535; color:#ffb4c0 }
+.delta { font-variant-numeric:tabular-nums; white-space:nowrap }
+.delta.up { color:var(--accent2) }
+.delta.down { color:#5fae7e }
+
+details { background:var(--panel); border:1px solid var(--border); border-radius:10px;
+  padding:0 13px; margin-bottom:14px }
+details h4 { margin:17px 0 7px; font-size:12.5px; color:var(--text) }
+details .sub { margin-bottom:0 }
+details[open] { padding-bottom:13px }
+summary { cursor:pointer; padding:11px 0; font-weight:600; font-size:13px; list-style:none }
+summary::-webkit-details-marker { display:none }
+summary::before { content:'\25b8  '; color:var(--muted) }
+details[open] summary::before { content:'\25be  ' }
+details pre { white-space:pre-wrap; font-size:11.5px; line-height:1.6; color:var(--muted);
+  margin:0; max-height:460px; overflow:auto; font-family:ui-monospace,SFMono-Regular,Menlo,monospace }
+.dl { display:grid; grid-template-columns:max-content 1fr; gap:5px 16px; font-size:12px }
+.dl dt { color:var(--muted) }
+.dl dd { margin:0 }
+
+.internal { border-left:3px solid var(--accent); padding-left:12px }
+.internal-note { background:#3a2116; border:1px solid var(--accent); color:var(--accent2);
+  padding:9px 11px; border-radius:8px; font-size:11.5px; margin-bottom:11px; line-height:1.6 }
+.switch { display:flex; align-items:center; gap:7px; font-size:12px; color:var(--muted);
+  white-space:nowrap; cursor:pointer }
+
+@media print {
+  :root { --bg:#fff; --panel:#fff; --panel2:#f4f6f8; --text:#111; --muted:#555; --border:#c8d0d8 }
+  body { background:#fff; color:#111 }
+  .nav, .toolbar, #error-banner { display:none !important }
+  .tbl-wrap { max-height:none; overflow:visible; break-inside:auto }
+  section { break-inside:avoid }
+  details { break-inside:avoid }
+  details pre { max-height:none }
+  a { color:#111; text-decoration:underline }
+  .clip { max-width:none; -webkit-line-clamp:unset; display:block }
+}
 
 section { margin-bottom:22px }
 .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(158px,1fr)); gap:9px }
@@ -113,6 +150,10 @@ footer { color:var(--muted); font-size:11px; border-top:1px solid var(--border);
   </div>
   <button id="export" class="primary" disabled>Export CSV</button>
   <button id="permalink" disabled>Copy link</button>
+  <button id="print" disabled>Print</button>
+  <label class="switch" title="Cost translation is internal-only until a matched-control delay estimate exists; see the methodology panel.">
+    <input type="checkbox" id="internal"> Internal layers
+  </label>
 </div>
 
 <div id="body"><div class="loading">Loading county frame&hellip;</div></div>
@@ -148,7 +189,29 @@ var DETAIL_FILES = {
   site_screen: 'data/site_screen.csv',
   meetings: 'data/local_meeting_feed.csv',
   adjacency: 'data/county_adjacency.csv',
-  opposition: 'master_opposition_clean.csv'
+  opposition: 'master_opposition_clean.csv',
+  /* second pass, added for the client view */
+  restriction_census: 'data/external_restriction_census.csv',
+  coverage_gap: 'data/coverage_gap_report.csv',
+  universe: 'data/baseline_universe.csv',
+  outcome_pred: 'data/outcome_model_predictions.csv',
+  decision_dates: 'data/project_decision_dates.csv',
+  bills: 'data/bill_sync_matches.csv',
+  groups: 'group_registry.csv',
+  groups_audit: 'data/group_registry_audit.csv',
+  adjacency_scan: 'data/adjacency_scan_queue.csv',
+  screen_history: 'data/site_screen_history.csv',
+  cost: 'data/cost_translation_demo.csv',
+  cost_anchors: 'data/cost_anchors.csv',
+  calibration: 'data/calibration_history.csv'
+};
+
+/* Model cards and freshness stamps. Read as JSON, never blocking. */
+var JSON_FILES = {
+  policy_metrics: 'data/county_policy_metrics.json',
+  outcome_metrics: 'data/outcome_model_metrics.json',
+  survival_metrics: 'data/survival_model_metrics.json',
+  aggregate_manifest: 'data/county_aggregate_manifest.json'
 };
 
 var STATE_NAME = {
@@ -170,6 +233,13 @@ var BY_FIPS = {};       /* fips -> picker entry */
 var NAME_TO_FIPS = {};  /* "county|state name" -> fips, built from county_aggregate */
 var DETAIL_READY = false;
 var CURRENT = null;     /* fips of the county on screen */
+var META = {};          /* json key -> parsed object */
+
+/* cost_layer_notes.md marks the cost translation internal-only until a
+ * matched-control delay estimate exists, and IDENTIFIABILITY.md records
+ * that estimate as a settled negative result. So the layer ships behind
+ * this switch, off by default, and never in a client export. */
+var SHOW_INTERNAL = false;
 
 /* ---------------------------- plumbing ---------------------------- */
 
@@ -241,19 +311,35 @@ function state_key(s) {
   return s.toLowerCase();
 }
 
+/* Trailing annotations that appear in the hand-maintained census files:
+ * "Clay County (permanent restriction after earlier crypto moratorium)",
+ * "Meade County Fiscal Court". Neither is part of the county's name. */
+var COUNTY_NOISE = /\s*\([^)]*\)\s*$|\s+fiscal court$/g;
+
+/* Consolidated city-county governments filed under the joint name while
+ * county_aggregate carries the census name. */
+var COUNTY_ALIAS = {
+  'athens-clarke|georgia': 'clarke',
+  'augusta-richmond|georgia': 'richmond',
+  'nashville-davidson|tennessee': 'davidson'
+};
+
 function resolve_fips(county, state) {
   var st = state_key(state);
-  var c = String(county || '').trim().toLowerCase();
+  var c = String(county || '').trim().toLowerCase().replace(COUNTY_NOISE, '').trim();
   if (!st || !c) return '';
+  var bare = c.replace(COUNTY_SUFFIX, '');
   return NAME_TO_FIPS[c + '|' + st]
-      || NAME_TO_FIPS[c.replace(COUNTY_SUFFIX, '') + '|' + st]
+      || NAME_TO_FIPS[bare + '|' + st]
+      || NAME_TO_FIPS[(COUNTY_ALIAS[bare + '|' + st] || '\u0000') + '|' + st]
       || '';
 }
 
-/* proposals.csv packs co-located counties into one cell: "A County; B County" */
+/* Several files pack co-located counties into one cell, using either
+ * separator: "A County; B County" and "St. Charles County/Warren County". */
 function row_fips_list(county, state) {
   var out = [];
-  String(county || '').split(';').forEach(function (part) {
+  String(county || '').split(/[;\/]/).forEach(function (part) {
     var f = resolve_fips(part, state);
     if (f && out.indexOf(f) === -1) out.push(f);
   });
@@ -348,6 +434,20 @@ function load_detail() {
     });
 }
 
+function load_meta() {
+  var keys = Object.keys(JSON_FILES);
+  return Promise.all(keys.map(function (k) { return fetch_first(urls(JSON_FILES[k])); }))
+    .then(function (texts) {
+      keys.forEach(function (k, i) {
+        try { META[k] = texts[i] ? JSON.parse(texts[i]) : null; } catch (e) { META[k] = null; }
+      });
+    })
+    /* The codebook is the canonical field dictionary; render it rather than
+     * restating definitions here, so the glossary cannot drift from it. */
+    .then(function () { return fetch_first(urls('CODEBOOK.md')); })
+    .then(function (t) { META.codebook = t || ''; });
+}
+
 function build_frame() {
   var score_by_fips = {}, interval_by_fips = {};
   DATA.scores.forEach(function (r) { score_by_fips[r.fips] = r; });
@@ -404,7 +504,9 @@ function county_slice(fips) {
   var out = {
     county: c,
     lifecycles: [], proposals: [], facilities: [], site_screen: [],
-    meetings: [], opposition: [], neighbors: []
+    meetings: [], opposition: [], neighbors: [],
+    restrictions: [], coverage: [], universe: [], bills: [], groups: [],
+    cost: [], trend: [], contagion: null
   };
   if (!DETAIL_READY) return out;
 
@@ -442,6 +544,115 @@ function county_slice(fips) {
   out.lifecycles.sort(function (a, b) {
     return String(b.announced_date || '').localeCompare(String(a.announced_date || ''));
   });
+
+  /* ---- second-pass layers ---- */
+
+  (DATA.restriction_census || []).forEach(function (r) {
+    if (row_fips_list(r.county, r.state).indexOf(fips) !== -1) out.restrictions.push(r);
+  });
+  out.restrictions.sort(function (a, b) {
+    return String(b.date_enacted || '').localeCompare(String(a.date_enacted || ''));
+  });
+
+  (DATA.coverage_gap || []).forEach(function (r) {
+    if (row_fips_list(r.county, r.state).indexOf(fips) !== -1) out.coverage.push(r);
+  });
+
+  /* baseline_universe carries its own fips; fall back to names when blank. */
+  (DATA.universe || []).forEach(function (r) {
+    var f = String(r.fips || '').padStart(5, '0');
+    if (f === fips || (!r.fips && row_fips_list(r.county, r.state).indexOf(fips) !== -1)) {
+      out.universe.push(r);
+    }
+  });
+  out.universe.sort(function (a, b) {
+    return String(b.announced_date || '').localeCompare(String(a.announced_date || ''));
+  });
+
+  /* Bills are state-scoped, not county-scoped; labelled as such on screen. */
+  var st_abbr = String(c.state_abbr || '').toUpperCase();
+  (DATA.bills || []).forEach(function (r) {
+    if (String(r.state || '').toUpperCase() === st_abbr) out.bills.push(r);
+  });
+  out.bills.sort(function (a, b) {
+    return String(b.stage_date || b.latest_action_date || '')
+      .localeCompare(String(a.stage_date || a.latest_action_date || ''));
+  });
+
+  /* Groups named on this county's own events, joined to the registry by
+   * canonical name or any recorded variant, then counted locally. */
+  var local_mentions = {};
+  out.opposition.forEach(function (r) {
+    String(r['Opposition Groups'] || '').split(';').forEach(function (g) {
+      var k = g.trim().toLowerCase();
+      if (k) local_mentions[k] = (local_mentions[k] || 0) + 1;
+    });
+  });
+  var safe = {};
+  (DATA.groups_audit || []).forEach(function (r) {
+    safe[String(r.canonical_name || '').trim().toLowerCase()] = r.client_safe === '1';
+  });
+  var seen_groups = {};
+  (DATA.groups || []).forEach(function (r) {
+    var canon = String(r.canonical_name || '').trim().toLowerCase();
+    var keys = [canon];
+    String(r.variants || '').split(';').forEach(function (v) {
+      var k = v.trim().toLowerCase();
+      if (k) keys.push(k);
+    });
+    var local = 0;
+    keys.forEach(function (k) { if (local_mentions[k]) local += local_mentions[k]; });
+    if (local && !seen_groups[canon]) {
+      seen_groups[canon] = true;
+      out.groups.push({ row: r, local_events: local, client_safe: safe[canon] !== false });
+    }
+  });
+  out.groups.sort(function (a, b) { return b.local_events - a.local_events; });
+
+  /* Per-project model and cost layers key on project_id, so they attach to
+   * the projects already resolved into this county. */
+  var pids = {};
+  out.lifecycles.forEach(function (r) { if (r.project_id) pids[r.project_id] = true; });
+  out.site_screen.forEach(function (r) { if (r.project_id) pids[r.project_id] = true; });
+
+  out.pred_by_pid = {};
+  (DATA.outcome_pred || []).forEach(function (r) {
+    if (pids[r.project_id]) out.pred_by_pid[r.project_id] = r;
+  });
+  out.decision_by_pid = {};
+  (DATA.decision_dates || []).forEach(function (r) {
+    if (pids[r.project_id]) out.decision_by_pid[r.project_id] = r;
+  });
+  (DATA.cost || []).forEach(function (r) {
+    if (pids[r.project_id]) out.cost.push(r);
+  });
+
+  /* Composite trend: latest run versus the earliest run on record. */
+  var hist = {};
+  (DATA.screen_history || []).forEach(function (r) {
+    if (!pids[r.project_id] && row_fips_list(r.county, r.state).indexOf(fips) === -1) return;
+    (hist[r.project_id] = hist[r.project_id] || []).push(r);
+  });
+  Object.keys(hist).forEach(function (pid) {
+    var rows = hist[pid].sort(function (a, b) {
+      return String(a.run_date || '').localeCompare(String(b.run_date || ''));
+    });
+    var first = rows[0], last = rows[rows.length - 1];
+    out.trend.push({
+      project_id: pid, name: last.name, tier: last.tier,
+      first_run: first.run_date, last_run: last.run_date,
+      first_composite: first.composite, last_composite: last.composite,
+      delta: (num(last.composite) === null || num(first.composite) === null)
+        ? null : num(last.composite) - num(first.composite),
+      runs: rows.length
+    });
+  });
+  out.trend.sort(function (a, b) { return (b.delta === null ? -1e9 : b.delta) - (a.delta === null ? -1e9 : a.delta); });
+
+  (DATA.adjacency_scan || []).forEach(function (r) {
+    if (String(r.fips || '').padStart(5, '0') === fips) out.contagion = r;
+  });
+
   return out;
 }
 
@@ -496,6 +707,24 @@ function render(slice) {
   html += '<div class="sub">FIPS ' + esc(c.fips) + ' &middot; ' + fmt_num(a.land_sqmi, 0) +
     ' sq mi of land &middot; ' + fmt_int(a.existing_dc_count) + ' data center records in the atlas</div>';
 
+  /* ---- what the restriction actually is ---- */
+  if (slice.restrictions.length) {
+    html += '<section><h3>Enacted restriction record' + count_label(slice.restrictions.length) + '</h3>' +
+      '<div class="sub">The instrument on file for this county, from the external restriction ' +
+      'census. "Status" is the census reading at the date shown, not necessarily today.</div>' +
+      table(['Instrument', 'Status', 'Date enacted', 'Source'],
+        slice.restrictions, function (r) {
+          return [esc(r.instrument), '<span class="flag on">' + esc(r.census_status) + '</span>',
+                  '<span class="nowrap">' + fmt_date(r.date_enacted) + '</span>',
+                  link(r.source)];
+        }, '') + '</section>';
+  } else if (a.has_enacted_restrictive === '1') {
+    html += '<section><h3>Enacted restriction record</h3><div class="empty">The county aggregate ' +
+      'flags an enacted restrictive action, but no instrument is filed in the external restriction ' +
+      'census. The flag is derived from tracker events; the census is the hand-verified layer and ' +
+      'covers 94 counties, so absence here is a coverage gap and not a contradiction.</div></section>';
+  }
+
   /* ---- predictive ---- */
   html += '<section><h3>Model outlook</h3>';
   if (s) {
@@ -523,6 +752,26 @@ function render(slice) {
     html += '<div class="sub" style="margin-top:9px">A resemblance score, not a forecast: how much this ' +
       'county looks like counties that have enacted a restriction. Quote the interval, never the point ' +
       'alone. A wide interval is the model saying the evidence is thin for this profile.</div>';
+
+    /* Neighbour contagion: only counties on the adjacency scan queue carry it. */
+    var g = slice.contagion;
+    if (g) {
+      html += '<div class="kpis" style="margin-top:12px">' +
+        kpi('Neighbours with an enacted restriction', fmt_int(g.enacted_neighbors),
+            g.enacted_neighbor_fips ? 'FIPS ' + esc(g.enacted_neighbor_fips) : '') +
+        kpi('Nearest enacted county', esc(g.nearest_seed_county || '\u2014'),
+            g.nearest_seed_state ? esc(g.nearest_seed_state) +
+              (yn(g.cross_state_seed) === 'Yes' ? ' \u00b7 across a state line' : '') : '') +
+        kpi('Days since that action', fmt_int(g.days_since_nearest_seed),
+            g.nearest_seed_date ? 'enacted ' + fmt_date(g.nearest_seed_date) : '') +
+        kpi('Scan priority', esc(g.priority || '\u2014'), esc(g.priority_reason || '')) +
+        kpi('Evidence status', esc(g.evidence_status || '\u2014'),
+            g.meeting_source ? 'meeting source: ' + esc(g.meeting_source) : '') +
+        '</div>' +
+        '<div class="sub" style="margin-top:9px">This county sits on the adjacency scan queue: a ' +
+        'neighbour has already acted, which is why it is being watched. Proximity is a monitoring ' +
+        'trigger, not evidence that this county will follow.</div>';
+    }
   } else {
     html += '<div class="empty">This county is outside the model frame, so it carries no score. ' +
       'Puerto Rico and counties with incomplete census features are excluded.</div>';
@@ -578,16 +827,81 @@ function render(slice) {
 
   /* ---- tracked project lifecycles ---- */
   html += '<section><h3>Tracked project lifecycles' + count_label(slice.lifecycles.length) + '</h3>' +
-    table(['Project', 'Phase', 'Outcome', 'Announced', 'Decision', 'Days', 'MW', 'Acres',
-           'Opp. events', 'Lawsuit', 'Source'],
+    '<div class="sub">"Modeled block" is the out-of-fold probability from the opposed-project ' +
+    'outcome model, available only for projects in its training frame. It is a predictive ' +
+    'association, not a causal statement about opposition.</div>' +
+    table(['Project', 'Phase', 'Outcome', 'Modeled block', 'Announced', 'Decision', 'Days', 'MW',
+           'Acres', 'Opp. events', 'Lawsuit', 'Decision evidence', 'Source'],
       slice.lifecycles, function (r) {
+        var p = slice.pred_by_pid[r.project_id];
+        var d = slice.decision_by_pid[r.project_id];
         return ['<span class="clip">' + esc(r.project_name) + '</span>', esc(r.phase),
-                esc(r.lifecycle_outcome), '<span class="nowrap">' + fmt_date(r.announced_date) + '</span>',
+                esc(r.lifecycle_outcome),
+                p ? fmt_prob(p.oof_pred_blocked) : '\u2014',
+                '<span class="nowrap">' + fmt_date(r.announced_date) + '</span>',
                 '<span class="nowrap">' + fmt_date(r.decision_date) + '</span>',
                 fmt_int(r.days_announced_to_decision), fmt_num(r.capacity_mw, 0),
                 fmt_int(r.size_acres), fmt_int(r.n_opposition_events), yn(r.has_lawsuit),
+                d ? '<span class="clip" title="' + esc(d.decision_date_source) + '">' +
+                    esc(d.decision_date_source) + '</span> ' + link(d.source_url, 'cite') : '\u2014',
                 link(r.source_url)];
       }, 'No tracked lifecycles in this county.') + '</section>';
+
+  /* ---- risk trend over reruns ---- */
+  html += '<section><h3>Risk-screen trend' + count_label(slice.trend.length) + '</h3>' +
+      '<div class="sub">Composite score at the first and most recent screen run, per project. ' +
+      'Movement reflects both new evidence and model reruns.</div>' +
+      table(['Project', 'Current tier', 'First run', 'First composite', 'Latest run',
+             'Latest composite', 'Change', 'Runs'],
+        slice.trend, function (r) {
+          var cls = r.delta === null ? '' : (r.delta > 0 ? 'up' : (r.delta < 0 ? 'down' : ''));
+          var arrow = r.delta === null ? '\u2014'
+            : (r.delta > 0 ? '\u25b2 +' : (r.delta < 0 ? '\u25bc ' : '')) + r.delta.toFixed(1);
+          return ['<span class="clip">' + esc(r.name) + '</span>', esc(r.tier),
+                  '<span class="nowrap">' + fmt_date(r.first_run) + '</span>',
+                  fmt_num(r.first_composite, 1),
+                  '<span class="nowrap">' + fmt_date(r.last_run) + '</span>',
+                  fmt_num(r.last_composite, 1),
+                  '<span class="delta ' + cls + '">' + arrow + '</span>', fmt_int(r.runs)];
+        }, 'No screen history for this county.') + '</section>';
+
+  /* ---- full project universe ---- */
+  html += '<section><h3>Full project universe' + count_label(slice.universe.length) + '</h3>' +
+    '<div class="sub">Every project and facility in the baseline universe for this county, ' +
+    'including those with no tracked opposition. The opposition tables above are a ' +
+    'selection-biased subset of this frame by construction.</div>' +
+    table(['Name', 'Operator', 'Source', 'MW', 'Sq ft', 'Opposed', 'Outcome', 'Decided',
+           'Opp. events', 'Announced', 'Decision', 'Last update', 'Excluded because'],
+      slice.universe, function (r) {
+        return ['<span class="clip">' + esc(r.name) + '</span>',
+                '<span class="clip">' + esc(r.operator) + '</span>', esc(r.source),
+                fmt_num(r.capacity_mw, 0), fmt_int(r.sqft), yn(r.opposed_flag),
+                esc(r.lifecycle_outcome), yn(r.decided), fmt_int(r.n_opposition_events),
+                '<span class="nowrap">' + fmt_date(r.announced_date) + '</span>',
+                '<span class="nowrap">' + fmt_date(r.decision_date) + '</span>',
+                '<span class="nowrap">' + fmt_date(r.last_status_update) + '</span>',
+                '<span class="clip">' + esc(r.exclusion_reason) + '</span>'];
+      }, 'No baseline universe records for this county.') + '</section>';
+
+  /* ---- opposition groups ---- */
+  html += '<section><h3>Opposition groups active here' + count_label(slice.groups.length) + '</h3>' +
+    '<div class="sub">Groups named on this county\'s own events, joined to the national registry. ' +
+    '"Blocked share" is that group\'s confirmed blocks over its decided incidents nationally, so ' +
+    'it describes a track record, not an effect.</div>' +
+    table(['Group', 'Events here', 'National incidents', 'States active', 'First seen',
+           'Last seen', 'Decided', 'Confirmed blocks', 'Blocked share'],
+      slice.groups, function (r) {
+        var g = r.row;
+        return ['<span class="clip">' + esc(g.canonical_name) + '</span>' +
+                  (r.client_safe ? '' : ' <span class="flag warn" title="Registry audit flagged ' +
+                    'this entry; verify before naming it in a client deliverable">verify</span>'),
+                fmt_int(r.local_events), fmt_int(g.n_incidents),
+                '<span class="clip">' + esc(g.states) + '</span>',
+                '<span class="nowrap">' + fmt_date(g.first_seen) + '</span>',
+                '<span class="nowrap">' + fmt_date(g.last_seen) + '</span>',
+                fmt_int(g.decided), fmt_int(g.confirmed_blocks),
+                g.blocked_share === '' ? '\u2014' : fmt_prob(g.blocked_share)];
+      }, 'No registry-matched opposition groups named in this county.') + '</section>';
 
   /* ---- proposals ---- */
   html += '<section><h3>Proposals and developments' + count_label(slice.proposals.length) + '</h3>' +
@@ -647,10 +961,91 @@ function render(slice) {
                 fmt_int(r.agg.existing_dc_count), fmt_int(r.agg.population)];
       }, 'No adjacency records for this county.') + '</section>';
 
+  /* ---- state legislation ---- */
+  html += '<section><h3>State legislation in ' + esc(c.state_abbr) +
+    count_label(slice.bills.length) + '</h3>' +
+    '<div class="sub">Statewide, not county-specific: these bills set the ceiling a local ' +
+    'decision operates under. "Stage" is the furthest point reached; follow the OpenStates ' +
+    'link for roll calls and full text.</div>' +
+    table(['Bill', 'Session', 'Title', 'Stage', 'Stage date', 'Latest action', 'Evidence',
+           'Linked incident', 'OpenStates'],
+      slice.bills, function (r) {
+        return ['<span class="nowrap">' + esc(r.identifier) + '</span>', esc(r.session),
+                '<span class="clip">' + esc(r.title) + '</span>',
+                r.stage ? '<span class="flag on">' + esc(r.stage) + '</span>' : '\u2014',
+                '<span class="nowrap">' + fmt_date(r.stage_date) + '</span>',
+                '<span class="nowrap">' + fmt_date(r.latest_action_date) + '</span>',
+                '<span class="clip">' + esc(r.stage_evidence) + '</span>',
+                '<span class="clip">' + esc(r.incident) + '</span>',
+                link(r.openstates_url, 'bill')];
+      }, 'No matched state bills for this state.') + '</section>';
+
+  /* ---- coverage and known gaps ---- */
+  html += '<section><h3>Coverage and known gaps</h3>';
+  if (slice.coverage.length) {
+    html += table(['Gap class', 'Join status', 'Label check', 'Census status', 'Tracker mechanism',
+                   'Tracker outcome', 'Model label', 'Census source'],
+      slice.coverage, function (r) {
+        return [esc(r.gap_class), esc(r.join_status),
+                r.label_check && r.label_check !== 'ok'
+                  ? '<span class="flag warn">' + esc(r.label_check) + '</span>'
+                  : esc(r.label_check || '\u2014'),
+                esc(r.census_status), esc(r.tracker_mechanism), esc(r.tracker_outcome),
+                esc(r.model_label), link(r.census_source)];
+      }, '');
+  } else {
+    html += '<div class="empty">No reconciliation record for this county, which means it is ' +
+      'outside the 92-county sample where the hand census and the tracker were compared ' +
+      'head to head.</div>';
+  }
+  html += '<div class="sub" style="margin-top:11px">Standing limits on every county page: there ' +
+    'is no usable litigation layer in this repository, so "Lawsuit" reflects tracker-coded ' +
+    'events only. Event severity is recorded at two levels, so treat it as present/elevated ' +
+    'rather than a graded intensity. Opposition-event counts are media-detected and ' +
+    'under-count quiet counties; use the full project universe above as the denominator, ' +
+    'never the opposition tables.</div></section>';
+
+  /* ---- internal-only cost layer ---- */
+  if (SHOW_INTERNAL) {
+    html += '<section class="internal"><h3>Observed cost accounting' +
+      count_label(slice.cost.length) + ' &mdash; internal only</h3>' +
+      '<div class="internal-note"><b>Not for client delivery.</b> These are observed-history ' +
+      'arithmetic against documented anchors, not estimates of what opposition caused. No ' +
+      'matched-control delay estimate exists for this population, and the identifiability ' +
+      'review concluded none is recoverable from the available data, so nothing here ' +
+      'supports a counterfactual claim. Rows without capacity are withheld rather than ' +
+      'imputed, and deferred revenue is exposure, not loss.</div>' +
+      table(['Project', 'Outcome', 'Delay days', 'Date precision', 'MW',
+             'Escalation low', 'Escalation high', 'Deferred exposure low',
+             'Deferred exposure high', 'Sunk cost low', 'Sunk cost high', 'Note'],
+        slice.cost, function (r) {
+          return ['<span class="clip">' + esc(r.project_name) + '</span>', esc(r.lifecycle_outcome),
+                  fmt_int(r.delay_days), esc(r.announced_precision), fmt_num(r.capacity_mw, 0),
+                  fmt_money(r.escalation_cost_low), fmt_money(r.escalation_cost_high),
+                  fmt_money(r.deferred_revenue_exposure_low), fmt_money(r.deferred_revenue_exposure_high),
+                  fmt_money(r.block_sunk_cost_low), fmt_money(r.block_sunk_cost_high),
+                  '<span class="clip">' + esc(r.note) + '</span>'];
+        }, 'No cost translation rows for this county.');
+    if ((DATA.cost_anchors || []).length) {
+      html += '<div style="margin-top:11px">' +
+        table(['Anchor', 'Description', 'Low', 'High', 'Unit', 'Confidence', 'Source date', 'Source'],
+          DATA.cost_anchors, function (r) {
+            return [esc(r.anchor_id), '<span class="clip">' + esc(r.description) + '</span>',
+                    fmt_num(r.value_low, 2), fmt_num(r.value_high, 2), esc(r.unit),
+                    esc(r.confidence), '<span class="nowrap">' + fmt_date(r.source_date) + '</span>',
+                    link(r.source)];
+          }, '') + '</div>';
+    }
+    html += '</section>';
+  }
+
+  html += methodology_panel();
+  html += glossary_panel();
+
   html += '<footer>Hawthorn Intelligence &middot; data-center-map. Sources: ' +
-    'county_aggregate.csv, county_policy_scores.csv, county_policy_intervals.csv, ' +
-    'project_lifecycles.csv, proposals.csv, facility_registry.csv, site_screen.csv, ' +
-    'local_meeting_feed.csv, county_adjacency.csv, master_opposition_clean.csv. ' +
+    Object.keys(CORE_FILES).concat(Object.keys(DETAIL_FILES)).map(function (k) {
+      return (CORE_FILES[k] || DETAIL_FILES[k]).split('/').pop();
+    }).join(', ') + '. ' +
     'Files regenerate with the CI pipeline; if a section is empty and you expect rows, ' +
     'the last run may have failed its QC gate.<br>Rendered ' +
     new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC.</footer>';
@@ -660,6 +1055,111 @@ function render(slice) {
   Array.prototype.forEach.call(document.querySelectorAll('.link-county'), function (el) {
     el.addEventListener('click', function () { select_county(el.getAttribute('data-fips')); });
   });
+}
+
+/* --------------------- methodology and glossary -------------------- */
+
+function methodology_panel() {
+  var pm = META.policy_metrics, om = META.outcome_metrics, sm = META.survival_metrics,
+      mf = META.aggregate_manifest;
+  var h = '<details><summary>Methodology, model cards and data freshness</summary>';
+
+  if (mf) {
+    h += '<dl class="dl">' +
+      '<dt>County frame built</dt><dd>' + fmt_date(mf.generated) + '</dd>' +
+      '<dt>Counties in frame</dt><dd>' + fmt_int(mf.counties) + '</dd>' +
+      '<dt>Events matched to a county</dt><dd>' + fmt_int(mf.event_rows_with_county) +
+        ' (' + fmt_prob(mf.event_match_rate) + ' of event rows)</dd>' +
+      '<dt>Counties with an enacted restriction</dt><dd>' + fmt_int(mf.enacted_restriction_counties) + '</dd>' +
+      '<dt>Counties with a data center on record</dt><dd>' + fmt_int(mf.dc_presence_counties) + '</dd>' +
+      '</dl>';
+  }
+
+  if (pm) {
+    var sel = (pm.specification_selection || {}).selected || {};
+    h += '<h4>Restriction resemblance score</h4>' +
+      '<dl class="dl">' +
+      '<dt>Training counties</dt><dd>' + fmt_int(pm.n) + ' (' + fmt_int(pm.n_positive) +
+        ' with an enacted restriction, base rate ' + fmt_prob(pm.base_rate) + ')</dd>' +
+      '<dt>Cross-validation</dt><dd>' + fmt_int((pm.cv || {}).folds) + '-fold \u00d7 ' +
+        fmt_int((pm.cv || {}).repeats) + ' repeats</dd>' +
+      '<dt>Selected specification</dt><dd>' + esc(sel.spec) + ', L2 C = ' + esc(sel.C) + '</dd>' +
+      '<dt>Variables</dt><dd>' + esc((sel.variables || []).join(', ')) + '</dd>' +
+      '<dt>Specification registered</dt><dd>' + fmt_date((pm.specification_selection || {}).registered) +
+        ((pm.specification_selection || {}).changed_this_run ? ' &middot; changed on the last run' :
+         ' &middot; unchanged on the last run') + '</dd>' +
+      '<dt>Sign-stability cost</dt><dd>' + fmt_num((pm.specification_selection || {}).stability_cost, 4) +
+        ' median AUC given up to hold every coefficient\'s sign across folds</dd>' +
+      '</dl>' +
+      '<div class="sub">Fitted on the cross-section of counties that have and have not acted. ' +
+      'It measures resemblance to counties that already restricted; it is not a forecast of ' +
+      'this county\'s next vote, and no variable in it should be read as a cause.</div>';
+  }
+
+  if (om) {
+    h += '<h4>Opposed-project outcome model</h4>' +
+      '<dl class="dl">' +
+      '<dt>Training projects</dt><dd>' + fmt_int(om.n) + ' (' + fmt_int(om.n_blocked) +
+        ' blocked, base rate ' + fmt_prob(om.base_rate) + ')</dd>' +
+      '<dt>ROC AUC</dt><dd>' + fmt_num(om.roc_auc.p50, 3) + ' median (' +
+        fmt_num(om.roc_auc.p10, 3) + '\u2013' + fmt_num(om.roc_auc.p90, 3) + ' across repeats)</dd>' +
+      '<dt>Brier score</dt><dd>' + fmt_num(om.brier.p50, 3) + ' median, against ' +
+        fmt_num(om.brier.base_rate_brier, 3) + ' for predicting the base rate</dd>' +
+      '<dt>Most informative features</dt><dd>' +
+        esc((om.top_features || []).slice(0, 5).map(function (f) {
+          return f.name + ' (AUC drop ' + f.auc_drop + ')';
+        }).join('; ')) + '</dd>' +
+      '</dl>' +
+      '<div class="sub">Trained only on projects that already drew opposition, so its ' +
+      'probabilities are conditional on that. Sample is small and the AUC spread is wide: ' +
+      'read a single project\'s number as a rank, not a rate. Feature importance here is ' +
+      'predictive signal, never a causal effect.</div>';
+  }
+
+  if (sm) {
+    h += '<h4>Time-to-decision benchmark</h4>' +
+      '<dl class="dl">' +
+      '<dt>Projects</dt><dd>' + fmt_int(sm.n) + ' (' + fmt_int(sm.n_events) +
+        ' reached a decision, ' + fmt_int(sm.n_censored) + ' still open)</dd>' +
+      '<dt>Median time to decision</dt><dd>' + fmt_int(sm.km_median_days_all) +
+        ' days (Kaplan-Meier)</dd>' +
+      '<dt>Log-rank p</dt><dd>' + fmt_num(sm.logrank_p, 4) + '</dd>' +
+      '<dt>Excluded for year-only dates</dt><dd>' + fmt_int(sm.excluded_year_precision) + '</dd>' +
+      '</dl>' +
+      '<div class="sub">A descriptive benchmark of observed timelines. It does not estimate ' +
+      'how much longer a project took than it otherwise would have; that quantity is not ' +
+      'identifiable from this data and is not published anywhere in this system.</div>';
+  }
+
+  if ((DATA.calibration || []).length) {
+    var cal = DATA.calibration.slice(-8).reverse();
+    h += '<h4>Calibration history</h4>' +
+      table(['Run', 'Model', 'n', 'Base rate', 'Brier', 'Baseline Brier', 'Skill', 'ECE', 'Verdict'],
+        cal, function (r) {
+          return ['<span class="nowrap">' + fmt_date(r.timestamp) + '</span>', esc(r.model),
+                  fmt_int(r.n), fmt_prob(r.base_rate), fmt_num(r.brier, 4),
+                  fmt_num(r.brier_baseline, 4), fmt_num(r.brier_skill_score, 4),
+                  fmt_num(r.ece, 4),
+                  '<span class="flag ' + (r.verdict === 'PROMOTE' ? 'on' : 'warn') + '">' +
+                    esc(r.verdict) + '</span>'];
+        }, '') +
+      '<div class="sub" style="margin-top:9px">Scores only reach this page on a PROMOTE ' +
+      'verdict. A HOLD run keeps the previous published scores in place.</div>';
+  }
+
+  h += '<h4>Standing interpretation rules</h4><div class="sub">Nothing on this page is a ' +
+    'causal estimate. Figures describe associations and observed histories. No dollar amount ' +
+    'or delay shown anywhere in this system is attributable to opposition, and none should be ' +
+    'presented that way. Confirmed outcomes require finality evidence beyond a label: a bill ' +
+    'stage or a terminal status, never an outcome label on its own.</div>';
+
+  return h + '</details>';
+}
+
+function glossary_panel() {
+  if (!META.codebook) return '';
+  return '<details><summary>Field glossary (CODEBOOK.md)</summary>' +
+    '<pre>' + esc(META.codebook) + '</pre></details>';
 }
 
 /* ------------------------------ export ---------------------------- */
@@ -718,6 +1218,38 @@ function export_csv() {
     push_row('neighbor_county', n.fips, n.agg);
     if (n.score) push_row('neighbor_policy_score', n.fips, n.score);
   });
+
+  slice.restrictions.forEach(function (r, i) {
+    push_row('enacted_restriction', (r.instrument || 'instrument') + '_' + (i + 1), r);
+  });
+  slice.coverage.forEach(function (r, i) { push_row('coverage_gap', c.fips + '_' + (i + 1), r); });
+  slice.universe.forEach(function (r) { push_row('baseline_universe', r.universe_id, r); });
+  slice.bills.forEach(function (r, i) {
+    push_row('state_bill', (r.identifier || 'bill') + '_' + (i + 1), r);
+  });
+  slice.groups.forEach(function (r) {
+    push_row('opposition_group', r.row.canonical_id, r.row);
+    push('opposition_group', r.row.canonical_id, 'events_in_this_county', r.local_events);
+    push('opposition_group', r.row.canonical_id, 'client_safe', r.client_safe ? '1' : '0');
+  });
+  Object.keys(slice.pred_by_pid).forEach(function (pid) {
+    push_row('outcome_prediction', pid, slice.pred_by_pid[pid]);
+  });
+  Object.keys(slice.decision_by_pid).forEach(function (pid) {
+    push_row('decision_date_provenance', pid, slice.decision_by_pid[pid]);
+  });
+  slice.trend.forEach(function (r) { push_row('risk_screen_trend', r.project_id, r); });
+  if (slice.contagion) push_row('adjacency_scan', c.fips, slice.contagion);
+
+  /* Cost stays internal: it is only written when the operator has explicitly
+   * turned the internal layers on, and the export says so on its own row. */
+  push('export_scope', c.fips, 'internal_layers_included', SHOW_INTERNAL ? '1' : '0');
+  if (SHOW_INTERNAL) {
+    slice.cost.forEach(function (r) { push_row('cost_translation_internal', r.project_id, r); });
+    (DATA.cost_anchors || []).forEach(function (r) {
+      push_row('cost_anchor_internal', r.anchor_id, r);
+    });
+  }
 
   var blob = new Blob([lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
   var a = document.createElement('a');
@@ -805,6 +1337,11 @@ function initial_fips() {
 }
 
 document.getElementById('export').addEventListener('click', export_csv);
+document.getElementById('print').addEventListener('click', function () { window.print(); });
+document.getElementById('internal').addEventListener('change', function () {
+  SHOW_INTERNAL = this.checked;
+  if (CURRENT) render(county_slice(CURRENT));
+});
 document.getElementById('permalink').addEventListener('click', function () {
   var btn = this;
   navigator.clipboard.writeText(location.href).then(function () {
@@ -827,14 +1364,17 @@ load_core().then(function (missing) {
   }
   build_frame();
   wire_picker();
+  document.getElementById('print').disabled = false;
+  load_meta().then(function () { if (CURRENT) render(county_slice(CURRENT)); });
   var start = initial_fips();
   if (start) {
     select_county(start, false);
   } else {
     document.getElementById('body').innerHTML =
       '<div class="loading">Search for a county above to load its profile. ' +
-      'Every descriptive field, model score, project, facility, opposition event and ' +
-      'neighboring county comes down in one CSV from the Export button.</div>';
+      'Every descriptive field, model score, project, facility, opposition event, ' +
+      'opposition group, state bill, neighboring county and model card comes down in one ' +
+      'CSV from the Export button.</div>';
   }
   return load_detail().then(function (missing2) {
     if (missing2.length) {
