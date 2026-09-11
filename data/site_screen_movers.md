@@ -1,11 +1,21 @@
 # Opposition Environment Movement Report
 
-Run date: 2026-09-10
-Compared against: 2026-09-09
+Run date: 2026-09-11
+Compared against: 2026-09-10
 
-Sites screened: 336 | tier changes: 0 | composite moves of 3 points or more: 0 | newly screened: 0
+Sites screened: 337 | tier changes: 1 | composite moves of 3 points or more: 0 | newly screened: 1
 
-No site moved by the reporting threshold since the prior run.
+## Tier changes
+
+| Site | County, State | From | To | Composite change |
+| :-- | :-- | :-- | :-- | --: |
+| Microsoft Gaines Township Data Center | Kent County, MI | Elevated | Guarded | -0.1 |
+
+## Newly screened sites
+
+| Site | County, State | Tier | Composite |
+| :-- | :-- | :-- | --: |
+| North Coventry Mall Data Center | Chester County, PA | Elevated | 82.2 |
 
 ## Reading this report
 
