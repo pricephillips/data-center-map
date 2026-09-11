@@ -115,6 +115,25 @@ tr:last-child td { border-bottom:none }
 .clip { max-width:380px; overflow:hidden; text-overflow:ellipsis; display:-webkit-box;
   -webkit-line-clamp:3; -webkit-box-orient:vertical }
 .nowrap { white-space:nowrap }
+/* Ten columns in one panel width: left to auto layout the long clipped cells
+   starve the Name column and stack a three-word name over three lines, while
+   Party and Term ends sit nearly empty. Fixed widths spend the space on the
+   columns that carry text. */
+.stk table { table-layout:fixed; width:100% }
+.stk th:nth-child(1), .stk td:nth-child(1) { width:8% }
+.stk th:nth-child(2), .stk td:nth-child(2) { width:11% }
+/* Widest of the text columns: a name is the one field that must never be cut,
+   and a quoted nickname ('Richard "Dick" Anderson') is the longest real case. */
+.stk th:nth-child(3), .stk td:nth-child(3) { width:18% }
+.stk th:nth-child(4), .stk td:nth-child(4) { width:8% }
+.stk th:nth-child(5), .stk td:nth-child(5) { width:7% }
+.stk th:nth-child(6), .stk td:nth-child(6) { width:13% }
+.stk th:nth-child(7), .stk td:nth-child(7) { width:9% }
+.stk th:nth-child(8), .stk td:nth-child(8) { width:10% }
+.stk th:nth-child(9), .stk td:nth-child(9) { width:10% }
+.stk th:nth-child(10), .stk td:nth-child(10) { width:6% }
+.stk .nm { white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.stk .clip { max-width:none }
 .link-county { cursor:pointer; color:var(--atlas) }
 .count { color:var(--muted); font-weight:400; font-size:12px; margin-left:6px }
 footer { color:var(--muted); font-size:11px; border-top:1px solid var(--border); padding-top:12px;
@@ -732,11 +751,12 @@ var OFFICE_CLASS_LABEL = {
 };
 
 function stakeholder_rows(rows) {
-  return table(['Tier', 'Office', 'Name', 'Party', 'Term ends', 'Email', 'Phone',
+  return '<div class="stk">' + table(
+               ['Tier', 'Office', 'Name', 'Party', 'Term ends', 'Email', 'Phone',
                 'Office address', 'Role in siting', 'Source'],
     rows, function (r) {
       var flags = String(r.qc_flags || '').split(';').filter(Boolean);
-      var name = esc(r.name) +
+      var name = '<div class="nm">' + esc(r.name) + '</div>' +
         (r.jurisdiction ? '<div class="sub">' + esc(r.jurisdiction) + '</div>' : '');
       if (flags.length) {
         name += '<div class="sub"><span class="flag warn">' + esc(flags.join(' ')) +
@@ -757,7 +777,7 @@ function stakeholder_rows(rows) {
                   (r.relevance_source_url ? ' ' + link(r.relevance_source_url, 'src') : '')
                 : '\u2014',
               link(r.source_url, 'official')];
-    }, '');
+    }, '') + '</div>';
 }
 
 function render(slice) {
