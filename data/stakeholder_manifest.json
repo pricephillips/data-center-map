@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-11T16:14:26Z",
-  "published_rows": 130,
+  "generated": "2026-09-11T16:14:57Z",
+  "published_rows": 132,
   "withheld_rows": 5,
   "warned_rows": 1,
   "county_rows": 103,
-  "state_rows": 27,
+  "state_rows": 29,
   "counties_covered": 36,
   "states_covered": [
     "AZ",
@@ -26,9 +26,19 @@
     "WA",
     "WY"
   ],
-  "state_tier_refreshed": false,
+  "state_tier_refreshed": true,
   "with_email": 20,
   "with_phone": 75,
-  "with_relevance": 43,
-  "acquisition_notes": []
+  "with_relevance": 45,
+  "acquisition_notes": [
+    "CA: no governor returned by OpenStates",
+    "KS: SB 98 lists no sponsors",
+    "NJ: no governor returned by OpenStates",
+    "NV: no matched data center bill to draw sponsors from",
+    "OR: HB 4084 lists no sponsors",
+    "PA: no matched data center bill to draw sponsors from",
+    "TX: no matched data center bill to draw sponsors from",
+    "VA: no governor returned by OpenStates",
+    "WY: no matched data center bill to draw sponsors from"
+  ]
 }
