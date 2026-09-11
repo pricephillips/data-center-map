@@ -75,6 +75,28 @@ jobs:
         continue-on-error: true
         run: python landmark_model.py
 
+      - name: Landmark diagnostics (anchor comparison + recovery ranking)
+        # Produces data/landmark_recovery_priority.csv and
+        # data/landmark_anchor_comparison.csv, which the commit step below has
+        # always staged and no workflow has ever generated -- so both were
+        # frozen at their last manual run while PHASE_STATUS described them as
+        # refreshed weekly. Same condition as the landmark step: the
+        # diagnostics read the model's own frame.
+        id: landmark_diag
+        if: steps.landmark.outcome == 'success'
+        continue-on-error: true
+        run: python landmark_diagnostics.py
+
+      - name: Feature asymmetry check (date quality across outcome arms)
+        # The robustness check on days_to_first_opposition. Written to be run
+        # by hand after a date-recovery pass, which made it invisible between
+        # passes: it is what surfaced the 2026-09-10 announced_date collapse,
+        # ten days late. Cheap, read-only, and worth having on the weekly run.
+        id: asymmetry
+        if: steps.frame.outcome == 'success'
+        continue-on-error: true
+        run: python feature_asymmetry_check.py
+
       - name: Negative audit worklist refresh
         id: negative
         continue-on-error: true
@@ -100,11 +122,20 @@ jobs:
             git add data/landmark_feasibility.csv data/landmark_model_report.md \
                     data/decision_date_worklist.csv \
                     data/announce_date_worklist.csv \
-                    data/landmark_recovery_priority.csv \
-                    data/landmark_anchor_comparison.csv \
                     data/landmark_model_features.csv \
                     data/landmark_model_metrics.json \
                     data/landmark_model_predictions.csv 2>/dev/null || true
+          fi
+          # These two come from landmark_diagnostics.py, not landmark_model.py.
+          # They were staged under the landmark step above while nothing ran
+          # the diagnostics, so the add was a no-op and both files went stale.
+          if [ "${{ steps.landmark_diag.outcome }}" = "success" ]; then
+            git add data/landmark_recovery_priority.csv \
+                    data/landmark_anchor_comparison.csv \
+                    data/landmark_diagnostics.md 2>/dev/null || true
+          fi
+          if [ "${{ steps.asymmetry.outcome }}" = "success" ]; then
+            git add data/feature_asymmetry_report.md 2>/dev/null || true
           fi
           if [ "${{ steps.negative.outcome }}" = "success" ]; then
             git add data/negative_audit_worklist.csv \

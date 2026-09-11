@@ -166,6 +166,9 @@ jobs:
           python discover_endpoint.py --selftest
           python fetch_permits.py --selftest
           echo "Front-end syntax gate self-tests:"
+          python proximity_analysis.py --selftest
+          python link_disagreement_audit.py --selftest
+          python scripts/scrape-trackdatacenters-proposals.py --selftest
           python scripts/check_inline_js.py --selftest
           # A syntax error in a page loader takes a client-visible surface
           # down silently, and nothing checked for one: the .js self-tests
@@ -197,6 +200,18 @@ jobs:
           # the registry itself stays inside project_resolution's chain.
           python group_registry_audit.py || true
 
+      - name: Proximity analysis (contagion, clustering, density)
+        # Reads the clean feed built above. Its default output directory was
+        # out/ -- a directory nothing else writes and which is not in the
+        # repository -- so the analysis ran clean and left its results where
+        # nothing collected them. Now writes to data/ like everything else
+        # derived. The contagion measure currently reports no effect beyond
+        # baseline geography, which is a result worth keeping current rather
+        # than a reason not to run it.
+        id: proximity
+        continue-on-error: true
+        run: python proximity_analysis.py
+
       - name: Verification status + untagged review worklist
         id: verification
         continue-on-error: true
@@ -218,6 +233,17 @@ jobs:
         id: project_resolution
         continue-on-error: true
         run: python project_resolution.py && python control_group.py && python control_comparison.py && python triage_accelerator.py
+
+      - name: Link disagreement audit (rules vs the registered model scores)
+        # Reads the live link state that project_resolution.py just rebuilt
+        # against the frozen scores from the splink spike. The spike returned
+        # NO-GO on adoption and that stands; this only works the disagreement
+        # surface its report flagged and nobody had picked up. Splink stays out
+        # of the dependency list -- the scores are read from the committed CSV.
+        id: link_disagreement
+        if: steps.project_resolution.outcome == 'success'
+        continue-on-error: true
+        run: python link_disagreement_audit.py
 
       - name: County layer (aggregate QC gate -> enacted-restriction model)
         id: county_layer
@@ -367,6 +393,16 @@ jobs:
                   data/control_group_notes.md data/control_comparison.md \
                   data/project_links_manual_draft.csv \
                   data/project_links_manual.csv 2>/dev/null || true
+          # Staged only on a green audit step: the worklist is absent by
+          # design when project resolution did not run, and a stale copy is
+          # worse than none for a file whose whole purpose is to shrink.
+          if [ "${{ steps.proximity.outcome }}" = "success" ]; then
+            git add data/proximity_report.md data/contagion_rows.csv 2>/dev/null || true
+          fi
+          if [ "${{ steps.link_disagreement.outcome }}" = "success" ]; then
+            git add data/link_disagreement_worklist.csv \
+                    data/link_disagreement_report.md 2>/dev/null || true
+          fi
           # Verification artifacts are staged only on a green verification
           # step. verification_holdout.csv is written by the feed build itself,
           # so it is staged with the feed above and refreshed here.

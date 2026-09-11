@@ -43,6 +43,7 @@
         "data/project_duplicates.csv",
         "data/project_link_review.csv",
         "data/permit_candidates_*.csv",
+        "data/ingest_scaffold_*.json",
         "data/type_b_link_review.md"
       ]
     },
@@ -130,8 +131,6 @@
         "data/landmark_*.md",
         "data/decision_date_worklist.csv",
         "data/announce_date_worklist.csv",
-        "decision_date_worklist.csv",
-        "announce_date_worklist.csv",
         "date_recovery_report.csv",
         "data/date_recovery_*.md",
         "data/negative_audit_*.csv",
@@ -157,6 +156,10 @@
         "data/model_promoted.flag",
         "data/splink_spike_*.csv",
         "data/splink_spike_*.md",
+        "data/link_disagreement_*.csv",
+        "data/link_disagreement_*.md",
+        "data/proximity_report.md",
+        "data/contagion_rows.csv",
         "data/operations_summary.json",
         "data/layer_audit*.csv",
         "data/layer_audit*.json",
