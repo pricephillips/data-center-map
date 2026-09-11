@@ -5,6 +5,12 @@ undeclared_file,data/manual_additions.csv,,manual_records.py,
 undeclared_file,data/manual_corrections.csv,,manual_records.py,
 undeclared_file,data/manual_records_report.csv,,manual_records.py,
 undeclared_file,data/manual_removed_rows.csv,,manual_records.py,
+undeclared_file,data/stakeholder_held.csv,,stakeholder_registry.py,
+undeclared_file,data/stakeholder_manifest.json,,stakeholder_registry.py,
+undeclared_file,data/stakeholder_openstates_cache.json,,no writing module found; hand maintained or retired,
+undeclared_file,data/stakeholder_qc_report.md,,stakeholder_registry.py,
+undeclared_file,data/stakeholder_registry.csv,,stakeholder_registry.py,
+undeclared_file,data/stakeholder_seed_county.csv,,no writing module found; hand maintained or retired,
 multi_writer_declared,data/signal_candidates.csv,C,"promote_signal_candidates.py, signal_harvest.py","A handoff, not shared ownership. signal_harvest.py writes the queue; promote_signal_candidates.py consumes it and rewrites what remains, so the file holds exactly the rows the gate did not promote. The two never write concurrently: the promoter runs after the harvester in the same workflow."
 multi_writer_declared,master_opposition.csv,C,"census_gap_candidates.py, manual_records.py, promote_signal_candidates.py, scripts/build_master_csv.py","The source of record for Layer C, and the one file with more than one writer by design. scripts/build_master_csv.py refreshes it from upstream under the ownership rule that ended the 2026 corruption; census_gap_candidates.py and promote_signal_candidates.py append gated promotions only. All three are append-or-refresh under a stated ownership discipline, none of them rewrites another's rows, and every promotion lands in an audit trail. This exemption is the reason the rule exists elsewhere: it is the exception that had to be argued for."
 cross_layer_declared,census_gap_candidates.py,C + D,"data/gap_promotion_report.csv, data/restriction_ingest_candidates.csv, data/restriction_ingest_candidates.md, master_opposition.csv","Layers C and D. This is the gap-closure promotion path: a Layer D census gap becomes a Layer C opposition record. The crossing is the point of the module and it is gated (complete, dated, sourced, dedup-guarded, census-corroborated), appends only, and writes every promote, hold and block decision to data/gap_promotion_report.csv."

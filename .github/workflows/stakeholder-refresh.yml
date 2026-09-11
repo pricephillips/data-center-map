@@ -1,0 +1,99 @@
+name: Refresh stakeholder registry
+
+on:
+  workflow_dispatch:
+    inputs:
+      cache_days:
+        description: "Reuse cached OpenStates responses for this many days"
+        required: false
+        default: "14"
+
+  # Weekly, Mondays at 09:10 UTC. Weekly rather than monthly because the QC
+  # gate is what catches an official whose term has ended, and the cost of a
+  # run is near zero: the OpenStates responses are cached for cache_days, so
+  # an unchanged week spends no API quota.
+  schedule:
+    - cron: "10 9 * * 1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stakeholder-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout data-center-map
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # The gate on the gate. If the QC logic itself is broken there is no
+      # point publishing, so a failed self-test stops the run before anything
+      # is written.
+      - name: Self-test stakeholder module
+        run: python stakeholder_registry.py --selftest
+
+      - name: Build registry
+        env:
+          OPENSTATES_API_KEY: ${{ secrets.OPENSTATES_API_KEY }}
+        run: |
+          # Without a key the county tier still republishes and still gets
+          # re-validated, which is the half of the job that catches expired
+          # terms. Degrading is better than failing: a missing secret must not
+          # leave the published registry unchecked for a week.
+          if [ -n "$OPENSTATES_API_KEY" ]; then
+            python stakeholder_registry.py --refresh-state \
+              --cache-days "${{ github.event.inputs.cache_days || '14' }}"
+          else
+            echo "::warning::OPENSTATES_API_KEY not set; county tier only."
+            python stakeholder_registry.py --build
+          fi
+
+      - name: Show QC summary
+        run: |
+          if [ -f data/stakeholder_manifest.json ]; then
+            cat data/stakeholder_manifest.json
+          fi
+          # Surface withheld rows in the run log so a failure to publish is
+          # visible without opening the committed report.
+          if [ -f data/stakeholder_qc_report.md ]; then
+            sed -n '1,40p' data/stakeholder_qc_report.md
+          fi
+
+      - name: Commit registry, report and manifest
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Each path is guarded separately because a single missing pathspec
+          # aborts the whole `git add`, the trap documented in
+          # fetch-permits.yml and refresh-external-census.yml.
+          [ -f data/stakeholder_registry.csv ]  && git add data/stakeholder_registry.csv
+          [ -f data/stakeholder_held.csv ]      && git add data/stakeholder_held.csv
+          [ -f data/stakeholder_qc_report.md ]  && git add data/stakeholder_qc_report.md
+          [ -f data/stakeholder_manifest.json ] && git add data/stakeholder_manifest.json
+          [ -f data/stakeholder_openstates_cache.json ] && git add data/stakeholder_openstates_cache.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Stakeholder registry: scheduled refresh [skip ci]"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
+            echo "Push attempt $i failed, retrying in 10s"
+            # A worktree stuck mid-rebase fails every later pull with "already
+            # a rebase-merge directory", so the retries cannot even start
+            # without this abort.
+            git rebase --abort 2>/dev/null || true
+            sleep 10
+          done
+          echo "Push failed after 3 attempts. If branch protection is enabled on main, allow github-actions[bot] to push or merge via PR."
+          exit 1
