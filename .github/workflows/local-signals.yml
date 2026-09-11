@@ -36,6 +36,7 @@ jobs:
           python local_meeting_feed.py --selftest
           python dispute_watch.py --selftest
           python incentive_execution_risk_proxy.py --selftest
+          python incentive_durability_proxy.py --selftest
 
       - name: Political alignment proxy (all states)
         run: python political_alignment_proxy.py --all --out data/political_alignment_proxy.md
@@ -62,6 +63,13 @@ jobs:
       - name: Incentive execution risk proxy (all counties)
         run: python incentive_execution_risk_proxy.py --all --out data/incentive_execution_risk_proxy.md
 
+      - name: Incentive durability proxy (all states)
+        # The interim score that stands in until
+        # data/incentive_agreement_registry.csv can carry a real model. That
+        # file has 0 rows, so the condition the module was written for is
+        # fully in force; it had simply never been connected.
+        run: python incentive_durability_proxy.py --all --out data/incentive_durability_proxy.md
+
       - name: Commit signal outputs
         run: |
           git config user.name "github-actions[bot]"
@@ -71,6 +79,7 @@ jobs:
                   data/dispute_watch.csv \
                   data/dispute_watch_cache.json \
                   data/incentive_execution_risk_proxy.md \
+                  data/incentive_durability_proxy.md \
                   configs/local_meeting_sources.json"
           EXISTING=""
           for f in $FILES; do
@@ -85,7 +94,7 @@ jobs:
             echo "No changes to commit"
             exit 0
           fi
-          git commit -m "Local signal proxies (alignment, meetings, execution risk) [skip ci]"
+          git commit -m "Local signal proxies (alignment, meetings, incentive risk) [skip ci]"
           for i in 1 2 3; do
             git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
             echo "Push attempt $i failed, retrying in 10s"

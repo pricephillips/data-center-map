@@ -175,6 +175,19 @@ because item 0 is live and will recur. See section 0. The remap is a lookup;
 the guard is maybe thirty lines and one selftest, in a repository that already
 has the pattern in `assert_unique_project_ids` and `state_bounds.py`.
 
+**The guard is implemented on this branch**, as `assert_field_population` in
+`scripts/scrape-trackdatacenters-proposals.py`, with a ten-check selftest wired
+into the pipeline gate. Replayed against the real files it names exactly the
+six fields on the 2026-09-10 transition and stays quiet on a normal night.
+Measured on scraped rows alone the collapse is total -- all six go to 0, not to
+the 10, 12, 7 and 3 above, which were entirely the manual additions.
+
+It does not repair the current breakage and cannot: the baseline it compares
+against is now itself empty in those columns, so the fields sit below the
+sparse-field floor and nothing fires. **The remap is still outstanding and
+still needs one look at a live API response.** The guard earns its place on the
+next rename, not this one.
+
 ### B2. `incentive_durability_proxy.py` → `local-signals.yml`
 
 Two lines. **Verified working this scan**: `--selftest` passes 7/7, and
@@ -192,6 +205,10 @@ in force and the module has simply never been connected.
 - run: python incentive_durability_proxy.py --selftest
 - run: python incentive_durability_proxy.py --all --out data/incentive_durability_proxy.md
 ```
+
+**Done on this branch.** Both lines added to `local-signals.yml`, output added
+to its commit list. `data/incentive_*.md` in `configs/layers.json` already
+covers the new file, so no declaration was needed.
 
 ### B3. `landmark_diagnostics.py` → `gate-check.yml`
 
@@ -213,6 +230,19 @@ the worklist is now 46.
 dependency. Add the run step after the landmark step, inside the same
 `steps.landmark.outcome == 'success'` condition the commit block uses.
 
+One consequence to expect rather than be alarmed by. The first run after
+wiring replaces a worklist built on pre-regression data with one built on
+current data, and while section 0 stands that means
+`data/landmark_recovery_priority.csv` drops from 46 ranked projects to 1, with
+the diagnostics reporting no feasible window at the ceiling under either
+anchor. That is the anchor collapse showing through, not the diagnostics
+failing. It reverts on its own when the six columns are restored, and a
+worklist that reports the truth beats one frozen at a friendlier number.
+
+**Done on this branch.** The two artifacts were also moved out of the landmark
+step's staging block and into the diagnostics step that actually writes them,
+which is what made the original `git add` a permanent no-op.
+
 ### B4. `feature_asymmetry_check.py` → `gate-check.yml` or `retrain.yml`
 
 One line. **Verified working this scan**: exits 0 and writes its report.
@@ -229,6 +259,9 @@ moved the both-dates-present share from 88% to 4% in both arms. Had it been
 wired, the regression would have been visible the morning after the scrape
 instead of being found by a manual audit ten days later. That is the argument
 for wiring it, independent of the feature question it was built to answer.
+
+**Done on this branch**, on `gate-check.yml` alongside the diagnostics, with
+`data/feature_asymmetry_report.md` staged on a green step.
 
 ### B5. `proximity_analysis.py` — repoint or retire
 
