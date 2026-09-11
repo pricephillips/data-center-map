@@ -46,8 +46,8 @@ string with no guard and no error.
 
 The residue confirms it. The only rows that still carry `date` are ids 1001
 through 1012 — the manual additions from `data/proposals_added.csv`, which are
-appended verbatim and never touch the API mapping. Every scraped row lost the
-field.
+appended verbatim and never touch the API mapping. Every scraped row came
+through with the field empty.
 
 Downstream, in the committed `data/project_lifecycles.csv`:
 
@@ -93,8 +93,8 @@ The repair is two pieces, and the second is the one worth the effort:
    applies elsewhere — `assert_unique_project_ids` stops the pipeline rather
    than publishing a merged project — applied to field population: a field that
    was populated on the previous run and is empty on this one fails the scrape
-   instead of committing the loss. Without it the next rename lands the same
-   way.
+   instead of committing the emptied column. Without it the next rename lands
+   the same way.
 
 This is listed again as item B1 below, because the guard is the durable part.
 
@@ -394,7 +394,7 @@ Recorded so this ground is not re-litigated next scan.
 
 The finding worth carrying forward is not any single dormant module. It is that
 a module nobody runs was the only thing that could see a live regression, and it
-could not report it because it was not wired in. Three of the six easy wins
+could not report it because it was not wired in. Three of the six easy items
 (B2, B3, B4) are modules that already work, already have selftests, and in two
 cases already have their outputs committed by a workflow that never generates
 them. The cheapest reliability improvement available here is connecting checks
