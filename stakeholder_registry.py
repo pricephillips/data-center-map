@@ -422,10 +422,11 @@ class Cache:
             fh.write("\n")
 
 
-# The free tier allows roughly one request a second, and bill_sync.py settled on
-# this spacing against the same key. The first build of this module slept 0.2s
-# and collected 429s across a third of the states.
-THROTTLE_S = 1.1
+# The free tier allows 10 requests a minute, not one a second: the 429 body
+# reads `exceeded limit of 10/min`. 6.5s leaves headroom under that ceiling.
+# Two requests per state means a full 18-state refresh takes about four
+# minutes, which is fine for a weekly job.
+THROTTLE_S = 6.5
 _last_call = [0.0]
 
 
