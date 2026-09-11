@@ -48,6 +48,7 @@ button.primary:hover { filter:brightness(1.1) }
 
 .title-row { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:3px }
 .sub { color:var(--muted); font-size:12px; margin-bottom:16px }
+.sub.trailing { margin:12px 0 0 }
 .flag { display:inline-block; padding:3px 9px; border-radius:999px; font-size:11px; font-weight:600 }
 .flag.on { background:#3a2116; border:1px solid var(--accent); color:var(--accent2) }
 .flag.off { background:var(--panel2); border:1px solid var(--border); color:var(--muted) }
@@ -203,7 +204,9 @@ var DETAIL_FILES = {
   screen_history: 'data/site_screen_history.csv',
   cost: 'data/cost_translation_demo.csv',
   cost_anchors: 'data/cost_anchors.csv',
-  calibration: 'data/calibration_history.csv'
+  calibration: 'data/calibration_history.csv',
+  /* third pass: the people layer */
+  stakeholders: 'data/stakeholder_registry.csv'
 };
 
 /* Model cards and freshness stamps. Read as JSON, never blocking. */
@@ -211,7 +214,8 @@ var JSON_FILES = {
   policy_metrics: 'data/county_policy_metrics.json',
   outcome_metrics: 'data/outcome_model_metrics.json',
   survival_metrics: 'data/survival_model_metrics.json',
-  aggregate_manifest: 'data/county_aggregate_manifest.json'
+  aggregate_manifest: 'data/county_aggregate_manifest.json',
+  stakeholder_manifest: 'data/stakeholder_manifest.json'
 };
 
 var STATE_NAME = {
@@ -506,7 +510,8 @@ function county_slice(fips) {
     lifecycles: [], proposals: [], facilities: [], site_screen: [],
     meetings: [], opposition: [], neighbors: [],
     restrictions: [], coverage: [], universe: [], bills: [], groups: [],
-    cost: [], trend: [], contagion: null
+    cost: [], trend: [], contagion: null,
+    stakeholders_county: [], stakeholders_state: []
   };
   if (!DETAIL_READY) return out;
 
@@ -653,6 +658,24 @@ function county_slice(fips) {
     if (String(r.fips || '').padStart(5, '0') === fips) out.contagion = r;
   });
 
+  /* Stakeholders arrive already QC-gated: stakeholder_registry.py publishes
+     only rows that passed, so nothing is filtered here. County rows key on
+     FIPS, state rows on the abbreviation, and the state tier is always shown
+     because it is the one layer guaranteed to be present for every county. */
+  (DATA.stakeholders || []).forEach(function (r) {
+    if (r.level === 'county' && String(r.fips || '').padStart(5, '0') === fips) {
+      out.stakeholders_county.push(r);
+    } else if (r.level === 'state' && String(r.state || '') === c.state_abbr) {
+      out.stakeholders_state.push(r);
+    }
+  });
+  out.stakeholders_county.sort(function (a, b) {
+    return STAKEHOLDER_ORDER.indexOf(a.office_class) - STAKEHOLDER_ORDER.indexOf(b.office_class);
+  });
+  out.stakeholders_state.sort(function (a, b) {
+    return STAKEHOLDER_ORDER.indexOf(a.office_class) - STAKEHOLDER_ORDER.indexOf(b.office_class);
+  });
+
   return out;
 }
 
@@ -693,6 +716,48 @@ function table(cols, rows, render_row, empty_msg) {
 
 function count_label(n) {
   return DETAIL_READY ? '<span class="count">' + n + '</span>' : '';
+}
+
+/* Page order for the stakeholder tables: local decision-makers first, then
+   the state offices that set the frame above them. */
+var STAKEHOLDER_ORDER = ['county_board', 'county_admin', 'mayor',
+                         'governor', 'state_committee_chair'];
+
+var OFFICE_CLASS_LABEL = {
+  county_board: 'County board',
+  county_admin: 'County administration',
+  mayor: 'City',
+  governor: 'Governor',
+  state_committee_chair: 'Legislature'
+};
+
+function stakeholder_rows(rows) {
+  return table(['Tier', 'Office', 'Name', 'Party', 'Term ends', 'Email', 'Phone',
+                'Office address', 'Role in siting', 'Source'],
+    rows, function (r) {
+      var flags = String(r.qc_flags || '').split(';').filter(Boolean);
+      var name = esc(r.name) +
+        (r.jurisdiction ? '<div class="sub">' + esc(r.jurisdiction) + '</div>' : '');
+      if (flags.length) {
+        name += '<div class="sub"><span class="flag warn">' + esc(flags.join(' ')) +
+          '</span></div>';
+      }
+      return [esc(OFFICE_CLASS_LABEL[r.office_class] || r.office_class),
+              '<span class="clip">' + esc(r.office) + '</span>',
+              name,
+              r.party ? esc(r.party) : '\u2014',
+              r.term_end ? '<span class="nowrap">' + esc(r.term_end) + '</span>' : '\u2014',
+              r.contact_email
+                ? '<a href="mailto:' + esc(r.contact_email) + '">' + esc(r.contact_email) + '</a>'
+                : '\u2014',
+              r.contact_phone ? '<span class="nowrap">' + esc(r.contact_phone) + '</span>' : '\u2014',
+              r.contact_address ? '<span class="clip">' + esc(r.contact_address) + '</span>' : '\u2014',
+              r.relevance_note
+                ? '<span class="clip">' + esc(r.relevance_note) + '</span>' +
+                  (r.relevance_source_url ? ' ' + link(r.relevance_source_url, 'src') : '')
+                : '\u2014',
+              link(r.source_url, 'official')];
+    }, '');
 }
 
 function render(slice) {
@@ -980,6 +1045,34 @@ function render(slice) {
                 link(r.openstates_url, 'bill')];
       }, 'No matched state bills for this state.') + '</section>';
 
+  /* ---- stakeholders ---- */
+  var sh_all = slice.stakeholders_county.concat(slice.stakeholders_state);
+  var sh_man = (META.stakeholder_manifest || {});
+  html += '<section><h3>Stakeholders' + count_label(sh_all.length) + '</h3>' +
+    '<div class="sub">The offices that decide siting, zoning, permitting and utility ' +
+    'questions here, plus the state offices above them. Every row carries the official ' +
+    'page it was read from. Names are published only after passing a validation gate, so ' +
+    'an office with no confirmed current holder is left out rather than guessed \u2014 ' +
+    'a term that has already ended withholds the row.</div>';
+  if (!slice.stakeholders_county.length && DETAIL_READY) {
+    html += '<div class="empty">No county-level stakeholder record for this county yet. ' +
+      'The county tier is a seeded source of record built jurisdiction by jurisdiction ' +
+      'from official government pages, because no national register of county board ' +
+      'chairs, county administrators and mayors exists to pull from. It currently covers ' +
+      (sh_man.counties_covered !== undefined
+        ? fmt_int(sh_man.counties_covered) + ' of the 789 counties with tracked activity'
+        : 'a subset of counties') +
+      '. The state offices below apply regardless.</div>';
+  }
+  html += stakeholder_rows(sh_all);
+  if (sh_all.length) {
+    html += '<div class="sub trailing">Contact details are the official office listings published ' +
+      'by the jurisdiction, not personal contact information. A "Role in siting" entry ' +
+      'appears only where a cited source states that formal role; it is never inferred ' +
+      'from the office title. Full office addresses are included in the CSV export.</div>';
+  }
+  html += '</section>';
+
   /* ---- coverage and known gaps ---- */
   html += '<section><h3>Coverage and known gaps</h3>';
   if (slice.coverage.length) {
@@ -1147,6 +1240,32 @@ function methodology_panel() {
       'verdict. A HOLD run keeps the previous published scores in place.</div>';
   }
 
+  var shm = META.stakeholder_manifest;
+  if (shm) {
+    h += '<h4>Stakeholder layer</h4>' +
+      '<dl class="dl">' +
+      '<dt>published rows</dt><dd>' + fmt_int(shm.published_rows) + ' (' +
+        fmt_int(shm.county_rows) + ' county, ' + fmt_int(shm.state_rows) + ' state)</dd>' +
+      '<dt>counties covered</dt><dd>' + fmt_int(shm.counties_covered) + '</dd>' +
+      '<dt>states covered</dt><dd>' +
+        fmt_int((shm.states_covered || []).length) + '</dd>' +
+      '<dt>withheld by the gate</dt><dd>' + fmt_int(shm.withheld_rows) + '</dd>' +
+      '<dt>published with a warning</dt><dd>' + fmt_int(shm.warned_rows) + '</dd>' +
+      '<dt>contact coverage</dt><dd>' + fmt_int(shm.with_email) + ' email, ' +
+        fmt_int(shm.with_phone) + ' phone</dd>' +
+      '<dt>sourced siting role</dt><dd>' + fmt_int(shm.with_relevance) + '</dd>' +
+      '<dt>state tier refreshed</dt><dd>' + yn(shm.state_tier_refreshed ? '1' : '0') + '</dd>' +
+      '<dt>generated</dt><dd>' + esc(shm.generated || '\u2014') + '</dd>' +
+      '</dl>' +
+      '<div class="sub" style="margin-top:9px">Two tiers. The state tier is queried from ' +
+      'OpenStates on a schedule. The county tier is a seeded source of record assembled from ' +
+      'official government pages, because no national register of county board chairs, ' +
+      'administrators and mayors exists; the pipeline validates and republishes it but never ' +
+      'invents or edits a county row. A withheld row failed identity validation \u2014 most ' +
+      'often a term that has already ended, which is the way this layer goes stale. ' +
+      'A warned row is published with one unusable contact field blanked.</div>';
+  }
+
   h += '<h4>Standing interpretation rules</h4><div class="sub">Nothing on this page is a ' +
     'causal estimate. Figures describe associations and observed histories. No dollar amount ' +
     'or delay shown anywhere in this system is attributable to opposition, and none should be ' +
@@ -1240,6 +1359,10 @@ function export_csv() {
   });
   slice.trend.forEach(function (r) { push_row('risk_screen_trend', r.project_id, r); });
   if (slice.contagion) push_row('adjacency_scan', c.fips, slice.contagion);
+
+  slice.stakeholders_county.concat(slice.stakeholders_state).forEach(function (r) {
+    push_row('stakeholder', r.stakeholder_id || (r.level + '_' + r.office_class), r);
+  });
 
   /* Cost stays internal: it is only written when the operator has explicitly
    * turned the internal layers on, and the export says so on its own row. */
