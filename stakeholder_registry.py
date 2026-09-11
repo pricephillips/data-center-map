@@ -332,12 +332,21 @@ def qc_record(rec: dict, valid_fips: set[str], today: dt.date) -> tuple[str, lis
     return status, flags
 
 
+# A county has one board chair, one administrator and one mayor, so a second
+# row in one of those slots means the seed contradicts itself and the later row
+# is held. A bill legitimately has several sponsors, so those are keyed by
+# person and only a genuinely repeated person is held.
+MULTI_HOLDER_CLASSES = {"bill_sponsor"}
+
+
 def dedupe(records: list[dict]) -> tuple[list[dict], list[dict]]:
     """One record per office per jurisdiction. Later duplicates are held."""
     seen: dict[tuple, str] = {}
     kept, dropped = [], []
     for rec in records:
         key = (rec["level"], rec["state"], rec["fips"], rec["office_class"])
+        if rec["office_class"] in MULTI_HOLDER_CLASSES:
+            key += (rec.get("office", ""), clean_text(rec.get("name", "")).lower())
         if key in seen:
             rec["qc_flags"] = ";".join(
                 filter(None, [rec.get("qc_flags", ""), "duplicate_office"]))
@@ -859,6 +868,16 @@ def selftest() -> int:
     c["qc_flags"] = ""
     kept, dropped = dedupe([a, c])
     check("different office classes both survive dedupe", len(kept) == 2)
+
+    s1 = dict(a, level="state", fips="", state="VA", office_class="bill_sponsor",
+              office="Primary sponsor, HB 1", name="Ann Sponsor",
+              stakeholder_id="s1", qc_flags="")
+    s2 = dict(s1, name="Bob Cosponsor", stakeholder_id="s2")
+    kept, dropped = dedupe([s1, s2])
+    check("two sponsors of one bill both survive dedupe", len(kept) == 2)
+    kept, dropped = dedupe([s1, dict(s1, stakeholder_id="s3")])
+    check("the same sponsor twice is still held",
+          len(kept) == 1 and "duplicate_office" in dropped[0]["qc_flags"])
 
     check("an enacted bill outranks an introduced one",
           STAGE_RANK["Signed into law"] > STAGE_RANK["Introduced"])

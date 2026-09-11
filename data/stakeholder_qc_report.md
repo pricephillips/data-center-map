@@ -4,7 +4,7 @@ Generated 2026-09-11.
 
 - Published rows: **130** (103 county, 27 state)
 - Published with a warning flag: **1**
-- Withheld rows: **7**
+- Withheld rows: **5**
 - Counties covered: **36**
 - States covered: **18**
 
@@ -19,7 +19,6 @@ published with the unusable contact or relevance field blanked.
 | --- | --- |
 | name_missing | 5 |
 | office_missing | 4 |
-| duplicate_office | 2 |
 | phone_unparseable | 1 |
 
 ## Withheld rows
@@ -31,17 +30,3 @@ published with the unusable contact or relevance field blanked.
 | county | TX | 48139 | county_admin | (blank) | name_missing;office_missing |
 | county | TX | 48453 | county_admin | (blank) | name_missing |
 | county | WY | 56021 | county_admin | (blank) | name_missing;office_missing |
-| state | GA |  | bill_sponsor | Jason Anavitarte | duplicate_office |
-| state | NJ |  | bill_sponsor | Joe Danielsen | duplicate_office |
-
-## Acquisition notes
-
-- CA: no governor returned by OpenStates
-- KS: SB 98 lists no sponsors
-- NJ: no governor returned by OpenStates
-- NV: no matched data center bill to draw sponsors from
-- OR: HB 4084 lists no sponsors
-- PA: no matched data center bill to draw sponsors from
-- TX: no matched data center bill to draw sponsors from
-- VA: no governor returned by OpenStates
-- WY: no matched data center bill to draw sponsors from
