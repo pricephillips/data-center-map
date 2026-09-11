@@ -104,6 +104,18 @@ def _resolve(node: ast.AST, env: dict) -> str | None:
             parts = [_resolve(a, env) for a in node.args]
             if parts and all(p is not None for p in parts):
                 return "/".join(p for p in parts if p)
+            # A component that cannot be folded is usually a function
+            # parameter -- os.path.join(outdir, "rows.csv") with outdir passed
+            # in. Bailing to None here made the whole write invisible, which
+            # cost more than it saved: a file with no resolvable writer falls
+            # out of the one-writer rule entirely, so nothing would notice a
+            # second module starting to write it. Substitute "*" for the part
+            # that will not fold, the same way the f-string branch above
+            # already does, and let bind_computed_writes() settle it against
+            # the files actually committed. At least one part must resolve, or
+            # the result is a bare "*" that matches the whole tree.
+            if parts and any(p for p in parts):
+                return "/".join((p if p is not None else "*") for p in parts if p != "")
     return None
 
 
@@ -182,6 +194,66 @@ def writes(source: str) -> set[str]:
     return {t.lstrip("./") for t in out if t and not t.startswith(("/", "http"))}
 
 
+def has_unknown_dir(path: str) -> bool:
+    """True when the DIRECTORY of a write target could not be folded.
+
+    Two different things produce a "*" in a resolved target and they are not
+    the same problem:
+
+      data/subframe_audit_*.csv   an f-string over a known directory. The
+                                  basename varies per run; the pattern is
+                                  exact about where the file lands and has
+                                  always matched declared layer patterns
+                                  correctly. Leave it alone.
+
+      */contagion_rows.csv        os.path.join(outdir, ...) with outdir a
+                                  parameter. The directory is unknown, so
+                                  this matches no declared pattern and the
+                                  file it really writes is attributed to
+                                  nobody.
+
+    Only the second kind needs settling against the committed tree.
+    """
+    return path.startswith("*/") or "/" not in path.split("*")[0]
+
+
+def bind_computed_writes(wmap: dict, inventory_paths) -> tuple[dict, dict]:
+    """Attribute writes whose directory could not be folded.
+
+    Additive: every existing entry is preserved untouched, because the
+    f-string patterns already resolve against declared layer patterns and
+    breaking that would trade one blind spot for another.
+
+    A target with an unknown directory that matches exactly one committed
+    file is bound to it, and every rule then applies to that file normally --
+    which is the point, since an unattributed file is one the one-writer rule
+    cannot protect. A target matching several files is NOT guessed at:
+    attributing a write to the wrong file would invent a multi-writer finding
+    out of nothing, which is worse than the gap it closes. Those come back
+    separately and are reported as unresolved.
+    """
+    # Unknown-directory targets are not paths, they are unfinished ones, and
+    # auditing them as if they were real invents undeclared findings for files
+    # that do not exist (a selftest writing to a temp dir, say). They are
+    # dropped from the map and used only to attribute a real file below. The
+    # f-string patterns stay exactly as they were.
+    bound = {p: list(m) for p, m in wmap.items()
+             if not ("*" in p and has_unknown_dir(p))}
+    ambiguous: dict = {}
+    for pattern, modules in wmap.items():
+        if "*" not in pattern or not has_unknown_dir(pattern):
+            continue
+        hits = [f for f in inventory_paths if fnmatch.fnmatch(f, pattern)]
+        if len(hits) == 1:
+            bound.setdefault(hits[0], [])
+            bound[hits[0]] = sorted(set(bound[hits[0]]) | set(modules))
+        elif len(hits) > 1:
+            for f in hits:
+                ambiguous.setdefault(f, [])
+                ambiguous[f] = sorted(set(ambiguous[f]) | set(modules))
+    return bound, ambiguous
+
+
 def write_map(root: str = HERE) -> dict[str, list[str]]:
     """file -> modules that write it, both repo-relative."""
     out: dict[str, list[str]] = defaultdict(list)
@@ -208,7 +280,8 @@ def layer_of(path: str, config: dict) -> str | None:
 
 
 def audit(config: dict, wmap: dict[str, list[str]],
-          inventory: list[str] | None = None) -> list[dict]:
+          inventory: list[str] | None = None,
+          ambiguous: dict | None = None) -> list[dict]:
     findings: list[dict] = []
     exempt = config.get("exempt_multi_writer", {})
     crossings = config.get("declared_crossings", {})
@@ -267,9 +340,17 @@ def audit(config: dict, wmap: dict[str, list[str]],
     for path in inventory or []:
         if ignored(path) or layer_of(path, config):
             continue
+        # "no writing module found" used to cover two different states: a file
+        # nothing writes, and a file whose writer builds its path at runtime.
+        # They need different answers from a reader, so they get different
+        # sentences.
+        maybe = (ambiguous or {}).get(path)
+        detail = (f"writer not resolvable (path computed at runtime); "
+                  f"candidates: {', '.join(maybe)}" if maybe
+                  else "no writing module found; hand maintained or retired")
         findings.append({
             "finding": "undeclared_file", "subject": path, "layer": "",
-            "detail": "no writing module found; hand maintained or retired",
+            "detail": detail,
             "reason": "",
         })
 
@@ -403,6 +484,63 @@ def go():
     clean = audit(config, {"data/fac_a.csv": ["a.py"], "master.csv": ["b.py"]})
     check("a clean tree yields no findings", clean == [])
 
+    # --- computed write targets -------------------------------------------
+    # A module that builds its output path from a parameter was invisible to
+    # the whole audit, which meant the one-writer rule did not cover it.
+    computed_src = """
+import os
+def main(path, outdir="data"):
+    with open(os.path.join(outdir, "rows.csv"), "w") as fh:
+        fh.write("x")
+"""
+    cw = writes(computed_src)
+    check("a path built from a parameter resolves to a pattern",
+          "*/rows.csv" in cw)
+    check("an unknown directory is recognised as unknown",
+          has_unknown_dir("*/rows.csv"))
+    check("a known directory with a varying basename is not",
+          not has_unknown_dir("data/subframe_audit_*.csv"))
+    check("a bare name with no directory counts as unknown",
+          has_unknown_dir("*.csv"))
+
+    wm = {"*/rows.csv": ["a.py"], "data/known_*.csv": ["b.py"],
+          "data/plain.csv": ["c.py"]}
+    bound, amb = bind_computed_writes(
+        wm, ["data/rows.csv", "data/known_1.csv", "data/known_2.csv",
+             "data/plain.csv"])
+    check("a unique match binds the real file to its writer",
+          bound.get("data/rows.csv") == ["a.py"])
+    check("the unknown-directory pseudo-path is not left in the map",
+          "*/rows.csv" not in bound)
+    check("an f-string pattern over a known directory is left untouched",
+          bound.get("data/known_*.csv") == ["b.py"])
+    check("an ordinary resolved path is left untouched",
+          bound.get("data/plain.csv") == ["c.py"])
+    check("nothing is reported ambiguous when every match is unique",
+          amb == {})
+
+    # Two files match one unknown-directory pattern: guessing which one the
+    # module writes would invent a multi-writer finding out of nothing.
+    bound2, amb2 = bind_computed_writes(
+        {"*/report.md": ["d.py"]}, ["data/report.md", "qc/report.md"])
+    check("an ambiguous match binds nothing",
+          "data/report.md" not in bound2 and "qc/report.md" not in bound2)
+    check("an ambiguous match is reported with its candidates",
+          amb2.get("data/report.md") == ["d.py"])
+    check("a pattern matching no committed file is simply dropped",
+          bind_computed_writes({"*/gone.csv": ["e.py"]}, ["data/here.csv"])
+          == ({}, {}))
+
+    # rule 4 has to tell the two states apart, because a reader cannot.
+    cfg = {"layers": {}, "not_a_layer": [], "multi_writer_exempt": {},
+           "cross_layer_exempt": {}}
+    f_amb = audit(cfg, {}, ["data/x.md"], {"data/x.md": ["m.py"]})
+    check("a computed writer is named rather than called hand-maintained",
+          any("not resolvable" in f["detail"] for f in f_amb))
+    f_none = audit(cfg, {}, ["data/y.md"], {})
+    check("a file nothing writes still reads as hand-maintained",
+          any("hand maintained" in f["detail"] for f in f_none))
+
     failed = [n for n, ok in checks if not ok]
     for n, ok in checks:
         print(f"  {'PASS' if ok else 'FAIL'}  {n}")
@@ -424,7 +562,12 @@ def main() -> int:
     with open(CONFIG, encoding="utf-8") as fh:
         config = json.load(fh)
     wmap = write_map()
-    findings = audit(config, wmap, inventory())
+    inv = inventory()
+    # Settle computed write targets against the files actually committed
+    # before auditing, so a module that builds its paths at runtime is still
+    # covered by the one-writer rule rather than silently exempt from it.
+    wmap, ambiguous = bind_computed_writes(wmap, inv)
+    findings = audit(config, wmap, inv, ambiguous)
     summary = summarize(findings, config, wmap)
 
     os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)
