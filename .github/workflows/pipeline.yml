@@ -166,6 +166,7 @@ jobs:
           python discover_endpoint.py --selftest
           python fetch_permits.py --selftest
           echo "Front-end syntax gate self-tests:"
+          python link_disagreement_audit.py --selftest
           python scripts/scrape-trackdatacenters-proposals.py --selftest
           python scripts/check_inline_js.py --selftest
           # A syntax error in a page loader takes a client-visible surface
@@ -219,6 +220,17 @@ jobs:
         id: project_resolution
         continue-on-error: true
         run: python project_resolution.py && python control_group.py && python control_comparison.py && python triage_accelerator.py
+
+      - name: Link disagreement audit (rules vs the registered model scores)
+        # Reads the live link state that project_resolution.py just rebuilt
+        # against the frozen scores from the splink spike. The spike returned
+        # NO-GO on adoption and that stands; this only works the disagreement
+        # surface its report flagged and nobody had picked up. Splink stays out
+        # of the dependency list -- the scores are read from the committed CSV.
+        id: link_disagreement
+        if: steps.project_resolution.outcome == 'success'
+        continue-on-error: true
+        run: python link_disagreement_audit.py
 
       - name: County layer (aggregate QC gate -> enacted-restriction model)
         id: county_layer
@@ -368,6 +380,13 @@ jobs:
                   data/control_group_notes.md data/control_comparison.md \
                   data/project_links_manual_draft.csv \
                   data/project_links_manual.csv 2>/dev/null || true
+          # Staged only on a green audit step: the worklist is absent by
+          # design when project resolution did not run, and a stale copy is
+          # worse than none for a file whose whole purpose is to shrink.
+          if [ "${{ steps.link_disagreement.outcome }}" = "success" ]; then
+            git add data/link_disagreement_worklist.csv \
+                    data/link_disagreement_report.md 2>/dev/null || true
+          fi
           # Verification artifacts are staged only on a green verification
           # step. verification_holdout.csv is written by the feed build itself,
           # so it is staged with the feed above and refreshed here.

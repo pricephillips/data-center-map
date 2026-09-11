@@ -373,11 +373,31 @@ model disagree, sitting in `data/splink_spike_scores.csv` under `rule_status`.
 The report says they are "worth a review pass on their own terms" and no pass
 has happened.
 
-The work is to extract the scoring path from the spike into a small disagreement
-auditor emitting a review worklist, and then retire the 762-line spike, keeping
-`data/splink_spike_report.md` as the registered verdict. Roughly a day. It
-converts a dead go/no-go artifact into a standing entity-resolution QA signal,
-and it is the highest-value dormant asset in the tree.
+**Done on this branch**, as `link_disagreement_audit.py`, wired into
+`pipeline.yml` after project resolution with an eleven-check selftest.
+
+It is deliberately asymmetric about what is live. The match probabilities stay
+frozen, read from the committed `data/splink_spike_scores.csv`, because Splink
+is not a dependency of this repository and is not being made one. The rule
+state is re-read every run from `project_links.csv`, `project_link_review.csv`
+and `project_links_manual.csv`. A row therefore leaves the worklist when the
+rules change their mind or a person adjudicates the pair, which is what makes
+it a worklist rather than a snapshot.
+
+That the live half moves is already visible: the spike reported 14 and 202, and
+against the current rule state the same thresholds give **7 rule-confirmed
+below 0.5 and 171 unlinked at or above 0.99**, 178 open. Adjudicated pairs are
+excluded outright — a person who has ruled has settled it, and that is the
+population the model scored worst on anyway.
+
+The cost of the frozen half is reported rather than hidden: **281 of 311**
+current links carry a score, so 30 were created after the spike ran and cannot
+be audited. When that gap grows, the answer is to re-run the spike, not to read
+a shrinking sample as the whole.
+
+The spike itself was **not** retired. Removing it would discard the only thing
+that can regenerate the scores this audit depends on, which would be a strange
+way to finish wiring the audit up.
 
 ### C2. The five `needs_manual_pin` facility sources
 
