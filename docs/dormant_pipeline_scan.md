@@ -102,7 +102,15 @@ This is listed again as item B1 below, because the guard is the durable part.
 
 ## 1. Remove
 
-Four things. In each case the reason to remove is that keeping it costs
+Five were proposed; three survived checking. Each was re-verified against the
+whole tree before acting, and two did not survive that: the migration script
+(below) is idempotent and stays, and `qc/fetch_notion.py` and
+`qc/enrichment.py` are held for the reasons recorded on each.
+
+**Done:** `census_join.py`, and the two stray root worklists with the two
+now-orphaned patterns they had in `configs/layers.json`.
+**Held:** `qc/fetch_notion.py`, `qc/enrichment.py`.
+**Withdrawn:** `scripts/fix_project_id_collision.py`. In each case the reason to remove is that keeping it costs
 something — a second writer, a second copy to keep in sync, or a hazard — not
 merely that it is unused.
 
@@ -113,8 +121,12 @@ merely that it is unused.
 already reads that file directly, as do `fetch_pudl.py` and
 `spot_check_census.py`. The "any dataframe carrying a FIPS column" use it was
 written for never materialised, and it is the only pandas-dependent helper in
-the tree with no caller. Delete; the CT planning-region caveat in its docstring
-is worth moving to `fetch_census_features.py` before it goes.
+the tree with no caller.
+
+**Done.** A sweep of every file type in the tree found zero references of any
+kind. Its Connecticut planning-region caveat moved to
+`fetch_census_features.py`, which is the module that actually produces the file
+the caveat is about.
 
 ### `qc/fetch_notion.py` — superseded, and now a hazard
 
@@ -122,35 +134,77 @@ Pulls the Notion database into `records.json` for the gate. `qc/README.md` calls
 it "the one file not exercised in the build", and that has been true since
 `scripts/build_master_csv.py` made datacentertracker.org the ingest and
 `master_opposition.csv` the source of record. ARCHITECTURE is explicit that
-Layer C has one source of record with three declared writers. An unexercised
-inbound path that would make Notion a fourth is worth removing rather than
-leaving documented as an option. The outbound Iowa Notion sync in `pipeline.yml`
-is unrelated and stays.
+Layer C has one source of record with three declared writers. The outbound Iowa
+Notion sync in `pipeline.yml` is unrelated and stays.
+
+**Held, and one claim here corrected.** An earlier draft called this a path
+that "would make Notion a fourth writer" to Layer C's source of record. It
+would not: it writes `records.json`, an *input* the gate can read via
+`--records`, and never touches `master_opposition.csv`. The case for removing
+it is therefore weaker than stated — it is an unexercised operator tool, not a
+hazard to the source of record.
+
+Held because removing it is not the zero-risk change the rest of this section
+is. `qc/README.md` documents it as an available option in two places, so this
+is a deliberate withdrawal of a documented capability rather than a deletion of
+dead code, and that is the maintainer's call to make.
 
 ### `qc/enrichment.py` — a shadow copy that nothing keeps in sync
 
 Byte-identical to root `enrichment.py` today (`md5 8e5458dbc…` on both).
 `build_clean_feed.py` carries a comment stating the intent — "Root stays first
 on `sys.path`, so `import enrichment` inside the gate resolves to the single
-root classifier" — but `qc.yml` runs with `working-directory: qc`, so the gate
-in CI imports the copy, not the root. They agree today and nothing enforces
-that. If they drift, the QC gate and the clean-feed build classify the same
+root classifier" — and that holds for its own in-process import. It does not
+hold for `qc_pipeline.py`, which is run as a script and therefore gets its own
+directory prepended to `sys.path` by the interpreter. It imports
+`legislative_outcome`, `schema_adapter` and `enrichment` as siblings, so it
+binds `qc/enrichment.py` **on every invocation, from any working directory** —
+not, as an earlier draft of this entry said, because `qc.yml` sets
+`working-directory: qc`. The mechanism is stronger than that framing suggested.
+They agree today and nothing enforces it. If they drift, the QC gate and the clean-feed build classify the same
 record differently, and the two committed artifacts disagree about what the
 database contains.
 
-Delete the copy and move the `sys.path.insert` at `qc/qc_pipeline.py:116` above
-the `import enrichment` at line 61 so the root module resolves from either
-working directory.
+The fix would be to delete the copy and move the `sys.path.insert` at
+`qc/qc_pipeline.py:116` above the `import enrichment` at line 61.
 
-### `scripts/fix_project_id_collision.py` — a migration that must never run twice
+**Held.** The two files are byte-identical today, so the drift this guards
+against is entirely prospective, while the change itself reorders imports
+inside the gate that guards the source of record — and `qc_pipeline.py` resolves
+three sibling modules that way, not one. Verified as a baseline that the gate's
+selftests pass from both the repository root and from `qc/`; that is evidence
+the change is tractable, not evidence it is free. Worth doing deliberately,
+with the QC gate exercised on a real feed rather than on selftests alone.
 
-ARCHITECTURE states it plainly: after the 2026-09-02 migration, `prj_321`
-through `prj_326` denote six Pennsylvania projects, "which is why the migration
-must never be run twice." The script is 26KB, sits in `scripts/` alongside
-tools that are meant to be run, and re-running it would silently renumber live
-projects a second time. It is preserved in git history and its reasoning is in
-`docs/HANDOFF_2026-09-02_project_id_collision.md`. Remove it from the working
-tree.
+### `scripts/fix_project_id_collision.py` — KEEP. This entry was wrong.
+
+An earlier draft of this document listed the migration script for removal on
+the grounds that ARCHITECTURE says the migration "must never be run twice" and
+re-running it would renumber live projects a second time. **That is not what
+the script does, and the recommendation is withdrawn.**
+
+Checked before acting on it. Its own docstring states that "every step is
+idempotent and independently skippable: re-running reports 'already applied'
+and changes nothing", and the code backs that up: the renumber step skips when
+the manual-addition block is already at the floor, the curated-reference step
+skips when the migration has already been applied, the guard-installation step
+skips when the guard is present, and a target id already in use is a hard exit
+rather than an overwrite. `--check` is a read-only validator and it passes
+today:
+
+```
+data/proposals.csv: 339 rows, 339 distinct ids
+  OK     no duplicate or missing ids
+--check: nothing written.
+```
+
+ARCHITECTURE's warning is about the migration as a concept — applying the
+renumbering twice would shift ids again — and the script is precisely the
+thing that defends against it. Keeping a passing idempotent `--check` for the
+defect that caused six projects to merge is worth more than the tidiness of
+removing a file nothing calls. The error in the original entry was inferring
+the hazard from the warning in ARCHITECTURE without reading the script's
+guards.
 
 ### Also delete: two stray worklists at the repository root
 

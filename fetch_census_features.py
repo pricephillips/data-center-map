@@ -7,6 +7,12 @@ Review-first: this file is reference data; the model only uses it once
 outcome_model.py explicitly joins it. Additive, no existing files touched.
 Prediction-moment discipline: all features are slow-moving county attributes
 (ACS 2019-2023 5-year), safe as pre-announcement information.
+
+Connecticut caveat, for anything joining this file on FIPS: ACS 2023 reports
+Connecticut as planning regions (09110 and up), not as its legacy counties, so
+legacy CT county FIPS do not match here and come back unjoined. That is the
+source's structure rather than a gap in this file; leave such rows unmatched
+rather than mapping them onto a planning region they do not correspond to.
 """
 
 import csv
