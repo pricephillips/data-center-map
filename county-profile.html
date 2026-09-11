@@ -721,14 +721,14 @@ function count_label(n) {
 /* Page order for the stakeholder tables: local decision-makers first, then
    the state offices that set the frame above them. */
 var STAKEHOLDER_ORDER = ['county_board', 'county_admin', 'mayor',
-                         'governor', 'state_committee_chair'];
+                         'governor', 'bill_sponsor'];
 
 var OFFICE_CLASS_LABEL = {
   county_board: 'County board',
   county_admin: 'County administration',
   mayor: 'City',
   governor: 'Governor',
-  state_committee_chair: 'Legislature'
+  bill_sponsor: 'Legislature'
 };
 
 function stakeholder_rows(rows) {
@@ -1258,7 +1258,10 @@ function methodology_panel() {
       '<dt>generated</dt><dd>' + esc(shm.generated || '\u2014') + '</dd>' +
       '</dl>' +
       '<div class="sub" style="margin-top:9px">Two tiers. The state tier is queried from ' +
-      'OpenStates on a schedule. The county tier is a seeded source of record assembled from ' +
+      'OpenStates on a schedule: each state\u2019s governor, plus the sponsors of the ' +
+      'furthest-advanced data center bill this project has matched in that state, so a ' +
+      'legislator appears here because of a bill they put their name on rather than a ' +
+      'subject-matter title. The county tier is a seeded source of record assembled from ' +
       'official government pages, because no national register of county board chairs, ' +
       'administrators and mayors exists; the pipeline validates and republishes it but never ' +
       'invents or edits a county row. A withheld row failed identity validation \u2014 most ' +

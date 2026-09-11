@@ -9,8 +9,19 @@ plus the state officials who set the frame above them.
 Two source tiers, one published artifact.
 
   STATE tier is machine-acquired. OpenStates is queried for each state's
-  governor and the chair of the standing committee closest to energy and
-  utilities. This tier refreshes on a schedule and needs no human hand.
+  governor, and for the primary sponsors of the data center bills this
+  repository has already matched in data/bill_sync_matches.csv. This tier
+  refreshes on a schedule and needs no human hand.
+
+  Sponsorship, not committee membership, is what makes a state legislator a
+  stakeholder here. The first build of this module went after the chair of
+  each state's energy or utilities committee and got a 400 from nearly every
+  state: OpenStates documents committee support as experimental and not yet
+  available for all states. Sponsorship comes off the bills endpoint, which
+  bill_sync.py has used in production against all 50 states, and it is the
+  better signal anyway -- a legislator who put their name on a data center
+  bill has a demonstrated, citable position, where a committee chair only has
+  a subject-matter title.
 
   COUNTY tier is a seeded source of record. There is no national register of
   county board chairs, county administrators and city mayors, so the seed is
@@ -39,6 +50,7 @@ than a blank: it is the one error that would reach a client as fact.
 Reads
   data/stakeholder_seed_county.csv      county tier, source of record
   data/county_aggregate.csv             for FIPS resolution
+  data/bill_sync_matches.csv            which bills to pull sponsors for
   OpenStates v3 API                     state tier (--refresh-state)
 
 Writes
@@ -73,6 +85,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "data")
 
 SEED_COUNTY = os.path.join(DATA, "stakeholder_seed_county.csv")
+BILL_MATCHES = os.path.join(DATA, "bill_sync_matches.csv")
 COUNTY_AGG = os.path.join(DATA, "county_aggregate.csv")
 OUT_CSV = os.path.join(DATA, "stakeholder_registry.csv")
 OUT_HELD = os.path.join(DATA, "stakeholder_held.csv")
@@ -86,21 +99,27 @@ COLUMNS = ["stakeholder_id", "level", "state", "fips", "county_name",
            "contact_address", "relevance_note", "relevance_source_url",
            "source_url", "source_retrieved"]
 
-OFFICE_CLASSES = {"governor", "state_committee_chair",
+OFFICE_CLASSES = {"governor", "bill_sponsor",
                   "county_board", "county_admin", "mayor"}
 
-# Ordered by how directly the committee's subject matter governs data center
-# siting and load. The first pattern that matches a state's committee list wins,
-# so a dedicated energy committee is preferred over a broad commerce one.
-COMMITTEE_PRIORITY = [
-    r"\benergy\b",
-    r"\butilit",
-    r"\bpublic service\b",
-    r"\bpublic utilit",
-    r"\bcommerce\b",
-    r"\btechnolog",
-    r"\bnatural resources\b",
-]
+# How far a bill actually got, worst to best. A sponsor is more interesting the
+# further their bill advanced, so this orders which bill a state is represented
+# by. Blank and unrecognized stages sort last.
+STAGE_RANK = {
+    "Signed into law": 8,
+    "Passed both chambers": 7,
+    "Vetoed": 6,
+    "Passed one chamber": 5,
+    "Failed floor vote": 4,
+    "Passed committee only": 3,
+    "Died in committee": 2,
+    "Withdrawn": 1,
+    "Introduced": 1,
+}
+
+# Sponsors published per state. Two keeps the section readable next to the
+# governor without turning a county page into a legislature roster.
+SPONSORS_PER_STATE = 2
 
 NA = {"", "n.a.", "n/a", "na", "none", "null", "unknown", "-", "tbd"}
 
@@ -403,19 +422,32 @@ class Cache:
             fh.write("\n")
 
 
+# The free tier allows roughly one request a second, and bill_sync.py settled on
+# this spacing against the same key. The first build of this module slept 0.2s
+# and collected 429s across a third of the states.
+THROTTLE_S = 1.1
+_last_call = [0.0]
+
+
 def api_get(path: str, params: dict, api_key: str, cache: Cache) -> dict:
-    url = f"https://v3.openstates.org{path}?{urllib.parse.urlencode(params)}"
+    # doseq spreads a list parameter into repeated keys, which is how the API
+    # expects `include`; urlencode would otherwise send the list's repr.
+    url = (f"https://v3.openstates.org{path}?"
+           f"{urllib.parse.urlencode(params, doseq=True)}")
     cached = cache.get(url)
     if cached is not None:
         return cached
     req = urllib.request.Request(
         url, headers={"X-API-KEY": api_key, "User-Agent": "data-center-map"})
     for attempt in range(3):
+        wait = THROTTLE_S - (time.time() - _last_call[0])
+        if wait > 0:
+            time.sleep(wait)
+        _last_call[0] = time.time()
         try:
             with urllib.request.urlopen(req, timeout=30) as resp:
                 payload = json.loads(resp.read().decode("utf-8"))
             cache.put(url, payload)
-            time.sleep(0.2)
             return payload
         except urllib.error.HTTPError as exc:
             if exc.code == 429 and attempt < 2:
@@ -425,27 +457,54 @@ def api_get(path: str, params: dict, api_key: str, cache: Cache) -> dict:
     return {}
 
 
-def pick_committee(committees: list[dict]) -> dict | None:
-    """First committee matching the highest-priority subject pattern."""
-    for pattern in COMMITTEE_PRIORITY:
-        for com in committees:
-            if re.search(pattern, com.get("name", ""), re.I):
-                return com
-    return None
+def http_detail(exc: urllib.error.HTTPError) -> str:
+    """Code plus the API's own explanation. A bare status code sent the first
+    build of this module chasing the wrong parameter for an afternoon."""
+    try:
+        body = exc.read().decode("utf-8", "replace")[:200]
+    except Exception:
+        body = ""
+    return f"{exc.code}{': ' + body if body else ''}"
 
 
-def chair_of(committee: dict) -> dict | None:
-    """Prefer an exact chair over a vice chair."""
-    best = None
-    for mem in committee.get("memberships", []):
-        role = (mem.get("role") or "").lower()
-        if "chair" not in role:
+def load_bill_matches(path: str = BILL_MATCHES) -> dict[str, list[dict]]:
+    """Matched data center bills grouped by state, best bill first.
+
+    Only rows bill_sync.py actually resolved are usable: an ambiguous or failed
+    lookup has no reliable session, and the sponsorship call needs one.
+    """
+    if not os.path.exists(path):
+        return {}
+    by_state: dict[str, list[dict]] = {}
+    with open(path, encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            if (row.get("lookup_status") or "").strip() != "matched":
+                continue
+            state = (row.get("state") or "").strip().upper()
+            ident = (row.get("identifier") or "").strip()
+            if state not in STATE_NAMES or not ident:
+                continue
+            by_state.setdefault(state, []).append(row)
+    for rows in by_state.values():
+        rows.sort(key=lambda r: (STAGE_RANK.get((r.get("stage") or "").strip(), 0),
+                                 (r.get("stage_date") or "")),
+                  reverse=True)
+    return by_state
+
+
+def primary_sponsors(bill: dict, limit: int = SPONSORS_PER_STATE) -> list[dict]:
+    """Primary sponsors of a bill payload, falling back to cosponsors.
+
+    A bill with no classified primary sponsor still has people attached to it,
+    and a cosponsor on a data center bill is a real stakeholder; the office
+    title records which it was, so the distinction is never lost.
+    """
+    primary, other = [], []
+    for sp in bill.get("sponsorships") or []:
+        if not (sp.get("name") or (sp.get("person") or {}).get("name")):
             continue
-        if "vice" in role or "co-chair" in role:
-            best = best or mem
-            continue
-        return mem
-    return best
+        (primary if sp.get("classification") == "primary" else other).append(sp)
+    return (primary or other)[:limit]
 
 
 def person_record(person: dict, state: str, office: str, office_class: str,
@@ -479,17 +538,18 @@ def person_record(person: dict, state: str, office: str, office_class: str,
 
 def fetch_state_layer(api_key: str, cache: Cache, states: list[str],
                       today: str) -> tuple[list[dict], list[str]]:
-    """Governor plus the energy-adjacent committee chair for each state."""
+    """Governor plus the sponsors of the state's furthest-advanced bill."""
     records, notes = [], []
+    bills_by_state = load_bill_matches()
     for abbrev in states:
-        name = STATE_NAMES[abbrev]
+        juris = abbrev.lower()
         try:
-            execs = api_get("/people", {"jurisdiction": name,
+            execs = api_get("/people", {"jurisdiction": juris,
                                         "org_classification": "executive",
-                                        "include": "offices",
+                                        "include": ["offices"],
                                         "per_page": 20}, api_key, cache)
         except urllib.error.HTTPError as exc:
-            notes.append(f"{abbrev}: executive lookup failed ({exc.code})")
+            notes.append(f"{abbrev}: executive lookup failed ({http_detail(exc)})")
             execs = {}
         gov = None
         for person in execs.get("results", []):
@@ -505,48 +565,55 @@ def fetch_state_layer(api_key: str, cache: Cache, states: list[str],
         else:
             notes.append(f"{abbrev}: no governor returned by OpenStates")
 
+        matches = bills_by_state.get(abbrev) or []
+        if not matches:
+            notes.append(f"{abbrev}: no matched data center bill to draw "
+                         f"sponsors from")
+            continue
+        match = matches[0]
+        ident, session = match["identifier"].strip(), (match.get("session") or "").strip()
         try:
-            coms = api_get("/committees", {"jurisdiction": name,
-                                           "classification": "committee",
-                                           "include": "memberships",
-                                           "per_page": 100}, api_key, cache)
+            found = api_get("/bills", {"jurisdiction": juris,
+                                       "identifier": ident,
+                                       "include": ["sponsorships"],
+                                       "per_page": 20,
+                                       "sort": "updated_desc"}, api_key, cache)
         except urllib.error.HTTPError as exc:
-            notes.append(f"{abbrev}: committee lookup failed ({exc.code})")
+            notes.append(f"{abbrev}: sponsor lookup for {ident} failed "
+                         f"({http_detail(exc)})")
             continue
-        com = pick_committee(coms.get("results", []))
-        if not com:
-            notes.append(f"{abbrev}: no energy or commerce committee matched")
+        results = found.get("results") or []
+        bill = next((b for b in results if b.get("session") == session),
+                    results[0] if results else None)
+        if not bill:
+            notes.append(f"{abbrev}: {ident} returned no bill")
             continue
-        chair = chair_of(com)
-        if not chair:
-            notes.append(f"{abbrev}: {com.get('name')} lists no chair")
+        sponsors = primary_sponsors(bill)
+        if not sponsors:
+            notes.append(f"{abbrev}: {ident} lists no sponsors")
             continue
-        person = chair.get("person") or {}
-        pid = person.get("id")
-        detail = person
-        if pid:
-            try:
-                got = api_get(f"/people", {"jurisdiction": name,
-                                            "name": person.get("name", ""),
-                                            "include": "offices",
-                                            "per_page": 5}, api_key, cache)
-                for cand in got.get("results", []):
-                    if cand.get("id") == pid:
-                        detail = cand
-                        break
-            except urllib.error.HTTPError:
-                pass
-        com_url = com.get("openstates_url") or ""
-        rec = person_record(
-            detail, abbrev,
-            f"Chair, {com.get('name', 'committee')}", "state_committee_chair",
-            detail.get("openstates_url") or com_url, today)
-        if com_url:
-            rec["relevance_note"] = (
-                f"Chairs the {com.get('name')} committee in the "
-                f"{name} legislature.")
-            rec["relevance_source_url"] = com_url
-        records.append(rec)
+        bill_url = (match.get("openstates_url") or bill.get("openstates_url")
+                    or "")
+        stage = (match.get("stage") or "").strip()
+        title = (match.get("title") or bill.get("title") or "").strip()
+        for sp in sponsors:
+            person = sp.get("person") or {}
+            detail = dict(person)
+            # A sponsorship may carry only the printed name, with no linked
+            # person record; keep the name so the row is still publishable.
+            detail.setdefault("name", sp.get("name") or "")
+            role = ("Primary sponsor" if sp.get("classification") == "primary"
+                    else "Co-sponsor")
+            rec = person_record(
+                detail, abbrev, f"{role}, {ident}", "bill_sponsor",
+                detail.get("openstates_url") or bill_url, today)
+            if bill_url:
+                rec["relevance_note"] = (
+                    f"{role} of {ident}"
+                    + (f", {title}" if title else "")
+                    + (f" ({stage})" if stage else ""))
+                rec["relevance_source_url"] = bill_url
+            records.append(rec)
     return records, notes
 
 
@@ -792,25 +859,32 @@ def selftest() -> int:
     kept, dropped = dedupe([a, c])
     check("different office classes both survive dedupe", len(kept) == 2)
 
-    check("committee priority prefers energy over commerce",
-          (pick_committee([{"name": "Commerce and Labor"},
-                           {"name": "Energy and Utilities"}]) or {}
-           ).get("name") == "Energy and Utilities")
-    check("committee match is case insensitive",
-          pick_committee([{"name": "HOUSE ENERGY"}]) is not None)
-    check("no subject match returns nothing",
-          pick_committee([{"name": "Rules"}]) is None)
-    check("exact chair beats vice chair",
-          (chair_of({"memberships": [
-              {"role": "Vice Chair", "person": {"name": "V"}},
-              {"role": "Chair", "person": {"name": "C"}}]}) or {}
-           ).get("person", {}).get("name") == "C")
-    check("vice chair is used when no chair is listed",
-          (chair_of({"memberships": [
-              {"role": "Vice Chair", "person": {"name": "V"}}]}) or {}
-           ).get("person", {}).get("name") == "V")
-    check("a committee with no chair returns nothing",
-          chair_of({"memberships": [{"role": "Member"}]}) is None)
+    check("an enacted bill outranks an introduced one",
+          STAGE_RANK["Signed into law"] > STAGE_RANK["Introduced"])
+    check("an unrecognized stage ranks below every known stage",
+          STAGE_RANK.get("Referred to nowhere", 0) < min(STAGE_RANK.values()))
+    bill = {"sponsorships": [
+        {"name": "Co One", "classification": "cosponsor"},
+        {"name": "Prime Two", "classification": "primary"},
+        {"name": "", "classification": "primary"},
+        {"name": "Prime Three", "classification": "primary"},
+        {"name": "Prime Four", "classification": "primary"}]}
+    picked = primary_sponsors(bill)
+    check("primary sponsors are preferred over cosponsors",
+          [s["name"] for s in picked] == ["Prime Two", "Prime Three"])
+    check("a nameless sponsorship is skipped",
+          all(s["name"] for s in picked))
+    check("cosponsors are used when no primary is classified",
+          [s["name"] for s in primary_sponsors(
+              {"sponsorships": [{"name": "Co One",
+                                 "classification": "cosponsor"}]})]
+          == ["Co One"])
+    check("a sponsorship carrying only a linked person is kept",
+          len(primary_sponsors({"sponsorships": [
+              {"classification": "primary",
+               "person": {"name": "Linked Person"}}]})) == 1)
+    check("a bill with no sponsorships yields nothing",
+          primary_sponsors({}) == [])
 
     check("date_upper_bound expands a year",
           date_upper_bound("2027") == dt.date(2027, 12, 31))
@@ -839,6 +913,24 @@ def selftest() -> int:
         cache.save()
         check("cache round-trips to disk",
               Cache(os.path.join(tmp, "c.json"), 7).get("k") == {"v": 1})
+
+        bills_csv = os.path.join(tmp, "bill_matches.csv")
+        with open(bills_csv, "w", encoding="utf-8", newline="") as fh:
+            fh.write("state,identifier,lookup_status,session,stage,stage_date\n"
+                     "VA,HB 1,matched,2026,Introduced,2026-01-05\n"
+                     "VA,HB 2,matched,2026,Signed into law,2026-04-01\n"
+                     "VA,HB 3,ambiguous_session,2026,Signed into law,2026-05-01\n"
+                     "ZZ,HB 4,matched,2026,Introduced,2026-01-05\n"
+                     "TX,,matched,2026,Introduced,2026-01-05\n")
+        grouped = load_bill_matches(bills_csv)
+        check("the furthest-advanced bill leads its state",
+              grouped["VA"][0]["identifier"] == "HB 2")
+        check("an unmatched lookup is excluded",
+              [b["identifier"] for b in grouped["VA"]] == ["HB 2", "HB 1"])
+        check("an invalid state is excluded", "ZZ" not in grouped)
+        check("a row with no identifier is excluded", "TX" not in grouped)
+        check("a missing bill file yields no groups",
+              load_bill_matches(os.path.join(tmp, "absent.csv")) == {})
 
     failed = [n for n, ok in checks if not ok]
     for name, ok in checks:
