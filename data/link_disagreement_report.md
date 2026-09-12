@@ -1,6 +1,6 @@
 # Link disagreement audit
 
-Generated 2026-09-11 by `link_disagreement_audit.py`.
+Generated 2026-09-12 by `link_disagreement_audit.py`.
 
 Where the live rule cascade and the frozen model scores from `splink_spike.py`
 disagree about the same pair. The spike's NO-GO verdict on adoption stands and
