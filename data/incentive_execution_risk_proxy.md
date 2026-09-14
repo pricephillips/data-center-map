@@ -1,3 +1,17 @@
+### Incentive execution risk proxy: Beaver, 
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 93
+  - candidate docket (tax increment): Sears Holdings Corporation, Bankr. S.D.N.Y. (2018-10-15)
+  - candidate docket (tax increment): Citizens for a Healthy Community v. United States Bureau of Land Management, D. Colo. (2020-08-19)
+  - candidate docket (tax increment): Summit Mountain Holding Group v. Summit Village Development Lender 1, D. Utah (2021-08-04)
+  - candidate docket (tax increment): Sun Lakes Highland, LLC v. City of Banning, C.D. Cal. (2024-12-06)
+  - candidate docket (tax increment): Specialty Retail Shops Holding Corp. and Pamida Transportation, LLC, Bankr. D. Neb. (2019-01-16)
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
 ### Incentive execution risk proxy: Benton, 
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
@@ -198,6 +212,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
+### Incentive execution risk proxy: Gallatin, 
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
 ### Incentive execution risk proxy: Garfield, 
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
@@ -217,6 +240,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Green, 
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: Hancock, 
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
@@ -324,6 +356,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
+### Incentive execution risk proxy: Northampton, 
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
 ### Incentive execution risk proxy: Oneida, 
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
@@ -397,6 +438,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Vernon, 
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: Warren, 
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
@@ -720,6 +770,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
+### Incentive execution risk proxy: San Francisco, CA
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
 ### Incentive execution risk proxy: Santa Clara County, CA
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
@@ -954,6 +1013,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
+### Incentive execution risk proxy: Levy, FL
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
 ### Incentive execution risk proxy: Martin County, FL
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
@@ -1000,6 +1068,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Pinellas, FL
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: Polk, FL
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
@@ -1590,6 +1667,24 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Henry County, IA
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: Ida, IA
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: Iowa, IA
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
@@ -2314,6 +2409,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
+### Incentive execution risk proxy: Cloud, KS
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
 ### Incentive execution risk proxy: Douglas, KS
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
@@ -2572,6 +2676,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Meade County, KY
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: Mercer, KY
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
@@ -3057,6 +3170,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
+### Incentive execution risk proxy: Mason, MI
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
 ### Incentive execution risk proxy: Mecosta County, MI
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
@@ -3246,6 +3368,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
+### Incentive execution risk proxy: St. Louis, MN
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
 ### Incentive execution risk proxy: St. Louis County, MN
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
@@ -3341,6 +3472,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 Proxy score 2. A local tax-incentive record for the county is already flagged as an enacted block. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 1
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: McDonald, MO
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
 - Local meeting items on file: 0
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
@@ -3714,6 +3854,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
+### Incentive execution risk proxy: Pender, NC
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
 ### Incentive execution risk proxy: Rowan County, NC
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
@@ -3841,6 +3990,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Oliver County, ND
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: Ransom, ND
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
@@ -4129,6 +4287,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Doña Ana County, NM
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: Los Alamos, NM
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
@@ -5181,6 +5348,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
+### Incentive execution risk proxy: McCormick, SC
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
 ### Incentive execution risk proxy: Newberry County, SC
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
@@ -5245,6 +5421,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Minnehaha County, SD
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: Pennington, SD
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
@@ -5613,6 +5798,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
+### Incentive execution risk proxy: Haskell, TX
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
 ### Incentive execution risk proxy: Hays County, TX
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
@@ -5758,6 +5952,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Somervell County, TX
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: Tarrant, TX
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
@@ -6167,13 +6370,13 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 12
+- Local meeting items on file: 11
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
-  - local meeting: Wed, 02 Sep 2026 10:48:43 -0500 Planning Commission Meeting Agenda (civicplus_rss)
-  - local meeting: Mon, 31 Aug 2026 11:09:46 -0500 Parks and Recreation Advisory Commission August Meeting Agenda (civicplus_rss)
-  - local meeting: Mon, 31 Aug 2026 11:09:14 -0500 Parks & Recreation Advisory Commission Meeting Agenda (civicplus_rss)
-  - local meeting: Fri, 28 Aug 2026 12:37:22 -0500 June CPMT Meeting Agenda (civicplus_rss)
-  - local meeting: Fri, 28 Aug 2026 11:33:00 -0500 Planning Commission Meeting Agenda (civicplus_rss)
+  - local meeting: Fri, 11 Sep 2026 14:21:09 -0500 Board of Supervisors Town Hall Meeting Agenda (civicplus_rss)
+  - local meeting: Thu, 10 Sep 2026 12:58:07 -0500 Library Board Regular Meeting (civicplus_rss)
+  - local meeting: Thu, 10 Sep 2026 08:54:43 -0500 Planning Commission Meeting Agenda (civicplus_rss)
+  - local meeting: Thu, 10 Sep 2026 08:54:16 -0500 Planning Commission Meeting Agenda (civicplus_rss)
+  - local meeting: Wed, 09 Sep 2026 11:50:48 -0500 Library Board Regular Meeting (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Prince William, VA
@@ -6231,6 +6434,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Stafford County, VA
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: Tazewell, VA
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
@@ -6391,10 +6603,12 @@ Proxy score 4. Local meeting activity on file for the county. A 1 is never assig
 - Local meeting items on file: 25
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
   - local meeting: 2026-09-22T00:00:00 Notice of Potential Quorum (legistar)
-  - local meeting: 2026-09-16T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
-  - local meeting: 2026-09-15T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
-  - local meeting: 2026-09-15T00:00:00 Notice of Potential Quorum (legistar)
-  - local meeting: 2026-09-10T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
+  - local meeting: 2026-09-18T00:00:00 City-County Building, 210 Martin Luther King Jr. Blvd Room 351, Madison WI 53703; Remote: 888-788-0099 (legistar)
+  - local meeting: 2026-09-17T00:00:00 This meeting will start after the joint meeting with Public Protection and Judiciary Committee.
+
+See below for additional instructions on how to attend the meeting and provide public testimony (legistar)
+  - local meeting: 2026-09-17T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. The meeting will begin at 5:30 pm or when the Land Conservation Committee adjourns, whichever is later. The Zoom link for the meetings is the same. (legistar)
+  - local meeting: 2026-09-17T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Dodge County, WI
@@ -6407,6 +6621,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Dunn County, WI
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: Eau Claire, WI
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
