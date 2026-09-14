@@ -324,6 +324,63 @@ def assert_unique_project_ids(rows: list[dict]) -> None:
         )
 
 
+# announced_date is the anchor every timeline is measured from, and the
+# denominator the published coverage panel on project-lifecycles.html reports.
+# When the source renamed `date` to `dateAnnounced` on 2026-09-10 the mapping
+# kept returning "" for it, and nothing here objected -- an empty announced_date
+# is a legal value, one project at a time. Coverage fell 302/337 to 10/337 and
+# the site reported 3% as a fact about the projects for four days, with the
+# outcome gate closed underneath it looking exactly like principled withholding.
+#
+# The scraper's population guard defends its own write and cannot help here: on
+# 09-10 it was the first run to see the new shape, so there was no prior
+# collapse to compare against, and the emptied file was downstream before the
+# guard ever fired. This is the second line -- it asks whether the column that
+# anchors everything still arrives, and stops the pipeline when it does not.
+#
+# The floor is deliberately far below the ~90% this has held since the data
+# began: it is here to catch a mapping break, not to police the handful of
+# projects that genuinely have no announcement date on record.
+ANNOUNCED_COVERAGE_FLOOR = 0.50
+ALLOW_LOW_ANNOUNCED_COVERAGE = "ALLOW_LOW_ANNOUNCED_COVERAGE"
+
+
+def assert_announced_coverage(
+        projects: list[dict], floor: float = ANNOUNCED_COVERAGE_FLOOR) -> None:
+    """Stop the pipeline when announced_date stops arriving for most projects.
+
+    A collapse here is a source or mapping change, never a change in the
+    projects, and publishing it means publishing the bug as a statistic.
+    """
+    if not projects:
+        return
+    have = sum(1 for p in projects if (p.get("announced_date") or "").strip())
+    share = have / len(projects)
+    if share >= floor:
+        print(f"announced-date coverage: {have}/{len(projects)} "
+              f"({share:.0%}), floor {floor:.0%}")
+        return
+    if os.environ.get(ALLOW_LOW_ANNOUNCED_COVERAGE):
+        print(f"announced-date coverage: {have}/{len(projects)} ({share:.0%}) "
+              f"is below the {floor:.0%} floor, OVERRIDDEN by "
+              f"{ALLOW_LOW_ANNOUNCED_COVERAGE}")
+        return
+    raise SystemExit(
+        f"project_resolution: announced-date coverage collapsed to "
+        f"{have}/{len(projects)} ({share:.0%}), below the {floor:.0%} floor.\n\n"
+        "announced_date is the anchor every downstream timeline is measured "
+        "from and a denominator published on project-lifecycles.html, so a "
+        "collapse here does not show up as an error -- it shows up as a "
+        "confident, wrong number on the site.\n"
+        "The usual cause is the source renaming the field the mapping reads: "
+        "check data/scraper_field_audit.md for a key the response is sending "
+        "that nothing reads, and add it to SOURCE_KEYS in "
+        "scripts/scrape-trackdatacenters-proposals.py.\n"
+        f"If the loss is real and permanent, set {ALLOW_LOW_ANNOUNCED_COVERAGE}=1 "
+        "to accept it deliberately."
+    )
+
+
 def prep_projects(rows: list[dict]) -> list[dict]:
     assert_unique_project_ids(rows)
     projects = []
@@ -837,6 +894,7 @@ def main() -> int:
                   f"({len(opp_rows)} remain)")
     prop_rows = load_csv(PROPOSALS_CSV)
     projects = prep_projects(prop_rows)
+    assert_announced_coverage(projects)
     dups, dup_problems = load_duplicates(DUPLICATES_CSV)
     projects, dup_apply_problems = apply_duplicates(projects, dups)
     n_suppressed = len(dups) - sum(1 for m in dup_apply_problems)

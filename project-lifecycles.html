@@ -503,7 +503,14 @@ function renderCoverage(decidedOpposed) {
   const isDay = v => /^\d{4}-\d{2}-\d{2}$/.test(v || '');
   const decided = DATA.filter(p => p.decided === 'yes');
   const decidedDated = decided.filter(p => isDay(p.decision_date));
+  // announced_date is always a full ISO date: parse_partial_date() floors
+  // "2026" and "2026-3" to the start of the period, so isDay() measures
+  // whether a date arrived at all, not how precise it is. This cell used to
+  // call that "day-precision", which overstated it by about 18x -- 302 of the
+  // 337 projects it counted in early September, only 16 of them exact.
+  // announced_precision is the column that actually knows.
   const anchored = DATA.filter(p => isDay(p.announced_date));
+  const dayPrecise = anchored.filter(p => p.announced_precision === 'day');
   const opposed = DATA.filter(p => +p.n_opposition_events > 0);
   const opposedAnchored = opposed.filter(p => isDay(p.announced_date));
   const doDated = decidedOpposed.filter(p => isDay(p.decision_date) && isDay(p.announced_date));
@@ -515,8 +522,11 @@ function renderCoverage(decidedOpposed) {
       'on the outcome model: an undated decision cannot enter a training frame.'),
     coverageCell(share(anchored.length, DATA.length),
       anchored.length + ' of ' + DATA.length + ' projects',
-      'carry a day-precision announcement date, which is the anchor every ' +
-      'timeline is measured from. The rest cannot be placed on a timeline at all.'),
+      'carry an announcement date, which is the anchor every timeline is ' +
+      'measured from. The rest cannot be placed on a timeline at all. ' +
+      'Most are not day-precision: ' + dayPrecise.length + ' are exact, the ' +
+      'rest are month- or year-precision floored to the start of the period, ' +
+      'so a timeline position here can be out by up to a year.'),
     coverageCell(share(opposedAnchored.length, opposed.length),
       opposedAnchored.length + ' of ' + opposed.length + ' opposed projects',
       'are anchored and therefore eligible to be scored once the gate opens.'),
