@@ -51,14 +51,14 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 | 1 | MN | Nicollet County | 1 | Blue Earth County, MN (2026-07-13) | 63 | 1 | 0 | yes | none |
 | 1 | SC | Chester County | 1 | York County, SC (2026-07-13) | 63 | 1 | 0 | yes | ambiguous |
 | 1 | MI | Keweenaw County | 1 | Houghton County, MI (2026-07-09) | 67 | 1 | 0 | yes | none |
-| 1 | SC | McCormick County | 1 | Greenwood County, SC (2026-07-07) | 69 | 1 | 0 | yes | unprobed |
+| 1 | SC | McCormick County | 1 | Greenwood County, SC (2026-07-07) | 69 | 1 | 0 | yes | none |
 | 1 | SC | Orangeburg County | 1 | Colleton County, SC (2026-07-07) | 69 | 1 | 0 | yes | none |
 | 1 | TX | Falls County | 1 | Bell County, TX (2026-07-02) | 74 | 1 | 0 | yes | none |
 | 1 | KS | Miami County | 1 | Johnson County, KS (2026-06-11) | 95 | 1 | 0 | yes | ambiguous |
 | 1 | TN | Moore County | 1 | Coffee County, TN (2026-06-09) | 97 | 1 | 0 | yes | none |
 | 1 | IN | Warrick County | 1 | Daviess County, KY (2026-05-28) | 109 | 1 | 0 | yes | none |
 | 1 | FL | Hernando County | 1 | Citrus County, FL (2026-05-26) | 111 | 1 | 0 | no | none |
-| 1 | FL | Levy County | 1 | Citrus County, FL (2026-05-26) | 111 | 1 | 0 | yes | unprobed |
+| 1 | FL | Levy County | 1 | Citrus County, FL (2026-05-26) | 111 | 1 | 0 | yes | none |
 | 1 | IA | Emmet County | 1 | Dickinson County, IA (2026-05-19) | 118 | 1 | 0 | yes | ambiguous |
 | 1 | NE | Cass County | 1 | Otoe County, NE (2026-05-19) | 118 | 1 | 0 | yes | ambiguous |
 | 1 | VA | New Kent County | 1 | Henrico County, VA (2026-05-18) | 119 | 1 | 0 | yes | none |
