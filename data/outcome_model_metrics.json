@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-07",
+  "generated": "2026-09-14",
   "n": 88,
   "n_blocked": 26,
   "base_rate": 0.2955,
@@ -8,56 +8,56 @@
     "repeats": 10
   },
   "roc_auc": {
-    "p10": 0.6285,
-    "p50": 0.8558,
-    "p90": 0.9669
+    "p10": 0.5623,
+    "p50": 0.7833,
+    "p90": 0.9008
   },
   "brier": {
-    "p10": 0.0988,
-    "p50": 0.1595,
-    "p90": 0.2474,
+    "p10": 0.1386,
+    "p50": 0.2036,
+    "p90": 0.3115,
     "base_rate_brier": 0.2082
   },
   "top_features": [
     {
       "name": "mech_public_comment",
-      "auc_drop": 0.1807,
-      "mean_std_coef": -1.3794
+      "auc_drop": 0.1754,
+      "mean_std_coef": -1.255
     },
     {
       "name": "hyperscaler_involved",
-      "auc_drop": 0.0369,
-      "mean_std_coef": -0.5873
-    },
-    {
-      "name": "capacity_missing",
-      "auc_drop": 0.0263,
-      "mean_std_coef": 0.5586
-    },
-    {
-      "name": "days_to_first_opposition",
-      "auc_drop": 0.0242,
-      "mean_std_coef": -0.4562
+      "auc_drop": 0.0679,
+      "mean_std_coef": -0.7793
     },
     {
       "name": "county_margin_2024",
-      "auc_drop": 0.0154,
-      "mean_std_coef": 0.5363
-    },
-    {
-      "name": "log10_capacity_mw",
-      "auc_drop": -0.012,
-      "mean_std_coef": -0.0403
+      "auc_drop": 0.03,
+      "mean_std_coef": 0.6435
     },
     {
       "name": "mech_legislation",
-      "auc_drop": -0.011,
-      "mean_std_coef": -0.0636
+      "auc_drop": -0.0189,
+      "mean_std_coef": -0.1402
+    },
+    {
+      "name": "log10_capacity_mw",
+      "auc_drop": -0.0137,
+      "mean_std_coef": 0.0825
     },
     {
       "name": "n_opposition_events",
-      "auc_drop": 0.0108,
-      "mean_std_coef": -0.3096
+      "auc_drop": 0.0132,
+      "mean_std_coef": -0.3256
+    },
+    {
+      "name": "mech_ordinance",
+      "auc_drop": 0.0114,
+      "mean_std_coef": 0.3925
+    },
+    {
+      "name": "opposition_span_days",
+      "auc_drop": -0.0112,
+      "mean_std_coef": 0.0411
     }
   ],
   "feature_columns": [
