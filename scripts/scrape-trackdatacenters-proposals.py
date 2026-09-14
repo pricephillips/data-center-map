@@ -243,10 +243,29 @@ FIELD_LOSS_MIN_PRIOR = 20   # fields below this were always sparse; ignore them
 FIELD_LOSS_RATIO = 0.5      # flag when more than half the population is gone
 
 
+def _present(value):
+    """Absent means missing or blank. False and 0 are values, not absences.
+
+    This matters because the two sides of the comparison arrive as different
+    types. The previous run is read back from proposals.csv, where everything
+    is a string, so a boolean field is "False" and a zero is "0" -- both
+    non-empty. This run comes straight from flatten(), where they are the
+    native False and 0. A truthiness test calls the same data populated on one
+    side and empty on the other, which is exactly what blocked the scrape on
+    2026-09-13 and 2026-09-14: approx, locationTbd and scale were reported
+    collapsed while carrying identical values.
+    """
+    if value is None:
+        return False
+    if isinstance(value, str):
+        return value.strip() != ""
+    return True
+
+
 def field_population(rows, fields):
-    """Non-empty count per field. Values are stripped; '' and None are empty."""
+    """Count of rows carrying a value for each field."""
     return {
-        f: sum(1 for r in rows if str(r.get(f) or "").strip())
+        f: sum(1 for r in rows if _present(r.get(f)))
         for f in fields
     }
 
@@ -444,6 +463,28 @@ def selftest():
 
     pop = field_population(full, fields)
     check("population counts non-empty values", pop["date"] == 40)
+
+    # The 2026-09-13 false positive. The previous run is read back from CSV
+    # (all strings), this run comes from flatten() (native types). A
+    # truthiness test called identical data populated on one side and empty
+    # on the other, and stopped the scrape for two days.
+    check("False is a value, not an absence", _present(False))
+    check("zero is a value, not an absence", _present(0))
+    check("an empty string is an absence", not _present(""))
+    check("whitespace is an absence", not _present("   "))
+    check("None is an absence", not _present(None))
+    check('the string "False" is a value', _present("False"))
+    check('the string "0" is a value', _present("0"))
+    str_side = [{"approx": "False"}] * 40
+    native_side = [{"approx": False}] * 40
+    check("the same field does not collapse just by changing type",
+          population_violations(str_side, native_side, ["approx"]) == [])
+    check("a boolean flipping all-True to all-False is not a collapse",
+          population_violations([{"a": True}] * 40, [{"a": False}] * 40,
+                                ["a"]) == [])
+    check("a field actually emptying is still a collapse",
+          population_violations([{"a": "x"}] * 40, [{"a": ""}] * 40,
+                                ["a"]) == [("a", 40, 0)])
     check("population treats None as empty",
           field_population([{"date": None}], ["date"])["date"] == 0)
     check("population strips whitespace",
