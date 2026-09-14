@@ -110,7 +110,7 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies
-        run: pip install pandas scikit-learn mapie
+        run: pip install pandas "scikit-learn>=1.2" mapie
 
       - name: Gate — run self-tests (BLOCKING; a failure stops the build)
         run: |

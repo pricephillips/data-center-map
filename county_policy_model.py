@@ -384,15 +384,23 @@ def main() -> int:
         oof_cnt = np.zeros(len(y))
         for tr_ix, te_ix in cv.split(X, y):
             pipe = make_pipeline(
-                SimpleImputer(strategy="median"),
+                SimpleImputer(strategy="median", keep_empty_features=True),
                 StandardScaler(),
                 LogisticRegression(C=c_reg, max_iter=4000))
             pipe.fit(X[tr_ix], y[tr_ix])
             p = pipe.predict_proba(X[te_ix])[:, 1]
             aucs.append(roc_auc_score(y[te_ix], p))
             briers.append(brier_score_loss(y[te_ix], p))
-            for f, c in zip(feat_list,
-                            pipe.named_steps["logisticregression"].coef_[0]):
+            fold_coefs = pipe.named_steps["logisticregression"].coef_[0]
+            # Not zip(): zip stops at the shorter side, so a dropped column
+            # would quietly attribute each later coefficient to the wrong
+            # feature and the stability check would be read off nonsense.
+            if len(fold_coefs) != len(feat_list):
+                raise RuntimeError(
+                    f"classifier returned {len(fold_coefs)} coefficients for "
+                    f"{len(feat_list)} features; a pipeline step dropped a "
+                    f"column, so coefficients cannot be matched to names.")
+            for f, c in zip(feat_list, fold_coefs):
                 coef_folds[f].append(float(c))
             oof_sum[te_ix] += p
             oof_cnt[te_ix] += 1

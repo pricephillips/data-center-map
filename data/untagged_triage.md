@@ -1,6 +1,6 @@
 # Untagged row triage
 
-Held rows in the worklist: 4861
+Held rows in the worklist: 5018
 
 These rows are excluded from the clean feed and from every count. They are recoverable only by resolving the redirect to a publisher article and reading it. Everything below is a suggestion derived from the headline text, not a verified field.
 
@@ -8,17 +8,17 @@ These rows are excluded from the clean feed and from every count. They are recov
 
 | confidence | rows |
 | :-- | --: |
-| high | 412 |
-| medium | 1043 |
-| state_only | 267 |
-| low | 1127 |
-| none | 2012 |
+| high | 425 |
+| medium | 1083 |
+| state_only | 277 |
+| low | 1162 |
+| none | 2071 |
 
 ## Mechanism hint
 
 | hint | rows |
 | :-- | --: |
-| none | 4664 |
+| none | 4821 |
 | moratorium | 186 |
 | zoning_restriction | 3 |
 | public_comment | 3 |
@@ -30,7 +30,7 @@ These rows are excluded from the clean feed and from every count. They are recov
 
 | status | rows |
 | :-- | --: |
-| not_attempted | 4861 |
+| not_attempted | 5018 |
 
 Rows ready for a reviewer to open: 0
 Rows whose county and mechanism are already covered by a sourced row: 61
@@ -39,16 +39,16 @@ Rows whose county and mechanism are already covered by a sourced row: 61
 
 | outlet | rows |
 | :-- | --: |
-| unknown | 3958 |
-| Gazette | 23 |
-| Your Illinois News Radar » Isabel morning briefing | 17 |
+| unknown | 4092 |
+| Gazette | 24 |
+| Your Illinois News Radar » Isabel morning briefing | 18 |
 | Effingham Herald | 15 |
 | WSLR+Fogartyville | 15 |
 | Nevada News and Views | 14 |
-| Your Illinois News Radar » Isabel afternoon roundup | 12 |
+| Your Illinois News Radar » Isabel afternoon roundup | 13 |
+| scale data centers | 12 |
 | backed data center proposals cause rift in Oakland | 12 |
 | Politico | 11 |
-| scale data centers | 11 |
 | Statesboro Herald | 11 |
 | 26 • The Austin Chronicle | 11 |
 | plus square miles in Archbald , Upvalley for power plants | 11 |
