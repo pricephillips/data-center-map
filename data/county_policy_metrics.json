@@ -25,23 +25,10 @@
     "stability_cost": 0.0018,
     "stability_cost_note": "median AUC given up by requiring every coefficient to hold its sign across all folds. Reported, not used as a veto; a gap beyond 0.05 is a hard stop.",
     "stability_cost_alarm": 0.05,
-    "changed_this_run": true,
-    "entered": [
-      "land_sqmi"
-    ],
-    "left": [
-      "median_hh_income",
-      "pct_bachelors_plus",
-      "pop_density_sqmi",
-      "state_legislation_events"
-    ],
-    "change_reasons": [
-      "land_sqmi: sign stable this run, negative in all folds, median coefficient -0.1243",
-      "median_hh_income: sign stable but not selected; another specification scored higher under the registered criterion",
-      "pct_bachelors_plus: sign stable but not selected; another specification scored higher under the registered criterion",
-      "pop_density_sqmi: sign stable but not selected; another specification scored higher under the registered criterion",
-      "state_legislation_events: sign stable but not selected; another specification scored higher under the registered criterion"
-    ],
+    "changed_this_run": false,
+    "entered": [],
+    "left": [],
+    "change_reasons": [],
     "grid": [
       {
         "spec": "full_pool",
@@ -1158,9 +1145,9 @@
     }
   },
   "aggregate_manifest": {
-    "generated": "2026-09-13",
+    "generated": "2026-09-14",
     "counties": 3222,
-    "event_rows_with_county": 1412,
+    "event_rows_with_county": 1413,
     "event_match_rate": 0.9908,
     "enacted_restriction_counties": 329,
     "dc_presence_counties": 399,
@@ -1168,7 +1155,7 @@
       "county_census_features.csv": "c94063d9123016f5",
       "county_votes.json": "b521eb017a7acfa5",
       "atlas.csv": "7a8c78d3ed6cea2d",
-      "master_opposition.csv": "ece473b393b66ca2",
+      "master_opposition.csv": "e7ae7d867281fa66",
       "baseline_universe.csv": "94f2815037b03fda",
       "project_lifecycles.csv": "1f45c1d61e115163"
     }
