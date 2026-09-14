@@ -63,7 +63,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install pandas scikit-learn numpy
+        run: pip install pandas "scikit-learn>=1.2" numpy
 
       - name: Rebuild project frame (landmark reads lifecycles + links)
         id: frame

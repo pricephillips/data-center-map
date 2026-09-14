@@ -177,7 +177,8 @@ def build_estimator(c_reg):
     from sklearn.pipeline import make_pipeline
     from sklearn.preprocessing import StandardScaler
     return make_pipeline(
-        SimpleImputer(strategy="median"), StandardScaler(),
+        SimpleImputer(strategy="median", keep_empty_features=True),
+        StandardScaler(),
         LogisticRegression(C=c_reg, max_iter=4000, random_state=SEED))
 
 

@@ -584,7 +584,12 @@ def main() -> int:
                            for c in cols] for r in rows])
             y = np.array([int(r["label_blocked"]) for r in rows])
             model = Pipeline([
-                ("impute", SimpleImputer(strategy="median")),
+                # keep_empty_features=True keeps the matrix the same width as
+                # `cols` when a column is entirely missing in a training fold.
+                # Without it SimpleImputer drops that column and clf.coef_
+                # stops lining up with the feature names below.
+                ("impute", SimpleImputer(strategy="median",
+                                         keep_empty_features=True)),
                 ("scale", StandardScaler()),
                 ("clf", LogisticRegression(C=0.5, max_iter=2000,
                                            class_weight="balanced")),
@@ -603,7 +608,13 @@ def main() -> int:
                 briers.append(brier_score_loss(y[te], p))
                 if i < N_FOLDS:
                     oof[te] = p
-                coefs += model.named_steps["clf"].coef_[0]
+                fold_coefs = model.named_steps["clf"].coef_[0]
+                if len(fold_coefs) != len(cols):
+                    raise RuntimeError(
+                        f"W={W} fold {i}: classifier returned "
+                        f"{len(fold_coefs)} coefficients for {len(cols)} "
+                        f"features; a pipeline step dropped a column.")
+                coefs += fold_coefs
                 k += 1
             coefs /= k
             base = y.mean()

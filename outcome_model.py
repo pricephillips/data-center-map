@@ -68,6 +68,9 @@ OUT_FEATURES = P("data", "outcome_model_features.csv")
 OUT_METRICS = P("data", "outcome_model_metrics.json")
 
 RANDOM_STATE = 20260710
+# Report any feature observed on less than this share of projects. Not a
+# gate: the model still fits, the report just stops being quiet about it.
+LOW_COVERAGE_FRAC = 0.25
 N_REPEATS = 10
 N_FOLDS = 5
 
@@ -220,8 +223,14 @@ def main() -> int:
         w.writeheader()
         w.writerows(rows)
 
+    # keep_empty_features=True is load-bearing, not a tuning knob. By default
+    # SimpleImputer DROPS a column that is entirely missing in the training
+    # fold, so the matrix reaching the classifier is narrower than
+    # feature_cols and clf.coef_ no longer lines up with it. Keeping the
+    # column (imputed to 0, hence zero variance and a ~0 coefficient) holds
+    # that alignment for every fold.
     model = Pipeline([
-        ("impute", SimpleImputer(strategy="median")),
+        ("impute", SimpleImputer(strategy="median", keep_empty_features=True)),
         ("scale", StandardScaler()),
         ("clf", LogisticRegression(C=0.5, max_iter=2000,
                                    class_weight="balanced")),
@@ -245,7 +254,17 @@ def main() -> int:
         pi = permutation_importance(model, X[te], y[te], scoring="roc_auc",
                                     n_repeats=5, random_state=RANDOM_STATE)
         importances += pi.importances_mean
-        coefs += model.named_steps["clf"].coef_[0]
+        fold_coefs = model.named_steps["clf"].coef_[0]
+        # Belt and braces: if a future sklearn narrows the matrix anyway,
+        # fail here naming the cause rather than silently attributing each
+        # coefficient to the wrong feature.
+        if len(fold_coefs) != len(feature_cols):
+            raise RuntimeError(
+                f"fold {rep_fold}: classifier returned {len(fold_coefs)} "
+                f"coefficients for {len(feature_cols)} features. A pipeline "
+                f"step dropped a column, so coefficients can no longer be "
+                f"matched to feature names.")
+        coefs += fold_coefs
         n_imp += 1
     importances /= n_imp
     coefs /= n_imp
@@ -305,6 +324,23 @@ def main() -> int:
       f"{int(np.isnan(X[:, feature_cols.index('county_margin_2024')]).sum())} projects; "
       f"capacity known for only {int((1 - X[:, feature_cols.index('capacity_missing')]).sum())} "
       "(median-imputed, with a missingness indicator retained as a feature).")
+    # A feature can quietly stop arriving -- an upstream rename empties the
+    # column it is derived from and nothing about the fit looks wrong, because
+    # median imputation fills the gap and the model still scores. Anything
+    # this thin is imputed far more often than it is observed, so say so in
+    # the report rather than leaving it to be inferred from the coefficients.
+    thin = [(c, obs) for i, c in enumerate(feature_cols)
+            if (obs := int(np.sum(~np.isnan(X[:, i])))) < LOW_COVERAGE_FRAC * n]
+    if thin:
+        w("")
+        w(f"> **Low-coverage features.** Observed on under "
+          f"{LOW_COVERAGE_FRAC:.0%} of the {n} projects, so they are mostly "
+          f"median-imputed and their coefficients carry little evidence. A "
+          f"feature that used to be well covered appearing here means its "
+          f"upstream source changed, not that the projects changed:")
+        for c, obs in thin:
+            w(f"> - `{c}`: observed on {obs}/{n} projects "
+              f"({obs / n:.0%})")
     w("")
     w("## Model and validation")
     w("")

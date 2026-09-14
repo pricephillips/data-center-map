@@ -53,7 +53,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install scikit-learn lifelines pandas numpy
+        run: pip install "scikit-learn>=1.2" lifelines pandas numpy
 
       - name: Rebuild lifecycles (needed inputs for the models)
         run: python project_resolution.py
