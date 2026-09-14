@@ -1,6 +1,6 @@
 {
  "AK:HB 259": {
-  "fetched": "2026-08-31T15:01:49",
+  "fetched": "2026-09-14T13:54:28",
   "payload": {
    "bill_id": "ocd-bill/7955b569-4589-481b-96c1-9c2078453cd2",
    "candidates": 5,
@@ -19,7 +19,7 @@
   "terminal": false
  },
  "AK:SB 250": {
-  "fetched": "2026-08-31T15:01:50",
+  "fetched": "2026-09-14T13:54:28",
   "payload": {
    "bill_id": "ocd-bill/bc6d0909-d802-476a-aab3-d10d5e0f3523",
    "candidates": 2,
@@ -4804,7 +4804,7 @@
   "terminal": true
  },
  "AZ:SB 1463": {
-  "fetched": "2026-08-24T08:06:02",
+  "fetched": "2026-09-14T13:55:06",
   "payload": {
    "bill_id": "ocd-bill/5926dff3-d7fa-4dea-92ba-5306bd4b5e54",
    "candidates": 10,
@@ -13693,7 +13693,7 @@
   "terminal": false
  },
  "CO:HB 26": {
-  "fetched": "2026-08-24T08:07:30",
+  "fetched": "2026-09-14T13:56:06",
   "payload": {
    "candidates": 0,
    "lookup_status": "not_found"
@@ -14688,7 +14688,7 @@
   "terminal": false
  },
  "DC:HR 6984": {
-  "fetched": "2026-08-24T08:06:15",
+  "fetched": "2026-09-14T13:55:11",
   "payload": {
    "candidates": 0,
    "lookup_status": "not_found"
@@ -16626,6 +16626,25 @@
    ]
   },
   "terminal": true
+ },
+ "FL:HB 1007": {
+  "fetched": "2026-09-14T13:55:05",
+  "payload": {
+   "bill_id": "ocd-bill/f76514da-cdb7-45f6-960b-0dbc54d92ad4",
+   "candidates": 9,
+   "correct_outcome": "Pending",
+   "latest_action_date": "2026-03-11",
+   "lookup_status": "ambiguous_session",
+   "n_actions": 23,
+   "openstates_url": "https://openstates.org/fl/bills/2026/HB1007/",
+   "session": "2026",
+   "stage": "Passed committee only",
+   "stage_date": "2026-02-24",
+   "stage_evidence": "committee-passage: Favorable with CS by State Affairs Committee",
+   "title": "Data Centers",
+   "votes": []
+  },
+  "terminal": false
  },
  "FL:SB 1118": {
   "fetched": "2026-08-12T18:04:06",
@@ -22431,6 +22450,25 @@
   },
   "terminal": false
  },
+ "GA:SB 34": {
+  "fetched": "2026-09-14T13:55:03",
+  "payload": {
+   "bill_id": "ocd-bill/b3079a22-a637-4e05-817b-cd6387718710",
+   "candidates": 7,
+   "correct_outcome": "Pending",
+   "latest_action_date": "2026-02-25",
+   "lookup_status": "matched",
+   "n_actions": 6,
+   "openstates_url": "https://openstates.org/ga/bills/2025_26/SB34/",
+   "session": "2025_26",
+   "stage": "Passed committee only",
+   "stage_date": "2025-02-26",
+   "stage_evidence": "committee-passage: Senate Committee Favorably Reported  By Substitute",
+   "title": "Public Service Commission; costs incurred by an electric utility as a result of providing electric services to commercial data centers from being included in an",
+   "votes": []
+  },
+  "terminal": false
+ },
  "GA:SB 408": {
   "fetched": "2026-08-24T08:06:18",
   "payload": {
@@ -23461,7 +23499,7 @@
   "terminal": false
  },
  "GA:SB 436": {
-  "fetched": "2026-08-31T15:01:52",
+  "fetched": "2026-09-14T13:54:30",
   "payload": {
    "bill_id": "ocd-bill/7584a38f-1bdf-4a17-bc9c-0cf668214965",
    "candidates": 6,
@@ -23588,14 +23626,14 @@
   "terminal": false
  },
  "IL:SB 4004": {
-  "fetched": "2026-08-31T15:02:01",
+  "fetched": "2026-09-14T13:56:05",
   "payload": {
    "bill_id": "ocd-bill/8adc39f0-716a-4d19-be9c-fdfcbc11642a",
    "candidates": 3,
    "correct_outcome": "Pending",
-   "latest_action_date": "2026-06-17",
+   "latest_action_date": "2026-09-02",
    "lookup_status": "matched",
-   "n_actions": 21,
+   "n_actions": 22,
    "openstates_url": "https://openstates.org/il/bills/104th/SB4004/",
    "session": "104th",
    "stage": "Introduced",
@@ -23607,7 +23645,7 @@
   "terminal": false
  },
  "IL:SB 4016": {
-  "fetched": "2026-08-17T08:04:15",
+  "fetched": "2026-09-14T13:56:04",
   "payload": {
    "bill_id": "ocd-bill/16a8f60c-9661-44c7-8d01-97702b383336",
    "candidates": 3,
@@ -59719,7 +59757,7 @@
   "terminal": false
  },
  "MD:SB 596": {
-  "fetched": "2026-08-31T15:01:53",
+  "fetched": "2026-09-14T13:54:31",
   "payload": {
    "bill_id": "ocd-bill/231e3251-85ee-4645-b0ff-694e6cf0e915",
    "candidates": 10,
@@ -71857,7 +71895,7 @@
   "terminal": false
  },
  "MI:HB 5594": {
-  "fetched": "2026-08-31T15:04:02",
+  "fetched": "2026-09-14T13:56:02",
   "payload": {
    "bill_id": "ocd-bill/c1806c4e-444e-42f1-b6c2-800b443305ff",
    "candidates": 5,
@@ -73292,7 +73330,7 @@
   "terminal": false
  },
  "NC:HB 7971": {
-  "fetched": "2026-08-17T08:04:20",
+  "fetched": "2026-09-14T13:56:07",
   "payload": {
    "candidates": 0,
    "lookup_status": "not_found"
@@ -73300,7 +73338,7 @@
   "terminal": false
  },
  "NC:SB 730": {
-  "fetched": "2026-08-17T08:04:22",
+  "fetched": "2026-09-14T13:56:11",
   "payload": {
    "bill_id": "ocd-bill/fb237476-3089-4ae2-ab25-2fa79089c6f8",
    "candidates": 20,
@@ -85249,10 +85287,10 @@
   "terminal": false
  },
  "NJ:A 5462": {
-  "fetched": "2026-08-31T15:01:46",
+  "fetched": "2026-09-14T13:54:24",
   "payload": {
    "bill_id": "ocd-bill/ec5c6cb7-6c30-435d-861e-153a95ebebd6",
-   "candidates": 4,
+   "candidates": 5,
    "correct_outcome": "Approved",
    "latest_action_date": "2026-01-12",
    "lookup_status": "matched",
@@ -85264,6 +85302,78 @@
    "stage_evidence": "passage recorded in 2 chambers",
    "title": "Requires electric public utilities to develop and apply special rules for large load customers to protect non-large load customers from increased costs.**",
    "votes": [
+    {
+     "chamber": "lower",
+     "legislator_id": "ocd-person/4454126e-9060-42fc-a81b-91c985d242c1",
+     "legislator_name": "Marenco, Julio",
+     "motion_text": "Reported out of Assembly committee with amendments",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2025-06-12"
+    },
+    {
+     "chamber": "lower",
+     "legislator_id": "ocd-person/08016f74-f5d6-4554-91b4-385fdbd558a7",
+     "legislator_name": "DeAngelo, Wayne P.",
+     "motion_text": "Reported out of Assembly committee with amendments",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2025-06-12"
+    },
+    {
+     "chamber": "lower",
+     "legislator_id": "ocd-person/d80f0df2-57cd-436b-a250-7413ec11fe27",
+     "legislator_name": "Kennedy, James J.",
+     "motion_text": "Reported out of Assembly committee with amendments",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2025-06-12"
+    },
+    {
+     "chamber": "lower",
+     "legislator_id": "ocd-person/09c6e805-6356-4bcb-a7d3-6be479d41e9a",
+     "legislator_name": "Barranco, Christian E.",
+     "motion_text": "Reported out of Assembly committee with amendments",
+     "option": "no",
+     "result": "pass",
+     "vote_date": "2025-06-12"
+    },
+    {
+     "chamber": "lower",
+     "legislator_id": "ocd-person/fc986c0e-c1cd-422f-80c1-4d3691f34f28",
+     "legislator_name": "Sauickie, Alex",
+     "motion_text": "Reported out of Assembly committee with amendments",
+     "option": "no",
+     "result": "pass",
+     "vote_date": "2025-06-12"
+    },
+    {
+     "chamber": "lower",
+     "legislator_id": "ocd-person/64a8c09d-24a2-4d4c-a071-d09f0a30c79f",
+     "legislator_name": "Bailey, David",
+     "motion_text": "Reported out of Assembly committee with amendments",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2025-06-12"
+    },
+    {
+     "chamber": "lower",
+     "legislator_id": "ocd-person/e4c2301b-6812-423e-b27a-c40919f4bd5d",
+     "legislator_name": "Kanitra, Paul",
+     "motion_text": "Reported out of Assembly committee with amendments",
+     "option": "other",
+     "result": "pass",
+     "vote_date": "2025-06-12"
+    },
+    {
+     "chamber": "lower",
+     "legislator_id": "ocd-person/c05a0080-95df-4576-a81c-d509fb4a5063",
+     "legislator_name": "McCoy, Tennille R.",
+     "motion_text": "Reported out of Assembly committee with amendments",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2025-06-12"
+    },
     {
      "chamber": "lower",
      "legislator_id": "",
@@ -85983,85 +86093,13 @@
      "option": "no",
      "result": "pass",
      "vote_date": "2025-06-30"
-    },
-    {
-     "chamber": "lower",
-     "legislator_id": "ocd-person/4454126e-9060-42fc-a81b-91c985d242c1",
-     "legislator_name": "Marenco, Julio",
-     "motion_text": "Reported out of Assembly committee with amendments",
-     "option": "yes",
-     "result": "pass",
-     "vote_date": "2025-06-12"
-    },
-    {
-     "chamber": "lower",
-     "legislator_id": "ocd-person/08016f74-f5d6-4554-91b4-385fdbd558a7",
-     "legislator_name": "DeAngelo, Wayne P.",
-     "motion_text": "Reported out of Assembly committee with amendments",
-     "option": "yes",
-     "result": "pass",
-     "vote_date": "2025-06-12"
-    },
-    {
-     "chamber": "lower",
-     "legislator_id": "ocd-person/d80f0df2-57cd-436b-a250-7413ec11fe27",
-     "legislator_name": "Kennedy, James J.",
-     "motion_text": "Reported out of Assembly committee with amendments",
-     "option": "yes",
-     "result": "pass",
-     "vote_date": "2025-06-12"
-    },
-    {
-     "chamber": "lower",
-     "legislator_id": "ocd-person/09c6e805-6356-4bcb-a7d3-6be479d41e9a",
-     "legislator_name": "Barranco, Christian E.",
-     "motion_text": "Reported out of Assembly committee with amendments",
-     "option": "no",
-     "result": "pass",
-     "vote_date": "2025-06-12"
-    },
-    {
-     "chamber": "lower",
-     "legislator_id": "ocd-person/fc986c0e-c1cd-422f-80c1-4d3691f34f28",
-     "legislator_name": "Sauickie, Alex",
-     "motion_text": "Reported out of Assembly committee with amendments",
-     "option": "no",
-     "result": "pass",
-     "vote_date": "2025-06-12"
-    },
-    {
-     "chamber": "lower",
-     "legislator_id": "ocd-person/64a8c09d-24a2-4d4c-a071-d09f0a30c79f",
-     "legislator_name": "Bailey, David",
-     "motion_text": "Reported out of Assembly committee with amendments",
-     "option": "yes",
-     "result": "pass",
-     "vote_date": "2025-06-12"
-    },
-    {
-     "chamber": "lower",
-     "legislator_id": "ocd-person/e4c2301b-6812-423e-b27a-c40919f4bd5d",
-     "legislator_name": "Kanitra, Paul",
-     "motion_text": "Reported out of Assembly committee with amendments",
-     "option": "other",
-     "result": "pass",
-     "vote_date": "2025-06-12"
-    },
-    {
-     "chamber": "lower",
-     "legislator_id": "ocd-person/c05a0080-95df-4576-a81c-d509fb4a5063",
-     "legislator_name": "McCoy, Tennille R.",
-     "motion_text": "Reported out of Assembly committee with amendments",
-     "option": "yes",
-     "result": "pass",
-     "vote_date": "2025-06-12"
     }
    ]
   },
   "terminal": false
  },
  "NJ:A 796": {
-  "fetched": "2026-08-31T15:01:48",
+  "fetched": "2026-09-14T13:54:26",
   "payload": {
    "bill_id": "ocd-bill/06f6c441-f600-4577-babf-dfebd3f0648e",
    "candidates": 6,
@@ -86094,6 +86132,25 @@
    "stage_date": "2026-01-13",
    "stage_evidence": "introduction: Introduced in the Senate, Referred to Senate Economic Growth Committee",
    "title": "Requires transmission owners to join regional transmission organizations approved by Federal Energy Regulatory Commission. **",
+   "votes": []
+  },
+  "terminal": false
+ },
+ "NJ:S 3379": {
+  "fetched": "2026-09-14T13:55:04",
+  "payload": {
+   "bill_id": "ocd-bill/0d838dba-c280-43cc-9c05-d24c7508bf4b",
+   "candidates": 6,
+   "correct_outcome": "Pending",
+   "latest_action_date": "2026-08-27",
+   "lookup_status": "matched",
+   "n_actions": 11,
+   "openstates_url": "https://openstates.org/nj/bills/222/S3379/",
+   "session": "222",
+   "stage": "Passed one chamber",
+   "stage_date": "2026-06-30",
+   "stage_evidence": "passage in upper",
+   "title": "Requires data center owners and operators to submit semi-annual water and energy usage reports to BPU.",
    "votes": []
   },
   "terminal": false
@@ -86156,7 +86213,7 @@
   "terminal": false
  },
  "NJ:S 731": {
-  "fetched": "2026-08-31T15:01:47",
+  "fetched": "2026-09-14T13:54:25",
   "payload": {
    "bill_id": "ocd-bill/1e81ae34-b40a-44a3-bbb8-d50b976b419c",
    "candidates": 6,
@@ -86573,7 +86630,7 @@
   "terminal": false
  },
  "NY:A 10141": {
-  "fetched": "2026-08-24T08:07:57",
+  "fetched": "2026-09-14T13:56:09",
   "payload": {
    "bill_id": "ocd-bill/90f8741e-9640-47db-900c-35101428b855",
    "candidates": 5,
@@ -88567,7 +88624,7 @@
   "terminal": false
  },
  "NY:S 9144": {
-  "fetched": "2026-08-24T08:07:55",
+  "fetched": "2026-09-14T13:56:08",
   "payload": {
    "bill_id": "ocd-bill/eac538cc-c2d5-480f-8082-dc08b4a992d8",
    "candidates": 4,
@@ -88586,7 +88643,7 @@
   "terminal": false
  },
  "OH:HB 646": {
-  "fetched": "2026-08-24T08:06:14",
+  "fetched": "2026-09-14T13:55:09",
   "payload": {
    "bill_id": "ocd-bill/aa610bc3-6d93-4803-bd43-66ac5df64c05",
    "candidates": 5,
@@ -94352,7 +94409,7 @@
   "terminal": false
  },
  "OK:HB 299": {
-  "fetched": "2026-08-31T15:01:54",
+  "fetched": "2026-09-14T13:54:32",
   "payload": {
    "candidates": 0,
    "lookup_status": "not_found"
@@ -108779,7 +108836,7 @@
   "terminal": false
  },
  "PA:HB 2150": {
-  "fetched": "2026-08-12T18:03:20",
+  "fetched": "2026-09-14T13:55:02",
   "payload": {
    "bill_id": "ocd-bill/b64a96da-0667-49b9-93c6-e0bc1f0d2fa3",
    "candidates": 5,
@@ -111409,7 +111466,7 @@
   "terminal": false
  },
  "PA:HB 2151": {
-  "fetched": "2026-08-12T18:03:18",
+  "fetched": "2026-09-14T13:55:01",
   "payload": {
    "bill_id": "ocd-bill/f8d9a8cd-1c62-4462-b589-978348efd55b",
    "candidates": 4,
@@ -114606,7 +114663,7 @@
   "terminal": false
  },
  "PA:HB 2496": {
-  "fetched": "2026-08-17T08:03:21",
+  "fetched": "2026-09-14T13:56:01",
   "payload": {
    "bill_id": "ocd-bill/84424aa3-a880-4d19-99fc-12b320759ba6",
    "candidates": 5,
@@ -128165,7 +128222,7 @@
   "terminal": false
  },
  "TN:HB 2392": {
-  "fetched": "2026-08-24T08:06:07",
+  "fetched": "2026-09-14T13:55:07",
   "payload": {
    "bill_id": "ocd-bill/52b305ba-e584-40a8-a539-ea53464a0664",
    "candidates": 5,
@@ -128203,19 +128260,19 @@
   "terminal": false
  },
  "TN:SB 2": {
-  "fetched": "2026-08-17T08:03:56",
+  "fetched": "2026-09-14T13:56:02",
   "payload": {
    "bill_id": "ocd-bill/c7ff31a9-0590-4950-b811-cdd651a942ed",
    "candidates": 5,
    "correct_outcome": "Pending",
-   "latest_action_date": "2026-07-30",
+   "latest_action_date": "2026-04-20",
    "lookup_status": "matched",
-   "n_actions": 15,
+   "n_actions": 13,
    "openstates_url": "https://openstates.org/tn/bills/114/SB2/",
    "session": "114",
-   "stage": "Passed one chamber",
-   "stage_date": "2026-07-30",
-   "stage_evidence": "passage in upper",
+   "stage": "Introduced",
+   "stage_date": "2024-11-12",
+   "stage_evidence": "introduction: Filed for introduction",
    "title": "Taxes - As introduced, enacts the \"End the Grocery Tax by Closing Corporate Loopholes Act.\" - Amends TCA Title 57 and Title 67.",
    "votes": []
   },
@@ -152615,7 +152672,7 @@
   "terminal": true
  },
  "WI:AB 840": {
-  "fetched": "2026-08-24T08:06:10",
+  "fetched": "2026-09-14T13:55:09",
   "payload": {
    "bill_id": "ocd-bill/d9fd8ff2-620d-4468-a504-87ecb3df4a32",
    "candidates": 5,
@@ -164918,7 +164975,7 @@
   "terminal": true
  },
  "WV:HB 5590": {
-  "fetched": "2026-08-31T15:01:42",
+  "fetched": "2026-09-14T13:54:22",
   "payload": {
    "bill_id": "ocd-bill/a86cb1f4-d146-4ed8-a14f-1c146e2e216b",
    "candidates": 2,
@@ -164937,7 +164994,7 @@
   "terminal": false
  },
  "WV:HB 5620": {
-  "fetched": "2026-08-31T15:01:45",
+  "fetched": "2026-09-14T13:54:23",
   "payload": {
    "bill_id": "ocd-bill/5efba7c8-ed9c-4cb0-adc3-9be05099a918",
    "candidates": 2,
