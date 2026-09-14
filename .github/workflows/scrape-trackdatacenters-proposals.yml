@@ -23,21 +23,45 @@ jobs:
       - name: Run scraper
         run: python scripts/scrape-trackdatacenters-proposals.py --out data/proposals.csv
 
+      # if: always() is the point of this step, not a detail. The population
+      # guard stops the scraper by design when a column collapses, and that is
+      # exactly the run whose field audit someone needs to read. Without this
+      # the audit is written to the runner's disk and thrown away with it: the
+      # diagnostic went missing precisely when it had something to say, which
+      # is what happened on 2026-09-13 and 2026-09-14.
+      #
+      # Committing after a failure is safe because the guard raises before
+      # data/proposals.csv is written. On a guard failure that file is
+      # unchanged and only the audit lands; on success both go together.
       - name: Commit and push if changed
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/proposals.csv
-          # The field audit is how a rename gets diagnosed without anyone
-          # opening a browser, so it has to be committed even when the scrape
-          # is otherwise a no-op.
           # `|| true` matters: run blocks execute under `bash -e`, so a bare
           # `[ -f x ] && git add x` aborts the whole step the first time the
           # file is absent.
+          [ -f data/proposals.csv ] && git add data/proposals.csv || true
           [ -f data/scraper_field_audit.md ] && git add data/scraper_field_audit.md || true
-          git diff --cached --quiet || git commit -m "chore: update proposals csv from trackdatacenters [$(date -u +%Y-%m-%dT%H:%M:%SZ)]"
-          git push
-          
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+          # Name what actually changed: saying "update proposals csv" on a run
+          # where the guard stopped the write would be untrue.
+          if git diff --cached --name-only | grep -qx 'data/proposals.csv'; then
+            MSG="chore: update proposals csv from trackdatacenters"
+          else
+            MSG="chore: scraper field audit only (scrape did not write proposals.csv)"
+          fi
+          git commit -m "$MSG [$(date -u +%Y-%m-%dT%H:%M:%SZ)]"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
+            git rebase --abort 2>/dev/null || true
+            sleep 10
+          done
+          echo "Push failed after 3 attempts"; exit 1
+
       - name: Notify on failure
         if: failure()
         uses: actions/github-script@v7
