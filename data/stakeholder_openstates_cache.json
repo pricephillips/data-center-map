@@ -3615,6 +3615,656 @@
    ]
   }
  },
+ "https://v3.openstates.org/bills?jurisdiction=il&identifier=SB+4016&include=sponsorships&per_page=20&sort=updated_desc": {
+  "fetched": "2026-09-14T15:51:58.799034+00:00",
+  "payload": {
+   "pagination": {
+    "max_page": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_items": 3
+   },
+   "results": [
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2026-02-11T12:50:52.140814+00:00",
+     "extras": {},
+     "first_action_date": "2026-02-06",
+     "from_organization": {
+      "classification": "upper",
+      "id": "ocd-organization/20782ae5-cc22-4470-846b-fd9788ad3db7",
+      "name": "Senate"
+     },
+     "id": "ocd-bill/16a8f60c-9661-44c7-8d01-97702b383336",
+     "identifier": "SB 4016",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:il/government",
+      "name": "Illinois"
+     },
+     "latest_action_date": "2026-05-30",
+     "latest_action_description": "Added as Co-Sponsor Sen. Karina Villa",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/il/bills/104th/SB4016/",
+     "session": "104th",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "bea11771-6cea-4dc3-bb9c-b0a4b367463f",
+       "name": "Ram Villivalam",
+       "person": {
+        "current_role": {
+         "district": "8",
+         "division_id": "ocd-division/country:us/state:il/sldu:8",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/d01a10b0-e391-4c65-ba1f-304ee6130f5c",
+        "name": "Ram Villivalam",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "ccb18a65-51bb-4822-9dc4-998ab5f3768d",
+       "name": "Robert Peters",
+       "person": {
+        "current_role": {
+         "district": "13",
+         "division_id": "ocd-division/country:us/state:il/sldu:13",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/86ee52dd-dc32-4895-bf16-746eb76df012",
+        "name": "Robert Peters",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "bc769a2e-e3db-4fa4-bb8d-26813d3d8722",
+       "name": "Graciela Guzm\u00e1n",
+       "person": {
+        "current_role": {
+         "district": "20",
+         "division_id": "ocd-division/country:us/state:il/sldu:20",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/95d8f5ae-4cc9-483b-913f-ccd07aa73e13",
+        "name": "Graciela Guzm\u00e1n",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "026b328a-8840-40d6-9c2b-b5e779b2f2ec",
+       "name": "Rachel Ventura",
+       "person": {
+        "current_role": {
+         "district": "43",
+         "division_id": "ocd-division/country:us/state:il/sldu:43",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/ed666567-961a-43f1-8ca3-ddd29e07f8af",
+        "name": "Rachel Ventura",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "4ae5e7d4-bba6-48b5-b4e0-978256f02f1d",
+       "name": "Mattie Hunter",
+       "person": {
+        "current_role": {
+         "district": "3",
+         "division_id": "ocd-division/country:us/state:il/sldu:3",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/879afbe3-9394-4a84-b57f-af36ca92cb14",
+        "name": "Mattie Hunter",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "164343c8-7e6b-4c4b-a988-085b75da26e0",
+       "name": "David Koehler",
+       "person": {
+        "current_role": {
+         "district": "46",
+         "division_id": "ocd-division/country:us/state:il/sldu:46",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/997e8947-dadd-4c8d-9538-0b58c077a812",
+        "name": "Dave Koehler",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "10bd6ba1-a93c-450d-a517-9cae4be5919e",
+       "name": "Laura Fine",
+       "person": {
+        "current_role": {
+         "district": "9",
+         "division_id": "ocd-division/country:us/state:il/sldu:9",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/0ce44c13-37aa-4560-8489-67c309da913a",
+        "name": "Laura Fine",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "58994451-2cae-4e88-bbac-e6754261be5c",
+       "name": "Sara Feigenholtz",
+       "person": {
+        "current_role": {
+         "district": "6",
+         "division_id": "ocd-division/country:us/state:il/sldu:6",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/6c0069de-c064-412e-ae45-9e87d6ee3dae",
+        "name": "Sara Feigenholtz",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "f3ca3638-d4ae-446b-8759-d4326523a1cf",
+       "name": "Lakesia Collins",
+       "person": {
+        "current_role": {
+         "district": "5",
+         "division_id": "ocd-division/country:us/state:il/sldu:5",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/37f0e4e6-fd0c-4bae-8def-f0ab80f722ff",
+        "name": "Lakesia Collins",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "cff16b5f-cb5d-49a9-8b89-37103444ddd4",
+       "name": "Emil Jones, III",
+       "person": {
+        "current_role": {
+         "district": "14",
+         "division_id": "ocd-division/country:us/state:il/sldu:14",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/05030c23-9600-4d1c-ab77-46c17aec2059",
+        "name": "Emil Jones",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "b1dabf64-0251-4d9d-8f00-9fe861e402f1",
+       "name": "Mike Simmons",
+       "person": {
+        "current_role": {
+         "district": "7",
+         "division_id": "ocd-division/country:us/state:il/sldu:7",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/0125b0ac-65ba-443e-b418-53cdf42b9f85",
+        "name": "Mike Simmons-Gessesse",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "4e668ed8-334f-45f1-899e-1ac16c5b455e",
+       "name": "Suzy Glowiak Hilton",
+       "person": {
+        "current_role": {
+         "district": "23",
+         "division_id": "ocd-division/country:us/state:il/sldu:23",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/16483678-e06e-4551-8cec-266335b56fff",
+        "name": "Suzy Glowiak Hilton",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "72692a4b-e3ca-49a6-82a7-36ce685ddad0",
+       "name": "Mary Edly-Allen",
+       "person": {
+        "current_role": {
+         "district": "31",
+         "division_id": "ocd-division/country:us/state:il/sldu:31",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/1a1cd310-b42c-4da3-b9ac-6278b1e95a02",
+        "name": "Mary Edly-Allen",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "677f5522-ebc6-4e73-a97e-5ef42f36e255",
+       "name": "Adriane L. Johnson",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "04192eb1-222e-4bb8-858f-f7549a164cce",
+       "name": "Julie A. Morrison",
+       "person": {
+        "current_role": {
+         "district": "29",
+         "division_id": "ocd-division/country:us/state:il/sldu:29",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/1e106d7c-5aba-40d1-932b-760b599c70ae",
+        "name": "Julie Morrison",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "86b423c4-0420-44cf-831d-019d4315f32e",
+       "name": "Karina Villa",
+       "person": {
+        "current_role": {
+         "district": "25",
+         "division_id": "ocd-division/country:us/state:il/sldu:25",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/ca80672a-9d02-4287-9cd2-d2a7d08f604a",
+        "name": "Karina Villa",
+        "party": "Democratic"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [],
+     "title": "HYPERSCALE DATA CENTERS",
+     "updated_at": "2026-08-15T03:32:35.567128+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2022-01-22T03:35:42.489704+00:00",
+     "extras": {},
+     "first_action_date": "2022-01-21",
+     "from_organization": {
+      "classification": "upper",
+      "id": "ocd-organization/20782ae5-cc22-4470-846b-fd9788ad3db7",
+      "name": "Senate"
+     },
+     "id": "ocd-bill/2b9673be-1ea7-47bc-ae79-717dde02c8f9",
+     "identifier": "SB 4016",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:il/government",
+      "name": "Illinois"
+     },
+     "latest_action_date": "2022-05-13",
+     "latest_action_description": "Public Act . . . . . . . . . 102-0880",
+     "latest_passage_date": "2022-04-01",
+     "openstates_url": "https://openstates.org/il/bills/102nd/SB4016/",
+     "session": "102nd",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "15b8617d-048f-4977-9b24-e4901d83bfa6",
+       "name": "Emil Jones, III",
+       "person": {
+        "current_role": {
+         "district": "14",
+         "division_id": "ocd-division/country:us/state:il/sldu:14",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/05030c23-9600-4d1c-ab77-46c17aec2059",
+        "name": "Emil Jones",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "9e7381b5-3076-4f6d-984b-32118e50918d",
+       "name": "Melinda Bush",
+       "person": {
+        "id": "ocd-person/2b6d796b-34b6-4752-8f6b-c64a86c95e78",
+        "name": "Melinda Bush",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "db5a891d-9d14-4e98-b695-e2f13a94ce1c",
+       "name": "Mattie Hunter",
+       "person": {
+        "current_role": {
+         "district": "3",
+         "division_id": "ocd-division/country:us/state:il/sldu:3",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/879afbe3-9394-4a84-b57f-af36ca92cb14",
+        "name": "Mattie Hunter",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "7d49f64f-7469-47c4-a2c8-d1f121bcca0a",
+       "name": "Kimberly A. Lightford",
+       "person": {
+        "current_role": {
+         "district": "4",
+         "division_id": "ocd-division/country:us/state:il/sldu:4",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/595f7bf4-5bd7-4238-94a3-e14d8b6d4545",
+        "name": "Kimberly Lightford",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "329e132e-c790-4386-8f49-e7e86abe6da3",
+       "name": "Theresa Mah",
+       "person": {
+        "current_role": {
+         "district": "24",
+         "division_id": "ocd-division/country:us/state:il/sldl:24",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/c1ebba3c-4fc2-4b66-9ecc-e20aa4f793a9",
+        "name": "Theresa Mah",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "e2c83cfb-5675-43ed-906a-8306f7f34edc",
+       "name": "Cyril Nichols",
+       "person": {
+        "id": "ocd-person/5767cad7-5716-4153-bd2c-9b8328b23e77",
+        "name": "Cyril Nichols",
+        "party": "Democratic"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [],
+     "title": "NAPRAPATHIC PRACTICE-VARIOUS",
+     "updated_at": "2022-10-26T11:33:25.601219+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2021-01-05T17:27:52.564353+00:00",
+     "extras": {},
+     "first_action_date": "2021-01-04",
+     "from_organization": {
+      "classification": "upper",
+      "id": "ocd-organization/20782ae5-cc22-4470-846b-fd9788ad3db7",
+      "name": "Senate"
+     },
+     "id": "ocd-bill/9c3c12c5-9fc0-4fba-9963-f4a7064c20ff",
+     "identifier": "SB 4016",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:il/government",
+      "name": "Illinois"
+     },
+     "latest_action_date": "2021-01-04",
+     "latest_action_description": "Added as Co-Sponsor Sen. Dave Syverson",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/il/bills/101st/SB4016/",
+     "session": "101st",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "92786983-e6a5-4c85-91cf-1837534257d3",
+       "name": "Jil Tracy",
+       "person": {
+        "current_role": {
+         "district": "50",
+         "division_id": "ocd-division/country:us/state:il/sldu:50",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/be85f354-7f46-48aa-afc7-850502fda3cb",
+        "name": "Jil Tracy",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "7bfb0faf-9f0d-4ad3-b2e2-e0f7b736ee22",
+       "name": "John F. Curran",
+       "person": {
+        "current_role": {
+         "district": "41",
+         "division_id": "ocd-division/country:us/state:il/sldu:41",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/cb63cb04-f84b-4fc9-91cf-05c4e1f93345",
+        "name": "John Curran",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "53498b79-ccc3-48f3-a504-450d04c9fdd3",
+       "name": "Dan McConchie",
+       "person": {
+        "id": "ocd-person/a24d31d0-02cb-49a8-8c25-1be3766dd7c4",
+        "name": "Dan McConchie",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "fd8cbbf7-24db-4e4a-ad51-6828ae6c00ac",
+       "name": "Dale A. Righter",
+       "person": {
+        "id": "ocd-person/8836a516-61f6-4662-b6e4-f095bf3941f5",
+        "name": "Dale A. Righter",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "e58c4510-1227-47d9-a4f7-c5ef3a5a3283",
+       "name": "Paul Schimpf",
+       "person": {
+        "id": "ocd-person/87b87a8d-d9ff-43db-886e-77549626de8e",
+        "name": "Paul Schimpf",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "7d0def99-0da8-41c2-a440-48d36d24fe1a",
+       "name": "Jason A. Barickman",
+       "person": {
+        "id": "ocd-person/61330c54-9a94-45d5-b2fe-a4eca869571d",
+        "name": "Jason A. Barickman",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "e726c2c6-69ac-4cdf-93a8-70609b6fb3b1",
+       "name": "Neil Anderson",
+       "person": {
+        "current_role": {
+         "district": "47",
+         "division_id": "ocd-division/country:us/state:il/sldu:47",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/b676c70e-0bc2-45d2-bd4c-9f3fa70bf60e",
+        "name": "Neil Anderson",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "6e4e0b92-1ca0-4d5c-b3a7-1ce4b8db6dba",
+       "name": "Donald P. DeWitte",
+       "person": {
+        "current_role": {
+         "district": "33",
+         "division_id": "ocd-division/country:us/state:il/sldu:33",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/c4a1e37c-3c81-448c-9349-199a8fa5c2d3",
+        "name": "Don DeWitte",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "0ccc4917-6532-4771-a50a-6dcfc089c2d8",
+       "name": "Steve McClure",
+       "person": {
+        "current_role": {
+         "district": "54",
+         "division_id": "ocd-division/country:us/state:il/sldu:54",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/d3450848-4552-4b8f-97dc-fb3c26c2566c",
+        "name": "Steve McClure",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "ef26cf5f-7cce-4f03-91ca-4e047987ee49",
+       "name": "Dale Fowler",
+       "person": {
+        "current_role": {
+         "district": "59",
+         "division_id": "ocd-division/country:us/state:il/sldu:59",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/5a84a944-7d29-454e-aec6-85e6c3238d53",
+        "name": "Dale Fowler",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "94cb7959-627b-4f1e-a14e-0863c5afb6a6",
+       "name": "Dave Syverson",
+       "person": {
+        "current_role": {
+         "district": "35",
+         "division_id": "ocd-division/country:us/state:il/sldu:35",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/d02beb7e-1f30-48f2-8418-4c9287452562",
+        "name": "Dave Syverson",
+        "party": "Republican"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [],
+     "title": "ETHICS-REVOLVING DOOR",
+     "updated_at": "2021-01-05T17:27:52.596231+00:00"
+    }
+   ]
+  }
+ },
  "https://v3.openstates.org/bills?jurisdiction=ks&identifier=SB+98&include=sponsorships&per_page=20&sort=updated_desc": {
   "fetched": "2026-09-11T16:11:02.083773+00:00",
   "payload": {
@@ -3951,6 +4601,698 @@
      "subject": [],
      "title": "Regulating abortion practice; requiring certain physician information to be provided under the woman's-right-to-know act.",
      "updated_at": "2020-04-28T23:02:08.013625+00:00"
+    }
+   ]
+  }
+ },
+ "https://v3.openstates.org/bills?jurisdiction=mi&identifier=HB+5594&include=sponsorships&per_page=20&sort=updated_desc": {
+  "fetched": "2026-09-14T15:52:04.992288+00:00",
+  "payload": {
+   "pagination": {
+    "max_page": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_items": 5
+   },
+   "results": [
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2026-02-26T23:52:33.566063+00:00",
+     "extras": {},
+     "first_action_date": "2026-02-26",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/d387cf69-631c-4013-bb32-4a00c848fcc4",
+      "name": "House"
+     },
+     "id": "ocd-bill/c1806c4e-444e-42f1-b6c2-800b443305ff",
+     "identifier": "HB 5594",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:mi/government",
+      "name": "Michigan"
+     },
+     "latest_action_date": "2026-03-03",
+     "latest_action_description": "bill electronically reproduced 02/26/2026",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/mi/bills/2025-2026/HB5594/",
+     "session": "2025-2026",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "02199eb4-e798-451d-ad61-c2a99fecae17",
+       "name": "Jennifer Wortz",
+       "person": {
+        "current_role": {
+         "district": "35",
+         "division_id": "ocd-division/country:us/state:mi/sldl:35",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/be12c20b-e96b-4326-a1c2-8cabe83f4f2b",
+        "name": "Jennifer Wortz",
+        "party": "Republican"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "dc5c1bfb-9bd7-4d81-81d3-94a412a7ebaa",
+       "name": "Brad Paquette",
+       "person": {
+        "current_role": {
+         "district": "37",
+         "division_id": "ocd-division/country:us/state:mi/sldl:37",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/04a88313-6387-44ab-972c-b000b3c316f4",
+        "name": "Brad Paquette",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "3a549c4c-5070-4f8a-9c6a-b374b5c5344e",
+       "name": "Joseph Fox",
+       "person": {
+        "current_role": {
+         "district": "101",
+         "division_id": "ocd-division/country:us/state:mi/sldl:101",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/ba49b4ef-08fb-48a0-b8a9-495a3605ef0a",
+        "name": "Joseph Fox",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "60987c5e-4403-403d-8008-54eeacb21f6b",
+       "name": "Reggie Miller",
+       "person": {
+        "current_role": {
+         "district": "31",
+         "division_id": "ocd-division/country:us/state:mi/sldl:31",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/50d75ced-0a70-4f88-aada-57015d799fd0",
+        "name": "Reggie Miller",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "5d63c1b2-ad8c-4dc6-b693-9b58e8779c1f",
+       "name": "Dylan Wegela",
+       "person": {
+        "current_role": {
+         "district": "26",
+         "division_id": "ocd-division/country:us/state:mi/sldl:26",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/07ff51f1-6cd0-4004-b618-bc70e5a2e551",
+        "name": "Dylan Wegela",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "5f80ef1f-8cab-40ed-ae97-a579c70f001f",
+       "name": "Morgan Foreman",
+       "person": {
+        "current_role": {
+         "district": "33",
+         "division_id": "ocd-division/country:us/state:mi/sldl:33",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/0cec5462-4aa6-423a-a946-c13d03370565",
+        "name": "Morgan Foreman",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "571b8032-88d1-4a2c-8363-b6c1b4dec8ac",
+       "name": "James DeSana",
+       "person": {
+        "current_role": {
+         "district": "29",
+         "division_id": "ocd-division/country:us/state:mi/sldl:29",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/af4a0996-bcf0-4e8f-9165-4290343e905f",
+        "name": "Jim DeSana",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "2ea18a76-11bc-475b-8034-4e8347578cdb",
+       "name": "Erin Byrnes",
+       "person": {
+        "current_role": {
+         "district": "15",
+         "division_id": "ocd-division/country:us/state:mi/sldl:15",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/3d6727ea-1a91-414d-aac4-ba312cbfaabc",
+        "name": "Erin Byrnes",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "a0d9c292-addd-41f8-8619-89c44c147e05",
+       "name": "Rachelle Smit",
+       "person": {
+        "current_role": {
+         "district": "43",
+         "division_id": "ocd-division/country:us/state:mi/sldl:43",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/6c955ba2-9448-43ae-8d7f-c3d76329ad60",
+        "name": "Rachelle Smit",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "3dd977a0-c350-4063-99f2-11603b3c12a8",
+       "name": "Josh Schriver",
+       "person": {
+        "current_role": {
+         "district": "66",
+         "division_id": "ocd-division/country:us/state:mi/sldl:66",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/f6df9fad-c6ec-4abf-b175-ac1e9d672759",
+        "name": "Josh Schriver",
+        "party": "Republican"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [
+      "Businesses: other"
+     ],
+     "title": "Businesses: other; moratorium on certain approvals for and operation of any new data centers; provide for. Creates new act.   TIE BAR WITH: HB 5596'26",
+     "updated_at": "2026-03-18T02:28:08.204817+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2024-03-14T16:56:31.512792+00:00",
+     "extras": {},
+     "first_action_date": "2024-03-14",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/d387cf69-631c-4013-bb32-4a00c848fcc4",
+      "name": "House"
+     },
+     "id": "ocd-bill/5d3aefba-784c-4c3d-8c50-61501cc3e489",
+     "identifier": "HB 5594",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:mi/government",
+      "name": "Michigan"
+     },
+     "latest_action_date": "2024-12-31",
+     "latest_action_description": "assigned PA 196'24",
+     "latest_passage_date": "2024-12-20",
+     "openstates_url": "https://openstates.org/mi/bills/2023-2024/HB5594/",
+     "session": "2023-2024",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "e1fdb65e-3ff1-43c3-96b8-8a42b4b74380",
+       "name": "Phil Skaggs",
+       "person": {
+        "current_role": {
+         "district": "80",
+         "division_id": "ocd-division/country:us/state:mi/sldl:80",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/a61c6338-85df-446c-854a-17991386d252",
+        "name": "Phil Skaggs",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "c73b93b2-b76f-4e92-a230-a4339701a9a0",
+       "name": "Veronica Paiz",
+       "person": {
+        "current_role": {
+         "district": "10",
+         "division_id": "ocd-division/country:us/state:mi/sldl:10",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/8c335851-e7f6-40d6-b83c-fe413f21934e",
+        "name": "Veronica Paiz",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "402765c1-73d7-4ac9-a17b-902b0d920bd1",
+       "name": "Helena Scott",
+       "person": {
+        "current_role": {
+         "district": "8",
+         "division_id": "ocd-division/country:us/state:mi/sldl:8",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/6751fa70-04e4-45e1-b3c5-6e0a5a397f8f",
+        "name": "Helena Scott",
+        "party": "Democratic"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [
+      "Education: students",
+      "Labor: working conditions",
+      "Labor: youth employment"
+     ],
+     "title": "Labor: youth employment; youth employment standards act; modify work permit issuance procedures. Amends secs. 2, 4, 5, 7, 8 & 20 of 1978 PA 90 (MCL 409.102 et seq.) & adds secs. 4a, 4b, 4c & 4d.",
+     "updated_at": "2025-05-07T01:59:48.248710+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2021-12-03T19:34:44.422262+00:00",
+     "extras": {},
+     "first_action_date": "2021-12-02T05:00:00+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/d387cf69-631c-4013-bb32-4a00c848fcc4",
+      "name": "House"
+     },
+     "id": "ocd-bill/52d44405-dfaf-4e74-90a8-75534ab26f89",
+     "identifier": "HB 5594",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:mi/government",
+      "name": "Michigan"
+     },
+     "latest_action_date": "2022-05-05T04:00:00+00:00",
+     "latest_action_description": "assigned PA 72'22 with immediate effect",
+     "latest_passage_date": "2022-04-20T04:00:00+00:00",
+     "openstates_url": "https://openstates.org/mi/bills/2021-2022/HB5594/",
+     "session": "2021-2022",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "5ebae79b-039c-4821-98f6-efb5020f132c",
+       "name": "Pamela Hornberger",
+       "person": {
+        "id": "ocd-person/9b47e606-d5cc-45de-9b60-00cc0878c750",
+        "name": "Pamela Hornberger",
+        "party": "Republican"
+       },
+       "primary": true
+      }
+     ],
+     "subject": [
+      "Children: child abuse or child neglect",
+      "Children: protection"
+     ],
+     "title": "Children: child abuse or child neglect; administrative review request for certain central registry cases; provide for. Amends 1975 PA 238 (MCL 722.621 - 722.638) by adding sec. 7l.",
+     "updated_at": "2022-10-26T02:49:12.008550+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2020-03-06T07:08:33.212097+00:00",
+     "extras": {},
+     "first_action_date": "2020-03-05T05:00:00+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/d387cf69-631c-4013-bb32-4a00c848fcc4",
+      "name": "House"
+     },
+     "id": "ocd-bill/5cdd7884-90ae-4db9-8bbf-5b3337344f9c",
+     "identifier": "HB 5594",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:mi/government",
+      "name": "Michigan"
+     },
+     "latest_action_date": "2020-03-10T04:00:00+00:00",
+     "latest_action_description": "bill electronically reproduced 03/10/2020",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/mi/bills/2019-2020/HB5594/",
+     "session": "2019-2020",
+     "sponsorships": [
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "c1819f9d-6b24-4e3d-8cd4-57f231e7a108",
+       "name": "Beau LaFave",
+       "person": {
+        "id": "ocd-person/3da8d4bd-ecb6-49ae-bdc2-0717679e2775",
+        "name": "Beau LaFave",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "d140503e-14ea-4231-be3c-200f4c83ac9f",
+       "name": "Gregory Markkanen",
+       "person": {
+        "current_role": {
+         "district": "110",
+         "division_id": "ocd-division/country:us/state:mi/sldl:110",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/a3b57cdd-ae52-49af-9456-bc1f212fe970",
+        "name": "Greg Markkanen",
+        "party": "Republican"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [
+      "Natural resources: other",
+      "State agencies (existing): boards and commissions",
+      "State agencies (existing): natural resources"
+     ],
+     "title": "Natural resources; other; Upper Peninsula natural resources commission; create. Amends secs. 301, 40102 & 40103 of 1994 PA 451 (MCL 324.301 et seq.).  TIE BAR WITH: HB 5592'19, HB 5593'19, HB 5659'19",
+     "updated_at": "2020-12-03T07:59:09.493199+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2018-02-21T07:27:03.090335+00:00",
+     "extras": {},
+     "first_action_date": "2018-02-20T05:00:00+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/d387cf69-631c-4013-bb32-4a00c848fcc4",
+      "name": "House"
+     },
+     "id": "ocd-bill/c4111ece-892f-4ba0-b151-34aba460c504",
+     "identifier": "HB 5594",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:mi/government",
+      "name": "Michigan"
+     },
+     "latest_action_date": "2018-02-21T05:00:00+00:00",
+     "latest_action_description": "bill electronically reproduced 02/20/2018",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/mi/bills/2017-2018/HB5594/",
+     "session": "2017-2018",
+     "sponsorships": [
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "ca3a1ed8-119b-448c-b586-e6085a73a434",
+       "name": "Scott VanSingel",
+       "person": {
+        "id": "ocd-person/8b08e89c-9d56-479e-8946-8c5696a016f0",
+        "name": "Scott VanSingel",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "662896db-d288-4214-baf5-f1bbee50b1ad",
+       "name": "100",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "bdf2c7f1-10a4-4e8d-ab45-6f27eee429b0",
+       "name": "Stephanie Chang",
+       "person": {
+        "current_role": {
+         "district": "3",
+         "division_id": "ocd-division/country:us/state:mi/sldu:3",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/1d297b7e-2e51-4e1a-a208-2f5505e9f1f7",
+        "name": "Stephanie Chang",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "0533db74-46d7-4cf9-9003-09b1d5324ade",
+       "name": "David Maturen",
+       "person": {
+        "id": "ocd-person/127af041-91c9-4453-9969-46326d36686b",
+        "name": "David Maturen",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "a6b750b0-c955-4611-9148-5a8ce9a78fb1",
+       "name": "William Sowerby",
+       "person": {
+        "id": "ocd-person/c0cfa353-e44a-4d82-addc-344975ccb83a",
+        "name": "William Sowerby",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "99932ae5-ce49-47c8-bfa5-4d928894ca75",
+       "name": "Larry Inman",
+       "person": {
+        "id": "ocd-person/6a8fe703-a68e-4819-b8b0-06fa8d7c0f71",
+        "name": "Larry Inman",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "dcb35869-088f-457a-91a6-3cf673df9ce8",
+       "name": "Yousef Rabhi",
+       "person": {
+        "id": "ocd-person/8ecb6567-6143-4ecf-8f85-dea02a60a749",
+        "name": "Yousef Rabhi",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "71e789e4-d218-4b4e-b8c8-606d6244c6eb",
+       "name": "LaTanya Garrett",
+       "person": {
+        "id": "ocd-person/44401b56-c281-4d64-998d-7ef8f7d0e572",
+        "name": "LaTanya Garrett",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "f9e75845-a98e-4668-9b23-cf3a42633016",
+       "name": "Sara Cambensy",
+       "person": {
+        "id": "ocd-person/afda0e8e-0628-45db-bee8-8da653c6ca8e",
+        "name": "Sara Cambensy",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "3e54056d-96aa-4eef-a438-66df45e5998b",
+       "name": "Ronnie Peterson",
+       "person": {
+        "id": "ocd-person/72c4dd8c-0a28-4b2c-b671-8cd2ac292d0a",
+        "name": "Ronnie Peterson",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "c1a88eda-d52e-4f06-8fe9-27270c10a106",
+       "name": "Erika Geiss",
+       "person": {
+        "current_role": {
+         "district": "1",
+         "division_id": "ocd-division/country:us/state:mi/sldu:1",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/ebc9981a-cbe1-4d37-99b0-89d3c350fd3f",
+        "name": "Erika Geiss",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "3178359d-9aa3-44b1-82e0-6f5855f65509",
+       "name": "Robert Wittenberg",
+       "person": {
+        "id": "ocd-person/70b9de96-a8c9-4b86-b817-f033a9070f54",
+        "name": "Robert Wittenberg",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "11485b6c-2d43-43cb-9c70-a483d73a6a55",
+       "name": "Kathy Crawford",
+       "person": {
+        "id": "ocd-person/70dc2f71-5331-4842-8aea-36f2538761f2",
+        "name": "Kathy Crawford",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "2d40a167-1978-40d6-a70a-f6283b1f605b",
+       "name": "Jason Wentworth",
+       "person": {
+        "id": "ocd-person/9cc0f069-2a87-49d7-8c15-470f827d96ba",
+        "name": "Jason Wentworth",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "3c08bac7-aadd-4fba-8ced-d07188442ccf",
+       "name": "Steve Marino",
+       "person": {
+        "id": "ocd-person/197b00eb-5f6b-4d1a-a67b-85e0db6f9e35",
+        "name": "Steve Marino",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "17927957-75e8-4caf-9582-e2104e781fa5",
+       "name": "Curtis VanderWall",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "e028108f-fa17-44bd-a247-402c4ddb24d0",
+       "name": "Kristy Pagan",
+       "person": {
+        "id": "ocd-person/d82427f1-a466-4838-9e89-4d567fe702a2",
+        "name": "Kristy Pagan",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "78869cd9-20c7-426f-b33c-1961fc0d5631",
+       "name": "Pam Faris",
+       "person": {
+        "id": "ocd-person/79298d73-c643-4442-9889-ad9823dc9757",
+        "name": "Pam Faris",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "dd62bd50-3b25-41f3-b436-d6c99cd15bce",
+       "name": "Joseph Bellino",
+       "person": {
+        "current_role": {
+         "district": "16",
+         "division_id": "ocd-division/country:us/state:mi/sldu:16",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/e394293d-abd7-46a9-a60f-6c75e369468e",
+        "name": "Joe Bellino",
+        "party": "Republican"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [
+      "Environmental protection: air pollution",
+      "Construction: asbestos",
+      "Construction: inspectors"
+     ],
+     "title": "Environmental protection; air pollution; asbestos emissions; require annual report on sufficiency of number of inspectors. Amends 1994 PA 451 (MCL 324.101 - 324.90106) by adding sec. 5519.",
+     "updated_at": "2020-04-29T00:02:08.698954+00:00"
     }
    ]
   }
@@ -8075,6 +9417,1942 @@
      "subject": [],
      "title": "Relating to charity care provided by hospitals; declaring an emergency.",
      "updated_at": "2020-04-29T00:55:56.353809+00:00"
+    }
+   ]
+  }
+ },
+ "https://v3.openstates.org/bills?jurisdiction=pa&identifier=HB+2496&include=sponsorships&per_page=20&sort=updated_desc": {
+  "fetched": "2026-09-14T15:52:11.605039+00:00",
+  "payload": {
+   "pagination": {
+    "max_page": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_items": 5
+   },
+   "results": [
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2026-05-08T02:19:06.674985+00:00",
+     "extras": {},
+     "first_action_date": "2026-05-08T04:00:00+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/0f78429d-ec86-4333-9338-17708fe11914",
+      "name": "House"
+     },
+     "id": "ocd-bill/84424aa3-a880-4d19-99fc-12b320759ba6",
+     "identifier": "HB 2496",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:pa/government",
+      "name": "Pennsylvania"
+     },
+     "latest_action_date": "2026-06-30T04:00:00+00:00",
+     "latest_action_description": "Re-referred to Rules & Executive Nominations",
+     "latest_passage_date": "2026-06-24T04:00:00+00:00",
+     "openstates_url": "https://openstates.org/pa/bills/2025-2026/HB2496/",
+     "session": "2025-2026",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "1853c942-c41a-4d68-b94d-193058c95809",
+       "name": "Paul Friel",
+       "person": {
+        "current_role": {
+         "district": "26",
+         "division_id": "ocd-division/country:us/state:pa/sldl:26",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/494797a5-3d84-414a-9c8c-caaadd621cdd",
+        "name": "Paul Friel",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "121c4d21-196f-4a84-9173-16b543c1e317",
+       "name": "Kyle Donahue",
+       "person": {
+        "current_role": {
+         "district": "113",
+         "division_id": "ocd-division/country:us/state:pa/sldl:113",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/009be4f2-d613-4353-8126-6b5642d868bc",
+        "name": "Kyle Donahue",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "60297c2f-dee3-4880-bbfe-b5a35a1761f5",
+       "name": "Kyle Mullins",
+       "person": {
+        "current_role": {
+         "district": "112",
+         "division_id": "ocd-division/country:us/state:pa/sldl:112",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/625784c9-4cd0-417c-9c44-1acd53b34307",
+        "name": "Kyle Mullins",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "282ce813-ba53-4a73-8261-514a8109b672",
+       "name": "Chris Pielli",
+       "person": {
+        "current_role": {
+         "district": "156",
+         "division_id": "ocd-division/country:us/state:pa/sldl:156",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/d83a0679-02c9-469b-89ed-11f9b46166c5",
+        "name": "Chris Pielli",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "4013e07b-3147-4296-be22-586bfc0f170d",
+       "name": "Mandy Steele",
+       "person": {
+        "current_role": {
+         "district": "33",
+         "division_id": "ocd-division/country:us/state:pa/sldl:33",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/63f8d7ea-b621-48b7-a326-4e2a732a521c",
+        "name": "Mandy Steele",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "1a2f5b97-9b4d-47b2-8af8-4f651ca5c540",
+       "name": "Carol Hill-Evans",
+       "person": {
+        "current_role": {
+         "district": "95",
+         "division_id": "ocd-division/country:us/state:pa/sldl:95",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/cafbffed-be4d-4e5b-9d99-9aec024675e2",
+        "name": "Carol Hill-Evans",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "2d949fad-913f-46bf-8d6a-483f462ec143",
+       "name": "Greg Vitali",
+       "person": {
+        "current_role": {
+         "district": "166",
+         "division_id": "ocd-division/country:us/state:pa/sldl:166",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/7a1f510f-12e0-4018-b6da-556b404399be",
+        "name": "Greg Vitali",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "364a960b-20cb-43e4-b4e5-f65f05349742",
+       "name": "Christina Sappey",
+       "person": {
+        "current_role": {
+         "district": "158",
+         "division_id": "ocd-division/country:us/state:pa/sldl:158",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/43d9c3c2-aeec-416c-859d-ad90600bbe0e",
+        "name": "Christina Sappey",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "4b937954-b1f9-49ee-b1ac-53bcd5f30689",
+       "name": "Liz Hanbidge",
+       "person": {
+        "current_role": {
+         "district": "61",
+         "division_id": "ocd-division/country:us/state:pa/sldl:61",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/0aa9e1d6-4552-4ad4-b660-e2f3cc17b7dd",
+        "name": "Liz Hanbidge",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "7cd3560b-bed0-4c9e-9e16-5cfc40c52ed7",
+       "name": "Lisa Borowski",
+       "person": {
+        "current_role": {
+         "district": "168",
+         "division_id": "ocd-division/country:us/state:pa/sldl:168",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/d927a6f9-9878-4375-ac7d-9996e8968c9d",
+        "name": "Lisa Borowski",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "61da9db1-683e-4146-8050-cf82d598ba1d",
+       "name": "Melissa Shusterman",
+       "person": {
+        "current_role": {
+         "district": "157",
+         "division_id": "ocd-division/country:us/state:pa/sldl:157",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/2cb7688e-e8ea-431e-9f56-34ee9a9a3ecc",
+        "name": "Melissa Shusterman",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "6ba7f747-ab1a-45a9-835d-17ea9abaa7ef",
+       "name": "Eddie Pashinski",
+       "person": {
+        "current_role": {
+         "district": "121",
+         "division_id": "ocd-division/country:us/state:pa/sldl:121",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/c1cb6f95-37c8-4e25-802e-80387e70ad74",
+        "name": "Eddie Pashinski",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "00cc6787-823c-4b9d-9cc9-69ea7c344e01",
+       "name": "Danielle Friel Otten",
+       "person": {
+        "current_role": {
+         "district": "155",
+         "division_id": "ocd-division/country:us/state:pa/sldl:155",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/6678bcaf-292f-408a-aa36-90ed8bc8fd08",
+        "name": "Danielle Otten",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "d16b52a3-cb60-4a71-838e-713678d95a5a",
+       "name": "Heather Boyd",
+       "person": {
+        "current_role": {
+         "district": "163",
+         "division_id": "ocd-division/country:us/state:pa/sldl:163",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/d5f1bbaf-5daf-4266-9b18-16042f49db1b",
+        "name": "Heather Boyd",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "236a298f-549c-4bbf-9e39-520a01e18692",
+       "name": "Tim Briggs",
+       "person": {
+        "current_role": {
+         "district": "149",
+         "division_id": "ocd-division/country:us/state:pa/sldl:149",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/5c752a95-ba5d-4f1f-81aa-6cb1c7875581",
+        "name": "Tim Briggs",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "fe1c0cfb-aee3-43e4-937d-604355f598fa",
+       "name": "Tom Jones",
+       "person": {
+        "current_role": {
+         "district": "98",
+         "division_id": "ocd-division/country:us/state:pa/sldl:98",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/7f6b3c0e-4446-4243-ae49-d2d33ab30273",
+        "name": "Tom Jones",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "976d248e-affd-4772-b7b8-7cbb6324ae82",
+       "name": "Brett Miller",
+       "person": {
+        "current_role": {
+         "district": "41",
+         "division_id": "ocd-division/country:us/state:pa/sldl:41",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/1a6e36d3-ff44-4e21-bb9d-397a56482b34",
+        "name": "Brett Miller",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "8836c373-443d-4a33-868d-ce056fa9aa8f",
+       "name": "Jamie Walsh",
+       "person": {
+        "current_role": {
+         "district": "117",
+         "division_id": "ocd-division/country:us/state:pa/sldl:117",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/96cbec5b-b9a4-4325-8346-bd4d08d87237",
+        "name": "Jamie Walsh",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "4c0e863d-d472-4ef3-92d1-75f0666f5b9b",
+       "name": "Brenda Pugh",
+       "person": {
+        "current_role": {
+         "district": "120",
+         "division_id": "ocd-division/country:us/state:pa/sldl:120",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/e12dc574-f19b-4c9c-9a30-42b68371ea4a",
+        "name": "Brenda Pugh",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "8d04e880-058a-41c6-ae0f-554222f311ab",
+       "name": "Jill Cooper",
+       "person": {
+        "current_role": {
+         "district": "55",
+         "division_id": "ocd-division/country:us/state:pa/sldl:55",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/6ae972c8-aff3-4886-a7d7-bd2cc5e40a38",
+        "name": "Jill Cooper",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "83158287-817e-4ffb-97b6-69908d19f84e",
+       "name": "Joe Ciresi",
+       "person": {
+        "current_role": {
+         "district": "146",
+         "division_id": "ocd-division/country:us/state:pa/sldl:146",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/c9521d0e-56ca-40d2-b9bc-7a1f1be639bc",
+        "name": "Joe Ciresi",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "324f4fd2-4ea6-447a-aca9-9cf36b746fbf",
+       "name": "Greg Scott",
+       "person": {
+        "current_role": {
+         "district": "54",
+         "division_id": "ocd-division/country:us/state:pa/sldl:54",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/969ce6cb-ddcb-4347-b69d-2019cfbd6e18",
+        "name": "Greg Scott",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "aa9b36d3-049d-4aa8-b6ec-7c00bf0533e6",
+       "name": "Robert Freeman",
+       "person": {
+        "current_role": {
+         "district": "136",
+         "division_id": "ocd-division/country:us/state:pa/sldl:136",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/13bfe11c-06e2-4a1d-844d-d195ef18dc06",
+        "name": "Bob Freeman",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "07a1abb7-e311-4c3f-bcf6-5e3f21e1962d",
+       "name": "Joe Emrick",
+       "person": {
+        "current_role": {
+         "district": "137",
+         "division_id": "ocd-division/country:us/state:pa/sldl:137",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/0e873ea0-c8a2-4fbb-a408-de0c5bd36de9",
+        "name": "Joe Emrick",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "029df789-3c5d-4ed1-9c9e-a114d67f9c56",
+       "name": "Craig Williams",
+       "person": {
+        "current_role": {
+         "district": "160",
+         "division_id": "ocd-division/country:us/state:pa/sldl:160",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/e17c51da-556e-4afe-aad4-137ee3a0881e",
+        "name": "Craig Williams",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "0c21270b-8c02-488a-a2d1-df60382ad255",
+       "name": "Charity Krupa",
+       "person": {
+        "current_role": {
+         "district": "51",
+         "division_id": "ocd-division/country:us/state:pa/sldl:51",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/d5bd036c-03f5-4111-b770-15cb2dbe3278",
+        "name": "Charity Krupa",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "6786d5dd-1b36-4910-b6f6-1a68e3330209",
+       "name": "Thomas Kutz",
+       "person": {
+        "current_role": {
+         "district": "87",
+         "division_id": "ocd-division/country:us/state:pa/sldl:87",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/932682ef-c7da-4383-8c50-58879fba0ca6",
+        "name": "Thomas Kutz",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "2cee59f6-4eca-4e4d-9c82-3958b990cd8b",
+       "name": "Milou Mackenzie",
+       "person": {
+        "current_role": {
+         "district": "131",
+         "division_id": "ocd-division/country:us/state:pa/sldl:131",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/b4559406-2139-4c7c-9ce9-7a2a604a8a95",
+        "name": "Milou Mackenzie",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "bd1302ff-3ad9-4474-85aa-5aa2c63cd1f2",
+       "name": "Marla Brown",
+       "person": {
+        "current_role": {
+         "district": "9",
+         "division_id": "ocd-division/country:us/state:pa/sldl:9",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/68e26db9-10ba-414b-9d06-440dd1fd3f10",
+        "name": "Marla Brown",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "3e4e1b71-bd1b-41c8-9dc7-cb965fb0f5d0",
+       "name": "Rob Kauffman",
+       "person": {
+        "current_role": {
+         "district": "89",
+         "division_id": "ocd-division/country:us/state:pa/sldl:89",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/17e1e676-8e83-4883-8cf5-4c8ddcce076e",
+        "name": "Rob Kauffman",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "dad56614-cd65-4b1a-b14a-95e1ecd52699",
+       "name": "Craig Staats",
+       "person": {
+        "current_role": {
+         "district": "145",
+         "division_id": "ocd-division/country:us/state:pa/sldl:145",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/bb324f66-3a5c-4e90-9c75-d142cce81c92",
+        "name": "Craig Staats",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "8d5d5e3c-4fbc-4d4b-adde-bff17fe673bc",
+       "name": "Mark Gillen",
+       "person": {
+        "current_role": {
+         "district": "128",
+         "division_id": "ocd-division/country:us/state:pa/sldl:128",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/cd92c819-d5aa-4df3-ba96-2315dbdf4555",
+        "name": "Mark Gillen",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "60f975ce-d06b-4969-b3d4-0749ee97959f",
+       "name": "Tarik Khan",
+       "person": {
+        "current_role": {
+         "district": "194",
+         "division_id": "ocd-division/country:us/state:pa/sldl:194",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/6fa30029-d933-4f6d-b0fb-343a0c82772c",
+        "name": "Tarik Khan",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "0a1d48a9-ae7e-42ca-a276-b99810acd55b",
+       "name": "Valerie Gaydos",
+       "person": {
+        "current_role": {
+         "district": "44",
+         "division_id": "ocd-division/country:us/state:pa/sldl:44",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/590df273-5587-46bd-98dc-f3943cd1ddd8",
+        "name": "Valerie Gaydos",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "c7c847ed-38a5-4464-9505-07ba34781cf0",
+       "name": "G. Roni Green",
+       "person": {
+        "current_role": {
+         "district": "190",
+         "division_id": "ocd-division/country:us/state:pa/sldl:190",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/c3ad9b17-c8f5-450e-9aaa-f002e1414bd5",
+        "name": "Roni Green",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "2e300f56-930d-4ada-8ddf-661066c7705c",
+       "name": "Chad Reichard",
+       "person": {
+        "current_role": {
+         "district": "90",
+         "division_id": "ocd-division/country:us/state:pa/sldl:90",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/851902e6-5649-4c0c-948a-57fb9c1dd40d",
+        "name": "Chad Reichard",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "b1a450f5-6acc-496e-aaf6-b9e8175c4e52",
+       "name": "Jeremy Shaffer",
+       "person": {
+        "current_role": {
+         "district": "28",
+         "division_id": "ocd-division/country:us/state:pa/sldl:28",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/0df3f8d5-b6df-4cd8-a2c7-1dee651e60a8",
+        "name": "Jeremy Shaffer",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "08d74fa6-9702-4ac0-b854-a1bb7ce4e47c",
+       "name": "Roman Kozak",
+       "person": {
+        "current_role": {
+         "district": "14",
+         "division_id": "ocd-division/country:us/state:pa/sldl:14",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/69faf85a-c63c-4d75-9801-047fffddf228",
+        "name": "Roman Kozak",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "3cc7423f-7bfe-4945-b545-d0c93d82779d",
+       "name": "Johanny Cepeda-Freytiz",
+       "person": {
+        "current_role": {
+         "district": "129",
+         "division_id": "ocd-division/country:us/state:pa/sldl:129",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/8d5ab463-45d5-4cf0-9c65-85820c08e506",
+        "name": "Johanny Cepeda-Freytiz",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "6c31f6f1-f53d-4a0e-99d0-e3121f16ae5b",
+       "name": "Frank Burns",
+       "person": {
+        "current_role": {
+         "district": "72",
+         "division_id": "ocd-division/country:us/state:pa/sldl:72",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/a60da669-bae3-4e1d-a241-370a7ad2c769",
+        "name": "Frank Burns",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "5464b24d-360b-4ba6-9622-d910f04ac186",
+       "name": "Dave Madsen",
+       "person": {
+        "current_role": {
+         "district": "104",
+         "division_id": "ocd-division/country:us/state:pa/sldl:104",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/4a0c9e5e-07cc-4b4b-a47a-22be60d1623e",
+        "name": "Dave Madsen",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "d3f8fea0-b0e8-4e69-9531-0a45df9f23c5",
+       "name": "Jeanne Mcneill",
+       "person": {
+        "current_role": {
+         "district": "133",
+         "division_id": "ocd-division/country:us/state:pa/sldl:133",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/ddd14a2f-ebef-4918-bf91-578b71c085e4",
+        "name": "Jeanne McNeill",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "80f33413-6edd-4928-a106-c302e8bd0c60",
+       "name": "Steve Samuelson",
+       "person": {
+        "current_role": {
+         "district": "135",
+         "division_id": "ocd-division/country:us/state:pa/sldl:135",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/34472dfb-dae9-4db4-8901-088457d74904",
+        "name": "Steve Samuelson",
+        "party": "Democratic"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [],
+     "title": "An Act amending the act of July 31, 1968 (P.L.805, No.247), known as the Pennsylvania Municipalities Planning Code, in general provisions, providing for pause on data center proposals.",
+     "updated_at": "2026-09-13T14:05:16.116050+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2024-07-12T00:22:23.727586+00:00",
+     "extras": {},
+     "first_action_date": "2024-07-11T04:00:00+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/0f78429d-ec86-4333-9338-17708fe11914",
+      "name": "House"
+     },
+     "id": "ocd-bill/21bf7d10-bee2-474a-87ed-e7d192490477",
+     "identifier": "HB 2496",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:pa/government",
+      "name": "Pennsylvania"
+     },
+     "latest_action_date": "2024-07-11T04:00:00+00:00",
+     "latest_action_description": "Referred to Consumer Protection, Technology & Utilities",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/pa/bills/2023-2024/HB2496/",
+     "session": "2023-2024",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "dca659f8-debb-48ab-93e7-8e32cc72e790",
+       "name": "Joe Ciresi",
+       "person": {
+        "current_role": {
+         "district": "146",
+         "division_id": "ocd-division/country:us/state:pa/sldl:146",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/c9521d0e-56ca-40d2-b9bc-7a1f1be639bc",
+        "name": "Joe Ciresi",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "f739e0c0-ce92-4109-83ce-4c4d0569d090",
+       "name": "Carol Hill-Evans",
+       "person": {
+        "current_role": {
+         "district": "95",
+         "division_id": "ocd-division/country:us/state:pa/sldl:95",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/cafbffed-be4d-4e5b-9d99-9aec024675e2",
+        "name": "Carol Hill-Evans",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "0ee119d6-bce7-459b-abb4-7397d6e3d24b",
+       "name": "Tarah Probst",
+       "person": {
+        "current_role": {
+         "district": "189",
+         "division_id": "ocd-division/country:us/state:pa/sldl:189",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/8caab7df-f601-45f0-9be5-35d94175e766",
+        "name": "Tarah Probst",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "52054c22-8e5a-4c6c-a421-a1a87a21faee",
+       "name": "Benjamin Sanchez",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "e81b6468-febc-4ea1-9345-529d3dc4eb34",
+       "name": "Kyle Donahue",
+       "person": {
+        "current_role": {
+         "district": "113",
+         "division_id": "ocd-division/country:us/state:pa/sldl:113",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/009be4f2-d613-4353-8126-6b5642d868bc",
+        "name": "Kyle Donahue",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "97e8a998-f708-41cf-915c-74b0e71f3100",
+       "name": "Liz Hanbidge",
+       "person": {
+        "current_role": {
+         "district": "61",
+         "division_id": "ocd-division/country:us/state:pa/sldl:61",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/0aa9e1d6-4552-4ad4-b660-e2f3cc17b7dd",
+        "name": "Liz Hanbidge",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "cabc10f7-da0d-4a3b-8a14-bd1028875e4b",
+       "name": "Ben Waxman",
+       "person": {
+        "current_role": {
+         "district": "182",
+         "division_id": "ocd-division/country:us/state:pa/sldl:182",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/1f2c3093-8ce7-41f7-8df0-6cd14ddd354b",
+        "name": "Ben Waxman",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "ce26723a-2841-4ac6-9a5c-e2c2ecf3c971",
+       "name": "Kristine Howard",
+       "person": {
+        "current_role": {
+         "district": "167",
+         "division_id": "ocd-division/country:us/state:pa/sldl:167",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/f451e90b-e93a-4768-a294-67d1ff000396",
+        "name": "Kristine Howard",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "6ae1c496-e895-4c29-a1d4-76630fcea07c",
+       "name": "David Delloso",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "f3a0d7d0-ad39-43de-81c2-985c0de0028a",
+       "name": "Tarik Khan",
+       "person": {
+        "current_role": {
+         "district": "194",
+         "division_id": "ocd-division/country:us/state:pa/sldl:194",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/6fa30029-d933-4f6d-b0fb-343a0c82772c",
+        "name": "Tarik Khan",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "678a2775-345d-47a2-8650-5d4682140cce",
+       "name": "Melissa Cerrato",
+       "person": {
+        "current_role": {
+         "district": "151",
+         "division_id": "ocd-division/country:us/state:pa/sldl:151",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/610a353c-8973-48ea-a4d4-dac21efc3422",
+        "name": "Missy Cerrato",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "f4c87784-3f5a-4a57-8834-377343460a73",
+       "name": "Jim Haddock",
+       "person": {
+        "current_role": {
+         "district": "118",
+         "division_id": "ocd-division/country:us/state:pa/sldl:118",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/3b91abb8-4b49-4fa2-85ed-beea4919bccc",
+        "name": "Jim Haddock",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "ae4a7b04-ea7c-4a43-a5e5-b61de2d9a2e7",
+       "name": "Johanny Cepeda-Freytiz",
+       "person": {
+        "current_role": {
+         "district": "129",
+         "division_id": "ocd-division/country:us/state:pa/sldl:129",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/8d5ab463-45d5-4cf0-9c65-85820c08e506",
+        "name": "Johanny Cepeda-Freytiz",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "d5a77a8b-a204-4570-b6ff-350f0ea8a32c",
+       "name": "Lisa Borowski",
+       "person": {
+        "current_role": {
+         "district": "168",
+         "division_id": "ocd-division/country:us/state:pa/sldl:168",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/d927a6f9-9878-4375-ac7d-9996e8968c9d",
+        "name": "Lisa Borowski",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "482a7534-999d-4e6c-b07a-fe68c4acd635",
+       "name": "Danielle Friel Otten",
+       "person": {
+        "current_role": {
+         "district": "155",
+         "division_id": "ocd-division/country:us/state:pa/sldl:155",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/6678bcaf-292f-408a-aa36-90ed8bc8fd08",
+        "name": "Danielle Otten",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "4ee98e5a-ab36-40bc-a5fa-c606f66cb429",
+       "name": "Dan Williams",
+       "person": {
+        "current_role": {
+         "district": "74",
+         "division_id": "ocd-division/country:us/state:pa/sldl:74",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/8cb5e285-fdd9-4c63-b7c7-480bf9e477e1",
+        "name": "Dan Williams",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "cbf0033d-ab7e-4523-b4db-ad318c8a4aad",
+       "name": "Mary Jo Daley",
+       "person": {
+        "current_role": {
+         "district": "148",
+         "division_id": "ocd-division/country:us/state:pa/sldl:148",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/2b9c199b-dd4e-477a-a5d0-849180c956a0",
+        "name": "Mary Jo Daley",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "ef1d0937-4405-42bf-8d0f-d0b535e8a55d",
+       "name": "G. Roni Green",
+       "person": {
+        "current_role": {
+         "district": "190",
+         "division_id": "ocd-division/country:us/state:pa/sldl:190",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/c3ad9b17-c8f5-450e-9aaa-f002e1414bd5",
+        "name": "Roni Green",
+        "party": "Democratic"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [],
+     "title": "An Act amending Title 66 (Public Utilities) of the Pennsylvania Consolidated Statutes, in rates and distribution systems, further providing for voluntary changes in rates.",
+     "updated_at": "2024-11-13T23:27:51.412600+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2022-04-07T10:45:42.319483+00:00",
+     "extras": {},
+     "first_action_date": "2022-04-07T04:00:00+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/0f78429d-ec86-4333-9338-17708fe11914",
+      "name": "House"
+     },
+     "id": "ocd-bill/909dca84-304b-439e-ab6b-59f1938ef14e",
+     "identifier": "HB 2496",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:pa/government",
+      "name": "Pennsylvania"
+     },
+     "latest_action_date": "2022-06-27T04:00:00+00:00",
+     "latest_action_description": "Act No. 26 of 2022",
+     "latest_passage_date": "2022-06-13T04:00:00+00:00",
+     "openstates_url": "https://openstates.org/pa/bills/2021-2022/HB2496/",
+     "session": "2021-2022",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "a1e1c3c6-0a6c-400d-8484-1767bd8580c8",
+       "name": "Boback",
+       "person": {
+        "id": "ocd-person/ec78f2c6-3166-4b6f-9a0f-0d8a0a1e6c67",
+        "name": "Karen Boback",
+        "party": "Republican"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "9337c848-c1c9-487d-90d4-e8ef04f84ac4",
+       "name": "Pickett",
+       "person": {
+        "current_role": {
+         "district": "110",
+         "division_id": "ocd-division/country:us/state:pa/sldl:110",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/8e174923-d514-4240-b6cd-cbb7927410ba",
+        "name": "Tina Pickett",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "b60f4fd7-8b60-49e6-ba29-c89624969c69",
+       "name": "Millard",
+       "person": {
+        "id": "ocd-person/1ef8fc41-4dde-431a-b771-98dd465f5683",
+        "name": "David R. Millard",
+        "party": "Republican"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [],
+     "title": "An Act authorizing the release of a restriction on the use of property in Philadelphia County; authorizing the Department of General Services, with the approval of the Department of Agriculture and the Governor, to grant and convey to Wyoming County, certain lands and improvements situate in the Township of Tunkhannock, Wyoming County; and authorizing the Department of General Services, with the approval of the Department of Corrections and the Governor, to grant and convey to John Bradley Wimer, certain lands, buildings and improvements situate in the City of Pittsburgh, Allegheny County.",
+     "updated_at": "2022-12-24T22:45:49.654504+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2020-05-06T23:25:59.123088+00:00",
+     "extras": {},
+     "first_action_date": "2020-05-12T04:00:00+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/0f78429d-ec86-4333-9338-17708fe11914",
+      "name": "House"
+     },
+     "id": "ocd-bill/c842e2ad-63ea-4c43-aed4-bdf963aca615",
+     "identifier": "HB 2496",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:pa/government",
+      "name": "Pennsylvania"
+     },
+     "latest_action_date": "2020-05-20T04:00:00+00:00",
+     "latest_action_description": "Re-committed to APPROPRIATIONS",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/pa/bills/2019-2020/HB2496/",
+     "session": "2019-2020",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "a41bf5c9-c844-4cf1-af09-c354ef14b68f",
+       "name": "Ecker",
+       "person": {
+        "id": "ocd-person/6f375652-451b-4c39-9b29-6ba5a07073c6",
+        "name": "Torren Ecker",
+        "party": "Republican"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "734ed273-4967-46f4-8925-184d705343f9",
+       "name": "Roae",
+       "person": {
+        "current_role": {
+         "district": "6",
+         "division_id": "ocd-division/country:us/state:pa/sldl:6",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/979ea568-4c43-41bd-ba1e-4c2da172bb82",
+        "name": "Brad Roae",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "6ec693c6-fe04-4936-932d-001a06d8ed26",
+       "name": "Rothman",
+       "person": {
+        "current_role": {
+         "district": "34",
+         "division_id": "ocd-division/country:us/state:pa/sldu:34",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/3e99b4f3-2efa-4330-b0b9-fb273b1322ea",
+        "name": "Greg Rothman",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "8e91bdaf-3088-466a-9ef9-09cd7c0030e7",
+       "name": "Knowles",
+       "person": {
+        "id": "ocd-person/bb748ea8-5679-4317-8d91-f302424c34ab",
+        "name": "Jerry Knowles",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "abeb5ad8-8034-400a-9cbe-245ded310f28",
+       "name": "Tomlinson",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "5e0402ec-4461-4318-89a3-6dd9abdc8d5a",
+       "name": "Marshall",
+       "person": {
+        "id": "ocd-person/5956a1da-5202-4043-8219-12250bba8c52",
+        "name": "Jim Marshall",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "212ca1f3-963c-487b-bc61-e1ab52cf6353",
+       "name": "Jones",
+       "person": {
+        "current_role": {
+         "district": "93",
+         "division_id": "ocd-division/country:us/state:pa/sldl:93",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/ce5d2c01-e29c-4eac-b06b-208d8c302dff",
+        "name": "Mike Jones",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "f70aacd1-f9d7-448d-93df-e548137874e9",
+       "name": "Schmitt",
+       "person": {
+        "id": "ocd-person/e19d3bae-7d48-4e27-af66-e9453633edca",
+        "name": "Lou Schmitt",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "6b1fe6a8-146d-4699-a4a8-bd46c0c08a50",
+       "name": "Ryan",
+       "person": {
+        "id": "ocd-person/48423594-38db-4517-b14e-80db6b81be68",
+        "name": "Francis X. Ryan",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "7d405787-e9cd-405f-8b0e-485865b3a20d",
+       "name": "Simmons",
+       "person": {
+        "id": "ocd-person/0f47b83e-ab14-4a50-a12c-1d71bc04de21",
+        "name": "Justin J. Simmons",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "95c37375-7abf-4d92-bc65-354142fbc0e6",
+       "name": "Millard",
+       "person": {
+        "id": "ocd-person/1ef8fc41-4dde-431a-b771-98dd465f5683",
+        "name": "David R. Millard",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "ee12d09b-c272-46ed-8d5f-6ab1e978dc4d",
+       "name": "Mihalek",
+       "person": {
+        "current_role": {
+         "district": "40",
+         "division_id": "ocd-division/country:us/state:pa/sldl:40",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/c5e053dd-a874-4a51-a071-661a20db33ab",
+        "name": "Natalie Mihalek",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "4103b9ea-94b1-4083-8319-6191aa7d4112",
+       "name": "James",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "94f45319-e91b-42d5-8487-6276019b27cf",
+       "name": "Staats",
+       "person": {
+        "current_role": {
+         "district": "145",
+         "division_id": "ocd-division/country:us/state:pa/sldl:145",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/bb324f66-3a5c-4e90-9c75-d142cce81c92",
+        "name": "Craig Staats",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "461c1b6d-efb1-4b58-94f6-005c08c4b59c",
+       "name": "Kulik",
+       "person": {
+        "current_role": {
+         "district": "45",
+         "division_id": "ocd-division/country:us/state:pa/sldl:45",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/999d1ffd-b893-4aac-9fbb-ae43b3039038",
+        "name": "Anita Kulik",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "5cbdb05e-0c0f-4835-9491-11d5c8a4f0a2",
+       "name": "Barrar",
+       "person": {
+        "id": "ocd-person/c2d85063-a729-4284-9e04-ffe04a5e2ce0",
+        "name": "Stephen Barrar",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "f3e5c46d-b10c-413e-934b-c755477e8bb5",
+       "name": "Pickett",
+       "person": {
+        "current_role": {
+         "district": "110",
+         "division_id": "ocd-division/country:us/state:pa/sldl:110",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/8e174923-d514-4240-b6cd-cbb7927410ba",
+        "name": "Tina Pickett",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "132fdc63-db8b-4b94-bd64-36a01e011a32",
+       "name": "Kauffman",
+       "person": {
+        "current_role": {
+         "district": "89",
+         "division_id": "ocd-division/country:us/state:pa/sldl:89",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/17e1e676-8e83-4883-8cf5-4c8ddcce076e",
+        "name": "Rob Kauffman",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "762b1f17-ec42-4ade-b03d-ccf0e32112b7",
+       "name": "Struzzi",
+       "person": {
+        "current_role": {
+         "district": "62",
+         "division_id": "ocd-division/country:us/state:pa/sldl:62",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/4a24dcc2-5619-4bb1-acb3-bf7a7d08e6b1",
+        "name": "Jim Struzzi",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "e4d4b0ad-d003-4486-9a18-887f2e52491a",
+       "name": "Schlegel Culver",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "8e2289de-8bf9-465b-a4a1-8cea47301a21",
+       "name": "Hershey",
+       "person": {
+        "id": "ocd-person/c498c73d-cebf-4208-8122-cfdb62058505",
+        "name": "Johnathan D. Hershey",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "0b08940c-debf-4e46-8a4e-b66dfc123269",
+       "name": "Keefer",
+       "person": {
+        "current_role": {
+         "district": "31",
+         "division_id": "ocd-division/country:us/state:pa/sldu:31",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/2a13f9df-b7e6-4281-82e4-f7263b6fa12e",
+        "name": "Dawn Keefer",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "36ff6ac6-e302-4065-a9ae-5ac0dd1ced95",
+       "name": "Mentzer",
+       "person": {
+        "current_role": {
+         "district": "97",
+         "division_id": "ocd-division/country:us/state:pa/sldl:97",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/4463dd94-6a9d-41bd-830f-0d03e192f896",
+        "name": "Steve Mentzer",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "cc2c5842-5785-4651-a01e-367f962849d0",
+       "name": "Readshaw",
+       "person": {
+        "id": "ocd-person/b0786ef8-ee84-435c-a1b2-7dc7bd28ca8e",
+        "name": "Harry Readshaw",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "3985f707-64d4-456b-b03c-850863671e27",
+       "name": "Day",
+       "person": {
+        "current_role": {
+         "district": "187",
+         "division_id": "ocd-division/country:us/state:pa/sldl:187",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/3088ff8e-d2d9-46b9-8ea3-bd35af9438c2",
+        "name": "Gary Day",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "c9f84906-79b1-4a99-ba5a-d265ddfaeafd",
+       "name": "Zimmerman",
+       "person": {
+        "current_role": {
+         "district": "99",
+         "division_id": "ocd-division/country:us/state:pa/sldl:99",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/2fbada46-9c48-4be5-a49f-e1ca0af132ed",
+        "name": "Dave Zimmerman",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "b5d46410-9db3-4e40-86d6-eb4b38e172bf",
+       "name": "Saylor",
+       "person": {
+        "id": "ocd-person/7eb6b713-88cf-4ac0-bfeb-538ae3fdef90",
+        "name": "Stan Saylor",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "91003799-dae7-4f4c-ac08-9618f1ccedde",
+       "name": "Polinchock",
+       "person": {
+        "id": "ocd-person/1ed8a4ce-abac-4d5e-98ca-ba60c11ef19f",
+        "name": "F. Todd Polinchock",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "e5053236-f209-4cc1-909a-ae2fb2fbbef1",
+       "name": "Brooks",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "5c947c09-229f-4a8f-8e44-029da407387b",
+       "name": "Kortz",
+       "person": {
+        "id": "ocd-person/aff134c3-074e-4788-945c-def9fdf7670e",
+        "name": "William C. Kortz",
+        "party": "Democratic"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [],
+     "title": "An Act amending the act of April 9, 1929 (P.L.177, No.175), known as The Administrative Code of 1929,  providing for emergency COVID-19 provisions.",
+     "updated_at": "2020-05-28T01:40:50.484157+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2018-06-14T19:24:20.563839+00:00",
+     "extras": {},
+     "first_action_date": "2018-06-18T04:00:00+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/0f78429d-ec86-4333-9338-17708fe11914",
+      "name": "House"
+     },
+     "id": "ocd-bill/59581afd-49d1-4ade-bca5-22601592ca9e",
+     "identifier": "HB 2496",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:pa/government",
+      "name": "Pennsylvania"
+     },
+     "latest_action_date": "2018-06-18T04:00:00+00:00",
+     "latest_action_description": "PN 3713 Referred to CHILDREN AND YOUTH",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/pa/bills/2017-2018/HB2496/",
+     "session": "2017-2018",
+     "sponsorships": [
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "d45feedd-d5b4-483e-86fe-3997b0bbffba",
+       "name": "D. Costa",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "40b851b6-962a-4d28-990d-52f4028ccf51",
+       "name": "J. Mcneill",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "df420bef-780e-4d98-a7ae-98114cf54369",
+       "name": "Daley",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "c87486b7-f111-40e3-90a4-0cd55fee4e0f",
+       "name": "Dean",
+       "person": {
+        "id": "ocd-person/ad0edc6b-be65-40c9-93bd-d71925460165",
+        "name": "Madeleine Dean",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "2202ad1a-dbe9-46e7-ac19-cc6130c3d810",
+       "name": "Driscoll",
+       "person": {
+        "id": "ocd-person/f2a2178d-048a-4a18-a1f5-6b1f6db5ff1b",
+        "name": "Michael J. Driscoll",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "0da6bc9b-709a-4a17-b97a-64c95a8d3600",
+       "name": "Freeman",
+       "person": {
+        "current_role": {
+         "district": "136",
+         "division_id": "ocd-division/country:us/state:pa/sldl:136",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/13bfe11c-06e2-4a1d-844d-d195ef18dc06",
+        "name": "Bob Freeman",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "86d7c86a-986d-4270-b786-6ba50e16fb43",
+       "name": "Kinsey",
+       "person": {
+        "id": "ocd-person/c4d4f765-8eeb-4b55-9ad4-c130e6afa697",
+        "name": "Stephen Kinsey",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "8023d740-c293-4ad5-8134-d84a7c88ee10",
+       "name": "Murt",
+       "person": {
+        "id": "ocd-person/6c1c14f4-c12d-4aa4-b25b-e406e8ebda25",
+        "name": "Thomas P. Murt",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "526c3db9-2427-4509-a137-20df8f49b91c",
+       "name": "Readshaw",
+       "person": {
+        "id": "ocd-person/b0786ef8-ee84-435c-a1b2-7dc7bd28ca8e",
+        "name": "Harry Readshaw",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "e8ea141f-8a0a-4ee6-9099-4d76fd0c4c2a",
+       "name": "Santora",
+       "person": {
+        "id": "ocd-person/6df5f9e8-0974-41e3-9808-124c9a38cfda",
+        "name": "James R. Santora",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "6c87603b-e379-4bb2-978c-7ab5ac2b6b8d",
+       "name": "Schlossberg",
+       "person": {
+        "current_role": {
+         "district": "132",
+         "division_id": "ocd-division/country:us/state:pa/sldl:132",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/fc1f0752-9166-4d7f-987a-ec15b8bf4048",
+        "name": "Mike Schlossberg",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "3f99fdf3-2adf-48ad-94ca-dfedf6aef88d",
+       "name": "Thomas",
+       "person": {
+        "id": "ocd-person/ff942ea6-364f-41be-9e2f-288f21d7ad14",
+        "name": "W. Curtis Thomas",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "d94dbf64-c2c6-4b86-a158-e396d01e4c9b",
+       "name": "Watson",
+       "person": {
+        "id": "ocd-person/3b5f85cf-a208-4b88-9ba2-ab6c11b4b48c",
+        "name": "Katharine M. Watson",
+        "party": "Republican"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "2d382bbd-be56-459f-9e95-ae9bb983ede7",
+       "name": "Conklin",
+       "person": {
+        "current_role": {
+         "district": "77",
+         "division_id": "ocd-division/country:us/state:pa/sldl:77",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/97b012cd-5cd7-4039-a9ae-fed936aabe37",
+        "name": "Scott Conklin",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "fd9159fb-9a6d-43db-960f-b931ca91ed57",
+       "name": "Deasy",
+       "person": {
+        "current_role": {
+         "district": "27",
+         "division_id": "ocd-division/country:us/state:pa/sldl:27",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/2608882d-9ae2-4522-b8b2-83d905913d3f",
+        "name": "Dan Deasy",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "3fd14af9-25cf-4650-9a1e-6ae88427b01a",
+       "name": "Madden",
+       "person": {
+        "current_role": {
+         "district": "115",
+         "division_id": "ocd-division/country:us/state:pa/sldl:115",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/8ec333cd-97c4-4f5a-92de-13bf8cbc0020",
+        "name": "Maureen Madden",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "660fb5b6-ba55-4350-822d-780a1bfc2e34",
+       "name": "Roebuck",
+       "person": {
+        "id": "ocd-person/1a51c5a2-de16-4552-87ab-e1356c128691",
+        "name": "James R. Roebuck",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "0d6ed63c-f2b7-483c-890a-4715b6419243",
+       "name": "Schweyer",
+       "person": {
+        "current_role": {
+         "district": "134",
+         "division_id": "ocd-division/country:us/state:pa/sldl:134",
+         "org_classification": "lower",
+         "title": "Representative"
+        },
+        "id": "ocd-person/63936c68-ec65-40a9-9a68-0d956939404a",
+        "name": "Pete Schweyer",
+        "party": "Democratic"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [],
+     "title": "An Act amending the act of December 19, 1990 (P.L.1372, No.212), known as the Early Intervention Services System Act, establishing the Early Intervention Services Contingency Fund; providing for transfers from the Early Intervention Services Contingency Fund to lead agencies and for reporting; and making editorial changes.",
+     "updated_at": "2020-04-29T00:59:15.684726+00:00"
     }
    ]
   }

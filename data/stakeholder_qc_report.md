@@ -1,8 +1,8 @@
 # Stakeholder registry QC report
 
-Generated 2026-09-11.
+Generated 2026-09-14.
 
-- Published rows: **132** (103 county, 29 state)
+- Published rows: **133** (103 county, 30 state)
 - Published with a warning flag: **1**
 - Withheld rows: **5**
 - Counties covered: **36**
@@ -38,7 +38,6 @@ published with the unusable contact or relevance field blanked.
 - NJ: no governor returned by OpenStates
 - NV: no matched data center bill to draw sponsors from
 - OR: HB 4084 lists no sponsors
-- PA: no matched data center bill to draw sponsors from
 - TX: no matched data center bill to draw sponsors from
 - VA: no governor returned by OpenStates
 - WY: no matched data center bill to draw sponsors from
