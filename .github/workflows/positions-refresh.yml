@@ -1,0 +1,118 @@
+name: Refresh public positions
+
+# Rebuilds the position registry: the recorded acts -- roll-call votes, bill
+# sponsorships, quoted statements of priorities, governing body decisions --
+# behind the "Public positions on data centers" section of the county profile
+# and the positions dashboard.
+#
+# Its own workflow rather than a step in pipeline.yml because its inputs are
+# written by four different producers on four different cadences:
+#
+#   data/bill_sync_votes.csv        bill-sync.yml
+#   data/bill_sync_matches.csv      bill-sync.yml
+#   data/stakeholder_registry.csv   stakeholder-refresh.yml
+#   master_opposition_clean.csv     pipeline.yml
+#   data/bill_subject_overrides.csv a human, by hand
+#
+# Triggering on each of those paths means a position is republished as soon as
+# any one of them moves, and the human override file gets the same treatment as
+# the machine inputs: confirm a bill's subject, push, and the votes appear.
+
+on:
+  push:
+    paths:
+      - 'data/bill_sync_votes.csv'
+      - 'data/bill_sync_matches.csv'
+      - 'data/stakeholder_registry.csv'
+      - 'data/bill_subject_overrides.csv'
+      - 'master_opposition_clean.csv'
+      - 'stakeholder_positions.py'
+
+  workflow_dispatch:
+
+  # Weekly backstop, Mondays at 09:40 UTC -- half an hour after
+  # stakeholder-refresh, so a fresh registry is already committed when this
+  # reads it. The run is pure local computation with no API calls, so the
+  # cost of a redundant run is a few seconds.
+  schedule:
+    - cron: "40 9 * * 1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: positions-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout data-center-map
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # BLOCKING. The self-test is what proves the subject and direction gates
+      # still work: it asserts that a child-restraint bill, an immigration bill
+      # and a state budget do not read as data center positions, and that a
+      # repeal of a tax exemption is not classified as a grant of one. If that
+      # logic has broken, publishing would attribute positions to named people
+      # that they never took, which is the one failure in this repository worth
+      # stopping a run for.
+      - name: Self-test the position gates
+        run: python stakeholder_positions.py --selftest
+
+      - name: Build position registry
+        run: python stakeholder_positions.py --build
+
+      - name: Show QC summary
+        run: |
+          if [ -f data/stakeholder_positions_manifest.json ]; then
+            cat data/stakeholder_positions_manifest.json
+          fi
+          # Surface the withheld ranking in the run log: it is the actionable
+          # half of the report, and the promotions it asks for are what grow
+          # this layer.
+          if [ -f data/stakeholder_positions_qc.md ]; then
+            sed -n '/Withheld, ranked/,/Standing limits/p' data/stakeholder_positions_qc.md | head -30
+          fi
+
+      - name: Commit registry, bills, summary and reports
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Each path is guarded separately because a single missing pathspec
+          # aborts the whole `git add`, the trap documented in fetch-permits.yml
+          # and stakeholder-refresh.yml.
+          [ -f data/stakeholder_positions.csv ]          && git add data/stakeholder_positions.csv
+          [ -f data/position_bills.csv ]                 && git add data/position_bills.csv
+          [ -f data/stakeholder_position_summary.csv ]   && git add data/stakeholder_position_summary.csv
+          [ -f data/stakeholder_positions_held.csv ]     && git add data/stakeholder_positions_held.csv
+          [ -f data/stakeholder_positions_qc.md ]        && git add data/stakeholder_positions_qc.md
+          [ -f data/stakeholder_positions_manifest.json ] && git add data/stakeholder_positions_manifest.json
+          # The override file is a human source of record. It is staged only so
+          # that the first run can commit the empty schema; stakeholder_positions.py
+          # never writes a row into it.
+          [ -f data/bill_subject_overrides.csv ]         && git add data/bill_subject_overrides.csv
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Public positions: scheduled refresh [skip ci]"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
+            echo "Push attempt $i failed, retrying in 10s"
+            # A worktree stuck mid-rebase fails every later pull with "already
+            # a rebase-merge directory", so the retries cannot even start
+            # without this abort.
+            git rebase --abort 2>/dev/null || true
+            sleep 10
+          done
+          echo "Push failed after 3 attempts. If branch protection is enabled on main, allow github-actions[bot] to push or merge via PR."
+          exit 1

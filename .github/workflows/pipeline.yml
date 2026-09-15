@@ -258,6 +258,19 @@ jobs:
           python county_policy_intervals.py --selftest
           python county_policy_intervals.py
 
+      # The comparison layer reads exactly what the county layer just wrote, so
+      # it lives here rather than in its own workflow: a benchmark built against
+      # a stale score file would show a client a percentile that does not match
+      # the score printed above it on the same page. Gated on the county layer
+      # for the same reason, and non-blocking like every other county step.
+      - name: County benchmarks (reference groups + peer matching)
+        id: benchmarks
+        if: steps.county_layer.outcome == 'success'
+        continue-on-error: true
+        run: |
+          python county_benchmarks.py --selftest
+          python county_benchmarks.py --build
+
       - name: Coverage audit + restriction worklist (county recall)
         id: coverage
         if: steps.county_layer.outcome == 'success'
@@ -420,6 +433,15 @@ jobs:
                     data/county_model_spec_history.csv \
                     data/county_policy_report.md 2>/dev/null || true
           fi
+          # Staged separately from the county layer even though it is gated on
+          # it: a benchmark failure must leave the scores committed, and a
+          # score failure must leave the previous benchmarks alone rather than
+          # pairing new scores with old reference groups.
+          if [ "${{ steps.benchmarks.outcome }}" = "success" ]; then
+            git add data/county_benchmarks.csv data/county_benchmark_reference.csv \
+                    data/county_benchmarks_manifest.json \
+                    data/county_benchmarks_report.md 2>/dev/null || true
+          fi
           # Audit artifacts. group_registry_audit runs in the always-on
           # audit block; the coverage audit and worklist are staged only on
           # a green coverage step, so a partial run cannot commit a recall
@@ -536,6 +558,12 @@ jobs:
         if: steps.county_layer.outcome == 'failure'
         run: |
           echo "::error::County layer failed (aggregate QC gate, policy model, or leak audit). County artifacts were NOT committed; the last good layer remains in place. Clean feed and Iowa sync were unaffected."
+          exit 1
+
+      - name: Surface benchmark failure (visible, non-blocking)
+        if: steps.benchmarks.outcome == 'failure'
+        run: |
+          echo "::error::county_benchmarks.py failed. Comparison artifacts were NOT committed; the county page falls back to the last good reference groups, which may not match the scores just published. Clean feed, county layer and Iowa sync were unaffected."
           exit 1
 
       - name: Surface coverage-audit failure (visible, non-blocking)

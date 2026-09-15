@@ -84,6 +84,22 @@ EXPORT_HINT = re.compile(r"\.download\s*=\s*$|location\.href\s*=\s*$")
 # rejoin the concatenation before classifying the reference.
 CONST_RE = re.compile(r"""(?:const|let|var)\s+(\w+)\s*=\s*['"]([^'"]+)['"]""")
 CONCAT_RE = re.compile(r"(\w+)\s*\+\s*$")
+
+# A chain builder: one helper that returns the whole fallback chain, so every
+# dataset on the page goes through it rather than repeating the three URLs.
+#
+#     function urls(p) { return [RAW + p, PAGES + p, './' + p]; }
+#
+# county-profile.html and positions-dashboard.html are written this way, and
+# the per-literal scan cannot see it: the dataset name sits in a plain
+# CORE_FILES dictionary with nothing next to it, so every path on those pages
+# read as relative-only and both reported as not raw-first while in fact
+# fetching raw first for every file. The regex requires the FIRST element of
+# the returned array to be the raw-host constant, which is the property the
+# rule is actually about; a builder that put the relative path first would not
+# match and the page would still be reported.
+CHAIN_BUILDER_RE = re.compile(
+    r"""return\s*\[\s*(\w+)\s*\+\s*\w+\s*,""")
 # A page can also load a dataset through a shared module it includes, which is
 # how the facility surfaces reach data/facility_manifest.json. Following the
 # local script tags keeps that dataset counted as surfaced instead of
@@ -185,6 +201,17 @@ def surface_reads(html_path: str, root: str = HERE) -> tuple[set[str], set[str],
         reads.add(norm)
         table = first_raw if is_raw else first_rel
         table.setdefault(norm, m.start())
+
+    # A page that builds its chain in one helper gets the verdict from that
+    # helper, because the per-literal evidence simply is not present anywhere
+    # else in the file. The helper still has to put the raw host first.
+    builder_is_raw_first = False
+    for m in CHAIN_BUILDER_RE.finditer(text):
+        if RAW_HOST in env.get(m.group(1), ""):
+            builder_is_raw_first = True
+            break
+    if builder_is_raw_first:
+        return reads, external, True
 
     raw_first = True
     for path, rel_at in first_rel.items():
@@ -531,6 +558,35 @@ def selftest() -> int:
                             "</script>") == [])
         reads_b, _, raw_first_b = surface_reads(bad, tmp)
         check("relative-only page is not raw-first", raw_first_b is False)
+
+        # A page that builds the chain in one helper, the way county-profile
+        # and positions-dashboard do. The dataset names sit in a plain
+        # dictionary with no URL next to them, so the per-literal evidence the
+        # checks above rely on does not exist anywhere in the file.
+        builder = os.path.join(tmp, "builder.html")
+        open(builder, "w").write(
+            f"<script>var RAW = '{raw}/';\n"
+            "var PAGES = 'https://pricephillips.github.io/data-center-map/';\n"
+            "function urls(p) { return [RAW + p, PAGES + p, './' + p]; }\n"
+            "var FILES = { a: 'data/shown.csv' };\n"
+            "</script>")
+        b_reads, _, b_raw_first = surface_reads(builder, tmp)
+        check("chain-builder page reads its dataset",
+              "data/shown.csv" in b_reads)
+        check("chain-builder page is raw-first", b_raw_first is True)
+
+        # The exemption is the builder's ORDER, not the fact that it exists.
+        # A helper returning the relative path first must still be reported,
+        # or the check would be exempting the pattern instead of checking it.
+        bad_builder = os.path.join(tmp, "bad_builder.html")
+        open(bad_builder, "w").write(
+            f"<script>var RAW = '{raw}/';\n"
+            "function urls(p) { return ['./' + p, RAW + p]; }\n"
+            "var FILES = { a: 'data/shown.csv' };\n"
+            "</script>")
+        _r, _e, bb_raw_first = surface_reads(bad_builder, tmp)
+        check("a relative-first chain builder is still reported",
+              bb_raw_first is False)
 
         reg = {
             "hub": {"pages_verified": "test"},

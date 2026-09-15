@@ -183,7 +183,7 @@ reference geography that frame is built on.
 | | |
 |---|---|
 | Key | `fips` |
-| Files | `data/external_restriction_census*`, `data/county_aggregate.csv`, `data/county_policy_*`, `data/county_model_spec_history.csv`, `data/restriction_*`, `data/bill_*`, `data/stale_pending_*`, the county reference geography |
+| Files | `data/external_restriction_census*`, `data/county_aggregate.csv`, `data/county_policy_*`, `data/county_model_spec_history.csv`, `data/restriction_*`, `data/bill_*` (including `data/bill_subject_overrides.csv`, hand maintained), `data/stale_pending_*`, the county reference geography |
 | Writers | `county_aggregator.py`, `county_policy_model.py`, `county_policy_intervals.py`, `restriction_worklist.py`, `census_gap_candidates.py`, `bill_sync.py`, `stale_pending_audit.py`, `refresh_external_census.py`, the county fetchers |
 | Source of record | The tracker itself. `data/external_restriction_census.csv` is an external lower bound and a pointer, never a source of record: nothing is ingestable from it until a primary source URL is supplied |
 
@@ -198,6 +198,36 @@ worklists, reports.
 | Files | `data/baseline_*`, `data/matched_controls.csv`, every model artifact, every audit output, every worklist, `docs/*.md`, `headline_metrics.md` |
 | Writers | One module each, listed in `configs/layers.json` |
 | Sources of record | None, by definition |
+
+Two of the newer Layer E members are worth naming because both are read by
+clients rather than only by the pipeline.
+
+**The comparison layer** (`county_benchmarks.py` -> `data/county_benchmark_reference.csv`,
+`data/county_benchmarks.csv`) exists because a single county's figures are not
+interpretable alone. It publishes median and quartile profiles for six national
+reference groups plus one per state, the percentile of each county within them,
+and a ten-county structural peer set matched on standardised log population, log
+density, share with a bachelor's degree and 2024 margin. A peer set is a
+similarity group for reading a county against and nothing more: it is not
+balanced on treatment, carries no propensity model, and supports no
+counterfactual. `control_group.py` is where matched-control work lives and
+`IDENTIFIABILITY.md` records what that exercise concluded.
+
+**The positions layer** (`stakeholder_positions.py` -> `data/stakeholder_positions.csv`,
+`data/position_bills.csv`, `data/stakeholder_position_summary.csv`) is the only
+layer in this repository whose rows name private-capacity judgments of
+identifiable people, so it is the only one whose gate is built to withhold by
+default. It republishes acts already recorded elsewhere in the repository --
+roll-call votes from `data/bill_sync_votes.csv`, sponsorships and quoted
+priorities from the stakeholder registry, governing body decisions from the
+opposition tracker -- each with the URL it came from, and it infers nothing
+from party, office title or district. Two gates stand in front of a vote: the
+bill's title must carry an explicit data center or large-load term, and its
+direction comes from an ordered rule list whose firing rule is published on
+every row. It reads `data/bill_subject_overrides.csv` (Layer D, hand
+maintained) and never writes to it; an earlier version created that file's
+empty schema on first run and the layer audit correctly flagged it as a
+cross-layer write.
 
 Declared derived, never hand-edited, always regenerable. A hand edit to a
 Layer E file is a defect even when the edited value is correct, because the

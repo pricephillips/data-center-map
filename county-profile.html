@@ -134,6 +134,38 @@ tr:last-child td { border-bottom:none }
 .stk th:nth-child(10), .stk td:nth-child(10) { width:6% }
 .stk .nm { white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
 .stk .clip { max-width:none }
+/* Comparison layer. A percentile is a position in a distribution, so it is
+   drawn as one: a track with a marker, not a filled bar. A filled bar reads as
+   a quantity and would invite "this county is 87% restrictive", which is not
+   what a percentile says. */
+.pct { display:flex; align-items:center; gap:8px; min-width:120px }
+.pct-track { position:relative; flex:1; height:6px; border-radius:3px; background:var(--panel2);
+  min-width:56px }
+.pct-track i { position:absolute; top:-2px; width:3px; height:10px; border-radius:2px;
+  background:var(--atlas) }
+.pct-track b { position:absolute; top:2px; bottom:2px; left:0; width:1px; background:var(--border) }
+.pct-num { font-variant-numeric:tabular-nums; font-size:11.5px; color:var(--muted);
+  white-space:nowrap; min-width:34px; text-align:right }
+.cmp td:first-child { font-weight:600 }
+.cmp .ref { color:var(--muted); font-variant-numeric:tabular-nums }
+.cmp .self { font-variant-numeric:tabular-nums; color:var(--text) }
+/* A direction-coloured delta. Only metrics that declare a direction in
+   county_benchmarks.py get a colour; the rest render plain, because colouring
+   a neutral metric invents a verdict the data does not carry. */
+.vs { font-variant-numeric:tabular-nums; white-space:nowrap; font-size:11.5px }
+.vs.more { color:var(--accent2) }
+.vs.less { color:#5fae7e }
+.vs.flat { color:var(--muted) }
+
+.stance { display:inline-block; padding:2px 7px; border-radius:999px; font-size:10.5px;
+  font-weight:600; white-space:nowrap; border:1px solid var(--border); color:var(--muted);
+  background:var(--panel2) }
+.stance.restrict { background:#3a2116; border-color:var(--accent); color:var(--accent2) }
+.stance.industry { background:#12303a; border-color:var(--atlas); color:#8fd3dd }
+.stance.disclose { background:var(--panel2); border-color:#4b5a6b; color:#b6c2d0 }
+.stance.none { background:transparent }
+.quote { border-left:2px solid var(--border); padding-left:9px; color:var(--muted);
+  font-size:11.5px; line-height:1.6 }
 .link-county { cursor:pointer; color:var(--atlas) }
 .count { color:var(--muted); font-weight:400; font-size:12px; margin-left:6px }
 footer { color:var(--muted); font-size:11px; border-top:1px solid var(--border); padding-top:12px;
@@ -153,6 +185,7 @@ footer { color:var(--muted); font-size:11px; border-top:1px solid var(--border);
   <a href="project-lifecycles.html" class="nav-pill">Projects</a>
   <a href="restriction-model.html" class="nav-pill">Restriction Model</a>
   <a href="county-profile.html" class="nav-pill active">County Profile</a>
+  <a href="positions-dashboard.html" class="nav-pill">Public Positions</a>
 </nav>
 <script>
   try { if (window.self === window.top) document.getElementById('site-nav').style.display = 'flex'; }
@@ -200,7 +233,12 @@ function urls(p) { return [RAW + p, PAGES + p, './' + p]; }
 var CORE_FILES = {
   aggregate: 'data/county_aggregate.csv',
   scores: 'data/county_policy_scores.csv',
-  intervals: 'data/county_policy_intervals.csv'
+  intervals: 'data/county_policy_intervals.csv',
+  /* The reference profiles are 38 KB gzipped and are what turns every number
+   * on this page from a value into a comparison, so they load in the fast wave
+   * with the scorecards rather than behind them. The per-county percentile and
+   * peer file is ten times the size and waits for the detail wave. */
+  benchmark_ref: 'data/county_benchmark_reference.csv'
 };
 var DETAIL_FILES = {
   lifecycles: 'data/project_lifecycles.csv',
@@ -225,7 +263,12 @@ var DETAIL_FILES = {
   cost_anchors: 'data/cost_anchors.csv',
   calibration: 'data/calibration_history.csv',
   /* third pass: the people layer */
-  stakeholders: 'data/stakeholder_registry.csv'
+  stakeholders: 'data/stakeholder_registry.csv',
+  /* fourth pass: comparison and the public record of positions */
+  benchmarks: 'data/county_benchmarks.csv',
+  positions: 'data/stakeholder_positions.csv',
+  position_bills: 'data/position_bills.csv',
+  position_summary: 'data/stakeholder_position_summary.csv'
 };
 
 /* Model cards and freshness stamps. Read as JSON, never blocking. */
@@ -234,7 +277,9 @@ var JSON_FILES = {
   outcome_metrics: 'data/outcome_model_metrics.json',
   survival_metrics: 'data/survival_model_metrics.json',
   aggregate_manifest: 'data/county_aggregate_manifest.json',
-  stakeholder_manifest: 'data/stakeholder_manifest.json'
+  stakeholder_manifest: 'data/stakeholder_manifest.json',
+  benchmark_manifest: 'data/county_benchmarks_manifest.json',
+  position_manifest: 'data/stakeholder_positions_manifest.json'
 };
 
 var STATE_NAME = {
@@ -518,6 +563,95 @@ function build_frame() {
     var list = by_state[st];
     list.forEach(function (c, i) { c.state_rank = list.length - i; c.state_n = list.length; });
   });
+
+  build_reference_index();
+}
+
+/* ------------------------- comparison frame ------------------------ *
+ * REFERENCE[group_key][metric] = the published summary row for that pair.
+ * Group keys are the ones county_benchmarks.py writes: national, restrictive,
+ * non_restrictive, dc_present, dc_absent, tracked_activity, and state:XX.
+ *
+ * The page reads these rather than recomputing them over the frame it already
+ * holds. Recomputing would look cheaper and would let the page and the
+ * published file disagree after any change to either -- and the published file
+ * is the one a client audits.
+ * ------------------------------------------------------------------ */
+
+var REFERENCE = {};
+var METRIC_LABEL = {};
+var METRIC_DIRECTION = {};
+
+function build_reference_index() {
+  REFERENCE = {};
+  (DATA.benchmark_ref || []).forEach(function (r) {
+    var g = r.group_key, m = r.metric;
+    if (!g || !m) return;
+    (REFERENCE[g] = REFERENCE[g] || {})[m] = r;
+    METRIC_LABEL[m] = r.metric_label || m;
+    METRIC_DIRECTION[m] = r.direction || 'neutral';
+  });
+}
+
+function ref_stat(group, metric, field) {
+  var r = (REFERENCE[group] || {})[metric];
+  return r ? num(r[field]) : null;
+}
+
+/* Metrics shown in the comparison table, in the order a reader needs them:
+ * the model read first, then exposure, then the structural covariates that
+ * explain why the peer group looks the way it does. */
+var COMPARE_METRICS = [
+  'calibrated_score',
+  'n_opposition_events',
+  'opposition_events_per_100k',
+  'n_enacted_restrictive',
+  'existing_dc_count',
+  'n_projects_tracked',
+  'blocked_share_of_decided',
+  'population',
+  'pop_density_sqmi',
+  'median_hh_income',
+  'pct_bachelors_plus',
+  'margin_2024'
+];
+
+/* How each metric is rendered. Kept next to the metric list rather than
+ * inferred from the value, because margin_2024 and blocked_share are both
+ * small signed-ish decimals that must not render the same way. */
+var METRIC_FMT = {
+  calibrated_score: function (v) { return fmt_prob(v); },
+  blocked_share_of_decided: function (v) { return fmt_prob(v); },
+  margin_2024: fmt_margin,
+  median_hh_income: fmt_money,
+  pct_bachelors_plus: function (v) { return fmt_pct(v); },
+  pop_density_sqmi: function (v) { return fmt_num(v, 1); },
+  opposition_events_per_100k: function (v) { return fmt_num(v, 2); },
+  opposition_events_per_dc: function (v) { return fmt_num(v, 2); }
+};
+
+function fmt_metric(metric, v) {
+  if (v === null || v === undefined || v === '') return '—';
+  var f = METRIC_FMT[metric];
+  return f ? f(v) : fmt_int(v);
+}
+
+/* A difference is not always formatted like the values it came from.
+ * margin_2024 is the case that forces this: the values render as D+16.3 and
+ * R+42.0, but the gap between them is 58.3 points of margin, not "D+58.3" --
+ * a partisan label on a distance is meaningless, and prefixing the page's own
+ * "+" on top of it produced "+D+58.3". Everything else falls through to the
+ * value formatter, which is correct for a difference of dollars or of counts. */
+var METRIC_DELTA_FMT = {
+  margin_2024: function (v) { return v.toFixed(1) + ' pts'; },
+  margin_2016: function (v) { return v.toFixed(1) + ' pts'; }
+};
+
+function fmt_delta(metric, v) {
+  var f = METRIC_DELTA_FMT[metric];
+  if (!f) return fmt_metric(metric, v);
+  /* margins are stored as shares in [-1, 1]; the page shows points. */
+  return f(v * 100);
 }
 
 /* ---------------------------- selection --------------------------- */
@@ -530,7 +664,10 @@ function county_slice(fips) {
     meetings: [], opposition: [], neighbors: [],
     restrictions: [], coverage: [], universe: [], bills: [], groups: [],
     cost: [], trend: [], contagion: null,
-    stakeholders_county: [], stakeholders_state: []
+    stakeholders_county: [], stakeholders_state: [],
+    benchmark: null, peers: [],
+    body_actions: [], priorities: [], legislators: [], position_bills: [],
+    positions_state: []
   };
   if (!DETAIL_READY) return out;
 
@@ -695,6 +832,86 @@ function county_slice(fips) {
     return STAKEHOLDER_ORDER.indexOf(a.office_class) - STAKEHOLDER_ORDER.indexOf(b.office_class);
   });
 
+  /* ---- fourth-pass layers: comparison and positions ---- */
+
+  (DATA.benchmarks || []).forEach(function (r) {
+    if (String(r.fips || '').padStart(5, '0') === fips) out.benchmark = r;
+  });
+  if (out.benchmark && out.benchmark.peer_fips) {
+    out.benchmark.peer_fips.split(';').forEach(function (f) {
+      var p = BY_FIPS[String(f || '').trim().padStart(5, '0')];
+      if (p) out.peers.push(p);
+    });
+    /* Ordered by score so the peer table reads as a ranking the county sits
+     * inside, rather than by match distance, which the reader cannot see. */
+    out.peers.sort(function (a, b) {
+      var sa = a.score ? num(a.score.calibrated_score) : -1;
+      var sb = b.score ? num(b.score.calibrated_score) : -1;
+      return sb - sa;
+    });
+  }
+
+  var bill_by_key = {};
+  (DATA.position_bills || []).forEach(function (r) { bill_by_key[r.bill_key] = r; });
+  out.bill_by_key = bill_by_key;
+
+  (DATA.positions || []).forEach(function (r) {
+    if (r.stance_basis === 'governing_body_action') {
+      if (String(r.fips || '').padStart(5, '0') === fips) out.body_actions.push(r);
+      return;
+    }
+    if (r.stance_basis === 'stated_priority') {
+      /* A county official's stated priority belongs to the county; a state
+       * official's belongs to every county in the state. */
+      if (r.level === 'county'
+          ? String(r.fips || '').padStart(5, '0') === fips
+          : String(r.state || '') === st_abbr) {
+        out.priorities.push(r);
+      }
+      return;
+    }
+    if (String(r.state || '') === st_abbr) out.positions_state.push(r);
+  });
+  out.body_actions.sort(function (a, b) {
+    return String(b.evidence_date || '').localeCompare(String(a.evidence_date || ''));
+  });
+
+  /* Bills this state actually voted on, with the tally this page can verify
+   * from the rows it is holding -- never a tally read off a summary field. */
+  var tally = {};
+  out.positions_state.forEach(function (r) {
+    if (!r.bill_key) return;
+    var t = tally[r.bill_key] || (tally[r.bill_key] = { yes: 0, no: 0, other: 0, dates: [] });
+    if (r.vote_option === 'yes') t.yes++;
+    else if (r.vote_option === 'no') t.no++;
+    else if (r.vote_option) t.other++;
+    if (r.evidence_date) t.dates.push(r.evidence_date);
+  });
+  Object.keys(tally).forEach(function (k) {
+    var b = bill_by_key[k];
+    if (!b) return;
+    var t = tally[k];
+    t.dates.sort();
+    out.position_bills.push({
+      bill: b, yes: t.yes, no: t.no, other: t.other,
+      first: t.dates[0] || '', last: t.dates[t.dates.length - 1] || ''
+    });
+  });
+  out.position_bills.sort(function (a, b) {
+    return String(b.last || '').localeCompare(String(a.last || ''));
+  });
+
+  (DATA.position_summary || []).forEach(function (r) {
+    if (String(r.state || '') === st_abbr && r.level === 'state') out.legislators.push(r);
+  });
+  /* Most directional acts first: the legislators with the longest record on
+   * this subject are the ones a client needs to know about. */
+  out.legislators.sort(function (a, b) {
+    var d = (num(b.n_directional) || 0) - (num(a.n_directional) || 0);
+    if (d) return d;
+    return (num(b.n_positions) || 0) - (num(a.n_positions) || 0);
+  });
+
   return out;
 }
 
@@ -723,6 +940,21 @@ function kpi(label, value, note, cls) {
 
 function table(cols, rows, render_row, empty_msg) {
   if (!DETAIL_READY) return '<div class="empty">Loading&hellip;</div>';
+  if (!rows.length) return '<div class="empty">' + empty_msg + '</div>';
+  return '<div class="tbl-wrap"><table><thead><tr>' +
+    cols.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') +
+    '</tr></thead><tbody>' +
+    rows.map(function (r) {
+      return '<tr>' + render_row(r).map(function (cell) { return '<td>' + cell + '</td>'; }).join('') + '</tr>';
+    }).join('') +
+    '</tbody></table></div>';
+}
+
+/* Same renderer, without the detail-wave gate. The comparison table is fed by
+ * the core wave, so gating it on DETAIL_READY would park a "Loading..." over a
+ * table whose data is already in hand -- the opposite of why the reference
+ * file was put in the fast wave. */
+function table_now(cols, rows, render_row, empty_msg) {
   if (!rows.length) return '<div class="empty">' + empty_msg + '</div>';
   return '<div class="tbl-wrap"><table><thead><tr>' +
     cols.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') +
@@ -778,6 +1010,382 @@ function stakeholder_rows(rows) {
                 : '\u2014',
               link(r.source_url, 'official')];
     }, '') + '</div>';
+}
+
+/* -------------------------- positions render ----------------------- */
+
+var STANCE_CLASS = {
+  supported_restriction: 'restrict',
+  opposed_industry_incentive: 'restrict',
+  sponsored_restriction: 'restrict',
+  opposed_restriction: 'industry',
+  supported_industry_incentive: 'industry',
+  sponsored_industry_incentive: 'industry',
+  supported_disclosure: 'disclose',
+  opposed_disclosure: 'disclose',
+  sponsored_disclosure: 'disclose'
+};
+
+var STANCE_TEXT = {
+  supported_restriction: 'For a restriction',
+  opposed_restriction: 'Against a restriction',
+  supported_industry_incentive: 'For an incentive',
+  opposed_industry_incentive: 'Against an incentive',
+  supported_disclosure: 'For disclosure',
+  opposed_disclosure: 'Against disclosure',
+  sponsored_restriction: 'Sponsored a restriction',
+  sponsored_industry_incentive: 'Sponsored an incentive',
+  sponsored_disclosure: 'Sponsored disclosure',
+  sponsored_bill_no_direction: 'Sponsored a bill',
+  recorded_vote_no_direction: 'Vote recorded',
+  did_not_vote: 'Did not vote',
+  stated_priority: 'Stated priority',
+  governing_body_action: 'Body action'
+};
+
+var RECORD_TEXT = {
+  consistently_restrictive: 'All restriction-side',
+  mostly_restrictive: 'Mostly restriction-side',
+  consistently_industry_side: 'All industry-side',
+  mostly_industry_side: 'Mostly industry-side',
+  disclosure_only: 'Disclosure votes only',
+  mixed: 'Mixed',
+  single_act: 'One act only',
+  no_directional_record: 'No directional record'
+};
+
+var RECORD_CLASS = {
+  consistently_restrictive: 'restrict',
+  mostly_restrictive: 'restrict',
+  consistently_industry_side: 'industry',
+  mostly_industry_side: 'industry',
+  disclosure_only: 'disclose'
+};
+
+var CHAMBER_TEXT = { upper: 'Upper', lower: 'Lower', legislature: 'Unicameral' };
+
+var DIRECTION_TEXT = {
+  restrictive: 'Restrictive',
+  enabling: 'Industry incentive',
+  disclosure: 'Disclosure',
+  unclassified: 'Not classified'
+};
+
+function stance_chip(stance) {
+  return '<span class="stance ' + (STANCE_CLASS[stance] || 'none') + '">' +
+    esc(STANCE_TEXT[stance] || stance) + '</span>';
+}
+
+/* A legislator table caps at this many rows on screen. Large chambers with a
+ * long roll-call history run past 400 people, which is a scroll nobody reads;
+ * the CSV export is uncapped and says so. */
+var LEGISLATOR_CAP = 120;
+
+function positions_section(slice) {
+  var c = slice.county;
+  var st = esc(c.state_abbr || '');
+  var pman = META.position_manifest || {};
+
+  var html = '<section><h3>Public positions on data centers</h3>' +
+    '<div class="sub">What officials and governing bodies here have actually done ' +
+    'on the record: roll-call votes on data center bills, bill sponsorships, ' +
+    'quoted statements of priorities, and decisions by county commissions, city ' +
+    'councils and planning boards. Every row carries the source it came from. ' +
+    '<b>Nothing here is inferred</b> — not from a party, a district, an office ' +
+    'title or a model. An official who has left no record on this subject carries ' +
+    'no position on this page, and that silence is not evidence of a position ' +
+    'either way.</div>';
+
+  if (!DETAIL_READY) return html + '<div class="empty">Loading&hellip;</div></section>';
+
+  var n_state = slice.positions_state.length;
+  var directional = slice.legislators.filter(function (r) {
+    return (num(r.n_directional) || 0) > 0;
+  });
+  html += '<div class="kpis">' +
+    kpi('Recorded acts in ' + st, fmt_int(n_state), 'votes and sponsorships') +
+    kpi('Bills voted in ' + st, fmt_int(slice.position_bills.length),
+        'that passed the subject gate') +
+    kpi('Legislators with a record', fmt_int(directional.length),
+        'of ' + fmt_int(slice.legislators.length) + ' with any act on file') +
+    kpi('Governing body actions here', fmt_int(slice.body_actions.length),
+        'decisions in this county') +
+    kpi('Quoted statements', fmt_int(slice.priorities.length),
+        'officials with a sourced priority') +
+    '</div>';
+
+  /* ---- what this county's own government did ---- */
+  html += '<h3 style="margin-top:18px">Decisions by governing bodies here' +
+    count_label(slice.body_actions.length) + '</h3>' +
+    '<div class="sub">Attributed to the body, never to an individual member: a 4-3 ' +
+    'vote is the board\'s act and this layer does not know who was in the four. ' +
+    'Only decisions appear — a scheduled agenda item is not a position.</div>' +
+    table(['Date', 'Body', 'Jurisdiction', 'Mechanism', 'Result', 'What happened', 'Source'],
+      slice.body_actions, function (r) {
+        return ['<span class="nowrap">' + fmt_date(r.evidence_date) + '</span>',
+                esc(r.office), '<span class="clip">' + esc(r.jurisdiction) + '</span>',
+                esc(r.vote_motion), esc(r.vote_result),
+                '<span class="clip">' + esc(r.evidence_summary) + '</span>',
+                link(r.source_url)];
+      }, 'No recorded governing body decision in this county. The tracker codes a ' +
+         'decision only where a source records one, so this is a coverage statement ' +
+         'about the tracker, not a statement that nothing has happened.');
+
+  /* ---- quoted priorities ---- */
+  if (slice.priorities.length) {
+    html += '<h3 style="margin-top:18px">Stated priorities' +
+      count_label(slice.priorities.length) + '</h3>' +
+      '<div class="sub">Carried verbatim from the official page cited, never ' +
+      'summarised into a stance. A statement about permitting or infrastructure ' +
+      'readiness is not a statement about data centers unless it says so.</div>' +
+      table(['Official', 'Office', 'Tier', 'What they said', 'Source'],
+        slice.priorities, function (r) {
+          return ['<span class="nowrap">' + esc(r.person_name) + '</span>',
+                  '<span class="clip">' + esc(r.office) + '</span>',
+                  esc(r.level === 'county' ? 'County' : 'State'),
+                  '<div class="quote">' + esc(r.evidence_summary) + '</div>',
+                  link(r.source_url)];
+        }, '');
+  }
+
+  /* ---- the bills, with a tally this page computed from the rows it holds ---- */
+  html += '<h3 style="margin-top:18px">Data center bills voted in ' + st +
+    count_label(slice.position_bills.length) + '</h3>' +
+    '<div class="sub">Bills whose title carries an explicit data center or ' +
+    'large-load term, so their roll calls can be read as positions on this ' +
+    'subject. "Direction" is assigned by a published rule on the bill title, ' +
+    'named in the rule column so it can be argued with. A bill the rules cannot ' +
+    'classify still shows its votes; it simply carries no direction.</div>' +
+    table(['Bill', 'Title', 'Direction', 'Rule', 'Stage', 'Yes', 'No', 'Other',
+           'First vote', 'Last vote', 'OpenStates'],
+      slice.position_bills, function (r) {
+        var b = r.bill;
+        var dir = b.direction || 'unclassified';
+        return ['<span class="nowrap">' + esc(b.identifier) + '</span>',
+                '<span class="clip">' + esc(b.title) + '</span>',
+                '<span class="stance ' +
+                  (dir === 'restrictive' ? 'restrict'
+                   : dir === 'enabling' ? 'industry'
+                   : dir === 'disclosure' ? 'disclose' : 'none') + '">' +
+                  esc(DIRECTION_TEXT[dir] || dir) + '</span>',
+                '<span class="clip">' + esc(b.direction_rule || '—') + '</span>',
+                esc(b.stage || '—'), fmt_int(r.yes), fmt_int(r.no), fmt_int(r.other),
+                '<span class="nowrap">' + fmt_date(r.first) + '</span>',
+                '<span class="nowrap">' + fmt_date(r.last) + '</span>',
+                link(b.openstates_url, 'bill')];
+      }, 'No bill in this state has both a roll call in the repository and a title ' +
+         'that establishes it is a data center bill.');
+
+  /* ---- legislators ---- */
+  var shown = slice.legislators.slice(0, LEGISLATOR_CAP);
+  html += '<h3 style="margin-top:18px">Voting records of ' + st + ' legislators' +
+    count_label(slice.legislators.length) + '</h3>' +
+    '<div class="sub">Sorted by how much record each one has. "Record" summarises ' +
+    'only the acts that carry a direction, and it is a label, not a score: ' +
+    'supporting a reporting requirement is not opposing data centers, so the two ' +
+    'never net out against each other. One act reads as one act, never as a ' +
+    'pattern. These are state legislators, so they vote on the frame this county ' +
+    'operates inside rather than on any project in it.</div>' +
+    table(['Legislator', 'Chamber', 'Record', 'For restriction',
+           'Against restriction', 'For incentive', 'Against incentive',
+           'For disclosure', 'Against disclosure', 'No direction', 'Did not vote',
+           'Last act', 'Source'],
+      shown, function (r) {
+        /* record_basis is the label's arithmetic. It is a tooltip rather than a
+         * column because on screen it says what the count columns already show,
+         * and as a column it clipped to "5 on the restriction side, 12..." --
+         * a truncated number being worse than no number. The CSV carries it. */
+        return ['<span class="nowrap">' + esc(r.person_name) + '</span>',
+                esc(CHAMBER_TEXT[r.chamber] || r.chamber || '—'),
+                '<span class="stance ' + (RECORD_CLASS[r.record] || 'none') +
+                  '" title="' + esc(r.record_basis) + '">' +
+                  esc(RECORD_TEXT[r.record] || r.record) + '</span>',
+                fmt_int(r.supported_restriction), fmt_int(r.opposed_restriction),
+                fmt_int(r.supported_industry_incentive),
+                fmt_int(r.opposed_industry_incentive),
+                fmt_int(r.supported_disclosure), fmt_int(r.opposed_disclosure),
+                fmt_int(r.recorded_vote_no_direction), fmt_int(r.did_not_vote),
+                '<span class="nowrap">' + fmt_date(r.last_evidence) + '</span>',
+                link(r.example_source_url, 'vote')];
+      }, 'No legislator in this state has a recorded vote on a bill that passed the ' +
+         'subject gate. Roll calls exist only where OpenStates publishes them and ' +
+         'only for bills this repository has already matched, so an empty table is ' +
+         'a coverage gap, not a quiet legislature.');
+
+  if (slice.legislators.length > shown.length) {
+    html += '<div class="sub trailing">Showing the ' + shown.length +
+      ' legislators with the most record, of ' + slice.legislators.length +
+      '. The CSV export carries every one, and every individual vote behind them.</div>';
+  }
+
+  if (pman.votes_withheld) {
+    html += '<div class="sub trailing">Across all states, ' +
+      fmt_int(pman.votes_read) + ' roll calls were read and ' +
+      fmt_int(pman.votes_withheld) + ' were withheld because the bill\'s title does ' +
+      'not establish that it is a data center bill. The matching that produced ' +
+      'these roll calls also returned an immigration bill, a state budget and a ' +
+      'child-restraint bill, so the gate is deliberately strict and withholds real ' +
+      'bills alongside the false ones. <code>data/stakeholder_positions_qc.md</code> ' +
+      'ranks what was withheld by how many votes a confirmation would unlock.</div>';
+  }
+
+  return html + '</section>';
+}
+
+/* ------------------------- comparison render ----------------------- */
+
+/* A percentile drawn as a position on a track. The quartile ticks are there so
+ * the marker is read against something; a bare marker on an empty bar invites
+ * the reader to treat the position as a magnitude. */
+function pct_cell(p) {
+  var n = num(p);
+  if (n === null) return '<span class="pct-num">—</span>';
+  return '<div class="pct"><div class="pct-track">' +
+    '<b style="left:25%"></b><b style="left:50%"></b><b style="left:75%"></b>' +
+    '<i style="left:calc(' + n.toFixed(1) + '% - 1.5px)"></i></div>' +
+    '<span class="pct-num">' + Math.round(n) + '</span></div>';
+}
+
+/* The delta against a reference, coloured only where the metric declares a
+ * direction. "More restriction pressure" is the accent colour used everywhere
+ * else on this page for a restriction signal; a neutral metric gets no colour
+ * at all, because there is no such thing as a good or bad median income here. */
+function vs_cell(metric, value, reference) {
+  var v = num(value), r = num(reference);
+  if (v === null || r === null) return '<span class="vs flat">—</span>';
+  var d = v - r;
+  var dir = METRIC_DIRECTION[metric] || 'neutral';
+  var cls = 'flat';
+  if (dir === 'up_is_more_restrictive') cls = d > 0 ? 'more' : (d < 0 ? 'less' : 'flat');
+  else if (dir === 'up_is_less_restrictive') cls = d > 0 ? 'less' : (d < 0 ? 'more' : 'flat');
+  var sign = d > 0 ? '+' : '';
+  return '<span class="vs ' + cls + '">' + sign + fmt_delta(metric, d) + '</span>';
+}
+
+function comparison_section(slice) {
+  var c = slice.county, bm = slice.benchmark;
+  var st_group = 'state:' + String(c.state_abbr || '').toUpperCase();
+  var bman = META.benchmark_manifest || {};
+
+  var html = '<section><h3>How this county compares</h3>' +
+    '<div class="sub">Every figure on this page answered against the groups that ' +
+    'make it readable: all counties, the counties that have actually enacted a ' +
+    'restriction, this state, and the ten counties that most resemble this one on ' +
+    'population, density, education and 2024 margin. Reference values are medians, ' +
+    'published in <code>data/county_benchmark_reference.csv</code>. The percentile ' +
+    'column is this county\'s position among all counties.</div>';
+
+  if (!DETAIL_READY && !REFERENCE.national) {
+    return html + '<div class="empty">Loading comparison frame&hellip;</div></section>';
+  }
+
+  /* ---- headline: the three numbers a client asks for ---- */
+  var self_score = c.score ? num(c.score.calibrated_score) : null;
+  var restr_med = ref_stat('restrictive', 'calibrated_score', 'median');
+  var nat_med = ref_stat('national', 'calibrated_score', 'median');
+  var pct_restr = bm ? num(bm.calibrated_score_pct_restrictive) : null;
+  var peer_rate = bm ? num(bm.peer_restriction_rate) : null;
+  var peer_n = bm ? num(bm.peer_n) : null;
+
+  html += '<div class="kpis">' +
+    kpi('Score vs counties that acted',
+        pct_restr === null ? '—' : ordinal(Math.round(pct_restr)),
+        restr_med === null ? '' : 'their median is ' + fmt_prob(restr_med)) +
+    kpi('Score vs all counties',
+        c.national_pct === undefined ? '—' : ordinal(Math.round(c.national_pct)),
+        nat_med === null ? '' : 'national median ' + fmt_prob(nat_med)) +
+    kpi('Peer counties that have restricted',
+        peer_rate === null ? '—' : fmt_prob(peer_rate, 0),
+        (bm && bm.peer_restriction_count !== '' && peer_n)
+          ? bm.peer_restriction_count + ' of ' + peer_n + ' look-alike counties' : '') +
+    kpi('Gap to the restrictive median',
+        (bm && bm.score_gap_to_restrictive_median !== '')
+          ? (num(bm.score_gap_to_restrictive_median) >= 0 ? '+' : '') +
+            fmt_prob(bm.score_gap_to_restrictive_median)
+          : '—',
+        'percentage points of score') +
+    '</div>';
+
+  /* The separation between the two groups is the honest caveat on the whole
+   * section, so it is stated here rather than buried in the methodology. */
+  if (bman.score_separation_restrictive_minus_non !== undefined &&
+      bman.score_separation_restrictive_minus_non !== null) {
+    html += '<div class="sub" style="margin-top:9px">The median county that has ' +
+      'enacted a restriction scores ' +
+      fmt_prob(bman.score_separation_restrictive_minus_non) + ' above the median ' +
+      'county that has not. That is a real but narrow separation: the score ranks ' +
+      'counties usefully and does not cleanly divide them into two populations. ' +
+      'A high percentile here means this county sits high in the ordering, not ' +
+      'that it is about to act.</div>';
+  }
+
+  /* ---- the table ---- */
+  var rows = COMPARE_METRICS.filter(function (m) { return REFERENCE.national && REFERENCE.national[m]; });
+  html += '<div style="margin-top:12px">' +
+    table_now(['Metric', 'This county', 'All counties', 'vs all',
+           'Counties that restricted', 'vs those', c.state_abbr || 'State',
+           'Peer counties', '%ile, all counties'],
+      rows, function (m) {
+        /* Three places a county's own value can come from, in order of
+         * preference: the score file, the published benchmark row, and the
+         * aggregate this page already holds. The last is what fills the table
+         * on first paint, before the benchmark file lands. A derived rate
+         * exists in none of the first two until then, and is left blank rather
+         * than recomputed here under a definition that might drift from the
+         * one county_benchmarks.py used. */
+        var self = (m === 'calibrated_score')
+          ? (c.score ? num(c.score.calibrated_score) : null)
+          : (bm && bm[m] !== '' && bm[m] !== undefined ? num(bm[m]) : num(c.agg[m]));
+        var nat = ref_stat('national', m, 'median');
+        var res = ref_stat('restrictive', m, 'median');
+        var sta = ref_stat(st_group, m, 'median');
+        var peer = bm ? num(bm[m + '_peer_median']) : null;
+        var p_nat = bm ? num(bm[m + '_pct_national']) : null;
+        return ['<span>' + esc(METRIC_LABEL[m] || m) + '</span>',
+                '<span class="self">' + fmt_metric(m, self) + '</span>',
+                '<span class="ref">' + fmt_metric(m, nat) + '</span>',
+                vs_cell(m, self, nat),
+                '<span class="ref">' + fmt_metric(m, res) + '</span>',
+                vs_cell(m, self, res),
+                '<span class="ref">' + fmt_metric(m, sta) + '</span>',
+                '<span class="ref">' + fmt_metric(m, peer) + '</span>',
+                pct_cell(p_nat)];
+      }, 'No comparison frame for this county.') + '</div>';
+
+  if (bm && bm.peer_matched === '0') {
+    html += '<div class="sub trailing">This county is missing at least one of the ' +
+      'four matching features, so it has no peer group. It is left empty rather ' +
+      'than filled with the average county, which is what an imputed match would ' +
+      'quietly produce.</div>';
+  }
+
+  /* ---- the peer table ---- */
+  if (slice.peers.length) {
+    html += '<h3 style="margin-top:18px">Peer counties' + count_label(slice.peers.length) +
+      '</h3>' +
+      '<div class="sub">The counties this one most resembles structurally, whatever ' +
+      'state they are in. This is a similarity set for reading the county against, ' +
+      'not a matched control: it carries no claim about what would have happened ' +
+      'here. Matched on standardised log population, log density, share with a ' +
+      "bachelor's degree and 2024 margin" +
+      (bm && bm.peer_mean_distance ? ', mean distance ' + esc(bm.peer_mean_distance) : '') +
+      '.</div>' +
+      table(['County', 'Score', 'Enacted', 'Opp. events', 'DC records', 'Population',
+             'Density', 'Median income', "Bachelor's+", '2024 margin'],
+        slice.peers, function (p) {
+          return ['<span class="link-county" data-fips="' + esc(p.fips) + '">' +
+                    esc(p.label) + '</span>',
+                  p.score ? fmt_prob(p.score.calibrated_score) : '—',
+                  '<span class="flag ' + (p.agg.has_enacted_restrictive === '1' ? 'on' : 'off') +
+                    '">' + (p.agg.has_enacted_restrictive === '1' ? 'Yes' : 'No') + '</span>',
+                  fmt_int(p.agg.n_opposition_events), fmt_int(p.agg.existing_dc_count),
+                  fmt_int(p.agg.population), fmt_num(p.agg.pop_density_sqmi, 1),
+                  fmt_money(p.agg.median_hh_income), fmt_pct(p.agg.pct_bachelors_plus),
+                  fmt_margin(p.agg.margin_2024)];
+        }, '');
+  }
+
+  return html + '</section>';
 }
 
 function render(slice) {
@@ -862,6 +1470,9 @@ function render(slice) {
       'Puerto Rico and counties with incomplete census features are excluded.</div>';
   }
   html += '</section>';
+
+  /* ---- comparison ---- */
+  html += comparison_section(slice);
 
   /* ---- project risk screen ---- */
   if (slice.site_screen.length || !DETAIL_READY) {
@@ -1093,6 +1704,9 @@ function render(slice) {
   }
   html += '</section>';
 
+  /* ---- public positions ---- */
+  html += positions_section(slice);
+
   /* ---- coverage and known gaps ---- */
   html += '<section><h3>Coverage and known gaps</h3>';
   if (slice.coverage.length) {
@@ -1289,6 +1903,74 @@ function methodology_panel() {
       'A warned row is published with one unusable contact field blanked.</div>';
   }
 
+  var bmf = META.benchmark_manifest;
+  if (bmf) {
+    h += '<h4>Comparison layer</h4>' +
+      '<dl class="dl">' +
+      '<dt>counties in the frame</dt><dd>' + fmt_int(bmf.counties) + '</dd>' +
+      '<dt>counties with a peer group</dt><dd>' + fmt_int(bmf.counties_matchable) +
+        ' (the rest are missing a matching feature and are left unmatched ' +
+        'rather than imputed)</dd>' +
+      '<dt>peers per county</dt><dd>' + fmt_int(bmf.peers_per_county) + '</dd>' +
+      '<dt>matching features</dt><dd>' + esc((bmf.match_features || []).join(', ')) + '</dd>' +
+      '<dt>reference groups</dt><dd>' +
+        esc(Object.keys(bmf.groups || {}).join(', ')) + ', plus ' +
+        fmt_int(bmf.state_groups) + ' state groups</dd>' +
+      '<dt>counties that have restricted</dt><dd>' +
+        fmt_int((bmf.groups || {}).restrictive) + '</dd>' +
+      '<dt>score separation</dt><dd>' +
+        fmt_prob(bmf.score_separation_restrictive_minus_non) +
+        ' between the two group medians</dd>' +
+      '<dt>metrics profiled</dt><dd>' + fmt_int(bmf.metrics) + '</dd>' +
+      '<dt>generated</dt><dd>' + esc(bmf.generated || '—') + '</dd>' +
+      '</dl>' +
+      '<div class="sub">Reference values are medians over the group, not means, ' +
+      'because the county distributions are long-tailed: a handful of Loudouns ' +
+      'would drag a mean far from anything a typical county looks like. ' +
+      'Percentiles use the mid-rank convention, so the many counties tied at zero ' +
+      'opposition events read at the middle of that tie rather than at the bottom ' +
+      'of the national distribution. A peer group is a similarity set for reading ' +
+      'a county against; it is not a matched control and supports no statement ' +
+      'about what would have happened here. IDENTIFIABILITY.md records why no ' +
+      'such statement is available from this data.</div>';
+  }
+
+  var pmf = META.position_manifest;
+  if (pmf) {
+    h += '<h4>Public positions</h4>' +
+      '<dl class="dl">' +
+      '<dt>position rows</dt><dd>' + fmt_int(pmf.position_rows) + '</dd>' +
+      '<dt>people with a record</dt><dd>' + fmt_int(pmf.people) + '</dd>' +
+      '<dt>counties with a body action</dt><dd>' + fmt_int(pmf.counties_covered) + '</dd>' +
+      '<dt>states covered</dt><dd>' + fmt_int((pmf.states_covered || []).length) + '</dd>' +
+      '<dt>roll calls read</dt><dd>' + fmt_int(pmf.votes_read) + '</dd>' +
+      '<dt>roll calls withheld</dt><dd>' + fmt_int(pmf.votes_withheld) +
+        ' (subject gate)</dd>' +
+      '<dt>bills passing the subject gate</dt><dd>' +
+        fmt_int(pmf.bills_passing_subject_gate) + ' of ' + fmt_int(pmf.bills_in_frame) +
+        ', ' + fmt_int(pmf.bills_with_direction) + ' of them with a direction</dd>' +
+      '<dt>human subject overrides</dt><dd>' + fmt_int(pmf.override_rows) + '</dd>' +
+      '<dt>generated</dt><dd>' + esc(pmf.generated || '—') + '</dd>' +
+      '</dl>' +
+      '<div class="sub">Two gates stand between a roll call and a published ' +
+      'position. The <b>subject</b> gate requires the bill\'s title to carry an ' +
+      'explicit data center or large-load term; the matching that produced these ' +
+      'roll calls also returned a child-restraint bill, an immigration bill and a ' +
+      'state budget, and reading those as data center positions would put ' +
+      'fabricated views next to real names. The <b>direction</b> gate assigns which ' +
+      'way a bill cuts from an ordered rule list on the title, and every published ' +
+      'row names the rule that fired. A bill no rule classifies still has its votes ' +
+      'published, as a recorded vote with no stance attached.<br><br>' +
+      'Stances sit on three separate axes — restriction, industry incentive, ' +
+      'disclosure — and are never netted into a single pro-or-anti score. A ' +
+      'legislator with acts on both sides is labelled mixed rather than averaged, ' +
+      'and a legislator with one act is labelled as having one act. The withheld ' +
+      'bills are ranked in data/stakeholder_positions_qc.md by how many votes a ' +
+      'human confirmation would unlock; confirmations go in ' +
+      'data/bill_subject_overrides.csv, which the pipeline reads and never ' +
+      'writes to.</div>';
+  }
+
   h += '<h4>Standing interpretation rules</h4><div class="sub">Nothing on this page is a ' +
     'causal estimate. Figures describe associations and observed histories. No dollar amount ' +
     'or delay shown anywhere in this system is attributable to opposition, and none should be ' +
@@ -1385,6 +2067,39 @@ function export_csv() {
 
   slice.stakeholders_county.concat(slice.stakeholders_state).forEach(function (r) {
     push_row('stakeholder', r.stakeholder_id || (r.level + '_' + r.office_class), r);
+  });
+
+  /* ---- comparison layer ---- */
+  if (slice.benchmark) push_row('benchmark', c.fips, slice.benchmark);
+  /* Every reference group this county is actually read against, so the export
+   * reproduces the comparison table without needing the reference file. */
+  ['national', 'restrictive', 'non_restrictive', 'dc_present', 'dc_absent',
+   'tracked_activity', 'state:' + String(c.state_abbr || '').toUpperCase()
+  ].forEach(function (g) {
+    Object.keys(REFERENCE[g] || {}).forEach(function (m) {
+      push_row('benchmark_reference', g + '|' + m, REFERENCE[g][m]);
+    });
+  });
+  slice.peers.forEach(function (p) {
+    push_row('peer_county', p.fips, p.agg);
+    if (p.score) push_row('peer_policy_score', p.fips, p.score);
+  });
+
+  /* ---- positions ----
+   * Uncapped, unlike the screen: the legislator table shows the longest
+   * records and the export is the audit trail, so it carries every individual
+   * vote behind every summary row. */
+  slice.body_actions.forEach(function (r) { push_row('governing_body_action', r.position_id, r); });
+  slice.priorities.forEach(function (r) { push_row('stated_priority', r.position_id, r); });
+  slice.positions_state.forEach(function (r) { push_row('position', r.position_id, r); });
+  slice.legislators.forEach(function (r) { push_row('position_summary', r.person_key, r); });
+  slice.position_bills.forEach(function (r) {
+    push_row('position_bill', r.bill.bill_key, r.bill);
+    push('position_bill', r.bill.bill_key, 'votes_yes', r.yes);
+    push('position_bill', r.bill.bill_key, 'votes_no', r.no);
+    push('position_bill', r.bill.bill_key, 'votes_other', r.other);
+    push('position_bill', r.bill.bill_key, 'first_vote_date', r.first);
+    push('position_bill', r.bill.bill_key, 'last_vote_date', r.last);
   });
 
   /* Cost stays internal: it is only written when the operator has explicitly

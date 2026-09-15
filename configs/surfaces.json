@@ -4,7 +4,8 @@
     "diff what the Notion hub shows against what data/ actually holds.",
     "Hand-maintained: adding a Notion page or an embed means adding it here,",
     "and an HTML file in the repo that appears on no page is reported as",
-    "unreferenced rather than silently assumed live."
+    "unreferenced rather than silently assumed live.",
+    "A page whose notion_url is empty is registered but not yet located: the embed exists and is known to be client-facing, and the Notion URL still has to be pasted in by whoever owns that page. That is a visible gap rather than an invented URL."
   ],
   "hub": {
     "title": "Master Data Center Dashboard",
@@ -42,6 +43,24 @@
       "notion_url": "https://app.notion.com/p/3ba389a63f7380ffaf79cfb582011006",
       "embeds": [
         "restriction-model.html"
+      ]
+    },
+    {
+      "section": "County Risk Model",
+      "page": "County Profile",
+      "notion_url": "",
+      "note": "Live on the internal Notion hub; URL to be filled in by the page owner.",
+      "embeds": [
+        "county-profile.html"
+      ]
+    },
+    {
+      "section": "County Risk Model",
+      "page": "Public Positions",
+      "notion_url": "",
+      "note": "Shipped 2026-09-15; not yet embedded on a Notion page.",
+      "embeds": [
+        "positions-dashboard.html"
       ]
     },
     {
@@ -138,6 +157,10 @@
     "data/baseline_universe.csv": [
       "candidate",
       "The unopposed comparison pool. Its size is a denominator worth showing; its rows are Layer E and never a source of record."
+    ],
+    "data/bill_subject_overrides.csv": [
+      "internal_operational",
+      "Human source of record: a confirmation, with a citation, that a bill is a data center bill. stakeholder_positions.py reads it and never writes to it. The confirmations reach a client only through the positions they unlock, never as rows."
     ],
     "data/bill_sync_matches.csv": [
       "candidate",
@@ -390,6 +413,22 @@
     "data/splink_spike_scores.csv": [
       "internal_operational",
       "Same spike."
+    ],
+    "data/stakeholder_held.csv": [
+      "internal_operational",
+      "Stakeholder rows withheld by the identity gate, most often a term that has already ended. Internal for the same reason the positions ledger is: it names people the registry deliberately does not publish."
+    ],
+    "data/stakeholder_positions_held.csv": [
+      "internal_operational",
+      "What the position gate withheld and why. The audit trail behind the published registry; a client sees the coverage statement on the page, not the ledger."
+    ],
+    "data/stakeholder_positions_qc.md": [
+      "internal_operational",
+      "Gate result and the ranked promotion queue. Written to be acted on by an analyst, not read by a client."
+    ],
+    "data/stakeholder_seed_county.csv": [
+      "internal_operational",
+      "Hand-assembled county tier seed. stakeholder_registry.py validates and republishes it; the published registry is the client-facing artifact."
     ],
     "data/stale_pending_summary.json": [
       "closed_via_summary",

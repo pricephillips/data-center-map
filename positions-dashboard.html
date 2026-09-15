@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Public Positions on Data Centers</title>
+<style>
+:root {
+  --bg:#0f1218; --panel:#161c25; --panel2:#1c242f; --text:#eef2f7;
+  --muted:#8a96a4; --border:#2c3544;
+  --atlas:#4f98a3; --accent:#ea580c; --accent2:#fbbf24; --bad:#c0566b; --good:#4f98a3;
+}
+* { box-sizing:border-box; margin:0; padding:0 }
+body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(--text);
+  padding:18px; min-height:100vh; font-size:13px }
+h2 { font-weight:700; font-size:20px }
+h3 { font-weight:700; font-size:14px; margin-bottom:10px }
+a { color:var(--atlas) }
+
+.nav { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px }
+.nav-pill { padding:6px 12px; border-radius:999px; border:1px solid var(--border);
+  background:var(--panel); color:var(--muted); font-size:12px; text-decoration:none }
+.nav-pill:hover { color:var(--text); border-color:var(--atlas) }
+.nav-pill.active { color:var(--atlas); border-color:var(--atlas); background:var(--panel2) }
+.nav-pill:focus-visible, a:focus-visible, button:focus-visible,
+select:focus-visible, input:focus-visible { outline:2px solid var(--atlas); outline-offset:2px }
+
+.toolbar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px }
+select, input[type=text] { padding:8px 11px; border-radius:8px; border:1px solid var(--border);
+  background:var(--panel); color:var(--text); font:inherit; font-size:12px }
+input[type=text] { min-width:230px }
+button { padding:8px 13px; border-radius:8px; border:1px solid var(--border);
+  background:var(--panel); color:var(--text); font:inherit; font-size:12px; cursor:pointer }
+button:hover { border-color:var(--atlas) }
+button.primary { background:var(--atlas); border-color:var(--atlas); color:#08131a; font-weight:600 }
+button.primary:hover { filter:brightness(1.1) }
+label.fld { display:flex; flex-direction:column; gap:3px; font-size:10.5px; color:var(--muted) }
+
+#error-banner { display:none; background:#3a1520; border:1px solid #7a2535; color:#ffb4c0;
+  padding:11px 13px; border-radius:10px; margin-bottom:14px; font-size:12px }
+.loading { color:var(--muted); padding:26px 2px }
+.sub { color:var(--muted); font-size:12px; margin-bottom:14px; line-height:1.65; max-width:112ch }
+.sub.trailing { margin:11px 0 0 }
+
+section { margin-bottom:22px }
+.kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:9px;
+  margin-bottom:14px }
+.kpi { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:11px 13px }
+.kpi b { display:block; font-size:20px; font-weight:700; line-height:1.25 }
+.kpi span { font-size:11px; color:var(--muted); display:block; margin-top:2px }
+.kpi em { font-style:normal; font-size:11px; color:var(--muted) }
+
+table { width:100%; border-collapse:collapse; font-size:12px }
+th { text-align:left; padding:7px 9px; color:var(--muted); font-weight:600; font-size:11px;
+  border-bottom:1px solid var(--border); white-space:nowrap; position:sticky; top:0;
+  background:var(--panel2) }
+td { padding:7px 9px; border-bottom:1px solid var(--border); vertical-align:top }
+tr:last-child td { border-bottom:none }
+.tbl-wrap { background:var(--panel); border:1px solid var(--border); border-radius:10px;
+  overflow:auto; max-height:520px }
+.empty { color:var(--muted); padding:13px; font-size:12px }
+.clip { max-width:420px; overflow:hidden; text-overflow:ellipsis; display:-webkit-box;
+  -webkit-line-clamp:3; -webkit-box-orient:vertical }
+.nowrap { white-space:nowrap }
+.count { color:var(--muted); font-weight:400; font-size:12px; margin-left:6px }
+
+.stance { display:inline-block; padding:2px 7px; border-radius:999px; font-size:10.5px;
+  font-weight:600; white-space:nowrap; border:1px solid var(--border); color:var(--muted);
+  background:var(--panel2) }
+.stance.restrict { background:#3a2116; border-color:var(--accent); color:var(--accent2) }
+.stance.industry { background:#12303a; border-color:var(--atlas); color:#8fd3dd }
+.stance.disclose { background:var(--panel2); border-color:#4b5a6b; color:#b6c2d0 }
+.stance.none { background:transparent }
+.quote { border-left:2px solid var(--border); padding-left:9px; color:var(--muted);
+  font-size:11.5px; line-height:1.6 }
+
+details { background:var(--panel); border:1px solid var(--border); border-radius:10px;
+  padding:0 13px; margin-bottom:14px }
+details[open] { padding-bottom:13px }
+summary { cursor:pointer; padding:11px 0; font-weight:600; font-size:13px; list-style:none }
+summary::-webkit-details-marker { display:none }
+summary::before { content:'\25b8  '; color:var(--muted) }
+details[open] summary::before { content:'\25be  ' }
+details h4 { margin:17px 0 7px; font-size:12.5px }
+.dl { display:grid; grid-template-columns:max-content 1fr; gap:5px 16px; font-size:12px }
+.dl dt { color:var(--muted) }
+.dl dd { margin:0 }
+
+footer { color:var(--muted); font-size:11px; border-top:1px solid var(--border);
+  padding-top:12px; margin-top:26px; line-height:1.7 }
+
+@media print {
+  :root { --bg:#fff; --panel:#fff; --panel2:#f4f6f8; --text:#111; --muted:#555; --border:#c8d0d8 }
+  body { background:#fff; color:#111 }
+  .nav, .toolbar, #error-banner { display:none !important }
+  .tbl-wrap { max-height:none; overflow:visible }
+  section { break-inside:avoid }
+  a { color:#111; text-decoration:underline }
+}
+</style>
+</head>
+<body>
+
+<!-- Same embed rule as every other page here: the nav is for direct visits and
+     is hidden inside a Notion/Simple.ink iframe. -->
+<nav class="nav" id="site-nav" style="display:none">
+  <a href="index.html" class="nav-pill">Atlas Map</a>
+  <a href="opposition-tracker.html" class="nav-pill">Opposition Tracker</a>
+  <a href="opposition-dashboard.html" class="nav-pill">Opposition Dashboard</a>
+  <a href="developments-dashboard.html" class="nav-pill">Developments</a>
+  <a href="project-lifecycles.html" class="nav-pill">Projects</a>
+  <a href="restriction-model.html" class="nav-pill">Restriction Model</a>
+  <a href="county-profile.html" class="nav-pill">County Profile</a>
+  <a href="positions-dashboard.html" class="nav-pill active">Public Positions</a>
+</nav>
+<script>
+  try { if (window.self === window.top) document.getElementById('site-nav').style.display = 'flex'; }
+  catch (e) { /* cross-origin frame access throws -> we are embedded; keep hidden */ }
+</script>
+
+<h2>Public positions on data centers</h2>
+<div class="sub">Every recorded act this repository holds on where public officials and
+governing bodies stand on data centers: roll-call votes on data center bills, bill
+sponsorships, quoted statements of priorities, and decisions by county commissions,
+city councils, planning boards and utility commissions. Each row carries the source it
+came from. <b>Nothing here is inferred</b> &mdash; not from a party, a district, an
+office title or a model. An official with no recorded act carries no position, and
+that silence is not evidence of a position either way. The county-level view of this
+same data sits inside each county on the <a href="county-profile.html">County
+Profile</a> page.</div>
+
+<div id="error-banner"></div>
+
+<div class="toolbar">
+  <label class="fld">State
+    <select id="f-state"><option value="">All states</option></select></label>
+  <label class="fld">Evidence class
+    <select id="f-basis"><option value="">All evidence</option></select></label>
+  <label class="fld">Stance
+    <select id="f-stance"><option value="">All stances</option></select></label>
+  <label class="fld">Bill direction
+    <select id="f-direction"><option value="">Any direction</option></select></label>
+  <label class="fld">Search name, bill or jurisdiction
+    <input type="text" id="f-q" autocomplete="off" spellcheck="false"
+           placeholder="Roem, SB 94, Loudoun&hellip;"></label>
+  <label class="fld">&nbsp;<button id="reset">Reset</button></label>
+  <label class="fld">&nbsp;<button id="export" class="primary" disabled>Export filtered CSV</button></label>
+  <label class="fld">&nbsp;<button id="permalink">Copy link</button></label>
+</div>
+
+<div id="body"><div class="loading">Loading the position record&hellip;</div></div>
+
+<script>
+/* ------------------------------------------------------------------ *
+ * National view of the position registry. Every value comes from a file
+ * stakeholder_positions.py published, so the page stays correct as CI
+ * regenerates them.
+ *
+ * Fetch order is raw.githubusercontent FIRST, per the standing rule in
+ * this repo: it is the only origin that reliably sends CORS headers to a
+ * Notion iframe. Pages and relative paths are fallbacks.
+ * ------------------------------------------------------------------ */
+
+var RAW = 'https://raw.githubusercontent.com/pricephillips/data-center-map/main/';
+var PAGES = 'https://pricephillips.github.io/data-center-map/';
+function urls(p) { return [RAW + p, PAGES + p, './' + p]; }
+
+var FILES = {
+  positions: 'data/stakeholder_positions.csv',
+  bills: 'data/position_bills.csv',
+  summary: 'data/stakeholder_position_summary.csv'
+};
+var JSON_FILES = { manifest: 'data/stakeholder_positions_manifest.json' };
+
+var DATA = {}, META = {};
+var BILL_BY_KEY = {};
+var FILTERS = { state: '', basis: '', stance: '', direction: '', q: '' };
+
+/* Big tables are capped on screen and never in the export. 11,000 rows of
+ * roll call is not a table anyone reads; it is a file they open in Excel. */
+var ROW_CAP = 400;
+
+function banner(msg) {
+  var el = document.getElementById('error-banner');
+  el.style.display = 'block';
+  el.innerHTML = msg;
+}
+
+function fetch_first(list) {
+  var i = 0;
+  function attempt() {
+    if (i >= list.length) return Promise.resolve(null);
+    var u = list[i++];
+    return fetch(u, { cache: 'no-cache' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+      .catch(attempt);
+  }
+  return attempt();
+}
+
+/* RFC 4180 parser: evidence_summary carries quoted commas and, on a body
+ * action, embedded newlines from the tracker's Summary column. */
+function parse_csv(text) {
+  if (!text) return [];
+  if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+  var rows = [], row = [], field = '', quoted = false, i = 0;
+  while (i < text.length) {
+    var c = text[i];
+    if (quoted) {
+      if (c === '"') {
+        if (text[i + 1] === '"') { field += '"'; i += 2; continue; }
+        quoted = false; i++; continue;
+      }
+      field += c; i++; continue;
+    }
+    if (c === '"') { quoted = true; i++; continue; }
+    if (c === ',') { row.push(field); field = ''; i++; continue; }
+    if (c === '\r') { i++; continue; }
+    if (c === '\n') { row.push(field); field = ''; rows.push(row); row = []; i++; continue; }
+    field += c; i++;
+  }
+  if (field.length || row.length) { row.push(field); rows.push(row); }
+  if (!rows.length) return [];
+  var head = rows.shift().map(function (h) { return h.trim(); });
+  var out = [];
+  for (var r = 0; r < rows.length; r++) {
+    if (rows[r].length < 2) continue;
+    var o = {};
+    for (var j = 0; j < head.length; j++) o[head[j]] = rows[r][j] === undefined ? '' : rows[r][j];
+    out.push(o);
+  }
+  return out;
+}
+
+function esc(s) {
+  return String(s === null || s === undefined ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function num(v) {
+  if (v === '' || v === null || v === undefined) return null;
+  var n = Number(v);
+  return isNaN(n) ? null : n;
+}
+function fmt_int(v) {
+  var n = num(v);
+  return n === null ? '—' : Math.round(n).toLocaleString();
+}
+function fmt_date(v) {
+  var s = String(v || '').trim();
+  return s ? s.slice(0, 10) : '—';
+}
+function link(url, label) {
+  var u = String(url || '').trim();
+  if (!/^https?:\/\//i.test(u)) return '—';
+  return '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(label || 'Link') + '</a>';
+}
+
+/* ---------------------------- vocabulary --------------------------- */
+
+var BASIS_TEXT = {
+  roll_call_vote: 'Roll-call vote',
+  bill_sponsorship: 'Bill sponsorship',
+  stated_priority: 'Stated priority',
+  governing_body_action: 'Governing body action'
+};
+
+var STANCE_CLASS = {
+  supported_restriction: 'restrict',
+  opposed_industry_incentive: 'restrict',
+  sponsored_restriction: 'restrict',
+  opposed_restriction: 'industry',
+  supported_industry_incentive: 'industry',
+  sponsored_industry_incentive: 'industry',
+  supported_disclosure: 'disclose',
+  opposed_disclosure: 'disclose',
+  sponsored_disclosure: 'disclose'
+};
+
+var STANCE_TEXT = {
+  supported_restriction: 'For a restriction',
+  opposed_restriction: 'Against a restriction',
+  supported_industry_incentive: 'For an incentive',
+  opposed_industry_incentive: 'Against an incentive',
+  supported_disclosure: 'For disclosure',
+  opposed_disclosure: 'Against disclosure',
+  sponsored_restriction: 'Sponsored a restriction',
+  sponsored_industry_incentive: 'Sponsored an incentive',
+  sponsored_disclosure: 'Sponsored disclosure',
+  sponsored_bill_no_direction: 'Sponsored a bill',
+  recorded_vote_no_direction: 'Vote recorded',
+  did_not_vote: 'Did not vote',
+  stated_priority: 'Stated priority',
+  governing_body_action: 'Body action'
+};
+
+var DIRECTION_TEXT = {
+  restrictive: 'Restrictive',
+  enabling: 'Industry incentive',
+  disclosure: 'Disclosure',
+  unclassified: 'Not classified'
+};
+
+var DIRECTION_CLASS = {
+  restrictive: 'restrict', enabling: 'industry', disclosure: 'disclose'
+};
+
+var RECORD_TEXT = {
+  consistently_restrictive: 'All restriction-side',
+  mostly_restrictive: 'Mostly restriction-side',
+  consistently_industry_side: 'All industry-side',
+  mostly_industry_side: 'Mostly industry-side',
+  disclosure_only: 'Disclosure votes only',
+  mixed: 'Mixed',
+  single_act: 'One act only',
+  no_directional_record: 'No directional record'
+};
+
+var RECORD_CLASS = {
+  consistently_restrictive: 'restrict', mostly_restrictive: 'restrict',
+  consistently_industry_side: 'industry', mostly_industry_side: 'industry',
+  disclosure_only: 'disclose'
+};
+
+var CHAMBER_TEXT = { upper: 'Upper', lower: 'Lower', legislature: 'Unicameral' };
+
+function chip(cls, text) {
+  return '<span class="stance ' + (cls || 'none') + '">' + esc(text) + '</span>';
+}
+
+/* ----------------------------- filtering --------------------------- */
+
+function matches(p) {
+  if (FILTERS.state && p.state !== FILTERS.state) return false;
+  if (FILTERS.basis && p.stance_basis !== FILTERS.basis) return false;
+  if (FILTERS.stance && p.stance !== FILTERS.stance) return false;
+  if (FILTERS.direction) {
+    var b = BILL_BY_KEY[p.bill_key];
+    if (!b || b.direction !== FILTERS.direction) return false;
+  }
+  if (FILTERS.q) {
+    var b2 = BILL_BY_KEY[p.bill_key];
+    var hay = [p.person_name, p.jurisdiction, p.county_name, p.office,
+               p.bill_identifier, p.evidence_summary, b2 ? b2.title : '']
+      .join(' ').toLowerCase();
+    if (hay.indexOf(FILTERS.q) === -1) return false;
+  }
+  return true;
+}
+
+function filtered() { return (DATA.positions || []).filter(matches); }
+
+/* ------------------------------ render ----------------------------- */
+
+function kpi(label, value, note) {
+  return '<div class="kpi"><b>' + value + '</b>' + (note ? '<em>' + note + '</em>' : '') +
+    '<span>' + label + '</span></div>';
+}
+
+function table(cols, rows, render_row, empty_msg) {
+  if (!rows.length) return '<div class="empty">' + empty_msg + '</div>';
+  return '<div class="tbl-wrap"><table><thead><tr>' +
+    cols.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') +
+    '</tr></thead><tbody>' +
+    rows.map(function (r) {
+      return '<tr>' + render_row(r).map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>';
+    }).join('') +
+    '</tbody></table></div>';
+}
+
+function render() {
+  var rows = filtered();
+  var html = '';
+
+  /* ---- headline counts, all computed over the filtered set so the page
+     never shows a total that contradicts the table under it ---- */
+  var people = {}, states = {}, counties = {}, bills = {};
+  var restrict = 0, industry = 0, disclose = 0;
+  rows.forEach(function (p) {
+    if (p.person_name) people[p.person_name + '|' + p.state] = 1;
+    if (p.state) states[p.state] = 1;
+    if (p.fips) counties[p.fips] = 1;
+    if (p.bill_key) bills[p.bill_key] = 1;
+    var c = STANCE_CLASS[p.stance];
+    if (c === 'restrict') restrict++;
+    else if (c === 'industry') industry++;
+    else if (c === 'disclose') disclose++;
+  });
+
+  html += '<section><div class="kpis">' +
+    kpi('Recorded acts', fmt_int(rows.length),
+        rows.length === (DATA.positions || []).length ? 'the whole record'
+          : 'of ' + fmt_int((DATA.positions || []).length) + ' on file') +
+    kpi('People named', fmt_int(Object.keys(people).length)) +
+    kpi('States', fmt_int(Object.keys(states).length)) +
+    kpi('Counties', fmt_int(Object.keys(counties).length), 'with a body action') +
+    kpi('Bills', fmt_int(Object.keys(bills).length)) +
+    kpi('Restriction-side acts', fmt_int(restrict)) +
+    kpi('Industry-side acts', fmt_int(industry)) +
+    kpi('Disclosure acts', fmt_int(disclose), 'neither side') +
+    '</div>' +
+    '<div class="sub">Restriction-side, industry-side and disclosure are three ' +
+    'separate axes and are never netted into one score. Supporting a reporting ' +
+    'requirement is not opposing data centers; opposing a tax exemption is not ' +
+    'either. The three counts above do not sum to the total because a recorded ' +
+    'vote on a bill no rule could classify, and a vote not cast, are acts on ' +
+    'the record that take no side.</div></section>';
+
+  /* ---- bills ---- */
+  var bill_rows = (DATA.bills || []).filter(function (b) {
+    if (FILTERS.state && b.state !== FILTERS.state) return false;
+    if (FILTERS.direction && b.direction !== FILTERS.direction) return false;
+    if (FILTERS.q && (b.title + ' ' + b.identifier).toLowerCase().indexOf(FILTERS.q) === -1) {
+      return false;
+    }
+    return true;
+  });
+  /* Tallies are counted from the position rows in hand rather than read off a
+     stored field, so a filtered view can never show a national tally. */
+  var tally = {};
+  rows.forEach(function (p) {
+    if (!p.bill_key) return;
+    var t = tally[p.bill_key] || (tally[p.bill_key] = { yes: 0, no: 0, other: 0 });
+    if (p.vote_option === 'yes') t.yes++;
+    else if (p.vote_option === 'no') t.no++;
+    else if (p.vote_option) t.other++;
+  });
+
+  html += '<section><h3>Data center bills' +
+    '<span class="count">' + bill_rows.length + '</span></h3>' +
+    '<div class="sub">Bills whose title carries an explicit data center or ' +
+    'large-load term, so their roll calls can be read as positions on this ' +
+    'subject. "Direction" comes from an ordered rule list on the title and the ' +
+    'rule that fired is named, so any classification can be argued with rather ' +
+    'than trusted. A bill the rules cannot classify keeps its votes and simply ' +
+    'carries no direction. Vote counts reflect the current filter.</div>' +
+    table(['State', 'Bill', 'Title', 'Direction', 'Rule', 'Stage', 'Session',
+           'Yes', 'No', 'Other', 'Subject basis', 'OpenStates'],
+      bill_rows, function (b) {
+        var t = tally[b.bill_key] || { yes: 0, no: 0, other: 0 };
+        return [esc(b.state), '<span class="nowrap">' + esc(b.identifier) + '</span>',
+                '<span class="clip">' + esc(b.title) + '</span>',
+                chip(DIRECTION_CLASS[b.direction], DIRECTION_TEXT[b.direction] || b.direction),
+                '<span class="clip">' + esc(b.direction_rule || '—') + '</span>',
+                esc(b.stage || '—'), esc(b.session || '—'),
+                fmt_int(t.yes), fmt_int(t.no), fmt_int(t.other),
+                '<span class="clip">' + esc(b.subject_basis) + '</span>',
+                link(b.openstates_url, 'bill')];
+      }, 'No bill matches this filter.') + '</section>';
+
+  /* ---- legislator records ---- */
+  var leg = (DATA.summary || []).filter(function (r) {
+    if (FILTERS.state && r.state !== FILTERS.state) return false;
+    if (FILTERS.q && (r.person_name + ' ' + r.office).toLowerCase().indexOf(FILTERS.q) === -1) {
+      return false;
+    }
+    return true;
+  });
+  leg.sort(function (a, b) {
+    var d = (num(b.n_directional) || 0) - (num(a.n_directional) || 0);
+    return d || (num(b.n_positions) || 0) - (num(a.n_positions) || 0);
+  });
+  var leg_shown = leg.slice(0, ROW_CAP);
+
+  html += '<section><h3>Voting records' +
+    '<span class="count">' + leg.length + '</span></h3>' +
+    '<div class="sub">One row per person, over every act on file for them. ' +
+    '"Record" is a label over the acts that carry a direction, not a score: a ' +
+    'record with nothing on the other side reads as all one way, a clear lean ' +
+    'reads as mostly one way, a genuine split reads as mixed, and one act reads ' +
+    'as one act. The counts sit beside the label so the label never has to be ' +
+    'taken on trust.</div>' +
+    table(['Person', 'State', 'Chamber', 'Office', 'Record', 'Basis',
+           'For restriction', 'Against restriction', 'For incentive',
+           'Against incentive', 'For disclosure', 'Against disclosure',
+           'No direction', 'Did not vote', 'Acts', 'Bills', 'First', 'Last', 'Source'],
+      leg_shown, function (r) {
+        return ['<span class="nowrap">' + esc(r.person_name) + '</span>', esc(r.state),
+                esc(CHAMBER_TEXT[r.chamber] || r.chamber || '—'),
+                '<span class="clip">' + esc(r.office) + '</span>',
+                chip(RECORD_CLASS[r.record], RECORD_TEXT[r.record] || r.record),
+                '<span class="clip">' + esc(r.record_basis) + '</span>',
+                fmt_int(r.supported_restriction), fmt_int(r.opposed_restriction),
+                fmt_int(r.supported_industry_incentive),
+                fmt_int(r.opposed_industry_incentive),
+                fmt_int(r.supported_disclosure), fmt_int(r.opposed_disclosure),
+                fmt_int(r.recorded_vote_no_direction), fmt_int(r.did_not_vote),
+                fmt_int(r.n_positions), fmt_int(r.n_bills),
+                '<span class="nowrap">' + fmt_date(r.first_evidence) + '</span>',
+                '<span class="nowrap">' + fmt_date(r.last_evidence) + '</span>',
+                link(r.example_source_url, 'act')];
+      }, 'No person matches this filter.');
+  if (leg.length > leg_shown.length) {
+    html += '<div class="sub trailing">Showing the ' + leg_shown.length +
+      ' people with the most record, of ' + leg.length +
+      '. The export carries every one.</div>';
+  }
+  html += '</section>';
+
+  /* ---- governing body actions ---- */
+  var body_rows = rows.filter(function (p) { return p.stance_basis === 'governing_body_action'; });
+  body_rows.sort(function (a, b) {
+    return String(b.evidence_date || '').localeCompare(String(a.evidence_date || ''));
+  });
+  html += '<section><h3>Decisions by governing bodies' +
+    '<span class="count">' + body_rows.length + '</span></h3>' +
+    '<div class="sub">Attributed to the body, never to an individual member: a ' +
+    '4-3 vote is the board\'s act and this layer does not know who was in the ' +
+    'four. Only decisions appear &mdash; a scheduled agenda item is not a ' +
+    'position.</div>' +
+    table(['Date', 'State', 'County', 'Body', 'Jurisdiction', 'Mechanism', 'Result',
+           'What happened', 'Source'],
+      body_rows.slice(0, ROW_CAP), function (p) {
+        return ['<span class="nowrap">' + fmt_date(p.evidence_date) + '</span>',
+                esc(p.state),
+                p.county_name ? esc(p.county_name) : '<span class="stance none">unresolved</span>',
+                esc(p.office), '<span class="clip">' + esc(p.jurisdiction) + '</span>',
+                esc(p.vote_motion), esc(p.vote_result),
+                '<span class="clip">' + esc(p.evidence_summary) + '</span>',
+                link(p.source_url)];
+      }, 'No governing body decision matches this filter.') + '</section>';
+
+  /* ---- quoted priorities ---- */
+  var prio = rows.filter(function (p) { return p.stance_basis === 'stated_priority'; });
+  html += '<section><h3>Stated priorities' +
+    '<span class="count">' + prio.length + '</span></h3>' +
+    '<div class="sub">Carried verbatim from the official page cited, never ' +
+    'summarised into a stance. A statement about permitting or infrastructure ' +
+    'readiness is not a statement about data centers unless it says so.</div>' +
+    table(['Official', 'Office', 'State', 'County', 'What they said', 'Source'],
+      prio, function (p) {
+        return ['<span class="nowrap">' + esc(p.person_name) + '</span>',
+                '<span class="clip">' + esc(p.office) + '</span>', esc(p.state),
+                esc(p.county_name || '—'),
+                '<div class="quote">' + esc(p.evidence_summary) + '</div>',
+                link(p.source_url)];
+      }, 'No quoted statement matches this filter.') + '</section>';
+
+  /* ---- individual acts ---- */
+  var acts = rows.slice().sort(function (a, b) {
+    return String(b.evidence_date || '').localeCompare(String(a.evidence_date || ''));
+  });
+  html += '<section><h3>Every recorded act' +
+    '<span class="count">' + acts.length + '</span></h3>' +
+    '<div class="sub">The row-level record behind everything above. Each one is ' +
+    'a single dated act with the source it was read from.</div>' +
+    table(['Date', 'State', 'Person', 'Office', 'Evidence', 'Bill', 'Direction',
+           'Vote', 'Stance', 'Confidence', 'Flags', 'Source'],
+      acts.slice(0, ROW_CAP), function (p) {
+        var b = BILL_BY_KEY[p.bill_key];
+        return ['<span class="nowrap">' + fmt_date(p.evidence_date) + '</span>',
+                esc(p.state),
+                p.person_name ? '<span class="nowrap">' + esc(p.person_name) + '</span>'
+                  : '<span class="stance none">body</span>',
+                '<span class="clip">' + esc(p.office) + '</span>',
+                esc(BASIS_TEXT[p.stance_basis] || p.stance_basis),
+                p.bill_identifier ? '<span class="nowrap">' + esc(p.bill_identifier) + '</span>'
+                  : '—',
+                b ? chip(DIRECTION_CLASS[b.direction], DIRECTION_TEXT[b.direction] || b.direction)
+                  : '—',
+                esc(p.vote_option || '—'),
+                chip(STANCE_CLASS[p.stance], STANCE_TEXT[p.stance] || p.stance),
+                esc(p.confidence),
+                p.qc_flags ? '<span class="stance">' + esc(p.qc_flags) + '</span>' : '—',
+                link(p.source_url)];
+      }, 'No act matches this filter.');
+  if (acts.length > ROW_CAP) {
+    html += '<div class="sub trailing">Showing the ' + ROW_CAP + ' most recent of ' +
+      fmt_int(acts.length) + '. Narrow the filter, or use the export, which is ' +
+      'uncapped.</div>';
+  }
+  html += '</section>';
+
+  html += methodology();
+
+  html += '<footer>Hawthorn Intelligence &middot; data-center-map. Sources: ' +
+    Object.keys(FILES).map(function (k) { return FILES[k].split('/').pop(); }).join(', ') +
+    '. Files regenerate with the CI pipeline.<br>Rendered ' +
+    new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC.</footer>';
+
+  document.getElementById('body').innerHTML = html;
+}
+
+function methodology() {
+  var m = META.manifest;
+  var h = '<details><summary>Methodology, gates and known limits</summary>';
+  if (m) {
+    h += '<dl class="dl">' +
+      '<dt>position rows</dt><dd>' + fmt_int(m.position_rows) + '</dd>' +
+      '<dt>people with a record</dt><dd>' + fmt_int(m.people) + '</dd>' +
+      '<dt>states covered</dt><dd>' + fmt_int((m.states_covered || []).length) + '</dd>' +
+      '<dt>counties with a body action</dt><dd>' + fmt_int(m.counties_covered) + '</dd>' +
+      '<dt>roll calls read</dt><dd>' + fmt_int(m.votes_read) + '</dd>' +
+      '<dt>roll calls withheld</dt><dd>' + fmt_int(m.votes_withheld) + '</dd>' +
+      '<dt>bills passing the subject gate</dt><dd>' +
+        fmt_int(m.bills_passing_subject_gate) + ' of ' + fmt_int(m.bills_in_frame) +
+        ', ' + fmt_int(m.bills_with_direction) + ' with a direction</dd>' +
+      '<dt>human subject overrides</dt><dd>' + fmt_int(m.override_rows) + '</dd>' +
+      '<dt>generated</dt><dd>' + esc(m.generated || '—') + '</dd>' +
+      '</dl>';
+  }
+  h += '<h4>The two gates</h4><div class="sub">' +
+    '<b>Subject.</b> A bill\'s title must carry an explicit data center or ' +
+    'large-load term before its roll calls can be read as positions on this ' +
+    'subject. The bill matching that produced these roll calls also returned a ' +
+    'child-restraint bill, an immigration bill and a state budget; reading those ' +
+    'as data center positions would put fabricated views next to real names. The ' +
+    'gate is deliberately strict and withholds real bills alongside the false ' +
+    'ones. What it withheld is ranked in ' +
+    '<code>data/stakeholder_positions_qc.md</code> by how many votes a human ' +
+    'confirmation would unlock, and confirmations go in ' +
+    '<code>data/bill_subject_overrides.csv</code>, which the pipeline reads and ' +
+    'never writes to.<br><br>' +
+    '<b>Direction.</b> Which way a bill cuts, from an ordered rule list on the ' +
+    'title. The order is the design: "sales and use tax exemption; repeal" is a ' +
+    'restrictive bill, so the repeal rule fires before the incentive rule or the ' +
+    'classification inverts. Every row names the rule that fired. A bill no rule ' +
+    'classifies keeps its votes, with no stance attached.</div>' +
+    '<h4>Standing limits</h4><div class="sub">' +
+    'Roll calls exist only for states where OpenStates publishes them and only ' +
+    'for bills this repository has already matched, so an absent record is a ' +
+    'coverage gap and not a quiet legislature. A governing body action is the ' +
+    'body\'s act, never a named member\'s. A one-act record is one act, not a ' +
+    'pattern. Party is carried only where a source states it, so it is blank on ' +
+    'most roll-call rows: OpenStates vote records do not carry it. Nothing on ' +
+    'this page is a prediction of how anyone will vote next.</div>';
+  return h + '</details>';
+}
+
+/* ------------------------------ export ----------------------------- */
+
+function csv_cell(v) {
+  var s = String(v === null || v === undefined ? '' : v);
+  return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+}
+
+/* Wide format here, not the long format the county page exports: this is one
+ * homogeneous table, so a reader gets a spreadsheet they can pivot directly.
+ * The bill columns are joined back on so a row stands alone. */
+function export_csv() {
+  var rows = filtered();
+  var cols = ['position_id', 'level', 'state', 'fips', 'county_name', 'jurisdiction',
+              'person_name', 'person_id', 'office', 'office_class', 'party',
+              'stance', 'stance_basis', 'bill_key', 'bill_identifier',
+              'bill_title', 'bill_direction', 'bill_direction_rule',
+              'bill_subject_basis', 'bill_stage', 'bill_session',
+              'bill_openstates_url', 'vote_option', 'vote_result', 'vote_motion',
+              'vote_chamber', 'evidence_date', 'evidence_summary', 'source_url',
+              'confidence', 'qc_status', 'qc_flags'];
+  var lines = [cols.join(',')];
+  rows.forEach(function (p) {
+    var b = BILL_BY_KEY[p.bill_key] || {};
+    var joined = {
+      bill_title: b.title || '', bill_direction: b.direction || '',
+      bill_direction_rule: b.direction_rule || '', bill_subject_basis: b.subject_basis || '',
+      bill_stage: b.stage || '', bill_session: b.session || '',
+      bill_openstates_url: b.openstates_url || ''
+    };
+    lines.push(cols.map(function (c) {
+      return csv_cell(c in joined ? joined[c] : p[c]);
+    }).join(','));
+  });
+
+  var blob = new Blob([lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'data-center-positions' +
+    (FILTERS.state ? '_' + FILTERS.state.toLowerCase() : '') +
+    '_' + new Date().toISOString().slice(0, 10) + '.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+
+  var btn = document.getElementById('export');
+  btn.textContent = 'Saved';
+  setTimeout(function () { btn.textContent = 'Export filtered CSV'; }, 1800);
+}
+
+/* ------------------------------ wiring ----------------------------- */
+
+function fill(select_id, values, labeller) {
+  var sel = document.getElementById(select_id);
+  values.forEach(function (v) {
+    var o = document.createElement('option');
+    o.value = v;
+    o.textContent = labeller ? (labeller[v] || v) : v;
+    sel.appendChild(o);
+  });
+}
+
+function read_hash() {
+  var h = (location.hash || '').replace(/^#/, '');
+  if (!h) return;
+  h.split('&').forEach(function (part) {
+    var kv = part.split('=');
+    var k = decodeURIComponent(kv[0] || ''), v = decodeURIComponent(kv[1] || '');
+    if (k in FILTERS) FILTERS[k] = k === 'q' ? v.toLowerCase() : v;
+  });
+  ['state', 'basis', 'stance', 'direction'].forEach(function (k) {
+    var el = document.getElementById('f-' + k);
+    if (el) el.value = FILTERS[k];
+  });
+  document.getElementById('f-q').value = FILTERS.q;
+}
+
+function write_hash() {
+  var parts = [];
+  Object.keys(FILTERS).forEach(function (k) {
+    if (FILTERS[k]) parts.push(k + '=' + encodeURIComponent(FILTERS[k]));
+  });
+  var h = parts.length ? '#' + parts.join('&') : location.pathname;
+  history.replaceState(null, '', h);
+}
+
+function wire() {
+  ['state', 'basis', 'stance', 'direction'].forEach(function (k) {
+    document.getElementById('f-' + k).addEventListener('change', function () {
+      FILTERS[k] = this.value;
+      write_hash(); render();
+    });
+  });
+  var q = document.getElementById('f-q');
+  var timer = null;
+  q.addEventListener('input', function () {
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      FILTERS.q = q.value.trim().toLowerCase();
+      write_hash(); render();
+    }, 180);
+  });
+  document.getElementById('reset').addEventListener('click', function () {
+    Object.keys(FILTERS).forEach(function (k) { FILTERS[k] = ''; });
+    ['state', 'basis', 'stance', 'direction'].forEach(function (k) {
+      document.getElementById('f-' + k).value = '';
+    });
+    q.value = '';
+    write_hash(); render();
+  });
+  document.getElementById('export').addEventListener('click', export_csv);
+  document.getElementById('permalink').addEventListener('click', function () {
+    var btn = this;
+    navigator.clipboard.writeText(location.href).then(function () {
+      btn.textContent = 'Copied';
+      setTimeout(function () { btn.textContent = 'Copy link'; }, 1600);
+    }).catch(function () { btn.textContent = 'Copy blocked'; });
+  });
+  window.addEventListener('hashchange', function () { read_hash(); render(); });
+}
+
+var keys = Object.keys(FILES);
+Promise.all(keys.map(function (k) { return fetch_first(urls(FILES[k])); }))
+  .then(function (texts) {
+    var missing = [];
+    keys.forEach(function (k, i) {
+      DATA[k] = parse_csv(texts[i]);
+      if (!DATA[k].length) missing.push(FILES[k]);
+    });
+    if (missing.indexOf(FILES.positions) !== -1) {
+      banner('<b>Position record unavailable.</b> Could not reach ' +
+        esc(FILES.positions) + ' from raw.githubusercontent.com. The file ' +
+        'regenerates with the CI pipeline; if this persists, the last run may ' +
+        'have failed its QC gate.');
+      document.getElementById('body').innerHTML = '';
+      return null;
+    }
+    if (missing.length) {
+      banner('<b>Some files were unreachable:</b> ' + esc(missing.join(', ')) +
+        '. The tables that read from them will be empty.');
+    }
+    (DATA.bills || []).forEach(function (b) { BILL_BY_KEY[b.bill_key] = b; });
+
+    var states = {}, bases = {}, stances = {}, directions = {};
+    DATA.positions.forEach(function (p) {
+      if (p.state) states[p.state] = 1;
+      if (p.stance_basis) bases[p.stance_basis] = 1;
+      if (p.stance) stances[p.stance] = 1;
+    });
+    (DATA.bills || []).forEach(function (b) { if (b.direction) directions[b.direction] = 1; });
+    fill('f-state', Object.keys(states).sort());
+    fill('f-basis', Object.keys(bases).sort(), BASIS_TEXT);
+    fill('f-stance', Object.keys(stances).sort(), STANCE_TEXT);
+    fill('f-direction', Object.keys(directions).sort(), DIRECTION_TEXT);
+
+    document.getElementById('export').disabled = false;
+    wire();
+    read_hash();
+    return fetch_first(urls(JSON_FILES.manifest)).then(function (t) {
+      try { META.manifest = t ? JSON.parse(t) : null; } catch (e) { META.manifest = null; }
+      render();
+    });
+  });
+</script>
+</body>
+</html>

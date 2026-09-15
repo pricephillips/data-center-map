@@ -144,6 +144,17 @@ INTERNAL_QUOTES = {
 # transports these, it does not compose them, so a hit is inherited rather
 # than introduced. Rewriting them is a source-data migration.
 INHERITED_FIELDS = {
+    # Registered 2026-09-15 with stakeholder_positions.py. Same class as
+    # `summary` below and transported from it: on a governing body action the
+    # value is the tracker's own Summary, on a stated priority it is the
+    # registry's relevance_note, and in both cases it is carried verbatim and
+    # never composed. "Residents objected to the loss of farmland" is the
+    # source describing what residents said, not this repository keeping score.
+    # The module was changed to earn this rather than the other way round: it
+    # previously glued a status onto the end, and a composed column blocks even
+    # when every word in it came from a source, because the audit cannot tell
+    # which half we wrote.
+    "evidence_summary",
     "community outcome", "summary", "sources", "source url", "objective",
     "incident", "entity", "project name", "opposition groups", "notes",
     "what it means", "correct outcome", "message", "all_issues",
@@ -371,6 +382,15 @@ def selftest() -> int:
     eq("correction ledger new_value quote is advisory",
        classify("data/manual_corrections.csv", "loss of farmland",
                 field="new_value"), ADVISORY)
+    # --- 2026-09-15 registration (stakeholder positions) ---
+    eq("transported evidence_summary prose is advisory",
+       classify("data/stakeholder_positions.csv",
+                "Residents objected to the loss of farmland",
+                field="evidence_summary"), ADVISORY)
+    eq("a composed evidence_summary is still only as safe as its words",
+       classify("data/stakeholder_positions.csv", "a clear win for opponents",
+                field="model_note"), BLOCKING)
+
     eq("manual records report detail quote is advisory",
        classify("data/manual_records_report.csv", "recorded 'win' without",
                 field="detail"), ADVISORY)
