@@ -84,6 +84,14 @@ tr:hover td { background:#1a212c }
 .analysis-cell.placeholder { border-style:dashed; display:flex; align-items:center; justify-content:center;
   text-align:center; color:var(--muted); font-size:11px; line-height:1.5; min-height:64px }
 
+/* Gate note. It sits outside .analysis-cell, so the .lbl rule above does not
+   reach it -- without its own rule it inherits 16px body text and reads as the
+   loudest thing on the page, over the denominators it is a footnote to. */
+#gate-note { background:var(--bg); border:1px solid var(--border); border-radius:9px;
+  padding:11px 13px; margin-top:12px; font-size:11px; color:var(--muted); line-height:1.6 }
+#gate-note b { color:var(--text) }
+#gate-note .gate-windows { font-variant-numeric:tabular-nums }
+
 /* "how to read the timeline" explainer */
 .tl-explainer { background:var(--panel); border:1px solid var(--border); border-radius:10px;
   padding:12px 14px; margin:10px 2px 0; font-size:12px; color:var(--muted); line-height:1.6 }
@@ -205,7 +213,7 @@ window.MapPermalink = window.MapPermalink || (function () {
 <div class="analysis-strip" id="coverage-strip" style="display:none">
   <h3>Coverage behind those numbers <span class="tag">denominators</span></h3>
   <div class="analysis-grid" id="coverage-grid"></div>
-  <div id="gate-note" class="lbl" style="margin-top:10px"></div>
+  <div id="gate-note"></div>
 </div>
 
 <div class="kpis">
@@ -550,7 +558,7 @@ function renderGate(ops) {
     '<b>Outcome gate: ' + String(g.status || '').toLowerCase() + '.</b> ' +
     'Floors are ' + (g.floors || 'unrecorded') + ', registered before the data ' +
     'could meet them and applied unchanged. Frame sizes by observation window: ' +
-    rows + '. ' +
+    '<span class="gate-windows">' + rows + '</span>. ' +
     (ops.worklists && ops.worklists.decision_dates
       ? 'The ' + ops.worklists.decision_dates.open + ' projects on the decision-date ' +
         'worklist \u2014 decided and opposed and anchored, but undated \u2014 are the only ' +
