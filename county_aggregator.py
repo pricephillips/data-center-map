@@ -15,6 +15,9 @@ municipios) joining:
   - data/baseline_universe.csv + data/project_lifecycles.csv (project
     outcomes under the four-tier vocabulary; median days to decision over
     dated decided cases only)
+  - data/restriction_evidence.csv    (OPTIONAL, additive; which external
+    source families were consulted per county and when. Joined as four
+    descriptive columns, read by no model, one build behind by design)
 
 Outputs:
   - data/county_aggregate.csv           (one row per county, map-consumable)
@@ -66,6 +69,21 @@ except Exception:
     _HAVE_VERIFICATION = False
 UNIVERSE_CSV = P("data", "baseline_universe.csv")
 LIFECYCLES_CSV = P("data", "project_lifecycles.csv")
+
+# Evidence ledger (ADDITIVE, OPTIONAL). restriction_evidence.py records which
+# external source families were consulted for each county and when, so that
+# has_enacted_restrictive = 0 can be read as a checked claim rather than as an
+# absence of rows. The four columns joined from it are descriptive only: no
+# model reads them (county_policy_model.py enumerates its variable pool in
+# VARS and SPECS), and has_enacted_restrictive is computed here exactly as
+# before.
+#
+# The ledger reads this file and this file reads the ledger, so the join is
+# deliberately one build behind, following the pattern pipeline.yml already
+# uses for apply_link_suggestions.py. On the first build after the module
+# lands, and any build where the ledger is absent, every joined column is
+# blank and nothing else changes.
+EVIDENCE_CSV = P("data", "restriction_evidence.csv")
 
 OUT_CSV = P("data", "county_aggregate.csv")
 
@@ -292,7 +310,22 @@ def main() -> int:
         "n_decided", "n_blocked_confirmed", "n_advanced_confirmed",
         "n_restricted_conditional",
         "median_days_to_decision",
+        "restriction_evidence_grade", "restriction_label_state",
+        "restriction_last_checked", "restriction_in_force_as_of",
     ]
+
+    # Optional evidence join. Absent file, unreadable file or a county the
+    # ledger does not carry all resolve to blank columns.
+    evidence = {}
+    if os.path.exists(EVIDENCE_CSV):
+        try:
+            with open(EVIDENCE_CSV, newline="", encoding="utf-8") as fh:
+                for r in csv.DictReader(fh):
+                    fp = (r.get("fips") or "").strip()
+                    if fp:
+                        evidence[fp] = r
+        except OSError:
+            evidence = {}
     out_rows = []
     for fips in sorted(frame):
         rec = frame[fips]
@@ -332,6 +365,14 @@ def main() -> int:
             "n_advanced_confirmed": oc.get("advanced_confirmed", 0),
             "n_restricted_conditional": oc.get("restricted_conditional", 0),
             "median_days_to_decision": (round(st.median(dts)) if dts else ""),
+            "restriction_evidence_grade":
+                evidence.get(fips, {}).get("evidence_grade", ""),
+            "restriction_label_state":
+                evidence.get(fips, {}).get("label_state", ""),
+            "restriction_last_checked":
+                evidence.get(fips, {}).get("last_checked", ""),
+            "restriction_in_force_as_of":
+                evidence.get(fips, {}).get("in_force_as_of", ""),
         })
 
     with open(OUT_CSV, "w", newline="", encoding="utf-8") as fh:

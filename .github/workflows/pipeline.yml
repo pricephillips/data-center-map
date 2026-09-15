@@ -134,6 +134,14 @@ jobs:
           python restriction_worklist.py --selftest
           echo "Gap-to-candidate builder self-tests:"
           python census_gap_candidates.py --selftest
+          echo "Restriction evidence ledger self-tests:"
+          python restriction_evidence.py --selftest
+          # Offline as of 2026-09-15. This self-test used to make a live call
+          # to the upstream census repo, so it could not sit in a blocking
+          # gate: an upstream outage would have read as a code failure and
+          # stopped the whole build.
+          echo "External census refresh self-tests:"
+          python refresh_external_census.py --selftest
           echo "Staleness audit self-tests:"
           python stale_pending_audit.py --selftest
           echo "County adjacency self-tests:"
@@ -298,6 +306,30 @@ jobs:
           # rows enter the feed and the county label on the NEXT nightly
           # run; a builder failure must not fail the audit.
           python census_gap_candidates.py --promote || true
+
+      - name: Restriction evidence ledger (what was checked, and when)
+        id: evidence
+        if: steps.county_layer.outcome == 'success'
+        continue-on-error: true
+        run: |
+          # Runs after the county layer for the same reason the coverage audit
+          # does: it reads has_enacted_restrictive and would otherwise grade
+          # the PREVIOUS run's labels.
+          #
+          # What this adds that the coverage audit cannot. coverage_audit.py
+          # asks how many census-listed counties the tracker holds, so its
+          # frame is the census: 87 counties in 17 states, against a national
+          # frame of 3222. Every county the census never lists is outside that
+          # denominator, which is the entire negative class. This module's
+          # frame is every county, and it records which external source
+          # families were consulted for each one and when, so that
+          # has_enacted_restrictive = 0 can be read as a checked claim rather
+          # than as an absence of rows.
+          #
+          # Reporting only, and additive. It writes its own files, it never
+          # writes master_opposition.csv or the county aggregate, and no model
+          # reads a grade. Its absence must never fail the build.
+          python restriction_evidence.py
 
       - name: Detection layer (staleness, adjacency re-scan, frame audits)
         id: detection
@@ -473,6 +505,16 @@ jobs:
                     data/gap_promotion_report.csv \
                     master_opposition.csv \
                     data/restriction_worklist.md 2>/dev/null || true
+          fi
+          # Evidence ledger. Staged on its own step outcome rather than the
+          # coverage step's: it runs independently and a coverage failure must
+          # not discard a good ledger. The history file is append-only, so it
+          # is staged with the rest and never rewritten.
+          if [ "${{ steps.evidence.outcome }}" = "success" ]; then
+            git add data/restriction_evidence.csv \
+                    data/restriction_evidence_conflicts.csv \
+                    data/restriction_evidence_history.csv \
+                    data/restriction_evidence_report.md 2>/dev/null || true
           fi
           # Detection-layer artifacts are staged only on a green detection
           # step. The watchlist is merge-preserving inside adjacency_scan.py,

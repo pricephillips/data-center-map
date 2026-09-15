@@ -669,7 +669,7 @@ function county_slice(fips) {
     restrictions: [], coverage: [], universe: [], bills: [], groups: [],
     cost: [], trend: [], contagion: null,
     stakeholders_county: [], stakeholders_state: [],
-    benchmark: null, peers: [], census_pending: [],
+    benchmark: null, peers: [], census_unreviewed: [],
     body_actions: [], priorities: [], legislators: [], position_bills: [],
     positions_state: []
   };
@@ -720,9 +720,9 @@ function county_slice(fips) {
   });
 
   (DATA.census_delta || []).forEach(function (r) {
-    if (row_fips_list(r.county, r.state).indexOf(fips) !== -1) out.census_pending.push(r);
+    if (row_fips_list(r.county, r.state).indexOf(fips) !== -1) out.census_unreviewed.push(r);
   });
-  out.census_pending.sort(function (a, b) {
+  out.census_unreviewed.sort(function (a, b) {
     return String(b.date_enacted || '').localeCompare(String(a.date_enacted || ''));
   });
 
@@ -1548,35 +1548,87 @@ function render(slice) {
 
   /* ---- external rows awaiting review ---- */
   /* These come from the refresh delta, not the census. An upstream compiler
-   * asserts a restriction here and nobody in this repository has reviewed it
-   * yet, so the row is shown as a question rather than as a finding: it never
-   * moves has_enacted_restrictive, never joins the census table above, and is
-   * labelled on screen as unreviewed. Showing it beats the alternative, which
+   * asserts a restriction here and this repository has not adopted the row, so
+   * it is shown as a question rather than as a finding: it never moves
+   * has_enacted_restrictive, never joins the census table above, and is
+   * labelled on screen as unadopted. Showing it beats the alternative, which
    * was telling a client "coverage gap" on a county an external source has
-   * already documented. */
-  if (slice.census_pending.length) {
-    var contradicts = a.has_enacted_restrictive !== '1';
+   * already documented.
+   *
+   * A row can sit in the delta for either of two reasons, and the prose below
+   * covers both rather than asserting one: nobody has reviewed it, or
+   * refresh_external_census.py --promote evaluated it and its gate held it
+   * (an upstream VERIFY tag, an unpinned date, a pending instrument, or a
+   * county that does not join the national frame). Before --promote existed
+   * only the first reason was possible, and the copy here said so; once
+   * promotion runs automatically, the rows that REMAIN in the delta are
+   * mostly the held ones, and calling those unreviewed would be wrong. */
+  if (slice.census_unreviewed.length) {
+    /* An upstream status of "pending" describes an instrument that was SOUGHT
+     * and not adopted. It is the one status that cannot disagree with a clear
+     * label, because has_enacted_restrictive records ENACTMENT: a county whose
+     * only upstream row is pending is correctly recorded as having none.
+     *
+     * Treating every unreviewed row as a disagreement told a reader there was
+     * a contradiction to resolve on six counties (Warrick IN, Mercer KY,
+     * Howard MD, Worcester MD, Sierra NM, Austin TX) where the label and the
+     * upstream record in fact agree. The same rule is enforced upstream of
+     * this page in restriction_evidence.py, which grades a pending row as
+     * neither corroborating an enacted label nor contradicting a clear one;
+     * this keeps the page consistent with the ledger rather than each
+     * deciding separately what a pending row means. */
+    var enacted_rows = slice.census_unreviewed.filter(function (r) {
+      return String(r.census_status || '').trim().toLowerCase() !== 'pending';
+    });
+    var sought_rows = slice.census_unreviewed.filter(function (r) {
+      return String(r.census_status || '').trim().toLowerCase() === 'pending';
+    });
+    var is_clear = a.has_enacted_restrictive !== '1';
+    var contradicts = is_clear && enacted_rows.length > 0;
+
+    var framing;
+    if (contradicts) {
+      framing = ' <b>This county is currently recorded as having no enacted ' +
+        'restriction</b>, so the ' + (enacted_rows.length === 1 ? 'row' : 'rows') +
+        ' below asserting an adopted instrument ' +
+        (enacted_rows.length === 1 ? 'is a question' : 'are questions') +
+        ' about that label rather than a confirmation of it, the kind of ' +
+        'disagreement worth resolving before quoting this county as clear.';
+    } else if (is_clear) {
+      framing = ' Every row below carries an upstream status of <b>pending</b>, ' +
+        'meaning an instrument was sought here and not adopted. That does not ' +
+        'contradict this county\'s record of no enacted restriction: the flag ' +
+        'tracks enactment, so a sought-and-unadopted instrument and a clear ' +
+        'label agree. Nothing here needs resolving.';
+    } else {
+      framing = ' This county already carries an enacted restriction, so the ' +
+        'rows below are corroboration from an independent compiler rather than ' +
+        'anything new.';
+    }
+
     html += '<section><h3>External rows awaiting review' +
-      count_label(slice.census_pending.length) + '</h3>' +
+      count_label(slice.census_unreviewed.length) + '</h3>' +
       '<div class="sub">Surfaced by the census refresh against the Moratorium ' +
-      'Nation dataset (CC-BY-4.0) and <b>not yet reviewed by anyone here</b>. ' +
-      'Promoting an upstream row into the census is a review decision, so ' +
-      'nothing on this page treats these as verified: they do not set this ' +
-      'county\'s restriction flag, they are not counted in any model, and they ' +
-      'are not part of the census table above.' +
-      (contradicts
-        ? ' <b>This county is currently recorded as having no enacted ' +
-          'restriction</b>, so the row below is a question about that label ' +
-          'rather than a confirmation of it \u2014 the kind of disagreement ' +
-          'worth resolving before quoting this county as clear.'
-        : ' This county already carries an enacted restriction, so the row ' +
-          'below is corroboration from an independent compiler rather than ' +
-          'anything new.') +
+      'Nation dataset (CC-BY-4.0) and <b>not part of the census</b>, either ' +
+      'because nobody here has reviewed the row yet or because the promotion ' +
+      'gate held it. Nothing on this page treats these as verified: they do ' +
+      'not set this county\'s restriction flag, they are not counted in any ' +
+      'model, and they are not in the census table above.' + framing +
+      (sought_rows.length && enacted_rows.length
+        ? ' <b>' + fmt_int(sought_rows.length) + '</b> of these ' +
+          (sought_rows.length === 1 ? 'is' : 'are') + ' pending rather than ' +
+          'adopted, and so ' + (sought_rows.length === 1 ? 'does' : 'do') +
+          ' not bear on the label either way.'
+        : '') +
       '</div>' +
       table(['Instrument', 'Upstream status', 'Date enacted', 'Upstream record'],
-        slice.census_pending, function (r) {
+        slice.census_unreviewed, function (r) {
+          var st = String(r.census_status || '').trim().toLowerCase();
+          var label = st === 'pending'
+            ? 'pending (sought, not adopted)'
+            : (r.census_status || '\u2014');
           return [esc(r.instrument),
-                  '<span class="stance">' + esc(r.census_status || '\u2014') + '</span>',
+                  '<span class="stance">' + esc(label) + '</span>',
                   '<span class="nowrap">' + fmt_date(r.date_enacted) + '</span>',
                   '<span class="clip">' + esc(r.source) + '</span>'];
         }, '') + '</section>';
@@ -2172,7 +2224,7 @@ function export_csv() {
   });
   /* Exported under its own section name so a reader of the CSV cannot mistake
      an unreviewed upstream row for a census finding. */
-  slice.census_pending.forEach(function (r, i) {
+  slice.census_unreviewed.forEach(function (r, i) {
     push_row('external_row_awaiting_review', (r.instrument || 'row') + '_' + (i + 1), r);
   });
   slice.coverage.forEach(function (r, i) { push_row('coverage_gap', c.fips + '_' + (i + 1), r); });
