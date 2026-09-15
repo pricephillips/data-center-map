@@ -184,8 +184,42 @@ reference geography that frame is built on.
 |---|---|
 | Key | `fips` |
 | Files | `data/external_restriction_census*`, `data/county_aggregate.csv`, `data/county_policy_*`, `data/county_model_spec_history.csv`, `data/restriction_*`, `data/bill_*` (including `data/bill_subject_overrides.csv`, hand maintained), `data/stale_pending_*`, the county reference geography |
-| Writers | `county_aggregator.py`, `county_policy_model.py`, `county_policy_intervals.py`, `restriction_worklist.py`, `census_gap_candidates.py`, `bill_sync.py`, `stale_pending_audit.py`, `refresh_external_census.py`, the county fetchers |
+| Writers | `county_aggregator.py`, `county_policy_model.py`, `county_policy_intervals.py`, `restriction_worklist.py`, `census_gap_candidates.py`, `bill_sync.py`, `stale_pending_audit.py`, `refresh_external_census.py`, `restriction_evidence.py`, the county fetchers |
 | Source of record | The tracker itself. `data/external_restriction_census.csv` is an external lower bound and a pointer, never a source of record: nothing is ingestable from it until a primary source URL is supplied |
+
+#### What a negative label means
+
+`has_enacted_restrictive = 0` records that no tracker row asserts a
+restriction for the county. On its own that is a statement about the tracker,
+not about the county, and for most of the frame it always has been: 2893 of
+3222 counties carry the negative, and before `restriction_evidence.py` nothing
+recorded a single source consulted for any of them.
+
+`coverage_audit.py` cannot close that gap, and is not meant to. Its frame is
+the external census, so it measures recall over the counties a census already
+lists. Every county no census mentions falls outside its denominator, which is
+the entire negative class.
+
+`restriction_evidence.py` takes the county as its unit and the whole national
+frame as its scope. For each county it records which source families were
+consulted, when, and what they returned, and grades the result: A for two or
+more agreeing independence classes, down to U for a county no registered
+source covers. Grades count independence classes (`primary_law`,
+`proceeding`, `secondary`), never raw source counts, because two compilations
+that both read press coverage can be wrong together. A census can raise a
+positive's grade and can never on its own clear a county.
+
+The ledger is additive and descriptive. It does not change
+`has_enacted_restrictive`, no model reads a grade, and the four columns joined
+into `data/county_aggregate.csv` are one build behind by design, since the two
+files read each other.
+
+Disagreements between the label and an external source are written to
+`data/restriction_evidence_conflicts.csv` on every run, which is the recurring
+external check on updates. Confirmed conflicts (a reviewed census row) and
+candidates (an unreviewed row from the refresh delta) are counted separately,
+so a promotion that disagrees with an upstream surfaces on the next build
+without an unreviewed row ever moving a label by itself.
 
 ### Layer E, derived analytics
 
