@@ -183,6 +183,7 @@ excluded from CI until Phase 5's calibration gate.
 | `data/stakeholder_registry.csv` | Layer of named officials whose offices decide siting, zoning, permitting and utility questions, with the official page each was read from |
 | `data/stakeholder_positions.csv` | Recorded public acts on data centers: roll-call votes, bill sponsorships, quoted statements of priorities, governing body decisions. Every row carries a source URL; nothing is inferred from party, title or district |
 | `data/bill_taxonomy.csv` | Every matched bill with its reach, instrument, direction, stance eligibility and the evidence behind each call |
+| `data/external_restriction_census_delta.csv` | County-level data center moratoria an upstream compiler asserts and nobody here has reviewed. A worklist for a person: promoting a row into the census is a review decision, and the county page shows these as questions, never as findings |
 | `data/position_bills.csv` | The bills those votes were cast on, with reach, instrument, direction, and what put the bill in frame |
 | `data/stakeholder_position_summary.csv` | One row per person: counts by stance and a record label over the acts that carry a direction |
 | `data/bill_subject_overrides.csv` | Human confirmations that a bill is a data center bill, with a citation, and whether its data center provisions are the bill's principal purpose (`primary`) or ride inside a wider vehicle (`partial`). A `partial` bill publishes its votes with no direction. A source of record: the pipeline reads it and never writes to it |
