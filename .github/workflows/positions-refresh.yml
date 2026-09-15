@@ -27,6 +27,7 @@ on:
       - 'data/bill_subject_overrides.csv'
       - 'master_opposition_clean.csv'
       - 'stakeholder_positions.py'
+      - 'bill_taxonomy.py'
 
   workflow_dispatch:
 
@@ -66,15 +67,35 @@ jobs:
       # that they never took, which is the one failure in this repository worth
       # stopping a run for.
       - name: Self-test the position gates
-        run: python stakeholder_positions.py --selftest
+        run: |
+          # Both are BLOCKING, and bill_taxonomy is the one that matters most:
+          # its self-test asserts that an immigration bill, a child-restraint
+          # bill and an abortion bill do not read as data center legislation
+          # however loudly the matched incident says otherwise. If that logic
+          # has broken, publishing would attribute positions to named people on
+          # bills they voted on for entirely unrelated reasons.
+          python bill_taxonomy.py --selftest
+          python stakeholder_positions.py --selftest
 
-      - name: Build position registry
-        run: python stakeholder_positions.py --build
+      - name: Build taxonomy, then positions
+        run: |
+          # Order matters: stakeholder_positions.py reads data/bill_taxonomy.csv
+          # and no longer classifies anything itself.
+          python bill_taxonomy.py --build
+          python stakeholder_positions.py --build
 
       - name: Show QC summary
         run: |
+          if [ -f data/bill_taxonomy_manifest.json ]; then
+            cat data/bill_taxonomy_manifest.json
+          fi
           if [ -f data/stakeholder_positions_manifest.json ]; then
             cat data/stakeholder_positions_manifest.json
+          fi
+          # The wrong-bill queue. These are bill_sync defects, not coverage
+          # gaps, and they are the thing a maintainer should act on.
+          if [ -f data/bill_taxonomy_report.md ]; then
+            sed -n '/## Bills to repair/,/^## /p' data/bill_taxonomy_report.md | head -30
           fi
           # Surface the withheld ranking in the run log: it is the actionable
           # half of the report, and the promotions it asks for are what grow
@@ -90,6 +111,9 @@ jobs:
           # Each path is guarded separately because a single missing pathspec
           # aborts the whole `git add`, the trap documented in fetch-permits.yml
           # and stakeholder-refresh.yml.
+          [ -f data/bill_taxonomy.csv ]                  && git add data/bill_taxonomy.csv
+          [ -f data/bill_taxonomy_report.md ]            && git add data/bill_taxonomy_report.md
+          [ -f data/bill_taxonomy_manifest.json ]        && git add data/bill_taxonomy_manifest.json
           [ -f data/stakeholder_positions.csv ]          && git add data/stakeholder_positions.csv
           [ -f data/position_bills.csv ]                 && git add data/position_bills.csv
           [ -f data/stakeholder_position_summary.csv ]   && git add data/stakeholder_position_summary.csv
