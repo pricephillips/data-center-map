@@ -152,8 +152,9 @@ def normalize_upstream_rows(upstream_rows: list[dict]) -> list[dict]:
     without inventing a classification, and 91 of the 94 seeded rows already
     carry "moratorium".
 
-    This function still writes ONLY the delta. The seeded census remains the
-    source of record and promoting a row into it remains a review decision.
+    This function itself only normalizes; it writes nothing. Whether a
+    normalized row reaches the census is decided by gate_row() under
+    --promote, never here.
     """
     normalized: list[dict] = []
 
