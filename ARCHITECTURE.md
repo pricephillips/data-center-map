@@ -187,6 +187,30 @@ reference geography that frame is built on.
 | Writers | `county_aggregator.py`, `county_policy_model.py`, `county_policy_intervals.py`, `restriction_worklist.py`, `census_gap_candidates.py`, `bill_sync.py`, `stale_pending_audit.py`, `refresh_external_census.py`, `restriction_evidence.py`, the county fetchers |
 | Source of record | The tracker itself. `data/external_restriction_census.csv` is an external lower bound and a pointer, never a source of record: nothing is ingestable from it until a primary source URL is supplied |
 
+#### The census maintains itself
+
+As of 2026-09-15 `data/external_restriction_census.csv` is written by
+`refresh_external_census.py --promote` rather than by hand. That module is its
+sole writer and appends only, so a hand-corrected row is never clobbered.
+
+This does not make the census a source of record, and the row above still
+holds. A promoted row carries its upstream citation and still has to pass
+`census_gap_candidates.py`'s own gate (complete, dated, http source URL,
+dedup-guarded, still an open coverage gap) before it becomes a tracker record
+and moves a county label. What changed is that the pointer keeps itself
+current instead of going stale between hand-seedings.
+
+The promotion gate holds on upstream's own uncertainty markers rather than
+second-guessing them: `has_verify_tags` is upstream saying it has not
+confirmed the row, and `date_enacted_uncertainty == "unverified"` is upstream
+saying it could not pin the date. It also holds pending instruments, dateless
+rows, and rows that do not join the national county frame. Held rows stay in
+the delta as the exception queue, and every promote and hold is appended to
+`data/census_promotion_report.csv`.
+
+Because the census is a trigger path for `pipeline.yml`, a promotion rebuilds
+the feed rather than waiting for the nightly run.
+
 #### What a negative label means
 
 `has_enacted_restrictive = 0` records that no tracker row asserts a
