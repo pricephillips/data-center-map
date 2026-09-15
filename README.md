@@ -123,6 +123,9 @@ the same input.
 | `control_group.py` | Builds the baseline universe and matched controls |
 | `control_comparison.py` | Balance diagnostics + outcome/delay distributions |
 | `triage_accelerator.py` | Re-scores review candidates with corroborating evidence (suggestions only; never auto-applied) |
+| `county_benchmarks.py` | **Comparison layer**: reference-group profiles (all counties, counties that restricted, state, data-center-present, tracked-activity) and a ten-county structural peer set per county. Runs in `pipeline.yml` immediately after the county layer, against the scores it just wrote |
+| `stakeholder_registry.py` | Named officials whose offices decide siting here, published only after an identity gate; a term that has already ended withholds the row |
+| `stakeholder_positions.py` | **Positions layer**: recorded public acts on data centers, behind a subject gate (the bill's title must name a data center or large load) and a direction gate (an ordered rule list, with the rule that fired published on every row). Runs in `positions-refresh.yml` |
 
 ### Standing audits and registries (run in CI, reporting only)
 
@@ -174,6 +177,13 @@ excluded from CI until Phase 5's calibration gate.
 | `data/county_model_spec_history.csv` | Every change to the county model's variable set, with the coefficient evidence behind it. Appended on change, never per run |
 | `data/facility_registry.csv` | Layer A registry: one row per source record, with a stable `facility_id` and a cluster id grouping records that describe one physical site |
 | `data/operations_summary.json` | What the Data Operations page loads: coverage, promotion trails, calibration history, open queues, gate status |
+| `data/county_benchmark_reference.csv` | Median/quartile profiles per reference group x metric: all counties, counties that enacted a restriction, counties that did not, data-center-present, tracked-activity, and one group per state. What makes a single county's numbers readable |
+| `data/county_benchmarks.csv` | Per county: percentile in each reference group, the ten structurally nearest peer counties, their restriction rate, and the gap to the restrictive median |
+| `data/stakeholder_registry.csv` | Layer of named officials whose offices decide siting, zoning, permitting and utility questions, with the official page each was read from |
+| `data/stakeholder_positions.csv` | Recorded public acts on data centers: roll-call votes, bill sponsorships, quoted statements of priorities, governing body decisions. Every row carries a source URL; nothing is inferred from party, title or district |
+| `data/position_bills.csv` | The bills those votes were cast on, with the rule that classified each one restrictive, industry-incentive or disclosure |
+| `data/stakeholder_position_summary.csv` | One row per person: counts by stance and a record label over the acts that carry a direction |
+| `data/bill_subject_overrides.csv` | Human confirmations that a bill is a data center bill, with a citation. A source of record: the pipeline reads it and never writes to it |
 
 `.md` files in `data/` are generated documentation that travels with its
 CSVs - the methodology and limitations layer for each dataset. They are not
@@ -182,10 +192,25 @@ hand-edited.
 ### Frontends
 
 `index.html`, `opposition-tracker.html`, `opposition-dashboard.html`,
-`developments-dashboard.html`, and `project-lifecycles.html`. All loaders are
-fetch-based with visible error banners. `raw.githubusercontent.com` URLs come
-first in the fallback chain because GitHub Pages sends no CORS headers, which
-would otherwise break embedded iframes in Notion / Simple.ink.
+`developments-dashboard.html`, `project-lifecycles.html`,
+`restriction-model.html`, `county-profile.html` and
+`positions-dashboard.html`. All loaders are fetch-based with visible error
+banners. `raw.githubusercontent.com` URLs come first in the fallback chain
+because GitHub Pages sends no CORS headers, which would otherwise break
+embedded iframes in Notion / Simple.ink.
+
+`county-profile.html` is the client-facing surface and the one to keep most
+current. It answers one county at a time across every layer in the
+repository, and two of its sections exist to stop a number being read on its
+own: **How this county compares** puts each figure against all counties, the
+counties that have actually enacted a restriction, the state, and ten
+structurally matched peers; **Public positions on data centers** lists what
+officials and governing bodies here have done on the record, each with its
+source. Everything on the page, both of those sections included, comes down
+in one CSV from the Export button.
+
+`positions-dashboard.html` is the national view of that same position record,
+filterable by state, evidence class, stance and bill direction.
 
 ---
 
