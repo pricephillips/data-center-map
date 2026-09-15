@@ -287,6 +287,34 @@ maintained) and never writes to it; an earlier version created that file's
 empty schema on first run and the layer audit correctly flagged it as a
 cross-layer write.
 
+**Classification lives in `bill_taxonomy.py`**, not in the positions module,
+and not in a second copy anywhere else. It answers two questions per bill and
+keeps them apart. `reach` is how the law gets to data centers -- the title
+names them (`data_center_specific`), the title binds a load or size class they
+dominate (`large_load_class`), or the provisions ride inside a wider bill whose
+data center content is established by the record that put it here
+(`sector_vehicle`). `instrument` is what the law does, and direction is derived
+from the instrument rather than judged separately, so the two can never
+disagree.
+
+Reach is what decides whether a roll call may carry a stance: only the first
+two may. A `sector_vehicle` bill publishes its votes, because they happened,
+and never a stance, because a vote on the vehicle is not a position on the
+provision riding inside it. That distinction was a hand-set field in the
+override file for one build; it is now derived, which is the difference between
+a queue somebody works and a classification that maintains itself.
+
+Two guards make the record evidence usable. It must name the exact bill, since
+one record routinely names several bill numbers and the match fans out to all
+of them. And the fetched title's subject has to be one a data center provision
+could plausibly ride in -- when a record insists on data centers and the bill
+that came back is about immigration, child restraints or abortion, the
+identifier resolved against the wrong bill. Those are `lookup_suspect`,
+withheld and queued for repair in `bill_sync.py` rather than filed with the
+honest coverage gaps. `data/bill_subject_overrides.csv` survives as an escape
+hatch for what the rules miss, and can demote but never promote a bill into a
+stance-bearing reach.
+
 Declared derived, never hand-edited, always regenerable. A hand edit to a
 Layer E file is a defect even when the edited value is correct, because the
 next run silently reverts it and the correction is lost.

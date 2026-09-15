@@ -1071,6 +1071,44 @@ var DIRECTION_TEXT = {
   unclassified: 'Not classified'
 };
 
+/* How a law reaches data centers, from bill_taxonomy.py. The first two bind
+ * data centers directly enough that a vote on the bill is a position; the
+ * third does not, and says so. */
+var REACH_TEXT = {
+  data_center_specific: 'Names data centers',
+  large_load_class: 'Binds a large-load class',
+  sector_vehicle: 'Provisions inside a wider bill'
+};
+
+var REACH_CLASS = {
+  data_center_specific: 'restrict',
+  large_load_class: 'restrict',
+  sector_vehicle: 'none'
+};
+
+var REACH_TITLE = {
+  data_center_specific: 'The bill’s own title names data centers.',
+  large_load_class: 'The title binds a load or size class data centers ' +
+    'dominate — large load customers, high load factor customers, a ' +
+    'megawatt threshold. A vote is a position on how that class is treated.',
+  sector_vehicle: 'The title is about utilities, tax or land use generally. ' +
+    'The data center content is established by the record that put the bill ' +
+    'here, not by the bill’s title, so its votes carry no direction.'
+};
+
+var INSTRUMENT_TEXT = {
+  moratorium_prohibition: 'Moratorium or prohibition',
+  incentive_repeal: 'Incentive repeal',
+  ratepayer_cost_allocation: 'Ratepayer cost allocation',
+  local_control: 'Local control',
+  siting_zoning: 'Siting and zoning',
+  water_environmental: 'Water and environmental',
+  disclosure_reporting: 'Disclosure and reporting',
+  supply_enablement: 'Supply enablement',
+  incentive_grant: 'Incentive grant',
+  unclassified: 'Not classified'
+};
+
 function stance_chip(stance) {
   return '<span class="stance ' + (STANCE_CLASS[stance] || 'none') + '">' +
     esc(STANCE_TEXT[stance] || stance) + '</span>';
@@ -1151,30 +1189,51 @@ function positions_section(slice) {
   /* ---- the bills, with a tally this page computed from the rows it holds ---- */
   html += '<h3 style="margin-top:18px">Data center bills voted in ' + st +
     count_label(slice.position_bills.length) + '</h3>' +
-    '<div class="sub">Bills whose title carries an explicit data center or ' +
-    'large-load term, so their roll calls can be read as positions on this ' +
-    'subject. "Direction" is assigned by a published rule on the bill title, ' +
-    'named in the rule column so it can be argued with. A bill the rules cannot ' +
-    'classify still shows its votes; it simply carries no direction.</div>' +
-    table(['Bill', 'Title', 'Direction', 'Rule', 'Stage', 'Yes', 'No', 'Other',
-           'First vote', 'Last vote', 'OpenStates'],
+    '<div class="sub">Legislation reaches data centers in more than one way, so ' +
+    '"Reach" says which, and only the first two let a vote count as a ' +
+    'position:<br>' +
+    '&nbsp;&nbsp;<span class="stance restrict">Names data centers</span> the ' +
+    'title says so outright.<br>' +
+    '&nbsp;&nbsp;<span class="stance restrict">Binds a large-load class</span> ' +
+    'the title regulates a load or size class data centers dominate — large ' +
+    'load customers, high load factor customers, a megawatt threshold — ' +
+    'without naming them. The class is the regulated entity, so a vote is a ' +
+    'position on how it is treated.<br>' +
+    '&nbsp;&nbsp;<span class="stance">Provisions inside a wider bill</span> an ' +
+    'omnibus energy act, a tax bill, a land use bill. Real, and much weaker: a ' +
+    'vote on the vehicle is not a position on the provision riding inside it, ' +
+    'and the roll call cannot tell them apart. These publish with <b>no ' +
+    'direction</b>, and the "In frame via" column says what put the bill here, ' +
+    'since the title will not.<br><br>' +
+    '"Instrument" is what the law does; direction follows from it rather than ' +
+    'being judged separately, so the two can never disagree.</div>' +
+    table(['Bill', 'Title', 'Reach', 'In frame via', 'Instrument', 'Direction',
+           'Stage', 'Yes', 'No', 'Other', 'First vote', 'Last vote', 'OpenStates'],
       slice.position_bills, function (r) {
         var b = r.bill;
         var dir = b.direction || 'unclassified';
+        var reach = b.reach || '';
+        var inst = b.instrument || 'unclassified';
         return ['<span class="nowrap">' + esc(b.identifier) + '</span>',
                 '<span class="clip">' + esc(b.title) + '</span>',
+                reach ? '<span class="stance ' + (REACH_CLASS[reach] || 'none') +
+                  '" title="' + esc(REACH_TITLE[reach] || '') + '">' +
+                  esc(REACH_TEXT[reach] || reach) + '</span>' : '—',
+                b.in_frame_via
+                  ? '<span class="clip">' + esc(b.in_frame_via) + '</span>'
+                  : '—',
+                '<span class="clip">' + esc(INSTRUMENT_TEXT[inst] || inst) + '</span>',
                 '<span class="stance ' +
                   (dir === 'restrictive' ? 'restrict'
                    : dir === 'enabling' ? 'industry'
                    : dir === 'disclosure' ? 'disclose' : 'none') + '">' +
                   esc(DIRECTION_TEXT[dir] || dir) + '</span>',
-                '<span class="clip">' + esc(b.direction_rule || '—') + '</span>',
                 esc(b.stage || '—'), fmt_int(r.yes), fmt_int(r.no), fmt_int(r.other),
                 '<span class="nowrap">' + fmt_date(r.first) + '</span>',
                 '<span class="nowrap">' + fmt_date(r.last) + '</span>',
                 link(b.openstates_url, 'bill')];
-      }, 'No bill in this state has both a roll call in the repository and a title ' +
-         'that establishes it is a data center bill.');
+      }, 'No bill in this state has both a roll call in the repository and ' +
+         'anything establishing that it reaches data centers.');
 
   /* ---- legislators ---- */
   var shown = slice.legislators.slice(0, LEGISLATOR_CAP);
@@ -1218,15 +1277,19 @@ function positions_section(slice) {
       '. The CSV export carries every one, and every individual vote behind them.</div>';
   }
 
-  if (pman.votes_withheld) {
+  if (pman.votes_withheld !== undefined) {
     html += '<div class="sub trailing">Across all states, ' +
       fmt_int(pman.votes_read) + ' roll calls were read and ' +
-      fmt_int(pman.votes_withheld) + ' were withheld because the bill\'s title does ' +
-      'not establish that it is a data center bill. The matching that produced ' +
-      'these roll calls also returned an immigration bill, a state budget and a ' +
-      'child-restraint bill, so the gate is deliberately strict and withholds real ' +
-      'bills alongside the false ones. <code>data/stakeholder_positions_qc.md</code> ' +
-      'ranks what was withheld by how many votes a confirmation would unlock.</div>';
+      fmt_int(pman.votes_withheld) + ' are withheld. Every one of those is a ' +
+      'bill whose identifier resolved against the wrong legislation \u2014 the ' +
+      'matching behind these roll calls returned an immigration bill, a ' +
+      'child-restraint bill and an abortion bill, all three attached to records ' +
+      'that genuinely are about data centers. They are queued for repair rather ' +
+      'than filed as coverage gaps. Of the bills that are admitted, ' +
+      fmt_int((pman.by_reach || {}).sector_vehicle) + ' carry their data center ' +
+      'provisions inside a wider bill and so publish their votes with no ' +
+      'direction. Full classification, and the repair queue, in ' +
+      '<code>data/bill_taxonomy_report.md</code>.</div>';
   }
 
   return html + '</section>';
@@ -1946,21 +2009,34 @@ function methodology_panel() {
       '<dt>roll calls read</dt><dd>' + fmt_int(pmf.votes_read) + '</dd>' +
       '<dt>roll calls withheld</dt><dd>' + fmt_int(pmf.votes_withheld) +
         ' (subject gate)</dd>' +
-      '<dt>bills passing the subject gate</dt><dd>' +
+      '<dt>bills admitted</dt><dd>' +
         fmt_int(pmf.bills_passing_subject_gate) + ' of ' + fmt_int(pmf.bills_in_frame) +
-        ', ' + fmt_int(pmf.bills_with_direction) + ' of them with a direction</dd>' +
-      '<dt>human subject overrides</dt><dd>' + fmt_int(pmf.override_rows) + '</dd>' +
+        ', ' + fmt_int(pmf.bills_with_direction) + ' of them carrying a direction</dd>' +
+      '<dt>by reach</dt><dd>' +
+        Object.keys(pmf.by_reach || {}).sort().map(function (k) {
+          return esc(REACH_TEXT[k] || k) + ' ' + fmt_int(pmf.by_reach[k]);
+        }).join(' &middot; ') + '</dd>' +
+      '<dt>human subject overrides</dt><dd>' + fmt_int(pmf.override_rows) +
+        ' (an escape hatch, not the mechanism: reach is derived)</dd>' +
       '<dt>generated</dt><dd>' + esc(pmf.generated || '—') + '</dd>' +
       '</dl>' +
-      '<div class="sub">Two gates stand between a roll call and a published ' +
-      'position. The <b>subject</b> gate requires the bill\'s title to carry an ' +
-      'explicit data center or large-load term; the matching that produced these ' +
-      'roll calls also returned a child-restraint bill, an immigration bill and a ' +
-      'state budget, and reading those as data center positions would put ' +
-      'fabricated views next to real names. The <b>direction</b> gate assigns which ' +
-      'way a bill cuts from an ordered rule list on the title, and every published ' +
-      'row names the rule that fired. A bill no rule classifies still has its votes ' +
-      'published, as a recorded vote with no stance attached.<br><br>' +
+      '<div class="sub">Every matched bill is classified on two axes by ' +
+      'bill_taxonomy.py, and the classification carries the evidence that ' +
+      'produced it. <b>Reach</b> is how the law gets to data centers: the title ' +
+      'names them, the title binds a load or size class they dominate, or the ' +
+      'provisions ride inside a wider bill whose data center content is ' +
+      'established by the record that put it here. Only the first two let a vote ' +
+      'count as a position. <b>Instrument</b> is what the law does \u2014 ' +
+      'moratorium, siting, ratepayer cost allocation, incentive grant or repeal, ' +
+      'disclosure, water, supply enablement, local control \u2014 and direction ' +
+      'follows from the instrument rather than being judged separately, so the ' +
+      'two can never disagree.<br><br>' +
+      'The evidence from the matched record is admitted only when it names this ' +
+      'exact bill, because one record routinely names several bill numbers and ' +
+      'the match fans out to all of them. Where a record insists on data centers ' +
+      'and the bill that came back is about immigration, child restraints or ' +
+      'abortion, that is a wrong bill rather than a coverage gap: its votes are ' +
+      'withheld and it is queued for repair.<br><br>' +
       'Stances sit on three separate axes — restriction, industry incentive, ' +
       'disclosure — and are never netted into a single pro-or-anti score. A ' +
       'legislator with acts on both sides is labelled mixed rather than averaged, ' +

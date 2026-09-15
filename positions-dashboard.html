@@ -138,6 +138,8 @@ Profile</a> page.</div>
     <select id="f-basis"><option value="">All evidence</option></select></label>
   <label class="fld">Stance
     <select id="f-stance"><option value="">All stances</option></select></label>
+  <label class="fld">Bill reach
+    <select id="f-reach"><option value="">Any reach</option></select></label>
   <label class="fld">Bill direction
     <select id="f-direction"><option value="">Any direction</option></select></label>
   <label class="fld">Search name, bill or jurisdiction
@@ -174,7 +176,7 @@ var JSON_FILES = { manifest: 'data/stakeholder_positions_manifest.json' };
 
 var DATA = {}, META = {};
 var BILL_BY_KEY = {};
-var FILTERS = { state: '', basis: '', stance: '', direction: '', q: '' };
+var FILTERS = { state: '', basis: '', stance: '', reach: '', direction: '', q: '' };
 
 /* Big tables are capped on screen and never in the export. 11,000 rows of
  * roll call is not a table anyone reads; it is a file they open in Excel. */
@@ -304,6 +306,28 @@ var DIRECTION_CLASS = {
   restrictive: 'restrict', enabling: 'industry', disclosure: 'disclose'
 };
 
+/* Reach, from bill_taxonomy.py: how the law reaches data centers. Only the
+ * first two let a vote count as a position. */
+var REACH_TEXT = {
+  data_center_specific: 'Names data centers',
+  large_load_class: 'Binds a large-load class',
+  sector_vehicle: 'Provisions inside a wider bill'
+};
+var REACH_CLS = {
+  data_center_specific: 'restrict', large_load_class: 'restrict',
+  sector_vehicle: 'none'
+};
+var INSTRUMENT_TEXT = {
+  moratorium_prohibition: 'Moratorium or prohibition',
+  incentive_repeal: 'Incentive repeal',
+  ratepayer_cost_allocation: 'Ratepayer cost allocation',
+  local_control: 'Local control', siting_zoning: 'Siting and zoning',
+  water_environmental: 'Water and environmental',
+  disclosure_reporting: 'Disclosure and reporting',
+  supply_enablement: 'Supply enablement', incentive_grant: 'Incentive grant',
+  unclassified: 'Not classified'
+};
+
 var RECORD_TEXT = {
   consistently_restrictive: 'All restriction-side',
   mostly_restrictive: 'Mostly restriction-side',
@@ -333,6 +357,10 @@ function matches(p) {
   if (FILTERS.state && p.state !== FILTERS.state) return false;
   if (FILTERS.basis && p.stance_basis !== FILTERS.basis) return false;
   if (FILTERS.stance && p.stance !== FILTERS.stance) return false;
+  if (FILTERS.reach) {
+    var br = BILL_BY_KEY[p.bill_key];
+    if (!br || br.reach !== FILTERS.reach) return false;
+  }
   if (FILTERS.direction) {
     var b = BILL_BY_KEY[p.bill_key];
     if (!b || b.direction !== FILTERS.direction) return false;
@@ -408,6 +436,7 @@ function render() {
   /* ---- bills ---- */
   var bill_rows = (DATA.bills || []).filter(function (b) {
     if (FILTERS.state && b.state !== FILTERS.state) return false;
+    if (FILTERS.reach && b.reach !== FILTERS.reach) return false;
     if (FILTERS.direction && b.direction !== FILTERS.direction) return false;
     if (FILTERS.q && (b.title + ' ' + b.identifier).toLowerCase().indexOf(FILTERS.q) === -1) {
       return false;
@@ -427,23 +456,32 @@ function render() {
 
   html += '<section><h3>Data center bills' +
     '<span class="count">' + bill_rows.length + '</span></h3>' +
-    '<div class="sub">Bills whose title carries an explicit data center or ' +
-    'large-load term, so their roll calls can be read as positions on this ' +
-    'subject. "Direction" comes from an ordered rule list on the title and the ' +
-    'rule that fired is named, so any classification can be argued with rather ' +
-    'than trusted. A bill the rules cannot classify keeps its votes and simply ' +
-    'carries no direction. Vote counts reflect the current filter.</div>' +
-    table(['State', 'Bill', 'Title', 'Direction', 'Rule', 'Stage', 'Session',
-           'Yes', 'No', 'Other', 'Subject basis', 'OpenStates'],
+    '<div class="sub">Legislation reaches data centers in more than one way, and ' +
+    '"Reach" says which. <span class="stance restrict">Names data centers</span> ' +
+    'and <span class="stance restrict">Binds a large-load class</span> both make ' +
+    'the regulated entity the thing being voted on, so a vote is a position. ' +
+    '<span class="stance">Provisions inside a wider bill</span> does not: an ' +
+    'omnibus energy act or a tax bill carrying data center provisions publishes ' +
+    'its roll calls with <b>no direction</b>, because the vote was cast on the ' +
+    'vehicle and the roll call cannot separate the two. "In frame via" is what ' +
+    'put such a bill here, since its title will not say. "Instrument" is what ' +
+    'the law does, and direction follows from it rather than being judged ' +
+    'separately. Vote counts reflect the current filter.</div>' +
+    table(['State', 'Bill', 'Title', 'Reach', 'In frame via', 'Instrument',
+           'Direction', 'Stage', 'Session', 'Yes', 'No', 'Other', 'OpenStates'],
       bill_rows, function (b) {
         var t = tally[b.bill_key] || { yes: 0, no: 0, other: 0 };
+        var reach = b.reach || '';
+        var inst = b.instrument || 'unclassified';
         return [esc(b.state), '<span class="nowrap">' + esc(b.identifier) + '</span>',
                 '<span class="clip">' + esc(b.title) + '</span>',
+                reach ? chip(REACH_CLS[reach], REACH_TEXT[reach] || reach) : '—',
+                b.in_frame_via
+                  ? '<span class="clip">' + esc(b.in_frame_via) + '</span>' : '—',
+                '<span class="clip">' + esc(INSTRUMENT_TEXT[inst] || inst) + '</span>',
                 chip(DIRECTION_CLASS[b.direction], DIRECTION_TEXT[b.direction] || b.direction),
-                '<span class="clip">' + esc(b.direction_rule || '—') + '</span>',
                 esc(b.stage || '—'), esc(b.session || '—'),
                 fmt_int(t.yes), fmt_int(t.no), fmt_int(t.other),
-                '<span class="clip">' + esc(b.subject_basis) + '</span>',
                 link(b.openstates_url, 'bill')];
       }, 'No bill matches this filter.') + '</section>';
 
@@ -694,7 +732,7 @@ function read_hash() {
     var k = decodeURIComponent(kv[0] || ''), v = decodeURIComponent(kv[1] || '');
     if (k in FILTERS) FILTERS[k] = k === 'q' ? v.toLowerCase() : v;
   });
-  ['state', 'basis', 'stance', 'direction'].forEach(function (k) {
+  ['state', 'basis', 'stance', 'reach', 'direction'].forEach(function (k) {
     var el = document.getElementById('f-' + k);
     if (el) el.value = FILTERS[k];
   });
@@ -711,7 +749,7 @@ function write_hash() {
 }
 
 function wire() {
-  ['state', 'basis', 'stance', 'direction'].forEach(function (k) {
+  ['state', 'basis', 'stance', 'reach', 'direction'].forEach(function (k) {
     document.getElementById('f-' + k).addEventListener('change', function () {
       FILTERS[k] = this.value;
       write_hash(); render();
@@ -728,7 +766,7 @@ function wire() {
   });
   document.getElementById('reset').addEventListener('click', function () {
     Object.keys(FILTERS).forEach(function (k) { FILTERS[k] = ''; });
-    ['state', 'basis', 'stance', 'direction'].forEach(function (k) {
+    ['state', 'basis', 'stance', 'reach', 'direction'].forEach(function (k) {
       document.getElementById('f-' + k).value = '';
     });
     q.value = '';
@@ -767,16 +805,20 @@ Promise.all(keys.map(function (k) { return fetch_first(urls(FILES[k])); }))
     }
     (DATA.bills || []).forEach(function (b) { BILL_BY_KEY[b.bill_key] = b; });
 
-    var states = {}, bases = {}, stances = {}, directions = {};
+    var states = {}, bases = {}, stances = {}, directions = {}, reaches = {};
     DATA.positions.forEach(function (p) {
       if (p.state) states[p.state] = 1;
       if (p.stance_basis) bases[p.stance_basis] = 1;
       if (p.stance) stances[p.stance] = 1;
     });
-    (DATA.bills || []).forEach(function (b) { if (b.direction) directions[b.direction] = 1; });
+    (DATA.bills || []).forEach(function (b) {
+      if (b.direction) directions[b.direction] = 1;
+      if (b.reach) reaches[b.reach] = 1;
+    });
     fill('f-state', Object.keys(states).sort());
     fill('f-basis', Object.keys(bases).sort(), BASIS_TEXT);
     fill('f-stance', Object.keys(stances).sort(), STANCE_TEXT);
+    fill('f-reach', Object.keys(reaches).sort(), REACH_TEXT);
     fill('f-direction', Object.keys(directions).sort(), DIRECTION_TEXT);
 
     document.getElementById('export').disabled = false;

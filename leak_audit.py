@@ -144,7 +144,20 @@ INTERNAL_QUOTES = {
 # transports these, it does not compose them, so a hit is inherited rather
 # than introduced. Rewriting them is a source-data migration.
 INHERITED_FIELDS = {
-    # Registered 2026-09-15 with stakeholder_positions.py. Same class as
+    # Registered 2026-09-15 with stakeholder_positions.py. The same 392 Open
+    # States motion strings already exempted as
+    # (data/bill_sync_votes.csv, motion_text) above, carried through to the
+    # published position rows under the name `vote_motion`. "Conrad AM2794
+    # lost" is the legislative journal's own wording for a failed amendment;
+    # the exact wording is what makes a vote row auditable, and rewriting it
+    # would falsify a quoted record. Transported verbatim, never composed.
+    #
+    # Registered by field name rather than as a file-plus-column pair because
+    # the pair mechanism above is fenced to files that never ship to a client,
+    # and data/stakeholder_positions.csv does. The honest basis here is not
+    # "nobody will see it" but "we did not write it".
+    "vote_motion",
+    # Same class as
     # `summary` below and transported from it: on a governing body action the
     # value is the tracker's own Summary, on a stated priority it is the
     # registry's relevance_note, and in both cases it is carried verbatim and
@@ -383,6 +396,13 @@ def selftest() -> int:
        classify("data/manual_corrections.csv", "loss of farmland",
                 field="new_value"), ADVISORY)
     # --- 2026-09-15 registration (stakeholder positions) ---
+    eq("a transported legislative journal motion is advisory",
+       classify("data/stakeholder_positions.csv", "Conrad AM2794 lost",
+                field="vote_motion"), ADVISORY)
+    eq("our own prose in a composed column still blocks",
+       classify("data/stakeholder_positions.csv", "a clear win for opponents",
+                field="stance_note"), BLOCKING)
+
     eq("transported evidence_summary prose is advisory",
        classify("data/stakeholder_positions.csv",
                 "Residents objected to the loss of farmland",

@@ -424,7 +424,17 @@ def lookup_bill(state: str, identifier: str, year: int | None,
         "bill_id": chosen.get("id", ""),
         "openstates_url": chosen.get("openstates_url", ""),
         "session": chosen.get("session", ""),
-        "title": (chosen.get("title") or "")[:160],
+        # 600, not 160. bill_taxonomy.py reads this field to decide whether a
+        # bill reaches data centers, and at 160 characters the field was cutting
+        # off the evidence: West Virginia HB 4983's title ended at
+        # "certification as a high i", one word short of "impact data center",
+        # so the bill read as silent on its own subject. 18 of 108 titles sat
+        # at the old cap. A cap is still wanted -- a few states put an entire
+        # summary in the title field -- but it belongs past the subject rather
+        # than inside it. Bills already cached keep their truncated title until
+        # the cache entry expires and refetches; the taxonomy flags those as
+        # `title_truncated` and does not read their silence as evidence.
+        "title": (chosen.get("title") or "")[:600],
         "latest_action_date": (chosen.get("latest_action_date") or "")[:10],
         "stage": stage, "stage_date": stage_date, "stage_evidence": ev,
         "correct_outcome": STAGE_OUTCOME[stage],

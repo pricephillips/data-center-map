@@ -125,7 +125,8 @@ the same input.
 | `triage_accelerator.py` | Re-scores review candidates with corroborating evidence (suggestions only; never auto-applied) |
 | `county_benchmarks.py` | **Comparison layer**: reference-group profiles (all counties, counties that restricted, state, data-center-present, tracked-activity) and a ten-county structural peer set per county. Runs in `pipeline.yml` immediately after the county layer, against the scores it just wrote |
 | `stakeholder_registry.py` | Named officials whose offices decide siting here, published only after an identity gate; a term that has already ended withholds the row |
-| `stakeholder_positions.py` | **Positions layer**: recorded public acts on data centers, behind a subject gate (the bill's title must name a data center or large load) and a direction gate (an ordered rule list, with the rule that fired published on every row). Runs in `positions-refresh.yml` |
+| `bill_taxonomy.py` | **Bill typology**: classifies every matched bill on two axes — `reach` (does the title name data centers, bind a large-load class, or carry the provisions inside a wider bill?) and `instrument` (moratorium, siting, ratepayer cost allocation, incentive grant or repeal, disclosure, water, supply enablement, local control). Reach decides whether a roll call may carry a stance; direction follows from instrument. Also separates wrong-bill matches from honest coverage gaps |
+| `stakeholder_positions.py` | **Positions layer**: recorded public acts on data centers. Reads the taxonomy rather than classifying anything itself. Runs in `positions-refresh.yml` |
 
 ### Standing audits and registries (run in CI, reporting only)
 
@@ -181,9 +182,10 @@ excluded from CI until Phase 5's calibration gate.
 | `data/county_benchmarks.csv` | Per county: percentile in each reference group, the ten structurally nearest peer counties, their restriction rate, and the gap to the restrictive median |
 | `data/stakeholder_registry.csv` | Layer of named officials whose offices decide siting, zoning, permitting and utility questions, with the official page each was read from |
 | `data/stakeholder_positions.csv` | Recorded public acts on data centers: roll-call votes, bill sponsorships, quoted statements of priorities, governing body decisions. Every row carries a source URL; nothing is inferred from party, title or district |
-| `data/position_bills.csv` | The bills those votes were cast on, with the rule that classified each one restrictive, industry-incentive or disclosure |
+| `data/bill_taxonomy.csv` | Every matched bill with its reach, instrument, direction, stance eligibility and the evidence behind each call |
+| `data/position_bills.csv` | The bills those votes were cast on, with reach, instrument, direction, and what put the bill in frame |
 | `data/stakeholder_position_summary.csv` | One row per person: counts by stance and a record label over the acts that carry a direction |
-| `data/bill_subject_overrides.csv` | Human confirmations that a bill is a data center bill, with a citation. A source of record: the pipeline reads it and never writes to it |
+| `data/bill_subject_overrides.csv` | Human confirmations that a bill is a data center bill, with a citation, and whether its data center provisions are the bill's principal purpose (`primary`) or ride inside a wider vehicle (`partial`). A `partial` bill publishes its votes with no direction. A source of record: the pipeline reads it and never writes to it |
 
 `.md` files in `data/` are generated documentation that travels with its
 CSVs - the methodology and limitations layer for each dataset. They are not
