@@ -16,6 +16,7 @@ import csv
 import difflib
 import json
 import os
+import re
 import subprocess
 import tempfile
 from datetime import date
@@ -70,6 +71,74 @@ def fetch_page(cookie_jar, cursor, limit=100):
     return json.loads(body)
 
 
+# ---------------------------------------------------------------------------
+# Source key aliases
+#
+# On 2026-09-10 the source renamed four fields to a dateX/camelCase scheme
+# without changing what they mean. flatten() reads every field with
+# record.get(name, ''), so all four silently became empty strings and the run
+# reported success. Downstream, announced_date in data/project_lifecycles.csv
+# fell 302 -> 10 and the published coverage panel reported 3% of projects as
+# carrying an announcement date -- a scraper bug rendered as a fact about the
+# data, for four days, on the public site.
+#
+# Each column now names the response keys that may carry it, current name
+# first and previous name after. Reading both means a rename costs one entry
+# here instead of a silently emptied column, and a source that rolls one back
+# keeps working. Old names are kept rather than replaced because nothing
+# guarantees the source only moves forwards.
+#
+# The pairings come from data/scraper_field_audit.md, which lists each of
+# these as sent-by-the-response-and-read-by-nothing while its old name is
+# read-but-absent. They are applied with is_datelike() below standing behind
+# the two date columns, so a pairing that turns out to be wrong writes empty
+# and trips the population guard rather than feeding a wrong date into every
+# downstream timeline.
+# ---------------------------------------------------------------------------
+
+SOURCE_KEYS = {
+    'size_acres':  ('sizeAcres', 'size_acres'),
+    'capacity_mw': ('capacityMw', 'capacity_mw'),
+    'date':        ('dateAnnounced', 'date'),
+    'lastUpdated': ('dateUpdated', 'lastUpdated'),
+}
+
+# The shapes project_resolution.parse_partial_date() accepts. The source sends
+# genuinely partial dates -- "2026", "2026-1", "2026-1-15" -- so this cannot
+# be a strict ISO test; before the rename only 16 of 302 announcement dates
+# were day-precision. A full ISO timestamp is accepted because manual rows in
+# data/proposals_added.csv carry that shape.
+_DATELIKE = re.compile(r"^\d{4}(-\d{1,2}(-\d{1,2})?)?$|^\d{4}-\d{2}-\d{2}T")
+
+
+def is_datelike(value):
+    """True when parse_partial_date() downstream would get a date out of this."""
+    return bool(_DATELIKE.match(str(value).strip())) if value is not None else False
+
+
+def pick(record, *keys):
+    """First of `keys` the record actually carries. Blank counts as absent."""
+    for k in keys:
+        v = record.get(k, '')
+        if v is None:
+            continue
+        if isinstance(v, str) and v.strip() == '':
+            continue
+        return v
+    return ''
+
+
+def pick_date(record, *keys):
+    """pick(), but a value that is not a date at all is treated as absent.
+
+    A wrong alias then empties the column, which the population guard stops
+    the scrape over -- the loud failure -- instead of writing a plausible
+    wrong value into the anchor every downstream timeline is measured from.
+    """
+    v = pick(record, *keys)
+    return v if is_datelike(v) else ''
+
+
 def flatten(record):
     muni = record.get('municipality') or {}
     return {
@@ -84,11 +153,11 @@ def flatten(record):
         'address': record.get('address', ''),
         'lat': record.get('lat', ''),
         'lon': record.get('lon', ''),
-        'size_acres': record.get('size_acres', ''),
-        'capacity_mw': record.get('capacity_mw', ''),
+        'size_acres': pick(record, *SOURCE_KEYS['size_acres']),
+        'capacity_mw': pick(record, *SOURCE_KEYS['capacity_mw']),
         'scale': record.get('scale', ''),
-        'date': record.get('date', ''),
-        'lastUpdated': record.get('lastUpdated', ''),
+        'date': pick_date(record, *SOURCE_KEYS['date']),
+        'lastUpdated': pick_date(record, *SOURCE_KEYS['lastUpdated']),
         'yearOpened': record.get('yearOpened', ''),
         'jobsConstruction': record.get('jobsConstruction', ''),
         'jobsLongTerm': record.get('jobsLongTerm', ''),
@@ -149,22 +218,34 @@ def api_keys_read():
     return seen
 
 
-def field_audit(records, keys_read=None):
+def field_audit(records, keys_read=None, source_keys=None):
     """Compare the keys the source sent against the keys the mapping wants.
 
     Returns a dict with:
       absent    keys flatten() reads that no record carries -- a field the
-                source dropped or renamed away
+                source dropped or renamed away. A key whose SOURCE_KEYS alias
+                group has a present member is not absent: the column is being
+                read, just under a different name.
       unmapped  keys the source sent that flatten() never reads -- where a
                 renamed field will be sitting
       renames   a suggested pairing of the two by name similarity, which is a
                 prompt for a human, never applied automatically
     """
     keys_read = api_keys_read() if keys_read is None else set(keys_read)
+    source_keys = SOURCE_KEYS if source_keys is None else source_keys
     observed = set()
     for r in records:
         observed |= set(r.keys())
-    absent = sorted(keys_read - observed)
+    # A key in an alias group is only absent when no member of its group is
+    # present. Without this every legacy name in SOURCE_KEYS would be reported
+    # absent forever -- true, and useless: the column is being read fine under
+    # the current name, and an audit that cries about four healthy fields is
+    # an audit nobody reads the week a fifth one actually breaks.
+    covered = set()
+    for group in source_keys.values():
+        if set(group) & observed:
+            covered |= set(group)
+    absent = sorted(keys_read - observed - covered)
     unmapped = sorted(observed - keys_read)
     renames = {}
     for gone in absent:
@@ -519,19 +600,38 @@ def selftest():
           {"date", "capacity_mw", "municipality", "id"} <= keys)
     check("a key flatten never reads is not in the set", "nonsense" not in keys)
 
-    # The real 2026-09-10 shape: six fields gone, six new names present.
-    renamed = [{"id": 1, "name": "A", "announcedDate": "2026-01-01",
-                "capacityMw": 100, "sizeAcres": 10, "updatedAtIso": "x",
-                "ownEnergy": True, "exemptFromMoratorium": False}]
+    # The three fields the 2026-09-10 rename left unresolved. The other four
+    # are aliased in SOURCE_KEYS and must no longer be reported; these have no
+    # candidate anyone could confirm (moratoriumExempt has none at all, and
+    # yearOpened -> dateOnline pairs a year against a date), so they are what
+    # the absent/unmapped machinery still has to catch -- as it will have to
+    # for whichever field the source renames next.
+    renamed = [{"id": 1, "name": "A", "dateAnnounced": "2026-01-01",
+                "capacityMw": 100, "sizeAcres": 10, "dateUpdated": "x",
+                "btmPower": True, "dateOnline": "2027-01-01"}]
     fa = field_audit(renamed, keys)
     check("a field the source stopped sending is reported absent",
-          "date" in fa["absent"] and "capacity_mw" in fa["absent"])
+          "yearOpened" in fa["absent"] and "moratoriumExempt" in fa["absent"])
     check("a key the source sent that nothing reads is reported",
-          "announcedDate" in fa["unmapped"] and "capacityMw" in fa["unmapped"])
+          "btmPower" in fa["unmapped"] and "dateOnline" in fa["unmapped"])
+    check("a field now covered by an alias is reported neither way",
+          not ({"date", "capacity_mw", "size_acres", "lastUpdated"}
+               & set(fa["absent"]))
+          and not ({"dateAnnounced", "capacityMw", "sizeAcres", "dateUpdated"}
+                   & set(fa["unmapped"])))
     check("a mapped key that is present is not reported either way",
           "name" not in fa["absent"] and "name" not in fa["unmapped"])
+    check("a rename with no similar name is listed but not paired",
+          "yearOpened" not in fa["renames"]
+          and "moratoriumExempt" not in fa["renames"])
+    # Pairing only fires on name similarity, which is why the three above are
+    # still open: difflib cannot pair yearOpened with dateOnline. It does pair
+    # the easy shape, which is the common one.
+    similar = field_audit([{"id": 1, "name": "A", "dateAnnounced": "2026-01-01",
+                            "capacityMw": 1, "sizeAcres": 1, "dateUpdated": "x",
+                            "moratoriumExemption": True}], keys)
     check("similar names are paired as a possible rename",
-          "capacityMw" in fa["renames"].get("capacity_mw", []))
+          "moratoriumExemption" in similar["renames"].get("moratoriumExempt", []))
     check("pairing is a suggestion, never applied",
           isinstance(fa["renames"], dict) and "observed" in fa)
 
@@ -544,6 +644,58 @@ def selftest():
           field_audit([], keys)["unmapped"] == [])
     check("an empty response reports every mapped key as absent",
           len(field_audit([], keys)["absent"]) == len(keys))
+
+    # --- source-key aliases (the 2026-09-10 rename) -----------------------
+    renamed_rec = {"id": 7, "name": "N", "dateAnnounced": "2026-3",
+                   "dateUpdated": "2026-4-2", "capacityMw": 250,
+                   "sizeAcres": 80}
+    f = flatten(renamed_rec)
+    check("an announcement date under the new name is read",
+          f["date"] == "2026-3")
+    check("lastUpdated under the new name is read",
+          f["lastUpdated"] == "2026-4-2")
+    check("capacity under the new name is read", f["capacity_mw"] == 250)
+    check("acreage under the new name is read", f["size_acres"] == 80)
+
+    legacy_rec = {"id": 8, "name": "N", "date": "2025-1", "lastUpdated": "2025-2",
+                  "capacity_mw": 10, "size_acres": 5}
+    g = flatten(legacy_rec)
+    check("the previous names still work if the source rolls back",
+          (g["date"], g["lastUpdated"], g["capacity_mw"], g["size_acres"])
+          == ("2025-1", "2025-2", 10, 5))
+
+    both = flatten({"id": 9, "name": "N", "dateAnnounced": "2026-3",
+                    "date": "1999-1"})
+    check("the current name wins when the source sends both",
+          both["date"] == "2026-3")
+    check("a record carrying neither name yields empty, not a crash",
+          flatten({"id": 10, "name": "N"})["date"] == "")
+
+    # A pairing that is wrong must empty the column -- which the population
+    # guard stops the scrape over -- not write a plausible non-date.
+    check("a non-date under a date alias is discarded",
+          flatten({"id": 11, "name": "N", "dateAnnounced": "Q2 next year"})
+          ["date"] == "")
+    check("a boolean under a date alias is discarded",
+          flatten({"id": 12, "name": "N", "dateAnnounced": True})["date"] == "")
+    check("partial dates the downstream parser accepts survive",
+          all(is_datelike(v) for v in ("2026", "2026-1", "2026-1-15",
+                                       "2026-01-15T05:00:00.000Z")))
+    check("things it does not accept are rejected",
+          not any(is_datelike(v) for v in ("", "soon", "26-1", "TBD", None)))
+    check("a non-date alias is not date-filtered",
+          flatten({"id": 13, "name": "N", "capacityMw": 0})["capacity_mw"] == 0)
+
+    # The audit must not nag about legacy names that a live alias covers.
+    alias_keys = api_keys_read()
+    fa_alias = field_audit([renamed_rec], alias_keys)
+    check("a legacy name covered by a live alias is not reported absent",
+          "date" not in fa_alias["absent"]
+          and "capacity_mw" not in fa_alias["absent"])
+    check("the live alias is not reported as unread",
+          "dateAnnounced" not in fa_alias["unmapped"])
+    check("a field with no member present is still reported absent",
+          "yearOpened" in fa_alias["absent"])
 
     n_ok = sum(1 for _, ok in checks if ok)
     print(f"\n{n_ok}/{len(checks)} checks passed")
