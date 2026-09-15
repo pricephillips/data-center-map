@@ -250,6 +250,10 @@ var DETAIL_FILES = {
   opposition: 'master_opposition_clean.csv',
   /* second pass, added for the client view */
   restriction_census: 'data/external_restriction_census.csv',
+  /* The upstream rows the census refresh has surfaced but nobody has
+   * reviewed yet. Shown separately from the census and never mixed into it:
+   * promoting one is a review decision, and this page is not the reviewer. */
+  census_delta: 'data/external_restriction_census_delta.csv',
   coverage_gap: 'data/coverage_gap_report.csv',
   universe: 'data/baseline_universe.csv',
   outcome_pred: 'data/outcome_model_predictions.csv',
@@ -665,7 +669,7 @@ function county_slice(fips) {
     restrictions: [], coverage: [], universe: [], bills: [], groups: [],
     cost: [], trend: [], contagion: null,
     stakeholders_county: [], stakeholders_state: [],
-    benchmark: null, peers: [],
+    benchmark: null, peers: [], census_pending: [],
     body_actions: [], priorities: [], legislators: [], position_bills: [],
     positions_state: []
   };
@@ -712,6 +716,13 @@ function county_slice(fips) {
     if (row_fips_list(r.county, r.state).indexOf(fips) !== -1) out.restrictions.push(r);
   });
   out.restrictions.sort(function (a, b) {
+    return String(b.date_enacted || '').localeCompare(String(a.date_enacted || ''));
+  });
+
+  (DATA.census_delta || []).forEach(function (r) {
+    if (row_fips_list(r.county, r.state).indexOf(fips) !== -1) out.census_pending.push(r);
+  });
+  out.census_pending.sort(function (a, b) {
     return String(b.date_enacted || '').localeCompare(String(a.date_enacted || ''));
   });
 
@@ -1478,7 +1489,8 @@ function render(slice) {
     html += '<section><h3>Enacted restriction record</h3><div class="empty">The county aggregate ' +
       'flags an enacted restrictive action, but no instrument is filed in the external restriction ' +
       'census. The flag is derived from tracker events; the census is the hand-verified layer and ' +
-      'covers 94 counties, so absence here is a coverage gap and not a contradiction.</div></section>';
+      'covers ' + fmt_int((DATA.restriction_census || []).length) + ' counties, so absence here is ' +
+      'a coverage gap and not a contradiction.</div></section>';
   }
 
   /* ---- predictive ---- */
@@ -1533,6 +1545,42 @@ function render(slice) {
       'Puerto Rico and counties with incomplete census features are excluded.</div>';
   }
   html += '</section>';
+
+  /* ---- external rows awaiting review ---- */
+  /* These come from the refresh delta, not the census. An upstream compiler
+   * asserts a restriction here and nobody in this repository has reviewed it
+   * yet, so the row is shown as a question rather than as a finding: it never
+   * moves has_enacted_restrictive, never joins the census table above, and is
+   * labelled on screen as unreviewed. Showing it beats the alternative, which
+   * was telling a client "coverage gap" on a county an external source has
+   * already documented. */
+  if (slice.census_pending.length) {
+    var contradicts = a.has_enacted_restrictive !== '1';
+    html += '<section><h3>External rows awaiting review' +
+      count_label(slice.census_pending.length) + '</h3>' +
+      '<div class="sub">Surfaced by the census refresh against the Moratorium ' +
+      'Nation dataset (CC-BY-4.0) and <b>not yet reviewed by anyone here</b>. ' +
+      'Promoting an upstream row into the census is a review decision, so ' +
+      'nothing on this page treats these as verified: they do not set this ' +
+      'county\'s restriction flag, they are not counted in any model, and they ' +
+      'are not part of the census table above.' +
+      (contradicts
+        ? ' <b>This county is currently recorded as having no enacted ' +
+          'restriction</b>, so the row below is a question about that label ' +
+          'rather than a confirmation of it \u2014 the kind of disagreement ' +
+          'worth resolving before quoting this county as clear.'
+        : ' This county already carries an enacted restriction, so the row ' +
+          'below is corroboration from an independent compiler rather than ' +
+          'anything new.') +
+      '</div>' +
+      table(['Instrument', 'Upstream status', 'Date enacted', 'Upstream record'],
+        slice.census_pending, function (r) {
+          return [esc(r.instrument),
+                  '<span class="stance">' + esc(r.census_status || '\u2014') + '</span>',
+                  '<span class="nowrap">' + fmt_date(r.date_enacted) + '</span>',
+                  '<span class="clip">' + esc(r.source) + '</span>'];
+        }, '') + '</section>';
+  }
 
   /* ---- comparison ---- */
   html += comparison_section(slice);
@@ -2121,6 +2169,11 @@ function export_csv() {
 
   slice.restrictions.forEach(function (r, i) {
     push_row('enacted_restriction', (r.instrument || 'instrument') + '_' + (i + 1), r);
+  });
+  /* Exported under its own section name so a reader of the CSV cannot mistake
+     an unreviewed upstream row for a census finding. */
+  slice.census_pending.forEach(function (r, i) {
+    push_row('external_row_awaiting_review', (r.instrument || 'row') + '_' + (i + 1), r);
   });
   slice.coverage.forEach(function (r, i) { push_row('coverage_gap', c.fips + '_' + (i + 1), r); });
   slice.universe.forEach(function (r) { push_row('baseline_universe', r.universe_id, r); });
