@@ -94,8 +94,9 @@ a record with nothing on the other side, `mostly_restrictive` for a clear lean,
 own columns beside the label, so a reader never has to take the label's word.
 
 Reads
+  data/bill_taxonomy.csv            every matched bill, classified by reach
+                                    and instrument (see bill_taxonomy.py)
   data/bill_sync_votes.csv          roll calls on matched bills
-  data/bill_sync_matches.csv        bill titles, stages, OpenStates links
   data/stakeholder_registry.csv     sponsors, stated priorities, offices
   data/bill_subject_overrides.csv   human confirmations (source of record)
   master_opposition_clean.csv       governing body actions
@@ -145,124 +146,31 @@ OUT_MANIFEST = os.path.join(DATA, "stakeholder_positions_manifest.json")
 csv.field_size_limit(10_000_000)
 
 # ---------------------------------------------------------------------------
-# Gate 1: subject
+# Classification comes from bill_taxonomy.py
 #
-# An explicit term, not a theme. "Energy" is not on this list and will not be:
-# every state legislature passes energy bills every session and almost none of
-# them are about data centers.
-# ---------------------------------------------------------------------------
-
-SUBJECT_TERMS = [
-    "data center", "data centre", "datacenter",
-    "large energy use", "large-energy-use",
-    "large load", "large-load",
-    "high energy use", "high-energy-use",
-    "high impact data", "high-impact data",
-    "high load facilit", "high-load facilit",
-    "large energy consumer",
-    "hyperscale",
-    "large energy user", "large electricity user",
-]
-
-
-def subject_hit(title):
-    t = (title or "").lower()
-    for term in SUBJECT_TERMS:
-        if term in t:
-            return term
-    return None
-
-
-# ---------------------------------------------------------------------------
-# Gate 2: direction
+# This module used to carry its own subject lexicon and its own ordered
+# direction rules. Both now live in bill_taxonomy.py, which classifies every
+# matched bill on two axes -- how the law reaches data centers, and what
+# instrument it uses -- and publishes data/bill_taxonomy.csv with the evidence
+# for each call. Keeping a second copy of those lexicons here is the drift this
+# repository has been bitten by before: two gates that agree today and quietly
+# disagree after someone edits one of them.
 #
-# Ordered. First match wins. `restrictive` means the bill constrains, taxes,
-# reviews or removes support from the industry; `enabling` means it grants,
-# exempts or accelerates; `disclosure` means it requires information without
-# by itself constraining -- kept separate precisely because a legislator who
-# votes for a reporting bill has not taken a side.
+# What this module reads back is the part it needs: whether a bill is admitted
+# at all, whether it is admitted strongly enough to carry a stance, and which
+# way it cuts.
 # ---------------------------------------------------------------------------
 
-DIRECTION_RULES = [
-    # Repeal beats incentive: a bill that repeals an exemption mentions the
-    # exemption, and a naive incentive rule would read it backwards.
-    #
-    # The gap between the two terms deliberately spans semicolons. Legislative
-    # titles are clause lists -- "State Sales and Use Taxes; the data center
-    # equipment sales and use tax exemption; repeal" puts the verb two clauses
-    # away from its object. An earlier version of these patterns excluded `;`
-    # from the gap and classified that Georgia repeal bill as `enabling`,
-    # inverting every vote on it. Sentence-final periods still bound the
-    # window, which is enough: a bill title is one bill.
-    ("repeal_incentive", "restrictive", [
-        r"repeal[a-z]*\b[^.]{0,80}\b(exemption|incentive|credit|abatement|rebate|tax relief)",
-        r"\b(exemption|incentive|credit|abatement|rebate|tax relief)\b[^.]{0,80}\brepeal",
-        r"\beliminat\w*\b[^.]{0,80}\b(exemption|incentive|credit|abatement)",
-        r"\bremov\w*\b[^.]{0,60}\btax exemption",
-        r"\bend\w*\b[^.]{0,40}\btax (exemption|break)",
-    ]),
-    ("moratorium_or_prohibition", "restrictive", [
-        r"\bmoratori(um|a)\b",
-        r"\bprohibit",
-        r"\bban on\b",
-        r"\bforbid",
-    ]),
-    ("ratepayer_protection", "restrictive", [
-        r"\bratepayer protection\b",
-        r"\bprotect\w*\b[^.;]{0,90}\b(customer|ratepayer|resident|family|families)",
-        r"\bcost shift",
-        r"\bfrom increased (cost|utility|rate)",
-        r"\bnon-large load\b",
-        r"\bnon-data cent",
-    ]),
-    ("local_control", "restrictive", [
-        r"\blocal control\b",
-        r"\blocal approval\b",
-        r"\brestore local\b",
-        r"\bnondisclosure agreement",
-    ]),
-    ("siting_or_permit_condition", "restrictive", [
-        r"\bsiting\b", r"\bzon(ing|ed)\b", r"\bsetback",
-        r"\bpermit requirement", r"\bemission limit",
-        r"\bsite assessment\b", r"\bsound profile\b", r"\bnoise\b",
-        r"\bcertificate of (operation|need|public)",
-        r"\bwater[- ]quantity review\b",
-        r"\bimpact (review|assessment)\b",
-        r"\bconditions? for\b[^.;]{0,60}\bapprov",
-    ]),
-    # Disclosure before incentive: "reporting on the tax exemption" is a
-    # disclosure bill, not a grant of one.
-    ("disclosure_or_study", "disclosure", [
-        r"\breport(ing)?\b", r"\bstud(y|ies|ying)\b", r"\btransparen",
-        r"\bdisclos", r"\bstudy commission\b", r"\binventor(y|ies)\b",
-        r"\b(state lands|public lands)[;,]?\s*map\b", r"\bmapping\b",
-    ]),
-    ("grant_incentive", "enabling", [
-        r"\bsales (and use )?tax exemption\b",
-        r"\btax exemption for\b",
-        r"\btax (credit|abatement|rebate)\b",
-        r"\bincentive",
-        r"\bstreamlin",
-        r"\bexpedit",
-    ]),
-]
+TAXONOMY = os.path.join(DATA, "bill_taxonomy.csv")
 
-DIRECTION_COMPILED = [
-    (name, direction, [re.compile(p, re.I) for p in pats])
-    for name, direction, pats in DIRECTION_RULES
-]
+# Reaches whose roll calls are published. `lookup_suspect` is excluded on
+# purpose and separately from `unestablished`: it means the identifier
+# resolved against the wrong bill, so its votes belong to some other piece of
+# legislation entirely and publishing them would be a factual error, not a
+# generous reading.
+ADMITTED_REACH = {"data_center_specific", "large_load_class", "sector_vehicle"}
 
 
-def classify_direction(title):
-    """Returns (direction, rule_name). ('unclassified', '') when nothing fires."""
-    t = (title or "")
-    if not t.strip():
-        return "unclassified", ""
-    for name, direction, pats in DIRECTION_COMPILED:
-        for p in pats:
-            if p.search(t):
-                return direction, name
-    return "unclassified", ""
 
 
 # ---------------------------------------------------------------------------
@@ -367,112 +275,47 @@ def stable_id(*parts):
 # ---------------------------------------------------------------------------
 
 def build_bill_frame():
-    """(state, identifier) -> bill dict, with the subject and direction gates
-    already applied. Titles are taken from the longest title seen for the bill
-    across bill_sync_matches rows, since the same bill appears once per matched
-    incident and some rows carry a truncated title."""
-    overrides = {}
-    for r in read_csv(OVERRIDES):
-        st = (r.get("state") or "").strip().upper()
-        ident = (r.get("identifier") or "").strip()
-        if not st or not ident:
-            continue
-        overrides[(st, ident)] = r
+    """(state, identifier) -> bill dict, read from data/bill_taxonomy.csv.
 
+    The taxonomy is the single place a bill is classified. This function only
+    reshapes its rows into what the position builders below expect, and
+    translates the reach into the two things they act on: whether the bill is
+    admitted, and whether it may carry a stance.
+    """
     bills = {}
-    for r in read_csv(MATCHES):
+    for r in read_csv(TAXONOMY):
         st = (r.get("state") or "").strip().upper()
         ident = (r.get("identifier") or "").strip()
         if not st or not ident:
             continue
-        key = (st, ident)
-        title = (r.get("title") or "").strip()
-        cur = bills.get(key)
-        if cur is None:
-            bills[key] = {
-                "state": st, "identifier": ident, "title": title,
-                "session": r.get("session", ""), "stage": r.get("stage", ""),
-                "stage_date": r.get("stage_date", ""),
-                "openstates_url": r.get("openstates_url", ""),
-                "lookup_status": r.get("lookup_status", ""),
-            }
-        else:
-            # Prefer the longest title, and prefer a 'matched' lookup_status
-            # when one exists, because it is the row whose session is certain.
-            if len(title) > len(cur["title"]):
-                cur["title"] = title
-            if r.get("lookup_status") == "matched":
-                cur["lookup_status"] = "matched"
-                if r.get("openstates_url"):
-                    cur["openstates_url"] = r["openstates_url"]
-                if r.get("stage"):
-                    cur["stage"] = r["stage"]
-                    cur["stage_date"] = r.get("stage_date", "")
-
-    for key, b in bills.items():
-        ov = overrides.get(key)
-        term = subject_hit(b["title"])
-        scope = (ov.get("subject_scope") or "").strip().lower() if ov else ""
-        if scope not in ("primary", "partial"):
-            scope = ""
-        b["subject_scope"] = scope
-
-        if term:
-            b["subject_ok"] = True
-            b["subject_basis"] = "title_term:" + term
-            # A title that names the subject is the subject; only an override
-            # can say a bill is a vehicle carrying data center provisions.
-            b["subject_scope"] = scope or "primary"
-        elif ov and str(ov.get("confirmed_data_center_bill", "")).strip() == "1" \
-                and is_url(ov.get("source_url")):
-            b["subject_ok"] = True
-            b["subject_basis"] = "human_override" + (":" + scope if scope else "")
-            b["override_source"] = ov.get("source_url", "")
-        else:
-            b["subject_ok"] = False
-            b["subject_basis"] = ""
-            b["subject_scope"] = ""
-
-        direction, rule = classify_direction(b["title"])
-        # A human override may also settle a direction the title does not, but
-        # only towards one of the three declared axes, only with a source, and
-        # ONLY on a bill whose principal purpose is the data center provisions.
-        #
-        # That last condition is the one that took research to arrive at. Half
-        # the bills worth promoting are omnibus vehicles: Maryland's Utility
-        # RELIEF Act runs from net metering to grid planning and happens to
-        # create a data center registry; Oregon HB 4084 is an enterprise-zone
-        # extension that happens to carve data centers out of it. Their roll
-        # calls are real and worth publishing, but a vote on the vehicle is not
-        # a position on the provision -- a legislator may have voted for
-        # Oregon's tax-break extension and against its data center carve-out in
-        # the same breath, and the roll call cannot tell them apart. So a
-        # `partial` bill publishes its votes with no stance attached, and the
-        # only way to attach one is to declare the bill `primary` and be able
-        # to defend that with the cited source.
-        if ov and direction == "unclassified" and b.get("subject_scope") == "primary":
-            od = (ov.get("direction") or "").strip().lower()
-            if od in ("restrictive", "enabling", "disclosure") and is_url(ov.get("source_url")):
-                direction, rule = od, "human_override"
-
-        # `partial` suppresses a direction from EVERY source, including the
-        # title rules. North Carolina SB 730 is the case that forced this: its
-        # title is "Ratepayer Protection Act", so the ratepayer rule fires and
-        # would have given every vote on it a stance -- but the same bill
-        # reshapes long-range power planning and carries fossil and nuclear
-        # provisions that drew their own opposition, which is why a human
-        # marked it a vehicle. A title that declares a direction is still only
-        # the title; if the bill is a vehicle, the roll call still cannot
-        # separate a vote about the data center provisions from a vote about
-        # everything else riding with them. Only a human declaring the bill
-        # `primary` lets a direction through, and that declaration has to be
-        # defensible from the cited source.
-        if b.get("subject_scope") == "partial":
-            direction, rule = "unclassified", ""
-
-        b["direction"] = direction
-        b["direction_rule"] = rule
-
+        reach = (r.get("reach") or "").strip()
+        eligible = str(r.get("stance_eligible") or "").strip() == "1"
+        bills[(st, ident)] = {
+            "state": st,
+            "identifier": ident,
+            "title": (r.get("title") or "").strip(),
+            "session": r.get("session", ""),
+            "stage": r.get("stage", ""),
+            "stage_date": r.get("stage_date", ""),
+            "openstates_url": r.get("openstates_url", ""),
+            "lookup_status": r.get("lookup_status", ""),
+            "reach": reach,
+            "instrument": r.get("instrument", ""),
+            "in_frame_via": r.get("in_frame_via", ""),
+            "flags": r.get("flags", ""),
+            "subject_ok": reach in ADMITTED_REACH,
+            "subject_basis": (r.get("reach_basis") or ""),
+            # `primary` and `partial` are the vocabulary the rest of this
+            # module and both pages already speak; they are now derived from
+            # reach rather than hand-set in the override file.
+            "subject_scope": "primary" if eligible else (
+                "partial" if reach in ADMITTED_REACH else ""),
+            # A direction only ever reaches a published row through a
+            # stance-eligible reach; bill_taxonomy has already blanked it
+            # otherwise, and this re-reads rather than re-derives it.
+            "direction": (r.get("direction") or "unclassified"),
+            "direction_rule": (r.get("instrument") or "") if eligible else "",
+        }
     return bills
 
 
@@ -503,7 +346,8 @@ POSITION_COLS = [
 BILL_COLS = [
     "bill_key", "state", "identifier", "title", "session", "stage", "stage_date",
     "direction", "direction_rule", "subject_basis", "subject_scope",
-    "lookup_status", "openstates_url", "n_positions",
+    "reach", "instrument", "in_frame_via", "lookup_status", "openstates_url",
+    "n_positions",
 ]
 
 
@@ -1129,6 +973,12 @@ def build_bill_rows(bills, positions):
             "direction": b["direction"], "direction_rule": b["direction_rule"],
             "subject_basis": b["subject_basis"],
             "subject_scope": b.get("subject_scope", ""),
+            "reach": b.get("reach", ""),
+            "instrument": b.get("instrument", ""),
+            # Why this bill is in the frame at all. On a vehicle it is the only
+            # thing on the row that explains the connection, since the title
+            # will not, so a reader can judge the call instead of taking it.
+            "in_frame_via": b.get("in_frame_via", ""),
             "lookup_status": b.get("lookup_status", ""),
             "openstates_url": b.get("openstates_url", ""),
             "n_positions": used[key],
@@ -1185,6 +1035,7 @@ def build():
                                     if b["direction"] != "unclassified"),
         "bills_partial_scope": sum(1 for b in passing
                                    if b.get("subject_scope") == "partial"),
+        "by_reach": dict(Counter(b.get("reach", "") for b in bills.values())),
         "votes_read": counters["votes_read"],
         "votes_withheld": counters["votes_withheld"],
         "states_covered": sorted({p["state"] for p in positions if p["state"]}),
@@ -1239,182 +1090,73 @@ def selftest():
             print("  FAIL %s %s" % (name, detail))
             fails.append(name)
 
-    # --- subject gate: the false matches this gate exists to stop ---
-    check("child restraint bill is not a data center bill",
-          subject_hit("Weight for Vehicles with Child Restraint System") is None)
-    check("immigration bill is not a data center bill",
-          subject_hit("Immigration law enforcement noncooperation ordinances") is None)
-    check("state budget is not a data center bill",
-          subject_hit("Make state operating appropriations for FY 2026-27") is None)
-    check("weatherization pilot is not a data center bill",
-          subject_hit("Electric utilities; pilot programs for energy assistance and "
-                      "weatherization for certain individuals.") is None)
-    check("a bare energy title is not enough",
-          subject_hit("An Act Regarding Energy, Utilities And Technology") is None)
-    check("explicit data center title passes",
-          subject_hit("Data centers: reporting.") == "data center")
-    check("large load title passes",
-          subject_hit("special rules for large load customers") == "large load")
-    check("high impact data center title passes",
-          subject_hit("certification as a high impact data center") is not None)
-
-    # --- direction: ordering is the point ---
-    d, r = classify_direction(
-        "State Sales and Use Taxes; the data center equipment sales and use tax "
-        "exemption; repeal")
-    check("repeal of an exemption is restrictive, not enabling",
-          (d, r) == ("restrictive", "repeal_incentive"), "got %s/%s" % (d, r))
-    d, r = classify_direction(
-        "Providing a sales tax exemption for the construction or remodeling of a "
-        "qualified data center in Kansas")
-    check("granting an exemption is enabling",
-          (d, r) == ("enabling", "grant_incentive"), "got %s/%s" % (d, r))
-    d, r = classify_direction(
-        "Removing a tax exemption for the replacement of equipment for data centers.")
-    check("removing an exemption is restrictive", d == "restrictive", "got %s" % d)
-    d, _r = classify_direction(
-        "Local government; construction or development of new data centers for a "
-        "specified time; prohibit")
-    check("a prohibition is restrictive", d == "restrictive")
-    d, _r = classify_direction("Data centers: reporting.")
-    check("a reporting bill is disclosure, not restrictive", d == "disclosure")
-    d, _r = classify_direction("Create the Data Center Study Commission")
-    check("a study commission is disclosure", d == "disclosure")
-    d, _r = classify_direction(
-        "Requires electric public utilities to develop and apply special rules for "
-        "large load customers to protect non-large load customers from increased costs")
-    check("ratepayer protection is restrictive", d == "restrictive")
-    d, _r = classify_direction(
-        "Data centers; permit requirements, emission limits for certain "
-        "engine-generator sets.")
-    check("permit conditions are restrictive", d == "restrictive")
-    d, _r = classify_direction("Relating to: certain requirements related to data centers.")
-    check("a vague requirements bill stays unclassified", d == "unclassified",
-          "got %s" % d)
-    d, _r = classify_direction("AN ACT TO AMEND TITLE 26 RELATING TO LARGE ENERGY USE FACILITIES.")
-    check("a bare relating-to title stays unclassified", d == "unclassified", "got %s" % d)
-    check("empty title is unclassified", classify_direction("") == ("unclassified", ""))
-
-    # --- the override path, and the scope rule that guards it ---
-    # build_bill_frame reads OVERRIDES from disk, so these run against a
-    # temporary file rather than the committed source of record.
+    # --- the taxonomy translation ---
+    # Subject and direction classification, and the tests that pin them, live
+    # in bill_taxonomy.py now. What is left to check here is the translation:
+    # that a reach arrives as the right admission and the right scope, and that
+    # a direction can never reach a published row through a reach that is not
+    # stance eligible.
     import tempfile as _tf
 
-    def _frame(matches_rows, override_rows):
-        global MATCHES, OVERRIDES
-        sm, so = MATCHES, OVERRIDES
-        fm = _tf.NamedTemporaryFile("w", suffix=".csv", delete=False,
+    def _tax(rows):
+        global TAXONOMY
+        saved = TAXONOMY
+        fh = _tf.NamedTemporaryFile("w", suffix=".csv", delete=False,
                                     newline="", encoding="utf-8")
-        w = csv.DictWriter(fm, fieldnames=["state", "identifier", "title", "session",
-                                           "stage", "stage_date", "openstates_url",
-                                           "lookup_status"])
+        cols = ["bill_key", "state", "identifier", "title", "title_truncated",
+                "session", "stage", "stage_date", "lookup_status",
+                "openstates_url", "reach", "reach_basis", "reach_evidence",
+                "instrument", "instrument_basis", "direction",
+                "stance_eligible", "in_frame_via", "incident_id", "flags"]
+        w = csv.DictWriter(fh, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
-        for r in matches_rows:
+        for r in rows:
             w.writerow(r)
-        fm.close()
-        fo = _tf.NamedTemporaryFile("w", suffix=".csv", delete=False,
-                                    newline="", encoding="utf-8")
-        w = csv.DictWriter(fo, fieldnames=["state", "identifier",
-                                           "confirmed_data_center_bill",
-                                           "subject_scope", "direction",
-                                           "source_url", "note"])
-        w.writeheader()
-        for r in override_rows:
-            w.writerow(r)
-        fo.close()
-        MATCHES, OVERRIDES = fm.name, fo.name
+        fh.close()
+        TAXONOMY = fh.name
         try:
             return build_bill_frame()
         finally:
-            os.unlink(fm.name)
-            os.unlink(fo.name)
-            MATCHES, OVERRIDES = sm, so
+            os.unlink(fh.name)
+            TAXONOMY = saved
 
-    # An omnibus energy act: real data center provisions, generic title.
-    omni = [{"state": "MD", "identifier": "HB 1532",
-             "title": "Utility RELIEF (Reducing Energy Load Inflation) Act",
-             "session": "2026", "stage": "Signed into law", "stage_date": "",
-             "openstates_url": "https://openstates.org/md/bills/2026/HB1532/",
-             "lookup_status": "matched"}]
+    def _row(**kw):
+        base = {"state": "XX", "identifier": "HB 1", "title": "t",
+                "reach": "data_center_specific", "reach_basis": "title_term",
+                "instrument": "siting_zoning", "direction": "restrictive",
+                "stance_eligible": "1", "in_frame_via": "", "flags": ""}
+        base.update(kw)
+        return base
 
-    f = _frame(omni, [])
-    b = f[("MD", "HB 1532")]
-    check("without an override an omnibus title stays withheld", b["subject_ok"] is False)
+    f = _tax([_row()])[("XX", "HB 1")]
+    check("a specific bill is admitted and stance eligible",
+          f["subject_ok"] and f["subject_scope"] == "primary"
+          and f["direction"] == "restrictive")
+    f = _tax([_row(reach="large_load_class", reach_basis="title_class_term")])[("XX", "HB 1")]
+    check("a load-class bill is admitted and stance eligible",
+          f["subject_ok"] and f["subject_scope"] == "primary")
+    f = _tax([_row(reach="sector_vehicle", reach_basis="incident_corroborated:taxation",
+                   stance_eligible="0", direction="unclassified")])[("XX", "HB 1")]
+    check("a vehicle is admitted as partial with no direction",
+          f["subject_ok"] and f["subject_scope"] == "partial"
+          and f["direction"] == "unclassified" and f["direction_rule"] == "")
+    # Defence in depth: bill_taxonomy already blanks the direction on a reach
+    # that is not stance eligible. If a hand-edited or stale taxonomy file
+    # carried one anyway, it must still not become a stance here.
+    f = _tax([_row(reach="sector_vehicle", stance_eligible="0",
+                   direction="restrictive")])[("XX", "HB 1")]
+    check("a stale direction on a vehicle still yields no rule",
+          f["direction_rule"] == "", "got %s" % f["direction_rule"])
+    f = _tax([_row(reach="unestablished", stance_eligible="0",
+                   direction="unclassified")])[("XX", "HB 1")]
+    check("an unestablished bill is not admitted", f["subject_ok"] is False)
+    f = _tax([_row(reach="lookup_suspect", reach_basis="title_domain_incompatible",
+                   stance_eligible="0", direction="unclassified")])[("XX", "HB 1")]
+    check("a wrong-bill match is not admitted", f["subject_ok"] is False)
+    check("lookup_suspect is excluded separately from unestablished",
+          "lookup_suspect" not in ADMITTED_REACH
+          and "unestablished" not in ADMITTED_REACH)
 
-    f = _frame(omni, [{"state": "MD", "identifier": "HB 1532",
-                       "confirmed_data_center_bill": "1", "subject_scope": "partial",
-                       "direction": "restrictive",
-                       "source_url": "https://governor.maryland.gov/x", "note": ""}])
-    b = f[("MD", "HB 1532")]
-    check("a sourced override admits the bill", b["subject_ok"] is True)
-    check("the override records the scope it was admitted under",
-          b["subject_basis"] == "human_override:partial", "got %s" % b["subject_basis"])
-    # The rule this whole field exists for: a vote on a vehicle is not a
-    # position on a provision inside it, so a partial bill cannot carry a
-    # stance however confidently the override asserts one.
-    check("a partial bill refuses an asserted direction",
-          b["direction"] == "unclassified", "got %s" % b["direction"])
-
-    f = _frame(omni, [{"state": "MD", "identifier": "HB 1532",
-                       "confirmed_data_center_bill": "1", "subject_scope": "primary",
-                       "direction": "restrictive",
-                       "source_url": "https://governor.maryland.gov/x", "note": ""}])
-    b = f[("MD", "HB 1532")]
-    check("a primary bill accepts the asserted direction",
-          (b["direction"], b["direction_rule"]) == ("restrictive", "human_override"),
-          "got %s/%s" % (b["direction"], b["direction_rule"]))
-
-    f = _frame(omni, [{"state": "MD", "identifier": "HB 1532",
-                       "confirmed_data_center_bill": "1", "subject_scope": "primary",
-                       "direction": "restrictive", "source_url": "not-a-url", "note": ""}])
-    b = f[("MD", "HB 1532")]
-    check("an override without a source url admits nothing",
-          b["subject_ok"] is False and b["direction"] == "unclassified")
-
-    f = _frame(omni, [{"state": "MD", "identifier": "HB 1532",
-                       "confirmed_data_center_bill": "0", "subject_scope": "primary",
-                       "direction": "restrictive",
-                       "source_url": "https://governor.maryland.gov/x", "note": ""}])
-    check("an override that does not confirm admits nothing",
-          f[("MD", "HB 1532")]["subject_ok"] is False)
-
-    # A self-declaring title does not survive a partial declaration either.
-    nc = [{"state": "NC", "identifier": "SB 730", "title": "Ratepayer Protection Act.",
-           "session": "2025", "stage": "", "stage_date": "",
-           "openstates_url": "https://openstates.org/nc/bills/2025/SB730/",
-           "lookup_status": "matched"}]
-    b = _frame(nc, [])[("NC", "SB 730")]
-    check("the title rule alone would give this bill a direction",
-          b["direction"] == "restrictive", "got %s" % b["direction"])
-    b = _frame(nc, [{"state": "NC", "identifier": "SB 730",
-                     "confirmed_data_center_bill": "1", "subject_scope": "partial",
-                     "direction": "", "source_url": "https://www.ncleg.gov/x",
-                     "note": ""}])[("NC", "SB 730")]
-    check("declaring it a vehicle suppresses the title-derived direction too",
-          b["direction"] == "unclassified" and b["direction_rule"] == "",
-          "got %s/%s" % (b["direction"], b["direction_rule"]))
-    check("the vehicle still publishes as an admitted bill", b["subject_ok"] is True)
-
-    # A title that names the subject needs no override and is primary by default.
-    named = [{"state": "CA", "identifier": "AB 1577", "title": "Data centers: reporting.",
-              "session": "2026", "stage": "", "stage_date": "",
-              "openstates_url": "https://openstates.org/ca/bills/2026/AB1577/",
-              "lookup_status": "matched"}]
-    b = _frame(named, [])[("CA", "AB 1577")]
-    check("a self-describing title is primary without an override",
-          b["subject_scope"] == "primary" and b["subject_basis"] == "title_term:data center")
-    check("a title-classified direction is unaffected by scope logic",
-          b["direction"] == "disclosure")
-
-    # The committed source of record must stay parseable and self-consistent.
-    for r in read_csv(OVERRIDES):
-        ident = "%s %s" % (r.get("state"), r.get("identifier"))
-        check("override %s carries a source url" % ident, is_url(r.get("source_url")))
-        check("override %s declares a scope" % ident,
-              (r.get("subject_scope") or "").strip() in ("primary", "partial"))
-        if (r.get("direction") or "").strip():
-            check("override %s asserts a direction only when primary" % ident,
-                  r.get("subject_scope") == "primary")
 
     # --- stance mapping keeps the axes apart ---
     check("yes on restrictive supports a restriction",
