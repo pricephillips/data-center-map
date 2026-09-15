@@ -183,7 +183,7 @@ excluded from CI until Phase 5's calibration gate.
 | `data/stakeholder_positions.csv` | Recorded public acts on data centers: roll-call votes, bill sponsorships, quoted statements of priorities, governing body decisions. Every row carries a source URL; nothing is inferred from party, title or district |
 | `data/position_bills.csv` | The bills those votes were cast on, with the rule that classified each one restrictive, industry-incentive or disclosure |
 | `data/stakeholder_position_summary.csv` | One row per person: counts by stance and a record label over the acts that carry a direction |
-| `data/bill_subject_overrides.csv` | Human confirmations that a bill is a data center bill, with a citation. A source of record: the pipeline reads it and never writes to it |
+| `data/bill_subject_overrides.csv` | Human confirmations that a bill is a data center bill, with a citation, and whether its data center provisions are the bill's principal purpose (`primary`) or ride inside a wider vehicle (`partial`). A `partial` bill publishes its votes with no direction. A source of record: the pipeline reads it and never writes to it |
 
 `.md` files in `data/` are generated documentation that travels with its
 CSVs - the methodology and limitations layer for each dataset. They are not

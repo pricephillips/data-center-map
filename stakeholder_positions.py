@@ -70,6 +70,17 @@ TWO GATES ON A VOTE
    "voted yes on HB 1234, a data center bill" is true and useful. It simply
    carries no stance.
 
+3. SCOPE, which only an override can set. Half the bills worth promoting are
+   vehicles: Maryland's Utility RELIEF Act runs from net metering to grid
+   planning and happens to create a data center registry; Oregon HB 4084 is an
+   enterprise zone extension that happens to carve data centers out of it.
+   Declaring such a bill `partial` publishes its roll calls -- they happened --
+   and denies them a direction, because a vote on the vehicle is not a position
+   on the provision and the roll call cannot tell the two apart. The rule binds
+   both ways: an override may assert a direction only on a bill it also
+   declares `primary`, and `partial` suppresses a direction from every source,
+   the title rules included.
+
 WHAT A STANCE IS AND IS NOT
 ---------------------------
 
@@ -401,25 +412,64 @@ def build_bill_frame():
     for key, b in bills.items():
         ov = overrides.get(key)
         term = subject_hit(b["title"])
+        scope = (ov.get("subject_scope") or "").strip().lower() if ov else ""
+        if scope not in ("primary", "partial"):
+            scope = ""
+        b["subject_scope"] = scope
+
         if term:
             b["subject_ok"] = True
             b["subject_basis"] = "title_term:" + term
+            # A title that names the subject is the subject; only an override
+            # can say a bill is a vehicle carrying data center provisions.
+            b["subject_scope"] = scope or "primary"
         elif ov and str(ov.get("confirmed_data_center_bill", "")).strip() == "1" \
                 and is_url(ov.get("source_url")):
             b["subject_ok"] = True
-            b["subject_basis"] = "human_override"
+            b["subject_basis"] = "human_override" + (":" + scope if scope else "")
             b["override_source"] = ov.get("source_url", "")
         else:
             b["subject_ok"] = False
             b["subject_basis"] = ""
+            b["subject_scope"] = ""
 
         direction, rule = classify_direction(b["title"])
         # A human override may also settle a direction the title does not, but
-        # only towards one of the three declared axes and only with a source.
-        if ov and direction == "unclassified":
+        # only towards one of the three declared axes, only with a source, and
+        # ONLY on a bill whose principal purpose is the data center provisions.
+        #
+        # That last condition is the one that took research to arrive at. Half
+        # the bills worth promoting are omnibus vehicles: Maryland's Utility
+        # RELIEF Act runs from net metering to grid planning and happens to
+        # create a data center registry; Oregon HB 4084 is an enterprise-zone
+        # extension that happens to carve data centers out of it. Their roll
+        # calls are real and worth publishing, but a vote on the vehicle is not
+        # a position on the provision -- a legislator may have voted for
+        # Oregon's tax-break extension and against its data center carve-out in
+        # the same breath, and the roll call cannot tell them apart. So a
+        # `partial` bill publishes its votes with no stance attached, and the
+        # only way to attach one is to declare the bill `primary` and be able
+        # to defend that with the cited source.
+        if ov and direction == "unclassified" and b.get("subject_scope") == "primary":
             od = (ov.get("direction") or "").strip().lower()
             if od in ("restrictive", "enabling", "disclosure") and is_url(ov.get("source_url")):
                 direction, rule = od, "human_override"
+
+        # `partial` suppresses a direction from EVERY source, including the
+        # title rules. North Carolina SB 730 is the case that forced this: its
+        # title is "Ratepayer Protection Act", so the ratepayer rule fires and
+        # would have given every vote on it a stance -- but the same bill
+        # reshapes long-range power planning and carries fossil and nuclear
+        # provisions that drew their own opposition, which is why a human
+        # marked it a vehicle. A title that declares a direction is still only
+        # the title; if the bill is a vehicle, the roll call still cannot
+        # separate a vote about the data center provisions from a vote about
+        # everything else riding with them. Only a human declaring the bill
+        # `primary` lets a direction through, and that declaration has to be
+        # defensible from the cited source.
+        if b.get("subject_scope") == "partial":
+            direction, rule = "unclassified", ""
+
         b["direction"] = direction
         b["direction_rule"] = rule
 
@@ -452,8 +502,8 @@ POSITION_COLS = [
 
 BILL_COLS = [
     "bill_key", "state", "identifier", "title", "session", "stage", "stage_date",
-    "direction", "direction_rule", "subject_basis", "lookup_status",
-    "openstates_url", "n_positions",
+    "direction", "direction_rule", "subject_basis", "subject_scope",
+    "lookup_status", "openstates_url", "n_positions",
 ]
 
 
@@ -1001,14 +1051,23 @@ def write_qc(positions, summary, held, bills, counters):
 
     lines.append("## Bills that passed the subject gate")
     lines.append("")
-    lines.append("| state | bill | direction | rule | stage | title |")
-    lines.append("| --- | --- | --- | --- | --- | --- |")
+    lines.append("| state | bill | subject | scope | direction | rule | stage | title |")
+    lines.append("| --- | --- | --- | --- | --- | --- | --- | --- |")
     passing = [b for b in bills.values() if b.get("subject_ok")]
     passing.sort(key=lambda b: (b["state"], b["identifier"]))
     for b in passing:
-        lines.append("| %s | %s | `%s` | `%s` | %s | %s |" % (
-            b["state"], b["identifier"], b["direction"], b["direction_rule"] or "—",
-            b["stage"] or "—", b["title"][:90].replace("|", "/")))
+        lines.append("| %s | %s | `%s` | `%s` | `%s` | `%s` | %s | %s |" % (
+            b["state"], b["identifier"], b.get("subject_basis") or "—",
+            b.get("subject_scope") or "—",
+            b["direction"], b["direction_rule"] or "—",
+            b["stage"] or "—", b["title"][:80].replace("|", "/")))
+    lines.append("")
+    lines.append("A bill at `partial` scope carries data center provisions inside a "
+                 "vehicle that is mostly about something else. Its roll calls are "
+                 "published and are never given a direction: a vote on the vehicle is "
+                 "not a position on the provision, and the roll call cannot "
+                 "distinguish them. The module enforces this — an override may assert "
+                 "a direction only on a bill it also declares `primary`.")
     lines.append("")
 
     # The actionable half of the report. These are the promotions that would
@@ -1039,6 +1098,9 @@ def write_qc(positions, summary, held, bills, counters):
     lines.append("- A governing body action is attributed to the body, never to an "
                  "individual member. This layer does not know how a board split.")
     lines.append("- A `single_act` record is one vote, not a pattern.")
+    lines.append("- A bill admitted by human override at `partial` scope publishes "
+                 "its votes with no direction, because the vote was cast on the "
+                 "whole vehicle rather than on its data center provisions.")
     lines.append("- Roll calls exist only for states where OpenStates publishes them "
                  "and only for bills this repository has already matched, so absence "
                  "of a record is not evidence of an absent position.")
@@ -1066,6 +1128,7 @@ def build_bill_rows(bills, positions):
             "stage": b.get("stage", ""), "stage_date": b.get("stage_date", ""),
             "direction": b["direction"], "direction_rule": b["direction_rule"],
             "subject_basis": b["subject_basis"],
+            "subject_scope": b.get("subject_scope", ""),
             "lookup_status": b.get("lookup_status", ""),
             "openstates_url": b.get("openstates_url", ""),
             "n_positions": used[key],
@@ -1120,6 +1183,8 @@ def build():
         "bills_with_positions": len(bill_rows),
         "bills_with_direction": sum(1 for b in passing
                                     if b["direction"] != "unclassified"),
+        "bills_partial_scope": sum(1 for b in passing
+                                   if b.get("subject_scope") == "partial"),
         "votes_read": counters["votes_read"],
         "votes_withheld": counters["votes_withheld"],
         "states_covered": sorted({p["state"] for p in positions if p["state"]}),
@@ -1229,6 +1294,127 @@ def selftest():
     d, _r = classify_direction("AN ACT TO AMEND TITLE 26 RELATING TO LARGE ENERGY USE FACILITIES.")
     check("a bare relating-to title stays unclassified", d == "unclassified", "got %s" % d)
     check("empty title is unclassified", classify_direction("") == ("unclassified", ""))
+
+    # --- the override path, and the scope rule that guards it ---
+    # build_bill_frame reads OVERRIDES from disk, so these run against a
+    # temporary file rather than the committed source of record.
+    import tempfile as _tf
+
+    def _frame(matches_rows, override_rows):
+        global MATCHES, OVERRIDES
+        sm, so = MATCHES, OVERRIDES
+        fm = _tf.NamedTemporaryFile("w", suffix=".csv", delete=False,
+                                    newline="", encoding="utf-8")
+        w = csv.DictWriter(fm, fieldnames=["state", "identifier", "title", "session",
+                                           "stage", "stage_date", "openstates_url",
+                                           "lookup_status"])
+        w.writeheader()
+        for r in matches_rows:
+            w.writerow(r)
+        fm.close()
+        fo = _tf.NamedTemporaryFile("w", suffix=".csv", delete=False,
+                                    newline="", encoding="utf-8")
+        w = csv.DictWriter(fo, fieldnames=["state", "identifier",
+                                           "confirmed_data_center_bill",
+                                           "subject_scope", "direction",
+                                           "source_url", "note"])
+        w.writeheader()
+        for r in override_rows:
+            w.writerow(r)
+        fo.close()
+        MATCHES, OVERRIDES = fm.name, fo.name
+        try:
+            return build_bill_frame()
+        finally:
+            os.unlink(fm.name)
+            os.unlink(fo.name)
+            MATCHES, OVERRIDES = sm, so
+
+    # An omnibus energy act: real data center provisions, generic title.
+    omni = [{"state": "MD", "identifier": "HB 1532",
+             "title": "Utility RELIEF (Reducing Energy Load Inflation) Act",
+             "session": "2026", "stage": "Signed into law", "stage_date": "",
+             "openstates_url": "https://openstates.org/md/bills/2026/HB1532/",
+             "lookup_status": "matched"}]
+
+    f = _frame(omni, [])
+    b = f[("MD", "HB 1532")]
+    check("without an override an omnibus title stays withheld", b["subject_ok"] is False)
+
+    f = _frame(omni, [{"state": "MD", "identifier": "HB 1532",
+                       "confirmed_data_center_bill": "1", "subject_scope": "partial",
+                       "direction": "restrictive",
+                       "source_url": "https://governor.maryland.gov/x", "note": ""}])
+    b = f[("MD", "HB 1532")]
+    check("a sourced override admits the bill", b["subject_ok"] is True)
+    check("the override records the scope it was admitted under",
+          b["subject_basis"] == "human_override:partial", "got %s" % b["subject_basis"])
+    # The rule this whole field exists for: a vote on a vehicle is not a
+    # position on a provision inside it, so a partial bill cannot carry a
+    # stance however confidently the override asserts one.
+    check("a partial bill refuses an asserted direction",
+          b["direction"] == "unclassified", "got %s" % b["direction"])
+
+    f = _frame(omni, [{"state": "MD", "identifier": "HB 1532",
+                       "confirmed_data_center_bill": "1", "subject_scope": "primary",
+                       "direction": "restrictive",
+                       "source_url": "https://governor.maryland.gov/x", "note": ""}])
+    b = f[("MD", "HB 1532")]
+    check("a primary bill accepts the asserted direction",
+          (b["direction"], b["direction_rule"]) == ("restrictive", "human_override"),
+          "got %s/%s" % (b["direction"], b["direction_rule"]))
+
+    f = _frame(omni, [{"state": "MD", "identifier": "HB 1532",
+                       "confirmed_data_center_bill": "1", "subject_scope": "primary",
+                       "direction": "restrictive", "source_url": "not-a-url", "note": ""}])
+    b = f[("MD", "HB 1532")]
+    check("an override without a source url admits nothing",
+          b["subject_ok"] is False and b["direction"] == "unclassified")
+
+    f = _frame(omni, [{"state": "MD", "identifier": "HB 1532",
+                       "confirmed_data_center_bill": "0", "subject_scope": "primary",
+                       "direction": "restrictive",
+                       "source_url": "https://governor.maryland.gov/x", "note": ""}])
+    check("an override that does not confirm admits nothing",
+          f[("MD", "HB 1532")]["subject_ok"] is False)
+
+    # A self-declaring title does not survive a partial declaration either.
+    nc = [{"state": "NC", "identifier": "SB 730", "title": "Ratepayer Protection Act.",
+           "session": "2025", "stage": "", "stage_date": "",
+           "openstates_url": "https://openstates.org/nc/bills/2025/SB730/",
+           "lookup_status": "matched"}]
+    b = _frame(nc, [])[("NC", "SB 730")]
+    check("the title rule alone would give this bill a direction",
+          b["direction"] == "restrictive", "got %s" % b["direction"])
+    b = _frame(nc, [{"state": "NC", "identifier": "SB 730",
+                     "confirmed_data_center_bill": "1", "subject_scope": "partial",
+                     "direction": "", "source_url": "https://www.ncleg.gov/x",
+                     "note": ""}])[("NC", "SB 730")]
+    check("declaring it a vehicle suppresses the title-derived direction too",
+          b["direction"] == "unclassified" and b["direction_rule"] == "",
+          "got %s/%s" % (b["direction"], b["direction_rule"]))
+    check("the vehicle still publishes as an admitted bill", b["subject_ok"] is True)
+
+    # A title that names the subject needs no override and is primary by default.
+    named = [{"state": "CA", "identifier": "AB 1577", "title": "Data centers: reporting.",
+              "session": "2026", "stage": "", "stage_date": "",
+              "openstates_url": "https://openstates.org/ca/bills/2026/AB1577/",
+              "lookup_status": "matched"}]
+    b = _frame(named, [])[("CA", "AB 1577")]
+    check("a self-describing title is primary without an override",
+          b["subject_scope"] == "primary" and b["subject_basis"] == "title_term:data center")
+    check("a title-classified direction is unaffected by scope logic",
+          b["direction"] == "disclosure")
+
+    # The committed source of record must stay parseable and self-consistent.
+    for r in read_csv(OVERRIDES):
+        ident = "%s %s" % (r.get("state"), r.get("identifier"))
+        check("override %s carries a source url" % ident, is_url(r.get("source_url")))
+        check("override %s declares a scope" % ident,
+              (r.get("subject_scope") or "").strip() in ("primary", "partial"))
+        if (r.get("direction") or "").strip():
+            check("override %s asserts a direction only when primary" % ident,
+                  r.get("subject_scope") == "primary")
 
     # --- stance mapping keeps the axes apart ---
     check("yes on restrictive supports a restriction",

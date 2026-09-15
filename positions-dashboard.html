@@ -427,18 +427,28 @@ function render() {
 
   html += '<section><h3>Data center bills' +
     '<span class="count">' + bill_rows.length + '</span></h3>' +
-    '<div class="sub">Bills whose title carries an explicit data center or ' +
-    'large-load term, so their roll calls can be read as positions on this ' +
-    'subject. "Direction" comes from an ordered rule list on the title and the ' +
-    'rule that fired is named, so any classification can be argued with rather ' +
-    'than trusted. A bill the rules cannot classify keeps its votes and simply ' +
-    'carries no direction. Vote counts reflect the current filter.</div>' +
+    '<div class="sub">Bills whose subject is established either by an explicit ' +
+    'data center or large-load term in the title, or by a cited human ' +
+    'confirmation in <code>data/bill_subject_overrides.csv</code> — the ' +
+    '"Subject basis" column says which. "Direction" comes from an ordered rule ' +
+    'list on the title and the rule that fired is named, so any classification ' +
+    'can be argued with rather than trusted. A bill the rules cannot classify ' +
+    'keeps its votes and simply carries no direction.<br><br>' +
+    'A bill marked <span class="stance">part of a wider bill</span> carries its ' +
+    'data center provisions inside a vehicle that is mostly about something ' +
+    'else. Its roll calls are shown and never given a direction: a vote on the ' +
+    'vehicle is not a position on the provision. Vote counts reflect the ' +
+    'current filter.</div>' +
     table(['State', 'Bill', 'Title', 'Direction', 'Rule', 'Stage', 'Session',
            'Yes', 'No', 'Other', 'Subject basis', 'OpenStates'],
       bill_rows, function (b) {
         var t = tally[b.bill_key] || { yes: 0, no: 0, other: 0 };
         return [esc(b.state), '<span class="nowrap">' + esc(b.identifier) + '</span>',
-                '<span class="clip">' + esc(b.title) + '</span>',
+                '<span class="clip">' + esc(b.title) + '</span>' +
+                  (b.subject_scope === 'partial'
+                    ? ' <span class="stance" title="Data center provisions sit ' +
+                      'inside a wider bill, so its votes carry no direction">' +
+                      'part of a wider bill</span>' : ''),
                 chip(DIRECTION_CLASS[b.direction], DIRECTION_TEXT[b.direction] || b.direction),
                 '<span class="clip">' + esc(b.direction_rule || '—') + '</span>',
                 esc(b.stage || '—'), esc(b.session || '—'),
