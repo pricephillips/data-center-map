@@ -1,0 +1,75 @@
+{
+  "findings": [
+    {
+      "content_type": "text/html",
+      "evidence": "HTML page (200)",
+      "family": "html",
+      "final_url": "https://edocket.azcc.gov/search/docket-search",
+      "json_keys": [],
+      "keyword_hits": [
+        "docket",
+        "corporation commission"
+      ],
+      "next_step": "Plain HTML with no form. Likely a landing page rather than the data route; look for a link to a search, report or download page and add it as another probe.",
+      "note": "Docket search. The /search/<thing>/item-detail/<numeric id> URL shape elsewhere on this host is characteristic of a single-page app talking to a JSON backend, which would be the thing to find rather than the page itself.",
+      "status": 200,
+      "url": "https://edocket.azcc.gov/search/docket-search"
+    },
+    {
+      "content_type": "text/html",
+      "evidence": "HTML page (200)",
+      "family": "html",
+      "final_url": "https://edocket.azcc.gov/search/document-search",
+      "json_keys": [],
+      "keyword_hits": [
+        "docket",
+        "corporation commission"
+      ],
+      "next_step": "Plain HTML with no form. Likely a landing page rather than the data route; look for a link to a search, report or download page and add it as another probe.",
+      "note": "Document search, which the site describes as filterable by company name, docket number, document code, decision number and filed date range. That filter set is close to what a large-load tariff query needs.",
+      "status": 200,
+      "url": "https://edocket.azcc.gov/search/document-search"
+    },
+    {
+      "content_type": "text/html",
+      "evidence": "HTML page (200)",
+      "family": "html",
+      "final_url": "https://edocket.azcc.gov/search/docket-search/item-detail/29465",
+      "json_keys": [],
+      "keyword_hits": [
+        "docket",
+        "corporation commission"
+      ],
+      "next_step": "Plain HTML with no form. Likely a landing page rather than the data route; look for a link to a search, report or download page and add it as another probe.",
+      "note": "One docket detail page by numeric id, from a public citation. Confirms whether detail pages render server-side or arrive empty and hydrate from an API \u2014 the answer decides whether this is a scrape or an adapter.",
+      "status": 200,
+      "url": "https://edocket.azcc.gov/search/docket-search/item-detail/29465"
+    },
+    {
+      "content_type": "text/html",
+      "evidence": "HTML page (200)",
+      "family": "html",
+      "final_url": "https://edocket.azcc.gov/",
+      "json_keys": [],
+      "keyword_hits": [
+        "docket",
+        "corporation commission"
+      ],
+      "next_step": "Plain HTML with no form. Likely a landing page rather than the data route; look for a link to a search, report or download page and add it as another probe.",
+      "note": "Portal root, for whatever route listing or client bundle reference it exposes.",
+      "status": 200,
+      "url": "https://edocket.azcc.gov/"
+    }
+  ],
+  "keywords": [
+    "docket",
+    "tariff",
+    "large load",
+    "data center",
+    "corporation commission",
+    "utilities"
+  ],
+  "note": "Arizona Corporation Commission eDocket. Registered 2026-09-09 for item 7. Arizona has the densest existing western coverage to build on: five counties carry recorded opposition events, 24 in total, led by Maricopa at 14 against 63 tracked facilities. So a docket route here is depth and corroboration rather than discovery -- which also makes it the best of the four for checking a new source against what is already known.",
+  "probed_utc": "2026-09-15T12:41:36Z",
+  "source": "az_acc_edocket"
+}

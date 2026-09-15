@@ -1,0 +1,81 @@
+{
+  "findings": [
+    {
+      "content_type": "application/json;charset=utf-8",
+      "evidence": "non-HTML text body; check whether it is delimited",
+      "family": "csv",
+      "final_url": "https://data.oregon.gov/api/catalog/v1?q=plan%20amendment&limit=25",
+      "json_keys": [],
+      "keyword_hits": [
+        "plan amendment"
+      ],
+      "next_step": "Returns tabular data directly. This is the cheapest possible case: the tabular adapter in fetch_permits.py may take it with a config and no new code.",
+      "note": "data.oregon.gov is a Socrata portal. If PAPA notices are published here the whole source collapses to a config like configs/wa_sepa.json with no new code, so this is probed first.",
+      "status": 200,
+      "url": "https://data.oregon.gov/api/catalog/v1?q=plan%20amendment&limit=25"
+    },
+    {
+      "content_type": "text/html; charset=utf-8",
+      "evidence": "body carries __VIEWSTATE/__EVENTVALIDATION",
+      "family": "aspnet_postback",
+      "final_url": "https://db.lcd.state.or.us/PAPA_Subscription/Default.aspx",
+      "json_keys": [],
+      "keyword_hits": [
+        "papa",
+        "plan amendment",
+        "dlcd",
+        "land conservation"
+      ],
+      "next_step": "ASP.NET WebForms driven by __VIEWSTATE postbacks. There is no cheap adapter here: every query is a stateful form round-trip, so treat this as a negative finding and look for a report, subscription or export route instead of scraping the form.",
+      "note": "The public reporting tool for proposed and adopted PAPAs. Expected to be ASP.NET WebForms; a viewstate finding here is the evidence that the 'small adapter' in the source scan is the wrong shape.",
+      "status": 200,
+      "url": "https://db.lcd.state.or.us/PAPA_Subscription/Default.aspx"
+    },
+    {
+      "content_type": "text/html; charset=utf-8",
+      "evidence": "body carries __VIEWSTATE/__EVENTVALIDATION",
+      "family": "aspnet_postback",
+      "final_url": "https://www.oregon.gov/lcd/nn/pages/papa-notices.aspx",
+      "json_keys": [],
+      "keyword_hits": [
+        "papa",
+        "plan amendment",
+        "post-acknowledgement",
+        "dlcd",
+        "land conservation"
+      ],
+      "next_step": "ASP.NET WebForms driven by __VIEWSTATE postbacks. There is no cheap adapter here: every query is a stateful form round-trip, so treat this as a negative finding and look for a report, subscription or export route instead of scraping the form.",
+      "note": "The notices page. Probed for a download link, feed, or report route rather than for the notices themselves.",
+      "status": 200,
+      "url": "https://www.oregon.gov/lcd/nn/pages/papa-notices.aspx"
+    },
+    {
+      "content_type": "text/html; charset=utf-8",
+      "evidence": "body carries __VIEWSTATE/__EVENTVALIDATION",
+      "family": "aspnet_postback",
+      "final_url": "https://www.oregon.gov/lcd/cpu/pages/proposed-plan-amendments.aspx",
+      "json_keys": [],
+      "keyword_hits": [
+        "papa",
+        "plan amendment",
+        "post-acknowledgement",
+        "dlcd",
+        "land conservation"
+      ],
+      "next_step": "ASP.NET WebForms driven by __VIEWSTATE postbacks. There is no cheap adapter here: every query is a stateful form round-trip, so treat this as a negative finding and look for a report, subscription or export route instead of scraping the form.",
+      "note": "Proposed amendments page, the pre-decision half of the register and the half that matters for opposition timing.",
+      "status": 200,
+      "url": "https://www.oregon.gov/lcd/cpu/pages/proposed-plan-amendments.aspx"
+    }
+  ],
+  "keywords": [
+    "papa",
+    "plan amendment",
+    "post-acknowledgement",
+    "dlcd",
+    "land conservation"
+  ],
+  "note": "Oregon requires every city and county to file a Post-Acknowledgement Plan Amendment notice with DLCD for any comprehensive plan amendment or zone change, and DLCD must publish proposals and adoptions weekly \u2014 precisely the instrument an Oregon data center rezoning uses, captured statewide before the vote. The 2026-09-02 scan called this 'not Socrata, so a small adapter'; that was an assumption, and the first probe here tests it directly. Registered 2026-09-09.",
+  "probed_utc": "2026-09-15T12:42:13Z",
+  "source": "or_dlcd_papa"
+}

@@ -1,0 +1,70 @@
+{
+  "findings": [
+    {
+      "content_type": "text/html; charset=UTF-8",
+      "evidence": "HTML containing a form, no viewstate",
+      "family": "html_form",
+      "final_url": "https://www.dora.state.co.us/PUC/DocketsDecisions/DocketsDataArchive.htm",
+      "json_keys": [],
+      "keyword_hits": [
+        "proceeding",
+        "docket",
+        "public utilities commission"
+      ],
+      "next_step": "An HTML search form with no viewstate. Check whether its results are reachable by GET query string; if they are, a tabular or HTML adapter is feasible.",
+      "note": "Titled 'Index of Major Docket Activity and Index of Dockets and Decisions Tracking Data'. The words 'tracking data' and 'archive' are why this is probed first: a published index file would beat querying the filings system row by row.",
+      "status": 200,
+      "url": "https://www.dora.state.co.us/PUC/DocketsDecisions/DocketsDataArchive.htm"
+    },
+    {
+      "content_type": "application/pdf",
+      "evidence": "non-HTML text body; check whether it is delimited",
+      "family": "csv",
+      "final_url": "https://www.dora.state.co.us/pls/efi/efi.show_document?p_dms_document_id=1027836&p_session_id=",
+      "json_keys": [],
+      "keyword_hits": [],
+      "next_step": "Returns tabular data directly. This is the cheapest possible case: the tabular adapter in fetch_permits.py may take it with a config and no new code.",
+      "note": "The E-Filings document route. The /pls/ path is the Oracle PL/SQL Web Toolkit, which means plain GET parameters and no viewstate \u2014 an unusually tractable shape for a filings system. Probed with a document id from a public citation.",
+      "status": 200,
+      "url": "https://www.dora.state.co.us/pls/efi/efi.show_document?p_dms_document_id=1027836&p_session_id="
+    },
+    {
+      "content_type": "text/html;charset=utf-8",
+      "evidence": "HTML page (200)",
+      "family": "html",
+      "final_url": "https://www.dora.state.co.us/pls/efi/EFI.Show_Filing?p_fil=G_828577&p_session_id=",
+      "json_keys": [],
+      "keyword_hits": [
+        "proceeding",
+        "public utilities commission"
+      ],
+      "next_step": "Plain HTML with no form. Likely a landing page rather than the data route; look for a link to a search, report or download page and add it as another probe.",
+      "note": "The filing-level route from the same toolkit. Confirms whether the empty p_session_id is accepted, which decides whether anything here is reachable without establishing a session first.",
+      "status": 200,
+      "url": "https://www.dora.state.co.us/pls/efi/EFI.Show_Filing?p_fil=G_828577&p_session_id="
+    },
+    {
+      "content_type": "text/html",
+      "evidence": "HTTP 403",
+      "family": "error",
+      "final_url": "https://puc.colorado.gov/puc-decisions",
+      "json_keys": [],
+      "keyword_hits": [],
+      "next_step": "The host answered with an error status. Note the status: a 403 or 405 often means the path is real but the method or client is wrong.",
+      "note": "The modern decisions page, in case the current route has moved off the dora.state.co.us host.",
+      "status": 403,
+      "url": "https://puc.colorado.gov/puc-decisions"
+    }
+  ],
+  "keywords": [
+    "proceeding",
+    "docket",
+    "tariff",
+    "large load",
+    "data center",
+    "public utilities commission"
+  ],
+  "note": "Colorado PUC E-Filings, searchable from 1994 forward. Registered 2026-09-09 for item 7. Colorado matters for this project beyond its size: ten Colorado counties in data/county_aggregate.csv carry at least one recorded opposition event, and eight of the ten carry exactly one -- Denver at 3 and Logan at 2 are the only exceptions. A docket route here would deepen counties already visible at the thinnest possible margin rather than only adding new ones.",
+  "probed_utc": "2026-09-15T12:42:05Z",
+  "source": "co_puc_efilings"
+}
