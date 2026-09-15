@@ -1151,18 +1151,29 @@ function positions_section(slice) {
   /* ---- the bills, with a tally this page computed from the rows it holds ---- */
   html += '<h3 style="margin-top:18px">Data center bills voted in ' + st +
     count_label(slice.position_bills.length) + '</h3>' +
-    '<div class="sub">Bills whose title carries an explicit data center or ' +
-    'large-load term, so their roll calls can be read as positions on this ' +
-    'subject. "Direction" is assigned by a published rule on the bill title, ' +
-    'named in the rule column so it can be argued with. A bill the rules cannot ' +
-    'classify still shows its votes; it simply carries no direction.</div>' +
+    '<div class="sub">Bills whose subject is established either by an explicit ' +
+    'data center or large-load term in the title, or by a cited human ' +
+    'confirmation in <code>data/bill_subject_overrides.csv</code>. "Direction" ' +
+    'is assigned by a published rule on the bill title, named in the rule ' +
+    'column so it can be argued with. A bill the rules cannot classify still ' +
+    'shows its votes; it simply carries no direction.<br><br>' +
+    'A bill marked <span class="stance">part of a wider bill</span> carries ' +
+    'data center provisions inside a vehicle that is mostly about something ' +
+    'else — an omnibus energy act, an enterprise zone extension. Its roll ' +
+    'calls are real and are shown, but they are never given a direction: a vote ' +
+    'on the vehicle is not a position on the provision, and the roll call ' +
+    'cannot tell the two apart.</div>' +
     table(['Bill', 'Title', 'Direction', 'Rule', 'Stage', 'Yes', 'No', 'Other',
            'First vote', 'Last vote', 'OpenStates'],
       slice.position_bills, function (r) {
         var b = r.bill;
         var dir = b.direction || 'unclassified';
         return ['<span class="nowrap">' + esc(b.identifier) + '</span>',
-                '<span class="clip">' + esc(b.title) + '</span>',
+                '<span class="clip">' + esc(b.title) + '</span>' +
+                  (b.subject_scope === 'partial'
+                    ? ' <span class="stance" title="Data center provisions sit ' +
+                      'inside a wider bill, so its votes carry no direction">' +
+                      'part of a wider bill</span>' : ''),
                 '<span class="stance ' +
                   (dir === 'restrictive' ? 'restrict'
                    : dir === 'enabling' ? 'industry'
@@ -1221,12 +1232,17 @@ function positions_section(slice) {
   if (pman.votes_withheld) {
     html += '<div class="sub trailing">Across all states, ' +
       fmt_int(pman.votes_read) + ' roll calls were read and ' +
-      fmt_int(pman.votes_withheld) + ' were withheld because the bill\'s title does ' +
-      'not establish that it is a data center bill. The matching that produced ' +
-      'these roll calls also returned an immigration bill, a state budget and a ' +
-      'child-restraint bill, so the gate is deliberately strict and withholds real ' +
-      'bills alongside the false ones. <code>data/stakeholder_positions_qc.md</code> ' +
-      'ranks what was withheld by how many votes a confirmation would unlock.</div>';
+      fmt_int(pman.votes_withheld) + ' are withheld because nothing establishes that ' +
+      'the bill is a data center bill. The matching that produced these roll calls ' +
+      'also returned an immigration bill, a state budget and a child-restraint bill, ' +
+      'so the gate is deliberately strict and withholds real bills alongside the ' +
+      'false ones. ' + fmt_int(pman.override_rows) + ' bills have since been ' +
+      'confirmed by hand against a cited source and admitted, ' +
+      fmt_int(pman.bills_partial_scope) + ' of them as vehicles whose votes carry ' +
+      'no direction. <code>data/stakeholder_positions_qc.md</code> ranks what is ' +
+      'still withheld by how many votes a confirmation would unlock, and ' +
+      '<code>data/bill_subject_overrides.csv</code> is where a confirmation ' +
+      'goes.</div>';
   }
 
   return html + '</section>';
@@ -1949,7 +1965,10 @@ function methodology_panel() {
       '<dt>bills passing the subject gate</dt><dd>' +
         fmt_int(pmf.bills_passing_subject_gate) + ' of ' + fmt_int(pmf.bills_in_frame) +
         ', ' + fmt_int(pmf.bills_with_direction) + ' of them with a direction</dd>' +
-      '<dt>human subject overrides</dt><dd>' + fmt_int(pmf.override_rows) + '</dd>' +
+      '<dt>human subject overrides</dt><dd>' + fmt_int(pmf.override_rows) +
+        ', of which ' + fmt_int(pmf.bills_partial_scope) +
+        ' are vehicles carrying data center provisions rather than data center ' +
+        'bills, and so publish their votes with no direction</dd>' +
       '<dt>generated</dt><dd>' + esc(pmf.generated || '—') + '</dd>' +
       '</dl>' +
       '<div class="sub">Two gates stand between a roll call and a published ' +

@@ -229,6 +229,19 @@ maintained) and never writes to it; an earlier version created that file's
 empty schema on first run and the layer audit correctly flagged it as a
 cross-layer write.
 
+That override file carries one field worth naming here, because it encodes a
+distinction the first build of this layer did not have. `subject_scope` says
+whether a confirmed bill's data center provisions are its principal purpose
+(`primary`) or ride inside a vehicle that is mostly about something else
+(`partial`) -- an omnibus energy act that happens to create a data center
+registry, an enterprise zone extension that happens to carve data centers out
+of it. A `partial` bill's roll calls are published, because they happened, and
+are never given a direction, because a vote on the vehicle is not a position on
+the provision and the roll call cannot separate them. The rule binds in both
+directions: an override may assert a direction only on a bill it also declares
+`primary`, and `partial` suppresses a direction from every source, the title
+rules included.
+
 Declared derived, never hand-edited, always regenerable. A hand edit to a
 Layer E file is a defect even when the edited value is correct, because the
 next run silently reverts it and the correction is lost.
