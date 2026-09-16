@@ -59,7 +59,18 @@
           "search_path": "/search",
           "coverage": "declared_jurisdiction_list",
           "notes": "Largest US county code host. Jurisdiction list is enumerable per state.",
-          "implemented": false
+          "implemented": false,
+          "search_url_template": "https://library.municode.com/{state}/{county}/search?searchText={query}",
+          "hit_markers": [
+            "class=\"search-result",
+            "results-list"
+          ],
+          "zero_result_markers": [
+            "no results",
+            "0 results",
+            "did not match any"
+          ],
+          "verified_against_live_host": false
         },
         {
           "id": "amlegal",
@@ -103,6 +114,33 @@
         "noise limit",
         "water withdrawal",
         "acreage cap"
+      ],
+      "_adapter_contract": [
+        "probe_municipal_code() in restriction_probe.py reads these fields per",
+        "adapter. They are deliberately config rather than code: when a host changes",
+        "its API the first run reports unreachable across the board and the repair is",
+        "a config edit against that run's recorded detail, not a code change made",
+        "from guesswork.",
+        "",
+        "  search_url_template   {state} {county} {query} are substituted; county is",
+        "                        lowercased with county/parish/borough stripped and",
+        "                        non-alphanumerics collapsed to underscores",
+        "  hit_markers           substrings whose presence means a provision matched",
+        "  zero_result_markers   substrings that POSITIVELY confirm a zero-result",
+        "                        search. Without these no clear is possible, by",
+        "                        design: clear is the only result that marks a county",
+        "                        checked-and-empty, so it is the only one the prober",
+        "                        refuses to infer.",
+        "",
+        "The values below are UNVERIFIED starting points. Nobody has watched them run",
+        "against the live host, because the environment these modules were written in",
+        "cannot reach it. implemented stays false until a run confirms them.",
+        "",
+        "Verification is one cycle, and the fail-safe rule makes a wrong guess cheap:",
+        "set implemented true, run --backfill --limit 5 on a machine with egress",
+        "(GitHub Actions is one; see docs/pending_probe_workflow.patch), read the",
+        "recorded detail on the unreachable rows, correct the markers, repeat. A",
+        "wrong marker costs a re-probe and asserts nothing about any county."
       ]
     },
     "meeting_portal": {

@@ -81,6 +81,7 @@ import csv
 import datetime as dt
 import json
 import os
+import re
 import sys
 from collections import Counter, defaultdict
 
@@ -108,6 +109,124 @@ ASSERTIVE = ("clear", "hit", "hit_unreviewed", "pending_instrument")
 
 IMPORT_FIELDS = ("fips", "family", "source_id", "result", "observed_at")
 OPTIONAL_FIELDS = ("url", "detail", "in_force_as_of")
+
+USER_AGENT = ("hawthorn-restriction-probe/1.0 "
+              "(county restriction research; contact via repository)")
+TIMEOUT_S = 20
+THROTTLE_S = 1.5
+
+
+# ---------------------------------------------------------------------------
+# Live probing
+# ---------------------------------------------------------------------------
+#
+# THE FAIL-SAFE RULE, which is what makes an adapter shippable before anyone
+# has watched it run against a live site.
+#
+# `clear` is the only result that can mark a county checked-and-empty, and it
+# is therefore the only one this module refuses to infer. An adapter may return
+# clear ONLY by positively confirming two things: that the search actually
+# executed, and that it returned zero matches. Every other outcome, including
+# every outcome the adapter did not anticipate, degrades to `unreachable`.
+#
+# That inverts the usual failure mode. A scraper whose parsing has drifted
+# normally returns "no matches found" and looks exactly like a real clean
+# check, which in this layer would mark a county verified that nobody read. A
+# scraper written to this rule returns `unreachable` instead, which costs a
+# re-probe and asserts nothing. Being wrong is then cheap rather than
+# corrupting.
+#
+# It is also why the endpoint shapes live in
+# configs/restriction_evidence_sources.json rather than in this file: when a
+# host changes its API, the first CI run reports unreachable across the board,
+# and the repair is a config edit against the evidence of that run rather than
+# a code change made from guesswork.
+
+
+def http_get(url: str, headers: dict | None = None) -> tuple:
+    """Return (status, body_bytes, error). Never raises.
+
+    An error is returned rather than thrown because every failure mode here
+    has to become a probe result, and a traceback in the middle of a 3,000
+    county backfill loses the work already done.
+    """
+    import urllib.error
+    import urllib.request
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT,
+                                               **(headers or {})})
+    try:
+        with urllib.request.urlopen(req, timeout=TIMEOUT_S) as resp:
+            return resp.status, resp.read(), ""
+    except urllib.error.HTTPError as exc:
+        return exc.code, b"", f"http {exc.code}"
+    except Exception as exc:
+        return 0, b"", f"{type(exc).__name__}: {str(exc)[:120]}"
+
+
+def _probe_result(family: str, source_id: str, result: str, url: str,
+                  detail: str, asof: str) -> dict:
+    return {"family": family, "source_id": source_id, "result": result,
+            "url": url, "detail": detail[:300], "observed_at": asof,
+            "in_force_as_of": ""}
+
+
+def probe_municipal_code(county: str, state: str, adapter: dict,
+                         asof: str, getter=None) -> dict:
+    """Search one municipal code library for data-center provisions.
+
+    Returns a probe result. Per the fail-safe rule above, `clear` is returned
+    only when the response positively confirms a zero-result search; anything
+    else, including an unrecognized response shape, returns `unreachable` with
+    the reason recorded so the first live run is self-diagnosing.
+    """
+    get = getter or http_get
+    sid = adapter.get("id", "municipal_code")
+    tmpl = (adapter.get("search_url_template") or "").strip()
+    if not tmpl:
+        return _probe_result("municipal_code", sid, "not_covered", "",
+                             "adapter declares no search_url_template", asof)
+
+    slug_state = (state or "").strip().lower()
+    slug_county = re.sub(r"[^a-z0-9]+", "_",
+                         re.sub(r"\b(county|parish|borough)\b", "",
+                                (county or "").lower())).strip("_")
+    if not slug_county:
+        return _probe_result("municipal_code", sid, "not_covered", "",
+                             "county name did not slugify", asof)
+
+    terms = adapter.get("query_terms") or ["data center"]
+    url = (tmpl.replace("{state}", slug_state)
+               .replace("{county}", slug_county)
+               .replace("{query}", terms[0].replace(" ", "+")))
+
+    status, body, err = get(url)
+    if status != 200:
+        return _probe_result("municipal_code", sid, "unreachable", url,
+                             err or f"status {status}", asof)
+
+    # Positive confirmation required, in both directions. The response must
+    # look like the search result shape this adapter declared; if it does not,
+    # the adapter has drifted and says so rather than guessing.
+    hit_markers = [m.lower() for m in (adapter.get("hit_markers") or [])]
+    zero_markers = [m.lower() for m in (adapter.get("zero_result_markers") or [])]
+    if not zero_markers:
+        return _probe_result("municipal_code", sid, "unreachable", url,
+                             "adapter declares no zero_result_markers, so a "
+                             "clean search cannot be confirmed", asof)
+
+    text = body.decode("utf-8", errors="replace").lower()
+    if any(m in text for m in hit_markers):
+        return _probe_result("municipal_code", sid, "hit", url,
+                             "search returned a matching provision", asof)
+    if any(m in text for m in zero_markers):
+        return _probe_result("municipal_code", sid, "clear", url,
+                             f"search for {terms[0]!r} returned zero results", asof)
+    return _probe_result("municipal_code", sid, "unreachable", url,
+                         "response matched neither hit nor zero-result markers; "
+                         "the adapter's shape has drifted", asof)
+
+
+PROBERS = {"municipal_code": probe_municipal_code}
 
 
 def read_json(path, default):
@@ -325,12 +444,72 @@ def cmd_backfill(reg: dict, limit: int) -> int:
         append_log("backfill", {"note": "no implemented adapters"})
         return 0
 
-    # Reached only once an adapter is implemented and verified.
-    print(f"{len(adapters)} implemented adapter(s); "
-          f"budget {limit} counties this run")
+    import time
+
+    frame_rows = []
+    if os.path.exists(AGG_CSV):
+        with open(AGG_CSV, newline="", encoding="utf-8") as fh:
+            frame_rows = list(csv.DictReader(fh))
+    if not frame_rows:
+        print(f"no county frame at {AGG_CSV}; nothing to probe", file=sys.stderr)
+        return 1
+
+    cache = read_json(CACHE, {})
+    asof = dt.date.today().isoformat()
+    print(f"{len(adapters)} implemented adapter(s), budget {limit} counties")
     for fam, ad in adapters:
         print(f"  {fam}: {ad.get('id')}")
-    print("Adapter execution is written per adapter; none is registered yet.")
+    print()
+
+    # Resumable by construction: a county already carrying a result from this
+    # (family, source_id) is skipped, so a run that dies partway costs only the
+    # counties it had not reached. The cache is flushed every 25 counties for
+    # the same reason.
+    done = 0
+    results = Counter()
+    for rec in frame_rows:
+        if done >= limit:
+            break
+        fips = (rec.get("fips") or "").strip()
+        if not fips:
+            continue
+        have = {(p.get("family"), p.get("source_id"))
+                for p in cache.get(fips, [])}
+        pending = [(fam, ad) for fam, ad in adapters
+                   if (fam, ad.get("id")) not in have]
+        if not pending:
+            continue
+
+        for fam, ad in pending:
+            prober = PROBERS.get(fam)
+            if prober is None:
+                continue
+            time.sleep(THROTTLE_S)
+            row = prober(rec.get("county_name", ""), rec.get("state", ""),
+                         ad, asof)
+            results[row["result"]] += 1
+            merge_into_cache(cache, [{**row, "_fips": fips}])
+        done += 1
+        if done % 25 == 0:
+            write_cache(cache)
+            print(f"  ... {done} counties probed")
+
+    write_cache(cache)
+    append_log("backfill", {"accepted": sum(results.values()),
+                            "counties_touched": done,
+                            "note": " ".join(f"{k}={v}" for k, v in
+                                             results.most_common())})
+    print(f"\nprobed {done} county(ies)")
+    for res, n in results.most_common():
+        print(f"  {res}: {n}")
+    if results and not results.get("clear") and not results.get("hit"):
+        print("\nEvery probe returned unreachable or not_covered, which means")
+        print("no county was checked. That is the fail-safe rule working, not")
+        print("a clean result: the adapter's declared response shape does not")
+        print("match what the host actually returns. Fix the markers in")
+        print("configs/restriction_evidence_sources.json against the detail")
+        print("recorded above, then re-run.")
+    print("\nRun restriction_evidence.py to regrade.")
     return 0
 
 
@@ -511,6 +690,65 @@ def selftest() -> int:
                      reg, frame)
     ck("a second source adds", merge_into_cache(cache, a4), (1, 0))
     ck("both are kept", len(cache["18017"]), 2)
+
+    # --- the fail-safe rule ------------------------------------------------
+    # This block is the entire justification for shipping an adapter nobody has
+    # watched run against a live site, so it is pinned hard: no response shape
+    # may produce `clear` except a positively confirmed zero-result search.
+    ad = {"id": "municode",
+          "search_url_template": "https://example.invalid/{state}/{county}?q={query}",
+          "query_terms": ["data center"],
+          "hit_markers": ["<div class=\"result\""],
+          "zero_result_markers": ["no results were found"]}
+    day = "2026-09-16"
+
+    def fake(status, body):
+        return lambda url: (status, body, "" if status == 200 else f"http {status}")
+
+    r = probe_municipal_code("Autauga County", "AL", ad, day,
+                             fake(200, b"No results were found for your search."))
+    ck("confirmed zero results is the only clear", r["result"], "clear")
+
+    r = probe_municipal_code("Autauga County", "AL", ad, day,
+                             fake(200, b'<div class="result">Sec. 11-3 data center</div>'))
+    ck("a hit marker is a hit", r["result"], "hit")
+
+    # Every not-anticipated shape must degrade to unreachable, never clear.
+    for name, resp in (
+        ("empty body", fake(200, b"")),
+        ("unrecognized html", fake(200, b"<html><body>Welcome</body></html>")),
+        ("a login wall", fake(200, b"<html>Please sign in to continue</html>")),
+        ("json error payload", fake(200, b'{"error":"bad request"}')),
+        ("404", fake(404, b"")),
+        ("500", fake(500, b"")),
+        ("network failure", lambda url: (0, b"", "URLError: timed out")),
+    ):
+        r = probe_municipal_code("Autauga County", "AL", ad, day, resp)
+        ck(f"{name} degrades to unreachable", r["result"], "unreachable")
+
+    # An adapter that cannot confirm a clean search must not be able to clear
+    # anything, even when the page would otherwise look empty.
+    no_zero = dict(ad); no_zero.pop("zero_result_markers")
+    r = probe_municipal_code("Autauga County", "AL", no_zero, day,
+                             fake(200, b"No results were found for your search."))
+    ck("no zero_result_markers means no clear is possible", r["result"],
+       "unreachable")
+
+    # A missing endpoint is not_covered: the source does not reach this county,
+    # which is a different fact from being unable to read it.
+    r = probe_municipal_code("Autauga County", "AL", {"id": "x"}, day,
+                             fake(200, b"No results were found"))
+    ck("no template is not_covered", r["result"], "not_covered")
+    r = probe_municipal_code("", "AL", ad, day, fake(200, b""))
+    ck("an unslugifiable county is not_covered", r["result"], "not_covered")
+
+    # Whatever it returns must survive the importer, or a live backfill would
+    # write rows the ledger drops.
+    live = probe_municipal_code("Autauga County", "AL", ad, day,
+                                fake(200, b"No results were found"))
+    reg_live = {"families": {"municipal_code": {"independence_class": "primary_law"}}}
+    acc, rej = validate([{**live, "fips": "01001"}], reg_live, None)
+    ck("a probe result validates for import", (len(acc), len(rej)), (1, 0))
 
     # The template must survive its own validator. A template whose example
     # rows are rejected on import is worse than no template: it teaches the
