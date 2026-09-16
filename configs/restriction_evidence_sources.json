@@ -30,16 +30,13 @@
     "absence of a restriction are different facts and the grader keeps them",
     "apart."
   ],
-
   "freshness_days": 180,
   "recheck_days": 90,
-
   "independence_classes": {
     "primary_law": "The adopted instrument as published by the adopting jurisdiction.",
     "proceeding": "The deliberative record of the adopting body.",
     "secondary": "A third-party compilation that read one of the above."
   },
-
   "families": {
     "municipal_code": {
       "name": "Municipal code libraries",
@@ -61,25 +58,29 @@
           "base_url": "https://library.municode.com",
           "search_path": "/search",
           "coverage": "declared_jurisdiction_list",
-          "notes": "Largest US county code host. Jurisdiction list is enumerable per state."
+          "notes": "Largest US county code host. Jurisdiction list is enumerable per state.",
+          "implemented": false
         },
         {
           "id": "amlegal",
           "name": "American Legal Publishing",
           "base_url": "https://codelibrary.amlegal.com",
-          "coverage": "declared_jurisdiction_list"
+          "coverage": "declared_jurisdiction_list",
+          "implemented": false
         },
         {
           "id": "ecode360",
           "name": "eCode360 (General Code)",
           "base_url": "https://ecode360.com",
-          "coverage": "declared_jurisdiction_list"
+          "coverage": "declared_jurisdiction_list",
+          "implemented": false
         },
         {
           "id": "codepublishing",
           "name": "Code Publishing Company",
           "base_url": "https://www.codepublishing.com",
-          "coverage": "declared_jurisdiction_list"
+          "coverage": "declared_jurisdiction_list",
+          "implemented": false
         }
       ],
       "query_terms": [
@@ -104,7 +105,6 @@
         "acreage cap"
       ]
     },
-
     "meeting_portal": {
       "name": "County meeting agendas and minutes",
       "independence_class": "proceeding",
@@ -119,15 +119,39 @@
         "does not, so a broken registry entry can never read as a clean check."
       ],
       "adapters": [
-        {"id": "legistar", "name": "Granicus Legistar", "coverage": "local_meeting_sources"},
-        {"id": "civicclerk", "name": "CivicClerk", "coverage": "local_meeting_sources"},
-        {"id": "granicus", "name": "Granicus ViewPoint", "coverage": "local_meeting_sources"},
-        {"id": "primegov", "name": "PrimeGov", "coverage": "local_meeting_sources"},
-        {"id": "novusagenda", "name": "NovusAgenda", "coverage": "local_meeting_sources"}
+        {
+          "id": "legistar",
+          "name": "Granicus Legistar",
+          "coverage": "local_meeting_sources",
+          "implemented": false
+        },
+        {
+          "id": "civicclerk",
+          "name": "CivicClerk",
+          "coverage": "local_meeting_sources",
+          "implemented": false
+        },
+        {
+          "id": "granicus",
+          "name": "Granicus ViewPoint",
+          "coverage": "local_meeting_sources",
+          "implemented": false
+        },
+        {
+          "id": "primegov",
+          "name": "PrimeGov",
+          "coverage": "local_meeting_sources",
+          "implemented": false
+        },
+        {
+          "id": "novusagenda",
+          "name": "NovusAgenda",
+          "coverage": "local_meeting_sources",
+          "implemented": false
+        }
       ],
       "source_config": "configs/local_meeting_sources.json"
     },
-
     "restriction_census": {
       "name": "Third-party restriction censuses",
       "independence_class": "secondary",
@@ -149,19 +173,22 @@
           "url": "https://raw.githubusercontent.com/mjbommar/moratorium-data-2026/main/data/moratorium_inventory.csv",
           "license": "CC-BY-4.0",
           "coverage": "national_partial",
-          "status": "active"
+          "status": "active",
+          "implemented": false
         },
         {
           "id": "iu_eri",
           "name": "Indiana University Environmental Resilience Institute",
           "coverage": "state_only",
-          "states": ["IN"],
+          "states": [
+            "IN"
+          ],
           "status": "manual_rows",
-          "notes": "Publishes counts without a machine-readable list; rows are hand-seeded into the census."
+          "notes": "Publishes counts without a machine-readable list; rows are hand-seeded into the census.",
+          "implemented": false
         }
       ]
     },
-
     "state_aggregator": {
       "name": "State-level ordinance and planning repositories",
       "independence_class": "primary_law",
@@ -176,7 +203,6 @@
       "notes": "Populated per state as repositories are identified and verified. An empty adapter list means this family currently clears no county, which is the honest starting state."
     }
   },
-
   "grading": {
     "_comment": [
       "Pre-registered before any county was graded. The grade answers 'how hard",
@@ -189,5 +215,25 @@
     "C": "Probed, but coverage was partial or a source was unreachable.",
     "D": "A registered source family covers this county and it has not been probed yet.",
     "U": "No registered source family covers this county. Unverified, and reported as such."
-  }
+  },
+  "_probe_status": [
+    "Adapter implementation status, read by restriction_probe.py.",
+    "",
+    "An adapter is run by --backfill only when it carries \"implemented\": true.",
+    "The default is false and that default is load-bearing: an adapter that has",
+    "never been written must report not_covered, never clear. A 'clear' from a",
+    "stub is indistinguishable from a real check downstream, and it would mark a",
+    "county verified that nobody ever read.",
+    "",
+    "All adapters are false as of 2026-09-16. Every probe host below is denied by",
+    "the egress policy where this repository's agent sessions run (municode,",
+    "amlegal, ecode360, legistar and granicus all answer 403 to CONNECT), so none",
+    "could be written and verified against live HTML. A guessed parser is worse",
+    "than none: it fails quietly and its result is unattributable.",
+    "",
+    "To implement one: write the probe, verify it against the real site, set",
+    "implemented true here, then run restriction_probe.py --backfill. Results",
+    "gathered anywhere else can be brought in with --import without touching",
+    "this file."
+  ]
 }
