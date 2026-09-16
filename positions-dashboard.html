@@ -41,6 +41,14 @@ label.fld { display:flex; flex-direction:column; gap:3px; font-size:10.5px; colo
 .loading { color:var(--muted); padding:26px 2px }
 .sub { color:var(--muted); font-size:12px; margin-bottom:14px; line-height:1.65; max-width:112ch }
 .sub.trailing { margin:11px 0 0 }
+.sub-more { display:inline; background:none; border:0; border-radius:0; padding:0 }
+.sub-more > summary { display:inline-block; vertical-align:middle; padding:0; width:15px; height:15px;
+  border:1px solid var(--border); border-radius:50%; color:var(--muted);
+  font:700 10px/13px inherit; text-align:center }
+.sub-more > summary::before { content:none }
+.sub-more > summary:hover { color:var(--text) }
+.sub-more[open] > summary { background:var(--muted); border-color:var(--muted); color:var(--panel) }
+.sub-more > div { display:block; margin-top:7px }
 
 section { margin-bottom:22px }
 .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:9px;
@@ -119,15 +127,15 @@ footer { color:var(--muted); font-size:11px; border-top:1px solid var(--border);
 </script>
 
 <h2>Public positions on data centers</h2>
-<div class="sub">Every recorded act this repository holds on where public officials and
-governing bodies stand on data centers: roll-call votes on data center bills, bill
-sponsorships, quoted statements of priorities, and decisions by county commissions,
-city councils, planning boards and utility commissions. Each row carries the source it
-came from. <b>Nothing here is inferred</b> &mdash; not from a party, a district, an
-office title or a model. An official with no recorded act carries no position, and
-that silence is not evidence of a position either way. The county-level view of this
-same data sits inside each county on the <a href="county-profile.html">County
-Profile</a> page.</div>
+<div class="sub">Dated acts by public officials and governing bodies: roll-call votes,
+bill sponsorships, quoted statements, and decisions by commissions, councils and boards.
+Every row carries its source. <b>Nothing here is inferred.</b>
+<details class="sub-more">
+  <summary aria-label="More about this page" title="More about this page">i</summary>
+  <div>No position is read from a party, a district, an office title or a model. An official
+  with no recorded act carries no position, and that silence is not evidence either way.
+  For the county-level view of this data, see <a href="county-profile.html">County Profile</a>.</div>
+</details></div>
 
 <div id="error-banner"></div>
 
@@ -426,12 +434,13 @@ function render() {
     kpi('Industry-side acts', fmt_int(industry)) +
     kpi('Disclosure acts', fmt_int(disclose), 'neither side') +
     '</div>' +
-    '<div class="sub">Restriction-side, industry-side and disclosure are three ' +
-    'separate axes and are never netted into one score. Supporting a reporting ' +
-    'requirement is not opposing data centers; opposing a tax exemption is not ' +
-    'either. The three counts above do not sum to the total because a recorded ' +
-    'vote on a bill no rule could classify, and a vote not cast, are acts on ' +
-    'the record that take no side.</div></section>';
+    '<div class="sub">Three separate axes, never netted into one score.' +
+    '<details class="sub-more">' +
+    '<summary aria-label="More about the axes" title="More about the axes">i</summary><div>' +
+    'Supporting a reporting requirement is not opposing data centers, and opposing ' +
+    'a tax exemption is not either. The three counts do not sum to the total: an ' +
+    'unclassifiable vote, or a vote not cast, is an act that takes no side.' +
+    '</div></details></div></section>';
 
   /* ---- bills ---- */
   var bill_rows = (DATA.bills || []).filter(function (b) {
@@ -456,17 +465,19 @@ function render() {
 
   html += '<section><h3>Data center bills' +
     '<span class="count">' + bill_rows.length + '</span></h3>' +
-    '<div class="sub">Legislation reaches data centers in more than one way, and ' +
-    '"Reach" says which. <span class="stance restrict">Names data centers</span> ' +
-    'and <span class="stance restrict">Binds a large-load class</span> both make ' +
-    'the regulated entity the thing being voted on, so a vote is a position. ' +
+    '<div class="sub">"Reach" says how a bill touches data centers. Vote counts ' +
+    'reflect the current filter.' +
+    '<details class="sub-more">' +
+    '<summary aria-label="More about reach" title="More about reach">i</summary><div>' +
+    '<span class="stance restrict">Names data centers</span> and ' +
+    '<span class="stance restrict">Binds a large-load class</span> make the ' +
+    'regulated entity the thing being voted on, so a vote is a position. ' +
     '<span class="stance">Provisions inside a wider bill</span> does not: an ' +
-    'omnibus energy act or a tax bill carrying data center provisions publishes ' +
-    'its roll calls with <b>no direction</b>, because the vote was cast on the ' +
-    'vehicle and the roll call cannot separate the two. "In frame via" is what ' +
-    'put such a bill here, since its title will not say. "Instrument" is what ' +
-    'the law does, and direction follows from it rather than being judged ' +
-    'separately. Vote counts reflect the current filter.</div>' +
+    'omnibus energy or tax bill publishes its roll calls with <b>no direction</b>, ' +
+    'because the vote was cast on the vehicle and the roll call cannot separate ' +
+    'the two. "In frame via" is what put such a bill here, since its title will ' +
+    'not say. "Instrument" is what the law does; direction follows from it.' +
+    '</div></details></div>' +
     table(['State', 'Bill', 'Title', 'Reach', 'In frame via', 'Instrument',
            'Direction', 'Stage', 'Session', 'Yes', 'No', 'Other', 'OpenStates'],
       bill_rows, function (b) {
@@ -541,10 +552,9 @@ function render() {
   });
   html += '<section><h3>Decisions by governing bodies' +
     '<span class="count">' + body_rows.length + '</span></h3>' +
-    '<div class="sub">Attributed to the body, never to an individual member: a ' +
-    '4-3 vote is the board\'s act and this layer does not know who was in the ' +
-    'four. Only decisions appear &mdash; a scheduled agenda item is not a ' +
-    'position.</div>' +
+    '<div class="sub">Attributed to the body, never to a member: a 4-3 vote is ' +
+    'the board\'s act. Only decisions appear; a scheduled agenda item is not ' +
+    'a position.</div>' +
     table(['Date', 'State', 'County', 'Body', 'Jurisdiction', 'Mechanism', 'Result',
            'What happened', 'Source'],
       body_rows.slice(0, ROW_CAP), function (p) {
@@ -579,8 +589,8 @@ function render() {
   });
   html += '<section><h3>Every recorded act' +
     '<span class="count">' + acts.length + '</span></h3>' +
-    '<div class="sub">The row-level record behind everything above. Each one is ' +
-    'a single dated act with the source it was read from.</div>' +
+    '<div class="sub">The row-level record behind everything above: one dated ' +
+    'act per row, with its source.</div>' +
     table(['Date', 'State', 'Person', 'Office', 'Evidence', 'Bill', 'Direction',
            'Vote', 'Stance', 'Confidence', 'Flags', 'Source'],
       acts.slice(0, ROW_CAP), function (p) {

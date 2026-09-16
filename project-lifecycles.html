@@ -183,7 +183,7 @@ window.MapPermalink = window.MapPermalink || (function () {
 </script>
 
 <h2>Project Lifecycles</h2>
-<div class="sub">Projects from the proposals registry linked to opposition activity. Outcomes use the activity-descriptive ladder; "decided" means terminal dispositions only. Decision dates appear only when manually verified and sourced.</div>
+<div class="sub">Projects from the proposals registry linked to opposition activity. "Decided" means a terminal disposition, dated only when manually verified and sourced.</div>
 
 <div id="error-banner"></div>
 
@@ -194,15 +194,15 @@ window.MapPermalink = window.MapPermalink || (function () {
   <h3>Portfolio analysis <span class="tag">descriptive</span></h3>
   <div class="analysis-grid" id="analysis-grid">
     <div class="analysis-cell"><div class="big" id="an-decided">–</div>
-      <div class="lbl">decided + opposed projects (terminal outcomes with linked opposition)</div></div>
+      <div class="lbl">decided + opposed projects</div></div>
     <div class="analysis-cell"><div class="big" id="an-blockrate">–</div>
       <div class="lbl">of decided + opposed ended <b>blocked</b>: tracked sample only, not a population rate</div></div>
     <div class="analysis-cell"><div class="big" id="an-median-delay">–</div>
-      <div class="lbl">median announced→decision among dated projects (raw span, not opposition-attributable)</div></div>
+      <div class="lbl">median announced→decision, dated projects (raw span)</div></div>
     <div class="analysis-cell"><div class="big" id="an-dated">–</div>
-      <div class="lbl">projects with a verified, sourced decision date</div></div>
+      <div class="lbl">with a sourced decision date</div></div>
     <div class="analysis-cell placeholder" id="an-model">
-      Predictive layer (block probability, expected delay, cost range) appears here once calibrated and gated.
+      Predictive layer appears here once calibrated and gated.
     </div>
   </div>
 </div>
@@ -242,30 +242,25 @@ window.MapPermalink = window.MapPermalink || (function () {
 
 
 
-<details class="tl-explainer" open>
+<details class="tl-explainer">
   <summary>How to read the timeline</summary>
   <div>
-    Each project row plots its known milestones left-to-right on a shared time axis.
-    <b>Click any dot</b> to open the underlying event with its verified date and source.
+    Each row plots a project's known milestones on a shared time axis. <b>Click any dot</b> for the
+    underlying event, its date and its source.
     <div style="margin-top:8px">
-      <span class="k" style="background:var(--atlas)"></span><b>Announced</b>: the project became public
-      (a filing, rezoning request, or company announcement).<br>
+      <span class="k" style="background:var(--atlas)"></span><b>Announced</b>: a filing, rezoning request
+      or company announcement.<br>
       <span class="k" style="background:var(--pending)"></span><b>Opposition</b>: first and last recorded
-      community opposition activity; the shaded bar between them is the span over which opposition was active.<br>
-      <span class="k" style="background:var(--advanced)"></span><b>Decision: advanced</b>: a terminal approval
-      (the project may proceed).<br>
-      <span class="k" style="background:var(--blocked)"></span><b>Decision: blocked</b>: a terminal denial or withdrawal.
+      activity; the shaded bar is the span between them.<br>
+      <span class="k" style="background:var(--advanced)"></span><b>Decision: advanced</b>: terminal approval.<br>
+      <span class="k" style="background:var(--blocked)"></span><b>Decision: blocked</b>: terminal denial or withdrawal.
     </div>
     <div style="margin-top:8px">
-      <b>Why opposition can appear before ground is broken:</b> a data center is opposed while it is still
-      being <i>proposed</i>: during rezoning, permitting, or public hearings, well before any construction.
-      Opposition is a response to the <i>plan</i>, and it is often what determines whether the project ever
-      reaches groundbreaking. So on these timelines opposition sits between announcement and the decision that
-      resolves it; it does not imply the project was ever built.
+      Opposition usually predates construction: projects are contested during rezoning, permitting and
+      public hearings. An opposition span between announcement and decision does not mean the project was built.
     </div>
     <div style="margin-top:8px; color:var(--muted)">
-      Dates are shown only when known. A decision dot appears only when the date has been manually verified
-      and sourced. Month-only announcement dates are approximate (up to ~30 days).
+      Dates appear only when known. Month-only announcement dates are approximate (~30 days).
     </div>
   </div>
 </details>
@@ -561,15 +556,11 @@ function renderGate(ops) {
     'could meet them and applied unchanged. Frame sizes by observation window: ' +
     '<span class="gate-windows">' + rows + '</span>. ' +
     (ops.worklists && ops.worklists.decision_dates
-      ? 'The ' + ops.worklists.decision_dates.open + ' projects on the decision-date ' +
-        'worklist \u2014 decided and opposed and anchored, but undated \u2014 are the only ' +
-        'ones that can enter a frame once dated; nothing else moves these counts. ' +
-        'That worklist is almost entirely advanced outcomes, which is the constraint that ' +
-        'matters: a denial is reported on a dated public record far more reliably than an ' +
-        'approval, so the dated subset runs heavily blocked against a much lower blocked ' +
-        'share among all decided projects. Until the advanced arm is dated, the ' +
-        'not-blocked floor cannot be met, and a frame drawn from what is dated today would ' +
-        'not be representative of the decided set.'
+      ? 'Only the ' + ops.worklists.decision_dates.open + ' projects on the decision-date ' +
+        'worklist \u2014 decided, opposed and anchored, but undated \u2014 can enter a frame ' +
+        'once dated. That worklist is almost entirely advanced outcomes: denials are reported ' +
+        'on dated public records more reliably than approvals, so the dated subset runs ' +
+        'heavily blocked. Until the advanced arm is dated, the not-blocked floor cannot be met.'
       : '');
 }
 

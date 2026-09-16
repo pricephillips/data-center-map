@@ -49,6 +49,14 @@ button.primary:hover { filter:brightness(1.1) }
 .title-row { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:3px }
 .sub { color:var(--muted); font-size:12px; margin-bottom:16px }
 .sub.trailing { margin:12px 0 0 }
+.more { display:inline; background:none; border:0; border-radius:0; padding:0 }
+.more > summary { display:inline-block; vertical-align:middle; padding:0; width:15px; height:15px;
+  border:1px solid var(--border); border-radius:50%; color:var(--muted);
+  font:700 10px/13px inherit; text-align:center }
+.more > summary::before { content:none }
+.more > summary:hover { color:var(--text); border-color:var(--atlas) }
+.more[open] > summary { background:var(--atlas); border-color:var(--atlas); color:#08131a }
+.more > div { display:block; margin-top:8px }
 .flag { display:inline-block; padding:3px 9px; border-radius:999px; font-size:11px; font-weight:600 }
 .flag.on { background:#3a2116; border:1px solid var(--accent); color:var(--accent2) }
 .flag.off { background:var(--panel2); border:1px solid var(--border); color:var(--muted) }
@@ -1136,14 +1144,13 @@ function positions_section(slice) {
   var pman = META.position_manifest || {};
 
   var html = '<section><h3>Public positions on data centers</h3>' +
-    '<div class="sub">What officials and governing bodies here have actually done ' +
-    'on the record: roll-call votes on data center bills, bill sponsorships, ' +
-    'quoted statements of priorities, and decisions by county commissions, city ' +
-    'councils and planning boards. Every row carries the source it came from. ' +
-    '<b>Nothing here is inferred</b> — not from a party, a district, an office ' +
-    'title or a model. An official who has left no record on this subject carries ' +
-    'no position on this page, and that silence is not evidence of a position ' +
-    'either way.</div>';
+    '<div class="sub">Dated acts on the record: roll-call votes, bill sponsorships, ' +
+    'quoted statements, and decisions by commissions, councils and boards. Every row ' +
+    'carries its source. <b>Nothing here is inferred.</b>' +
+    '<details class="more"><summary aria-label="More" title="More">i</summary><div>' +
+    'No position is read from a party, a district, an office title or a model. An ' +
+    'official with no record on this subject carries no position here, and that ' +
+    'silence is not evidence either way.</div></details></div>';
 
   if (!DETAIL_READY) return html + '<div class="empty">Loading&hellip;</div></section>';
 
@@ -1185,8 +1192,8 @@ function positions_section(slice) {
     html += '<h3 style="margin-top:18px">Stated priorities' +
       count_label(slice.priorities.length) + '</h3>' +
       '<div class="sub">Carried verbatim from the official page cited, never ' +
-      'summarised into a stance. A statement about permitting or infrastructure ' +
-      'readiness is not a statement about data centers unless it says so.</div>' +
+      'summarised into a stance. Permitting or infrastructure remarks count only ' +
+      'if they name data centers.</div>' +
       table(['Official', 'Office', 'Tier', 'What they said', 'Source'],
         slice.priorities, function (r) {
           return ['<span class="nowrap">' + esc(r.person_name) + '</span>',
@@ -1200,24 +1207,23 @@ function positions_section(slice) {
   /* ---- the bills, with a tally this page computed from the rows it holds ---- */
   html += '<h3 style="margin-top:18px">Data center bills voted in ' + st +
     count_label(slice.position_bills.length) + '</h3>' +
-    '<div class="sub">Legislation reaches data centers in more than one way, so ' +
-    '"Reach" says which, and only the first two let a vote count as a ' +
-    'position:<br>' +
-    '&nbsp;&nbsp;<span class="stance restrict">Names data centers</span> the ' +
-    'title says so outright.<br>' +
-    '&nbsp;&nbsp;<span class="stance restrict">Binds a large-load class</span> ' +
-    'the title regulates a load or size class data centers dominate — large ' +
-    'load customers, high load factor customers, a megawatt threshold — ' +
-    'without naming them. The class is the regulated entity, so a vote is a ' +
-    'position on how it is treated.<br>' +
+    '<div class="sub">"Reach" says how a bill touches data centers; only the ' +
+    'first two kinds let a vote count as a position.' +
+    '<details class="more"><summary aria-label="More about reach" title="More about reach">i</summary><div>' +
+    '&nbsp;&nbsp;<span class="stance restrict">Names data centers</span> the title ' +
+    'says so outright.<br>' +
+    '&nbsp;&nbsp;<span class="stance restrict">Binds a large-load class</span> the ' +
+    'title regulates a load or size class data centers dominate \u2014 large load ' +
+    'customers, high load factor customers, a megawatt threshold \u2014 without ' +
+    'naming them. That class is the regulated entity, so a vote is a position on ' +
+    'how it is treated.<br>' +
     '&nbsp;&nbsp;<span class="stance">Provisions inside a wider bill</span> an ' +
-    'omnibus energy act, a tax bill, a land use bill. Real, and much weaker: a ' +
-    'vote on the vehicle is not a position on the provision riding inside it, ' +
-    'and the roll call cannot tell them apart. These publish with <b>no ' +
-    'direction</b>, and the "In frame via" column says what put the bill here, ' +
-    'since the title will not.<br><br>' +
-    '"Instrument" is what the law does; direction follows from it rather than ' +
-    'being judged separately, so the two can never disagree.</div>' +
+    'omnibus energy, tax or land use act. A vote on the vehicle is not a vote on ' +
+    'the provision riding inside it, and the roll call cannot tell them apart, so ' +
+    'these publish with <b>no direction</b>. "In frame via" says what put the bill ' +
+    'here, since the title will not.<br><br>' +
+    '"Instrument" is what the law does; direction follows from it.' +
+    '</div></details></div>' +
     table(['Bill', 'Title', 'Reach', 'In frame via', 'Instrument', 'Direction',
            'Stage', 'Yes', 'No', 'Other', 'First vote', 'Last vote', 'OpenStates'],
       slice.position_bills, function (r) {
@@ -1250,12 +1256,13 @@ function positions_section(slice) {
   var shown = slice.legislators.slice(0, LEGISLATOR_CAP);
   html += '<h3 style="margin-top:18px">Voting records of ' + st + ' legislators' +
     count_label(slice.legislators.length) + '</h3>' +
-    '<div class="sub">Sorted by how much record each one has. "Record" summarises ' +
-    'only the acts that carry a direction, and it is a label, not a score: ' +
-    'supporting a reporting requirement is not opposing data centers, so the two ' +
-    'never net out against each other. One act reads as one act, never as a ' +
-    'pattern. These are state legislators, so they vote on the frame this county ' +
-    'operates inside rather than on any project in it.</div>' +
+    '<div class="sub">Sorted by how much record each one has. "Record" is a label, ' +
+    'not a score.' +
+    '<details class="more"><summary aria-label="More" title="More">i</summary><div>' +
+    'It summarises only acts carrying a direction, and directions never net out: ' +
+    'supporting a reporting requirement is not opposing data centers. One act reads ' +
+    'as one act, not a pattern. These are state legislators, so they vote on the ' +
+    'frame this county operates inside, not on projects in it.</div></details></div>' +
     table(['Legislator', 'Chamber', 'Record', 'For restriction',
            'Against restriction', 'For incentive', 'Against incentive',
            'For disclosure', 'Against disclosure', 'No direction', 'Did not vote',
@@ -1291,12 +1298,10 @@ function positions_section(slice) {
   if (pman.votes_withheld !== undefined) {
     html += '<div class="sub trailing">Across all states, ' +
       fmt_int(pman.votes_read) + ' roll calls were read and ' +
-      fmt_int(pman.votes_withheld) + ' are withheld. Every one of those is a ' +
-      'bill whose identifier resolved against the wrong legislation \u2014 the ' +
-      'matching behind these roll calls returned an immigration bill, a ' +
-      'child-restraint bill and an abortion bill, all three attached to records ' +
-      'that genuinely are about data centers. They are queued for repair rather ' +
-      'than filed as coverage gaps. Of the bills that are admitted, ' +
+      fmt_int(pman.votes_withheld) + ' are withheld \u2014 bills whose identifier ' +
+      'resolved against the wrong legislation (the matching returned an immigration ' +
+      'bill, a child-restraint bill and an abortion bill). They are queued for ' +
+      'repair, not filed as coverage gaps. Of the bills admitted, ' +
       fmt_int((pman.by_reach || {}).sector_vehicle) + ' carry their data center ' +
       'provisions inside a wider bill and so publish their votes with no ' +
       'direction. Full classification, and the repair queue, in ' +
@@ -1342,12 +1347,13 @@ function comparison_section(slice) {
   var bman = META.benchmark_manifest || {};
 
   var html = '<section><h3>How this county compares</h3>' +
-    '<div class="sub">Every figure on this page answered against the groups that ' +
-    'make it readable: all counties, the counties that have actually enacted a ' +
-    'restriction, this state, and the ten counties that most resemble this one on ' +
-    'population, density, education and 2024 margin. Reference values are medians, ' +
-    'published in <code>data/county_benchmark_reference.csv</code>. The percentile ' +
-    'column is this county\'s position among all counties.</div>';
+    '<div class="sub">Compared against four groups: all counties, counties that have ' +
+    'enacted a restriction, this state, and the ten most similar counties. ' +
+    '<details class="more"><summary aria-label="More" title="More">i</summary><div>' +
+    'Peers are matched on population, density, education and 2024 margin. Reference ' +
+    'values are medians, published in <code>data/county_benchmark_reference.csv</code>. ' +
+    'The percentile column is this county\'s position among all counties.' +
+    '</div></details></div>';
 
   if (!DETAIL_READY && !REFERENCE.national) {
     return html + '<div class="empty">Loading comparison frame&hellip;</div></section>';
@@ -1387,10 +1393,9 @@ function comparison_section(slice) {
     html += '<div class="sub" style="margin-top:9px">The median county that has ' +
       'enacted a restriction scores ' +
       fmt_prob(bman.score_separation_restrictive_minus_non) + ' above the median ' +
-      'county that has not. That is a real but narrow separation: the score ranks ' +
-      'counties usefully and does not cleanly divide them into two populations. ' +
-      'A high percentile here means this county sits high in the ordering, not ' +
-      'that it is about to act.</div>';
+      'county that has not \u2014 a narrow separation. The score ranks counties; it ' +
+      'does not split them into two populations, so a high percentile means high in ' +
+      'the ordering, not close to acting.</div>';
   }
 
   /* ---- the table ---- */
@@ -1427,20 +1432,18 @@ function comparison_section(slice) {
       }, 'No comparison frame for this county.') + '</div>';
 
   if (bm && bm.peer_matched === '0') {
-    html += '<div class="sub trailing">This county is missing at least one of the ' +
-      'four matching features, so it has no peer group. It is left empty rather ' +
-      'than filled with the average county, which is what an imputed match would ' +
-      'quietly produce.</div>';
+    html += '<div class="sub trailing">This county is missing at least one matching ' +
+      'feature, so it has no peer group. Left empty rather than imputed.</div>';
   }
 
   /* ---- the peer table ---- */
   if (slice.peers.length) {
     html += '<h3 style="margin-top:18px">Peer counties' + count_label(slice.peers.length) +
       '</h3>' +
-      '<div class="sub">The counties this one most resembles structurally, whatever ' +
-      'state they are in. This is a similarity set for reading the county against, ' +
-      'not a matched control: it carries no claim about what would have happened ' +
-      'here. Matched on standardised log population, log density, share with a ' +
+      '<div class="sub">The counties this one most resembles structurally, in any ' +
+      'state. A similarity set, not a matched control, so it supports no claim about ' +
+      'what would have happened here. Matched on standardised log population, log ' +
+      'density, share with a ' +
       "bachelor's degree and 2024 margin" +
       (bm && bm.peer_mean_distance ? ', mean distance ' + esc(bm.peer_mean_distance) : '') +
       '.</div>' +
@@ -1486,11 +1489,10 @@ function render(slice) {
                   link(r.source)];
         }, '') + '</section>';
   } else if (a.has_enacted_restrictive === '1') {
-    html += '<section><h3>Enacted restriction record</h3><div class="empty">The county aggregate ' +
-      'flags an enacted restrictive action, but no instrument is filed in the external restriction ' +
-      'census. The flag is derived from tracker events; the census is the hand-verified layer and ' +
-      'covers ' + fmt_int((DATA.restriction_census || []).length) + ' counties, so absence here is ' +
-      'a coverage gap and not a contradiction.</div></section>';
+    html += '<section><h3>Enacted restriction record</h3><div class="empty">Flagged as enacted ' +
+      'from tracker events, with no instrument filed in the external restriction census. The ' +
+      'census is hand-verified and covers ' + fmt_int((DATA.restriction_census || []).length) +
+      ' counties, so absence here is a coverage gap, not a contradiction.</div></section>';
   }
 
   /* ---- predictive ---- */
@@ -1518,8 +1520,8 @@ function render(slice) {
           iv ? '90% set: ' + esc(iv.set_90 || '\u2014') : '') +
       '</div>';
     html += '<div class="sub" style="margin-top:9px">A resemblance score, not a forecast: how much this ' +
-      'county looks like counties that have enacted a restriction. Quote the interval, never the point ' +
-      'alone. A wide interval is the model saying the evidence is thin for this profile.</div>';
+      'county looks like counties that have enacted a restriction. Quote the interval rather than the ' +
+      'point; a wide one means thin evidence for this profile.</div>';
 
     /* Neighbour contagion: only counties on the adjacency scan queue carry it. */
     var g = slice.contagion;
@@ -1536,9 +1538,8 @@ function render(slice) {
         kpi('Evidence status', esc(g.evidence_status || '\u2014'),
             g.meeting_source ? 'meeting source: ' + esc(g.meeting_source) : '') +
         '</div>' +
-        '<div class="sub" style="margin-top:9px">This county sits on the adjacency scan queue: a ' +
-        'neighbour has already acted, which is why it is being watched. Proximity is a monitoring ' +
-        'trigger, not evidence that this county will follow.</div>';
+        '<div class="sub" style="margin-top:9px">On the adjacency scan queue because a neighbour ' +
+        'has acted. Proximity is a monitoring trigger, not evidence this county will follow.</div>';
     }
   } else {
     html += '<div class="empty">This county is outside the model frame, so it carries no score. ' +
@@ -1609,11 +1610,10 @@ function render(slice) {
     html += '<section><h3>External rows awaiting review' +
       count_label(slice.census_unreviewed.length) + '</h3>' +
       '<div class="sub">Surfaced by the census refresh against the Moratorium ' +
-      'Nation dataset (CC-BY-4.0) and <b>not part of the census</b>, either ' +
-      'because nobody here has reviewed the row yet or because the promotion ' +
-      'gate held it. Nothing on this page treats these as verified: they do ' +
-      'not set this county\'s restriction flag, they are not counted in any ' +
-      'model, and they are not in the census table above.' + framing +
+      'Nation dataset (CC-BY-4.0) and <b>not part of the census</b> \u2014 either ' +
+      'unreviewed or held by the promotion gate. None of these are treated as ' +
+      'verified: they do not set the restriction flag, feed any model, or appear ' +
+      'in the census table above.' + framing +
       (sought_rows.length && enacted_rows.length
         ? ' <b>' + fmt_int(sought_rows.length) + '</b> of these ' +
           (sought_rows.length === 1 ? 'is' : 'are') + ' pending rather than ' +
@@ -1844,15 +1844,13 @@ function render(slice) {
   var sh_man = (META.stakeholder_manifest || {});
   html += '<section><h3>Stakeholders' + count_label(sh_all.length) + '</h3>' +
     '<div class="sub">The offices that decide siting, zoning, permitting and utility ' +
-    'questions here, plus the state offices above them. Every row carries the official ' +
-    'page it was read from. Names are published only after passing a validation gate, so ' +
-    'an office with no confirmed current holder is left out rather than guessed \u2014 ' +
-    'a term that has already ended withholds the row.</div>';
+    'questions here, plus the state offices above them, each with the official page it ' +
+    'was read from. An office with no confirmed current holder, or one whose term has ' +
+    'ended, is withheld rather than guessed.</div>';
   if (!slice.stakeholders_county.length && DETAIL_READY) {
-    html += '<div class="empty">No county-level stakeholder record for this county yet. ' +
-      'The county tier is a seeded source of record built jurisdiction by jurisdiction ' +
-      'from official government pages, because no national register of county board ' +
-      'chairs, county administrators and mayors exists to pull from. It currently covers ' +
+    html += '<div class="empty">No county-level stakeholder record yet. No national ' +
+      'register of county board chairs, administrators and mayors exists, so this tier ' +
+      'is seeded jurisdiction by jurisdiction from official pages. It currently covers ' +
       (sh_man.counties_covered !== undefined
         ? fmt_int(sh_man.counties_covered) + ' of the 789 counties with tracked activity'
         : 'a subset of counties') +
@@ -1860,10 +1858,9 @@ function render(slice) {
   }
   html += stakeholder_rows(sh_all);
   if (sh_all.length) {
-    html += '<div class="sub trailing">Contact details are the official office listings published ' +
-      'by the jurisdiction, not personal contact information. A "Role in siting" entry ' +
-      'appears only where a cited source states that formal role; it is never inferred ' +
-      'from the office title. Full office addresses are included in the CSV export.</div>';
+    html += '<div class="sub trailing">Contacts are official office listings, not personal ' +
+      'details. "Role in siting" appears only where a cited source states that formal role. ' +
+      'Full addresses are in the CSV export.</div>';
   }
   html += '</section>';
 
@@ -1888,12 +1885,12 @@ function render(slice) {
       'outside the 92-county sample where the hand census and the tracker were compared ' +
       'head to head.</div>';
   }
-  html += '<div class="sub" style="margin-top:11px">Standing limits on every county page: there ' +
-    'is no usable litigation layer in this repository, so "Lawsuit" reflects tracker-coded ' +
-    'events only. Event severity is recorded at two levels, so treat it as present/elevated ' +
-    'rather than a graded intensity. Opposition-event counts are media-detected and ' +
-    'under-count quiet counties; use the full project universe above as the denominator, ' +
-    'never the opposition tables.</div></section>';
+  html += '<div class="sub" style="margin-top:11px"><b>Standing limits.</b> ' +
+    '<details class="more"><summary aria-label="Standing limits" title="Standing limits">i</summary><div>' +
+    'There is no litigation layer here, so "Lawsuit" reflects tracker-coded events only. ' +
+    'Severity is recorded at two levels \u2014 read it as present/elevated, not graded. ' +
+    'Opposition-event counts are media-detected and under-count quiet counties, so use the ' +
+    'full project universe above as the denominator.</div></details></div></section>';
 
   /* ---- internal-only cost layer ---- */
   if (SHOW_INTERNAL) {
@@ -1982,8 +1979,8 @@ function methodology_panel() {
         ' median AUC given up to hold every coefficient\'s sign across folds</dd>' +
       '</dl>' +
       '<div class="sub">Fitted on the cross-section of counties that have and have not acted. ' +
-      'It measures resemblance to counties that already restricted; it is not a forecast of ' +
-      'this county\'s next vote, and no variable in it should be read as a cause.</div>';
+      'It measures resemblance to counties that already restricted, not this county\'s next ' +
+      'vote, and no variable in it is a cause.</div>';
   }
 
   if (om) {
@@ -2001,9 +1998,9 @@ function methodology_panel() {
         }).join('; ')) + '</dd>' +
       '</dl>' +
       '<div class="sub">Trained only on projects that already drew opposition, so its ' +
-      'probabilities are conditional on that. Sample is small and the AUC spread is wide: ' +
-      'read a single project\'s number as a rank, not a rate. Feature importance here is ' +
-      'predictive signal, never a causal effect.</div>';
+      'probabilities are conditional on that. The sample is small and the AUC spread wide, ' +
+      'so read a single project\'s number as a rank rather than a rate. Feature importance ' +
+      'is predictive signal, not causal effect.</div>';
   }
 
   if (sm) {
@@ -2016,9 +2013,9 @@ function methodology_panel() {
       '<dt>Log-rank p</dt><dd>' + fmt_num(sm.logrank_p, 4) + '</dd>' +
       '<dt>Excluded for year-only dates</dt><dd>' + fmt_int(sm.excluded_year_precision) + '</dd>' +
       '</dl>' +
-      '<div class="sub">A descriptive benchmark of observed timelines. It does not estimate ' +
-      'how much longer a project took than it otherwise would have; that quantity is not ' +
-      'identifiable from this data and is not published anywhere in this system.</div>';
+      '<div class="sub">A descriptive benchmark of observed timelines. How much longer a ' +
+      'project took than it otherwise would have is not identifiable from this data, and is ' +
+      'published nowhere in this system.</div>';
   }
 
   if ((DATA.calibration || []).length) {
@@ -2087,15 +2084,13 @@ function methodology_panel() {
       '<dt>metrics profiled</dt><dd>' + fmt_int(bmf.metrics) + '</dd>' +
       '<dt>generated</dt><dd>' + esc(bmf.generated || '—') + '</dd>' +
       '</dl>' +
-      '<div class="sub">Reference values are medians over the group, not means, ' +
-      'because the county distributions are long-tailed: a handful of Loudouns ' +
-      'would drag a mean far from anything a typical county looks like. ' +
-      'Percentiles use the mid-rank convention, so the many counties tied at zero ' +
-      'opposition events read at the middle of that tie rather than at the bottom ' +
-      'of the national distribution. A peer group is a similarity set for reading ' +
-      'a county against; it is not a matched control and supports no statement ' +
-      'about what would have happened here. IDENTIFIABILITY.md records why no ' +
-      'such statement is available from this data.</div>';
+      '<div class="sub">Reference values are medians, not means: the county ' +
+      'distributions are long-tailed, and a handful of Loudouns would drag a mean ' +
+      'away from the typical county. Percentiles use the mid-rank convention, so ' +
+      'the many counties tied at zero opposition events read at the middle of that ' +
+      'tie rather than the bottom of the national distribution. A peer group is a ' +
+      'similarity set, not a matched control, and supports no statement about what ' +
+      'would have happened here. IDENTIFIABILITY.md records why.</div>';
   }
 
   var pmf = META.position_manifest;
@@ -2129,29 +2124,25 @@ function methodology_panel() {
       'count as a position. <b>Instrument</b> is what the law does \u2014 ' +
       'moratorium, siting, ratepayer cost allocation, incentive grant or repeal, ' +
       'disclosure, water, supply enablement, local control \u2014 and direction ' +
-      'follows from the instrument rather than being judged separately, so the ' +
-      'two can never disagree.<br><br>' +
-      'The evidence from the matched record is admitted only when it names this ' +
-      'exact bill, because one record routinely names several bill numbers and ' +
-      'the match fans out to all of them. Where a record insists on data centers ' +
-      'and the bill that came back is about immigration, child restraints or ' +
-      'abortion, that is a wrong bill rather than a coverage gap: its votes are ' +
-      'withheld and it is queued for repair.<br><br>' +
-      'Stances sit on three separate axes — restriction, industry incentive, ' +
-      'disclosure — and are never netted into a single pro-or-anti score. A ' +
-      'legislator with acts on both sides is labelled mixed rather than averaged, ' +
-      'and a legislator with one act is labelled as having one act. The withheld ' +
+      'follows from the instrument, so the two can never disagree.<br><br>' +
+      'Evidence from the matched record is admitted only when it names this exact ' +
+      'bill, because one record routinely names several bill numbers and the match ' +
+      'fans out to all of them. A record about data centers that returns a bill on ' +
+      'immigration, child restraints or abortion is a wrong bill, not a coverage ' +
+      'gap: its votes are withheld and it is queued for repair.<br><br>' +
+      'Stances sit on three separate axes \u2014 restriction, industry incentive, ' +
+      'disclosure \u2014 and are never netted into one pro-or-anti score. A ' +
+      'legislator with acts on both sides is labelled mixed, not averaged. The withheld ' +
       'bills are ranked in data/stakeholder_positions_qc.md by how many votes a ' +
       'human confirmation would unlock; confirmations go in ' +
       'data/bill_subject_overrides.csv, which the pipeline reads and never ' +
       'writes to.</div>';
   }
 
-  h += '<h4>Standing interpretation rules</h4><div class="sub">Nothing on this page is a ' +
-    'causal estimate. Figures describe associations and observed histories. No dollar amount ' +
-    'or delay shown anywhere in this system is attributable to opposition, and none should be ' +
-    'presented that way. Confirmed outcomes require finality evidence beyond a label: a bill ' +
-    'stage or a terminal status, never an outcome label on its own.</div>';
+  h += '<h4>Standing interpretation rules</h4><div class="sub">Nothing here is a causal ' +
+    'estimate; figures describe associations and observed histories. No dollar amount or ' +
+    'delay in this system is attributable to opposition. Confirmed outcomes require finality ' +
+    'evidence \u2014 a bill stage or terminal status \u2014 never an outcome label alone.</div>';
 
   return h + '</details>';
 }

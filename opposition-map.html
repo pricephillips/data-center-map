@@ -122,6 +122,12 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
 .stat span { font-size:11px; color:var(--muted) }
 .note { font-size:11.5px; line-height:1.5; color:var(--muted); margin-top:12px }
 .note b { color:#c6cfda }
+.note-more > summary { list-style:none; cursor:pointer; width:15px; height:15px; border-radius:50%;
+  border:1px solid var(--border); color:var(--muted); font:700 10px/13px inherit; text-align:center }
+.note-more > summary::-webkit-details-marker { display:none }
+.note-more > summary:hover { color:#c6cfda }
+.note-more[open] > summary { background:#67e8f9; border-color:#67e8f9; color:#0b0e14 }
+.note-more > div { margin-top:6px }
 
 .mapwrap { position:relative }
 #map { position:absolute; inset:0 }
@@ -241,10 +247,13 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
         </div>
         <div id="county-stats"></div>
         <div class="note" id="county-note">
-          <b>What this is.</b> The score is a cross-sectional resemblance measure from
-          <code>county_policy_model.py</code>, calibrated and out-of-fold, not a forward forecast and
-          not a project risk score. County-specific opposition rates are not computable at current
-          density; the shading is context, read alongside the detection-bias caveats in the model report.
+          <details class="note-more">
+            <summary aria-label="About this score" title="About this score">i</summary>
+            <div>A calibrated, out-of-fold resemblance measure from <code>county_policy_model.py</code>.
+            It is not a forecast and not a project risk score. County-specific opposition rates are not
+            computable at current density, so read the shading as context alongside the detection-bias
+            caveats in the model report.</div>
+          </details>
         </div>
       </div>
       <!-- PROJECT panel -->
@@ -260,8 +269,7 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
           <div class="row"><span class="sw" style="background:transparent;border:2px solid #67e8f9"></span>
             cyan ring: a lawsuit is on record</div>
           <div class="row" style="color:var(--muted);margin-top:7px">
-            Marker size grows with recorded opposition events. Clusters show the outcome mix of
-            what they contain.</div>
+            Size = recorded opposition events. Clusters show their outcome mix.</div>
         </div>
         <div class="controls">
           <label>Show outcomes</label>
@@ -601,6 +609,8 @@ function renderCountyLegend(metric) {
   VizPalette.injectCss();
   const host = document.getElementById('countyLegend');
   if (!host) return;
+  // Diverging ramp is orange/blue rather than red/blue so the two ends stay
+  // separable for colourblind readers.
   if (metric === 'margin_2024') {
     host.innerHTML =
       '<div class="vp-title">2024 presidential margin</div>' +
@@ -608,9 +618,7 @@ function renderCountyLegend(metric) {
       '<div class="vp-ticks"><span style="justify-content:flex-start">R +50</span>' +
       '<span style="justify-content:center">even</span>' +
       '<span style="justify-content:flex-end">D +50</span></div>' +
-      '<div class="vp-note">Positive is a Democratic margin under this dataset\u2019s ' +
-      'convention. Orange and blue rather than red and blue so the two ends stay ' +
-      'separable for colourblind readers.</div>';
+      '<div class="vp-note">Positive is a Democratic margin.</div>';
     return;
   }
   if (metric === 'enacted_status') {
@@ -624,10 +632,8 @@ function renderCountyLegend(metric) {
       '<span style="display:flex;align-items:center;gap:6px;margin:2px 0">' +
       '<i style="width:14px;height:10px;background:#1d2530;display:inline-block"></i>' +
       ' none on record</span></div>' +
-      '<div class="vp-note">The label behind the calibrated score, shown directly. ' +
-      'Historical: a county counts if it has ever enacted, including instruments ' +
-      'that later expired. A floor, not a census; coverage gaps surface through ' +
-      'the coverage audit and are corrected as they are found.</div>';
+      '<div class="vp-note">Historical: a county counts if it has ever enacted, ' +
+      'including instruments that later expired. A floor, not a census.</div>';
     return;
   }
   const isScore = metric === 'calibrated_score';
@@ -636,10 +642,10 @@ function renderCountyLegend(metric) {
     ticks: 4,
     format: isScore ? undefined : (v => Math.round(v).toLocaleString()),
     note: isScore
-      ? 'Bars show how many counties sit at each point on the ramp. Resemblance '
-        + 'score, not a forecast, and not a project risk score.'
-      : 'Record counts, not project counts, and a floor rather than a census: '
-        + 'a county with no records may have had no opposition or no coverage.'
+      ? 'Bars show county counts along the ramp. Resemblance score, not a '
+        + 'forecast and not a project risk score.'
+      : 'Record counts, not project counts. No records may mean no opposition, '
+        + 'or no coverage.'
   });
 }
 
