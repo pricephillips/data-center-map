@@ -16,7 +16,7 @@ index 0aadee4..5ce5e56 100644
        - 'configs/frames/*.csv'
        # Every configs/*.json, not just the frame registry. Source configs
 diff --git a/.github/workflows/refresh-external-census.yml b/.github/workflows/refresh-external-census.yml
-index fd93b71..7c38dcf 100644
+index fd93b71..d5e44a7 100644
 --- a/.github/workflows/refresh-external-census.yml
 +++ b/.github/workflows/refresh-external-census.yml
 @@ -3,9 +3,14 @@ name: Refresh external restriction census
@@ -36,7 +36,7 @@ index fd93b71..7c38dcf 100644
  
  permissions:
    contents: write
-@@ -31,35 +36,66 @@ jobs:
+@@ -31,35 +36,84 @@ jobs:
        - name: Self-test census refresh module
          run: python refresh_external_census.py --selftest
  
@@ -67,6 +67,24 @@ index fd93b71..7c38dcf 100644
 +      # still has to pass census_gap_candidates.py's own gate in pipeline.yml
 +      # before it becomes a tracker record.
 +      - name: Promote gate-passing rows into the census
++        # Two gates run here. The per-row gate holds rows upstream itself
++        # flags as unconfirmed; the batch gate (added 2026-09-16) refuses the
++        # WHOLE append when the run does not look like its own history:
++        # a volume spike, a truncated upstream fetch, one state dominating, or
++        # a collapse in the hold rate, which is upstream having stopped
++        # setting the uncertainty markers this gate depends on.
++        #
++        # A batch hold exits nonzero and appends nothing, but still records
++        # every decision to data/census_promotion_report.csv, so a refused run
++        # is reviewable rather than invisible. continue-on-error keeps a hold
++        # from failing the workflow: the delta stays as the queue and the next
++        # run re-evaluates from scratch.
++        #
++        # Each promotion is tiered in the report as corroborated,
++        # single_source or thin. Add --hold-thin here to refuse thin ones
++        # outright (one source, flips a county label, no primary-source URL);
++        # on the 2026-09 upstream that is 35 of 68 promotions.
++        continue-on-error: true
 +        run: python refresh_external_census.py --promote
 +
        - name: Commit the delta and report
