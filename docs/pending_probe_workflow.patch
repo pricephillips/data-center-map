@@ -1,0 +1,112 @@
+diff --git a/.github/workflows/restriction-probe.yml b/.github/workflows/restriction-probe.yml
+new file mode 100644
+index 0000000..e5adcfd
+--- /dev/null
++++ b/.github/workflows/restriction-probe.yml
+@@ -0,0 +1,106 @@
++name: Restriction probe backfill
++
++# Runs restriction_probe.py --backfill on a GitHub Actions runner, which is
++# the machine this repository already uses for every live fetch it does
++# (fetch_permits, bill_sync, fetch_pudl, signal_harvest and census_geocode all
++# reach hosts that a sandboxed agent session cannot). The probe hosts are
++# ordinary public web sites; the runner reaches them the same way.
++#
++# Why a separate workflow rather than a step in pipeline.yml. The backfill is
++# rate-limited by design (THROTTLE_S between requests), so a full pass over
++# 3,222 counties takes hours and must not sit inside the 10-minute feed build.
++# It is resumable: a county already carrying a result for an adapter is
++# skipped, so each run advances the frontier and a run that dies costs only
++# what it had not reached.
++#
++# manual first, scheduled second. Leave this on workflow_dispatch until a run
++# has confirmed the adapter's response markers against the live host. The
++# fail-safe rule in restriction_probe.py means a wrong marker returns
++# unreachable rather than a false clear, so the cost of being wrong is a
++# wasted run and nothing else, but there is no reason to spend it weekly
++# before it works.
++
++on:
++  workflow_dispatch:
++    inputs:
++      limit:
++        description: "Counties to probe this run"
++        required: false
++        default: "50"
++
++  # Uncomment once a dispatch run has produced real clear/hit results.
++  # schedule:
++  #   - cron: "40 4 * * 2"
++
++permissions:
++  contents: write
++
++concurrency:
++  group: restriction-probe-backfill
++  cancel-in-progress: false
++
++jobs:
++  backfill:
++    runs-on: ubuntu-latest
++    timeout-minutes: 60
++    steps:
++      - uses: actions/checkout@v4
++
++      - uses: actions/setup-python@v5
++        with:
++          python-version: "3.11"
++
++      - name: Self-test the probe module (BLOCKING)
++        # Offline. Pins the fail-safe rule: no response shape may produce a
++        # clear except a positively confirmed zero-result search. If that
++        # regresses, this run must not touch the cache.
++        run: python restriction_probe.py --selftest
++
++      - name: What does the cache hold before this run
++        run: python restriction_probe.py --status
++
++      - name: Backfill
++        # Non-blocking. A probe run that fails partway has still written what
++        # it reached, and a host being down is not a build failure.
++        continue-on-error: true
++        run: |
++          python restriction_probe.py --backfill \
++            --limit "${{ github.event.inputs.limit || 50 }}"
++
++      - name: Regrade the evidence ledger
++        run: python restriction_evidence.py
++
++      - name: What does the cache hold after
++        run: python restriction_probe.py --status
++
++      - name: Commit probe results
++        run: |
++          git config user.name  "github-actions[bot]"
++          git config user.email "github-actions[bot]@users.noreply.github.com"
++          # Each path guarded separately: one missing pathspec aborts the whole
++          # git add, the trap documented in fetch-permits.yml.
++          [ -f data/restriction_probe_cache.json ] && \
++              git add data/restriction_probe_cache.json
++          [ -f data/restriction_probe_log.csv ] && \
++              git add data/restriction_probe_log.csv
++          [ -f data/restriction_evidence.csv ] && \
++              git add data/restriction_evidence.csv
++          [ -f data/restriction_evidence_conflicts.csv ] && \
++              git add data/restriction_evidence_conflicts.csv
++          [ -f data/restriction_evidence_history.csv ] && \
++              git add data/restriction_evidence_history.csv
++          [ -f data/restriction_evidence_report.md ] && \
++              git add data/restriction_evidence_report.md
++          if git diff --cached --quiet; then
++            echo "No changes to commit"
++            exit 0
++          fi
++          git commit -m "Restriction probe: backfill results [skip ci]"
++          for i in 1 2 3; do
++            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
++            echo "Push attempt $i failed, retrying in 10s"
++            git rebase --abort 2>/dev/null || true
++            sleep 10
++          done
++          echo "Push failed after 3 attempts."
++          exit 1
