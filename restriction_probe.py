@@ -334,6 +334,72 @@ def cmd_backfill(reg: dict, limit: int) -> int:
     return 0
 
 
+TEMPLATE = P("data", "restriction_probe_template.csv")
+
+
+def cmd_template(reg: dict) -> int:
+    """Write a blank import file with the right headers and a worked example.
+
+    --import is the path that works today, and it was documented only in this
+    module's source. Someone producing results on a machine with egress should
+    not have to read the validator to learn the column names, so the template
+    carries one row per result value with the reasoning attached, and that row
+    is a comment rather than data so the file can be fed straight back in.
+    """
+    fams = sorted(known_families(reg)) or ["municipal_code"]
+    rows = [
+        {"fips": "01001", "family": fams[0], "source_id": "municode",
+         "result": "clear", "observed_at": "2026-09-16",
+         "url": "https://library.municode.com/al/autauga_county/codes",
+         "detail": "searched the county code for data center and cryptocurrency "
+                   "mining; no zoning provision found",
+         "in_force_as_of": ""},
+        {"fips": "01003", "family": fams[0], "source_id": "municode",
+         "result": "hit", "observed_at": "2026-09-16",
+         "url": "https://example.invalid/ordinance-2026-14",
+         "detail": "ordinance 2026-14, 1500 ft setback and 55 dBA limit",
+         "in_force_as_of": "2026-06-23"},
+        {"fips": "01005", "family": fams[0], "source_id": "municode",
+         "result": "unreachable", "observed_at": "2026-09-16",
+         "url": "https://library.municode.com/al/barbour_county",
+         "detail": "503 from the host on three attempts", "in_force_as_of": ""},
+        {"fips": "01007", "family": fams[0], "source_id": "municode",
+         "result": "not_covered", "observed_at": "2026-09-16", "url": "",
+         "detail": "this publisher does not carry this county",
+         "in_force_as_of": ""},
+    ]
+    fields = list(IMPORT_FIELDS) + list(OPTIONAL_FIELDS)
+    with open(TEMPLATE, "w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=fields, lineterminator="\n")
+        w.writeheader()
+        w.writerows(rows)
+
+    print(f"wrote {TEMPLATE}")
+    print()
+    print("Required: " + ", ".join(IMPORT_FIELDS))
+    print("Optional: " + ", ".join(OPTIONAL_FIELDS))
+    print()
+    print("result must be one of:")
+    print("  clear              the source covers this county and reports no restriction")
+    print("  hit                the source reports a restriction")
+    print("  hit_unreviewed     an upstream asserts one, nobody has checked it")
+    print("  pending_instrument an instrument was sought and not adopted")
+    print("  unreachable        the source covers the county but could not be read")
+    print("  not_covered        the source does not publish this county at all")
+    print()
+    print("unreachable and not_covered are different facts and the grader keeps")
+    print("them apart: a source that is down is not a source that says nothing")
+    print("is there. Neither one clears a county.")
+    print()
+    print("An assertive result (clear, hit, hit_unreviewed, pending_instrument)")
+    print("needs a source_id or a url, because an unattributable check is the")
+    print("thing the evidence layer exists to prevent.")
+    print()
+    print("The example rows are real column values, not placeholders to keep:")
+    print("replace them, then run --import on the result.")
+    return 0
+
+
 def cmd_status(reg: dict) -> int:
     cache = read_json(CACHE, {})
     frame = load_frame()
@@ -446,6 +512,22 @@ def selftest() -> int:
     ck("a second source adds", merge_into_cache(cache, a4), (1, 0))
     ck("both are kept", len(cache["18017"]), 2)
 
+    # The template must survive its own validator. A template whose example
+    # rows are rejected on import is worse than no template: it teaches the
+    # wrong shape and the failure looks like the producer's fault.
+    if os.path.exists(TEMPLATE):
+        with open(TEMPLATE, newline="", encoding="utf-8") as fh:
+            trows = list(csv.DictReader(fh))
+        treg = load_registry()
+        if trows and known_families(treg):
+            tacc, trej = validate(trows, treg, None)
+            ck("the template round-trips through validate", (len(tacc), len(trej)),
+               (len(trows), 0))
+            ck("the template covers a clear and a hit",
+               {"clear", "hit"} <= {r["result"] for r in tacc}, True)
+            ck("the template shows unreachable and not_covered apart",
+               {"unreachable", "not_covered"} <= {r["result"] for r in tacc}, True)
+
     # The contract with the grader. If restriction_evidence is importable, its
     # vocabulary must match ours exactly, or results vanish silently there.
     try:
@@ -474,6 +556,8 @@ def main() -> int:
                     help="run registered adapters (needs egress)")
     ap.add_argument("--status", action="store_true",
                     help="summarize what the cache holds")
+    ap.add_argument("--template", action="store_true",
+                    help="write a blank import file with the schema explained")
     ap.add_argument("--limit", type=int, default=200,
                     help="max counties to probe in one backfill run")
     args = ap.parse_args()
@@ -486,6 +570,8 @@ def main() -> int:
         return cmd_import(args.import_path, reg)
     if args.backfill:
         return cmd_backfill(reg, args.limit)
+    if args.template:
+        return cmd_template(reg)
     if args.status:
         return cmd_status(reg)
 
