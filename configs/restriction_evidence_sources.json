@@ -1,0 +1,193 @@
+{
+  "_comment": [
+    "Source registry for restriction_evidence.py.",
+    "",
+    "Registered 2026-09-15. This file answers one question the repository could",
+    "not answer before it existed: for a given county, WHAT DID WE CHECK before",
+    "recording that it has no enacted data-center restriction?",
+    "",
+    "Until now data/county_aggregate.csv carried 2893 counties labeled",
+    "has_enacted_restrictive = 0 and nothing anywhere recorded a single source",
+    "consulted for any of them. The label meant 'no row was found', which is a",
+    "statement about the tracker, not about the county. Every entry below is a",
+    "place a restriction would be visible if it existed, so that a negative can",
+    "become a checked claim with a date on it.",
+    "",
+    "INDEPENDENCE CLASSES are the load-bearing idea. Two sources that read the",
+    "same underlying material do not corroborate each other: a news-derived",
+    "tracker and a second news-derived tracker can be wrong together, and",
+    "counting them twice would manufacture confidence the evidence does not",
+    "support. Grade A therefore requires agreement across two DISTINCT",
+    "independence classes, never two sources within one. The classes are:",
+    "",
+    "  primary_law    the adopted instrument itself (county code, ordinance PDF)",
+    "  proceeding     the record of the body that adopted it (agendas, minutes)",
+    "  secondary      someone else's compilation (academic census, NGO tracker)",
+    "",
+    "COVERAGE is declared, never assumed. A source that does not publish a",
+    "given county is 'not_covered' for that county, which is an honest U grade,",
+    "and is never silently treated as a clean check. Absence of coverage and",
+    "absence of a restriction are different facts and the grader keeps them",
+    "apart."
+  ],
+
+  "freshness_days": 180,
+  "recheck_days": 90,
+
+  "independence_classes": {
+    "primary_law": "The adopted instrument as published by the adopting jurisdiction.",
+    "proceeding": "The deliberative record of the adopting body.",
+    "secondary": "A third-party compilation that read one of the above."
+  },
+
+  "families": {
+    "municipal_code": {
+      "name": "Municipal code libraries",
+      "independence_class": "primary_law",
+      "why": [
+        "The strongest available evidence of absence. A county code library",
+        "publishes the county's adopted ordinances in full text, so a search",
+        "that returns no data-center zoning provision is evidence about the",
+        "county rather than about press coverage of the county. This is also",
+        "the only family that meaningfully covers zoning_restriction, which is",
+        "the most common real-world instrument and the one the external census",
+        "barely sees: of 94 census rows, 91 are moratoria and exactly 1 is a",
+        "zoning standard."
+      ],
+      "adapters": [
+        {
+          "id": "municode",
+          "name": "Municode Library",
+          "base_url": "https://library.municode.com",
+          "search_path": "/search",
+          "coverage": "declared_jurisdiction_list",
+          "notes": "Largest US county code host. Jurisdiction list is enumerable per state."
+        },
+        {
+          "id": "amlegal",
+          "name": "American Legal Publishing",
+          "base_url": "https://codelibrary.amlegal.com",
+          "coverage": "declared_jurisdiction_list"
+        },
+        {
+          "id": "ecode360",
+          "name": "eCode360 (General Code)",
+          "base_url": "https://ecode360.com",
+          "coverage": "declared_jurisdiction_list"
+        },
+        {
+          "id": "codepublishing",
+          "name": "Code Publishing Company",
+          "base_url": "https://www.codepublishing.com",
+          "coverage": "declared_jurisdiction_list"
+        }
+      ],
+      "query_terms": [
+        "data center",
+        "data centre",
+        "computer data center",
+        "high density computing",
+        "cryptocurrency mining",
+        "blockchain mining",
+        "digital infrastructure"
+      ],
+      "restriction_terms": [
+        "moratorium",
+        "prohibited",
+        "shall not be permitted",
+        "setback",
+        "special use permit",
+        "conditional use",
+        "decibel",
+        "noise limit",
+        "water withdrawal",
+        "acreage cap"
+      ]
+    },
+
+    "meeting_portal": {
+      "name": "County meeting agendas and minutes",
+      "independence_class": "proceeding",
+      "why": [
+        "Catches an instrument at adoption rather than through later coverage,",
+        "which is the detection-bias path the whole platform is built to",
+        "reduce. configs/local_meeting_sources.json already holds 848 county",
+        "entries, but 557 resolve to platform 'none' and 288 to 'ambiguous',",
+        "leaving 3 usable, and its keys are malformed (state prefix empty, e.g.",
+        "'::Beaver'). Repairing that registry is tracked as its own task; this",
+        "family reads it where it resolves and reports not_covered where it",
+        "does not, so a broken registry entry can never read as a clean check."
+      ],
+      "adapters": [
+        {"id": "legistar", "name": "Granicus Legistar", "coverage": "local_meeting_sources"},
+        {"id": "civicclerk", "name": "CivicClerk", "coverage": "local_meeting_sources"},
+        {"id": "granicus", "name": "Granicus ViewPoint", "coverage": "local_meeting_sources"},
+        {"id": "primegov", "name": "PrimeGov", "coverage": "local_meeting_sources"},
+        {"id": "novusagenda", "name": "NovusAgenda", "coverage": "local_meeting_sources"}
+      ],
+      "source_config": "configs/local_meeting_sources.json"
+    },
+
+    "restriction_census": {
+      "name": "Third-party restriction censuses",
+      "independence_class": "secondary",
+      "why": [
+        "The family the platform already had, generalized. refresh_external_census.py",
+        "reads exactly one upstream; every additional compilation registered here",
+        "widens the census past the 17 states and 87 counties it covers today,",
+        "against a frame of 3222 counties in which the tracker itself asserts",
+        "positives across 43 states. A census is a LOWER BOUND: a county it",
+        "lists is a confirmed positive, a county it omits is not a confirmed",
+        "negative, so this family can raise a positive grade and can never on",
+        "its own clear a county."
+      ],
+      "clears_negative": false,
+      "adapters": [
+        {
+          "id": "moratorium_nation",
+          "name": "Moratorium Nation (mjbommar/moratorium-data-2026)",
+          "url": "https://raw.githubusercontent.com/mjbommar/moratorium-data-2026/main/data/moratorium_inventory.csv",
+          "license": "CC-BY-4.0",
+          "coverage": "national_partial",
+          "status": "active"
+        },
+        {
+          "id": "iu_eri",
+          "name": "Indiana University Environmental Resilience Institute",
+          "coverage": "state_only",
+          "states": ["IN"],
+          "status": "manual_rows",
+          "notes": "Publishes counts without a machine-readable list; rows are hand-seeded into the census."
+        }
+      ]
+    },
+
+    "state_aggregator": {
+      "name": "State-level ordinance and planning repositories",
+      "independence_class": "primary_law",
+      "why": [
+        "Where a state planning agency or AG publishes an ordinance inventory,",
+        "it covers every county in the state at once, which is the cheapest",
+        "route from grade U to a checked negative across a whole state. Declared",
+        "per state because coverage is uneven and asserting national coverage",
+        "here would be the exact error this registry exists to prevent."
+      ],
+      "adapters": [],
+      "notes": "Populated per state as repositories are identified and verified. An empty adapter list means this family currently clears no county, which is the honest starting state."
+    }
+  },
+
+  "grading": {
+    "_comment": [
+      "Pre-registered before any county was graded. The grade answers 'how hard",
+      "did we look' for a county recorded as clear, and 'how well corroborated'",
+      "for a county recorded as restrictive. It is never a confidence score",
+      "about the restriction itself."
+    ],
+    "A": "Two or more distinct independence classes agree, all within the freshness window.",
+    "B": "One independence class, within the freshness window; or two or more but at least one is stale.",
+    "C": "Probed, but coverage was partial or a source was unreachable.",
+    "D": "A registered source family covers this county and it has not been probed yet.",
+    "U": "No registered source family covers this county. Unverified, and reported as such."
+  }
+}

@@ -68,7 +68,11 @@
         "data/local_meeting_feed.csv",
         "data/untagged_*.csv",
         "data/untagged_*.md",
-        "untagged_triage.md"
+        "untagged_triage.md",
+        "data/manual_additions.csv",
+        "data/manual_corrections.csv",
+        "data/manual_records_report.csv",
+        "data/manual_removed_rows.csv"
       ]
     },
     "D": {
@@ -105,7 +109,11 @@
         "data/stale_pending_*.md",
         "data/county_model_spec_history.csv",
         "data/place_gazetteer.csv",
-        "data/place_gazetteer_manifest.json"
+        "data/place_gazetteer_manifest.json",
+        "data/restriction_*.json",
+        "data/census_promotion_report.csv",
+        "data/incentive_agreement_registry.csv",
+        "data/README_incentive_agreement_registry.md"
       ]
     },
     "E": {
@@ -201,7 +209,9 @@
         "data/position_bills.csv",
         "data/bill_taxonomy.csv",
         "data/bill_taxonomy_report.md",
-        "data/bill_taxonomy_manifest.json"
+        "data/bill_taxonomy_manifest.json",
+        "data/stakeholder_openstates_cache.json",
+        "data/stakeholder_seed_county.csv"
       ]
     }
   },
@@ -222,5 +232,24 @@
   "declared_crossings": {
     "signal_harvest.py": "Layers A and C. One GDELT call returns both facility-lifecycle articles and opposition coverage, and splitting the network call in two would double the quota cost to separate what a single classifier can route. The module routes, it never merges: a row lands in exactly one layer's file, with the opposition side winning any tie, and neither file is a source of record.",
     "census_gap_candidates.py": "Layers C and D. This is the gap-closure promotion path: a Layer D census gap becomes a Layer C opposition record. The crossing is the point of the module and it is gated (complete, dated, sourced, dedup-guarded, census-corroborated), appends only, and writes every promote, hold and block decision to data/gap_promotion_report.csv."
+  },
+  "not_regenerable": {
+    "_comment": [
+      "Files a module writes but CANNOT rebuild from scratch, because they are",
+      "append-only or carry hand-seeded rows a regeneration would not reproduce.",
+      "",
+      "layer_audit.py --write-gitattributes excludes these. The distinction is",
+      "load-bearing: a fully derived artifact should conflict and be regenerated,",
+      "because a clean three-way merge of two independent regenerations splices",
+      "them into a file neither run produced. An append-only file is the opposite",
+      "case, where a three-way merge is exactly right: two branches each appending",
+      "different rows is a merge git performs correctly and a conflict would be a",
+      "regression."
+    ],
+    "data/external_restriction_census.csv": "Append-only. refresh_external_census.py --promote appends gate-passing rows and never rewrites the file, and the census also carries hand-seeded rows (IU ERI publishes counts without a machine-readable list) plus hand corrections that no regeneration reproduces.",
+    "master_opposition.csv": "The Layer C source of record. Written by three modules under the ownership rule that ended the 2026 corruption, all append-or-refresh, and hand-edited besides.",
+    "data/signal_candidates.csv": "A handoff queue, not a derived artifact: signal_harvest.py writes it and promote_signal_candidates.py rewrites what remains after promotion.",
+    "data/restriction_evidence_history.csv": "Append-only grade-change log. Its value is that earlier rows are never rewritten, so a regeneration would destroy the history it exists to hold.",
+    "data/census_promotion_report.csv": "Append-only audit trail of every promote and hold decision, for the same reason."
   }
 }
