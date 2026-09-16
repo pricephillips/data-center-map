@@ -1,6 +1,6 @@
 # County benchmark reference
 
-Generated 2026-09-15.
+Generated 2026-09-16.
 
 Reference profiles for the county comparison layer. Every figure is a summary over the county frame in `data/county_aggregate.csv` joined to the published policy scores. Nothing here is an estimate; these are descriptions of groups that exist.
 
