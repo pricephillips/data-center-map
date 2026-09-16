@@ -178,10 +178,26 @@ def jurisdictions_from_watchlist(path: str = WATCHLIST,
 def jurisdiction_frame(feed_path: str = FEED,
                        state_filter: str | None = None,
                        watchlist_path: str = WATCHLIST) -> list[tuple[str, str]]:
-    """The clean feed's jurisdictions unioned with the adjacency watchlist."""
+    """The clean feed's jurisdictions unioned with the adjacency watchlist.
+
+    A pair with no state is dropped. A bare county name does not identify a
+    jurisdiction: "Benton" exists in AR, IA, IN, MN, MO, MS, OR, TN and WA, so
+    there is nothing to probe and nothing a result could be attributed to.
+
+    Keeping them cost more than the wasted probe. 50 stateless pairs reached
+    the discovery cache as keys like "::Beaver", each carrying a checked_at
+    that told the next run the county was already done. Worse, they poisoned
+    ambiguous_county_names(): a stateless ghost contributes an empty string to
+    the set of states a name belongs to, so a county in exactly ONE real state
+    plus a ghost read as {"", "XX"}, length two, and was excluded from
+    auto-detection as if it were genuinely ambiguous. Sixteen single-state
+    counties were suppressed that way, among them Beaver, Caddo, Escambia,
+    Forsyth and Linn, and the suppression was invisible because the ghost and
+    the real county looked like one ambiguous name.
+    """
     pairs = set(jurisdictions_from_feed(feed_path, state_filter))
     pairs |= set(jurisdictions_from_watchlist(watchlist_path, state_filter))
-    return sorted(pairs)
+    return sorted((s, c) for s, c in pairs if (s or "").strip() and (c or "").strip())
 
 
 def ambiguous_county_names(path: str,
@@ -201,6 +217,16 @@ def ambiguous_county_names(path: str,
                  else jurisdictions_from_feed(path, state_filter=None))
     states_by_name: dict[str, set[str]] = {}
     for state, county in all_pairs:
+        # A blank state is not a state. Counting it would inflate a county
+        # that exists in exactly one real state into a two-state name and
+        # exclude it from auto-detection, which is what 50 stateless cache
+        # ghosts did to 16 real counties. jurisdiction_frame() now drops these
+        # before they get here, but this function is also called with caller
+        # supplied pairs, and the arithmetic it does is what actually breaks,
+        # so it defends itself rather than trusting every caller to.
+        state = (state or "").strip()
+        if not state:
+            continue
         bare = re.sub(r"\b(county|borough|parish|municipality)\b", "", county,
                       flags=re.IGNORECASE).strip().lower()
         states_by_name.setdefault(bare, set()).add(state)
@@ -208,7 +234,35 @@ def ambiguous_county_names(path: str,
 
 
 def jur_key(state: str, county: str) -> str:
+    """Cache key for one jurisdiction.
+
+    Refuses a blank state. The frame already drops stateless pairs, but this is
+    the function that mints the cache key, and a key like "::Beaver" is not a
+    cache miss waiting to be filled: it is a permanent wrong answer that also
+    records checked_at, so it suppresses the retry that would fix it. Failing
+    loudly here means a future caller that skips the frame cannot reintroduce
+    the class.
+    """
+    state = (state or "").strip()
+    county = (county or "").strip()
+    if not state or not county:
+        raise ValueError(
+            f"jur_key needs both a state and a county, got {state!r}, {county!r}. "
+            "A bare county name does not identify a jurisdiction.")
     return f"{state}::{county}"
+
+
+def purge_stateless_cache_entries(cache: dict) -> list[str]:
+    """Drop cache entries whose key carries no state. Returns what was removed.
+
+    These can only have come from the defect fixed above, and leaving them is
+    not neutral: each one holds a checked_at that suppresses a real probe, and
+    each one inflates its county name into a false ambiguity.
+    """
+    dead = [k for k in cache if not k.split("::", 1)[0].strip()]
+    for k in dead:
+        cache.pop(k, None)
+    return sorted(dead)
 
 
 # ---------------------------------------------------------------------------
@@ -374,6 +428,14 @@ def discover(state_filter: str | None, redo: bool) -> dict:
     watch_only = len(pairs) - len(set(feed_pairs))
     ambiguous_names = ambiguous_county_names(
         FEED, jurisdiction_frame(FEED, state_filter=None))
+    # Clear out keys minted before jur_key rejected a blank state. Each held a
+    # checked_at that suppressed the real probe for that county.
+    purged = purge_stateless_cache_entries(cache)
+    if purged:
+        print(f"purged {len(purged)} stateless discovery cache entr"
+              f"{'y' if len(purged) == 1 else 'ies'} "
+              f"(e.g. {', '.join(purged[:3])})")
+
     checked = 0
     for state, county in pairs:
         key = jur_key(state, county)
@@ -641,6 +703,43 @@ def selftest() -> int:
     check(slugify("Wyandotte County, Unified Government") == "wyandottecountyunifiedgovernment",
           "slugify strips punctuation")
     check(jur_key("VA", "Powhatan County") == "VA::Powhatan County", "jur_key format")
+
+    # A stateless key is a permanent wrong answer that also records checked_at,
+    # so minting one must fail rather than be filled in later.
+    for bad_state, bad_county in (("", "Beaver"), ("  ", "Beaver"),
+                                  ("VA", ""), ("VA", "   ")):
+        try:
+            jur_key(bad_state, bad_county)
+            check(False, f"jur_key rejects ({bad_state!r}, {bad_county!r})")
+        except ValueError:
+            check(True, f"jur_key rejects ({bad_state!r}, {bad_county!r})")
+
+    # The frame drops stateless pairs rather than passing them to the prober.
+    framed = jurisdiction_frame.__doc__ or ""
+    check("no state is dropped" in framed or "with no state is dropped" in framed,
+          "jurisdiction_frame documents the stateless drop")
+
+    # Purging is what un-suppresses the counties a ghost made look ambiguous.
+    ghost_cache = {"::Beaver": {"platform": "none"},
+                   "  ::Caddo": {"platform": "none"},
+                   "UT::Beaver County": {"platform": "legistar"}}
+    removed = purge_stateless_cache_entries(ghost_cache)
+    check(removed == ["  ::Caddo", "::Beaver"], "purge removes only stateless keys")
+    check(list(ghost_cache) == ["UT::Beaver County"],
+          "purge leaves well-formed keys intact")
+    check(purge_stateless_cache_entries({"UT::Beaver County": {}}) == [],
+          "purge is a no-op on a clean cache")
+
+    # A stateless ghost must not inflate a single-state county into an
+    # ambiguous one. This is the second-order defect: 16 real counties were
+    # excluded from auto-detection because a ghost shared their name.
+    with_ghost = [("", "Beaver"), ("UT", "Beaver County"), ("NV", "Clark County"),
+                  ("OH", "Clark County")]
+    amb_with_ghost = ambiguous_county_names(FEED, with_ghost)
+    check("beaver" not in amb_with_ghost,
+          "a stateless ghost does not make a single-state county ambiguous")
+    check("clark" in amb_with_ghost,
+          "a genuinely two-state county is still ambiguous")
 
     civicclerk_body = json.dumps({"value": [{
         "categoryName": "Board of Supervisors", "startDateTime": "2026-06-01T18:00:00",
