@@ -50,14 +50,29 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, ROOT)
 
-# Modules to re-run, in dependency order, to rebuild the derived layer. Each is
-# cheap, offline and idempotent. Ordering matters where one reads another's
-# output: the county aggregate is rebuilt before anything that reads it.
-REGENERATORS = [
-    ("layer_audit.py", []),
-    ("visibility_audit.py", []),
-    ("restriction_evidence.py", []),
-]
+# Which module rebuilds a given path is NOT hand-listed here. layer_audit.py
+# already resolves every module's write targets with an AST walk, so the writer
+# is looked up from that map. A hand-kept list was the first cut and it lied
+# within one run: it named three modules, none of which writes
+# local_meeting_watchlist.csv, county_benchmarks_manifest.json or
+# facility_promotion_report.csv, so the tool reported "take ours + regenerate"
+# while regenerating none of the three files it had just resolved.
+#
+# Running the real writer is not always safe or cheap, though. Some need
+# scikit-learn, some make network calls, and some take minutes. So writers are
+# split: those known to be offline, stdlib-only and fast are run here, and
+# everything else is taken-as-ours and REPORTED as pending the next pipeline
+# run, which rebuilds it anyway. The distinction is stated in the output rather
+# than blurred, because a tool that overstates what it did is worse than one
+# that does less and says so.
+SAFE_TO_RUN = {
+    "layer_audit.py",
+    "visibility_audit.py",
+    "restriction_evidence.py",
+    "coverage_audit.py",
+    "restriction_worklist.py",
+    "operations_summary.py",
+}
 
 
 def git(*args: str) -> str:
@@ -84,28 +99,59 @@ def classify(paths: list[str]) -> tuple[list[str], list[str]]:
     return regen, manual
 
 
+def writers_for(paths: list[str]) -> dict:
+    """path -> the module(s) that write it, from layer_audit's AST write map."""
+    try:
+        import layer_audit
+        wmap = layer_audit.write_map(ROOT)
+    except Exception as exc:  # pragma: no cover - defensive
+        print(f"could not load the write map: {exc}", file=sys.stderr)
+        return {}
+    return {p: wmap.get(p, []) for p in paths}
+
+
 def resolve(regen: list[str], dry_run: bool) -> int:
     if not regen:
         return 0
+
+    owners = writers_for(regen)
+    runnable, deferred = [], []
     for p in regen:
-        print(f"  take ours + regenerate: {p}")
+        mods = owners.get(p) or []
+        safe = [m for m in mods if m in SAFE_TO_RUN]
+        (runnable if safe else deferred).append(p)
+        who = ", ".join(mods) if mods else "no writer found"
+        tag = "regenerate here" if safe else "rebuilt by the next pipeline run"
+        print(f"  take ours [{tag}]: {p}  ({who})")
         if not dry_run:
-            # Take our side so the file holds valid content while the
-            # regenerators run. They overwrite it immediately after.
+            # Take our side so the file holds valid content either way. With
+            # -merge set in .gitattributes it already does, but a path that
+            # slipped the attribute would otherwise keep conflict markers.
             subprocess.run(["git", "-C", ROOT, "checkout", "--ours", "--", p],
                            capture_output=True, text=True)
     if dry_run:
         return len(regen)
 
-    print("\nregenerating:")
-    for module, extra in REGENERATORS:
-        path = os.path.join(ROOT, module)
-        if not os.path.exists(path):
-            continue
-        r = subprocess.run([sys.executable, path, *extra],
-                           cwd=ROOT, capture_output=True, text=True)
-        state = "ok" if r.returncode == 0 else f"exit {r.returncode}"
-        print(f"  {module}: {state}")
+    to_run = sorted({m for p in runnable for m in (owners.get(p) or [])
+                     if m in SAFE_TO_RUN})
+    if to_run:
+        print("\nregenerating:")
+        for module in to_run:
+            path = os.path.join(ROOT, module)
+            if not os.path.exists(path):
+                continue
+            r = subprocess.run([sys.executable, path], cwd=ROOT,
+                               capture_output=True, text=True)
+            state = "ok" if r.returncode == 0 else f"exit {r.returncode}"
+            print(f"  {module}: {state}")
+
+    if deferred:
+        print(f"\ntaken as ours, not regenerated here ({len(deferred)}):")
+        for p in deferred:
+            who = ", ".join(owners.get(p) or ["no writer found"])
+            print(f"  {p}  ({who})")
+        print("  These rebuild on the next pipeline run. Their writers need "
+              "dependencies or network this module does not assume.")
 
     for p in regen:
         subprocess.run(["git", "-C", ROOT, "add", "--", p],
@@ -146,6 +192,23 @@ def selftest() -> int:
 
     # Nothing conflicted means nothing to do, and that is success not failure.
     ck("empty input resolves to zero", resolve([], dry_run=True), 0)
+
+    # The writer lookup is derived, not hand-listed. This is the check that
+    # would have caught the first cut claiming to regenerate three files whose
+    # writers it never ran.
+    owners = writers_for(["data/layer_audit_summary.json",
+                          "configs/local_meeting_watchlist.csv"])
+    ck("layer_audit is found as its own summary's writer",
+       "layer_audit.py" in owners.get("data/layer_audit_summary.json", []), True)
+    ck("the watchlist's writer is found and is not layer_audit",
+       bool(owners.get("configs/local_meeting_watchlist.csv"))
+       and "layer_audit.py" not in owners["configs/local_meeting_watchlist.csv"],
+       True)
+    # Every module named SAFE_TO_RUN must actually exist, or the allowlist has
+    # rotted against a rename.
+    missing = [m for m in SAFE_TO_RUN
+               if not os.path.exists(os.path.join(ROOT, m))]
+    ck("every SAFE_TO_RUN module exists", missing, [])
 
     if failures:
         print("SELFTEST FAIL")
