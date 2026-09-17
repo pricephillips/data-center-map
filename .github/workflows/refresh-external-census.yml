@@ -3,9 +3,14 @@ name: Refresh external restriction census
 on:
   workflow_dispatch:
 
-  # Monthly, on the 3rd at 08:20 UTC.
+  # Weekly, Mondays at 08:20 UTC. Was monthly, on the 3rd. Raised to weekly
+  # on 2026-09-15 when --promote replaced manual review: while a person had to
+  # read the delta, a monthly cadence matched how often anyone would sit down
+  # with it. Now that promotion is automatic the cadence should match how fast
+  # the instruments move, and county moratoria are adopted and extended on a
+  # timescale of weeks.
   schedule:
-    - cron: "20 8 3 * *"
+    - cron: "20 8 * * 1"
 
 permissions:
   contents: write
@@ -31,35 +36,84 @@ jobs:
       - name: Self-test census refresh module
         run: python refresh_external_census.py --selftest
 
-      # --merge was never a flag this module accepts. It has only ever
-      # accepted --selftest and --refresh, so this workflow has failed on
-      # every run since it was written and has never once been green. The
-      # name was aspirational: the module refuses to merge by design, and
-      # says so in its docstring -- the seeded census is the source of
-      # record and only a person promotes into it.
-      - name: Refresh external restriction census (writes a delta for review)
+      # --merge was never a flag this module accepts. It accepted only
+      # --selftest and --refresh, so this workflow failed on every run since
+      # it was written and was never once green. The name was aspirational.
+      # As of 2026-09-15 the module does accept a promotion flag, --promote,
+      # and the aspiration is met by a gate rather than by a merge.
+      - name: Refresh external restriction census (delta + report)
         run: python refresh_external_census.py --refresh
+
+      # Gated auto-promotion, replacing manual review of the delta at Price's
+      # direction, following census_gap_candidates.py --promote (2026-08-25).
+      # The gate holds on upstream's own uncertainty markers (has_verify_tags,
+      # date_enacted_uncertainty), on pending instruments, on dateless rows and
+      # on rows that do not join the national county frame. Held rows stay in
+      # the delta as the exception queue and every decision is appended to
+      # data/census_promotion_report.csv.
+      #
+      # Promotion into the census is not promotion into a label: a promoted row
+      # still has to pass census_gap_candidates.py's own gate in pipeline.yml
+      # before it becomes a tracker record.
+      - name: Promote gate-passing rows into the census
+        # Two gates run here. The per-row gate holds rows upstream itself
+        # flags as unconfirmed; the batch gate (added 2026-09-16) refuses the
+        # WHOLE append when the run does not look like its own history:
+        # a volume spike, a truncated upstream fetch, one state dominating, or
+        # a collapse in the hold rate, which is upstream having stopped
+        # setting the uncertainty markers this gate depends on.
+        #
+        # A batch hold exits nonzero and appends nothing, but still records
+        # every decision to data/census_promotion_report.csv, so a refused run
+        # is reviewable rather than invisible. continue-on-error keeps a hold
+        # from failing the workflow: the delta stays as the queue and the next
+        # run re-evaluates from scratch.
+        #
+        # Each promotion is tiered in the report as corroborated,
+        # single_source or thin. Add --hold-thin here to refuse thin ones
+        # outright (one source, flips a county label, no primary-source URL);
+        # on the 2026-09 upstream that is 35 of 68 promotions.
+        continue-on-error: true
+        run: python refresh_external_census.py --promote
 
       - name: Commit the delta and report
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Stage what the module actually writes. It previously staged
-          # data/external_restriction_census.csv, which the module only ever
-          # READS -- so even with a working invocation this step committed
-          # nothing and discarded the delta, the one artifact the run exists
-          # to produce. Each path is guarded separately because a single
-          # missing pathspec aborts the whole `git add`, the same trap
-          # documented in fetch-permits.yml.
+          # Stage what the module actually writes. This step once staged ONLY
+          # data/external_restriction_census.csv, back when the module could
+          # not write it, so even a working invocation committed nothing and
+          # discarded the delta, the one artifact the run existed to produce.
+          # As of 2026-09-15 --promote does write the census, so it is staged
+          # again, alongside the delta, the report and the promotion trail.
+          # Each path is guarded separately because a single missing pathspec
+          # aborts the whole `git add`, the trap documented in
+          # fetch-permits.yml.
           [ -f data/external_restriction_census_delta.csv ] && \
               git add data/external_restriction_census_delta.csv
           [ -f data/external_restriction_census_refresh_report.md ] && \
               git add data/external_restriction_census_refresh_report.md
+          # The census itself is now written by --promote, so it is staged
+          # here. It was previously staged while the module only READ it,
+          # which is why that step committed nothing.
+          [ -f data/external_restriction_census.csv ] && \
+              git add data/external_restriction_census.csv
+          [ -f data/census_promotion_report.csv ] && \
+              git add data/census_promotion_report.csv
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
           fi
-          git commit -m "External restriction census: monthly delta for review [skip ci]"
+          # Deliberately NOT [skip ci]. data/external_restriction_census.csv is
+          # a trigger path for pipeline.yml, so a promotion rebuilds the feed on
+          # the spot instead of waiting for the nightly run: coverage_audit.py
+          # sees the new counties, census_gap_candidates.py --promote turns the
+          # gate-passing ones into tracker records, and county_aggregator.py
+          # labels them. That is the whole point of promoting automatically.
+          #
+          # This cannot loop. The pipeline does not write the census, and it
+          # commits its own artifacts with [skip ci].
+          git commit -m "External restriction census: weekly gated promotion"
           for i in 1 2 3; do
             git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
             echo "Push attempt $i failed, retrying in 10s"
