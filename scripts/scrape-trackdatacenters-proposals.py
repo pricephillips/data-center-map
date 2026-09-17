@@ -218,6 +218,69 @@ def api_keys_read():
     return seen
 
 
+# A candidate's name is not enough to act on. On 2026-09-17 the source
+# dropped approx and locationTbd and the audit paired locationTbd with
+# locationConfidence -- a plausible name and an unanswerable question, because
+# a boolean "location is to be determined" and a graded confidence are not the
+# same field, and nothing in the report said which one had arrived. The
+# pairing sat unresolvable for want of a single observed value.
+#
+# So the audit samples them. What decides a pairing is the shape of what the
+# key holds -- a boolean, an enum, a number -- and that is cheap to show.
+# Prose is described by its length rather than quoted: it answers the shape
+# question no better, and quoting it would drip source text into a committed
+# artifact run after run.
+
+SAMPLE_LIMIT = 4        # distinct values shown per key
+SAMPLE_MAX_CHARS = 40   # longer strings are described, not quoted
+
+
+def _sample_value(value):
+    """A compact rendering of one observed value, or None to skip it.
+
+    None and blank are skipped rather than rendered: the question a sample
+    answers is what the key holds when it holds something.
+    """
+    if value is None:
+        return None
+    if isinstance(value, bool):        # before int: bool is an int subclass
+        return repr(value)
+    if isinstance(value, (int, float)):
+        return repr(value)
+    if isinstance(value, str):
+        s = value.strip()
+        if not s:
+            return None
+        if len(s) > SAMPLE_MAX_CHARS:
+            return f"<str len={len(s)}>"
+        return f'"{s}"'
+    if isinstance(value, list):
+        return f"<list n={len(value)}>"
+    if isinstance(value, dict):
+        shown = ", ".join(sorted(value)[:3])
+        return f"<dict keys={shown}>" if shown else "<dict empty>"
+    return f"<{type(value).__name__}>"
+
+
+def field_samples(records, keys, limit=SAMPLE_LIMIT):
+    """Up to `limit` distinct renderings per key, in first-seen order.
+
+    A key present on every record but never populated yields no entry, which
+    is itself worth reading: it is a landing place that would arrive as empty
+    as the column it was meant to rescue.
+    """
+    out = {k: [] for k in keys}
+    for r in records:
+        for k in keys:
+            bucket = out[k]
+            if len(bucket) >= limit:
+                continue
+            s = _sample_value(r.get(k))
+            if s is not None and s not in bucket:
+                bucket.append(s)
+    return {k: v for k, v in out.items() if v}
+
+
 def field_audit(records, keys_read=None, source_keys=None):
     """Compare the keys the source sent against the keys the mapping wants.
 
@@ -230,6 +293,8 @@ def field_audit(records, keys_read=None, source_keys=None):
                 renamed field will be sitting
       renames   a suggested pairing of the two by name similarity, which is a
                 prompt for a human, never applied automatically
+      samples   observed values for each unmapped key, so a suggested pairing
+                can be judged from the report instead of from its name
     """
     keys_read = api_keys_read() if keys_read is None else set(keys_read)
     source_keys = SOURCE_KEYS if source_keys is None else source_keys
@@ -254,6 +319,7 @@ def field_audit(records, keys_read=None, source_keys=None):
             renames[gone] = near
     return {"observed": sorted(observed), "absent": absent,
             "unmapped": unmapped, "renames": renames,
+            "samples": field_samples(records, unmapped),
             "n_records": len(records)}
 
 
@@ -273,18 +339,32 @@ def write_field_audit(audit, out_dir="data"):
                   "was dropped or renamed by the source; it is not a data gap.",
                   ""]
         lines += [f"- `{k}`" for k in audit["absent"]] + [""]
+    samples = audit.get("samples", {})
     if audit["unmapped"]:
         lines += ["## Sent by the response, read by nothing", "",
-                  "Candidate landing places for anything in the list above.", ""]
-        lines += [f"- `{k}`" for k in audit["unmapped"]] + [""]
+                  "Candidate landing places for anything in the list above, "
+                  "with up to "
+                  f"{SAMPLE_LIMIT} distinct observed values each. Strings "
+                  f"longer than {SAMPLE_MAX_CHARS} characters are described "
+                  "by length rather than quoted.", ""]
+        for k in audit["unmapped"]:
+            seen = samples.get(k)
+            lines.append(f"- `{k}` -- " + (", ".join(seen) if seen
+                                           else "present, never populated"))
+        lines.append("")
     if audit["renames"]:
         lines += ["## Suggested pairings", "",
-                  "By name similarity only. A prompt to go and check the "
-                  "response, never a mapping to apply unread: two fields can "
-                  "have similar names and different meanings.", "",
-                  "| absent | candidates |", "|---|---|"]
-        lines += [f"| `{k}` | {', '.join('`' + c + '`' for c in v)} |"
-                  for k, v in sorted(audit["renames"].items())]
+                  "Paired by name similarity; the values are there so the "
+                  "pairing can be judged rather than guessed. Two fields can "
+                  "have similar names and different meanings, and the values "
+                  "are usually what shows it.", "",
+                  "| absent | candidate | values seen |", "|---|---|---|"]
+        for k, cands in sorted(audit["renames"].items()):
+            for c in cands:
+                seen = samples.get(c)
+                lines.append(f"| `{k}` | `{c}` | "
+                             + (", ".join(seen) if seen
+                                else "present, never populated") + " |")
         lines.append("")
     path = os.path.join(out_dir, "scraper_field_audit.md")
     os.makedirs(out_dir, exist_ok=True)
@@ -644,6 +724,55 @@ def selftest():
           field_audit([], keys)["unmapped"] == [])
     check("an empty response reports every mapped key as absent",
           len(field_audit([], keys)["absent"]) == len(keys))
+
+    # --- value samples (the 2026-09-17 unanswerable pairing) --------------
+    # locationTbd -> locationConfidence was paired on name and could not be
+    # judged, because the report never said whether the candidate held a
+    # boolean or a graded string. These checks pin the shapes that answer it.
+    check("a boolean samples as a boolean, not as 1 or 0",
+          _sample_value(True) == "True" and _sample_value(False) == "False")
+    check("zero samples as a value", _sample_value(0) == "0")
+    check("a short string is quoted", _sample_value(" high ") == '"high"')
+    check("None and blank are skipped, not rendered",
+          _sample_value(None) is None and _sample_value("") is None
+          and _sample_value("   ") is None)
+    long_prose = "x" * (SAMPLE_MAX_CHARS + 1)
+    check("a long string is described by length, never quoted",
+          _sample_value(long_prose) == f"<str len={SAMPLE_MAX_CHARS + 1}>")
+    check("a string exactly at the cap is still quoted",
+          _sample_value("y" * SAMPLE_MAX_CHARS) == '"' + "y" * SAMPLE_MAX_CHARS + '"')
+    check("a list is described by length",
+          _sample_value([1, 2, 3]) == "<list n=3>")
+    check("a dict is described by its keys",
+          _sample_value({"b": 1, "a": 2}) == "<dict keys=a, b>")
+
+    samp = field_samples([{"k": "a"}, {"k": "a"}, {"k": "b"}], ["k"])
+    check("repeated values are shown once", samp["k"] == ['"a"', '"b"'])
+    many = field_samples([{"k": f"v{i}"} for i in range(20)], ["k"])
+    check("samples are capped", len(many["k"]) == SAMPLE_LIMIT)
+    check("a key present but never populated yields no sample",
+          field_samples([{"k": ""}, {"k": None}], ["k"]) == {})
+
+    fa_s = field_audit([{"id": 1, "name": "A", "locationConfidence": "exact",
+                         "notes": long_prose}], keys)
+    check("the audit samples the keys nothing reads",
+          fa_s["samples"].get("locationConfidence") == ['"exact"'])
+    check("the audit does not sample keys the mapping already reads",
+          "name" not in fa_s["samples"])
+
+    import tempfile as _tf
+    with _tf.TemporaryDirectory() as _d:
+        _p = write_field_audit(fa_s, _d)
+        body = open(_p, encoding="utf-8").read()
+    check("the report shows a candidate's observed values", '"exact"' in body)
+    check("the report never quotes long source prose", long_prose not in body)
+    check("the report describes long prose by length instead",
+          f"<str len={len(long_prose)}>" in body)
+    blank_fa = field_audit([{"id": 1, "name": "A", "emptyCandidate": ""}], keys)
+    with _tf.TemporaryDirectory() as _d:
+        blank_body = open(write_field_audit(blank_fa, _d), encoding="utf-8").read()
+    check("an unpopulated candidate says so rather than looking absent",
+          "`emptyCandidate` -- present, never populated" in blank_body)
 
     # --- source-key aliases (the 2026-09-10 rename) -----------------------
     renamed_rec = {"id": 7, "name": "N", "dateAnnounced": "2026-3",
