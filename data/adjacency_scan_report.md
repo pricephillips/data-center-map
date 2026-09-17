@@ -11,8 +11,8 @@ Adjacency is a search prompt, never evidence. Nothing in this queue is a finding
 - Candidate counties adjacent to a seed: 1001
 - Priority 1, non-terminal record plus fresh trigger: 41
 - Priority 2, fresh trigger with pressure: 100
-- Priority 3, standing cluster: 223
-- Priority 4, background: 637
+- Priority 3, standing cluster: 225
+- Priority 4, background: 635
 - Cross-state candidates (the Walker/Hamilton shape): 180
 - Small-jurisdiction candidates (population under 100,000): 784
 - Candidates with no automated agenda route: 998
@@ -85,11 +85,11 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 | IA | 9 |
 | CO | 8 |
 | KS | 8 |
+| AL | 7 |
+| ME | 7 |
 | TX | 7 |
-| AL | 6 |
 | CA | 6 |
 | MD | 6 |
-| ME | 6 |
 | NE | 6 |
 | NY | 6 |
 | AR | 5 |

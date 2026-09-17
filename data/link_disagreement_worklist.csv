@@ -1,37 +1,177 @@
 kind,opp_id,project_id,match_probability,project_name,opp_state,opp_date,opp_incident
-rule_confirmed_low_score,opp_606f388b9a84,prj_277,0.040715,Colossus 2,,2025-09-25,U.S. Senate (Markey letter to EPA on NSR pre-construction)
-rule_confirmed_low_score,opp_112e9c2fa247,prj_277,0.040715,Colossus 2,,2026-04-17,U.S. Senate EPW (Whitehouse xAI-specific probe)
-rule_confirmed_low_score,opp_db2ce51b1acd,prj_277,0.040715,Colossus 2,,2026-02-13,U.S. House Rep. Steve Cohen (xAI emissions transparency)
-rule_confirmed_low_score,opp_039ab1e1e6fd,prj_264,0.093407,Champion Data Center Project,PA,2026-03-12,West Finley Township
-rule_confirmed_low_score,opp_ad6be939708d,prj_185,0.491955,Meta Bowling Green Data Center,OH,2026-02-18,Monclova Township
-rule_confirmed_low_score,opp_e7274260072c,prj_185,0.491955,Meta Bowling Green Data Center,OH,2026-02-17,Richfield Township
-rule_confirmed_low_score,opp_b0bb4faffd4d,prj_185,0.491955,Meta Bowling Green Data Center,OH,2026-02-02,Maumee
+rule_confirmed_low_score,opp_444c90a91fc1,prj_113,0.045871,Project Mica,MO,2026-02-10,Independence
+rule_confirmed_low_score,opp_007362ac6379,prj_199,0.045871,Project BOSC,OH,2026-05-11,"Van Wert City Council, OH"
+rule_confirmed_low_score,opp_c511720b75b1,prj_263,0.045871,Starpointe Data Center Project,PA,2026-01-28,Shippingport
+rule_confirmed_low_score,opp_1381a591d26e,prj_267,0.045871,New Castle Data Center,PA,2026-02-10,Montour County
+rule_confirmed_low_score,opp_8ea61ba234be,prj_274,0.045871,3200 Horizon Drive Data Center,PA,2026-02-23,North Coventry Township
+rule_confirmed_low_score,opp_85c341ac84b7,prj_273,0.045871,600 River Road Data Center,PA,2026-04-15,West Rockhill Township (Bucks County)
+rule_confirmed_low_score,opp_72307cd2472f,prj_35,0.045871,Hancock County MegaSite,IN,2026-04-20,Decatur Township (Indianapolis)
+rule_confirmed_low_score,opp_b4471ed4359e,prj_36,0.287017,Project Flo,IN,2025-07-01,Monrovia (Morgan County)
+rule_confirmed_low_score,opp_b5b951136611,prj_113,0.287017,Project Mica,MO,2026-01-16,Kansas City
+rule_confirmed_low_score,opp_f05c5219c03a,prj_266,0.370185,Newton Township Data Center,PA,2026-03-03,Tobyhanna Township
+unlinked_high_score,opp_8674462ce4e8,prj_110,1.000000,Meramec Valley Technology Park,MO,2026-02-25,Pacific
+unlinked_high_score,opp_33aa29e22df3,prj_311,1.000000,Polaris Forge 2,ND,2025-08-25,Harwood
+unlinked_high_score,opp_8ea61ba234be,prj_258,1.000000,North Coventry Township Data Center,PA,2026-02-23,North Coventry Township
+unlinked_high_score,opp_dddb87d7233c,prj_120,1.000000,East Greenwich Township Data Center,NJ,2026-04-21,East Greenwich Township
+unlinked_high_score,opp_6719b620e318,prj_265,1.000000,South Annville Township Data Center,PA,2026-05-13,South Annville Township
+unlinked_high_score,opp_65a4db626460,prj_297,1.000000,Jailhouse Studios,TN,2026-01-01,Chattanooga (Hamilton County)
+unlinked_high_score,opp_1704aa7c2eb5,prj_12,1.000000,Project Leo,AR,2025-06-01,Little Rock
+unlinked_high_score,opp_24a68fe9d847,prj_232,1.000000,Dickson City Data Centers,PA,2026-02-13,Dickson City
+unlinked_high_score,opp_77983677a720,prj_222,1.000000,Hollenback Township Data Center Development Zoning Application,PA,2026-03-02,Hollenback Township
+unlinked_high_score,opp_7f43ef5e9f13,prj_237,1.000000,Ransom Township Data Center,PA,2026-02-27,Ransom Township
+unlinked_high_score,opp_d7b014beb2ea,prj_268,1.000000,Watts Township Data Center,PA,2026-04-01,Watts Township
+unlinked_high_score,opp_a7fbd0f64633,prj_249,1.000000,Dorrance Township Data Center Zoning Ordinance Challenge,PA,2026-05-06,Dorrance Township
+unlinked_high_score,opp_945600d23a7d,prj_249,1.000000,Dorrance Township Data Center Zoning Ordinance Challenge,PA,2025-08-11,Dorrance Township
+unlinked_high_score,opp_817a1cbf96bd,prj_75,1.000000,Project Cannoli,MI,2026-06-17,Van Buren Township
+unlinked_high_score,opp_84d00120eb6f,prj_13,1.000000,Project Pyramid,AR,2025-10-01,West Memphis
+unlinked_high_score,opp_448c558fcee6,prj_115,1.000000,Project Cumulus,MO,2026-05-19,St. Charles (Permanent Ban)
+unlinked_high_score,opp_702f24f08f0d,prj_36,1.000000,Project Flo,IN,2025-09-22,Franklin Township (Indianapolis)
+unlinked_high_score,opp_7612f64a4a41,prj_238,1.000000,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,PA,2026-01-20,South Whitehall Township
+unlinked_high_score,opp_708e57f81080,prj_30,1.000000,Project Rainier,IN,2026-07-08,New Carlisle (Olive Township)
+unlinked_high_score,opp_a7143b0091c7,prj_193,1.000000,Mt. Orab Mega Site,OH,2026-02-04,Mt. Orab
+unlinked_high_score,opp_c511720b75b1,prj_240,1.000000,Project Phoenix,PA,2026-01-28,Shippingport
+unlinked_high_score,opp_20b5ac3fa00e,prj_73,1.000000,Westfield Data Center Campus,MA,2024-11-01,Westfield
+unlinked_high_score,opp_8f0f994b05eb,prj_275,1.000000,Smithfield Data Center,RI,2026-04-01,Smithfield
+unlinked_high_score,opp_dcf38bd69fc7,prj_190,1.000000,Urbana Data Center,OH,2026-06-17,Urbana
+unlinked_high_score,opp_db269fd6710c,prj_35,1.000000,Hancock County MegaSite,IN,2025-06-01,Hancock County
+unlinked_high_score,opp_6b3fb33f15de,prj_308,1.000000,Gemini Sioux Falls Data Center,SD,2025-12-01,Sioux Falls
 unlinked_high_score,opp_ee3e55ec561f,prj_321,1.000000,Harper Road Technology Park,MO,2024-10-01,City of Peculiar
 unlinked_high_score,opp_b153f592db90,prj_331,1.000000,Howell Township Data Center (Project Splitrock),MI,2025-11-20,Howell Township
+unlinked_high_score,opp_7d9978b076ae,prj_119,1.000000,New Brunswick Data Center,NJ,2026-02-19,New Brunswick
+unlinked_high_score,opp_f60e4a1ca6fa,prj_101,1.000000,Wildwood Ranch AI Data Center,MO,2025-10-01,Joplin
+unlinked_high_score,opp_f05c5219c03a,prj_246,1.000000,Tobyhanna Township / Blakeslee Data Center,PA,2026-03-03,Tobyhanna Township
 unlinked_high_score,opp_806dd9a6ccc5,prj_212,1.000000,AWS Keystone Trade Center Campus,PA,2026-07-14,Falls Township (Bucks County)
+unlinked_high_score,opp_90355a84d644,prj_172,1.000000,Google Franklin Furnace Data Center,OH,2026-05-06,Franklin Furnace
+unlinked_high_score,opp_66c659e5fd34,prj_87,1.000000,Sansone York Township Data Center,MI,2026-02-12,York Township
+unlinked_high_score,opp_fd3799ad2d1e,prj_89,1.000000,Clinton Amazon Data Center,MS,2026-01-15,Clinton
+unlinked_high_score,opp_1489eff31db4,prj_169,1.000000,Ashville Data Center,OH,2025-12-20,Ashville
+unlinked_high_score,opp_46e242249573,prj_92,1.000000,Vicksburg Amazon Data Center,MS,2025-11-20,Vicksburg
+unlinked_high_score,opp_d1ee219f0158,prj_143,1.000000,Statesville Data Center Campus,NC,2025-09-08,Statesville
+unlinked_high_score,opp_b2e25d5db5cb,prj_229,1.000000,Pennhurst Data Center,PA,2025-10-01,East Vincent Township (Pennhurst)
+unlinked_high_score,opp_83d204607b21,prj_206,1.000000,Blakely AI Data Center,PA,2025-09-12,Blakely
+unlinked_high_score,opp_65d971d4be2c,prj_316,1.000000,4-3 Salem Township Data Center,PA,2026-03-17,Salem Township
 unlinked_high_score,opp_65d971d4be2c,prj_202,1.000000,AWS Salem Township Data Center,PA,2026-03-17,Salem Township
+unlinked_high_score,opp_047174b0bd7a,prj_251,1.000000,East Manchester Farmland to Data Center Initiative Interest,PA,2025-10-14,East Manchester Township
+unlinked_high_score,opp_54cd11eb867a,prj_192,1.000000,AWS Wilmington Data Center,OH,2025-11-26,Wilmington
+unlinked_high_score,opp_e9e42ae8409e,prj_160,1.000000,Project Accelerate,NC,2025-09-01,Matthews
+unlinked_high_score,opp_59b4b17c805e,prj_85,1.000000,Deep Green Lansing Data Center,MI,2026-04-06,Lansing
+unlinked_high_score,opp_4178542bc45d,prj_227,1.000000,Archbald I LLC Data Center Campuses,PA,2026-03-27,Archbald Borough
+unlinked_high_score,opp_9ea75486a88e,prj_93,1.000000,Project Taurus,MS,2025-09-01,Brandon
+unlinked_high_score,opp_3322a7235054,prj_57,1.000000,Project Lincoln,KY,2026-07-01,Oldham County Fiscal Court (moratorium blocking 'Project Lincoln')
+unlinked_high_score,opp_26baf5c8d1fa,prj_57,1.000000,Project Lincoln,KY,2025-06-02,City of La Grange
+unlinked_high_score,opp_c05cca779e9b,prj_285,1.000000,Ridgeline Facility,WV,2026-02-07,Tucker County
+unlinked_high_score,opp_dec2b8e1481c,prj_238,1.000000,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,PA,2026-05-12,South Whitehall Township
+unlinked_high_score,opp_358dc4dc4321,prj_286,1.000000,"Adams Fork Harless Data Center Energy Campus, Holden",WV,2025-09-02,Logan County
+unlinked_high_score,opp_421797d2b31d,prj_56,1.000000,PowerHouse Louisville,KY,2025-09-11,Louisville
+unlinked_high_score,opp_162ebed407c4,prj_116,1.000000,DataOne Vineland,NJ,2025-12-23,Vineland
+unlinked_high_score,opp_27089c8e0cf3,prj_22,1.000000,Project Washington,DE,2026-02-04,New Castle County
+unlinked_high_score,opp_ed02cb0aded6,prj_22,1.000000,Project Washington,DE,2026-03-26,Delaware (Coastal Zone Appeal)
+unlinked_high_score,opp_ba5d10dcaa92,prj_62,1.000000,Bates Mill No. 3. Data Center,ME,2025-12-16,Lewiston
+unlinked_high_score,opp_8f0bd4f97dcc,prj_215,1.000000,PAX – Pennsylvania Digital I,PA,2026-03-01,Middlesex Township
+unlinked_high_score,opp_db8e7e87ad3e,prj_275,1.000000,Smithfield Data Center,RI,2026-05-07,Smithfield
+unlinked_high_score,opp_1d7edfdbb868,prj_95,1.000000,Clarksdale Data Center,MS,2026-03-24,Clarksdale
 unlinked_high_score,opp_6e2a72621942,prj_5,1.000000,DC BLOX Birmingham,AL,2026-03-03,Birmingham
+unlinked_high_score,opp_1e5751b0f045,prj_245,1.000000,Penn Forest Township Data Center,PA,2026-03-03,Penn Forest Township (Carbon County)
+unlinked_high_score,opp_e283a61dbf27,prj_126,1.000000,Lysander Data Center,NY,2026-05-07,Lysander
+unlinked_high_score,opp_b9d4c7bc5b09,prj_7,1.000000,Childersburg Data Center,AL,2026-01-23,Childersburg
 unlinked_high_score,opp_65d971d4be2c,prj_211,1.000000,QTS Salem Data Center,PA,2026-03-17,Salem Township
+unlinked_high_score,opp_634fa6fff5c1,prj_219,1.000000,Panther Creek (Nesquehoning) HPC/AI Conversion,PA,2026-01-01,Nesquehoning Borough
+unlinked_high_score,opp_c87e31bc51d3,prj_100,1.000000,Crusoe Warrenton AI Data Center,MO,2026-01-20,Warrenton
+unlinked_high_score,opp_26c141da5be5,prj_141,1.000000,Project Delta,NC,2026-01-12,Stokes County
+unlinked_high_score,opp_7d6fb83609d4,prj_44,1.000000,Meta Davenport Data Center,IA,2024-05-01,Davenport
+unlinked_high_score,opp_c8cd187470a4,prj_88,1.000000,Metrobloks Southfield Data Center,MI,2025-12-15,Southfield
+unlinked_high_score,opp_444c90a91fc1,prj_97,1.000000,Nebius Independence Hyperscale Campus,MO,2026-02-10,Independence
+unlinked_high_score,opp_3a7e650bca36,prj_98,1.000000,Project Green,MO,2026-02-16,Montgomery County
+unlinked_high_score,opp_72c3d2ed622a,prj_91,1.000000,Canton Amazon Data Center,MS,2026-03-01,Canton
+unlinked_high_score,opp_7de6ee15c1da,prj_38,1.000000,Pike Township Data Center,IN,2026-02-02,Pike Township (Indianapolis withdrawal)
+unlinked_high_score,opp_1ce5c397c32b,prj_35,1.000000,Hancock County MegaSite,IN,2026-03-29,Hancock County
+unlinked_high_score,opp_fcea9e266046,prj_210,1.000000,East Whiteland Township Data Center,PA,2026-02-26,East Whiteland Township (Curative Amendment)
+unlinked_high_score,opp_674add07c321,prj_82,1.000000,Project Cherry Blossom,MI,2025-11-17,Frenchtown Township
+unlinked_high_score,opp_d716cfc560ff,prj_65,1.000000,Sanford Woods Industrial and Technical Campus,ME,2026-05-19,Sanford
+unlinked_high_score,opp_4505ce08e0c3,prj_182,1.000000,Strata Expanse AI Center of Excellence,OH,2025-12-01,Lawrence County
+unlinked_high_score,opp_905c225d4cd3,prj_58,1.000000,Franklin–Simpson Data Storage and Service Center,KY,2026-01-28,Simpson County
 unlinked_high_score,opp_03cd61627883,prj_324,1.000000,Prado AI Industrial Campus,MS,2026-05-15,Ridgeland
+unlinked_high_score,opp_43198f4163a4,prj_83,1.000000,Project Ironwood,MI,2025-10-02,Dundee Township
+unlinked_high_score,opp_615a7d08e835,prj_267,1.000000,New Castle Data Center,PA,2025-09-10,New Castle Township (Frackville area)
+unlinked_high_score,opp_e2e896f84f0d,prj_200,1.000000,Perry Township Data Center,OH,2025-08-01,Perry Township (Stark County)
+unlinked_high_score,opp_0f01cb4fa3f5,prj_197,1.000000,Buck Canyon Properties Data Center,OH,2026-02-24,Sprigg Township
+unlinked_high_score,opp_748145a067f7,prj_58,1.000000,Franklin–Simpson Data Storage and Service Center,KY,2026-04-14,Franklin (Simpson County)
+unlinked_high_score,opp_5ce6c45b48e8,prj_84,1.000000,Project Flex,MI,2026-03-03,Lyon Township
+unlinked_high_score,opp_fdc90b5fee1f,prj_203,1.000000,Project Hazelnut,PA,2025-11-18,Hazle Township
 unlinked_high_score,opp_78f2befc3676,prj_227,1.000000,Archbald I LLC Data Center Campuses,PA,2025-11-01,Archbald
+unlinked_high_score,opp_020fce1935b1,prj_85,1.000000,Deep Green Lansing Data Center,MI,2026-07-15,Lansing
+unlinked_high_score,opp_2b6be26aa1f0,prj_57,1.000000,Project Lincoln,KY,2025-07-02,Oldham County
+unlinked_high_score,opp_1381a591d26e,prj_247,1.000000,Talen Energy Rezone Request for Possible Data Center in Montour County,PA,2026-02-10,Montour County
+unlinked_high_score,opp_91b0e9c4a7da,prj_12,1.000000,Project Leo,AR,2026-03-14,Pulaski County (Little Rock area)
 unlinked_high_score,opp_e0c79dcb35b6,prj_330,1.000000,Project Sail Data Center,GA,2026-06-16,Coweta County
 unlinked_high_score,opp_9821df442512,prj_276,1.000000,Colossus,TN,2025-08-01,Memphis
+unlinked_high_score,opp_8ab6aa474736,prj_269,1.000000,Project Triboro,PA,2026-04-14,Olyphant Borough
+unlinked_high_score,opp_d6abd19bc3fe,prj_212,1.000000,AWS Keystone Trade Center Campus,PA,2026-02-20,Falls Township
+unlinked_high_score,opp_663efe0e1304,prj_236,1.000000,Kline Township Data Center,PA,2026-01-17,Kline Township
+unlinked_high_score,opp_d3c8789fa054,prj_185,1.000000,Meta Bowling Green Data Center,OH,2026-07-07,Middleton Township
+unlinked_high_score,opp_8ae33471f7c0,prj_185,1.000000,Meta Bowling Green Data Center,OH,2025-04-01,Middleton Township
+unlinked_high_score,opp_9821df442512,prj_277,1.000000,Colossus 2,TN,2025-08-01,Memphis
+unlinked_high_score,opp_5be96f62ca1f,prj_228,1.000000,Former Air Products Headquarters Data Center,PA,2026-02-26,Upper Macungie Township
+unlinked_high_score,opp_ed5b0f6cb94c,prj_182,1.000000,Strata Expanse AI Center of Excellence,OH,2026-01-09,Ironton
+unlinked_high_score,opp_21e13b0a70be,prj_255,1.000000,Lower Mount Bethel Technology Center,PA,2025-10-01,Lower Mt. Bethel Township
+unlinked_high_score,opp_007362ac6379,prj_173,1.000000,Van Wert Mega Site,OH,2026-05-11,"Van Wert City Council, OH"
+unlinked_high_score,opp_96b5ebffece9,prj_197,1.000000,Buck Canyon Properties Data Center,OH,2026-03-02,Sprigg Township (Adams County)
+unlinked_high_score,opp_634c0bbef377,prj_123,1.000000,Monroe Township Data Center,NJ,2026-04-08,Monroe Township (Gloucester County)
 unlinked_high_score,opp_15719bc3d5d4,prj_332,1.000000,Natelli Vance County Data Center,NC,2026-04-20,Vance County
 unlinked_high_score,opp_8ec0ed3f2568,prj_276,1.000000,Colossus,TN,2025-03-04,Memphis City Council (Colossus Water Recycle Plant land sale)
 unlinked_high_score,opp_eebe9464f38a,prj_276,1.000000,Colossus,TN,2026-04-09,Memphis (xAI Colossus Water Recycle Plant indefinite pause)
+unlinked_high_score,opp_3f85e1c67f1c,prj_161,1.000000,Kingsboro Data Center,NC,2026-07-14,Edgecombe County
 unlinked_high_score,opp_56cafaa65c57,prj_276,1.000000,Colossus,TN,2026-03-03,Memphis & Shelby County Planning (xAI Tulane Rd construction permit)
+unlinked_high_score,opp_ce83e374fc4f,prj_300,1.000000,Microsoft La Porte Data Center,IN,2026-05-18,LaPorte
+unlinked_high_score,opp_f1be2c5b7a48,prj_234,1.000000,Sugarloaf Township Data Center,PA,2026-02-24,Sugarloaf Township / Hazle Twp / Black Creek Twp / Nescopeck Twp
+unlinked_high_score,opp_577b41b41c55,prj_252,0.999999,Conewago Township Data Center Land Considerations,PA,2026-01-01,Conewago Township (York County)
+unlinked_high_score,opp_5ebb98c62ead,prj_117,0.999999,Princeton Nurseries Data Center,NJ,2025-03-01,South Brunswick
+unlinked_high_score,opp_9ca85dbd5324,prj_94,0.999999,Meridian Compass Data Center,MS,2025-12-29,Meridian (Lauderdale County)
+unlinked_high_score,opp_15333f0ab374,prj_305,0.999999,Nashville DC Blox Data Center,TN,2026-07-21,Nashville/Davidson County
+unlinked_high_score,opp_95e066996918,prj_74,0.999999,Project Mitten / The Barn,MI,2026-01-12,Saline Township
+unlinked_high_score,opp_19edcda994cb,prj_79,0.999999,Microsoft Gaines Township Data Center,MI,2026-03-03,Gaines Charter Township
+unlinked_high_score,opp_f218f9644211,prj_124,0.999999,STAMP Data Center,NY,2025-02-01,Genesee County (STAMP)
+unlinked_high_score,opp_fb11da4e8a3a,prj_175,0.999999,Lordstown Data Center,OH,2025-10-01,Lordstown
+unlinked_high_score,opp_eebe9464f38a,prj_277,0.999999,Colossus 2,TN,2026-04-09,Memphis (xAI Colossus Water Recycle Plant indefinite pause)
 unlinked_high_score,opp_ec4f6cfec3e8,prj_306,0.999999,Muskie Data Campus,KY,2026-06-02,"Boyd County (TeraWulf ""Muskie"" data campus opposition), KY"
+unlinked_high_score,opp_61a5f8ea3716,prj_127,0.999999,Niagara Digital Campus Data Center Development,NY,2026-06-03,"City of Niagara Falls (council approves NFR settlement clearing $1.48B data center), NY"
 unlinked_high_score,opp_358dc4dc4321,prj_287,0.999999,"Adams Fork Data Center Energy Campus, Wharncliffe",WV,2025-09-02,Logan County
+unlinked_high_score,opp_8b687f3cfb78,prj_140,0.999999,Rowan County Data Center,NC,2026-03-25,Rowan County (Duke Energy hearing)
+unlinked_high_score,opp_ec3ccb8bbe1d,prj_101,0.999999,Wildwood Ranch AI Data Center,MO,2026-07-06,Joplin
 unlinked_high_score,opp_b153f592db90,prj_76,0.999999,Project Splitrock,MI,2025-11-20,Howell Township
 unlinked_high_score,opp_0f01cb4fa3f5,prj_195,0.999999,Killen Revitilization Project,OH,2026-02-24,Sprigg Township
 unlinked_high_score,opp_0f01cb4fa3f5,prj_194,0.999999,J.M. Stuart Revitilization Project,OH,2026-02-24,Sprigg Township
+unlinked_high_score,opp_f5077e0e3f43,prj_301,0.999999,JPG Data Center,IN,2026-05-20,Madison
 unlinked_high_score,opp_cb00ae6654e0,prj_328,0.999999,Terra Nexus Custer Avenue Data Center,NC,2026-03-05,Fayetteville
 unlinked_high_score,opp_50c9d721baa7,prj_1,0.999999,Project Nebius,AL,2026-07-13,Birmingham
+unlinked_high_score,opp_0c8866392928,prj_67,0.999998,Brightseat Tech Park Data Center Development,MD,2025-09-01,Prince George's County (Landover)
 unlinked_high_score,opp_2ace1e385353,prj_305,0.999998,Nashville DC Blox Data Center,TN,2025-09-09,Nashville
+unlinked_high_score,opp_ed7d3e9acc58,prj_169,0.999998,Ashville Data Center,OH,2026-02-02,Ashville (Pickaway County)
+unlinked_high_score,opp_ee35655810b9,prj_14,0.999998,Clarksville Data Center,AR,2025-11-25,Clarksville
+unlinked_high_score,opp_2ace1e385353,prj_282,0.999998,RadiusDC Nashville I / Trinity Hills Colocation Data Center,TN,2025-09-09,Nashville
+unlinked_high_score,opp_b657a2b9d374,prj_40,0.999998,Hobart Tech Park,IN,2025-10-01,Hobart
 unlinked_high_score,opp_4178542bc45d,prj_207,0.999998,Project Boson,PA,2026-03-27,Archbald Borough
+unlinked_high_score,opp_cb00ae6654e0,prj_137,0.999998,Fayetteville Data Center Campus,NC,2026-03-05,Fayetteville
+unlinked_high_score,opp_85c341ac84b7,prj_256,0.999998,Sellersville / West Rockhill Township Data Center,PA,2026-04-15,West Rockhill Township (Bucks County)
+unlinked_high_score,opp_72307cd2472f,prj_33,0.999998,Decatur Technology Park,IN,2026-04-20,Decatur Township (Indianapolis)
 unlinked_high_score,opp_4916d5cd8858,prj_323,0.999998,Meta Hyperion,LA,2025-11-19,Holly Ridge / Richland Parish
+unlinked_high_score,opp_a07a908a8fee,prj_146,0.999998,Charlotte University City Data Center,NC,2026-04-23,Charlotte
+unlinked_high_score,opp_b873b14db606,prj_159,0.999998,Tract Mooresville Technology Park,NC,2025-08-13,Mooresville
+unlinked_high_score,opp_ed4d5676f5af,prj_72,0.999998,Atmosphere Dickerson Data Center,MD,2026-02-01,Dickerson (Montgomery County)
+unlinked_high_score,opp_99cd9e1c93f2,prj_56,0.999998,PowerHouse Louisville,KY,2026-03-05,Louisville (Shively)
 unlinked_high_score,opp_d219396541c4,prj_209,0.999997,Project Gold,PA,2025-08-22,Clifton Township
+unlinked_high_score,opp_577c1410331e,prj_81,0.999997,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,MI,2025-06-01,Ypsilanti Township
+unlinked_high_score,opp_d7d9ccda1603,prj_74,0.999997,Project Mitten / The Barn,MI,2026-01-28,Saline Township Board (I-1 to A-1 rescission)
+unlinked_high_score,opp_b6fe898298f5,prj_235,0.999997,Linfield Data Center,PA,2026-01-01,Limerick Township (Linfield)
+unlinked_high_score,opp_fc900da0efeb,prj_46,0.999997,Applied Digital Adair,IA,2024-04-24,Adair County
+unlinked_high_score,opp_7c06af7ad5fe,prj_74,0.999997,Project Mitten / The Barn,MI,2025-10-15,Saline Township (consent judgment with Related Digital)
+unlinked_high_score,opp_9f706f5b61eb,prj_74,0.999997,Project Mitten / The Barn,MI,2025-09-10,Saline Township Board (rezoning denial)
+unlinked_high_score,opp_11fa1ec005e1,prj_74,0.999997,Project Mitten / The Barn,MI,2025-08-12,Saline Township Planning Commission
+unlinked_high_score,opp_f172e6ccdadb,prj_84,0.999997,Project Flex,MI,2026-04-27,"Lyon Township (Oakland County) trustee recall campaign over Verrus Project Flex, MI"
 unlinked_high_score,opp_254d8776189c,prj_276,0.999997,Colossus,TN,2026-05-01,"Memphis (Boxtown protest at xAI Colossus 1, 3231 Paul R. Lowry Rd), TN"
+unlinked_high_score,opp_940f4bf80f61,prj_166,0.999996,Project Mila / Trenton Industrial Park Data Center,OH,2026-03-30,City of Trenton
+unlinked_high_score,opp_d550f074a001,prj_125,0.999996,Cayuga Data Campus,NY,2026-06-17,Town of Lansing (TeraWulf 'Cayuga Data Campus' petition)
+unlinked_high_score,opp_81d7cb4b7593,prj_140,0.999996,Rowan County Data Center,NC,2026-03-17,Rowan County
 unlinked_high_score,opp_78f2befc3676,prj_321,0.999996,Harper Road Technology Park,PA,2025-11-01,Archbald
 unlinked_high_score,opp_78f2befc3676,prj_207,0.999996,Project Boson,PA,2025-11-01,Archbald
 unlinked_high_score,opp_78f2befc3676,prj_205,0.999996,Project Gravity,PA,2025-11-01,Archbald
@@ -39,92 +179,189 @@ unlinked_high_score,opp_78f2befc3676,prj_204,0.999996,Wildcat Ridge AI Data Cent
 unlinked_high_score,opp_78f2befc3676,prj_250,0.999996,Project Green Mountain,PA,2025-11-01,Archbald
 unlinked_high_score,opp_b6fe898298f5,prj_242,0.999995,Limerick / Project Laurel Data Center,PA,2026-01-01,Limerick Township (Linfield)
 unlinked_high_score,opp_63251ae21b23,prj_163,0.999995,AWS Innovation Campus / New Albany Data Center Campus,OH,2026-07-16,New Albany (Licking County)
+unlinked_high_score,opp_a3255b50d3d4,prj_125,0.999995,Cayuga Data Campus,NY,2026-02-19,Town of Dryden
+unlinked_high_score,opp_e56a1f96e77b,prj_265,0.999994,South Annville Township Data Center,PA,2026-05-14,South Londonderry Township
 unlinked_high_score,opp_708e57f81080,prj_325,0.999994,New Carlisle Chicago Trail Data Center (Third Site),IN,2026-07-08,New Carlisle (Olive Township)
+unlinked_high_score,opp_63921ce13feb,prj_103,0.999994,Armory Innovation Data Center,MO,2026-04-21,St. Louis
+unlinked_high_score,opp_85267c1283be,prj_226,0.999994,Zediker Station Data Center,PA,2025-11-01,South Strabane Township
+unlinked_high_score,opp_cf18ec496647,prj_69,0.999993,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,MD,2025-12-24,Frederick County
 unlinked_high_score,opp_3d94fe3695b1,prj_322,0.999993,Province Group Perry Village Data Center Campus,OH,2025-07-01,Perry Township
+unlinked_high_score,opp_cbdfb8639b4a,prj_260,0.999993,Switch Data Center at Former Pitt Race Complex,PA,2026-06-02,"Big Beaver Borough (Switch $1.4B campus town hall amid opposition), PA"
+unlinked_high_score,opp_a16c9fb77bf3,prj_213,0.999993,CoreWeave Lancaster AI Campuses,PA,2025-10-06,Lancaster City
+unlinked_high_score,opp_bb9815f66d13,prj_80,0.999991,Rocklocker Kalkaska Data Center,MI,2025-11-01,Kalkaska County
+unlinked_high_score,opp_566cc762af35,prj_312,0.999987,Applied Digital Oliver County,ND,2024-12-12,Oliver County
+unlinked_high_score,opp_491c11a25b10,prj_285,0.999987,Ridgeline Facility,WV,2026-03-06,Tucker County
+unlinked_high_score,opp_11426ce2cf52,prj_192,0.999986,AWS Wilmington Data Center,OH,2026-02-20,Wilmington (Ardent/TAC)
 unlinked_high_score,opp_fb11da4e8a3a,prj_174,0.999986,Stargate Project - Lordstown AI Data Center Campus,OH,2025-10-01,Lordstown
 unlinked_high_score,opp_4178542bc45d,prj_205,0.999985,Project Gravity,PA,2026-03-27,Archbald Borough
+unlinked_high_score,opp_2f62a1b1146b,prj_111,0.999985,Gateway Digital Campus,MO,2026-03-17,Franklin County (county-wide regulations)
+unlinked_high_score,opp_1302073d609e,prj_109,0.999983,Oppidan Foristell Data Center Sites,MO,2026-03-16,Foristell
 unlinked_high_score,opp_9821df442512,prj_283,0.999982,5C Memphis Data Center,TN,2025-08-01,Memphis
 unlinked_high_score,opp_4178542bc45d,prj_204,0.999980,Wildcat Ridge AI Data Center,PA,2026-03-27,Archbald Borough
 unlinked_high_score,opp_6719b620e318,prj_254,0.999978,South Hanover Township Data Center,PA,2026-05-13,South Annville Township
 unlinked_high_score,opp_91b0e9c4a7da,prj_15,0.999976,Port of Little Rock Data Center,AR,2026-03-14,Pulaski County (Little Rock area)
 unlinked_high_score,opp_7f43ef5e9f13,prj_266,0.999975,Newton Township Data Center,PA,2026-02-27,Ransom Township
+unlinked_high_score,opp_5309f49a1a14,prj_125,0.999974,Cayuga Data Campus,NY,2025-09-24,Lansing
 unlinked_high_score,opp_4916d5cd8858,prj_327,0.999968,Meta Project Everest,LA,2025-11-19,Holly Ridge / Richland Parish
 unlinked_high_score,opp_8be8b626b0e2,prj_327,0.999968,Meta Project Everest,LA,2025-12-01,Richland Parish (Mississippi River Alluvial Aquifer water withdrawal)
 unlinked_high_score,opp_a762a186f5a3,prj_327,0.999968,Meta Project Everest,LA,2025-11-17,Rayville (Sierra Club Delta Chapter town hall)
 unlinked_high_score,opp_1228ae833969,prj_327,0.999968,Meta Project Everest,LA,2025-08-01,Richland Parish
 unlinked_high_score,opp_51faef25a654,prj_327,0.999968,Meta Project Everest,LA,2024-07-01,Richland Parish Police Jury
+unlinked_high_score,opp_9514c59ae274,prj_140,0.999966,Rowan County Data Center,NC,2026-04-21,Rowan County
+unlinked_high_score,opp_0c5b2b003fae,prj_198,0.999965,PORTS Technology Center,OH,2026-04-21,Pike County
+unlinked_high_score,opp_660194b23c81,prj_17,0.999965,Millstone Nuclear Power Station Data Center,CT,2024-01-09,Waterford / East Lyme
 unlinked_high_score,opp_a21a79c66f82,prj_325,0.999963,New Carlisle Chicago Trail Data Center (Third Site),IN,2026-05-13,"St. Joseph County Council (third New Carlisle-area data center rezoning, ~$13B), IN"
 unlinked_high_score,opp_c7e3a124dc06,prj_276,0.999963,Colossus,TN,2026-05-20,Memphis TN / Southaven MS (xAI discloses $2.8B more turbine purchases amid lawsuit)
 unlinked_high_score,opp_83d204607b21,prj_232,0.999963,Dickson City Data Centers,PA,2025-09-12,Blakely
 unlinked_high_score,opp_531c0b6ca3ae,prj_83,0.999963,Project Ironwood,MI,2026-02-10,Erie Township
+unlinked_high_score,opp_27a9926da3d0,prj_313,0.999963,River Run Energy Center,ND,2026-03-03,Mercer County
 unlinked_high_score,opp_21594d5addcb,prj_197,0.999963,Buck Canyon Properties Data Center,OH,2026-02-01,Adams County
+unlinked_high_score,opp_14dc021dc16b,prj_114,0.999960,Marshfield Webster Data Center,MO,2026-05-11,"Webster County / Marshfield (Lumon Solutions Tier III AI facility town hall), MO"
+unlinked_high_score,opp_93812452630d,prj_5,0.999960,DC BLOX Birmingham,AL,2026-05-25,"Birmingham (amended class action alleging city-developer conspiracy to evade DC moratorium), AL"
+unlinked_high_score,opp_dd33968e7b3e,prj_121,0.999960,CoreWeave Kenilworth,NJ,2026-05-07,"Kenilworth Borough (Union County — community rally against $1.8B CoreWeave data center on former NEST campus), NJ"
 unlinked_high_score,opp_4178542bc45d,prj_250,0.999959,Project Green Mountain,PA,2026-03-27,Archbald Borough
+unlinked_high_score,opp_167f1c90905d,prj_69,0.999959,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,MD,2026-06-30,Maryland Supreme Court (blocks Frederick County referendum on Critical Digital Infrastructure Overlay Zone)
 unlinked_high_score,opp_2e7b25d60ea2,prj_276,0.999955,Colossus,TN,2025-08-01,Memphis City Council (xAI Community Benefit Ordinance)
-unlinked_high_score,opp_93812452630d,prj_1,0.999952,Project Nebius,AL,2026-05-25,"Birmingham (amended class action alleging city-developer conspiracy to evade DC moratorium), AL"
+unlinked_high_score,opp_885b5a2dd450,prj_176,0.999955,Bitdeer Weathersfield Project,OH,2026-04-20,Niles
+unlinked_high_score,opp_e86a230fe959,prj_25,0.999952,Project Zodiac,IN,2023-10-01,Allen County / Fort Wayne
 unlinked_high_score,opp_824080a7cea0,prj_146,0.999949,Charlotte University City Data Center,NC,2026-06-08,"Charlotte (citywide 150-day data center moratorium — public hearing), NC"
+unlinked_high_score,opp_e9134c28c41c,prj_72,0.999949,Atmosphere Dickerson Data Center,MD,2026-02-02,Montgomery County
+unlinked_high_score,opp_e397c11ee85e,prj_185,0.999948,Meta Bowling Green Data Center,OH,2026-01-06,Wood County (Bowling Green area)
+unlinked_high_score,opp_dc2e8e8ec589,prj_15,0.999948,Port of Little Rock Data Center,AR,2026-04-06,Army Corps of Engineers (Google Little Rock)
 unlinked_high_score,opp_b9342d9410a8,prj_174,0.999943,Stargate Project - Lordstown AI Data Center Campus,OH,2026-06-16,"Lordstown Village Council, OH"
+unlinked_high_score,opp_60d0a6f70af7,prj_166,0.999942,Project Mila / Trenton Industrial Park Data Center,OH,2026-06-15,"Liberty Township, Butler County (data center PUD-review requirement), OH"
+unlinked_high_score,opp_2e7b25d60ea2,prj_277,0.999942,Colossus 2,TN,2025-08-01,Memphis City Council (xAI Community Benefit Ordinance)
+unlinked_high_score,opp_caecccbb73b8,prj_167,0.999942,Hamilton Data Center,OH,2025-11-12,City of Hamilton
 unlinked_high_score,opp_0e952ed34143,prj_121,0.999939,CoreWeave Kenilworth,NJ,2026-05-20,"New Jersey (Democratic legislators announce AI data-center tax-credit repeal; Kenilworth CoreWeave protest), NJ"
 unlinked_high_score,opp_b5b951136611,prj_107,0.999937,Lambda AI Factory,MO,2026-01-16,Kansas City
+unlinked_high_score,opp_b9342d9410a8,prj_175,0.999932,Lordstown Data Center,OH,2026-06-16,"Lordstown Village Council, OH"
 unlinked_high_score,opp_15333f0ab374,prj_282,0.999927,RadiusDC Nashville I / Trinity Hills Colocation Data Center,TN,2026-07-21,Nashville/Davidson County
 unlinked_high_score,opp_fdc90b5fee1f,prj_202,0.999927,AWS Salem Township Data Center,PA,2025-11-18,Hazle Township
 unlinked_high_score,opp_d51e905c487c,prj_282,0.999927,RadiusDC Nashville I / Trinity Hills Colocation Data Center,TN,2026-04-17,Nashville/Davidson County
+unlinked_high_score,opp_1566ddd3f76f,prj_78,0.999919,Benton Charter Township Data Center,MI,2025-11-01,Berrien County (Benton Township)
 unlinked_high_score,opp_9f1476cb49c2,prj_230,0.999916,Conshohocken Data Center,PA,2025-11-17,Plymouth Township
+unlinked_high_score,opp_f386553b7dac,prj_69,0.999909,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,MD,2026-07-01,Frederick County (executive order pauses new Critical Digital Infrastructure applications)
+unlinked_high_score,opp_e85d635f682f,prj_77,0.999893,32 Mile Road Technical Campus,MI,2026-03-11,Washington Township (Macomb County)
+unlinked_high_score,opp_3827c952a67d,prj_318,0.999893,Project Domino,IN,2025-08-01,Lebanon (Boone County)
+unlinked_high_score,opp_faafd092eda8,prj_79,0.999875,Microsoft Gaines Township Data Center,MI,2026-05-18,"Lowell Township (Kent County — 6-month moratorium rejected; recall threat over Microsoft DC), MI"
+unlinked_high_score,opp_8ec0ed3f2568,prj_277,0.999843,Colossus 2,TN,2025-03-04,Memphis City Council (Colossus Water Recycle Plant land sale)
 unlinked_high_score,opp_8be8b626b0e2,prj_323,0.999843,Meta Hyperion,LA,2025-12-01,Richland Parish (Mississippi River Alluvial Aquifer water withdrawal)
 unlinked_high_score,opp_a762a186f5a3,prj_323,0.999843,Meta Hyperion,LA,2025-11-17,Rayville (Sierra Club Delta Chapter town hall)
 unlinked_high_score,opp_51faef25a654,prj_323,0.999843,Meta Hyperion,LA,2024-07-01,Richland Parish Police Jury
 unlinked_high_score,opp_1228ae833969,prj_323,0.999843,Meta Hyperion,LA,2025-08-01,Richland Parish
+unlinked_high_score,opp_6bacd1129af8,prj_303,0.999837,Granville Data Center,PA,2026-07-14,Granville Township (emergency supervisors meeting on data center land development plan)
+unlinked_high_score,opp_6c92333780b0,prj_317,0.999837,Holyoke Data Center,MA,2026-06-18,City of Holyoke
 unlinked_high_score,opp_4178542bc45d,prj_321,0.999829,Harper Road Technology Park,PA,2026-03-27,Archbald Borough
 unlinked_high_score,opp_a07a908a8fee,prj_145,0.999829,CLT10 Uptown Expansion,NC,2026-04-23,Charlotte
 unlinked_high_score,opp_702f24f08f0d,prj_34,0.999827,Project Louie,IN,2025-09-22,Franklin Township (Indianapolis)
 unlinked_high_score,opp_fdc90b5fee1f,prj_316,0.999824,4-3 Salem Township Data Center,PA,2025-11-18,Hazle Township
+unlinked_high_score,opp_978f916fcce4,prj_74,0.999789,Project Mitten / The Barn,MI,2026-05-06,"Saline Township (Washtenaw County) — OpenAI Stargate 'The Barn' construction-despite-rejection, MI"
+unlinked_high_score,opp_750ae52f955d,prj_32,0.999789,Surge Development Knightstown Data Center,IN,2026-01-28,Henry County (Knightstown)
+unlinked_high_score,opp_79ee91d3a271,prj_124,0.999789,STAMP Data Center,NY,2026-05-04,Town of Alabama (Genesee County)
+unlinked_high_score,opp_2aca64b4ff8e,prj_136,0.999789,Tarboro Data Center Campus,NC,2025-09-15,Town of Tarboro
+unlinked_high_score,opp_aa731380343e,prj_74,0.999789,Project Mitten / The Barn,MI,2025-12-19,Michigan EGLE (Saline data-center wetlands public hearing)
+unlinked_high_score,opp_9ef3a8c81c50,prj_81,0.999789,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,MI,2026-03-03,City of Ypsilanti
 unlinked_high_score,opp_9821df442512,prj_281,0.999780,Neural Nexus Data Center,TN,2025-08-01,Memphis
 unlinked_high_score,opp_a07a908a8fee,prj_144,0.999780,CLT20 Moores Chapel,NC,2026-04-23,Charlotte
 unlinked_high_score,opp_72c3d2ed622a,prj_89,0.999756,Clinton Amazon Data Center,MS,2026-03-01,Canton
+unlinked_high_score,opp_fdd500853822,prj_24,0.999731,White Clay Creek Business Park Data Center Redevelopment,DE,2026-01-30,Newark
 unlinked_high_score,opp_24a68fe9d847,prj_206,0.999689,Blakely AI Data Center,PA,2026-02-13,Dickson City
+unlinked_high_score,opp_5702ca2728a1,prj_256,0.999662,Sellersville / West Rockhill Township Data Center,PA,2026-02-24,East Rockhill Township (Bucks County)
 unlinked_high_score,opp_63251ae21b23,prj_189,0.999662,Microsoft New Albany Data Center,OH,2026-07-16,New Albany (Licking County)
 unlinked_high_score,opp_f37aa63e4079,prj_24,0.999653,White Clay Creek Business Park Data Center Redevelopment,DE,2026-03-11,New Castle County
+unlinked_high_score,opp_bb8e6cc1bbcc,prj_69,0.999623,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,MD,2026-01-26,Frederick County (Referendum Effort)
+unlinked_high_score,opp_c048713852f1,prj_69,0.999623,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,MD,2026-03-06,Frederick County (Pippy state moratorium bill)
 unlinked_high_score,opp_36592d45dc30,prj_30,0.999599,Project Rainier,IN,2025-12-10,St. Joseph County
+unlinked_high_score,opp_5dc2341c2b96,prj_36,0.999599,Project Flo,IN,2026-04-21,Indianapolis City-County Council
 unlinked_high_score,opp_83d204607b21,prj_205,0.999599,Project Gravity,PA,2025-09-12,Blakely
 unlinked_high_score,opp_f37aa63e4079,prj_22,0.999599,Project Washington,DE,2026-03-11,New Castle County
 unlinked_high_score,opp_6b836a2ea426,prj_110,0.999599,Meramec Valley Technology Park,MO,2026-01-15,Villa Ridge (Franklin County)
+unlinked_high_score,opp_70822e1b67ef,prj_175,0.999586,Lordstown Data Center,OH,2026-06-15,Lordstown (Trumbull County)
 unlinked_high_score,opp_63251ae21b23,prj_162,0.999564,Vantage New Albany Data Center Campus,OH,2026-07-16,New Albany (Licking County)
+unlinked_high_score,opp_365d85ee7c1f,prj_15,0.999564,Port of Little Rock Data Center,AR,2026-07-07,Little Rock Board of Directors (hyperscale data center moratorium measure)
 unlinked_high_score,opp_1704aa7c2eb5,prj_15,0.999564,Port of Little Rock Data Center,AR,2025-06-01,Little Rock
 unlinked_high_score,opp_b2e25d5db5cb,prj_210,0.999564,East Whiteland Township Data Center,PA,2025-10-01,East Vincent Township (Pennhurst)
 unlinked_high_score,opp_660d40c453a6,prj_329,0.999559,PRSM Group Cumberland County Data Center,NC,2026-06-15,Cumberland County
+unlinked_high_score,opp_dd0ba1819d24,prj_190,0.999520,Urbana Data Center,OH,2026-03-03,Champaign County
+unlinked_high_score,opp_226c26d5fb53,prj_263,0.999511,Starpointe Data Center Project,PA,2026-03-31,Hanover Township
+unlinked_high_score,opp_08ec2eb3c157,prj_170,0.999494,Piqua Data Center,OH,2025-11-01,Miami County (Piqua)
+unlinked_high_score,opp_aef978ee8d04,prj_304,0.999494,DartPoints Former Lexmark Data Center Redevelopment,KY,2026-06-08,"Lexington-Fayette Urban County (no incentives for DartPoints + council moratorium), KY"
+unlinked_high_score,opp_19f0e90e2ecc,prj_73,0.999494,Westfield Data Center Campus,MA,2026-07-06,"City of Westfield (1-year data center moratorium, final vote)"
+unlinked_high_score,opp_0f9c5e6b0f52,prj_102,0.999494,CRG Festus Data Center,MO,2026-04-10,City of Festus
+unlinked_high_score,opp_dcb73fe1722c,prj_131,0.999494,Massena Petawatt Data Center Site Advertisement,NY,2026-06-29,Town of Massena (NYDIG data center zoning question referred to Zoning Board of Appeals)
+unlinked_high_score,opp_5d06839f1b48,prj_118,0.999494,Nutley Data Center,NJ,2026-07-13,Nutley Board of Commissioners (ON3 campus data center parcel)
+unlinked_high_score,opp_a6804867fd59,prj_74,0.999493,Project Mitten / The Barn,MI,2025-12-13,Washtenaw County Circuit Court (Haushalter intervention motion)
+unlinked_high_score,opp_681e92a6ba82,prj_74,0.999493,Project Mitten / The Barn,MI,2025-09-12,Washtenaw County Circuit Court (Related Digital v. Saline Township)
+unlinked_high_score,opp_079ba18862cf,prj_74,0.999493,Project Mitten / The Barn,MI,2026-02-20,Washtenaw County Circuit Court (Haushalter intervention denied)
 unlinked_high_score,opp_51814228f383,prj_323,0.999348,Meta Hyperion,LA,2025-09-01,Richland Parish (Rayville/Delhi)
 unlinked_high_score,opp_8d21af184d54,prj_91,0.999348,Canton Amazon Data Center,MS,2026-04-09,Mississippi (statewide Amazon expansion)
 unlinked_high_score,opp_3c2069dc2adf,prj_323,0.999348,Meta Hyperion,LA,2025-11-19,Louisiana Department of Environmental Quality (LDEQ)
+unlinked_high_score,opp_51f291f5e0d7,prj_79,0.999348,Microsoft Gaines Township Data Center,MI,2025-12-18,Lowell Township
+unlinked_high_score,opp_ed42ddb3c869,prj_60,0.999348,TeraWulf Hawesville Data Center,KY,2026-02-02,Hancock County (Hawesville)
+unlinked_high_score,opp_3ce0e3356b0f,prj_105,0.999348,Metrobloks Liberty Data Center Campus,MO,2026-03-24,City of Liberty
+unlinked_high_score,opp_254d8776189c,prj_277,0.999348,Colossus 2,TN,2026-05-01,"Memphis (Boxtown protest at xAI Colossus 1, 3231 Paul R. Lowry Rd), TN"
+unlinked_high_score,opp_777db27aa1d1,prj_42,0.999348,Google Cedar Rapids,IA,2026-06-15,Palo (Google annexation bypass)
+unlinked_high_score,opp_33b8dbbe1bac,prj_192,0.999348,AWS Wilmington Data Center,OH,2026-02-12,Blanchester
 unlinked_high_score,opp_e56a1f96e77b,prj_254,0.999245,South Hanover Township Data Center,PA,2026-05-14,South Londonderry Township
+unlinked_high_score,opp_c7bef103b644,prj_115,0.999105,Project Cumulus,MO,2026-07-14,St. Charles County
 unlinked_high_score,opp_96b5ebffece9,prj_195,0.999105,Killen Revitilization Project,OH,2026-03-02,Sprigg Township (Adams County)
 unlinked_high_score,opp_96b5ebffece9,prj_194,0.999105,J.M. Stuart Revitilization Project,OH,2026-03-02,Sprigg Township (Adams County)
 unlinked_high_score,opp_65d971d4be2c,prj_203,0.999105,Project Hazelnut,PA,2026-03-17,Salem Township
 unlinked_high_score,opp_fd646649633f,prj_71,0.999105,Johns Hopkins Data Science and Artificial Intelligence Institute (DSAI),MD,2026-02-02,Baltimore County
 unlinked_high_score,opp_4abdf137cfd4,prj_272,0.999105,Renaissance Boulevard Data Center Campus,PA,2026-04-13,Upper Gwynedd Township
 unlinked_high_score,opp_4abdf137cfd4,prj_274,0.999105,3200 Horizon Drive Data Center,PA,2026-04-13,Upper Gwynedd Township
+unlinked_high_score,opp_4abdf137cfd4,prj_273,0.999105,600 River Road Data Center,PA,2026-04-13,Upper Gwynedd Township
+unlinked_high_score,opp_d20d30860ed7,prj_201,0.999105,Morabito Slavic Village Data Center,OH,2025-10-01,Cleveland / Brook Park
 unlinked_high_score,opp_36592d45dc30,prj_325,0.999036,New Carlisle Chicago Trail Data Center (Third Site),IN,2025-12-10,St. Joseph County
+unlinked_high_score,opp_f65b986d4fd8,prj_31,0.998748,Martindale Indianapolis Metrobloks Data Center,IN,2026-02-12,Martindale-Brightwood (Indianapolis)
+unlinked_high_score,opp_50c1df33a017,prj_308,0.998744,Gemini Sioux Falls Data Center,SD,2026-02-24,Lincoln County
+unlinked_high_score,opp_d09a7f2c08d5,prj_158,0.998739,Natelli Investments New Hill Digital Campus,NC,2026-03-10,Town of Apex
 unlinked_high_score,opp_67b9f85e24c9,prj_245,0.998689,Penn Forest Township Data Center,PA,2025-09-01,Packer Township / Banks Township
 unlinked_high_score,opp_65d971d4be2c,prj_234,0.998689,Sugarloaf Township Data Center,PA,2026-03-17,Salem Township
+unlinked_high_score,opp_8ca0a58a3763,prj_158,0.998496,Natelli Investments New Hill Digital Campus,NC,2025-08-01,Wake County
 unlinked_high_score,opp_72c3d2ed622a,prj_90,0.998432,Ridgeland Amazon Data Center,MS,2026-03-01,Canton
+unlinked_high_score,opp_67b9f85e24c9,prj_244,0.998087,NorthPoint Spring Mountain Data Center,PA,2025-09-01,Packer Township / Banks Township
 unlinked_high_score,opp_3f85e1c67f1c,prj_136,0.998005,Tarboro Data Center Campus,NC,2026-07-14,Edgecombe County
+unlinked_high_score,opp_824080a7cea0,prj_145,0.998005,CLT10 Uptown Expansion,NC,2026-06-08,"Charlotte (citywide 150-day data center moratorium — public hearing), NC"
 unlinked_high_score,opp_4abdf137cfd4,prj_319,0.997850,Gravel Pike Data Center,PA,2026-04-13,Upper Gwynedd Township
 unlinked_high_score,opp_fdc90b5fee1f,prj_211,0.997850,QTS Salem Data Center,PA,2025-11-18,Hazle Township
 unlinked_high_score,opp_09d4bdfd4545,prj_74,0.997850,Project Mitten / The Barn,MI,2026-01-22,Sylvan Township
+unlinked_high_score,opp_dc216f927839,prj_154,0.997829,T5 Data Centers Kings Mountain,NC,2026-02-26,City of Kings Mountain
+unlinked_high_score,opp_b20bf1a74322,prj_31,0.997622,Martindale Indianapolis Metrobloks Data Center,IN,2026-05-04,"Indianapolis City-County Council (Metrobloks Martindale-Brightwood rezoning), IN"
+unlinked_high_score,opp_cbec7294ea18,prj_124,0.997428,STAMP Data Center,NY,2026-07-13,Town of Alabama (Genesee County)
+unlinked_high_score,opp_531c0b6ca3ae,prj_82,0.997428,Project Cherry Blossom,MI,2026-02-10,Erie Township
+unlinked_high_score,opp_11176d608380,prj_12,0.997428,Project Leo,AR,2026-05-26,"Pulaski County Quorum Court (data center moratorium ordinance — failed on clerk miscount), AR"
+unlinked_high_score,opp_fd646649633f,prj_66,0.997428,Woodlawn Data Center,MD,2026-02-02,Baltimore County
+unlinked_high_score,opp_0c2b8287973b,prj_237,0.997428,Ransom Township Data Center,PA,2026-03-17,City of Scranton
+unlinked_high_score,opp_66d8b11187b9,prj_124,0.997428,STAMP Data Center,NY,2026-04-16,Genesee County Economic Development Center (GCEDC)
 unlinked_high_score,opp_77983677a720,prj_233,0.997428,West Hazleton Data Center,PA,2026-03-02,Hollenback Township
+unlinked_high_score,opp_21594d5addcb,prj_195,0.997428,Killen Revitilization Project,OH,2026-02-01,Adams County
 unlinked_high_score,opp_2aca64b4ff8e,prj_161,0.997428,Kingsboro Data Center,NC,2025-09-15,Town of Tarboro
 unlinked_high_score,opp_824080a7cea0,prj_144,0.997428,CLT20 Moores Chapel,NC,2026-06-08,"Charlotte (citywide 150-day data center moratorium — public hearing), NC"
+unlinked_high_score,opp_f8d57486f721,prj_17,0.997428,Millstone Nuclear Power Station Data Center,CT,2022-06-15,Town of Groton
 unlinked_high_score,opp_fcea9e266046,prj_258,0.996853,North Coventry Township Data Center,PA,2026-02-26,East Whiteland Township (Curative Amendment)
 unlinked_high_score,opp_b2e25d5db5cb,prj_271,0.996853,East Brandywine Data Center,PA,2025-10-01,East Vincent Township (Pennhurst)
 unlinked_high_score,opp_a07a908a8fee,prj_147,0.996504,5C Charlotte Data Center,NC,2026-04-23,Charlotte
+unlinked_high_score,opp_8d9e3a11d51b,prj_104,0.996343,Mo Lake Development Cross Creek Data Center,MO,2026-05-05,"Camdenton Board of Aldermen, MO"
+unlinked_high_score,opp_1be02c246210,prj_296,0.995782,Andover Data Center,NJ,2026-05-10,"Andover Township Committee (Sussex County — ban announced after viral tense meeting at former Newton/Jump airport site), NJ"
+unlinked_high_score,opp_4724b4bc17c5,prj_26,0.995782,Bristol Data Center,IN,2024-09-01,Elkhart County (Bristol)
+unlinked_high_score,opp_6c96590821d1,prj_129,0.995782,Brookhaven National Laboratory Data Center,NY,2026-05-29,"Town of Brookhaven (Yaphank — 18-month data center moratorium hearing set), NY"
+unlinked_high_score,opp_b0426dd41d94,prj_214,0.995782,Allentown Warehouse Conversion Data Center,PA,2026-06-03,"City of Allentown (Bill 20 data center zoning tabled after marathon hearing), PA"
 unlinked_high_score,opp_70822e1b67ef,prj_174,0.995391,Stargate Project - Lordstown AI Data Center Campus,OH,2026-06-15,Lordstown (Trumbull County)
+unlinked_high_score,opp_d246aa210f4a,prj_69,0.995287,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,MD,2026-04-06,Frederick / Carroll / Baltimore Counties
+unlinked_high_score,opp_e84d6893cfc1,prj_31,0.994808,Martindale Indianapolis Metrobloks Data Center,IN,2026-05-12,"Marion County Superior Court (Hoosier Environmental Council / Protect Martindale-Brightwood v. Metrobloks et al.), IN"
 unlinked_high_score,opp_51814228f383,prj_327,0.994670,Meta Project Everest,LA,2025-09-01,Richland Parish (Rayville/Delhi)
 unlinked_high_score,opp_3c2069dc2adf,prj_327,0.994670,Meta Project Everest,LA,2025-11-19,Louisiana Department of Environmental Quality (LDEQ)
 unlinked_high_score,opp_77983677a720,prj_202,0.994564,AWS Salem Township Data Center,PA,2026-03-02,Hollenback Township
 unlinked_high_score,opp_577c1410331e,prj_87,0.994564,Sansone York Township Data Center,MI,2025-06-01,Ypsilanti Township
+unlinked_high_score,opp_3d5a5cf860af,prj_87,0.994564,Sansone York Township Data Center,MI,2025-11-18,Pittsfield Township
 unlinked_high_score,opp_5793674a1ca2,prj_87,0.994564,Sansone York Township Data Center,MI,2025-10-01,Saline Township
 unlinked_high_score,opp_945600d23a7d,prj_202,0.994564,AWS Salem Township Data Center,PA,2025-08-11,Dorrance Township
 unlinked_high_score,opp_029db6a2b8ba,prj_331,0.994564,Howell Township Data Center (Project Splitrock),MI,2025-12-02,Tyrone Township
 unlinked_high_score,opp_f1be2c5b7a48,prj_202,0.994564,AWS Salem Township Data Center,PA,2026-02-24,Sugarloaf Township / Hazle Twp / Black Creek Twp / Nescopeck Twp
 unlinked_high_score,opp_5ebb98c62ead,prj_119,0.994564,New Brunswick Data Center,NJ,2025-03-01,South Brunswick
+unlinked_high_score,opp_e8b0f17bc6c2,prj_87,0.994564,Sansone York Township Data Center,MI,2025-08-01,Augusta Charter Township
+unlinked_high_score,opp_ae02c8386641,prj_87,0.994564,Sansone York Township Data Center,MI,2026-02-03,Lodi Township
 unlinked_high_score,opp_681e92a6ba82,prj_87,0.994564,Sansone York Township Data Center,MI,2025-09-12,Washtenaw County Circuit Court (Related Digital v. Saline Township)
 unlinked_high_score,opp_f1be2c5b7a48,prj_222,0.994564,Hollenback Township Data Center Development Zoning Application,PA,2026-02-24,Sugarloaf Township / Hazle Twp / Black Creek Twp / Nescopeck Twp
 unlinked_high_score,opp_945600d23a7d,prj_222,0.994564,Hollenback Township Data Center Development Zoning Application,PA,2025-08-11,Dorrance Township
@@ -135,22 +372,29 @@ unlinked_high_score,opp_77983677a720,prj_316,0.994564,4-3 Salem Township Data Ce
 unlinked_high_score,opp_9f706f5b61eb,prj_87,0.994564,Sansone York Township Data Center,MI,2025-09-10,Saline Township Board (rezoning denial)
 unlinked_high_score,opp_047174b0bd7a,prj_252,0.994564,Conewago Township Data Center Land Considerations,PA,2025-10-14,East Manchester Township
 unlinked_high_score,opp_fdc90b5fee1f,prj_222,0.994564,Hollenback Township Data Center Development Zoning Application,PA,2025-11-18,Hazle Township
+unlinked_high_score,opp_db8fb840800a,prj_87,0.994564,Sansone York Township Data Center,MI,2025-10-01,Milan (Augusta Township)
 unlinked_high_score,opp_11fa1ec005e1,prj_87,0.994564,Sansone York Township Data Center,MI,2025-08-12,Saline Township Planning Commission
+unlinked_high_score,opp_a065459e07c5,prj_254,0.994564,South Hanover Township Data Center,PA,2026-02-11,Londonderry Township
 unlinked_high_score,opp_f1be2c5b7a48,prj_249,0.994564,Dorrance Township Data Center Zoning Ordinance Challenge,PA,2026-02-24,Sugarloaf Township / Hazle Twp / Black Creek Twp / Nescopeck Twp
+unlinked_high_score,opp_c8935fdc0bfc,prj_85,0.994564,Deep Green Lansing Data Center,MI,2026-03-17,East Lansing
 unlinked_high_score,opp_fdc90b5fee1f,prj_249,0.994564,Dorrance Township Data Center Zoning Ordinance Challenge,PA,2025-11-18,Hazle Township
+unlinked_high_score,opp_800a31abdbf2,prj_237,0.994564,Ransom Township Data Center,PA,2026-02-03,Covington Township (Lackawanna County)
 unlinked_high_score,opp_8ea61ba234be,prj_210,0.994564,East Whiteland Township Data Center,PA,2026-02-23,North Coventry Township
 unlinked_high_score,opp_5be96f62ca1f,prj_238,0.994564,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,PA,2026-02-26,Upper Macungie Township
 unlinked_high_score,opp_3ce0e3356b0f,prj_112,0.994564,Meta Kansas City Data Center,MO,2026-03-24,City of Liberty
 unlinked_high_score,opp_77983677a720,prj_234,0.994564,Sugarloaf Township Data Center,PA,2026-03-02,Hollenback Township
+unlinked_high_score,opp_ed294718a152,prj_79,0.994564,Microsoft Gaines Township Data Center,MI,2026-02-26,Cascade Township
 unlinked_high_score,opp_95e066996918,prj_87,0.994564,Sansone York Township Data Center,MI,2026-01-12,Saline Township
 unlinked_high_score,opp_65d971d4be2c,prj_222,0.994564,Hollenback Township Data Center Development Zoning Application,PA,2026-03-17,Salem Township
 unlinked_high_score,opp_945600d23a7d,prj_234,0.994564,Sugarloaf Township Data Center,PA,2025-08-11,Dorrance Township
 unlinked_high_score,opp_7c06af7ad5fe,prj_87,0.994564,Sansone York Township Data Center,MI,2025-10-15,Saline Township (consent judgment with Related Digital)
 unlinked_high_score,opp_d7d9ccda1603,prj_87,0.994564,Sansone York Township Data Center,MI,2026-01-28,Saline Township Board (I-1 to A-1 rescission)
+unlinked_high_score,opp_414ad6e32008,prj_87,0.994564,Sansone York Township Data Center,MI,2026-02-17,Ann Arbor Township
 unlinked_high_score,opp_978f916fcce4,prj_87,0.994564,Sansone York Township Data Center,MI,2026-05-06,"Saline Township (Washtenaw County) — OpenAI Stargate 'The Barn' construction-despite-rejection, MI"
 unlinked_high_score,opp_634c0bbef377,prj_120,0.994564,East Greenwich Township Data Center,NJ,2026-04-08,Monroe Township (Gloucester County)
 unlinked_high_score,opp_0c2b8287973b,prj_232,0.994564,Dickson City Data Centers,PA,2026-03-17,City of Scranton
 unlinked_high_score,opp_fdc90b5fee1f,prj_234,0.994564,Sugarloaf Township Data Center,PA,2025-11-18,Hazle Township
+unlinked_high_score,opp_2f17ba83019b,prj_238,0.994564,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,PA,2026-04-08,Lowhill Township
 unlinked_high_score,opp_ff2f842fb285,prj_283,0.994564,5C Memphis Data Center,TN,2024-11-01,EPA Region 4 (xAI Memphis inquiry)
 unlinked_high_score,opp_b2e25d5db5cb,prj_258,0.994564,North Coventry Township Data Center,PA,2025-10-01,East Vincent Township (Pennhurst)
 unlinked_high_score,opp_2e7b25d60ea2,prj_283,0.994564,5C Memphis Data Center,TN,2025-08-01,Memphis City Council (xAI Community Benefit Ordinance)
@@ -162,18 +406,36 @@ unlinked_high_score,opp_271c92e1b93c,prj_38,0.994564,Pike Township Data Center,I
 unlinked_high_score,opp_8ec0ed3f2568,prj_283,0.994564,5C Memphis Data Center,TN,2025-03-04,Memphis City Council (Colossus Water Recycle Plant land sale)
 unlinked_high_score,opp_56cafaa65c57,prj_283,0.994564,5C Memphis Data Center,TN,2026-03-03,Memphis & Shelby County Planning (xAI Tulane Rd construction permit)
 unlinked_high_score,opp_0e4c335737e1,prj_283,0.994564,5C Memphis Data Center,TN,2025-04-25,Memphis (SCHD public hearing — Fairley High School)
+unlinked_high_score,opp_ddc082118693,prj_210,0.994564,East Whiteland Township Data Center,PA,2026-04-21,Tredyffrin Township
 unlinked_high_score,opp_c7e3a124dc06,prj_283,0.994564,5C Memphis Data Center,TN,2026-05-20,Memphis TN / Southaven MS (xAI discloses $2.8B more turbine purchases amid lawsuit)
 unlinked_high_score,opp_6b8a649077ec,prj_283,0.994564,5C Memphis Data Center,TN,2025-12-16,Memphis & Shelby County Air Pollution Control Board (xAI appeal dismissed)
 unlinked_high_score,opp_694458bf138a,prj_283,0.994564,5C Memphis Data Center,TN,2025-06-17,Memphis (NAACP/SELC 60-day NOI to sue xAI Colossus 1)
+unlinked_high_score,opp_8e45dc254c70,prj_175,0.994161,Lordstown Data Center,OH,2026-02-15,Hubbard Township
 unlinked_high_score,opp_4178542bc45d,prj_269,0.994058,Project Triboro,PA,2026-03-27,Archbald Borough
 unlinked_high_score,opp_43db08a54206,prj_1,0.994058,Project Nebius,AL,2026-07-13,Bessemer
 unlinked_high_score,opp_3a7e650bca36,prj_99,0.994058,Project Spade,MO,2026-02-16,Montgomery County
+unlinked_high_score,opp_541232306275,prj_169,0.993853,Ashville Data Center,OH,2025-12-19,South Bloomfield
+unlinked_high_score,opp_b4471ed4359e,prj_34,0.993853,Project Louie,IN,2025-07-01,Monrovia (Morgan County)
+unlinked_high_score,opp_f540cfe3c350,prj_121,0.993853,CoreWeave Kenilworth,NJ,2026-05-19,Union Township
+unlinked_high_score,opp_4ece49c58a1e,prj_121,0.993853,CoreWeave Kenilworth,NJ,2026-06-09,"Cranford Township (ban amendment to be introduced), NJ"
 unlinked_high_score,opp_43198f4163a4,prj_82,0.993835,Project Cherry Blossom,MI,2025-10-02,Dundee Township
 unlinked_high_score,opp_c511720b75b1,prj_260,0.993835,Switch Data Center at Former Pitt Race Complex,PA,2026-01-28,Shippingport
 unlinked_high_score,opp_21594d5addcb,prj_194,0.993835,J.M. Stuart Revitilization Project,OH,2026-02-01,Adams County
 unlinked_high_score,opp_674add07c321,prj_83,0.993835,Project Ironwood,MI,2025-11-17,Frenchtown Township
 unlinked_high_score,opp_2f62a1b1146b,prj_110,0.993835,Meramec Valley Technology Park,MO,2026-03-17,Franklin County (county-wide regulations)
 unlinked_high_score,opp_0f9c5e6b0f52,prj_115,0.993560,Project Cumulus,MO,2026-04-10,City of Festus
+unlinked_high_score,opp_875db5d22dba,prj_42,0.992083,Google Cedar Rapids,IA,2026-03-01,Linn County
+unlinked_high_score,opp_26d3ad70af7e,prj_298,0.992083,Maysville Data Center,KY,2026-03-27,Mason County
+unlinked_high_score,opp_e5964784a59c,prj_29,0.992083,Decennial Group Akron Data Center,IN,2026-03-03,Fulton County
+unlinked_high_score,opp_31c0843b45fe,prj_300,0.992083,Microsoft La Porte Data Center,IN,2026-04-13,LaPorte County
+unlinked_high_score,opp_c4939d76e390,prj_166,0.992083,Project Mila / Trenton Industrial Park Data Center,OH,2026-06-16,Butler County
+unlinked_high_score,opp_dbe4be37b29d,prj_125,0.992083,Cayuga Data Campus,NY,2026-01-20,Town of Lansing (Article 78 Lawsuit)
+unlinked_high_score,opp_4b69bebf2301,prj_84,0.992083,Project Flex,MI,2026-02-10,City of South Lyon
+unlinked_high_score,opp_956c7c8216dd,prj_59,0.992083,Harrodsburg Data Center,KY,2026-02-19,Mercer County (moratorium)
+unlinked_high_score,opp_29f4866c4a53,prj_180,0.992083,Project Cosmos,OH,2025-09-03,Jerome Township
+unlinked_high_score,opp_04092e1aeef4,prj_261,0.992083,Allenwood Data Center,PA,2026-07-04,Gregg Township / Union County (PNK Group data center retrofit)
 unlinked_high_score,opp_c4d2b92dc5bc,prj_36,0.992083,Project Flo,IN,2026-02-24,Indiana (statewide rally/moratorium push)
+unlinked_high_score,opp_5dec2bfaaf5b,prj_226,0.992083,Zediker Station Data Center,PA,2026-03-12,Washington County (protest)
 unlinked_high_score,opp_29f4866c4a53,prj_196,0.992083,Marysville South Data Center,OH,2025-09-03,Jerome Township
+unlinked_high_score,opp_a91d1e83c128,prj_199,0.992083,Project BOSC,OH,2026-03-07,Lima / Allen County
 unlinked_high_score,opp_5dc2341c2b96,prj_31,0.990610,Martindale Indianapolis Metrobloks Data Center,IN,2026-04-21,Indianapolis City-County Council

@@ -461,6 +461,20 @@ state/tier alone and should be down-weighted or manually reviewed.
 # needs a source to fix, so the gate blocks on everything else instead of
 # being turned off until they are. Removing an entry is how a fix lands; the
 # list is expected to shrink to nothing and this block to go with it.
+#
+# Each entry names the row it is about, and the exemption only applies when
+# the id still refers to that row. That is not defensive dressing: on
+# 2026-09-17 the source renumbered the Arkansas/Kentucky row from proposals
+# id 61 to 68 when fourteen new projects arrived, and the entry keyed prj_61
+# silently moved onto Project Osmium in Iowa -- a row with nothing wrong with
+# it, now carrying a standing exemption from the very gate built to catch a
+# mis-joined row. An id-keyed exemption against a source that renumbers is a
+# hole that wanders, and it wanders quietly, because the exempted row usually
+# does not violate and so nothing is printed.
+#
+# Verifying the name closes it. A renumbering now retires the entry and says
+# so, and the defect reappears under its new id as an ordinary violation
+# rather than staying hidden behind a key that no longer points at it.
 KNOWN_BAD = {
     # ai_centers.csv carries a bad geocode: the address of record is in one
     # state and the coordinates are in another. Three of these are exact
@@ -468,26 +482,61 @@ KNOWN_BAD = {
     # city when it cannot place the street address. Fixing them means
     # geocoding the address with a citation, or nulling the coordinates
     # pending one -- not moving the pin to somewhere plausible.
-    "aic_0003": "New Albany, OH address; plotted at 33.948,-84.5499 (Smyrna, GA)",
-    "aic_0018": "Goodyear, AZ address; plotted at 32.8998,-97.0403 (Fort Worth, TX)",
-    "aic_0020": "Holly Ridge, LA address; plotted at 45.5051,-122.9752 (Beaverton, OR)",
-    "aic_0021": "Claude, TX address; plotted at 35.7796,-78.6382 (Raleigh, NC)",
-    "aic_0024": "Afton, TX address; plotted at 39.7684,-86.1581 (Indianapolis, IN)",
+    "aic_0003": ("Meta Prometheus",
+                 "New Albany, OH address; plotted at 33.948,-84.5499 (Smyrna, GA)"),
+    "aic_0018": ("Vantage TX1",
+                 "Goodyear, AZ address; plotted at 32.8998,-97.0403 (Fort Worth, TX)"),
+    "aic_0020": ("Meta Hyperion",
+                 "Holly Ridge, LA address; plotted at 45.5051,-122.9752 (Beaverton, OR)"),
+    "aic_0021": ("Goodnight",
+                 "Claude, TX address; plotted at 35.7796,-78.6382 (Raleigh, NC)"),
+    "aic_0024": ("Coreweave Helios",
+                 "Afton, TX address; plotted at 39.7684,-86.1581 (Indianapolis, IN)"),
     # This one is the opposite: the coordinates and the address agree, and the
-    # state column is what is wrong. proposals.csv id 61 reads state
-    # "Kentucky", address "Southwest Arkansas Mega Site", coordinates in Clark
-    # County, Arkansas -- a county name that exists in both states. It is a
-    # CMS-owned row (id below the manual-addition floor), so correcting it
-    # in-repo would be overwritten by the next export and would reintroduce
-    # the two-writer problem the id migration removed. It has to be fixed at
-    # the source.
-    "prj_61": "address and coordinates say Arkansas; state column says Kentucky",
+    # state column is what is wrong. The row reads state "Kentucky", address
+    # "Southwest Arkansas Mega Site", coordinates in Clark County, Arkansas --
+    # a county name that exists in both states. It is a CMS-owned row (id
+    # below the manual-addition floor), so correcting it in-repo would be
+    # overwritten by the next export and would reintroduce the two-writer
+    # problem the id migration removed. It has to be fixed at the source.
+    #
+    # Carried as prj_61 until 2026-09-17, when the source renumbered it to 68.
+    "prj_68": ("Project Pulse",
+               "address and coordinates say Arkansas; state column says Kentucky"),
 }
+
+
+def resolve_known_bad(records: list[dict],
+                      known_bad: dict | None = None) -> tuple[set, list[str]]:
+    """Split KNOWN_BAD into exemptions that still hold and entries that do not.
+
+    An entry holds only while its id still refers to the row it describes. If
+    the id has gone, or now names something else, the exemption is retired and
+    reported: an exemption pointing at the wrong row suppresses a gate nobody
+    asked to suppress, and does it silently.
+    """
+    known_bad = KNOWN_BAD if known_bad is None else known_bad
+    by_id = {str(r.get("universe_id") or "").strip(): r for r in records}
+    exempt, stale = set(), []
+    for rid, (expected, _reason) in sorted(known_bad.items()):
+        row = by_id.get(rid)
+        if row is None:
+            stale.append(f"{rid} is no longer in the universe "
+                         f"(was {expected!r}); remove it")
+            continue
+        actual = str(row.get("name") or "").strip()
+        if actual != expected:
+            stale.append(f"{rid} now refers to {actual!r}, not {expected!r}; "
+                         "the row it was written for has been renumbered")
+            continue
+        exempt.add(rid)
+    return exempt, stale
 
 
 def geo_audit(records: list[dict]) -> list[str]:
     """Rows plotted outside the state they claim, excluding the known-bad set."""
-    bad = state_bounds.violations(records, "universe_id", exempt=set(KNOWN_BAD))
+    exempt, _stale = resolve_known_bad(records)
+    bad = state_bounds.violations(records, "universe_id", exempt=exempt)
     return [f"{rid} {name} claims {st} but is plotted at {lat},{lon}"
             for rid, name, st, lat, lon in bad]
 
@@ -553,6 +602,10 @@ def main() -> int:
     scoped = Counter(m["match_scope"] for m in matches)
     print(f"match scope: {dict(scoped)}")
 
+    exempt, stale = resolve_known_bad(records)
+    for s in stale:
+        print(f"known-bad entry retired: {s}")
+
     geo = geo_audit(records)
     if geo:
         print("GEO AUDIT FAILED: row(s) plotted outside the state they claim.")
@@ -562,7 +615,8 @@ def main() -> int:
               "wrong place. Fix the source, or add the id to KNOWN_BAD with the "
               "reason if it is a tracked defect awaiting a citation.")
         return 1
-    print(f"geo audit: clean ({len(KNOWN_BAD)} known-bad row(s) exempt)")
+    print(f"geo audit: clean ({len(exempt)} known-bad row(s) exempt"
+          + (f", {len(stale)} retired" if stale else "") + ")")
 
     hits = leak_audit([OUT_UNIVERSE, OUT_MATCHES, OUT_NOTES])
     if hits:
@@ -574,5 +628,61 @@ def main() -> int:
     return 0
 
 
+def selftest() -> int:
+    """Pins the known-bad exemption contract. No network, no files."""
+    checks = []
+
+    def check(label, ok):
+        checks.append((label, ok))
+        print(f"{'PASS' if ok else 'FAIL'}  {label}")
+
+    kb = {"prj_68": ("Project Pulse", "state column says Kentucky")}
+    pulse = {"universe_id": "prj_68", "name": "Project Pulse"}
+
+    exempt, stale = resolve_known_bad([pulse], kb)
+    check("an entry whose id still names its row exempts it",
+          exempt == {"prj_68"} and stale == [])
+
+    # The 2026-09-17 renumbering: the id the entry was written for now names
+    # an unrelated row. Exempting it would suppress the gate on a row nobody
+    # examined, so the entry retires instead.
+    osmium = {"universe_id": "prj_68", "name": "Project Osmium"}
+    exempt, stale = resolve_known_bad([osmium], kb)
+    check("a renumbered id does not exempt the row that inherited it",
+          exempt == set())
+    check("and the retirement is reported, not silent",
+          len(stale) == 1 and "Project Osmium" in stale[0]
+          and "Project Pulse" in stale[0])
+
+    exempt, stale = resolve_known_bad([], kb)
+    check("an id that has left the universe retires too",
+          exempt == set() and len(stale) == 1
+          and "no longer in the universe" in stale[0])
+
+    # The whole point: a misdirected exemption must not hide a real violation.
+    # Same coordinates, same false state claim, but the id has moved.
+    bad_row = {"universe_id": "prj_99", "name": "Project Pulse",
+               "state": "KY", "lat": "34.05370939", "lon": "-93.10588436"}
+    check("a violation under a new id is reported, not swallowed",
+          len(geo_audit([bad_row])) == 1)
+    check("names are compared exactly, not loosely",
+          resolve_known_bad(
+              [{"universe_id": "prj_68", "name": "Project Pulse II"}], kb)[0]
+          == set())
+    check("surrounding whitespace on a stored name does not break the match",
+          resolve_known_bad(
+              [{"universe_id": "prj_68", "name": "  Project Pulse  "}], kb)[0]
+          == {"prj_68"})
+    check("every live entry carries a name and a reason",
+          all(isinstance(v, tuple) and len(v) == 2 and all(v)
+              for v in KNOWN_BAD.values()))
+
+    n_ok = sum(1 for _, ok in checks if ok)
+    print(f"\n{n_ok}/{len(checks)} checks passed")
+    return 0 if n_ok == len(checks) else 1
+
+
 if __name__ == "__main__":
+    if "--selftest" in sys.argv:
+        sys.exit(selftest())
     sys.exit(main())
