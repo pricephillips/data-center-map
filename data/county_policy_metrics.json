@@ -28,23 +28,10 @@
     "stability_cost": 0.0004,
     "stability_cost_note": "median AUC given up by requiring every coefficient to hold its sign across all folds. Reported, not used as a veto; a gap beyond 0.05 is a hard stop.",
     "stability_cost_alarm": 0.05,
-    "changed_this_run": true,
-    "entered": [
-      "median_hh_income",
-      "pct_bachelors_plus",
-      "pop_density_sqmi",
-      "state_legislation_events"
-    ],
-    "left": [
-      "land_sqmi"
-    ],
-    "change_reasons": [
-      "median_hh_income: sign stable this run, positive in all folds, median coefficient +0.0543",
-      "pct_bachelors_plus: sign stable this run, positive in all folds, median coefficient +0.1480",
-      "pop_density_sqmi: sign stable this run, positive in all folds, median coefficient +0.2654",
-      "state_legislation_events: sign stable this run, negative in all folds, median coefficient -0.0942",
-      "land_sqmi: coefficient changed sign across folds, ranging -0.0296 to +0.0448, so its direction is not supported by the data"
-    ],
+    "changed_this_run": false,
+    "entered": [],
+    "left": [],
+    "change_reasons": [],
     "grid": [
       {
         "spec": "full_pool",
@@ -1159,8 +1146,8 @@
       "county_votes.json": "b521eb017a7acfa5",
       "atlas.csv": "7a8c78d3ed6cea2d",
       "master_opposition.csv": "75e748eb899dba1c",
-      "baseline_universe.csv": "a963b2878ba6497d",
-      "project_lifecycles.csv": "84be2b3057a46341"
+      "baseline_universe.csv": "6e4588213715a738",
+      "project_lifecycles.csv": "d4c258fff3125d95"
     }
   }
 }
