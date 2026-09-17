@@ -66,10 +66,65 @@ census covers; it does not shorten that path.
 maintains itself", so the documentation is correct either way. Only the
 schedule is missing.
 
-## The gate this turns loose
+## The gates this turns loose
 
-`--promote` holds on upstream's own uncertainty markers rather than
-second-guessing them, plus three structural checks:
+Two of them, answering different questions. Added 2026-09-16 in response to
+exactly the concern this file records: an unattended promotion is only as
+trustworthy as what notices when it goes wrong.
+
+### Per run: `batch_qc()`, a circuit breaker
+
+Per-row validation passing says nothing about the shape of a run. If upstream
+ships four hundred rows in a week, or its row count collapses because a fetch
+truncated, or every row for one state changes at once, each row passes and the
+batch is still wrong. So the batch gate refuses the whole append rather than
+writing a bad batch one good-looking row at a time:
+
+| Check | Trips when |
+|---|---|
+| volume | promotions exceed 4x the trailing median (needs 3 runs of history first) |
+| upstream shrinkage | upstream returns under 60 pct of the rows it did last run |
+| hold-rate collapse | the share of rows held falls far below its trailing norm |
+| state concentration | over 70 pct of promotions are one state |
+| thin volume | over 150 thin promotions in one run |
+
+**Hold-rate collapse is the one worth understanding.** The per-row gate leans
+on upstream's own uncertainty markers, so if upstream stops populating
+`has_verify_tags` the gate quietly stops holding anything and promotes
+everything. On the report that reads as a sudden quality improvement. It is the
+opposite: the brake came off. Nothing else in the module would notice, which is
+why it is checked explicitly.
+
+Thresholds are deliberately loose. This is a circuit breaker for a run that has
+gone wrong, not a quality score. A gate that trips on ordinary weeks gets
+disabled, and a disabled gate protects nothing.
+
+A batch hold appends nothing and exits nonzero, but still writes every decision
+to `data/census_promotion_report.csv`, so a refused run is reviewable rather
+than invisible. `--force` overrides it when a batch is legitimately large.
+
+### Per promotion: `confidence_tier()`, the flag on what could not be fully verified
+
+Every promotion is tiered in the report:
+
+- **corroborated** - the tracker already holds a restrictive record for this
+  county, so upstream is a second independent reading rather than the only one
+- **single_source** - upstream is the only assertion, but promoting it does not
+  move the county's label
+- **thin** - upstream is the only assertion, promoting it flips the label from
+  0 to 1, and there is no primary-source URL behind it
+
+On the 2026-09 upstream that is **33 corroborated and 35 thin**, and the 35
+thin ones are exactly the promotions that would flip a county label. They are
+the rows to read if you read any.
+
+`--hold-thin` refuses them outright instead of flagging them, which is the
+stricter posture available without editing code.
+
+### Per row: `gate_row()`, unchanged
+
+Holds on upstream's own uncertainty markers rather than second-guessing them,
+plus three structural checks:
 
 | Hold reason | Meaning |
 |---|---|
@@ -103,6 +158,11 @@ nothing in it is subtle.
    has never accepted), so a green run is itself new.
 2. `data/census_promotion_report.csv` gains rows, and the hold reasons look
    like the table above rather than being dominated by one unexpected reason.
+   Sort by `confidence_tier` and read the `thin` rows: those are the
+   promotions that moved a county label on one uncorroborated source.
+3. `batch_verdict` on the run reads `batch_ok`. If it reads `batch_held`,
+   nothing was appended and the reason is printed in the job log; the run is
+   still fully recorded in the report.
 3. The census commit triggers `Build Clean Feed` rather than sitting until the
    nightly run. That is the point of dropping `[skip ci]`.
 4. `data/restriction_evidence_conflicts.csv` should shrink on the

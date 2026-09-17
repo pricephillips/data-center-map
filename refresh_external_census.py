@@ -5,9 +5,34 @@
 Refreshes the external restriction census against the current
 Moratorium Nation dataset.
 
-  --refresh   fetch upstream and write a delta file
-  --promote   fetch upstream and APPEND gate-passing rows to the census
-  --selftest  offline invariants
+  --refresh     fetch upstream and write a delta file
+  --promote     fetch upstream and APPEND gate-passing rows to the census
+  --hold-thin   with --promote, hold promotions resting on one source that
+                flip a county label with no primary-source URL
+  --force       with --promote, append even if the batch QC gate refuses
+  --selftest    offline invariants
+
+Two gates, answering different questions, added 2026-09-16.
+
+gate_row() is per row: is this well formed, and does upstream assert it. It
+cannot see the shape of a run. If upstream ships four hundred rows in a week,
+or its row count collapses because a fetch truncated, or every row for one
+state changes at once, each row passes and the batch is still wrong.
+
+batch_qc() is per run and refuses the whole append rather than writing a bad
+batch one good-looking row at a time. It checks volume against the trailing
+median, upstream shrinkage, single-state concentration, thin-promotion volume,
+and hold-rate collapse. That last one is the subtle case: the gate leans on
+upstream's own uncertainty markers, so if upstream stops setting them the gate
+quietly stops holding anything and the report reads as a sudden quality
+improvement. It is the brake coming off. Nothing else here would notice.
+
+confidence_tier() then says how much sits behind each individual promotion:
+corroborated (the tracker already holds a restrictive record for the county),
+single_source, or thin (one source, flips the label, no primary-source URL).
+The tier is written to data/census_promotion_report.csv per row, so an
+unattended run stays reviewable afterwards rather than reconstructable. On the
+2026-09 upstream the split is 33 corroborated to 35 thin.
 
 Correction, 2026-09-09: this docstring previously said the delta was
 written "for coverage_audit.py and restriction_worklist.py to consume".
@@ -394,6 +419,186 @@ def promote(local_rows: list[dict], upstream_raw: list[dict],
     return promoted, decisions
 
 
+# ---------------------------------------------------------------------------
+# Confidence tiering, and the batch gate
+# ---------------------------------------------------------------------------
+#
+# The per-row gate in gate_row() answers "is this row well formed and asserted
+# by upstream". It cannot answer two other questions, and both of them are
+# where an unattended promotion actually goes wrong.
+#
+# HOW WELL SUPPORTED IS THIS PARTICULAR ROW. A county the tracker already holds
+# a restrictive record for is corroborated by a second, independent reading. A
+# county where this upstream row is the only thing asserting a restriction, and
+# where promoting it flips the label from 0 to 1, is a much larger claim resting
+# on a much smaller base. Both pass gate_row identically. confidence_tier()
+# separates them and records the tier on every decision, so "this promotion was
+# thin" is visible afterwards rather than reconstructable.
+#
+# IS THIS BATCH NORMAL. Per-row validation passing says nothing about the shape
+# of the run. If upstream ships four hundred rows in a week, or its row count
+# collapses because a fetch truncated, or every row for one state changes at
+# once, each row can pass while the batch is obviously wrong. batch_qc() checks
+# the run against its own history and refuses the whole append rather than
+# writing a bad batch one good-looking row at a time.
+#
+# The subtle check is HOLD-RATE COLLAPSE. The gate leans on upstream's own
+# uncertainty markers, so if upstream stops populating has_verify_tags the gate
+# quietly stops holding anything and promotes everything. On the report that
+# reads as a sudden quality improvement. It is the opposite: the brake came off.
+# Nothing else in this module would notice, which is exactly why it is checked.
+
+TIER_CORROBORATED = "corroborated"
+TIER_SINGLE_SOURCE = "single_source"
+TIER_THIN = "thin"
+
+# Batch thresholds. Deliberately loose: this is a circuit breaker for a run
+# that has gone wrong, not a quality score. A gate that trips on ordinary weeks
+# gets disabled, and a disabled gate protects nothing.
+VOLUME_MULTIPLE = 4.0        # promotions vs trailing median
+MIN_HISTORY_RUNS = 3         # runs needed before volume is judged at all
+UPSTREAM_SHRINK_FLOOR = 0.6  # upstream smaller than this share of last seen
+HOLD_RATE_COLLAPSE = 0.25    # trailing hold rate must not fall below this share
+STATE_CONCENTRATION = 0.7    # share of promotions allowed in one state
+LABEL_FLIP_ABSOLUTE = 150    # label flips in one run
+
+
+def confidence_tier(norm: dict, raw: dict, restrictive_counties: set,
+                    frame_labels: dict | None = None) -> str:
+    """How much sits behind this one promotion.
+
+    corroborated   the tracker already holds a restrictive record for the
+                   county, so upstream is a second reading rather than the
+                   only one
+    single_source  upstream is the only assertion, but promoting it does not
+                   move the county's label
+    thin           upstream is the only assertion AND promoting it would flip
+                   the label from 0 to 1 AND there is no primary-source URL
+                   behind it, only the upstream citation
+    """
+    key = make_row_key(norm)
+    if key in restrictive_counties:
+        return TIER_CORROBORATED
+
+    flips = bool(frame_labels) and frame_labels.get(key) == "0"
+    has_primary = bool(re.search(r"https?://", (norm.get("source") or "")))
+    if flips and not has_primary:
+        return TIER_THIN
+    return TIER_SINGLE_SOURCE
+
+
+def load_frame_labels(path: str = AGG_CSV) -> tuple:
+    """(labels by county key, set of counties already holding a restriction)."""
+    labels, restrictive = {}, set()
+    if not os.path.exists(path):
+        return labels, restrictive
+    with open(path, newline="", encoding="utf-8") as fh:
+        for r in csv.DictReader(fh):
+            st = (r.get("state") or "").strip().upper()
+            key = (st, _norm_join(r.get("county_name") or ""))
+            if not key[0] or not key[1]:
+                continue
+            labels[key] = (r.get("has_enacted_restrictive") or "").strip()
+            if labels[key] == "1":
+                restrictive.add(key)
+    return labels, restrictive
+
+
+def load_promotion_history(path: str = PROMOTION_REPORT) -> list:
+    """Per-run totals from the append-only report, oldest first.
+
+    Each run is one decided_at date. Returns
+    [{"decided_at", "promoted", "held", "upstream_seen"}].
+    """
+    if not os.path.exists(path):
+        return []
+    runs = {}
+    with open(path, newline="", encoding="utf-8") as fh:
+        for r in csv.DictReader(fh):
+            day = (r.get("decided_at") or "").strip()
+            if not day:
+                continue
+            slot = runs.setdefault(day, {"decided_at": day, "promoted": 0,
+                                         "held": 0})
+            if (r.get("decision") or "") == "promote":
+                slot["promoted"] += 1
+            else:
+                slot["held"] += 1
+    return [runs[d] for d in sorted(runs)]
+
+
+def _median(values: list) -> float:
+    if not values:
+        return 0.0
+    s = sorted(values)
+    mid = len(s) // 2
+    return float(s[mid]) if len(s) % 2 else (s[mid - 1] + s[mid]) / 2.0
+
+
+def batch_qc(promoted: list, decisions: list, history: list,
+             upstream_count: int, tiers: dict) -> list:
+    """Return a list of reasons this batch should NOT be appended.
+
+    Empty list means the run looks like its own history and may proceed.
+    """
+    failures = []
+    n_prom = len(promoted)
+    considered = [d for d in decisions if d[1] != "already in census"]
+    n_held = sum(1 for _, reason in considered if reason)
+    n_considered = len(considered)
+
+    # Volume. Only judged once there is enough history to have a normal.
+    prior = [h["promoted"] for h in history]
+    if len(prior) >= MIN_HISTORY_RUNS:
+        med = _median(prior)
+        if med > 0 and n_prom > med * VOLUME_MULTIPLE:
+            failures.append(
+                f"{n_prom} promotions is more than {VOLUME_MULTIPLE:g}x the "
+                f"trailing median of {med:g}; upstream may have restructured")
+
+    # Upstream shrinkage. A truncated fetch looks like a clean small delta.
+    prior_seen = [h.get("upstream_seen") or 0 for h in history]
+    prior_seen = [v for v in prior_seen if v]
+    if prior_seen and upstream_count:
+        last = prior_seen[-1]
+        if upstream_count < last * UPSTREAM_SHRINK_FLOOR:
+            failures.append(
+                f"upstream returned {upstream_count} county rows against "
+                f"{last} last run; a truncated fetch reads as a clean delta")
+
+    # Hold-rate collapse: the brake coming off, not quality improving.
+    if n_considered >= 20:
+        rate = n_held / n_considered
+        prior_rates = [h["held"] / (h["held"] + h["promoted"])
+                       for h in history if (h["held"] + h["promoted"]) >= 20]
+        if len(prior_rates) >= MIN_HISTORY_RUNS:
+            prior_med = _median(prior_rates)
+            if prior_med >= HOLD_RATE_COLLAPSE and rate < prior_med * HOLD_RATE_COLLAPSE:
+                failures.append(
+                    f"hold rate fell to {rate:.0%} from a trailing {prior_med:.0%}; "
+                    f"upstream may have stopped setting the uncertainty markers "
+                    f"the gate depends on")
+
+    # One state dominating a run.
+    if n_prom >= 20:
+        by_state = Counter((r.get("state") or "") for r in promoted)
+        state, top = by_state.most_common(1)[0]
+        if top / n_prom > STATE_CONCENTRATION:
+            failures.append(
+                f"{top} of {n_prom} promotions are {state}; a single-state "
+                f"batch is usually an upstream edit rather than real activity")
+
+    # Label movement in one run.
+    flips = sum(1 for k in tiers if tiers[k] in (TIER_THIN, TIER_SINGLE_SOURCE))
+    thin = sum(1 for k in tiers if tiers[k] == TIER_THIN)
+    if thin > LABEL_FLIP_ABSOLUTE:
+        failures.append(
+            f"{thin} thin promotions (single source, flips a label, no primary "
+            f"source URL) exceeds {LABEL_FLIP_ABSOLUTE} in one run")
+
+    return failures
+
+
 def append_to_census(promoted: list[dict]) -> int:
     """Append promoted rows to the seeded census.
 
@@ -411,11 +616,22 @@ def append_to_census(promoted: list[dict]) -> int:
     return len(promoted)
 
 
-def write_promotion_report(decisions: list) -> None:
-    """Append-only audit trail of every promote and hold."""
+def write_promotion_report(decisions: list, tiers: dict | None = None,
+                           upstream_seen: int = 0,
+                           batch_verdict: str = "") -> None:
+    """Append-only audit trail of every promote and hold.
+
+    confidence_tier is recorded per promotion so "this one was thin" is visible
+    afterwards rather than something a reader has to reconstruct. upstream_seen
+    and batch_verdict are recorded on every row of the run because the batch
+    gate reads its own history out of this file: without the upstream count
+    there is no way to notice a truncated fetch next time.
+    """
+    tiers = tiers or {}
     stamp = dt.date.today().isoformat()
     fieldnames = ["decided_at", "state", "county", "census_status",
-                  "date_enacted", "decision", "reason", "source"]
+                  "date_enacted", "decision", "reason", "confidence_tier",
+                  "upstream_seen", "batch_verdict", "source"]
     new_file = not os.path.exists(PROMOTION_REPORT)
     with open(PROMOTION_REPORT, "a", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames, lineterminator="\n")
@@ -432,11 +648,15 @@ def write_promotion_report(decisions: list) -> None:
                 "date_enacted": norm.get("date_enacted", ""),
                 "decision": "promote" if not reason else "hold",
                 "reason": reason,
+                "confidence_tier": ("" if reason
+                                    else tiers.get(make_row_key(norm), "")),
+                "upstream_seen": upstream_seen,
+                "batch_verdict": batch_verdict,
                 "source": norm.get("source", ""),
             })
 
 
-def run_promote() -> None:
+def run_promote(force: bool = False, hold_thin: bool = False) -> int:
     local = load_local_census()
     upstream_raw = fetch_moratorium_csv()
     frame = load_county_frame()
@@ -444,18 +664,82 @@ def run_promote() -> None:
         print("WARNING: no county frame at data/county_aggregate.csv; the "
               "join check is skipped and unjoinable rows may be promoted.")
     promoted, decisions = promote(local, upstream_raw, frame)
-    n = append_to_census(promoted)
-    write_promotion_report(decisions)
+
+    labels, restrictive = load_frame_labels()
+    raw_by_key = {}
+    for raw in upstream_raw:
+        one = normalize_upstream_rows([raw])
+        if one:
+            raw_by_key[make_row_key(one[0])] = raw
+    tiers = {}
+    for row in promoted:
+        key = make_row_key(row)
+        tiers[key] = confidence_tier(row, raw_by_key.get(key, {}),
+                                     restrictive, labels)
+
+    # --hold-thin is the stricter posture, available without editing code: a
+    # promotion that rests on one source, flips the county label, and has no
+    # primary-source URL behind it is routed back to the exception queue
+    # instead of appended. On the 2026-09 upstream that is 35 of 68.
+    if hold_thin:
+        thin_keys = {k for k, t in tiers.items() if t == TIER_THIN}
+        if thin_keys:
+            kept = [r for r in promoted if make_row_key(r) not in thin_keys]
+            decisions = [(n, r if r else
+                          ("thin: one source, flips the label, no primary URL"
+                           if make_row_key(n) in thin_keys else r))
+                         for n, r in decisions]
+            print(f"--hold-thin: holding {len(promoted) - len(kept)} thin "
+                  f"promotion(s), keeping {len(kept)}")
+            promoted = kept
+            tiers = {k: v for k, v in tiers.items() if k not in thin_keys}
+
+    upstream_seen = len(normalize_upstream_rows(upstream_raw))
+    history = load_promotion_history()
+    failures = batch_qc(promoted, decisions, history, upstream_seen, tiers)
 
     held = Counter(r for _, r in decisions if r and r != "already in census")
+    by_tier = Counter(tiers.values())
+
+    if failures:
+        # Nothing is appended. The census is append-only, so a bad batch is
+        # expensive to undo and cheap to refuse; the delta stays as the queue
+        # and the next run re-evaluates from scratch.
+        verdict = "held: " + "; ".join(failures)
+        write_promotion_report(decisions, tiers, upstream_seen,
+                               "batch_held" if not force else "batch_forced")
+        print("BATCH QC FAILED. Nothing was appended to the census.\n")
+        for f in failures:
+            print(f"  {f}")
+        print(f"\n{len(promoted)} row(s) would have been promoted "
+              f"({', '.join(f'{k} {v}' for k, v in by_tier.most_common())}).")
+        print("Every decision was still recorded, so the run is reviewable:")
+        print(f"  {PROMOTION_REPORT}")
+        if not force:
+            print("\nIf this batch is legitimate, re-run with --promote --force.")
+            return 1
+        print("\n--force given: appending anyway.")
+
+    n = append_to_census(promoted)
+    if not failures:
+        write_promotion_report(decisions, tiers, upstream_seen, "batch_ok")
+
     print(f"promoted {n} row(s) into the census "
           f"({len(local)} -> {len(local) + n})")
     if promoted:
         print(f"  states represented: "
               f"{len(set(r['state'] for r in promoted))}")
+        print("  confidence: " + ", ".join(f"{k} {v}"
+                                           for k, v in by_tier.most_common()))
+        if by_tier.get(TIER_THIN):
+            print(f"  {by_tier[TIER_THIN]} promotion(s) are THIN: one source, "
+                  f"flips the county label, and no primary-source URL behind "
+                  f"the upstream citation. Filter confidence_tier in the report "
+                  f"to review them.")
     for reason, count in held.most_common():
         print(f"  held, {reason}: {count}")
     print(f"decisions appended to {PROMOTION_REPORT}")
+    return 0
 
 
 def run_selftest() -> None:
@@ -533,6 +817,93 @@ def run_selftest() -> None:
     local_fullname = [{"state": "Indiana", "county": "DeKalb County"}]
     ck("full state name does not match an abbreviated key",
        len(compute_delta(local_fullname, norm)), 2)
+
+    # --- confidence tiering -------------------------------------------------
+    row_cited = {"state": "OH", "county": "Franklin County",
+                 "source": "moratorium-nation:oh-franklin (CC-BY-4.0, "
+                           "github.com/mjbommar/moratorium-data-2026)"}
+    row_primary = dict(row_cited,
+                       source="https://franklin.oh.gov/ord-2026-14.pdf")
+    k = make_row_key(row_cited)
+
+    ck("a county the tracker already calls restrictive is corroborated",
+       confidence_tier(row_cited, {}, {k}, {k: "1"}), TIER_CORROBORATED)
+    ck("one source flipping a label with no primary URL is thin",
+       confidence_tier(row_cited, {}, set(), {k: "0"}), TIER_THIN)
+    ck("a primary source URL lifts it out of thin",
+       confidence_tier(row_primary, {}, set(), {k: "0"}), TIER_SINGLE_SOURCE)
+    ck("one source not moving a label is single_source",
+       confidence_tier(row_cited, {}, set(), {k: "1"}), TIER_SINGLE_SOURCE)
+    ck("no frame means no thin classification can be claimed",
+       confidence_tier(row_cited, {}, set(), {}), TIER_SINGLE_SOURCE)
+
+    # --- batch gate ---------------------------------------------------------
+    def runs(n, promoted, held):
+        return [{"decided_at": f"2026-0{i+1}-01", "promoted": promoted,
+                 "held": held, "upstream_seen": 200} for i in range(n)]
+
+    def prom(n, state="OH"):
+        return [{"state": state, "county": f"C{i} County",
+                 "source": "x"} for i in range(n)]
+
+    def decs(n_prom, n_held):
+        return ([({"state": "OH", "county": f"P{i} County"}, "")
+                 for i in range(n_prom)]
+                + [({"state": "OH", "county": f"H{i} County"},
+                    "upstream verify tag") for i in range(n_held)])
+
+    steady = runs(5, 10, 10)
+
+    ck("a normal run passes",
+       batch_qc(prom(12), decs(12, 10), steady, 200, {}), [])
+
+    ck("a volume spike is caught",
+       any("trailing median" in f
+           for f in batch_qc(prom(90), decs(90, 10), steady, 200, {})), True)
+
+    # Volume needs a normal before it can judge one. Asserted on the volume
+    # message specifically: this batch is also single-state, so the run is not
+    # failure-free and an emptiness check here would be testing the wrong thing.
+    ck("no history means volume is not judged",
+       any("trailing median" in f
+           for f in batch_qc(prom(90), decs(90, 10), [], 200, {})), False)
+    ck("too little history means volume is not judged",
+       any("trailing median" in f
+           for f in batch_qc(prom(90), decs(90, 10), runs(2, 10, 10), 200, {})),
+       False)
+
+    ck("a truncated upstream fetch is caught",
+       any("truncated fetch" in f
+           for f in batch_qc(prom(5), decs(5, 5), steady, 40, {})), True)
+
+    # The subtle one: upstream stops setting its uncertainty markers, so the
+    # gate holds nothing and the run looks like a quality improvement.
+    ck("hold-rate collapse is caught",
+       any("uncertainty markers" in f
+           for f in batch_qc(prom(30), decs(30, 0), steady, 200, {})), True)
+
+    ck("one state dominating a run is caught",
+       any("single-state batch" in f
+           for f in batch_qc(prom(40), decs(40, 10), steady, 200, {})), True)
+
+    mixed = prom(20, "OH") + prom(20, "GA")
+    ck("a spread run is not flagged for concentration",
+       any("single-state batch" in f
+           for f in batch_qc(mixed, decs(40, 30), steady, 200, {})), False)
+
+    many_thin = {(f"S{i}", f"c{i}"): TIER_THIN
+                 for i in range(LABEL_FLIP_ABSOLUTE + 5)}
+    ck("too many thin promotions in one run is caught",
+       any("thin promotions" in f
+           for f in batch_qc(prom(10), decs(10, 10), steady, 200, many_thin)),
+       True)
+
+    # History reconstruction from the append-only report.
+    ck("history is empty when no report exists",
+       load_promotion_history("/nonexistent/report.csv"), [])
+    ck("median of an even list", _median([1, 3, 5, 7]), 4.0)
+    ck("median of an odd list", _median([1, 3, 100]), 3.0)
+    ck("median of nothing is zero", _median([]), 0.0)
 
     # --- promotion gate -------------------------------------------------
     # The gate runs unattended, so every hold reason is pinned here.
@@ -612,6 +983,11 @@ def main() -> None:
     parser.add_argument("--refresh", action="store_true", help="Fetch upstream census and write delta")
     parser.add_argument("--promote", action="store_true",
                         help="Append gate-passing upstream rows to the census")
+    parser.add_argument("--force", action="store_true",
+                        help="Append even if the batch QC gate fails")
+    parser.add_argument("--hold-thin", action="store_true",
+                        help="Hold promotions that rest on one source, flip a "
+                             "county label, and carry no primary-source URL")
     args = parser.parse_args()
 
     if args.selftest:
@@ -621,8 +997,8 @@ def main() -> None:
         run_refresh()
         return
     if args.promote:
-        run_promote()
-        return
+        sys.exit(run_promote(force=args.force,
+                             hold_thin=args.hold_thin))
 
     parser.print_help()
     sys.exit(1)
