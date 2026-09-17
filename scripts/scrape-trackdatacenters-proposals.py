@@ -36,10 +36,40 @@ CSV_FIELDS = [
     "jobsConstruction", "jobsLongTerm", "jobsTotal",
     "companies",
     "zoningAllowance", "landSold", "bringingOwnEnergy",
-    "approx", "locationTbd", "moratoriumExempt",
+    "approx", "locationTbd", "locationConfidence", "moratoriumExempt",
     "info",
     "createdAt", "updatedAt",
 ]
+
+# ---------------------------------------------------------------------------
+# Retired columns: the source stopped sending them and the reason is known.
+#
+# On 2026-09-17 approx and locationTbd disappeared from the response, both
+# populated on all 339 rows of the run before, and the guard stopped the
+# scrape for three days. The replacement is locationConfidence, which the
+# field audit sampled as "exact" / "approximate" / "uncertain" and which is
+# now read as its own column.
+#
+# They are NOT derived back from it. approx was true on 89 rows and
+# locationTbd on 135, independently, so two booleans do not fall out of one
+# three-valued enum -- any reconstruction would be invention dressed as
+# continuity. Nothing in this repository reads either column, so there is
+# nothing to preserve by inventing it.
+#
+# The columns stay in the header, so anything reading this file keeps the
+# shape it expects and the hand-entered values on the manual rows in
+# data/proposals_added.csv survive untouched. flatten() also keeps reading
+# them, so a source that restores either one repopulates it with no change
+# here.
+#
+# Naming them here, rather than passing --allow-field-loss on one run, is the
+# point: the flag would have silenced the guard on a Tuesday and left no
+# record, and the next person to ask why these columns are empty would have
+# had to find this commit. The guard skips exactly these two and keeps
+# watching everything else.
+# ---------------------------------------------------------------------------
+
+RETIRED_FIELDS = ("approx", "locationTbd")
 
 
 def run_curl(args):
@@ -168,6 +198,7 @@ def flatten(record):
         'bringingOwnEnergy': record.get('bringingOwnEnergy', ''),
         'approx': record.get('approx', ''),
         'locationTbd': record.get('locationTbd', ''),
+        'locationConfidence': record.get('locationConfidence', ''),
         'moratoriumExempt': record.get('moratoriumExempt', ''),
         'info': (record.get('info') or '').replace('\n', ' '),
         'createdAt': record.get('createdAt', ''),
@@ -281,7 +312,7 @@ def field_samples(records, keys, limit=SAMPLE_LIMIT):
     return {k: v for k, v in out.items() if v}
 
 
-def field_audit(records, keys_read=None, source_keys=None):
+def field_audit(records, keys_read=None, source_keys=None, retired=None):
     """Compare the keys the source sent against the keys the mapping wants.
 
     Returns a dict with:
@@ -289,6 +320,9 @@ def field_audit(records, keys_read=None, source_keys=None):
                 source dropped or renamed away. A key whose SOURCE_KEYS alias
                 group has a present member is not absent: the column is being
                 read, just under a different name.
+      retired   absent keys already declared in RETIRED_FIELDS, listed apart
+                so a fresh break never arrives mixed in with a removal that
+                was understood weeks ago
       unmapped  keys the source sent that flatten() never reads -- where a
                 renamed field will be sitting
       renames   a suggested pairing of the two by name similarity, which is a
@@ -310,7 +344,10 @@ def field_audit(records, keys_read=None, source_keys=None):
     for group in source_keys.values():
         if set(group) & observed:
             covered |= set(group)
-    absent = sorted(keys_read - observed - covered)
+    retired = set(RETIRED_FIELDS if retired is None else retired)
+    gone = keys_read - observed - covered
+    absent = sorted(gone - retired)
+    retired_gone = sorted(gone & retired)
     unmapped = sorted(observed - keys_read)
     renames = {}
     for gone in absent:
@@ -318,6 +355,7 @@ def field_audit(records, keys_read=None, source_keys=None):
         if near:
             renames[gone] = near
     return {"observed": sorted(observed), "absent": absent,
+            "retired": retired_gone,
             "unmapped": unmapped, "renames": renames,
             "samples": field_samples(records, unmapped),
             "n_records": len(records)}
@@ -333,6 +371,13 @@ def write_field_audit(audit, out_dir="data"):
     if not audit["absent"] and not audit["unmapped"]:
         lines.append("Every key the source sent is mapped, and every key the "
                      "mapping reads was present. Nothing to do.")
+    if audit.get("retired"):
+        lines += ["## Retired, and expected to be absent", "",
+                  "Declared in `RETIRED_FIELDS`: the source stopped sending "
+                  "these and the reason is recorded in the scraper. They are "
+                  "listed apart from the section below so a new break is "
+                  "never read as one of these.", ""]
+        lines += [f"- `{k}`" for k in audit["retired"]] + [""]
     if audit["absent"]:
         lines += ["## Read by the mapping, absent from the response", "",
                   "These are the fields that will arrive empty. A field here "
@@ -480,9 +525,12 @@ def assert_field_population(rows, out_path, allow_field_loss=False):
     if prev_rows is None:
         print("field-population guard: no previous file, nothing to compare")
         return
-    hits = population_violations(prev_rows, rows, CSV_FIELDS)
+    watched = [f for f in CSV_FIELDS if f not in RETIRED_FIELDS]
+    hits = population_violations(prev_rows, rows, watched)
     if not hits:
-        print(f"field-population guard: clean ({len(CSV_FIELDS)} fields checked)")
+        print(f"field-population guard: clean ({len(watched)} fields checked"
+              + (f", {len(RETIRED_FIELDS)} retired" if RETIRED_FIELDS else "")
+              + ")")
         return
     detail = "\n".join(
         f"  {f}: {prev} -> {new} non-empty rows" for f, prev, new in hits)
@@ -722,8 +770,54 @@ def selftest():
           clean["unmapped"] == [])
     check("an empty response does not invent unmapped keys",
           field_audit([], keys)["unmapped"] == [])
-    check("an empty response reports every mapped key as absent",
-          len(field_audit([], keys)["absent"]) == len(keys))
+    empty_fa = field_audit([], keys)
+    check("an empty response reports every mapped key as absent or retired",
+          len(empty_fa["absent"]) + len(empty_fa["retired"]) == len(keys))
+
+    # --- retired columns (the 2026-09-17 removal) -------------------------
+    # The response now carries locationConfidence and neither boolean. This
+    # is the exact shape that failed the scrape for three days.
+    import tempfile as _tf
+    live = {"id": 1, "name": "A", "locationConfidence": "approximate"}
+    check("the replacement column is read",
+          flatten(live)["locationConfidence"] == "approximate")
+    check("a retired column is still read, so a rollback repopulates it",
+          flatten(dict(live, approx=True))["approx"] is True)
+    check("the retired columns stay in the header",
+          "approx" in CSV_FIELDS and "locationTbd" in CSV_FIELDS)
+    check("the replacement is in the header",
+          "locationConfidence" in CSV_FIELDS)
+    check("a retired field is not derived from the replacement",
+          flatten(live)["approx"] == "" and flatten(live)["locationTbd"] == "")
+
+    watched = [f for f in CSV_FIELDS if f not in RETIRED_FIELDS]
+    check("the guard no longer watches the retired columns",
+          not (set(RETIRED_FIELDS) & set(watched)))
+    check("the guard still watches everything else",
+          len(watched) == len(CSV_FIELDS) - len(RETIRED_FIELDS)
+          and "capacity_mw" in watched and "locationConfidence" in watched)
+    # The live failure, as a regression: 339 populated then zero, which is
+    # what stopped the scrape, now passes on the watched set and would still
+    # fail if it were watched.
+    prior = [{"approx": "False", "locationTbd": "True", "name": f"P{i}"}
+             for i in range(339)]
+    now = [{"approx": "", "locationTbd": "", "name": f"P{i}"} for i in range(339)]
+    check("the three-day failure no longer trips the guard",
+          population_violations(prior, now, watched) == [])
+    check("the same loss would still trip it if it were not retired",
+          len(population_violations(prior, now, ["approx", "locationTbd"])) == 2)
+
+    ret = field_audit([live], keys)
+    check("a retired field is reported as retired, not as absent",
+          ret["retired"] == ["approx", "locationTbd"]
+          and not (set(RETIRED_FIELDS) & set(ret["absent"])))
+    check("a field that is absent and not retired is still reported absent",
+          "moratoriumExempt" in ret["absent"])
+    with _tf.TemporaryDirectory() as _d:
+        ret_body = open(write_field_audit(ret, _d), encoding="utf-8").read()
+    check("the report separates retired from newly absent",
+          "## Retired, and expected to be absent" in ret_body
+          and "## Read by the mapping, absent from the response" in ret_body)
 
     # --- value samples (the 2026-09-17 unanswerable pairing) --------------
     # locationTbd -> locationConfidence was paired on name and could not be
@@ -753,10 +847,10 @@ def selftest():
     check("a key present but never populated yields no sample",
           field_samples([{"k": ""}, {"k": None}], ["k"]) == {})
 
-    fa_s = field_audit([{"id": 1, "name": "A", "locationConfidence": "exact",
+    fa_s = field_audit([{"id": 1, "name": "A", "coolingSource": "water",
                          "notes": long_prose}], keys)
     check("the audit samples the keys nothing reads",
-          fa_s["samples"].get("locationConfidence") == ['"exact"'])
+          fa_s["samples"].get("coolingSource") == ['"water"'])
     check("the audit does not sample keys the mapping already reads",
           "name" not in fa_s["samples"])
 
@@ -764,7 +858,7 @@ def selftest():
     with _tf.TemporaryDirectory() as _d:
         _p = write_field_audit(fa_s, _d)
         body = open(_p, encoding="utf-8").read()
-    check("the report shows a candidate's observed values", '"exact"' in body)
+    check("the report shows a candidate's observed values", '"water"' in body)
     check("the report never quotes long source prose", long_prose not in body)
     check("the report describes long prose by length instead",
           f"<str len={len(long_prose)}>" in body)
