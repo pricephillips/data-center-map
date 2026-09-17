@@ -127,6 +127,13 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .legend { position:absolute; top:12px; right:12px; z-index:500; background:rgba(15,18,24,.93); backdrop-filter:blur(8px); border:1px solid var(--border); border-radius:11px; padding:10px 13px; font-size:12px }
 .legend b { color:var(--text); display:block; margin-bottom:5px }
 .legend-row { display:flex; align-items:center; gap:7px; margin:4px 0; color:var(--muted) }
+.note-more { margin-top:5px }
+.note-more > summary { list-style:none; cursor:pointer; width:15px; height:15px; border-radius:50%;
+  border:1px solid var(--border); color:var(--muted); font:700 10px/13px inherit; text-align:center }
+.note-more > summary::-webkit-details-marker { display:none }
+.note-more > summary:hover { color:var(--text); border-color:var(--atlas) }
+.note-more[open] > summary { background:var(--atlas); border-color:var(--atlas); color:#0b0e14 }
+.note-more > div { margin-top:5px }
 .lsw { width:10px; height:10px; border-radius:2px; flex-shrink:0 }
 .note { font-size:10px; color:#505d6e; margin-top:7px; max-width:190px; line-height:1.4 }
 
@@ -226,15 +233,6 @@ input:focus, select:focus { border-color:#5aa9e6 }
 .filter-adv-toggle svg { transition:transform .2s }
 .advanced-filters { display:none }
 .advanced-filters.open { display:block }
-.htu-overlay { position:absolute; inset:0; z-index:599; background:rgba(0,0,0,.5); backdrop-filter:blur(2px) }
-.how-to-use  { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:600; background:#0f1722; border:1px solid var(--border); border-radius:14px; padding:24px 28px; max-width:340px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,.6) }
-.how-to-use h3 { font-size:16px; font-weight:800; margin-bottom:6px }
-.how-to-use p  { font-size:12px; color:var(--muted); margin-bottom:14px }
-.how-to-use ul { list-style:none; margin-bottom:18px }
-.how-to-use li { font-size:13px; padding:6px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:flex-start }
-.how-to-use li:last-child { border:none }
-.how-to-use li .ico { font-size:18px; line-height:1; flex-shrink:0 }
-.how-to-use .close-btn { width:100%; padding:10px; border-radius:8px; border:none; background:#1a3a5c;border:1px solid #5aa9e6;color:#fff; font-size:14px; font-weight:700; cursor:pointer }
 .layer-toggles { border-bottom:1px solid var(--border); margin-bottom:10px; padding-bottom:10px }
 .layer-toggle-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); margin-bottom:6px }
 .layer-chk { display:flex; align-items:center; gap:7px; font-size:12px; color:var(--text); padding:3px 0; cursor:pointer }
@@ -249,7 +247,7 @@ input:focus, select:focus { border-color:#5aa9e6 }
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M9 9h6v6H9z"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
         <h1>Developer Risk: Opposition Tracker</h1>
       </div>
-      <div class="sub">Community resistance, legislation, and legal challenges to data center development. Click a state to zoom in; click a pin for details.</div>
+      <div class="sub">Community resistance, legislation and legal challenges to data center projects.</div>
       <nav id="site-nav" style="display:none;flex-wrap:wrap;gap:5px;margin-top:8px">
         <a href="index.html" class="nav-pill">Atlas</a>
         <a href="opposition-tracker.html" class="nav-pill active">Tracker</a>
@@ -347,9 +345,12 @@ input:focus, select:focus { border-color:#5aa9e6 }
       <div class="legend-row" data-lf="win"><span class="lsw" style="background:var(--win)"></span>Blocked — project stopped</div>
       <div class="legend-row" data-lf="loss"><span class="lsw" style="background:var(--loss)"></span>Approved — project advanced</div>
       <div class="legend-row" data-lf="mixed"><span class="lsw" style="background:var(--mixed)"></span>Mixed</div>
-      <div class="note">Fill color = outcome · border = data source · size = severity (1–5).<br>
-        <b style="color:#cbd5e1">Solid</b> = block (halt/ban/denial) · <b style="color:#cbd5e1">faint</b> = conditional restriction.<br>
-        A white center dot marks a pin that stands for several records (one project). Statewide &amp; federal actions appear in the list, not as pins.</div>
+      <div class="note">Fill = outcome · border = source · size = severity (1–5).
+        <details class="note-more">
+          <summary aria-label="More about pin symbols" title="More about pin symbols">i</summary>
+          <div><b style="color:#cbd5e1;display:inline">Solid</b> = block (halt, ban or denial); <b style="color:#cbd5e1;display:inline">faint</b> = conditional restriction.<br>
+          A white center dot means the pin covers several records for one project. Statewide and federal actions appear in the list, not as pins.</div>
+        </details></div>
       <div id="legendVoting" style="display:none;border-top:1px solid var(--border);margin-top:8px;padding-top:8px">
         <b style="font-size:11px;color:var(--muted);font-weight:600">2024 Presidential Margin</b>
         <div style="display:flex;gap:4px;margin-top:6px;align-items:center;font-size:10px;color:var(--muted)">
@@ -1595,33 +1596,6 @@ function sevDotsLabeled(raw) {
   ).join('');
   return `<span class="sev-wrap" title="Severity: ${n} out of 5 — higher = stronger opposition">${dots}</span>`;
 }
-function showHowToUse() {
-  if (document.getElementById('htuWrap')) return;
-  const wrap = document.createElement('div');
-  wrap.id = 'htuWrap';
-  wrap.style.cssText = 'position:absolute;inset:0;z-index:598';
-  wrap.innerHTML = `
-    <div class="htu-overlay"></div>
-    <div class="how-to-use">
-      <h3>How to use this map</h3>
-      <p>Tracking community opposition to data center projects across the US.</p>
-      <ul>
-        <li><span class="ico">🗺️</span><div><b>Click any state</b> on the map to zoom in and see individual incidents.</div></li>
-        <li><span class="ico">📌</span><div><b>Click a pin</b> to see details about that specific opposition event.</div></li>
-        <li><span class="ico">🔍</span><div><b>Use the filters</b> on the left to narrow by state, result, type, or concern.</div></li>
-      </ul>
-      <button class="close-btn" onclick="_htuMark();document.getElementById('htuWrap').remove()">Got it →</button>
-    </div>`;
-  document.querySelector('.app').appendChild(wrap);
-}
-function _htuSeen() {
-  try { return window.localStorage && localStorage.getItem('dctracker_htu') === '1'; }
-  catch(e) { return false; }   // storage blocked (e.g. partitioned iframe) — show modal
-}
-function _htuMark() {
-  try { localStorage.setItem('dctracker_htu', '1'); } catch(e) {}
-}
-window.addEventListener('load', () => { if (!_htuSeen()) setTimeout(showHowToUse, 700); });
 
 // ── POLITICAL LAYER MODULE ────────────────────────────────────────────────────
 let voteData   = null;
