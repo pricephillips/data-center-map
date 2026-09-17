@@ -61,6 +61,7 @@ on:
       - 'data/county_census_features.csv'
       - 'data/county_votes.json'
       - 'data/county_fips_lookup.json'
+      - 'data/external_restriction_census.csv'
       - 'configs/audit_frames.json'
       - 'configs/frames/*.csv'
       # Every configs/*.json, not just the frame registry. Source configs
