@@ -1,9 +1,9 @@
 {
-  "generated": "2026-09-17T21:36:11Z",
+  "generated": "2026-09-17T21:59:10Z",
   "counties": 3222,
   "counties_matchable": 3115,
   "peers_per_county": 10,
-  "reference_rows": 1592,
+  "reference_rows": 1591,
   "metrics": 29,
   "groups": {
     "national": 3222,
@@ -20,10 +20,10 @@
     "pct_bachelors_plus",
     "margin_2024"
   ],
-  "score_separation_restrictive_minus_non": 0.0936,
+  "score_separation_restrictive_minus_non": 0.101,
   "medians": {
     "national": {
-      "calibrated_score": 0.0638,
+      "calibrated_score": 0.0607,
       "n_opposition_events": 0.0,
       "opposition_events_per_100k": 0.0,
       "existing_dc_count": 0.0,
@@ -34,7 +34,7 @@
       "margin_2024": -0.41974999999999996
     },
     "restrictive": {
-      "calibrated_score": 0.1531,
+      "calibrated_score": 0.1576,
       "n_opposition_events": 1.0,
       "opposition_events_per_100k": 1.6729821743749322,
       "existing_dc_count": 0.0,
@@ -45,7 +45,7 @@
       "margin_2024": -0.207
     },
     "non_restrictive": {
-      "calibrated_score": 0.0595,
+      "calibrated_score": 0.0566,
       "n_opposition_events": 0.0,
       "opposition_events_per_100k": 0.0,
       "existing_dc_count": 0.0,
@@ -56,7 +56,7 @@
       "margin_2024": -0.4401
     },
     "dc_present": {
-      "calibrated_score": 0.2866,
+      "calibrated_score": 0.3152,
       "n_opposition_events": 1.0,
       "opposition_events_per_100k": 0.18367564350761703,
       "existing_dc_count": 2.0,
@@ -67,7 +67,7 @@
       "margin_2024": -0.0168
     },
     "tracked_activity": {
-      "calibrated_score": 0.1395,
+      "calibrated_score": 0.1464,
       "n_opposition_events": 1.0,
       "opposition_events_per_100k": 1.7834690256016978,
       "existing_dc_count": 0.0,
@@ -79,8 +79,8 @@
     }
   },
   "inputs": {
-    "county_aggregate.csv": "ac7a9100ac9cd6b3",
-    "county_policy_scores.csv": "cb8c2fb6073b9615",
-    "county_policy_intervals.csv": "300461e9a8e35ff9"
+    "county_aggregate.csv": "13e26e3f85cc256d",
+    "county_policy_scores.csv": "503f4f90ccfc3d10",
+    "county_policy_intervals.csv": "4a61c767e1e7e70b"
   }
 }
