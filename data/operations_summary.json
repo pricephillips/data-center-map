@@ -216,14 +216,20 @@
       ]
     },
     "harvested_signals": {
-      "decisions": 3776,
+      "decisions": 3777,
       "by_action": {
-        "blocked": 2020,
+        "blocked": 2021,
         "promoted": 1756
       },
       "first_run": "2026-08-13",
-      "last_run": "2026-09-14",
+      "last_run": "2026-09-17",
       "recent": [
+        {
+          "date": "2026-09-17",
+          "action": "blocked",
+          "what": "",
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
+        },
         {
           "date": "2026-09-14",
           "action": "blocked",
@@ -265,12 +271,6 @@
           "action": "blocked",
           "what": "",
           "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
-        },
-        {
-          "date": "2026-09-14",
-          "action": "promoted",
-          "what": "",
-          "reason": ""
         }
       ]
     }
@@ -653,13 +653,13 @@
     "with_coordinates": 1506,
     "decisions_this_run": {
       "promotable": 983,
-      "held": 431,
-      "blocked": 316
+      "held": 425,
+      "blocked": 313
     },
     "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
     "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
-    "decisions_newly_recorded": 132,
-    "decisions_unchanged_since_last_run": 1598
+    "decisions_newly_recorded": 130,
+    "decisions_unchanged_since_last_run": 1591
   },
   "note": "Every figure here is read from an audit trail the pipeline writes on its own runs. A missing input becomes a null section rather than a zero: an operations page that invents a number is worse than one with a gap in it."
 }
