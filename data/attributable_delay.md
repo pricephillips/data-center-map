@@ -1,12 +1,12 @@
 # Opposition-Attributable Delay (gated)
 
-Generated 2026-09-14 by `attributable_delay.py`. **Internal — NOT client-facing.** This module emits an estimate only when its gates pass; a WITHHELD state is normal and correct until then.
+Generated 2026-09-18 by `attributable_delay.py`. **Internal — NOT client-facing.** This module emits an estimate only when its gates pass; a WITHHELD state is normal and correct until then.
 
 ## Gate status
 
 - SHORT: control-side verified decision events — 0 / 10 required
-- SHORT: opposed verified events within matched sets — 0 / 15 required
-- SHORT: matched sets usable on both arms — 0 / 25 required
+- SHORT: opposed verified events within matched sets — 9 / 15 required
+- PASS: matched sets usable on both arms — 173 / 25 required
 
 ## Verdict: **WITHHELD**
 
