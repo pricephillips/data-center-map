@@ -21,6 +21,7 @@ jobs:
           python-version: '3.12'
 
       - name: Run scraper
+        id: scrape
         run: python scripts/scrape-trackdatacenters-proposals.py --out data/proposals.csv
 
       # if: always() is the point of this step, not a detail. The population
@@ -47,12 +48,23 @@ jobs:
             echo "Nothing to commit."
             exit 0
           fi
-          # Name what actually changed: saying "update proposals csv" on a run
-          # where the guard stopped the write would be untrue.
-          if git diff --cached --name-only | grep -qx 'data/proposals.csv'; then
+          # Name what actually happened. There are three outcomes here, not
+          # two, and the missing third one made every quiet day look like a
+          # broken pipeline: on 2026-09-18 the scrape ran green, the guard
+          # passed, and the source simply had nothing new, so proposals.csv
+          # came out byte-identical and staged nothing. The old test read that
+          # as "the scrape did not write proposals.csv" and committed it as
+          # such. A green run that reports itself blocked, every day the
+          # source is quiet, is how a real blockage gets ignored.
+          #
+          # Whether the file CHANGED cannot answer whether it was WRITTEN. The
+          # scraper step's own outcome can, so that is what decides it.
+          if [ "${{ steps.scrape.outcome }}" != "success" ]; then
+            MSG="chore: scrape blocked before writing proposals.csv; field audit only"
+          elif git diff --cached --name-only | grep -qx 'data/proposals.csv'; then
             MSG="chore: update proposals csv from trackdatacenters"
           else
-            MSG="chore: scraper field audit only (scrape did not write proposals.csv)"
+            MSG="chore: no upstream changes; refreshed scraper field audit"
           fi
           git commit -m "$MSG [$(date -u +%Y-%m-%dT%H:%M:%SZ)]"
           for i in 1 2 3; do
