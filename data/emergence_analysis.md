@@ -1,6 +1,6 @@
 # Emergence Analysis: Verified-Negative Audit
 
-Generated 2026-09-14. Gate thresholds registered 2026-07-27. This is the analysis layer over negative_audit.py; the audit frame design itself is registered separately and is not modified here.
+Generated 2026-09-18. Gate thresholds registered 2026-07-27. This is the analysis layer over negative_audit.py; the audit frame design itself is registered separately and is not modified here.
 
 ## Gate decision
 
@@ -8,10 +8,10 @@ Generated 2026-09-14. Gate thresholds registered 2026-07-27. This is the analysi
 
 | # | Criterion | Threshold | Observed | Met |
 | :-- | :-- | :-- | :-- | :-- |
-| G1 | random-stratum coverage | >= 0.60 | 0.0% | no |
-| G2 | undeterminable share, random stratum | <= 0.35 | no coded rows | no |
-| G3 | determinate codings, random stratum | >= 40 | 0 | no |
-| G4 | worst-case bound width | <= 0.20 | not computable | no |
+| G1 | random-stratum coverage | >= 0.60 | 1.9% | no |
+| G2 | undeterminable share, random stratum | <= 0.35 | 33.3% | yes |
+| G3 | determinate codings, random stratum | >= 40 | 2 | no |
+| G4 | worst-case bound width | <= 0.20 | 0.33 | no |
 
 ## Stratum separation
 
@@ -19,14 +19,12 @@ The worklist front-loads rows whose outcome is blocked_confirmed, because a proj
 
 | Stratum | Frame | Coded | Coverage |
 | :-- | :-- | :-- | :-- |
-| purposive (blocked_confirmed) | 16 | 9 | 56.2% |
-| random (all other frame rows) | 160 | 0 | 0.0% |
-
-Note the shape of the coded set: every coded row to date falls in the purposive cell and none in the random stratum. A combined coverage figure over the whole frame would therefore overstate progress toward an emergence estimate, which depends entirely on the random stratum. Random-stratum coverage is the number that matters and it is the one in the gate table above.
+| purposive (blocked_confirmed) | 17 | 1 | 5.9% |
+| random (all other frame rows) | 154 | 3 | 1.9% |
 
 ## Purposive cell: blocked with no recorded opposition
 
-9 of 16 coded. Findings: 6 verified_opposition, 1 verified_none, 2 undeterminable.
+1 of 17 coded. Findings: 1 verified_opposition, 0 verified_none, 0 undeterminable.
 
 This cell was a diagnostic question rather than an estimation target, and it has an answer. Where the cell is dominated by verified_opposition, the reading is that these projects did face opposition and the tracker did not carry it, which makes the cell a detection gap rather than a real population of quietly blocked projects. Consequence for existing statistics: opposition presence among blocked projects was understated, and the affected projects are listed in data/audit_discovered_opposition.csv for entry through the normal sourced-URL path.
 
@@ -34,11 +32,17 @@ The rate in this cell is not an emergence rate and must not be quoted as one. It
 
 ## Emergence rate, random stratum
 
-No determinate codings in the random stratum yet, so no emergence rate is computable. Nothing in this section can be filled in by analysis; it requires coded rows.
+Determinate codings: 2 (2 verified_opposition, 0 verified_none). Undeterminable: 1 (33.3% of coded).
+
+- Rate over determinate codings only: 1.000. This figure assumes the undeterminable rows resemble the determinate ones, which is exactly the assumption the audit exists to avoid making. It is reported for completeness and should not be the quoted number.
+- Worst-case bounds over all coded rows: [0.667, 1.000], width 0.333. This is the defensible interval.
+- Sampling interval on the determinate rate, exact binomial: [0.158, 1.000]; after finite population correction against a frame of 154: [0.161, 0.997].
+
+The two intervals answer different questions and both belong in any external statement. The sampling interval narrows as coding proceeds and collapses to a point at full coverage, because the frame is a census rather than a sample. The worst-case bounds do not narrow with coverage at all; their width is the undeterminable share.
 
 ## What actually binds
 
-At full coverage of the random stratum the worst-case bound width equals the undeterminable share. Observed share so far across all coded rows is 22.2%, which projects to a bound roughly that wide even after every row in the frame is coded.
+At full coverage of the random stratum the worst-case bound width equals the undeterminable share. Observed share so far across all coded rows is 25.0%, which projects to a bound roughly that wide even after every row in the frame is coded.
 
 | If undeterminable share is | Bound width at full coverage |
 | :-- | :-- |
@@ -67,8 +71,13 @@ Batches after this one should populate a `flags` column in the codings file rath
 
 ## Coded rows outside the frame
 
-1 coded row(s) reference a universe_id not in the current frame. This is expected when a project was later suppressed as a duplicate; the coding is retained as an audit trail and excluded from every rate above.
+6 coded row(s) reference a universe_id not in the current frame. This is expected when a project was later suppressed as a duplicate; the coding is retained as an audit trail and excluded from every rate above.
+- prj_279: verified_opposition
+- prj_201: verified_opposition
+- prj_64: verified_none
 - prj_76: verified_opposition
+- prj_266: undeterminable
+- prj_16: verified_opposition
 
 ## Standing rules observed
 
