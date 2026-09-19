@@ -1,4 +1,4 @@
-# Headline metrics (as of 2026-09-18)
+# Headline metrics (as of 2026-09-19)
 
 Scope note: this dataset tracks opposition incidents, not all data center projects. Every rate below is conditional on a conflict being visible enough to enter the tracker; projects that proceeded without tracked opposition are absent by construction.
 

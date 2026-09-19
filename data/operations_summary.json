@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-18",
+  "generated": "2026-09-19",
   "coverage": {
     "national": {
       "census_in_scope": 87,
@@ -276,14 +276,23 @@
     }
   },
   "calibration": {
-    "runs": 15,
+    "runs": 16,
     "by_verdict": {
-      "PROMOTE": 15
+      "PROMOTE": 15,
+      "HOLD": 1
     },
-    "last_verdict": "PROMOTE",
-    "last_run": "2026-09-14",
-    "current_streak": 15,
+    "last_verdict": "HOLD",
+    "last_run": "2026-09-18",
+    "current_streak": 1,
     "recent": [
+      {
+        "timestamp": "2026-09-18",
+        "model": "outcome_model",
+        "n": "98",
+        "ece": "0.1582",
+        "brier_skill_score": "0.0382",
+        "verdict": "HOLD"
+      },
       {
         "timestamp": "2026-09-14",
         "model": "outcome_model",
@@ -339,14 +348,6 @@
         "ece": "0.1389",
         "brier_skill_score": "0.1651",
         "verdict": "PROMOTE"
-      },
-      {
-        "timestamp": "2026-08-12",
-        "model": "outcome_model",
-        "n": "87",
-        "ece": "0.0853",
-        "brier_skill_score": "0.2292",
-        "verdict": "PROMOTE"
       }
     ]
   },
@@ -360,11 +361,11 @@
       "priority_1": 2
     },
     "stale_pending": {
-      "scoped": 327,
-      "stale": 265,
+      "scoped": 329,
+      "stale": 266,
       "priority_1_label_moving": 26,
       "counties_in_priority_1": 25,
-      "as_of": "2026-09-18"
+      "as_of": "2026-09-19"
     },
     "decision_dates": {
       "open": 48
@@ -417,21 +418,21 @@
     },
     "emergence": {
       "status": "LOCKED",
-      "random_coverage": 0.0,
+      "random_coverage": 0.01948051948051948,
       "strata": [
         {
           "stratum": "random",
-          "frame_n": "160",
-          "n_coded": "0",
-          "coverage": "0.0",
-          "undet_share": "0.0"
+          "frame_n": "154",
+          "n_coded": "3",
+          "coverage": "0.01948051948051948",
+          "undet_share": "0.3333333333333333"
         },
         {
           "stratum": "purposive",
-          "frame_n": "16",
-          "n_coded": "9",
-          "coverage": "0.5625",
-          "undet_share": "0.2222222222222222"
+          "frame_n": "17",
+          "n_coded": "1",
+          "coverage": "0.058823529411764705",
+          "undet_share": "0.0"
         }
       ]
     }
@@ -470,7 +471,7 @@
       "rows_us": null,
       "sha256_12": "7a8c78d3ed6c",
       "repo_last_changed": "2026-08-26",
-      "days_since_repo_change": 23
+      "days_since_repo_change": 24
     },
     {
       "source_id": "epoch_frontier",
@@ -503,7 +504,7 @@
       "rows_us": 27,
       "sha256_12": "62e41f7d669e",
       "repo_last_changed": "2026-08-26",
-      "days_since_repo_change": 23
+      "days_since_repo_change": 24
     },
     {
       "source_id": "hyperscaler_footprints",
@@ -631,7 +632,7 @@
     }
   ],
   "facility_registry": {
-    "generated": "2026-09-18",
+    "generated": "2026-09-19",
     "rows": 1506,
     "distinct_sites": 665,
     "by_source": {
