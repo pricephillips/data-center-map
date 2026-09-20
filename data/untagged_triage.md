@@ -1,6 +1,6 @@
 # Untagged row triage
 
-Held rows in the worklist: 5137
+Held rows in the worklist: 5148
 
 These rows are excluded from the clean feed and from every count. They are recoverable only by resolving the redirect to a publisher article and reading it. Everything below is a suggestion derived from the headline text, not a verified field.
 
@@ -8,17 +8,17 @@ These rows are excluded from the clean feed and from every count. They are recov
 
 | confidence | rows |
 | :-- | --: |
-| high | 436 |
-| medium | 1124 |
-| state_only | 284 |
+| high | 438 |
+| medium | 1126 |
+| state_only | 287 |
 | low | 1177 |
-| none | 2116 |
+| none | 2120 |
 
 ## Mechanism hint
 
 | hint | rows |
 | :-- | --: |
-| none | 4940 |
+| none | 4951 |
 | moratorium | 186 |
 | zoning_restriction | 3 |
 | public_comment | 3 |
@@ -30,7 +30,7 @@ These rows are excluded from the clean feed and from every count. They are recov
 
 | status | rows |
 | :-- | --: |
-| not_attempted | 5137 |
+| not_attempted | 5148 |
 
 Rows ready for a reviewer to open: 0
 Rows whose county and mechanism are already covered by a sourced row: 61
@@ -39,7 +39,7 @@ Rows whose county and mechanism are already covered by a sourced row: 61
 
 | outlet | rows |
 | :-- | --: |
-| unknown | 4194 |
+| unknown | 4205 |
 | Gazette | 26 |
 | Your Illinois News Radar » Isabel morning briefing | 18 |
 | Your Illinois News Radar » Isabel afternoon roundup | 16 |
