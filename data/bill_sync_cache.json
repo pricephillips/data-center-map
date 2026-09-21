@@ -4823,7 +4823,7 @@
   "terminal": false
  },
  "CA:AB 1577": {
-  "fetched": "2026-09-07T13:28:00",
+  "fetched": "2026-09-21T13:57:35",
   "payload": {
    "bill_id": "ocd-bill/28512a83-39f0-46a4-8f5a-0bfd5f2b9ece",
    "candidates": 16,
@@ -14669,7 +14669,7 @@
   "terminal": false
  },
  "CT:SB 245": {
-  "fetched": "2026-09-07T13:27:49",
+  "fetched": "2026-09-21T13:57:23",
   "payload": {
    "bill_id": "ocd-bill/d5be8254-753c-4ccf-8969-cc6b243a7b00",
    "candidates": 10,
@@ -14696,7 +14696,7 @@
   "terminal": false
  },
  "DE:HB 233": {
-  "fetched": "2026-09-07T13:27:54",
+  "fetched": "2026-09-21T13:57:28",
   "payload": {
    "bill_id": "ocd-bill/b8f8170f-e9b5-484e-a599-0f8c07d76c00",
    "candidates": 5,
@@ -16645,6 +16645,25 @@
    "votes": []
   },
   "terminal": false
+ },
+ "FL:HB 1517": {
+  "fetched": "2026-09-21T13:58:11",
+  "payload": {
+   "bill_id": "ocd-bill/2156b93d-a504-4707-9e4a-41e60d7cb7ea",
+   "candidates": 6,
+   "correct_outcome": "Blocked",
+   "latest_action_date": "2026-03-13",
+   "lookup_status": "ambiguous_session",
+   "n_actions": 7,
+   "openstates_url": "https://openstates.org/fl/bills/2026/HB1517/",
+   "session": "2026",
+   "stage": "Failed floor vote",
+   "stage_date": "2026-03-13",
+   "stage_evidence": "failure: Died in Economic Infrastructure Subcommittee; Companion bill(s) passed, see CS/CS/SB 484 (Ch. 2026-65)",
+   "title": "Approval of Data Center Facilities",
+   "votes": []
+  },
+  "terminal": true
  },
  "FL:SB 1118": {
   "fetched": "2026-08-12T18:04:06",
@@ -22432,7 +22451,7 @@
   "terminal": true
  },
  "GA:HB 559": {
-  "fetched": "2026-08-24T08:06:17",
+  "fetched": "2026-09-21T13:58:08",
   "payload": {
    "bill_id": "ocd-bill/595044fd-9b2b-499a-b98a-53fa27423caa",
    "candidates": 7,
@@ -22470,7 +22489,7 @@
   "terminal": false
  },
  "GA:SB 408": {
-  "fetched": "2026-08-24T08:06:18",
+  "fetched": "2026-09-21T13:58:09",
   "payload": {
    "bill_id": "ocd-bill/87bb32e1-fbc9-4355-8fec-42fe39a06250",
    "candidates": 7,
@@ -22489,7 +22508,7 @@
   "terminal": false
  },
  "GA:SB 410": {
-  "fetched": "2026-09-07T13:27:55",
+  "fetched": "2026-09-21T13:57:30",
   "payload": {
    "bill_id": "ocd-bill/3d0d7fa7-831c-47f7-b7a9-315ea60d3654",
    "candidates": 7,
@@ -23583,7 +23602,7 @@
   "terminal": false
  },
  "ID:HB 756": {
-  "fetched": "2026-08-31T15:02:03",
+  "fetched": "2026-09-21T13:58:10",
   "payload": {
    "candidates": 0,
    "lookup_status": "not_found"
@@ -26834,7 +26853,7 @@
   "terminal": true
  },
  "IN:HB 1245": {
-  "fetched": "2026-08-12T18:03:02",
+  "fetched": "2026-09-21T13:58:03",
   "payload": {
    "bill_id": "ocd-bill/cf59bf17-35c7-4bbe-bf74-bd178a644824",
    "candidates": 10,
@@ -59719,7 +59738,7 @@
   "terminal": false
  },
  "MD:HB 560": {
-  "fetched": "2026-09-07T13:27:56",
+  "fetched": "2026-09-21T13:57:31",
   "payload": {
    "bill_id": "ocd-bill/b0a2133a-af4e-4d86-859a-e89362522e8b",
    "candidates": 10,
@@ -71876,7 +71895,7 @@
   "terminal": true
  },
  "MI:HB 5396": {
-  "fetched": "2026-08-17T08:04:22",
+  "fetched": "2026-09-21T13:59:04",
   "payload": {
    "bill_id": "ocd-bill/c75ad88d-514c-42a9-b46f-25ba3fdbf645",
    "candidates": 5,
@@ -71914,7 +71933,7 @@
   "terminal": false
  },
  "MI:SB 1018": {
-  "fetched": "2026-08-31T15:04:01",
+  "fetched": "2026-09-21T13:59:05",
   "payload": {
    "bill_id": "ocd-bill/1628d603-ab38-4741-bf05-91811c38a852",
    "candidates": 5,
@@ -71971,7 +71990,7 @@
   "terminal": false
  },
  "MN:HF 16": {
-  "fetched": "2026-09-07T13:27:51",
+  "fetched": "2026-09-21T13:57:26",
   "payload": {
    "bill_id": "ocd-bill/40bb1a2e-2a50-4d60-90b1-e041f2ca401d",
    "candidates": 16,
@@ -71984,7 +72003,7 @@
    "stage": "Passed committee only",
    "stage_date": "2025-03-13",
    "stage_evidence": "committee-passage: Committee report, to adopt and re-refer to Elections Finance and Government Operations",
-   "title": "Immigration law enforcement noncooperation ordinances and policies prohibited, use of immigration-related data provided, and county attorneys required to notify",
+   "title": "Immigration law enforcement noncooperation ordinances and policies prohibited, use of immigration-related data provided, and county attorneys required to notify federal immigration authorities when an undocumented person is arrested for a crime of violence.",
    "votes": [
     {
      "chamber": "lower",
@@ -73254,7 +73273,7 @@
   "terminal": false
  },
  "MO:HB 3362": {
-  "fetched": "2026-08-12T18:03:03",
+  "fetched": "2026-09-21T13:58:04",
   "payload": {
    "bill_id": "ocd-bill/edf492dd-4f5a-46fa-85d4-e405db697abb",
    "candidates": 1,
@@ -73273,7 +73292,7 @@
   "terminal": false
  },
  "MO:HB 3364": {
-  "fetched": "2026-08-12T18:03:06",
+  "fetched": "2026-09-21T13:58:05",
   "payload": {
    "bill_id": "ocd-bill/18f205a5-a44f-4ce0-9b84-1a0051be2828",
    "candidates": 1,
@@ -73311,7 +73330,7 @@
   "terminal": false
  },
  "NC:HB 1002": {
-  "fetched": "2026-09-07T13:27:50",
+  "fetched": "2026-09-21T13:57:24",
   "payload": {
    "bill_id": "ocd-bill/f4f29134-dcd3-40ae-aa89-3c5ae6f2411d",
    "candidates": 20,
@@ -84797,14 +84816,14 @@
   "terminal": true
  },
  "NH:SB 439": {
-  "fetched": "2026-08-17T08:03:14",
+  "fetched": "2026-09-21T13:59:02",
   "payload": {
    "bill_id": "ocd-bill/81e7e5b1-f231-4b63-94ea-39d2385f0355",
    "candidates": 5,
    "correct_outcome": "Pending",
-   "latest_action_date": "2026-05-14",
+   "latest_action_date": "2026-08-20",
    "lookup_status": "matched",
-   "n_actions": 13,
+   "n_actions": 14,
    "openstates_url": "https://openstates.org/nh/bills/2026/SB439/",
    "session": "2026",
    "stage": "Passed one chamber",
@@ -85249,7 +85268,7 @@
   "terminal": false
  },
  "NJ:A 2757": {
-  "fetched": "2026-08-24T08:08:14",
+  "fetched": "2026-09-21T13:59:09",
   "payload": {
    "bill_id": "ocd-bill/ce54bcf5-6dd4-4f0c-b08d-cedea1b9c257",
    "candidates": 6,
@@ -85268,7 +85287,7 @@
   "terminal": false
  },
  "NJ:A 5165": {
-  "fetched": "2026-08-31T15:04:03",
+  "fetched": "2026-09-21T13:59:07",
   "payload": {
    "bill_id": "ocd-bill/2f491585-a120-4ca4-aa00-ce5047dfd992",
    "candidates": 6,
@@ -86118,7 +86137,7 @@
   "terminal": false
  },
  "NJ:S 1673": {
-  "fetched": "2026-08-31T15:04:05",
+  "fetched": "2026-09-21T13:59:08",
   "payload": {
    "bill_id": "ocd-bill/4c40458b-ff69-4e00-a0af-a6d3964b74eb",
    "candidates": 6,
@@ -86156,7 +86175,7 @@
   "terminal": false
  },
  "NJ:S 4390": {
-  "fetched": "2026-08-31T15:04:02",
+  "fetched": "2026-09-21T13:59:06",
   "payload": {
    "bill_id": "ocd-bill/8e78d3d1-f5e5-4a27-a7a6-73ac79c0c734",
    "candidates": 2,
@@ -86175,7 +86194,7 @@
   "terminal": false
  },
  "NJ:S 4411": {
-  "fetched": "2026-08-24T08:08:16",
+  "fetched": "2026-09-21T13:59:10",
   "payload": {
    "bill_id": "ocd-bill/7e53a588-7e1a-4a8f-b504-4ec03acdd3c6",
    "candidates": 2,
@@ -86188,13 +86207,13 @@
    "stage": "Introduced",
    "stage_date": "2026-06-04",
    "stage_evidence": "introduction: Introduced in the Senate, Referred to Senate Economic Growth Committee",
-   "title": "\"Advanced Grid Technologies Act\"; requires State oversight of supplemental projects and establishes expedited review for projects utilizing advanced transmissio",
+   "title": "\"Advanced Grid Technologies Act\"; requires State oversight of supplemental projects and establishes expedited review for projects utilizing advanced transmission technologies. *",
    "votes": []
   },
   "terminal": false
  },
  "NJ:S 680": {
-  "fetched": "2026-08-24T08:08:04",
+  "fetched": "2026-09-21T13:59:00",
   "payload": {
    "bill_id": "ocd-bill/1f3ada79-bd21-490a-aac2-e65414c1c90b",
    "candidates": 6,
@@ -86207,7 +86226,7 @@
    "stage": "Introduced",
    "stage_date": "2026-01-13",
    "stage_evidence": "introduction: Introduced in the Senate, Referred to Senate Environment and Energy Committee",
-   "title": "Requires energy usage plan for proposed artificial intelligence data centers and cryptocurrency mining facilities; requires all electricity for artificial intel",
+   "title": "Requires energy usage plan for proposed artificial intelligence data centers and cryptocurrency mining facilities; requires all electricity for artificial intelligence data centers and cryptocurrency mining facilities to be derived from new clean energy sources.",
    "votes": []
   },
   "terminal": false
@@ -124251,7 +124270,7 @@
   "terminal": false
  },
  "SD:HB 1005": {
-  "fetched": "2026-08-12T18:03:01",
+  "fetched": "2026-09-21T13:58:02",
   "payload": {
    "bill_id": "ocd-bill/2982a347-49da-4938-b50d-950ac07c7142",
    "candidates": 9,
@@ -127974,7 +127993,7 @@
   "terminal": true
  },
  "SD:SB 232": {
-  "fetched": "2026-08-24T08:05:22",
+  "fetched": "2026-09-21T13:58:00",
   "payload": {
    "bill_id": "ocd-bill/831bb01c-71ca-4280-b20c-80752fa05ca8",
    "candidates": 1,
@@ -128279,7 +128298,7 @@
   "terminal": false
  },
  "TN:SB 2128": {
-  "fetched": "2026-09-07T13:28:10",
+  "fetched": "2026-09-21T13:59:03",
   "payload": {
    "bill_id": "ocd-bill/e137e9a8-6a73-462e-ae44-d4ec9e43d2fc",
    "candidates": 5,
@@ -128292,8 +128311,189 @@
    "stage": "Introduced",
    "stage_date": "2026-01-22",
    "stage_evidence": "introduction: Filed for introduction",
-   "title": "Computers and Electronic Processing - As enacted, generally prohibits a municipality or electric utility to pay or absorb the cost of electrical infrastructure ",
-   "votes": []
+   "title": "Computers and Electronic Processing - As enacted, generally prohibits a municipality or electric utility to pay or absorb the cost of electrical infrastructure incurred to serve a data center; makes related changes. - Amends TCA Title 5; Title 6; Title 7; Title 13 and Title 65.",
+   "votes": [
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/9c949092-7bff-4859-bea7-46d9c37ed513",
+     "legislator_name": "Akbari",
+     "motion_text": "SENATE COMMERCE AND LABOR COMMITTEE: Recommended for passage with amendment/s, refer to Senate Finance, Ways, and Means Committee Ayes 9, Nays 0 PNV 0  4/7/2026",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-07"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/8e49fca4-e0d8-4273-adab-265632163d86",
+     "legislator_name": "Bailey",
+     "motion_text": "SENATE COMMERCE AND LABOR COMMITTEE: Recommended for passage with amendment/s, refer to Senate Finance, Ways, and Means Committee Ayes 9, Nays 0 PNV 0  4/7/2026",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-07"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/83e732c5-55af-4d56-b3ed-9ff358ed641e",
+     "legislator_name": "Johnson",
+     "motion_text": "SENATE COMMERCE AND LABOR COMMITTEE: Recommended for passage with amendment/s, refer to Senate Finance, Ways, and Means Committee Ayes 9, Nays 0 PNV 0  4/7/2026",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-07"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/f7006293-9fb3-4053-bd79-d77f84c6e59a",
+     "legislator_name": "Reeves",
+     "motion_text": "SENATE COMMERCE AND LABOR COMMITTEE: Recommended for passage with amendment/s, refer to Senate Finance, Ways, and Means Committee Ayes 9, Nays 0 PNV 0  4/7/2026",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-07"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/37dddeca-88ef-4254-b6f2-b2ddd6526665",
+     "legislator_name": "Southerland",
+     "motion_text": "SENATE COMMERCE AND LABOR COMMITTEE: Recommended for passage with amendment/s, refer to Senate Finance, Ways, and Means Committee Ayes 9, Nays 0 PNV 0  4/7/2026",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-07"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/cb6c477c-ceb7-41af-ab96-b03debc1b7e3",
+     "legislator_name": "Stevens",
+     "motion_text": "SENATE COMMERCE AND LABOR COMMITTEE: Recommended for passage with amendment/s, refer to Senate Finance, Ways, and Means Committee Ayes 9, Nays 0 PNV 0  4/7/2026",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-07"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/d3f48e28-4ee5-4027-9670-0d617ca6048e",
+     "legislator_name": "Taylor",
+     "motion_text": "SENATE COMMERCE AND LABOR COMMITTEE: Recommended for passage with amendment/s, refer to Senate Finance, Ways, and Means Committee Ayes 9, Nays 0 PNV 0  4/7/2026",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-07"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/86d5ff12-369b-41a4-9626-237425063c1b",
+     "legislator_name": "Watson",
+     "motion_text": "SENATE COMMERCE AND LABOR COMMITTEE: Recommended for passage with amendment/s, refer to Senate Finance, Ways, and Means Committee Ayes 9, Nays 0 PNV 0  4/7/2026",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-07"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/908edc68-a862-455c-a609-7619977252d1",
+     "legislator_name": "Yager",
+     "motion_text": "SENATE COMMERCE AND LABOR COMMITTEE: Recommended for passage with amendment/s, refer to Senate Finance, Ways, and Means Committee Ayes 9, Nays 0 PNV 0  4/7/2026",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-07"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/f539ae98-f5d7-4290-9835-f64a1ab0a8c7",
+     "legislator_name": "Haile",
+     "motion_text": "SENATE FINANCE, WAYS AND MEANS COMMITTEE: Recommended for passage with amendment/s, refer to Senate Calendar Committee Ayes 10, Nays 1 PNV 0  4/21/2026  Passed",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-21"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/fccb09fc-b331-4bba-8b84-fbd4ab3e3227",
+     "legislator_name": "Hensley",
+     "motion_text": "SENATE FINANCE, WAYS AND MEANS COMMITTEE: Recommended for passage with amendment/s, refer to Senate Calendar Committee Ayes 10, Nays 1 PNV 0  4/21/2026  Passed",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-21"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/83e732c5-55af-4d56-b3ed-9ff358ed641e",
+     "legislator_name": "Johnson",
+     "motion_text": "SENATE FINANCE, WAYS AND MEANS COMMITTEE: Recommended for passage with amendment/s, refer to Senate Calendar Committee Ayes 10, Nays 1 PNV 0  4/21/2026  Passed",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-21"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/67643e56-9e53-437b-999d-987f8b0692c1",
+     "legislator_name": "Powers",
+     "motion_text": "SENATE FINANCE, WAYS AND MEANS COMMITTEE: Recommended for passage with amendment/s, refer to Senate Calendar Committee Ayes 10, Nays 1 PNV 0  4/21/2026  Passed",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-21"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/1793564f-19a5-4ac9-91c3-7cbb47843c2b",
+     "legislator_name": "Rose",
+     "motion_text": "SENATE FINANCE, WAYS AND MEANS COMMITTEE: Recommended for passage with amendment/s, refer to Senate Calendar Committee Ayes 10, Nays 1 PNV 0  4/21/2026  Passed",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-21"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/cb6c477c-ceb7-41af-ab96-b03debc1b7e3",
+     "legislator_name": "Stevens",
+     "motion_text": "SENATE FINANCE, WAYS AND MEANS COMMITTEE: Recommended for passage with amendment/s, refer to Senate Calendar Committee Ayes 10, Nays 1 PNV 0  4/21/2026  Passed",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-21"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/88788ad3-d3e0-4846-9bd7-bc7b7f0b9759",
+     "legislator_name": "Walley",
+     "motion_text": "SENATE FINANCE, WAYS AND MEANS COMMITTEE: Recommended for passage with amendment/s, refer to Senate Calendar Committee Ayes 10, Nays 1 PNV 0  4/21/2026  Passed",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-21"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/86d5ff12-369b-41a4-9626-237425063c1b",
+     "legislator_name": "Watson",
+     "motion_text": "SENATE FINANCE, WAYS AND MEANS COMMITTEE: Recommended for passage with amendment/s, refer to Senate Calendar Committee Ayes 10, Nays 1 PNV 0  4/21/2026  Passed",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-21"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/908edc68-a862-455c-a609-7619977252d1",
+     "legislator_name": "Yager",
+     "motion_text": "SENATE FINANCE, WAYS AND MEANS COMMITTEE: Recommended for passage with amendment/s, refer to Senate Calendar Committee Ayes 10, Nays 1 PNV 0  4/21/2026  Passed",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-21"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/eda112b7-c5bc-4d24-95b8-3651090e1da4",
+     "legislator_name": "Yarbro",
+     "motion_text": "SENATE FINANCE, WAYS AND MEANS COMMITTEE: Recommended for passage with amendment/s, refer to Senate Calendar Committee Ayes 10, Nays 1 PNV 0  4/21/2026  Passed",
+     "option": "yes",
+     "result": "pass",
+     "vote_date": "2026-04-21"
+    },
+    {
+     "chamber": "upper",
+     "legislator_id": "ocd-person/44fda210-d5be-4785-ae5e-0072b4111a67",
+     "legislator_name": "Lamar",
+     "motion_text": "SENATE FINANCE, WAYS AND MEANS COMMITTEE: Recommended for passage with amendment/s, refer to Senate Calendar Committee Ayes 10, Nays 1 PNV 0  4/21/2026  Passed",
+     "option": "no",
+     "result": "pass",
+     "vote_date": "2026-04-21"
+    }
+   ]
   },
   "terminal": false
  },
@@ -128317,7 +128517,7 @@
   "terminal": false
  },
  "TN:SB 2653": {
-  "fetched": "2026-09-07T13:28:11",
+  "fetched": "2026-09-21T13:58:06",
   "payload": {
    "bill_id": "ocd-bill/149c0c89-dbef-498f-b356-a5cecf2871ee",
    "candidates": 5,
@@ -128330,13 +128530,13 @@
    "stage": "Introduced",
    "stage_date": "2026-02-02",
    "stage_evidence": "introduction: Introduced, Passed on First Consideration",
-   "title": "Business and Commerce - As introduced, creates the \"Tennessee Data Center Impact Review Act.\" - Amends TCA Title 5; Title 6; Title 7; Title 10; Title 62; Title ",
+   "title": "Business and Commerce - As introduced, creates the \"Tennessee Data Center Impact Review Act.\" - Amends TCA Title 5; Title 6; Title 7; Title 10; Title 62; Title 65; Title 68 and Title 69.",
    "votes": []
   },
   "terminal": false
  },
  "TX:SB 6": {
-  "fetched": "2026-09-07T13:27:53",
+  "fetched": "2026-09-21T13:57:27",
   "payload": {
    "bill_id": "ocd-bill/cd931474-2300-4df9-90fc-5501da38aaa9",
    "candidates": 14,
@@ -128349,7 +128549,7 @@
    "stage": "Passed one chamber",
    "stage_date": "2025-08-12",
    "stage_evidence": "passage in upper",
-   "title": "Relating to abortion, including civil liability for the manufacture and provision of abortion-inducing drugs, exemptions from the Texas Citizens Participation A",
+   "title": "Relating to abortion, including civil liability for the manufacture and provision of abortion-inducing drugs, exemptions from the Texas Citizens Participation Act and Religious Freedom Restoration Act, authorizing civil and qui tam actions, amendments to the fee-shifting statute governing abortion litigation, immunity defenses and limits on state-court jurisdiction and relief, the parens patriae standing of the attorney general, and the jurisdiction of the Fifteenth Court of Appeals; providing for severability.",
    "votes": []
   },
   "terminal": false
@@ -135569,7 +135769,7 @@
   "terminal": false
  },
  "VA:HB 155": {
-  "fetched": "2026-09-07T13:27:58",
+  "fetched": "2026-09-21T13:57:33",
   "payload": {
    "bill_id": "ocd-bill/04e695cb-8b2e-404e-a6ab-6db6e433261e",
    "candidates": 5,
@@ -142211,7 +142411,7 @@
   "terminal": false
  },
  "VA:SB 619": {
-  "fetched": "2026-09-07T13:27:57",
+  "fetched": "2026-09-21T13:57:32",
   "payload": {
    "bill_id": "ocd-bill/ac6aa3fe-0b25-464e-9976-ef76f2ae7214",
    "candidates": 6,
