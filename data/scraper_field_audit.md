@@ -1,6 +1,6 @@
 # Scraper field audit
 
-Generated 2026-09-20 by `scripts/scrape-trackdatacenters-proposals.py`.
+Generated 2026-09-21 by `scripts/scrape-trackdatacenters-proposals.py`.
 
 341 records; 49 distinct top-level keys in the response.
 
