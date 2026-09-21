@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-20",
+  "generated": "2026-09-21",
   "coverage": {
     "national": {
       "census_in_scope": 87,
@@ -361,11 +361,11 @@
       "priority_1": 2
     },
     "stale_pending": {
-      "scoped": 333,
-      "stale": 266,
+      "scoped": 334,
+      "stale": 267,
       "priority_1_label_moving": 26,
       "counties_in_priority_1": 25,
-      "as_of": "2026-09-20"
+      "as_of": "2026-09-21"
     },
     "decision_dates": {
       "open": 48
@@ -471,7 +471,7 @@
       "rows_us": null,
       "sha256_12": "7a8c78d3ed6c",
       "repo_last_changed": "2026-08-26",
-      "days_since_repo_change": 25
+      "days_since_repo_change": 26
     },
     {
       "source_id": "epoch_frontier",
@@ -504,7 +504,7 @@
       "rows_us": 27,
       "sha256_12": "62e41f7d669e",
       "repo_last_changed": "2026-08-26",
-      "days_since_repo_change": 25
+      "days_since_repo_change": 26
     },
     {
       "source_id": "hyperscaler_footprints",
@@ -632,7 +632,7 @@
     }
   ],
   "facility_registry": {
-    "generated": "2026-09-20",
+    "generated": "2026-09-21",
     "rows": 1506,
     "distinct_sites": 665,
     "by_source": {
@@ -659,8 +659,8 @@
     },
     "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
     "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
-    "decisions_newly_recorded": 131,
-    "decisions_unchanged_since_last_run": 1591
+    "decisions_newly_recorded": 130,
+    "decisions_unchanged_since_last_run": 1592
   },
   "note": "Every figure here is read from an audit trail the pipeline writes on its own runs. A missing input becomes a null section rather than a zero: an operations page that invents a number is worse than one with a gap in it."
 }
