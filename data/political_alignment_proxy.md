@@ -337,13 +337,13 @@ Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is n
 
 ### Political alignment proxy: NH
 
-Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is never assigned automatically; see module docstring.
+Proxy score 2. A verified chamber roll call shows a restrictive measure passing or a supportive measure failing. A 1 is never assigned automatically; see module docstring.
 
 - Statewide legislative records on data centers: 3 (0 supportive, 3 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
   - 2026-02-11 (statewide): restrictive (feed qc_leg_stance: restrictive)
   - 2026-01-01 (unidentified): restrictive (feed qc_leg_stance: restrictive)
-  - 2026-01-29 (SB 439 municipal zoning): restrictive (feed qc_leg_stance: restrictive)
+  - 2026-01-29 (SB 439 municipal zoning): restrictive (verified roll call, latest recorded action: SB 439 passed 16 yes / 8 no on 2026-01-29)
 - This proxy reads the public statewide legislative record only. Governor's position, local board and EDO stance, and utility/regulator posture are not covered and must be researched separately; see political_alignment_worklist.py.
 
 ### Political alignment proxy: NJ
@@ -481,7 +481,7 @@ Proxy score 2. A verified chamber roll call shows a restrictive measure passing 
 - Statewide legislative records on data centers: 4 (0 supportive, 4 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
   - 2026-03-24 (statewide): restrictive (feed qc_leg_stance: restrictive)
-  - 2026-02-18 (SB 232): restrictive (feed qc_leg_stance: restrictive)
+  - 2026-02-18 (SB 232): restrictive (verified roll call, latest recorded action: SB 232 failed 3 yes / 5 no on 2026-02-18)
   - 2026-02-24 (moratorium/incentive defeat): restrictive (feed qc_leg_stance: restrictive)
   - 2026-03-25 (SB 135 — bars state from limiting local authority to regulate/ban data centers): restrictive (verified roll call, latest recorded action: SB 135 passed 33 yes / 1 no on 2026-03-10)
 - This proxy reads the public statewide legislative record only. Governor's position, local board and EDO stance, and utility/regulator posture are not covered and must be researched separately; see political_alignment_worklist.py.
@@ -495,7 +495,7 @@ Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is n
   - 2026-02-01 (statewide): restrictive (feed qc_leg_stance: restrictive)
   - 2026-02-02 (SB 2653 impact review act): unclear (feed qc_leg_stance: unclear)
   - 2026-01-15 (Colossus Water Recycle permit): unclear (feed qc_leg_stance: unclear)
-  - 2026-01-26 (HB1847/SB2128 data-center self-generation): unclear (verified roll call, latest recorded action: HB 1847 passed 0 yes / 0 no on 2026-04-22)
+  - 2026-01-26 (HB1847/SB2128 data-center self-generation): unclear (verified roll call, latest recorded action: HB 1847 passed 0 yes / 0 no on 2026-04-22; SB 2128 passed 10 yes / 1 no on 2026-04-21)
 - This proxy reads the public statewide legislative record only. Governor's position, local board and EDO stance, and utility/regulator posture are not covered and must be researched separately; see political_alignment_worklist.py.
 
 ### Political alignment proxy: TX

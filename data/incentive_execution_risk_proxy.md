@@ -74,7 +74,12 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 74
+  - candidate docket (tax increment): General Growth Properties, Inc., Bankr. S.D.N.Y. (2009-04-16)
+  - candidate docket (tax increment): State of Texas v. Janet Yellen, in her official capacity as Secretary of the Treasury, N.D. Tex. (2021-05-03)
+  - candidate docket (tax increment): Thomson Reuters Enterprise Centre GmbH v. ROSS Intelligence Inc., D. Del. (2020-05-06)
+  - candidate docket (abatement): Mallinckrodt plc, Bankr. D. Del. (2020-10-12)
+  - candidate docket (abatement): W.R. Grace & Co., Bankr. D. Del. (2001-04-02)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Cass County, 
@@ -83,7 +88,12 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 97
+  - candidate docket (tax increment): Lauve v. Winfrey, E.D. Mich. (2017-08-20)
+  - candidate docket (tax increment): The Weitz Company, L.L.C. v. Great Western Bank of Omaha, Nebraska, Bankr. D. Neb. (2007-06-08)
+  - candidate docket (tax increment): SECURITIES AND EXCHANGE COMMISSION v. J.P. MORGAN SECURITIES LLC, D.N.J. (2011-07-07)
+  - candidate docket (tax increment): Newell Rubbermaid, Inc. v. Bosgraaf, W.D. Mich. (2015-06-09)
+  - candidate docket (tax increment): City of Detroit, Michigan, Bankr. E.D. Mich. (2013-07-18)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Charlotte, 
@@ -168,6 +178,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Emmet, 
+
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+
+- Local tax-incentive records on file: 0
+- Local meeting items on file: 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
+
+### Incentive execution risk proxy: Escambia, 
 
 Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
@@ -1884,7 +1903,7 @@ Proxy score 4. Local meeting activity on file for the county. A 1 is never assig
   - local meeting: 2026-10-22T00:00:00  (legistar)
   - local meeting: 2026-10-15T00:00:00  (legistar)
   - local meeting: 2026-10-08T00:00:00 Cancelled (legistar)
-  - local meeting: 2026-10-01T00:00:00  (legistar)
+  - local meeting: 2026-10-01T00:00:00 Cancelled (legistar)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Grundy County, IL
@@ -6370,13 +6389,13 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 11
+- Local meeting items on file: 13
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
-  - local meeting: Fri, 11 Sep 2026 14:21:09 -0500 Board of Supervisors Town Hall Meeting Agenda (civicplus_rss)
-  - local meeting: Thu, 10 Sep 2026 12:58:07 -0500 Library Board Regular Meeting (civicplus_rss)
-  - local meeting: Thu, 10 Sep 2026 08:54:43 -0500 Planning Commission Meeting Agenda (civicplus_rss)
-  - local meeting: Thu, 10 Sep 2026 08:54:16 -0500 Planning Commission Meeting Agenda (civicplus_rss)
-  - local meeting: Wed, 09 Sep 2026 11:50:48 -0500 Library Board Regular Meeting (civicplus_rss)
+  - local meeting: Wed, 16 Sep 2026 09:51:00 -0500 September CPMT Meeting Agenda (civicplus_rss)
+  - local meeting: Wed, 16 Sep 2026 09:15:34 -0500 Board of Supervisors Town Hall Meeting Agenda (civicplus_rss)
+  - local meeting: Mon, 14 Sep 2026 17:07:08 -0500 Board of Supervisors Workshop - Strategic Plan (civicplus_rss)
+  - local meeting: Mon, 14 Sep 2026 16:54:32 -0500 Agricultural and Forestal District Advisory Meeting (civicplus_rss)
+  - local meeting: Mon, 14 Sep 2026 11:23:59 -0500 Joint Special Meeting - Referendum regarding Sales and Use Tax to support Powhatan County Public Schools Capital Projects (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Prince William, VA
@@ -6602,13 +6621,11 @@ Proxy score 4. Local meeting activity on file for the county. A 1 is never assig
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 25
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
-  - local meeting: 2026-09-22T00:00:00 Notice of Potential Quorum (legistar)
-  - local meeting: 2026-09-18T00:00:00 City-County Building, 210 Martin Luther King Jr. Blvd Room 351, Madison WI 53703; Remote: 888-788-0099 (legistar)
-  - local meeting: 2026-09-17T00:00:00 This meeting will start after the joint meeting with Public Protection and Judiciary Committee.
-
-See below for additional instructions on how to attend the meeting and provide public testimony (legistar)
-  - local meeting: 2026-09-17T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. The meeting will begin at 5:30 pm or when the Land Conservation Committee adjourns, whichever is later. The Zoom link for the meetings is the same. (legistar)
-  - local meeting: 2026-09-17T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
+  - local meeting: 2026-09-24T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
+  - local meeting: 2026-09-24T00:00:00 See below for additional instructions on how to attend the meeting and provide public testimony. (legistar)
+  - local meeting: 2026-09-24T00:00:00 Hybrid Meeting: Attend in person at the City County Building in Room 351; attend virtually via Zoom. (legistar)
+  - local meeting: 2026-09-24T00:00:00 Notice of Potential Quorum (legistar)
+  - local meeting: 2026-09-24T00:00:00 City-County Building, 210 Martin Luther King Jr. Blvd Room 351, Madison WI 53703; Remote: 888-788-0099 (legistar)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Dodge County, WI
