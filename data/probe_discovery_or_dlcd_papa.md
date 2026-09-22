@@ -1,6 +1,6 @@
 # Endpoint probe: or_dlcd_papa
 
-Probed 2026-09-15T12:42:13Z  
+Probed 2026-09-22T12:38:14Z  
 **1 of 4 probes landed on a machine-readable route (csv)**
 
 Oregon requires every city and county to file a Post-Acknowledgement Plan Amendment notice with DLCD for any comprehensive plan amendment or zone change, and DLCD must publish proposals and adoptions weekly — precisely the instrument an Oregon data center rezoning uses, captured statewide before the vote. The 2026-09-02 scan called this 'not Socrata, so a small adapter'; that was an assumption, and the first probe here tests it directly. Registered 2026-09-09.

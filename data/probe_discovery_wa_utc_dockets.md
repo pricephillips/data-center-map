@@ -1,6 +1,6 @@
 # Endpoint probe: wa_utc_dockets
 
-Probed 2026-09-15T12:42:18Z  
+Probed 2026-09-22T12:38:19Z  
 **1 of 4 probes landed on a machine-readable route (csv)**
 
 Washington UTC. Registered 2026-09-09 for item 7 of docs/western_coverage_sources.md. Finding 4 of that memo establishes why western commissions matter: in non-ISO territory there is no regional load interconnection queue at all, so a large load connects through a state-approved retail tariff, and the utility filing that tariff or a special contract names the customer and the load. This is the most promising of the four western commissions because it is the only one where a public citation exposes an API-shaped host rather than a search form. Washington shows the same under-observation pattern as Oregon: Grant County carries 39 tracked facilities against 1 recorded opposition event, and Douglas 13 against 1.
