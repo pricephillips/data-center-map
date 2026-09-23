@@ -1,6 +1,6 @@
 # Bill taxonomy
 
-Generated 2026-09-21.
+Generated 2026-09-23.
 
 Every bill this repository has matched, classified on two axes: how the law reaches data centers, and what it does to them. Reach decides whether a roll call on the bill may carry a stance; only `data_center_specific` and `large_load_class` may.
 
