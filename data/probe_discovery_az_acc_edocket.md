@@ -1,6 +1,6 @@
 # Endpoint probe: az_acc_edocket
 
-Probed 2026-09-15T12:41:36Z  
+Probed 2026-09-22T12:37:38Z  
 **no machine-readable route found; the site answers as HTML only**
 
 Arizona Corporation Commission eDocket. Registered 2026-09-09 for item 7. Arizona has the densest existing western coverage to build on: five counties carry recorded opposition events, 24 in total, led by Maricopa at 14 against 63 tracked facilities. So a docket route here is depth and corroboration rather than discovery -- which also makes it the best of the four for checking a new source against what is already known.

@@ -1,6 +1,6 @@
 # Endpoint probe: co_puc_efilings
 
-Probed 2026-09-15T12:42:05Z  
+Probed 2026-09-22T12:38:11Z  
 **1 of 4 probes landed on a machine-readable route (csv)**
 
 Colorado PUC E-Filings, searchable from 1994 forward. Registered 2026-09-09 for item 7. Colorado matters for this project beyond its size: ten Colorado counties in data/county_aggregate.csv carry at least one recorded opposition event, and eight of the ten carry exactly one -- Denver at 3 and Logan at 2 are the only exceptions. A docket route here would deepen counties already visible at the thinnest possible margin rather than only adding new ones.
@@ -31,11 +31,11 @@ Returns tabular data directly. This is the cheapest possible case: the tabular a
 
 _The filing-level route from the same toolkit. Confirms whether the empty p_session_id is accepted, which decides whether anything here is reachable without establishing a session first._
 
-- Family: **html** — HTML page (200)
-- HTTP 200 `text/html;charset=utf-8`
-- Keywords present: proceeding, public utilities commission
+- Family: **unreachable** — TimeoutError: The read operation timed out
+- HTTP 0 `no content-type`
+- Keywords present: _none_
 
-Plain HTML with no form. Likely a landing page rather than the data route; look for a link to a search, report or download page and add it as another probe.
+No response. Could be the network this ran on rather than the source; re-run in CI before concluding anything.
 
 ## https://puc.colorado.gov/puc-decisions
 

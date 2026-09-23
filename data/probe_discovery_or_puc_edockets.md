@@ -1,6 +1,6 @@
 # Endpoint probe: or_puc_edockets
 
-Probed 2026-09-15T12:42:14Z  
+Probed 2026-09-22T12:38:16Z  
 **1 of 4 probes landed on a machine-readable route (csv)**
 
 Oregon PUC eDockets. Registered 2026-09-09 for item 7. Two reasons Oregon is the strongest case of the four. configs/or_dlcd_papa.json covers the land-use half of the same decisions, so the two sources corroborate rather than duplicate. And Oregon holds the clearest under-observation signal in the aggregate: Morrow County carries 28 tracked facilities against 1 recorded opposition event, Umatilla 31 against 1. A county hosting thirty data centers and generating one recorded event is far more likely to be under-observed than quiet, and a tariff docket naming the customer is exactly the instrument that would show it.

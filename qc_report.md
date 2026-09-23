@@ -1,13 +1,13 @@
 # Master Opposition QC Report
 
-- Records scanned: **1945**
-- Passed to feed: **1718**
-- Blocked / quarantined: **227**
+- Records scanned: **1976**
+- Passed to feed: **1742**
+- Blocked / quarantined: **234**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- DUPLICATE: 221
+- DUPLICATE: 228
 - LEG_SOURCE_WEAK: 4
 - STATEWIDE_CAPITAL_SINK: 1
 - STUDY_SOURCE_WEAK: 1
@@ -220,4 +220,4 @@
 | Judge dismisses Edgerton , Kansas , lawsuit against citizens in data center debate | project | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | LEGISLATIVE ROUNDUP : State Reps . Walsh , Pugh seek action on data center legislation | legislative | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Warren City Council votes to approve 12 - month data center moratorium | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
-| ...and 27 more | | | see quarantine.json |
+| ...and 34 more | | | see quarantine.json |

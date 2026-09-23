@@ -1,8 +1,8 @@
 # Scraper field audit
 
-Generated 2026-09-21 by `scripts/scrape-trackdatacenters-proposals.py`.
+Generated 2026-09-23 by `scripts/scrape-trackdatacenters-proposals.py`.
 
-341 records; 49 distinct top-level keys in the response.
+358 records; 50 distinct top-level keys in the response.
 
 ## Retired, and expected to be absent
 
@@ -25,26 +25,27 @@ These are the fields that will arrive empty. A field here was dropped or renamed
 Candidate landing places for anything in the list above, with up to 4 distinct observed values each. Strings longer than 40 characters are described by length rather than quoted.
 
 - `additionalLocations` -- <list n=0>, <list n=1>, <list n=2>
+- `approvals` -- <list n=0>, <list n=1>
 - `btmPower` -- "unknown", "true", "false"
 - `btmPowerName` -- <list n=0>, <list n=1>
 - `capacityMaxMw` -- 200, 20, 1000, 4
-- `coolingSource` -- "water", "air"
-- `coolingType` -- "closed"
-- `dateCreated` -- "2026-9-16", "2026-9-10", "2026-9-15", "2026-9-17"
+- `coolingSource` -- "water", "air", "hybrid"
+- `coolingType` -- "closed", "fans"
+- `dateCreated` -- "2026-9-16", "2026-9-17", "2026-9-18", "2026-9-10"
 - `dateOnline` -- "2032", "2026", "2027", "2028"
 - `dedicatedSubstation` -- "unknown", "true", "false"
-- `facilitySizeSqft` -- 4500000, 263000, 2160000, 15000
+- `facilitySizeSqft` -- 4500000, 263000, 300000, 1000000
 - `geojson` -- <list n=1>, <list n=0>, <list n=2>, <list n=4>
-- `informationSource` -- "media_monitoring", "crowdsourced"
+- `informationSource` -- <list n=0>, <list n=1>, <list n=2>
 - `isExisting` -- True
 - `kind` -- "proposal"
 - `media` -- <list n=0>, <list n=1>
 - `nda` -- <str len=84>, "Childersburg Mayor Ken Vesson", "Company asked town to sign NDA"
 - `niche` -- <list n=1>, <list n=0>, <list n=3>, <list n=2>
 - `notes` -- <list n=1>, <list n=0>, <list n=2>, <list n=4>
-- `numberOfBuildings` -- 18, 1, 2, 6
+- `numberOfBuildings` -- 18, 1, 2, 4
 - `numberOfGenerators` -- 4, 516, 41, 588
-- `powerSource` -- "gas", "grid", "solar", "nuclear"
+- `powerSource` -- <list n=1>, <list n=0>, <list n=2>, <list n=3>
 - `projectCost` -- 90000000, 14500000000, 1500000000, 6000000000
 - `sources` -- <list n=4>, <list n=6>, <list n=5>, <list n=3>
 - `stakeholders` -- <dict keys=D>, <dict keys=A, C, D>, <dict keys=D, U>, <dict keys=O>

@@ -1,7 +1,7 @@
 universe_id,source,name,operator,state,county,fips,county_margin_2024,lat,lon,capacity_mw,sqft,opposed_flag,lifecycle_outcome,decided,n_opposition_events,announced_date,announced_precision,decision_date,last_status_update,exclusion_reason
 prj_1,proposals_opposed,Project Nebius,Nebius; Alabama ADC Holdings LLC,AL,jefferson,01073,0.1044,33.42755722,-86.88155065,300.0,,yes,pending,no,2,2026-01-01,month,,2026-09-16,
 prj_2,proposals_opposed,Project Marvel,Logistics Land Investments LLC,AL,jefferson,01073,0.1044,33.3443491,-87.03878951,1200.0,,yes,pending,no,2,2025-01-01,year,,2026-09-16,
-prj_3,proposals_opposed,Meta Platforms Montgomery Data Center,Terracon; Hensel Phelps Construction; Meta; Aldridge Electric,AL,montgomery,01101,0.3073,32.27257047,-86.32823838,100.0,,yes,advanced_confirmed,yes,1,2024-05-01,month,,2026-09-16,
+prj_3,proposals_opposed,Meta Platforms Montgomery,Terracon; Hensel Phelps Construction; Meta; Aldridge Electric,AL,montgomery,01101,0.3073,32.27257047,-86.32823838,100.0,,yes,advanced_confirmed,yes,1,2024-05-01,month,,2026-09-16,
 prj_4,proposals_unopposed,DC BLOX Montgomery,DC BLOX; Alabama Power,AL,montgomery,01101,0.3073,32.26826301,-86.37368203,40.0,,no,pending,no,0,2024-11-01,month,,2026-05-02,county_shared_with_opposed_project
 prj_5,proposals_opposed,DC BLOX Birmingham,DC BLOX; Alabama Power,AL,jefferson,01073,0.1044,33.50056974,-86.82105075,40.0,,yes,advanced_confirmed,yes,1,2026-01-01,year,,2026-09-16,
 prj_6,proposals_unopposed,AUBix + Core Scientific Data Center,Core Scientific,AL,lee,01081,-0.2782,32.60109865,-85.51370859,16.0,,no,advanced_confirmed,yes,0,2025-01-01,year,,2026-04-15,
@@ -14,331 +14,348 @@ prj_12,proposals_unopposed,Beacon Mount Vernon Data Center,Beacon,AL,mobile,0109
 prj_13,proposals_unopposed,VoltCore Bitcoin Mine,VoltCore,AL,morgan,01103,-0.5257,34.4492776,-86.76024,50.0,,no,pending,no,0,,,,2026-09-16,
 prj_14,proposals_opposed,Stak Energy Center,Stak,AK,,,,69.9007143,-148.81477,3000.0,,yes,pending,no,1,2026-05-01,month,,2026-09-16,
 prj_15,proposals_opposed,Prudhoe Bay Data Center,"Far North Digital, LLC",AK,,,,70.1847756,-148.44,120.0,,yes,advanced_confirmed,yes,1,,,,2026-09-16,
-prj_16,proposals_opposed,Project Pyramid,Google,AR,crittenden,05035,0.0228,35.10663917,-90.211937,500.0,,yes,advanced_confirmed,yes,1,2025-10-01,month,,2026-09-17,
-prj_17,proposals_opposed,Clarksville Data Center,ServerFarm,AR,johnson,05071,-0.5143,35.4541942,-93.44764012,,,yes,advanced_confirmed,yes,1,2025-01-01,year,,2026-09-17,
-prj_18,proposals_unopposed,Vilonia Cryptomine,Interstate Holdings Blockchain; Steve Landers Jr.,AR,faulkner,05045,-0.3232,35.09105679,-92.17104118,,,no,blocked_confirmed,yes,0,2025-01-01,year,,2026-09-15,county_shared_with_opposed_project
-prj_19,proposals_opposed,Project Leo,AVAIO Digital; Entergy Arkansas,AR,pulaski,05119,0.2213,34.61717176,-92.23704641,150.0,,yes,pending,no,2,2026-01-01,month,,2026-09-17,
-prj_20,proposals_opposed,Port of Little Rock Data Center,Willowbend Capital LLC; Google,AR,pulaski,05119,0.2213,34.686928,-92.22558054,100.0,,yes,pending,no,4,2026-03-01,month,,2026-04-11,
-prj_21,proposals_opposed,NE Edge Groton Data Center,NE Edge Data Centers; Dominion Energy,CT,new london,09011,,41.31039607,-72.16759273,300.0,,yes,blocked_confirmed,yes,2,2024-01-01,year,,2026-09-16,
-prj_22,proposals_unopposed,Wallingford Data Center,Charter Development,CT,new haven,09009,,41.49793857,-72.79219892,,,no,pending,no,0,2024-01-01,year,,,
-prj_23,proposals_unopposed,Bloomfield Data Center Proposal,Gotspace Data LLC; Atlas Capital Group,CT,hartford,09003,,41.88592351,-72.74415945,,,no,pending,no,0,2025-01-01,year,,2026-09-16,
-prj_24,proposals_unopposed,Trumbull Data Center Investment,ogNOVUM / AC Trumbull LLC,CT,fairfield,09001,,41.24085718,-73.14738295,,,no,pending,no,0,2025-01-01,year,,2026-04-12,
-prj_25,proposals_unopposed,Bristol Technology Center,GWDC Bristol LLC,CT,hartford,09003,,41.66989773,-72.93474147,,,no,pending,no,0,2023-01-01,year,,2026-09-16,
-prj_26,proposals_opposed,Project Washington,Starwood Digital Ventures,DE,new castle,10003,0.3256,39.61185181,-75.6378833,1200.0,,yes,pending,no,2,2025-06-01,month,,2026-09-16,
-prj_27,proposals_unopposed,"St. Georges Business Park Data Center Development / ""Frightland Project""",Parkway Gravel,DE,new castle,10003,0.3256,39.54430554,-75.64337652,,,no,pending,no,0,2025-11-01,month,,2026-09-16,county_shared_with_opposed_project
-prj_28,proposals_opposed,Newark White Clay Creek Business Park Data Center,Verdantas; Shelbourne,DE,new castle,10003,0.3256,39.68188899,-75.7238784,,,yes,pending,no,1,2026-01-01,year,,2026-09-16,
-prj_29,proposals_unopposed,Servpac Mililani Technology Park Data Center,Servpac,HI,honolulu,15003,0.2165,21.4804513,-158.02138,,,no,advanced_confirmed,yes,0,,,,2026-09-16,
-prj_30,proposals_unopposed,Granger Data Center,Microsoft,IN,st. joseph,18141,0.0148,41.72266213,-86.12540005,1000.0,,no,pending,no,0,2025-05-01,month,,2026-09-15,county_shared_with_opposed_project
-prj_31,proposals_unopposed,South Bend Data Center,Western Hospitality Partners,IN,st. joseph,18141,0.0148,41.64845397,-86.30055316,,,no,pending,no,0,2025-12-01,month,,2026-03-08,county_shared_with_opposed_project
-prj_32,proposals_opposed,Project Rainier,Amazon Web Services; Anthropic,IN,st. joseph,18141,0.0148,41.69198344,-86.46494887,2400.0,,yes,advanced_confirmed,yes,1,2024-12-01,month,2026-01-28,2026-03-17,
-prj_33,proposals_opposed,Martindale Indianapolis Metrobloks Data Center,Metrobloks,IN,marlon,,,39.80391442,-86.10002644,72.0,,yes,pending,no,3,2025-01-01,year,,2026-04-06,
-prj_34,proposals_opposed,Surge Development Knightstown Data Center,Surge Development; GM Development LLC,IN,henry,18065,-0.4771,39.84095834,-85.56599378,,,yes,advanced_confirmed,yes,1,2025-10-01,month,,2026-04-06,
-prj_35,proposals_opposed,Decatur Technology Park,Sabey Data Centers,IN,marion,18097,0.2768,39.66565427,-86.3005398,250.0,,yes,pending,no,2,2025-01-01,year,2025-05-13,2026-04-06,
-prj_36,proposals_opposed,Project Louie,Google,IN,morgan,18109,-0.5433,39.5927482,-86.46343288,,,yes,advanced_confirmed,yes,1,2025-01-01,year,2025-09-22,2026-04-06,
-prj_37,proposals_opposed,Hancock County MegaSite,Surge Development,IN,hancock,18059,-0.3371,39.85920062,-85.8714585,,,yes,blocked_confirmed,yes,2,2025-04-01,month,,2026-09-15,
-prj_38,proposals_unopposed,Pittsboro Middle Township Data Center,Vantage Data Centers,IN,hendricks,18063,-0.2150,39.89679869,-86.44983309,,,no,pending,no,0,2025-02-01,month,2026-02-02,2026-04-06,
-prj_39,proposals_opposed,Pike Township Data Center,American Tower Corporation,IN,marion,18097,0.2768,39.89538346,-86.20420857,,,yes,blocked_confirmed,yes,1,2025-01-01,year,,2026-04-07,
-prj_40,proposals_unopposed,Project Maize,Phoenix Investors,IN,la porte,,,41.71352587,-86.84288513,,,no,advanced_confirmed,yes,0,2025-06-01,month,,2026-09-15,
-prj_41,proposals_opposed,Hobart Tech Park,Amazon; NIPSCO; GenCo,IN,lake,18089,0.0564,41.50355522,-87.28117326,,,yes,advanced_confirmed,yes,2,2025-01-01,year,,2026-05-20,
-prj_42,proposals_opposed,Microsoft La Porte Data Center,Microsoft,IN,laporte,18091,-0.1414,41.57726301,-86.67836375,,,yes,advanced_confirmed,yes,2,2024-01-01,year,2025-01-31,2026-06-03,
-prj_43,proposals_opposed,Project Domino,Meta,IN,boone,18011,-0.1601,40.05811921,-86.54115183,1000.0,,yes,advanced_confirmed,yes,1,2024-11-01,month,,2026-06-18,
-prj_44,proposals_unopposed,JPG Data Center,JPG Redevelopment LLC,IN,jefferson,18077,-0.3610,38.83318591,-85.41589009,,,no,advanced_confirmed,yes,0,2026-02-01,month,,2026-06-03,
-prj_45,proposals_opposed,Decennial Group Akron Data Center,Decennial Group,IN,fulton,18049,-0.5125,41.03887181,-86.02830714,500.0,,yes,pending,no,1,2026-02-01,month,,2026-03-09,
-prj_46,proposals_opposed,Project Flo,Google,IN,marion,18097,0.2768,39.72001334,-86.00011831,,,yes,blocked_confirmed,yes,1,2025-03-01,month,,2026-04-06,
-prj_47,proposals_unopposed,Amazon Wheatfield,Amazon Web Services; NIPSCO,IN,jasper,18073,-0.5431,41.22626387,-87.00359458,,,no,pending,no,0,2026-06-01,month,,2026-06-03,
-prj_48,proposals_unopposed,Bristol Data Center,Undisclosed Developer,IN,elkhart,18039,-0.3238,41.6925709,-85.85815424,,,no,pending,no,0,2026-03-01,month,,2026-03-08,
-prj_49,proposals_opposed,Project Zodiac,Google,IN,allen,18003,-0.1247,41.02969388,-85.04814501,,,yes,advanced_confirmed,yes,1,2023-12-19,day,,2026-08-11,
-prj_50,proposals_opposed,Google Cedar Rapids,Google,IA,linn,19113,0.0991,41.91422692,-91.72176504,,,yes,advanced_confirmed,yes,2,2024-03-01,month,,2026-04-15,
-prj_51,proposals_unopposed,QTS Cedar Rapids,QTS,IA,linn,19113,0.0991,41.91132019,-91.73705145,,,no,advanced_confirmed,yes,0,2025-01-01,month,,2026-04-15,county_shared_with_opposed_project
-prj_52,proposals_opposed,Meta Davenport Data Center,Meta,IA,scott,19163,-0.0390,41.61625011,-90.62525425,,,yes,advanced_confirmed,yes,1,2024-05-01,month,,2026-04-15,
-prj_53,proposals_unopposed,Project Ruthenium,Microsoft,IA,madison,19121,-0.3858,41.4982532,-93.80230569,,,no,pending,no,0,2023-11-01,month,,2026-04-15,within_15km_of_opposed_project
-prj_54,proposals_unopposed,Edged Energy Des Moines,Edged Energy,IA,polk,19153,0.1089,41.65752558,-93.56339512,13.0,,no,advanced_confirmed,yes,0,2025-03-01,month,,2026-04-15,county_shared_with_opposed_project
-prj_55,proposals_unopposed,Project Morgan,Apple,IA,dallas,19049,-0.0475,41.62032029,-93.92530162,,,no,advanced_confirmed,yes,0,2017-08-01,month,,2026-04-15,
-prj_56,proposals_opposed,Google Council Bluffs,Google,IA,pottawattamie,19155,-0.1997,41.22148817,-95.86488585,,,yes,advanced_confirmed,yes,2,2024-01-01,year,,2026-04-15,
-prj_57,proposals_unopposed,Tract Altoona,Tract,IA,polk,19153,0.1089,41.68257893,-93.53199351,,,no,pending,no,0,2025-04-01,month,,2026-06-01,county_shared_with_opposed_project
-prj_58,proposals_opposed,Project Alluvion,Microsoft,IA,polk,19153,0.1089,41.51672672,-93.70504356,,,yes,advanced_confirmed,yes,1,2014-01-01,year,,2026-04-15,
-prj_59,proposals_unopposed,Project Ginger West,Microsoft; Turner Constuction,IA,dallas,19049,-0.0475,41.53290683,-93.86352515,,,no,advanced_confirmed,yes,0,2021-01-01,year,,2026-04-15,within_15km_of_opposed_project
-prj_60,proposals_unopposed,Project Ginger East,Microsoft; Weitz Construction,IA,polk,19153,0.1089,41.51556698,-93.72156694,,,no,advanced_confirmed,yes,0,2022-01-01,year,,2026-04-15,county_shared_with_opposed_project
-prj_61,proposals_unopposed,Project Osmium,Microsoft,IA,warren,19181,-0.2074,41.49719516,-93.78764456,,,no,advanced_confirmed,yes,0,2016-01-01,year,,2026-04-15,within_15km_of_opposed_project
-prj_62,proposals_unopposed,Tract Project West,Tract,IA,warren,19181,-0.2074,41.45765488,-93.68699672,,,no,pending,no,0,2025-02-01,month,2025-12-16,2026-04-15,within_15km_of_opposed_project
-prj_63,proposals_unopposed,COPT Defense Properties Data Center,COPT Defense Properties,IA,dallas,19049,-0.0475,41.51929011,-93.9429512,1000.0,,no,pending,no,0,2024-10-01,month,,2026-04-15,
-prj_64,proposals_opposed,Applied Digital Adair,Applied Digital,IA,adair,19001,-0.4503,41.46792807,-94.61476686,200.0,,yes,pending,no,2,2024-04-01,month,,2026-04-15,
-prj_65,proposals_opposed,Project Lincoln,Western Hospitality Partners,KY,oldham,21185,-0.2258,38.39322445,-85.40823914,,,yes,pending,no,4,2025-03-01,month,,2026-03-01,
-prj_66,proposals_opposed,Harrodsburg Data Center,JLL,KY,mercer,21167,-0.5057,37.77137178,-84.77913548,525.0,,yes,pending,no,1,2025-01-01,year,,2026-02-20,
-prj_67,proposals_opposed,TeraWulf Hawesville Data Center,TeraWulf,KY,hancock,21091,-0.4753,37.94146754,-86.78826457,,,yes,pending,no,1,2026-01-01,year,,2026-05-05,
-prj_68,proposals_unopposed,Project Pulse,DC Devco LLC,KY,clark,21049,-0.3532,34.05370939,-93.10588436,,,no,blocked_confirmed,yes,0,2026-01-01,year,,2026-05-05,
-prj_69,proposals_opposed,DartPoints Former Lexmark Data Center Redevelopment,DartPoints; Haymaker Company,KY,fayette,21067,0.1811,38.0752589,-84.48732138,,,yes,pending,no,1,2026-03-01,month,,2026-06-04,
-prj_70,proposals_opposed,Franklin–Simpson Data Storage and Service Center,TenKey LandCo I LLC,KY,simpson,21213,-0.4387,36.66574693,-86.56488544,,,yes,pending,no,3,2025-01-01,year,,2026-02-09,
-prj_71,proposals_opposed,Maysville Data Center,Undisclosed Developer,KY,mason,21161,-0.4369,38.68393644,-83.81782457,2200.0,,yes,advanced_confirmed,yes,1,2025-08-01,month,,2026-05-23,
-prj_72,proposals_opposed,Muskie Data Campus,TeraWulf,KY,carter,21043,-0.5846,38.40017631,-82.79634195,,,yes,pending,no,2,2026-05-01,month,,2026-06-05,
-prj_73,proposals_opposed,PowerHouse Louisville,PowerHouse Data Centers,KY,jefferson,21111,0.1655,38.2078029,-85.84407511,525.0,,yes,advanced_confirmed,yes,3,2025-01-01,year,,2026-02-09,
-prj_74,proposals_opposed,Loring Air Force Base Data Center,LiquidCool Solutions,ME,aroostook,23003,-0.2621,46.94618137,-67.8909365,2.0,,yes,pending,no,1,2025-10-01,month,2025-10-15,2026-02-08,
-prj_75,proposals_opposed,Bates Mill No. 3. Data Center,Mill-Compute LLC,ME,androscoggin,23001,-0.0609,44.09471157,-70.2188496,,,yes,blocked_confirmed,yes,1,2025-01-01,year,,2026-09-16,
-prj_77,proposals_unopposed,Millinocket Data Center,Nautilus Data Technologies,ME,aroostook,23003,-0.2621,45.64559665,-68.70503765,60.0,,no,blocked_confirmed,yes,0,2021-01-01,year,,2026-02-08,county_shared_with_opposed_project
-prj_78,proposals_unopposed,Yankee Nuclear Power Plant Data Center,,ME,lincoln,23015,0.1125,43.955718,-69.69428,,,no,pending,no,0,2025-01-01,year,,2026-09-16,
-prj_79,proposals_unopposed,DeepGreen Eastport Subsea Data Center,DeepGreen Western Passage SPV LLC,ME,washington,23029,-0.2349,44.9470406,-67.01703,51.0,,no,pending,no,0,2025-01-01,year,,2026-09-16,
-prj_80,proposals_opposed,Woodlawn Data Center,Security Land and Development LP,MD,baltimore,24005,0.2450,39.30896202,-76.73917251,150.0,,yes,pending,no,1,2025-12-01,month,2025-11-20,2026-02-06,
-prj_81,proposals_opposed,Brightseat Tech Park Data Center Development,Lerner Enterprises,MD,prince george's,24033,0.7515,38.92025496,-76.85650556,,,yes,pending,no,2,2025-01-01,year,,2026-02-07,
-prj_82,proposals_opposed,Federick County Zoning Overlay + Quantum Frederick Park Data Center Campus,Rowan Digital Infrastructure; TPG Real Estate,MD,frederick,24021,0.0881,39.33289175,-77.4734034,,,yes,advanced_confirmed,yes,1,2021-01-01,year,,2026-02-07,
-prj_83,proposals_unopposed,Piney Reach Data Center Development,NAI Michael,MD,charles,24017,0.4071,38.57919612,-76.88654887,,,no,pending,no,0,2025-01-01,year,,2026-02-07,
-prj_84,proposals_unopposed,Johns Hopkins Data Science and Artificial Intelligence Institute (DSAI),Johns Hopkins University,MD,baltimore,24005,0.2450,39.32576868,-76.62440393,,,no,advanced_confirmed,yes,0,2024-01-01,year,,2026-03-05,county_shared_with_opposed_project
-prj_85,proposals_opposed,Atmosphere Dickerson Data Center,Atmosphere Data Centers; Terra Energy,MD,montgomery,24031,0.5330,39.21300165,-77.45264836,360.0,,yes,pending,no,3,2026-02-01,month,2026-04-06,2026-05-24,
-prj_86,proposals_unopposed,Laurel Data Center,TPC Data Center via Mid-Atlantic LLC,MD,prince george's,24033,0.7515,39.08928035,-76.9011909,20.0,,no,pending,no,0,2024-05-01,month,,2026-02-07,county_shared_with_opposed_project
-prj_87,proposals_opposed,Westfield Data Center Campus,Servistar Realties,MA,hampden,25013,0.0889,42.15896563,-72.74102143,,,yes,pending,no,2,2021-01-01,year,,,
-prj_88,proposals_opposed,Holyoke Data Center,Chestnut River Power,MA,hampden,25013,0.0889,42.197424,-72.600933,20.0,,yes,pending,no,1,2026-06-01,month,,2026-06-16,
-prj_89,proposals_opposed,Everett Docklands Data Center,Undisclosed Developer,MA,middlesex,25017,0.3945,42.3963828,-71.05932,,,yes,pending,no,1,,,,2026-09-16,
-prj_90,proposals_opposed,Project Mitten / The Barn,OpenAI; Oracle; Related Digital,MI,washtenaw,26161,0.4442,42.12049367,-83.88493822,1400.0,,yes,advanced_confirmed,yes,10,2025-10-01,month,,2026-04-20,
-prj_91,proposals_opposed,Project Cannoli,Panattoni Data Center Group,MI,wayne,26163,0.2897,42.22440467,-83.43455956,1000.0,,yes,pending,no,1,2025-12-01,month,,2026-03-01,
-prj_92,proposals_opposed,32 Mile Road Technical Campus,Prologis,MI,macomb,26099,-0.1369,42.80033403,-82.99099444,,,yes,pending,no,1,2025-01-01,year,,2026-03-02,
-prj_93,proposals_opposed,Microsoft Gaines Township Data Center,Microsoft,MI,kent,26081,0.0537,42.83126854,-85.55654658,,,yes,pending,no,5,2026-01-01,year,,2026-03-04,
-prj_94,proposals_opposed,Rocklocker Kalkaska Data Center,RockLocker LLC,MI,kalkaska,26079,-0.4287,44.71585977,-85.24739678,,,yes,blocked_confirmed,yes,1,2025-01-01,year,,2026-03-06,
-prj_95,proposals_opposed,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,University of Michigan,MI,washtenaw,26161,0.4442,42.20695604,-83.54865588,,,yes,pending,no,3,2025-01-01,year,,2026-03-08,
-prj_96,proposals_opposed,Project Cherry Blossom,Cloverleaf Infrastructure,MI,monroe,26115,-0.2713,41.91971926,-83.35705274,,,yes,pending,no,3,2025-11-01,month,,2026-03-09,
-prj_97,proposals_opposed,Project Ironwood,Cloverleaf Infrastructure,MI,monroe,26115,-0.2713,41.99283162,-83.66842409,,,yes,pending,no,1,2025-07-01,month,,2026-03-09,
-prj_98,proposals_opposed,Project Flex,Verrus,MI,oakland,26125,0.1059,42.50232798,-83.61177835,,,yes,pending,no,3,2025-09-01,month,,2026-03-09,
-prj_99,proposals_opposed,Deep Green Lansing Data Center,Deep Green,MI,ingham,26065,0.2971,42.73027495,-84.54530739,24.0,,yes,blocked_confirmed,yes,1,2025-11-01,month,,2026-04-06,
-prj_100,proposals_opposed,Pavilion Township Data Center,Franklin Partners LLC,MI,kalamazoo,26077,0.1773,42.24339147,-85.50878237,,,yes,blocked_confirmed,yes,1,2025-01-01,year,,2026-03-13,
-prj_101,proposals_opposed,Sansone York Township Data Center,Sansone Group,MI,washtenaw,26161,0.4442,42.16225032,-83.7038859,1000.0,,yes,pending,no,1,2025-12-01,month,,2026-03-13,
-prj_102,proposals_opposed,Metrobloks Southfield Data Center,Metrobloks,MI,oakland,26125,0.1059,42.48814798,-83.31696816,100.0,,yes,pending,no,1,2025-12-01,month,,2026-03-13,
-prj_103,proposals_opposed,Benton Charter Township Data Center,Undisclosed Developer,MI,berrien,26021,-0.0787,42.0793117,-86.38608493,,,yes,pending,no,1,2024-01-01,year,,2026-03-08,
-prj_104,proposals_unopposed,Project Splitrock,Randee LLC,MI,livingston,26093,-0.2395,42.65834059,-84.02162314,,,no,blocked_confirmed,yes,0,2025-09-01,month,,2026-03-02,county_shared_with_opposed_project
-prj_105,proposals_opposed,Clinton Amazon Data Center,Amazon Data Services,MS,hinds,28049,0.4609,32.34892761,-90.36632151,,,yes,advanced_confirmed,yes,1,2026-01-01,month,,2026-04-30,
-prj_106,proposals_opposed,Ridgeland Amazon Data Center,Amazon Web Services,MS,madison,28089,-0.1729,32.40768028,-90.19301896,,,yes,pending,no,2,2026-04-01,month,,2026-05-20,
-prj_107,proposals_opposed,Project Steamboat,Amazon Web Services,MS,warren,28149,-0.0396,32.27324166,-90.90165068,,,yes,pending,no,1,2025-11-01,month,,2026-09-17,
-prj_108,proposals_opposed,Meridian Compass Data Center,Compass Datacenters,MS,lauderdale,28075,-0.2120,32.39009521,-88.62001053,500.0,,yes,advanced_confirmed,yes,1,2025-01-01,month,,2026-04-15,
-prj_109,proposals_opposed,Clarksdale Data Center,Undisclosed Developer,MS,coahoma,28027,0.3981,34.17249603,-90.56381427,,,yes,pending,no,1,2026-03-01,month,,2026-04-15,
-prj_110,proposals_opposed,xAI MACROHARDRR,xAI,MS,desoto,28033,-0.2408,34.99342701,-90.03423007,,,yes,advanced_confirmed,yes,7,2026-01-01,month,,2026-04-15,
-prj_111,proposals_opposed,Project Taurus,AVAIO Digital Partners; Entergy,MS,rankin,28121,-0.4713,32.26966137,-90.01367672,450.0,,yes,pending,no,3,2025-08-01,month,,2026-04-15,
-prj_112,proposals_opposed,Canton Amazon Data Center,Amazon Web Services,MS,madison,28089,-0.1729,32.59492205,-90.09454526,,,yes,advanced_confirmed,yes,1,2024-01-01,year,,2026-04-15,
-prj_113,proposals_opposed,Nebius Independence Hyperscale Campus,Nebius,MO,jackson,29095,0.1933,39.10174683,-94.30901867,800.0,,yes,advanced_confirmed,yes,2,2026-01-01,year,,2026-09-11,
-prj_114,proposals_opposed,Project Green,Amazon Web Services; NorthPoint Development,MO,montgomery,29139,-0.6014,38.90206436,-91.42407949,,,yes,advanced_confirmed,yes,1,2026-01-01,month,,2026-05-09,
-prj_115,proposals_unopposed,Project Spade,Google; Related Digital,MO,montgomery,29139,-0.6014,38.88882499,-91.43708207,1200.0,,no,advanced_confirmed,yes,0,2025-11-01,month,2025-08-18,2026-05-09,county_shared_with_opposed_project
-prj_116,proposals_opposed,Crusoe Warrenton AI Data Center,Warrenton DC Owner 1 LLC; Crusoe,MO,warren,29219,-0.4949,38.82899456,-91.1825948,,,yes,advanced_confirmed,yes,1,2026-01-01,year,,2026-05-21,
-prj_117,proposals_opposed,CRG Festus Data Center,CRG; Clayco,MO,jefferson,29099,-0.3674,38.19524083,-90.42875363,,,yes,advanced_confirmed,yes,1,,,,2026-05-09,
-prj_118,proposals_opposed,Metrobloks Liberty Data Center Campus,Metrobloks; Lincoln,MO,clay,29047,-0.0565,39.20719259,-94.45399285,150.0,,yes,advanced_confirmed,yes,1,,,,2026-05-09,
-prj_119,proposals_unopposed,Lambda AI Factory,Lambda,MO,jackson,29095,0.1933,39.29569711,-94.67402441,24.0,,no,advanced_confirmed,yes,0,,,2026-02-18,2026-05-09,county_shared_with_opposed_project
-prj_120,proposals_unopposed,Jasper County Powered Data Park / Sarcoxie Data Center,Geronimo Power,MO,jasper,29097,-0.4677,37.12580862,-94.10210599,,,no,pending,no,0,,,2026-06-08,2026-05-09,county_shared_with_opposed_project
-prj_121,proposals_opposed,Meramec Valley Technology Park,Beltline Energy; Logistix,MO,franklin,29071,-0.4586,38.43474091,-90.7592958,,,yes,pending,no,2,2026-01-01,year,,2026-05-09,
-prj_122,proposals_opposed,Gateway Digital Campus,Provident Data Centers,MO,franklin,29071,-0.4586,38.47277567,-90.84330248,,,yes,advanced_confirmed,yes,4,2026-01-01,year,2026-05-19,2026-05-09,
-prj_123,proposals_unopposed,Meta Kansas City Data Center,Meta; Diode Ventures,MO,clay,29047,-0.0565,39.32251284,-94.59398023,,,no,advanced_confirmed,yes,0,2025-01-01,year,2026-04-22,2026-05-09,county_shared_with_opposed_project
-prj_124,proposals_opposed,Marshfield Webster Data Center,Lumon Solutions,MO,webster,29225,-0.6225,37.36525146,-92.88822467,,,yes,advanced_confirmed,yes,1,2026-01-01,year,,2026-05-09,
-prj_125,proposals_opposed,Project Cumulus,CRG; Clayco,MO,st. charles,29183,-0.1697,38.81601246,-90.54683674,,,yes,blocked_confirmed,yes,2,2025-03-01,month,,2026-05-09,
-prj_126,proposals_opposed,Wildwood Ranch AI Data Center,Wildwood Ranch LLC,MO,jasper,29097,-0.4677,37.07096304,-94.58386453,200.0,,yes,advanced_confirmed,yes,1,2026-01-01,year,,2026-09-15,
-prj_127,proposals_unopposed,Mo Lake Development Cross Creek Data Center,Mo Lake Development,MO,camden,29029,-0.5430,38.03465334,-92.7410058,,,no,blocked_confirmed,yes,0,2026-01-01,year,,2026-05-09,
-prj_128,proposals_opposed,Armory Innovation Data Center,Contour; TeraWatt; THO; Steadfast; ARCO; Lewis Rice,MO,st. louis,29189,0.2342,38.63165907,-90.23951136,120.0,,yes,advanced_confirmed,yes,2,,,,2026-05-09,
-prj_129,proposals_opposed,Oppidan Foristell Data Center Sites,Oppidan Investment Company; Connect,MO,st. charles county; warren,,,38.81659009,-90.95349831,,,yes,pending,no,1,,,,2026-05-09,
-prj_130,proposals_unopposed,White Cloud Acres,Scale Microgrids,MO,nodaway,29147,-0.4374,40.17786437,-94.78400949,600.0,,no,pending,no,0,,,,2026-05-09,
-prj_131,proposals_unopposed,Project Mica,Google; Diode Ventures,MO,clay,29047,-0.0565,39.31526749,-94.59489243,700.0,,no,advanced_confirmed,yes,0,2026-02-01,month,,2026-05-09,county_shared_with_opposed_project
-prj_132,proposals_unopposed,Nottingham Data Center,Nottingham Business Park LLC,NH,rockingham,33015,-0.0244,43.17994869,-71.1001181,,,no,blocked_confirmed,yes,0,2026-05-01,month,,2026-09-16,
-prj_133,proposals_opposed,DataOne Vineland,DataOne; Ardian; BSO; DataOne; Nebius Group; Microsoft,NJ,cumberland,34011,-0.0375,39.42766589,-75.0167957,300.0,,yes,advanced_confirmed,yes,1,2024-01-01,year,,2026-05-20,
-prj_134,proposals_opposed,Princeton Nurseries Data Center,WRV Nurseries South Brunswick LLC,NJ,middlesex,34023,0.0804,40.3616451,-74.60748403,,,yes,pending,no,1,2025-01-01,year,,2026-02-07,
-prj_135,proposals_opposed,Nutley Data Center,Prism Capital Partners,NJ,essex,34013,0.4491,40.82934313,-74.15375476,,,yes,pending,no,1,2025-01-01,year,,2026-02-07,
-prj_136,proposals_opposed,New Brunswick Data Center,Undisclosed Developer,NJ,middlesex,34023,0.0804,40.48746648,-74.4575096,,,yes,blocked_confirmed,yes,1,2025-01-01,year,,2026-02-21,
-prj_137,proposals_opposed,East Greenwich Township Data Center,American Tower,NJ,gloucester,34015,-0.0280,39.79936564,-75.19931475,,,yes,blocked_confirmed,yes,1,2026-03-01,month,,2026-06-16,
-prj_138,proposals_opposed,CoreWeave Kenilworth,CoreWeave,NJ,union,34039,0.2421,40.6779928,-74.27441747,250.0,,yes,advanced_confirmed,yes,6,2025-01-01,year,,2026-04-14,
-prj_139,proposals_opposed,Monroe Township Data Center,Hexa Builders,NJ,gloucester,34015,-0.0280,39.63068297,-74.93468954,,,yes,blocked_confirmed,yes,1,2026-03-01,month,,2026-05-20,
-prj_140,proposals_unopposed,Andover Data Center,"Dykstra Associates, PC; Abbey Beta, LLC",NJ,sussex,34037,-0.2494,41.03259839,-74.76603349,,,no,pending,no,0,2026-05-01,month,,2026-05-23,
-prj_141,proposals_opposed,Millville Energy & Data Center Campus,A1 Data Center,NJ,cumberland,34011,-0.0375,39.4088032,-75.0332377,,,yes,blocked_confirmed,yes,1,2026-05-01,month,,2026-05-20,
-prj_142,proposals_opposed,Sugar Hill Portland Data Center,WEED Inc,NY,chautauqua,36013,-0.2198,42.37579809,-79.51981497,,,yes,pending,no,1,2026-01-01,year,,2026-05-05,
-prj_143,proposals_unopposed,Massena Petawatt Data Center Site Advertisement,Five 9s Digital,NY,st. lawrence,36089,-0.1800,44.95771162,-74.84814718,200.0,,no,pending,no,0,2026-01-01,year,2025-09-15,2026-05-05,
-prj_144,proposals_unopposed,Riverview Innovative and Technology Campus Data Center,Undisclosed Developer,NY,erie,36029,0.0968,42.98332989,-78.92629003,,,no,pending,no,0,2026-04-01,month,,2026-05-20,
-prj_145,proposals_unopposed,Albany Kenwood Data Center,Undisclosed Developer,NY,albany,36001,0.2584,42.62886666,-73.77148535,,,no,pending,no,0,2026-05-01,month,,2026-06-03,
-prj_146,proposals_opposed,STAMP Data Center,Stream Data Centers,NY,genesee,36037,-0.3395,42.9915,-78.304,500.0,,yes,pending,no,4,2025-01-01,year,,2026-07-14,
-prj_147,proposals_unopposed,Ilion Data Center,Turin Hoefler Avenue LLC,NY,herkimer,36043,-0.3644,43.01352625,-75.03366628,,,no,pending,no,0,2026-04-01,month,,2026-05-05,
-prj_148,proposals_opposed,Niagara Digital Campus Data Center Development,Niagara Falls Redevelopment,NY,niagara,36063,-0.1492,43.08391756,-79.05282532,,,yes,pending,no,1,2024-01-01,year,,2026-02-01,
-prj_149,proposals_unopposed,Brookhaven National Laboratory Data Center,United States Department of Energy,NY,suffolk,36103,-0.0997,40.86743817,-72.89549013,,,no,pending,no,0,2024-01-01,year,,2026-04-22,
-prj_150,proposals_opposed,Cayuga Data Campus,TeraWulf,NY,tompkins,36109,0.5062,42.6023,-76.628,138.0,,yes,pending,no,5,2025-01-01,year,,2026-02-09,
-prj_151,proposals_opposed,Lysander Data Center,Ranalli Super DC,NY,onondaga,36067,0.1728,43.1325,-76.3376,300.0,,yes,pending,no,1,2026-01-01,year,,2026-04-01,
-prj_152,proposals_opposed,Oneonta West End Data Center,EcoYotta Inc.,NY,otsego,36077,-0.0787,42.455,-75.055,,,yes,pending,no,1,2025-01-01,year,,2025-12-01,
-prj_153,proposals_unopposed,Rural Hall Data Center,Thomas & Hutton; Drox Group LLC; Montrose Environmental Group,NC,forsyth,37067,0.1317,36.24135237,-80.30180901,,,no,pending,no,0,2026-03-01,month,,2026-04-26,
-prj_154,proposals_unopposed,Person County Mega Park,Microsoft Corporation; Timmons Group; Microsoft Corporation; Centurylink; Spectrum; Person County Mega Park; Duke Energy; Dominion Energy,NC,person,37145,-0.2371,36.47985187,-78.98963775,,,no,pending,no,0,2024-10-01,month,,2026-04-26,
-prj_155,proposals_opposed,Tarboro Data Center Campus,ARCO Design/Build; 142 Design Group; Energy Storage Solutions,NC,edgecombe,37065,0.2271,35.90700022,-77.5905037,300.0,,yes,pending,no,1,2025-09-01,month,,2024-04-29,
-prj_156,proposals_unopposed,High Point Data Center,DC BLOX; DC BLOX,NC,guilford,37081,0.2184,36.05205784,-79.95182154,,,no,pending,no,0,2021-05-01,month,,2023-03-30,county_shared_with_opposed_project
-prj_157,proposals_unopposed,CLT20 Moores Chapel,Digital Realty Trust; Digital Moores Chapel LLC; Digital Realty Trust; Digital Realty Trust,NC,mecklenburg,37119,0.3289,35.25092167,-81.00084159,,,no,advanced_confirmed,yes,0,2025-05-01,month,,2023-03-30,county_shared_with_opposed_project
-prj_158,proposals_opposed,CLT10 Uptown Expansion,Digital Realty Trust; Digital Realty Trust; Digital Realty Trust,NC,mecklenburg,37119,0.3289,35.22191683,-80.83534781,,,yes,advanced_confirmed,yes,2,2025-03-01,month,2026-03-05,2023-03-30,
-prj_159,proposals_opposed,Greensboro Dream Center,ImpactData; Raeden; ImpactData; Raeden; Gateway Research Park; NC A&T State University,NC,guilford,37081,0.2184,36.05768666,-79.74575475,10.0,,yes,advanced_confirmed,yes,1,,,2025-08-13,2023-03-30,
-prj_160,proposals_unopposed,Marble Data Center Campus,Core Scientific; CoreWeave; Core Scientific; CoreWeave,NC,cherokee,37039,-0.5745,35.18558998,-83.91616364,,,no,advanced_confirmed,yes,0,,,2025-10-07,2023-03-30,
-prj_161,proposals_unopposed,Maiden iDataCenter Campus,Apple; Duke Energy; Bloom Energy,NC,catawba county; lincoln,,,35.58929658,-81.25730925,,,no,advanced_confirmed,yes,0,,,,2023-03-30,
-prj_162,proposals_opposed,T5 Data Centers Kings Mountain,T5 Data Centers; T5 Data Centers; AT&T; Walt Disney Co.; Wipro; Duke Energy,NC,cleveland county; gaston,,,35.25027157,-81.39640542,,,yes,advanced_confirmed,yes,1,,,,2023-03-30,
-prj_163,proposals_unopposed,Forest City Data Center Campus,Meta,NC,rutherford,37161,-0.4781,35.31677477,-81.82520272,,,no,advanced_confirmed,yes,0,,,,2023-03-30,
-prj_164,proposals_opposed,Lenoir Campus (Existing + Project Cardinal 2024),Google; Tapaha Dynamics LLC; Blue Ridge Energy,NC,caldwell,37027,-0.5262,35.89389169,-81.54542395,,,yes,advanced_confirmed,yes,1,,,,2023-03-30,
-prj_165,proposals_opposed,Natelli Investments New Hill Digital Campus,Natelli Investments LLC; Protect Wake County Coalition; Natelli Investments LLC,NC,,,,35.65264621,-78.95610019,250.0,,yes,blocked_confirmed,yes,3,,,,2023-03-30,
-prj_166,proposals_opposed,Kingsboro Data Center,ARCO Design/Build; 142 Design Group; Energy Storage Solutions,NC,edgecombe,37065,0.2271,35.92501155,-77.69463669,300.0,,yes,pending,no,1,2025-09-01,month,,2026-04-29,
-prj_167,proposals_opposed,Fayetteville Data Center Campus,Energy Storage Solutions (ESS); PWC (Fayetteville Public Works Commission); Duke Energy,NC,cumberland,37051,0.1341,,,,,yes,pending,no,2,2025-12-01,month,,2023-03-30,
-prj_168,proposals_opposed,Lenoir Data Center Expansion,Google; Tapaha Dynamics LLC; Google; Blue Ridge Energy,NC,caldwell,37027,-0.5262,,,,,yes,advanced_confirmed,yes,1,2026-03-01,month,,2023-03-30,
-prj_169,proposals_opposed,Rowan County Data Center,Edged (EDC Charlotte LLC); Edged (EDC Charlotte LLC); Duke Energy,NC,rowan,37159,-0.3591,35.69406105,-80.37033957,,,yes,advanced_confirmed,yes,3,2025-01-01,month,,2023-03-30,
-prj_170,proposals_opposed,Project Delta,Engineered Land Solutions (ELS); DFC Stokes LLC; Blue Ridge Companies; CleanAIRE NC; Dan River Basin Association; National Hairston Clan; David Couch / Blue Ridge Companies; Duke Energy (Belews Creek Steam Station),NC,stokes,37169,-0.5960,36.38118435,-79.94112825,,,yes,advanced_confirmed,yes,1,2025-01-01,month,,2023-03-30,
-prj_171,proposals_opposed,AWS Richmond County Campus,Amazon Web Services; Amazon Web Services; Duke Energy (Sherwood H. Smith Jr. Energy Complex),NC,richmond,37153,-0.2088,34.82060089,-79.72416668,,,yes,advanced_confirmed,yes,1,2025-01-01,year,,2023-03-30,
-prj_172,proposals_opposed,Statesville Data Center Campus,Compass Datacenters; Brookfield Infrastructure (owner of Compass); Compass Datacenters; Duke Energy,NC,iredell,37097,-0.3262,35.77086367,-80.96640357,,,yes,advanced_confirmed,yes,1,2025-01-01,year,,2023-03-30,
-prj_173,proposals_opposed,Charlotte University City Data Center,PowerHouse Data Centers (AREP); Town Lane; American Real Estate Partners (AREP); Town Lane; PowerHouse Data Centers; PowerHouse Data Centers; Town Lane; Duke Energy,NC,mecklenburg,37119,0.3289,35.30122025,-80.73226971,,,yes,advanced_confirmed,yes,1,,,,2023-03-30,
-prj_174,proposals_unopposed,5C Charlotte Data Center,5C Group; Hypertec Cloud; 5C Data Centers; Brookfield Asset Management; Deutsche Bank; 5C Group,NC,mecklenburg,37119,0.3289,,,,,no,advanced_confirmed,yes,0,,,,2023-03-30,county_shared_with_opposed_project
-prj_175,proposals_unopposed,NC-1 Campus (Madison) Data Center,WhiteFiber HPC; Bit Digital; Enovum Data Centers; Bit Digital; WhiteFiber HPC; WhiteFiber HPC; Nscale; Rockingham County,NC,rockingham,37157,-0.3591,36.40427826,-79.98908995,,,no,advanced_confirmed,yes,0,,,,2023-03-30,within_15km_of_opposed_project
-prj_176,proposals_unopposed,Microsoft — Catawba County Campus Cluster (Lyle Creek / Boyd Farm / Hickory / Stover North),Whiting-Turner Contracting; Morgan Construction; Ames Construction; Microsoft Corporation; Whiting-Turner Contracting; Morgan Construction; Ames Construction; Microsoft Corporation; Duke Energy,NC,,,,,,,,no,advanced_confirmed,yes,0,,,,2023-03-30,no_coordinates
-prj_177,proposals_unopposed,Raleigh New Build Data Center,Flexential; GI Partners; Morgan Stanley Infrastructure Partners; Flexential,NC,wake,37183,0.2555,,,,,no,advanced_confirmed,yes,0,,,,2023-03-30,no_coordinates
-prj_178,proposals_unopposed,American Tower RA1,American Tower Corporation; CoreSite,NC,wake,37183,0.2555,,,,,no,advanced_confirmed,yes,0,,,,2023-03-30,no_coordinates
-prj_179,proposals_opposed,Tract Mooresville Technology Park,Tract; Teresa Earnhardt (property owner),NC,iredell,37097,-0.3262,35.51718123,-80.75378681,,,yes,blocked_confirmed,yes,1,2025-08-01,month,,2023-03-30,
-prj_180,proposals_opposed,Project Accelerate,East John Master Development; Matthews DC LLC; Engineered Land Solutions (ELS); East John Master Development,NC,mecklenburg,37119,0.3289,,,,,yes,blocked_confirmed,yes,1,2025-10-01,month,,2023-03-30,
-prj_181,proposals_unopposed,Project Fighting Pike,Critical Data House LLC,ND,williams,38105,-0.6812,48.2324742,-103.6344227,455.0,,no,advanced_confirmed,yes,0,2025-03-01,month,,2026-09-16,
-prj_182,proposals_opposed,Polaris Forge 1,Applied Digital; CoreWeave; Montana-Dakota Utilities,ND,dickey,38021,-0.5224,46.01289235,-98.57186221,400.0,,yes,advanced_confirmed,yes,1,2022-09-01,month,,2026-09-16,
-prj_183,proposals_unopposed,Atlas Power Williston,FX Solutions Inc.; Atlas Power Group; Mountrail-Williams Electric Cooperative,ND,williams,38105,-0.6812,48.14614934,-103.7725071,240.0,,no,advanced_confirmed,yes,0,2022-01-01,year,,2026-09-16,
-prj_184,proposals_opposed,Polaris Forge 2,Applied Digital; Oracle; Cass County Electric Cooperative; Minnkota Power Cooperative,ND,cass,38017,-0.0842,46.96719859,-96.87059463,280.0,,yes,advanced_confirmed,yes,1,2025-08-01,month,,2026-09-16,
-prj_185,proposals_opposed,River Run Energy Center,NextEra Energy Resources; Boulevard Associates; Basin Electric Power Cooperative,ND,mercer,38057,-0.6901,47.27256043,-101.4503149,1450.0,,yes,pending,no,1,2025-12-01,month,,2026-06-10,
-prj_186,proposals_opposed,Applied Digital Oliver County,Applied Digital; Minnkota Power Cooperative,ND,oliver,38065,-0.6946,47.10645479,-101.344641,430.0,,yes,pending,no,1,2026-02-01,month,,2026-09-16,
-prj_187,proposals_unopposed,Nakota Data Campus,Nixxy; Tachyon 9,ND,williams,38105,-0.6812,48.25607,-103.31802,120.0,,no,pending,no,0,,,,2026-09-16,
-prj_188,proposals_unopposed,Aurum Capital Ventures Bismarck,Aurum Capital Ventures,ND,burleigh,38015,-0.4323,46.80318111,-100.723539,,,no,pending,no,0,2025-06-01,month,,2026-09-16,
-prj_189,proposals_unopposed,AWS Innovation Campus / New Albany Data Center Campus,Amazon Web Services,OH,licking,39089,-0.3001,40.09489884,-82.74916286,,,no,advanced_confirmed,yes,0,2024-11-01,month,,2026-02-19,county_shared_with_opposed_project
-prj_190,proposals_unopposed,Vantage New Albany Data Center Campus,Vantage Data Centers,OH,licking,39089,-0.3001,40.10047343,-82.74714551,192.0,,no,advanced_confirmed,yes,0,2024-01-01,year,,2026-02-19,county_shared_with_opposed_project
-prj_191,proposals_opposed,QTS New Albany Data Center Campus,QTS Data Centers,OH,licking,39089,-0.3001,40.06443251,-82.75820015,78.0,,yes,advanced_confirmed,yes,1,2024-11-01,month,,2026-02-19,
-prj_192,proposals_opposed,AWS Hillard Campus,Amazon Web Services,OH,franklin,39049,0.2840,40.0189827,-83.12332992,382.0,,yes,advanced_confirmed,yes,2,2025-09-22,day,,2026-09-15,
-prj_193,proposals_opposed,Project Mila / Trenton Industrial Park Data Center,Prologis,OH,butler,39017,-0.2627,39.4544315,-84.45850395,,,yes,pending,no,3,2025-01-01,year,,2026-02-19,
-prj_194,proposals_opposed,Hamilton Data Center,Logistix Property Group,OH,butler,39017,-0.2627,39.38353851,-84.55755333,240.0,,yes,pending,no,1,2024-01-01,year,,2026-02-19,
-prj_195,proposals_opposed,5C Springfield Data Center,5C Data Center; Vultr,OH,clark,39023,-0.2953,39.91311998,-83.7233217,150.0,,yes,advanced_confirmed,yes,1,2025-01-01,year,,2026-02-19,
-prj_196,proposals_opposed,Ashville Data Center,EdgeConneX,OH,pickaway,39129,-0.4854,39.74005791,-82.97048559,,,yes,pending,no,3,2025-01-01,year,,2026-02-19,
-prj_197,proposals_opposed,Piqua Data Center,Shaytura LLC,OH,miami,39109,-0.4513,40.11175813,-84.24667915,,,yes,advanced_confirmed,yes,1,2025-01-01,year,,2026-02-19,
-prj_198,proposals_unopposed,Project Galaxy,Amazon Web Services,OH,shelby,39149,-0.6481,40.2683695,-84.18982925,,,no,advanced_confirmed,yes,0,2025-01-01,year,,2026-02-19,
-prj_199,proposals_opposed,Van Wert Mega Site,Thor Equities Group,OH,van wert,39161,-0.5850,40.89245226,-84.55737851,500.0,,yes,pending,no,1,2025-08-19,day,,2026-02-20,
-prj_200,proposals_opposed,Stargate Project - Lordstown AI Data Center Campus,OpenAI,OH,trumbull,39155,-0.1681,41.14548227,-80.87920589,,,yes,pending,no,1,2025-09-23,day,,2026-02-20,
-prj_201,proposals_opposed,Lordstown Data Center,Bristolville 25 Developer LLC,OH,trumbull county; mahoning,,,41.13519379,-80.86106491,600.0,,yes,pending,no,2,2025-11-01,month,,2026-02-20,
-prj_202,proposals_unopposed,Google Lockbourne,Google,OH,franklin,39049,0.2840,39.84852577,-82.99642495,,,no,advanced_confirmed,yes,0,2021-01-01,year,,2026-02-20,county_shared_with_opposed_project
-prj_203,proposals_opposed,Project Cosmos,Amazon Web Services,OH,union,39159,-0.2963,40.2201438,-83.32361447,,,yes,advanced_confirmed,yes,1,2025-01-01,year,2025-11-18,2026-03-27,
-prj_204,proposals_unopposed,Cologix Lewis Center Data Center,Cologix,OH,delaware,39041,-0.0659,40.19081248,-83.01106238,120.0,,no,advanced_confirmed,yes,0,2025-06-14,day,,2026-02-20,
-prj_205,proposals_opposed,Strata Expanse AI Center of Excellence,Strata Expanse,OH,lawrence,39087,-0.5054,38.56759954,-82.78277491,,,yes,advanced_confirmed,yes,2,2025-12-01,month,,2026-02-21,
-prj_206,proposals_unopposed,Hannibal Data Center Campus,DP Facilities,OH,monroe,39111,-0.5976,39.70567776,-80.84146301,300.0,,no,pending,no,0,2020-01-09,day,2025-09-12,2026-02-23,
-prj_207,proposals_unopposed,Bitdeer Clarington Data Center,Bitdeer,OH,monroe,39111,-0.5976,39.70341657,-80.84947879,,,no,advanced_confirmed,yes,0,2025-12-01,month,,2026-02-21,
-prj_208,proposals_unopposed,NEO-01 / Sandusky Data Center,Aligned Data Centers,OH,sandusky,39143,-0.3087,41.43007557,-82.71984903,96.0,,no,advanced_confirmed,yes,0,2024-01-01,year,,2026-03-06,
-prj_209,proposals_unopposed,Microsoft Heath Data Center,Microsoft,OH,licking,39089,-0.3001,40.02477167,-82.4893704,,,no,advanced_confirmed,yes,0,2024-01-01,year,,2026-03-06,county_shared_with_opposed_project
-prj_210,proposals_unopposed,Microsoft Hebron Data Center,Microsoft,OH,licking,39089,-0.3001,39.97039675,-82.4967654,,,no,advanced_confirmed,yes,0,2024-01-01,year,,2026-03-06,county_shared_with_opposed_project
-prj_211,proposals_unopposed,Akron Data Center Expansion,ark data centers,OH,fulton,39051,-0.4240,41.05720574,-81.52212942,,,no,advanced_confirmed,yes,0,2026-03-01,month,,2026-03-08,
-prj_212,proposals_opposed,AWS Wilmington Data Center,Amazon Web Services,OH,clinton,39027,-0.5463,39.424014,-83.84240396,,,yes,pending,no,2,2026-03-01,month,,2026-09-15,
-prj_213,proposals_opposed,Mt. Orab Mega Site,Undisclosed Developer,OH,brown,39015,-0.6151,39.01320104,-83.89244177,,,yes,pending,no,1,2024-12-01,month,,2026-03-26,
-prj_214,proposals_unopposed,J.M. Stuart Revitilization Project,Commercial Liability; Independent Investor; Core Real Estate; High Table LLC; Energy Strike LLC; Hecate Energy,OH,adams,39001,-0.6574,38.63781178,-83.69208115,650.0,,no,pending,no,0,2026-02-01,month,,2026-03-27,county_shared_with_opposed_project
-prj_215,proposals_opposed,Killen Revitilization Project,Commercial Liability; Independent Investor; Core Real Estate; High Table LLC; Energy Strike LLC; Hecate Energy,OH,adams,39001,-0.6574,38.69144702,-83.47869649,650.0,,yes,pending,no,2,2026-02-01,month,,2026-03-27,
-prj_216,proposals_opposed,Marysville South Data Center,EMH&T; New Albany Company; Anadonna LLC; Marysville Land Company LLC; 14879 Industrial Parkway LLC; Weaver Road Holdings LLC; Underhill & Hodge LLC; Amazon Web Services; AES Ohio; Columbia Gas of Ohio; Union Rural Electric,OH,union,39159,-0.2963,40.21492701,-83.34128299,800.0,,yes,pending,no,1,2025-11-01,month,,2026-03-27,
-prj_217,proposals_opposed,Buck Canyon Properties Data Center,Ramboll; 68 Yards LLC; Buck Canyon Properties LLC; AES Ohio; AEP Ohio,OH,adams,39001,-0.6574,38.64639927,-83.65890902,1300.0,,yes,pending,no,2,2026-02-01,month,,2026-03-27,
-prj_218,proposals_unopposed,PORTS Technology Center,U.S. Department of Energy; SB Energy; SoftBank; AEP Ohio,OH,pike,39131,-0.5368,39.01316521,-83.00090893,10000.0,,no,advanced_confirmed,yes,0,2026-03-01,month,,2026-04-25,
-prj_219,proposals_opposed,Perry Township Data Center,Panattoni Development Company; AEP Ohio; City of Canton Water and Sewer,OH,stark,39151,-0.2193,40.75045298,-81.44956755,240.0,,yes,pending,no,3,2026-03-01,month,,2026-04-26,
-prj_220,proposals_unopposed,Morabito Slavic Village Data Center,500 ER-EBY Trust,OH,cuyahoga,39035,0.3147,41.46127794,-81.65465458,,,no,blocked_confirmed,yes,0,2026-05-01,month,,2026-05-15,
-prj_221,proposals_opposed,Google Franklin Furnace Data Center,Google,OH,scioto,39145,-0.4797,38.59569705,-82.82726031,,,yes,pending,no,2,2025-01-01,year,,2026-02-19,
-prj_222,proposals_opposed,Urbana Data Center,Thor Equities,OH,champaign,39021,-0.5076,40.08852371,-83.7608865,,,yes,pending,no,2,2026-02-01,month,,2026-03-08,
-prj_223,proposals_opposed,Project BOSC,Google,OH,allen,39003,-0.4410,40.79615096,-84.11932669,,,yes,pending,no,1,2025-01-01,year,,2026-04-25,
-prj_224,proposals_unopposed,"Cipher Mining's ""Ulysses""",Cipher Mining,OH,union,39159,-0.2963,40.12032121,-83.20573591,200.0,,no,pending,no,0,2025-12-01,month,,2026-02-20,county_shared_with_opposed_project
-prj_225,proposals_opposed,Bitdeer Weathersfield Project,Bitdeer,OH,trumbull,39155,-0.1681,41.16692553,-80.74706385,300.0,,yes,pending,no,1,2025-10-14,day,,2026-02-20,
-prj_226,proposals_unopposed,Johnstown Cologix Data Center,Cologix,OH,licking,39089,-0.3001,40.13371988,-82.7145744,800.0,,no,advanced_confirmed,yes,0,2025-10-01,month,,2026-02-20,county_shared_with_opposed_project
-prj_227,proposals_opposed,Meta Bowling Green Data Center,Meta,OH,wood,39173,-0.1015,41.46794364,-83.64052123,,,yes,advanced_confirmed,yes,7,2023-09-28,day,2026-03-27,2026-03-05,
-prj_228,proposals_unopposed,Microsoft New Albany Data Center,Microsoft,OH,licking,39089,-0.3001,40.10545505,-82.75829708,,,no,advanced_confirmed,yes,0,2023-09-28,day,2026-05-27,2026-03-06,county_shared_with_opposed_project
-prj_229,proposals_unopposed,Fairview Crossroads Data Center,Fairview Crossroads LLC,PA,york,42133,-0.2526,40.20763745,-76.88105807,,,no,pending,no,0,2025-07-01,month,2026-05-21,2026-03-22,county_shared_with_opposed_project
-prj_230,proposals_opposed,Project Hazelnut,NorthPoint Development,PA,luzerne,42079,-0.1917,40.96611988,-76.04552288,,,yes,blocked_confirmed,yes,2,2025-05-01,month,,2026-08-11,
-prj_231,proposals_opposed,Panther Creek (Nesquehoning) HPC/AI Conversion,T5; Bitfarms,PA,carbon,42025,-0.3479,40.85810449,-75.86678277,350.0,,yes,advanced_confirmed,yes,1,2025-08-01,month,,2026-03-29,
-prj_232,proposals_opposed,Zediker Station Data Center,CNX; Jones Lang LaSalle,PA,washington,42125,-0.2551,40.17611743,-80.16151557,,,yes,pending,no,2,2025-10-01,month,,2026-03-22,
-prj_233,proposals_unopposed,Wildcat Ridge AI Data Center,Cornell Realty Management LLC,PA,lackawanna,42069,0.0279,41.50265393,-75.58996376,1600.0,,no,pending,no,0,2025-01-01,month,,2026-09-16,county_shared_with_opposed_project
-prj_234,proposals_unopposed,Project Gravity,Archbald 25 Developer LLC,PA,lackawanna,42069,0.0279,41.52487025,-75.55982315,,,no,pending,no,0,2025-04-01,month,,2026-09-15,county_shared_with_opposed_project
-prj_235,proposals_opposed,Blakely AI Data Center,Alpesh “Al” Patel,PA,lackawanna,42069,0.0279,41.48730234,-75.59677116,400.0,,yes,blocked_confirmed,yes,1,2025-08-01,month,,2026-09-15,
-prj_236,proposals_unopposed,Project Boson,"PDC Realty, LLC",PA,lackawanna,42069,0.0279,41.51204229,-75.55615342,,,no,pending,no,0,2025-01-01,year,,2026-09-15,county_shared_with_opposed_project
-prj_237,proposals_opposed,Project Gold,NE Edge Data Centers,PA,lackawanna,42069,0.0279,41.25171332,-75.51721079,1500.0,,yes,pending,no,1,2025-07-01,month,2026-01-20,2026-09-16,
-prj_238,proposals_opposed,East Whiteland Township Data Center,"Sentinel Green Fig, LLC",PA,chester,42029,0.1446,40.03918189,-75.58675747,,,yes,pending,no,1,2023-01-01,month,,2026-04-19,
-prj_239,proposals_unopposed,QTS Salem Data Center,Blackstone; QTS,PA,luzerne,42079,-0.1917,41.08918402,-76.17975485,,,no,pending,no,0,2025-07-01,month,,2026-03-20,county_shared_with_opposed_project
-prj_240,proposals_opposed,AWS Keystone Trade Center Campus,Amazon Web Services,PA,bucks,42017,-0.0007,40.16092786,-74.7577123,,,yes,pending,no,1,2025-06-01,month,,2026-08-11,
-prj_241,proposals_opposed,CoreWeave Lancaster AI Campuses,Machine Investment Group; Chirisa Technology Parks; CoreWeave,PA,lancaster,42071,-0.1595,40.0432,-76.2576,300.0,,yes,advanced_confirmed,yes,1,2025-07-01,month,,2026-01-17,
-prj_242,proposals_unopposed,Allentown Warehouse Conversion Data Center,Langan Engineering; Quantm LLC,PA,lehigh,42077,0.0269,40.56743843,-75.47433818,,,no,pending,no,0,2026-05-01,month,,2026-09-15,county_shared_with_opposed_project
-prj_243,proposals_opposed,PAX – Pennsylvania Digital I,PowerHouse Data Center; Pennsylvania Data Center Partners,PA,cumberland,42041,-0.0944,40.25827177,-77.11782185,1350.0,,yes,advanced_confirmed,yes,2,2025-07-01,month,,2026-08-11,
-prj_244,proposals_unopposed,Springdale AI Data Center Redevelopment,"Dynamo DC; Allegheny DC Property Co., LLC",PA,allegheny,42003,0.2031,40.53856579,-79.79046974,180.0,,no,advanced_confirmed,yes,0,2025-08-01,month,,2026-04-13,
-prj_245,proposals_unopposed,Homer City Energy + AI Campus,Homer City Redevelopment; Kiewit; GE Vernova; Amazon,PA,indiana,42063,-0.3912,40.51388415,-79.19678004,4500.0,,no,advanced_confirmed,yes,0,2025-08-01,month,,2026-09-15,
-prj_246,proposals_unopposed,Dauphin Highlands Golf Course sold for Data Center,"Harrisburg I, LLC",PA,dauphin,42043,0.0592,40.2272952,-76.80957537,,,no,pending,no,0,2025-08-01,month,,2026-04-28,
-prj_247,proposals_opposed,Hollenback Township Data Center Development Zoning Application,Undisclosed Developer,PA,luzerne,42079,-0.1917,41.08020287,-76.10642775,,,yes,pending,no,2,2026-01-01,month,2026-02-10,2026-03-02,
-prj_248,proposals_unopposed,Jessup Sunnyside Data Center,"Sunnyside Road Associates, LLC",PA,lackawanna,42069,0.0279,41.46826509,-75.54760961,,,no,advanced_confirmed,yes,0,2025-09-01,month,,2026-09-15,county_shared_with_opposed_project
-prj_249,proposals_unopposed,McKees Rocks Industrial Site Data Center,SunCap Property Group,PA,allegheny,42003,0.2031,40.4802974,-80.05962827,,,no,pending,no,0,2025-10-01,month,,,
-prj_250,proposals_unopposed,Project Hummingbird,Essential Utilities,PA,greene,42059,-0.4483,39.8340493,-79.94407164,910.0,,no,pending,no,0,2025-10-01,month,,2026-03-30,
-prj_251,proposals_opposed,Archbald I LLC Data Center Campuses,Archbald 1 LLC; Provident Realty,PA,lackawanna,42069,0.0279,41.51661739,-75.56512591,,,yes,blocked_confirmed,yes,1,2025-10-01,month,,2026-09-15,
-prj_252,proposals_opposed,Former Air Products Headquarters Data Center,Air Products,PA,lehigh,42077,0.0269,40.55415027,-75.59980631,,,yes,blocked_confirmed,yes,1,2025-11-01,month,,2026-08-11,
-prj_253,proposals_opposed,Pennhurst Data Center,Pennhurst Holdings LLC,PA,chester,42029,0.1446,40.19431755,-75.56108097,,,yes,blocked_confirmed,yes,1,2025-10-01,month,,2026-05-22,
-prj_254,proposals_opposed,Conshohocken Data Center,MLP Ventures; 900 Conshohocken Road LLC,PA,montgomery,42091,0.2280,40.086677,-75.317786,,,yes,pending,no,1,2025-10-01,month,,2026-09-16,
-prj_255,proposals_opposed,Dickson City Data Centers,Dickson City Development LLC; Kriger Construction Inc,PA,lackawanna,42069,0.0279,41.47228006,-75.6389869,,,yes,blocked_confirmed,yes,1,2025-11-01,month,,2026-05-22,
-prj_256,proposals_unopposed,West Hazleton Data Center,One Trinity Real Estate Investments,PA,luzerne,42079,-0.1917,40.96565469,-76.01156213,,,no,pending,no,0,2025-09-01,month,,2025-12-22,county_shared_with_opposed_project
-prj_257,proposals_unopposed,Sugarloaf Township Data Center,LBT Investment Group LLC,PA,luzerne,42079,-0.1917,40.97036803,-76.0721478,,,no,pending,no,0,2025-07-01,month,,2026-04-22,county_shared_with_opposed_project
-prj_258,proposals_opposed,Linfield Data Center,Limerick Town Center LLC,PA,montgomery,42091,0.2280,40.20092763,-75.57527627,,,yes,pending,no,1,2026-01-01,month,2026-02-23,2026-09-16,
-prj_259,proposals_opposed,Kline Township Data Center,Amazon Web Services,PA,schuylkill,42107,-0.4206,40.87754226,-76.01469842,,,yes,pending,no,1,2025-01-01,year,,2025-03-02,
-prj_260,proposals_opposed,Ransom Township Data Center,Scranton Materials LLC,PA,lackawanna,42069,0.0279,41.4485852,-75.70026061,,,yes,blocked_confirmed,yes,2,2025-12-01,month,,2026-09-15,
-prj_261,proposals_opposed,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,CDE Acquisitions LLC,PA,lehigh,42077,0.0269,40.64345138,-75.53658984,,,yes,pending,no,2,2025-12-01,month,,2026-04-22,
-prj_262,proposals_unopposed,Smithfield Gateway Project,DEPG Moiser Assoc LP,PA,monroe,42089,-0.0078,41.00617471,-75.15065763,,,no,pending,no,0,2025-11-01,month,,2026-01-02,
-prj_263,proposals_opposed,Project Phoenix,Frontier Group of Companies,PA,beaver,42007,-0.2071,40.633,-80.4153,3600.0,,yes,advanced_confirmed,yes,1,2025-07-01,month,,2026-09-15,
-prj_264,proposals_unopposed,Klondike Data Center Project,KDI Wyalusing Power LLC,PA,bradford,42015,-0.4792,41.65369277,-76.23256883,218.0,,no,pending,no,0,2025-01-01,year,,2026-09-16,
-prj_265,proposals_unopposed,Limerick / Project Laurel Data Center,MCD 7 LLC,PA,montgomery,42091,0.2280,40.23218123,-75.57349531,750.0,,no,pending,no,0,2026-01-01,month,2026-05-12,2026-09-16,county_shared_with_opposed_project
-prj_266,proposals_opposed,Tobyhanna Township / Blakeslee Data Center,Undisclosed Developer,PA,allemonroe,,,41.13227151,-75.61026733,,,yes,pending,no,1,2025-12-01,month,,2026-09-15,
-prj_267,proposals_opposed,Talen Energy Rezone Request for Possible Data Center in Montour County,Talen Energy,PA,montour,42093,-0.2101,41.09449749,-76.65469331,,,yes,blocked_confirmed,yes,2,2025-01-01,year,,2026-01-23,
-prj_268,proposals_unopposed,Fezzik Aliquippa Data Center,Fezzik Energy; Five 9s Digital,PA,beaver,42007,-0.2071,40.63013352,-80.23637249,496.0,,no,pending,no,0,2025-01-01,year,,2026-09-15,county_shared_with_opposed_project
-prj_269,proposals_unopposed,Project Green Mountain,Green Mountain 6,PA,lackawanna,42069,0.0279,41.50989356,-75.52445531,,,no,pending,no,0,2026-01-01,month,,2026-09-15,county_shared_with_opposed_project
-prj_270,proposals_opposed,Conewago Township Data Center Land Considerations,Undisclosed Developer,PA,york,42133,-0.2526,40.02474644,-76.82033606,,,yes,pending,no,1,2025-10-01,month,,2026-04-13,
-prj_271,proposals_unopposed,Briar Creek Township Data Center Zoning Overlay,Undisclosed Developer,PA,columbia,42037,-0.3103,41.12070111,-76.23433152,,,no,pending,no,0,2026-02-01,month,,2026-04-28,within_15km_of_opposed_project
-prj_272,proposals_unopposed,South Hanover Township Data Center,HCI DP Land Acquisition LLC,PA,dauphin,42043,0.0592,40.27370582,-76.70247517,,,no,pending,no,0,2025-02-01,month,,2026-06-24,
-prj_273,proposals_opposed,Sellersville / West Rockhill Township Data Center,National Land Developers,PA,bucks,42017,-0.0007,40.34879997,-75.32982269,,,yes,pending,no,1,2026-02-01,month,,2026-04-18,
-prj_274,proposals_opposed,North Coventry Township Data Center,Envision Land Use,PA,chester,42029,0.1446,40.23595694,-75.65857193,,,yes,blocked_confirmed,yes,1,2026-02-01,month,,2026-03-21,
-prj_275,proposals_unopposed,Prologis Warehouse Data Center,Prologis,PA,northampton,42095,-0.0177,40.7015124,-75.4801445,,,no,advanced_confirmed,yes,0,2026-03-01,month,,2026-08-16,county_shared_with_opposed_project
-prj_276,proposals_opposed,Switch Data Center at Former Pitt Race Complex,Switch; Provident Data Centers,PA,beaver,42007,-0.2071,40.84777195,-80.34616116,,,yes,pending,no,15,2025-08-01,month,,2026-09-15,
-prj_277,proposals_opposed,Allenwood Data Center,PNK Group,PA,union,42119,-0.2338,41.11573034,-76.90130208,300.0,,yes,pending,no,10,2026-03-01,month,,2026-07-24,
-prj_278,proposals_unopposed,Fort Cherry Development District,Imperial Land Corp; Range Resources Corp; Liberty Energy Inc.,PA,washington,42125,-0.2551,40.3687382,-80.25693285,,,no,pending,no,0,2025-01-01,year,,2026-03-30,county_shared_with_opposed_project
-prj_279,proposals_opposed,Champion Data Center Project,Next Generation Land,PA,washington,42125,-0.2551,40.41702422,-80.30112451,300.0,,yes,pending,no,1,2026-01-01,year,,2026-09-16,
-prj_280,proposals_opposed,South Annville Township Data Center,Inch & Co; Eastern Land & Resources Co,PA,lebanon,42075,-0.3195,40.32188693,-76.52813066,,,yes,blocked_confirmed,yes,3,2026-04-01,month,,2026-09-16,
-prj_281,proposals_unopposed,Newton Township Data Center,Popca LLC,PA,lackawanna,42069,0.0279,41.45147677,-75.71165521,,,no,blocked_confirmed,yes,0,2026-02-01,month,,2026-04-10,county_shared_with_opposed_project
-prj_282,proposals_opposed,New Castle Data Center,KRNL Data Centers,PA,schuylkill,42107,-0.4206,40.77481697,-76.23620462,,,yes,pending,no,1,2025-01-01,year,,2026-04-15,
-prj_283,proposals_opposed,Watts Township Data Center,"MRP Industrial; MRPI Amity Hall, LLC",PA,perry,42099,-0.4932,40.43360096,-77.00724929,,,yes,pending,no,1,2026-03-01,month,,2026-05-09,
-prj_284,proposals_opposed,Project Triboro,"Triboro Commerce Park, LLC; Sansone Group",PA,lackawanna,42069,0.0279,41.44415192,-75.56713892,,,yes,pending,no,1,2026-04-01,month,,2026-09-15,
-prj_285,proposals_unopposed,Linde Clinton Data Center,Linde Corporation,PA,wayne,42127,-0.3709,41.63476786,-75.44576229,,,no,blocked_confirmed,yes,0,2026-04-01,month,,2026-09-10,
-prj_286,proposals_unopposed,East Brandywine Data Center,500 ER-EBY Trust,PA,chester,42029,0.1446,40.02715476,-75.78690503,,,no,pending,no,0,2026-05-01,month,,2026-05-14,county_shared_with_opposed_project
-prj_287,proposals_unopposed,Renaissance Boulevard Data Center Campus,MLP Ventures,PA,montgomery,42091,0.2280,40.08265474,-75.3410236,,,no,blocked_confirmed,yes,0,2026-03-01,month,,2026-08-14,county_shared_with_opposed_project
-prj_288,proposals_unopposed,600 River Road Data Center,MLP Ventures; Innovation River Run LLC,PA,montgomery,42091,0.2280,40.0939398,-75.32503398,,,no,blocked_confirmed,yes,0,2026-05-01,month,,2026-08-14,county_shared_with_opposed_project
-prj_289,proposals_unopposed,3200 Horizon Drive Data Center,MLP Ventures,PA,montgomery,42091,0.2280,40.08705063,-75.33861848,,,no,blocked_confirmed,yes,0,2026-05-01,month,,2026-08-14,county_shared_with_opposed_project
-prj_290,proposals_opposed,Quakertown Data Center Park,Arrow Real Estate Services,PA,bucks,42017,-0.0007,40.41121767,-75.34561374,1000.0,,yes,pending,no,1,2026-05-01,month,,2026-05-23,
-prj_291,proposals_opposed,Granville Data Center,Pennsylvania Data Center Partners; PowerHouse Data Centers,PA,mifflin,42087,-0.5640,40.56908144,-77.61398863,,,yes,pending,no,1,2026-05-01,month,,2026-06-03,
-prj_292,proposals_unopposed,Muncy Data Center,Danko Holdings II; Fishlips LLC; The Liberty Group,PA,lycoming,42081,-0.4146,41.22793466,-76.81183441,,,no,pending,no,0,2026-04-01,month,,2026-06-10,within_15km_of_opposed_project
-prj_293,proposals_unopposed,Gravel Pike Data Center,"Hanover Development, LP",PA,montgomery,42091,0.2280,40.4190452,-75.5133896,,,no,pending,no,0,2026-06-01,month,,2026-09-16,county_shared_with_opposed_project
-prj_294,proposals_unopposed,Sharon Keel Infrastructure Data Center Expansion,Keel Infrastructure,PA,mercer,42085,-0.3016,41.24401767,-80.50629588,110.0,,no,advanced_confirmed,yes,0,2026-04-01,month,,2026-06-23,
-prj_295,proposals_unopposed,PNK Valley View Data Center,PNK Group,PA,lackawanna,42069,0.0279,41.47914648,-75.51858421,,,no,pending,no,0,2026-07-01,month,,2026-07-16,county_shared_with_opposed_project
-prj_296,proposals_unopposed,Ransom Township Mudiita Data Center,Mudiita Group,PA,lackawanna,42069,0.0279,41.38663332,-75.76165592,750.0,,no,blocked_confirmed,yes,0,2026-07-01,month,,2026-09-15,county_shared_with_opposed_project
-prj_297,proposals_opposed,Nebius Butler Township Data Center,Nebius,PA,schuylkill,42107,-0.4206,40.7386815,-76.3191425,1200.0,,yes,pending,no,1,2026-06-01,month,,2026-07-28,
-prj_298,proposals_unopposed,Swedeland Discovery Center Data Center Campus,MLP Ventures,PA,montgomery,42091,0.2280,40.07589993,-75.33279859,,,no,blocked_confirmed,yes,0,2026-05-01,month,2026-05-22,2026-08-14,county_shared_with_opposed_project
-prj_299,proposals_opposed,Stonebridge Lawrence Data Center,Stonebridge,PA,lawrence,42073,-0.3377,40.99142125,-80.42833073,,,yes,blocked_confirmed,yes,1,2026-07-01,month,,2026-09-16,
-prj_300,proposals_unopposed,North Coventry Mall Data Center,PGOB Coventry Holdings; Pennmark Management Company Inc.,PA,chester,42029,0.1446,40.23541132,-75.66262445,,,no,blocked_confirmed,yes,0,2026-08-25,day,,2026-09-10,county_shared_with_opposed_project
-prj_301,proposals_unopposed,Storage Data Center Project,Next Generation Land,PA,tioga,42117,-0.5175,41.97718191,-77.14159141,,,no,pending,no,0,2025-11-01,month,,2026-09-16,
-prj_302,proposals_unopposed,TECfusions “Keystone Connect” AI Campus,TECfusions,PA,westmoreland,42129,-0.2842,40.55148482,-79.64813466,336.0,,no,pending,no,0,2025-01-01,month,,,
-prj_303,proposals_opposed,Starpointe Data Center Project,Next Generation Land; Energy Transfer; Range Resources Corp.,PA,washington,42125,-0.2551,40.42897263,-80.41166631,,,yes,pending,no,1,2026-01-01,year,,2029-03-30,
-prj_304,proposals_unopposed,AWS Salem Township Data Center,Amazon Web Services,PA,luzerne,42079,-0.1917,41.08541393,-76.15505141,1920.0,,no,advanced_confirmed,yes,0,2025-01-01,year,,2026-09-15,county_shared_with_opposed_project
-prj_305,proposals_opposed,4-3 Salem Township Data Center,4-3 Consulting,PA,luzerne,42079,-0.1917,41.09268711,-76.20451035,3500.0,,yes,pending,no,1,2026-06-01,month,,2026-06-15,
-prj_306,proposals_unopposed,Iron City No. 1 Power Generator and Compute Center,Iron City,PA,clearfield,42033,-0.5153,41.12090453,-78.1138798,,,no,pending,no,0,2026-02-01,month,,2026-09-16,
-prj_307,proposals_opposed,Lower Mount Bethel Technology Center,Peron Development,PA,northampton,42095,-0.0177,40.82152787,-75.1017816,1200.0,,yes,pending,no,1,2026-04-01,month,,2026-03-08,
-prj_308,proposals_unopposed,Cumru Titus Data Center,Titus Development Co.; Go Energy Group,PA,berks,42011,-0.1218,40.30604668,-75.91162467,200.0,,no,pending,no,0,2026-05-01,month,,2026-05-23,
-prj_309,proposals_unopposed,Jessup Breaker Street Data Center,Breaker Street Associates LLC,PA,lackawanna,42069,0.0279,41.47418356,-75.55167722,600.0,,no,pending,no,0,2025-06-01,month,,2026-09-15,county_shared_with_opposed_project
-prj_310,proposals_opposed,Peach Bottom Data Center,Calpine,PA,york,42133,-0.2526,39.73803078,-76.30721563,,,yes,pending,no,1,2025-07-01,month,,2026-03-20,
-prj_311,proposals_opposed,NorthPoint Spring Mountain Data Center,NorthPoint Development,PA,carbon,42025,-0.3479,40.91668696,-75.92819869,,,yes,pending,no,1,2025-08-01,month,,2026-04-15,
-prj_312,proposals_opposed,Penn Forest Township Data Center,Mele Brothers Realty,PA,carbon,42025,-0.3479,40.90018884,-75.66877208,,,yes,pending,no,1,2025-12-01,month,,2026-03-04,
-prj_313,proposals_opposed,Dorrance Township Data Center Zoning Ordinance Challenge,Brewster Land Company,PA,luzerne,42079,-0.1917,41.08587671,-75.95575846,,,yes,pending,no,2,2025-01-01,year,,2026-09-14,
-prj_314,proposals_unopposed,East Manchester Farmland to Data Center Initiative Interest,Undisclosed Developer,PA,york,42133,-0.2526,40.06896237,-76.68420106,,,no,pending,no,0,2025-12-01,month,,2026-04-11,county_shared_with_opposed_project
-prj_315,proposals_unopposed,Alpha Compute Data Center,Alpha Compute,PA,,,,,,200.0,,no,pending,no,0,2026-08-01,month,,2026-09-16,no_coordinates
-prj_316,proposals_unopposed,Newport Township Data Center Campus,Undisclosed Developer,PA,luzerne,42079,-0.1917,41.16246671,-76.08389734,,,no,pending,no,0,2026-09-14,day,,2026-09-15,county_shared_with_opposed_project
-prj_317,proposals_opposed,Smithfield Data Center,ReNew Developers LLC; Hanton City Investments; Revity Energy,RI,providence,44007,0.1443,41.935469,-71.52036919,,,yes,pending,no,2,2026-04-01,month,,2026-04-25,
-prj_318,proposals_opposed,Gemini Sioux Falls Data Center,Gemini Data Center LLC; A1 Development Solutions; Xcel Energy,SD,minnehaha,46099,-0.1268,43.59370023,-96.6401013,500.0,,yes,advanced_confirmed,yes,1,2025-01-01,year,,2026-09-16,
-prj_319,proposals_unopposed,Sequitor Edge Rapid City,Sequitor Edge; Dream Design International; Elevate Rapid City; Black Hills Energy,SD,pennington,46103,-0.2644,44.02731001,-103.1840971,2.0,,no,pending,no,0,2026-02-01,month,,2026-09-16,
-prj_320,proposals_opposed,Applied Digital Toronto,Applied Digital,SD,deuel,46039,-0.5174,44.5836554,-96.56283,,,yes,blocked_confirmed,yes,1,2025-05-01,month,,2026-09-16,
-prj_321,proposals_opposed,Colossus,CTC Property LLC; Phoenix Investors; xAI,TN,shelby,47157,0.2537,35.06015556,-90.15650152,150.0,,yes,advanced_confirmed,yes,13,2024-01-01,year,,2026-03-28,
-prj_322,proposals_opposed,Colossus 2,xAI,TN,shelby,47157,0.2537,34.99870981,-90.03812933,422.0,,yes,advanced_confirmed,yes,12,2025-01-01,year,,2026-03-28,
-prj_323,proposals_opposed,Gallatin Data Center Expansion,Plateau Excavation LLC.; DPR Construction; Meta,TN,sumner,47165,-0.4183,36.40865292,-86.37040153,300.0,,yes,advanced_confirmed,yes,1,2020-01-01,year,,,
-prj_324,proposals_unopposed,Neural Nexus Data Center,Legacy Power Capital,TN,shelby,47157,0.2537,35.14095312,-90.04757753,70.0,,no,pending,no,0,2025-12-01,month,,,county_shared_with_opposed_project
-prj_325,proposals_opposed,RadiusDC Nashville I / Trinity Hills Colocation Data Center,RadiusDC,TN,davidson,47037,0.2745,36.22227227,-86.78351657,12.0,,yes,advanced_confirmed,yes,1,2025-09-01,month,,2026-03-20,
-prj_326,proposals_unopposed,5C Memphis Data Center,5C Group,TN,shelby,47157,0.2537,35.03183751,-89.93263096,60.0,,no,advanced_confirmed,yes,0,2025-11-01,month,,,county_shared_with_opposed_project
-prj_327,proposals_unopposed,Lawrenceburg / Ethridge Data Center,"Cadence, LLC",TN,lawrence,47099,-0.6906,35.29402267,-87.32017668,,,no,pending,no,0,2025-11-01,month,,2026-04-27,
-prj_328,proposals_opposed,Jailhouse Studios,Urban Story Ventures,TN,hamilton,47065,-0.1305,35.04954023,-85.30803088,,,yes,advanced_confirmed,yes,2,2026-03-01,month,,2026-05-23,
-prj_329,proposals_opposed,Nashville DC Blox Data Center,DC BLOX,TN,davidson,47037,0.2745,36.09042198,-86.74633128,,,yes,pending,no,2,2026-05-01,month,,2026-06-05,
-prj_330,proposals_unopposed,CleanSpark Mountain City Bitcoin Mine,CleanSpark,TN,johnson,47091,-0.6933,36.44568006,-81.80073638,30.0,,no,blocked_confirmed,yes,0,2025-01-01,year,,2026-04-26,
-prj_331,proposals_unopposed,ExoticRidge Bitcoin Mine,ExoticRidge,TN,hawkins,47073,-0.6883,36.29580681,-83.03926889,8.0,,no,pending,no,0,2025-01-01,year,,2026-04-14,
-prj_332,proposals_unopposed,Monarch Compute Campus and Mountaineer Gigasystem,Caterpillar; American Intelligence & Power Corporation,WV,mason,54053,-0.5804,38.91458813,-82.11477824,2000.0,,no,pending,no,0,2025-01-01,year,,2026-02-04,
-prj_333,proposals_unopposed,QTS Kearneysville Data Center Complex,QTS Data Centers,WV,jefferson county; berkeley,,,39.40601474,-77.89272666,,,no,pending,no,0,2025-01-01,year,,2026-02-04,within_15km_of_opposed_project
-prj_334,proposals_unopposed,Google Buffalo Data Center,Google,WV,putnam,54079,-0.4633,38.64062703,-81.95363899,,,no,pending,no,0,2026-03-01,month,,2026-03-27,
-prj_335,proposals_unopposed,Appalachian Mega Site / Hog Lick Data Center,Hog Lick Aggregates,WV,marion,54049,-0.3124,39.41956843,-80.21658076,200.0,,no,pending,no,0,2025-01-01,year,,2026-05-01,
-prj_336,proposals_opposed,Ridgeline Facility,Fundamental Data,WV,tucker,54093,-0.4893,39.15911839,-79.47121517,,,yes,pending,no,2,2025-08-01,month,,2026-02-04,
-prj_337,proposals_opposed,"Adams Fork Harless Data Center Energy Campus, Holden",TransGas Development Systems,WV,logan,54045,-0.6672,37.75306909,-82.11292654,2500.0,,yes,pending,no,1,2024-01-01,year,,2026-02-04,
-prj_338,proposals_unopposed,"Adams Fork Data Center Energy Campus, Wharncliffe",TransGas Development Systems,WV,mingo,54059,-0.7378,37.5970543,-81.95842838,,,no,pending,no,0,2025-01-01,year,,2026-02-04,
-prj_339,proposals_opposed,Penzance Intelligence Center,Penzance Management,WV,berkeley,54003,-0.3579,39.53777133,-77.88682289,600.0,,yes,pending,no,1,2026-02-01,month,,2026-02-27,
-prj_340,proposals_opposed,ForgeLight Ventures Conway,"ForgeLight Ventures, LLC",AR,faulkner,05045,-0.3232,35.012581,-92.55369,,,yes,pending,no,1,2025-04-01,month,,2026-09-17,
-prj_341,proposals_opposed,EdgeConneX Sheridan,Clean Cloud Energy; EdgeConneX,,grant,,,34.3065,-92.4045,500.0,,yes,pending,no,1,,,,2026-09-17,
+prj_16,proposals_opposed,ForgeLight Ventures Conway,"ForgeLight Ventures, LLC",AR,faulkner,05045,-0.3232,35.012581,-92.55369,,,yes,pending,no,1,2025-04-01,month,,2026-09-17,
+prj_17,proposals_opposed,EdgeConneX Sheridan,Clean Cloud Energy; EdgeConneX,AR,grant,05053,-0.6887,34.3065,-92.4045,500.0,,yes,pending,no,1,,,,2026-09-17,
+prj_18,proposals_opposed,Project Pyramid,Google,AR,crittenden,05035,0.0228,35.10663917,-90.211937,500.0,,yes,pending,no,1,2025-10-01,month,,2026-09-17,
+prj_19,proposals_opposed,Clarksville Data Center,ServerFarm,AR,johnson,05071,-0.5143,35.4541942,-93.44764012,,,yes,pending,no,1,2025-01-01,year,,2026-09-17,
+prj_20,proposals_opposed,Vilonia Cryptomine,Interstate Holdings Blockchain; Steve Landers Jr.,AR,faulkner,05045,-0.3232,35.09105679,-92.17104118,,,yes,blocked_confirmed,yes,1,2025-01-01,year,,2026-09-15,
+prj_21,proposals_opposed,Project Leo,AVAIO Digital; Entergy Arkansas,AR,pulaski,05119,0.2213,34.61717176,-92.23704641,150.0,,yes,pending,no,2,2026-01-01,month,,2026-09-17,
+prj_22,proposals_opposed,Port of Little Rock Data Center,Willowbend Capital LLC; Google,AR,pulaski,05119,0.2213,34.686928,-92.22558054,100.0,,yes,pending,no,3,2026-03-01,month,,2026-04-11,
+prj_23,proposals_opposed,NE Edge Groton Data Center,NE Edge Data Centers; Dominion Energy,CT,new london,09011,,41.31039607,-72.16759273,300.0,,yes,blocked_confirmed,yes,2,2024-01-01,year,,2026-09-16,
+prj_24,proposals_unopposed,Wallingford Data Center,Charter Development,CT,new haven,09009,,41.49793857,-72.79219892,,,no,pending,no,0,2024-01-01,year,,,
+prj_25,proposals_unopposed,Bloomfield Data Center Proposal,Gotspace Data LLC; Atlas Capital Group,CT,hartford,09003,,41.88592351,-72.74415945,,,no,pending,no,0,2025-01-01,year,,2026-09-16,
+prj_26,proposals_unopposed,Trumbull Data Center Investment,ogNOVUM / AC Trumbull LLC,CT,fairfield,09001,,41.24085718,-73.14738295,,,no,pending,no,0,2025-01-01,year,,2026-04-12,
+prj_27,proposals_unopposed,Bristol Technology Center,GWDC Bristol LLC,CT,hartford,09003,,41.66989773,-72.93474147,,,no,pending,no,0,2023-01-01,year,,2026-09-16,
+prj_28,proposals_opposed,Project Washington,Starwood Digital Ventures,DE,new castle,10003,0.3256,39.61185181,-75.6378833,1200.0,,yes,pending,no,2,2025-06-01,month,,2026-09-16,
+prj_29,proposals_unopposed,"St. Georges Business Park Data Center Development / ""Frightland Project""",Parkway Gravel,DE,new castle,10003,0.3256,39.54430554,-75.64337652,,,no,pending,no,0,2025-11-01,month,,2026-09-16,county_shared_with_opposed_project
+prj_30,proposals_opposed,Newark White Clay Creek Business Park Data Center,Verdantas; Shelbourne,DE,new castle,10003,0.3256,39.68188899,-75.7238784,,,yes,pending,no,1,2026-01-01,year,,2026-09-16,
+prj_31,proposals_unopposed,Servpac Mililani Technology Park Data Center,Servpac,HI,honolulu,15003,0.2165,21.48047314,-158.0211704,,,no,advanced_confirmed,yes,0,,,,2026-09-16,
+prj_32,proposals_unopposed,Granger Data Center,Microsoft,IN,st. joseph,18141,0.0148,41.72266213,-86.12540005,1000.0,,no,pending,no,0,2025-05-01,month,2026-01-28,2026-09-15,county_shared_with_opposed_project
+prj_33,proposals_unopposed,South Bend Data Center,Western Hospitality Partners,IN,st. joseph,18141,0.0148,41.64845397,-86.30055316,,,no,pending,no,0,2025-12-01,month,,2026-03-08,county_shared_with_opposed_project
+prj_34,proposals_opposed,Project Rainier,Amazon Web Services; Anthropic,IN,st. joseph,18141,0.0148,41.69198344,-86.46494887,2400.0,,yes,advanced_confirmed,yes,1,2024-12-01,month,,2026-03-17,
+prj_35,proposals_opposed,Martindale Indianapolis Metrobloks Data Center,Metrobloks,IN,marlon,,,39.80391442,-86.10002644,72.0,,yes,pending,no,4,2025-01-01,year,2025-05-13,2026-04-06,
+prj_36,proposals_opposed,Surge Development Knightstown Data Center,Surge Development; GM Development LLC,IN,henry,18065,-0.4771,39.84095834,-85.56599378,,,yes,pending,no,1,2025-10-01,month,2025-09-22,2026-04-06,
+prj_37,proposals_opposed,Decatur Technology Park,Sabey Data Centers,IN,marion,18097,0.2768,39.66565427,-86.3005398,250.0,,yes,pending,no,1,2025-01-01,year,,2026-04-06,
+prj_38,proposals_opposed,Project Louie,Google,IN,morgan,18109,-0.5433,39.5927482,-86.46343288,,,yes,advanced_confirmed,yes,1,2025-01-01,year,2026-02-02,2026-04-06,
+prj_39,proposals_opposed,Hancock County MegaSite,Surge Development,IN,hancock,18059,-0.3371,39.85920062,-85.8714585,,,yes,blocked_confirmed,yes,2,2025-04-01,month,,2026-09-15,
+prj_40,proposals_unopposed,Pittsboro Middle Township Data Center,Vantage Data Centers,IN,hendricks,18063,-0.2150,39.89679869,-86.44983309,,,no,pending,no,0,2025-02-01,month,,2026-04-06,
+prj_41,proposals_opposed,Pike Township Data Center,American Tower Corporation,IN,marion,18097,0.2768,39.89538346,-86.20420857,,,yes,blocked_confirmed,yes,1,2025-01-01,year,,2026-04-07,
+prj_42,proposals_unopposed,Project Maize,Phoenix Investors,IN,la porte,,,41.71352587,-86.84288513,,,no,advanced_confirmed,yes,0,2025-06-01,month,2025-01-31,2026-09-15,
+prj_43,proposals_opposed,Hobart Tech Park,Amazon; NIPSCO; GenCo,IN,lake,18089,0.0564,41.50355522,-87.28117326,,,yes,pending,no,2,2025-01-01,year,,2026-05-20,
+prj_44,proposals_opposed,Microsoft La Porte Data Center,Microsoft,IN,laporte,18091,-0.1414,41.57726301,-86.67836375,,,yes,advanced_confirmed,yes,2,2024-01-01,year,,2026-06-03,
+prj_45,proposals_opposed,Project Domino,Meta,IN,boone,18011,-0.1601,40.05811921,-86.54115183,1000.0,,yes,advanced_confirmed,yes,1,2024-11-01,month,,2026-06-18,
+prj_46,proposals_unopposed,JPG Data Center,JPG Redevelopment LLC,IN,jefferson,18077,-0.3610,38.83318591,-85.41589009,,,no,pending,no,0,2026-02-01,month,,2026-06-03,
+prj_47,proposals_opposed,Decennial Group Akron Data Center,Decennial Group,IN,fulton,18049,-0.5125,41.03887181,-86.02830714,500.0,,yes,pending,no,1,2026-02-01,month,,2026-03-09,
+prj_48,proposals_opposed,Project Flo,Google,IN,marion,18097,0.2768,39.72001334,-86.00011831,,,yes,blocked_confirmed,yes,1,2025-03-01,month,,2026-04-06,
+prj_49,proposals_unopposed,Amazon Wheatfield,Amazon Web Services; NIPSCO,IN,jasper,18073,-0.5431,41.22626387,-87.00359458,,,no,pending,no,0,2026-06-01,month,,2026-06-03,
+prj_50,proposals_unopposed,Bristol Data Center,Undisclosed Developer,IN,elkhart,18039,-0.3238,41.6925709,-85.85815424,,,no,pending,no,0,2026-03-01,month,,2026-03-08,
+prj_51,proposals_opposed,Project Zodiac,Google,IN,allen,18003,-0.1247,41.02969388,-85.04814501,,,yes,advanced_confirmed,yes,1,2023-12-19,day,,2026-08-11,
+prj_52,proposals_opposed,Google Cedar Rapids,Google,IA,linn,19113,0.0991,41.91422692,-91.72176504,,,yes,pending,no,2,2024-03-22,day,,2026-09-21,
+prj_53,proposals_unopposed,QTS Cedar Rapids,QTS; Alliant Energy,IA,linn,19113,0.0991,41.91132019,-91.73705145,,,no,pending,no,0,2025-01-01,month,,2026-09-21,county_shared_with_opposed_project
+prj_54,proposals_opposed,Meta Davenport Data Center,Meta,IA,scott,19163,-0.0390,41.61625011,-90.62525425,,,yes,pending,no,1,2024-05-01,month,,2026-04-15,
+prj_55,proposals_unopposed,Project Ruthenium,Microsoft,IA,madison,19121,-0.3858,41.4982532,-93.80230569,100.0,,no,pending,no,0,2023-11-01,month,,2026-09-21,within_15km_of_opposed_project
+prj_56,proposals_opposed,Edged Des Moines,Edged,IA,polk,19153,0.1089,41.65752558,-93.56339512,13.0,,yes,advanced_confirmed,yes,2,2025-03-01,month,,2026-09-21,
+prj_57,proposals_unopposed,Project Morgan,Apple,IA,dallas,19049,-0.0475,41.62032029,-93.92530162,,,no,advanced_confirmed,yes,0,2017-08-01,month,,2026-04-15,county_shared_with_opposed_project
+prj_58,proposals_opposed,Google Council Bluffs,Google,IA,pottawattamie,19155,-0.1997,41.22148817,-95.86488585,,,yes,advanced_confirmed,yes,1,2024-01-01,year,,2026-09-21,
+prj_59,proposals_unopposed,Tract Altoona,Tract,IA,polk,19153,0.1089,41.68257893,-93.53199351,,,no,pending,no,0,2025-04-01,month,,2026-06-01,county_shared_with_opposed_project
+prj_60,proposals_unopposed,Project Alluvion,Microsoft,IA,polk,19153,0.1089,41.51672672,-93.70504356,,,no,advanced_confirmed,yes,0,2014-01-01,year,,2026-09-21,county_shared_with_opposed_project
+prj_61,proposals_unopposed,Project Ginger West,Microsoft; Turner Constuction,IA,dallas,19049,-0.0475,41.53290683,-93.86352515,200.0,,no,advanced_confirmed,yes,0,2021-01-01,year,,2026-09-21,county_shared_with_opposed_project
+prj_62,proposals_unopposed,Project Ginger East,Microsoft; Weitz Construction,IA,polk,19153,0.1089,41.51556698,-93.72156694,200.0,,no,advanced_confirmed,yes,0,2022-01-01,year,2025-12-16,2026-09-21,county_shared_with_opposed_project
+prj_63,proposals_unopposed,Project Osmium,Microsoft,IA,warren county; madison,,,41.49719516,-93.78764456,,,no,advanced_confirmed,yes,0,2016-01-01,year,,2026-09-21,within_15km_of_opposed_project
+prj_64,proposals_opposed,Tract Project West,Tract,IA,warren,19181,-0.2074,41.45765488,-93.68699672,,,yes,pending,no,1,2025-02-01,month,,2026-09-21,
+prj_65,proposals_opposed,COPT Defense Properties Data Center,COPT Defense Properties,IA,dallas,19049,-0.0475,41.51929011,-93.9429512,1000.0,,yes,pending,no,1,2024-10-01,month,,2026-04-15,
+prj_66,proposals_unopposed,Simple Mining Cascade,Simple Mining,IA,dubuque,19061,-0.0860,42.2922,-91.0185,,,no,pending,no,0,,,,,
+prj_67,proposals_unopposed,Simple Mining Cedar Falls,Simple Mining,IA,black hawk,19013,0.0116,42.4806037,-92.48979,,,no,pending,no,0,,,,,
+prj_68,proposals_unopposed,Edged Data Center,Edged,IA,pottawattamie,19155,-0.1997,41.27521,-95.8246,200.0,,no,pending,no,0,,,,,county_shared_with_opposed_project
+prj_69,proposals_opposed,Jackson County Data Center,,IA,jackson,19097,-0.3253,42.0296886,-90.659424,,,yes,pending,no,1,,,,,
+prj_71,proposals_unopposed,Karis Dubuque,Karis,IA,dubuque,19061,-0.0860,42.4015564,-90.72211,,,no,pending,no,0,,,,,
+prj_72,proposals_opposed,MidAmerican Data Center,Google (potential),IA,woodbury,19193,-0.2302,42.3300814,-96.272316,,,yes,pending,no,1,,,,,
+prj_74,proposals_opposed,Applied Digital Adair,Applied Digital,IA,adair,19001,-0.4503,41.46792807,-94.61476686,200.0,,yes,pending,no,2,2024-04-01,month,2025-10-15,2026-09-21,
+prj_75,proposals_opposed,Project Lincoln,Western Hospitality Partners,KY,oldham,21185,-0.2258,38.39322445,-85.40823914,,,yes,pending,no,3,2025-03-01,month,,2026-03-01,
+prj_77,proposals_opposed,TeraWulf Hawesville Data Center,TeraWulf,KY,hancock,21091,-0.4753,37.94146754,-86.78826457,,,yes,pending,no,1,2026-01-01,year,,2026-05-05,
+prj_78,proposals_unopposed,Project Pulse,DC Devco LLC,KY,clark,21049,-0.3532,34.05370939,-93.10588436,,,no,blocked_confirmed,yes,0,2026-01-01,year,,2026-05-05,
+prj_79,proposals_opposed,DartPoints Former Lexmark Data Center Redevelopment,DartPoints; Haymaker Company,KY,fayette,21067,0.1811,38.0752589,-84.48732138,,,yes,pending,no,1,2026-03-01,month,,2026-06-04,
+prj_80,proposals_opposed,Franklin–Simpson Data Storage and Service Center,TenKey LandCo I LLC,KY,simpson,21213,-0.4387,36.66574693,-86.56488544,,,yes,pending,no,2,2025-01-01,year,2025-11-20,2026-02-09,
+prj_81,proposals_opposed,Maysville Data Center,Undisclosed Developer,KY,mason,21161,-0.4369,38.68393644,-83.81782457,2200.0,,yes,pending,no,2,2025-08-01,month,,2026-05-23,
+prj_82,proposals_opposed,Muskie Data Campus,TeraWulf,KY,carter,21043,-0.5846,38.40017631,-82.79634195,,,yes,pending,no,1,2026-05-01,month,,2026-06-05,
+prj_83,proposals_opposed,PowerHouse Louisville,PowerHouse Data Centers,KY,jefferson,21111,0.1655,38.2078029,-85.84407511,525.0,,yes,advanced_confirmed,yes,2,2025-01-01,year,,2026-02-09,
+prj_84,proposals_unopposed,Loring Air Force Base Data Center,LiquidCool Solutions,ME,aroostook,23003,-0.2621,46.94618137,-67.8909365,2.0,,no,pending,no,0,2025-10-01,month,,2026-09-21,
+prj_85,proposals_opposed,Bates Mill No. 3. Data Center,Mill-Compute LLC,ME,androscoggin,23001,-0.0609,44.09471157,-70.2188496,,,yes,blocked_confirmed,yes,2,2025-01-01,year,2026-04-06,2026-09-16,
+prj_86,proposals_unopposed,Sanford Woods Industrial and Technical Campus,Randy Gibbs,ME,york,23031,0.1048,43.42290886,-70.70655916,,,no,pending,no,0,2026-01-01,year,,2026-03-08,
+prj_87,proposals_unopposed,Millinocket Data Center,Nautilus Data Technologies,ME,aroostook,23003,-0.2621,45.64559665,-68.70503765,60.0,,no,blocked_confirmed,yes,0,2021-01-01,year,,2026-02-08,
+prj_88,proposals_unopposed,Yankee Nuclear Power Plant Data Center,,ME,lincoln,23015,0.1125,43.955718,-69.69428,,,no,pending,no,0,2025-01-01,year,,2026-09-16,
+prj_89,proposals_unopposed,DeepGreen Eastport Subsea Data Center,DeepGreen Western Passage SPV LLC,ME,washington,23029,-0.2349,44.9470406,-67.01703,51.0,,no,pending,no,0,2025-01-01,year,,2026-09-16,
+prj_90,proposals_opposed,Woodlawn Data Center,Security Land and Development LP,MD,baltimore,24005,0.2450,39.30896202,-76.73917251,150.0,,yes,pending,no,3,2025-12-01,month,,2026-02-06,
+prj_91,proposals_unopposed,TeraWulf Newburg,TeraWulf,MD,charles,24017,0.4071,38.3654823,-76.96935,500.0,,no,pending,no,0,,,,2026-09-16,county_shared_with_opposed_project
+prj_92,proposals_unopposed,Sandy Farms Data Center,Oppidan Connect; GI Partners; Harrison Street Asset Management,MD,anne arundel,24003,0.1394,39.1496906,-76.679955,,,no,pending,no,0,,,,2026-09-16,
+prj_93,proposals_opposed,Brightseat Tech Park Data Center Development,Lerner Enterprises,MD,prince george's,24033,0.7515,38.92025496,-76.85650556,,,yes,pending,no,2,2025-01-01,year,,2026-02-07,
+prj_94,proposals_opposed,Quantum Frederick,Rowan Digital Infrastructure; TPG Real Estate,MD,frederick,24021,0.0881,39.33289175,-77.4734034,264.0,,yes,advanced_confirmed,yes,1,2021-01-01,year,,2026-02-07,
+prj_95,proposals_opposed,Piney Reach Data Center Development,NAI Michael,MD,charles,24017,0.4071,38.57919612,-76.88654887,,,yes,pending,no,1,2025-01-01,year,,2026-02-07,
+prj_96,proposals_opposed,Johns Hopkins Data Science and Artificial Intelligence Institute (DSAI),Johns Hopkins University,MD,baltimore,24005,0.2450,39.32576868,-76.62440393,,,yes,advanced_confirmed,yes,1,2024-01-01,year,,2026-03-05,
+prj_97,proposals_opposed,Atmosphere Dickerson Data Center,Atmosphere Data Centers; Terra Energy,MD,montgomery,24031,0.5330,39.21300165,-77.45264836,360.0,,yes,pending,no,2,2026-02-01,month,,2026-09-21,
+prj_98,proposals_unopposed,Laurel Data Center,TPC Data Center via Mid-Atlantic LLC,MD,prince george's,24033,0.7515,39.08928035,-76.9011909,20.0,,no,pending,no,0,2024-05-01,month,,2026-02-07,county_shared_with_opposed_project
+prj_99,proposals_opposed,Servistar Westfield,Servistar Realties,MA,hampden,25013,0.0889,42.15896563,-72.74102143,,,yes,pending,no,2,2021-01-01,year,,,
+prj_100,proposals_opposed,Holyoke Data Center,Chestnut River Power,MA,hampden,25013,0.0889,42.197424,-72.600933,20.0,,yes,pending,no,2,2026-06-01,month,,2026-06-16,
+prj_101,proposals_opposed,Everett Docklands Data Center,Undisclosed Developer,MA,middlesex,25017,0.3945,42.3963828,-71.05932,,,yes,pending,no,1,,,,2026-09-16,
+prj_102,proposals_opposed,Project Mitten / The Barn,OpenAI; Oracle; Related Digital,MI,washtenaw,26161,0.4442,42.12049367,-83.88493822,1400.0,,yes,advanced_confirmed,yes,8,2025-10-01,month,,2026-04-20,
+prj_103,proposals_opposed,Project Cannoli,Panattoni Data Center Group,MI,wayne,26163,0.2897,42.22440467,-83.43455956,1000.0,,yes,pending,no,1,2025-12-01,month,,2026-03-01,
+prj_104,proposals_opposed,32 Mile Road Technical Campus,Prologis,MI,macomb,26099,-0.1369,42.80033403,-82.99099444,,,yes,pending,no,1,2025-01-01,year,,2026-03-02,
+prj_105,proposals_opposed,Microsoft Gaines Township Data Center,Microsoft,MI,kent,26081,0.0537,42.83126854,-85.55654658,,,yes,pending,no,4,2026-01-01,year,,2026-03-04,
+prj_106,proposals_opposed,Rocklocker Kalkaska Data Center,RockLocker LLC,MI,kalkaska,26079,-0.4287,44.71585977,-85.24739678,,,yes,blocked_confirmed,yes,3,2025-01-01,year,,2026-03-06,
+prj_107,proposals_opposed,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,University of Michigan,MI,washtenaw,26161,0.4442,42.20695604,-83.54865588,,,yes,pending,no,2,2025-01-01,year,,2026-03-08,
+prj_108,proposals_opposed,Project Cherry Blossom,Cloverleaf Infrastructure,MI,monroe,26115,-0.2713,41.91971926,-83.35705274,,,yes,pending,no,2,2025-11-01,month,,2026-03-09,
+prj_109,proposals_opposed,Project Ironwood,Cloverleaf Infrastructure,MI,monroe,26115,-0.2713,41.99283162,-83.66842409,,,yes,pending,no,1,2025-07-01,month,,2026-03-09,
+prj_110,proposals_opposed,Project Flex,Verrus,MI,oakland,26125,0.1059,42.50232798,-83.61177835,,,yes,pending,no,5,2025-09-01,month,,2026-03-09,
+prj_111,proposals_opposed,Deep Green Lansing Data Center,Deep Green,MI,ingham,26065,0.2971,42.73027495,-84.54530739,24.0,,yes,blocked_confirmed,yes,3,2025-11-01,month,,2026-04-06,
+prj_112,proposals_unopposed,Pavilion Township Data Center,Franklin Partners LLC,MI,kalamazoo,26077,0.1773,42.24339147,-85.50878237,,,no,blocked_confirmed,yes,0,2025-01-01,year,,2026-03-13,
+prj_113,proposals_opposed,Sansone York Township Data Center,Sansone Group,MI,washtenaw,26161,0.4442,42.16225032,-83.7038859,1000.0,,yes,pending,no,1,2025-12-01,month,,2026-03-13,
+prj_114,proposals_opposed,Metrobloks Southfield Data Center,Metrobloks,MI,oakland,26125,0.1059,42.48814798,-83.31696816,100.0,,yes,pending,no,1,2025-12-01,month,,2026-03-13,
+prj_115,proposals_opposed,Benton Charter Township Data Center,Undisclosed Developer,MI,berrien,26021,-0.0787,42.0793117,-86.38608493,,,yes,pending,no,1,2024-01-01,year,2025-08-18,2026-03-08,
+prj_116,proposals_unopposed,Project Splitrock,Randee LLC,MI,livingston,26093,-0.2395,42.65834059,-84.02162314,,,no,blocked_confirmed,yes,0,2025-09-01,month,,2026-03-02,county_shared_with_opposed_project
+prj_117,proposals_unopposed,Starkville Crypto Mine,Undisclosed Developer,MS,oktibbeha,28105,-0.0028,33.4353285,-88.83601,30.0,,no,blocked_confirmed,yes,0,,,,2026-09-18,
+prj_118,proposals_opposed,Amazon Clinton,Amazon Data Services,MS,hinds,28049,0.4609,32.34892761,-90.36632151,,,yes,pending,no,1,2026-01-01,month,,2026-09-18,
+prj_119,proposals_unopposed,Ridgeland Amazon Data Center,Amazon Web Services; Birdsong Construction,MS,madison,28089,-0.1729,32.40768028,-90.19301896,1000.0,,no,pending,no,0,2026-04-01,month,2026-02-18,2026-09-18,county_shared_with_opposed_project
+prj_120,proposals_opposed,Project Steamboat,Amazon Web Services,MS,warren,28149,-0.0396,32.27324166,-90.90165068,,,yes,pending,no,1,2025-11-01,month,2026-06-08,2026-09-18,
+prj_121,proposals_opposed,Meridian Compass Data Center,Compass Datacenters,MS,lauderdale,28075,-0.2120,32.39009521,-88.62001053,500.0,,yes,advanced_confirmed,yes,2,2025-01-01,month,,2026-04-15,
+prj_122,proposals_opposed,Clarksdale Data Center,Undisclosed Developer,MS,coahoma,28027,0.3981,34.17249603,-90.56381427,,,yes,pending,no,4,2026-03-01,month,2026-05-19,2026-09-18,
+prj_123,proposals_opposed,xAI MACROHARDRR,xAI,MS,bdesoto,,,34.99342701,-90.03423007,,,yes,advanced_confirmed,yes,5,2026-01-01,month,2026-04-22,2026-09-18,
+prj_124,proposals_opposed,Taurus Data Center Hub,AVAIO Digital Partners; Entergy,MS,rankin,28121,-0.4713,32.26966137,-90.01367672,450.0,,yes,advanced_confirmed,yes,1,2025-08-01,month,,2026-09-18,
+prj_125,proposals_opposed,Amazon Madison Mega Site,Amazon Web Services,MS,madison,28089,-0.1729,32.59492205,-90.09454526,,,yes,advanced_confirmed,yes,2,2024-01-01,year,,2026-09-18,
+prj_126,proposals_opposed,Nebius Independence Hyperscale Campus,Nebius,MO,jackson,29095,0.1933,39.10174683,-94.30901867,800.0,,yes,advanced_confirmed,yes,2,2026-01-01,year,,2026-09-11,
+prj_127,proposals_opposed,Project Green,Amazon Web Services; NorthPoint Development,MO,montgomery,29139,-0.6014,38.90206436,-91.42407949,,,yes,pending,no,1,2026-01-01,month,,2026-05-09,
+prj_128,proposals_opposed,Project Spade,Google; Related Digital,MO,montgomery,29139,-0.6014,38.88882499,-91.43708207,1200.0,,yes,pending,no,1,2025-11-01,month,,2026-05-09,
+prj_129,proposals_opposed,Crusoe Warrenton AI Data Center,Warrenton DC Owner 1 LLC; Crusoe,MO,warren,29219,-0.4949,38.82899456,-91.1825948,,,yes,pending,no,1,2026-01-01,year,,2026-05-21,
+prj_130,proposals_opposed,CRG Festus Data Center,CRG; Clayco,MO,jefferson,29099,-0.3674,38.19524083,-90.42875363,,,yes,pending,no,1,,,,2026-05-09,
+prj_131,proposals_opposed,Metrobloks Liberty Data Center Campus,Metrobloks; Lincoln,MO,clay,29047,-0.0565,39.20719259,-94.45399285,150.0,,yes,pending,no,1,,,,2026-05-09,
+prj_132,proposals_unopposed,Lambda AI Factory,Lambda,MO,jackson,29095,0.1933,39.29569711,-94.67402441,24.0,,no,pending,no,0,,,,2026-05-09,county_shared_with_opposed_project
+prj_133,proposals_unopposed,Jasper County Powered Data Park / Sarcoxie Data Center,Geronimo Power,MO,jasper,29097,-0.4677,37.12580862,-94.10210599,,,no,pending,no,0,,,,2026-05-09,county_shared_with_opposed_project
+prj_134,proposals_opposed,Meramec Valley Technology Park,Beltline Energy; Logistix,MO,franklin,29071,-0.4586,38.43474091,-90.7592958,,,yes,pending,no,1,2026-01-01,year,,2026-05-09,
+prj_135,proposals_opposed,Gateway Digital Campus,Provident Data Centers,MO,franklin,29071,-0.4586,38.47277567,-90.84330248,,,yes,pending,no,1,2026-01-01,year,,2026-05-09,
+prj_136,proposals_unopposed,Meta Kansas City Data Center,Meta; Diode Ventures,MO,clay,29047,-0.0565,39.32251284,-94.59398023,,,no,advanced_confirmed,yes,0,2025-01-01,year,,2026-05-09,county_shared_with_opposed_project
+prj_137,proposals_opposed,Marshfield Webster Data Center,Lumon Solutions,MO,webster,29225,-0.6225,37.36525146,-92.88822467,,,yes,advanced_confirmed,yes,1,2026-01-01,year,,2026-05-09,
+prj_138,proposals_opposed,Project Cumulus,CRG; Clayco,MO,st. charles,29183,-0.1697,38.81601246,-90.54683674,,,yes,blocked_confirmed,yes,4,2025-03-01,month,,2026-05-09,
+prj_139,proposals_opposed,Wildwood Ranch AI Data Center,Wildwood Ranch LLC,MO,jasper,29097,-0.4677,37.07096304,-94.58386453,200.0,,yes,pending,no,1,2026-01-01,year,,2026-09-15,
+prj_140,proposals_unopposed,Mo Lake Development Cross Creek Data Center,Mo Lake Development,MO,camden,29029,-0.5430,38.03465334,-92.7410058,,,no,blocked_confirmed,yes,0,2026-01-01,year,,2026-05-09,
+prj_141,proposals_opposed,Armory Innovation Data Center,Contour; TeraWatt; THO; Steadfast; ARCO; Lewis Rice,MO,st. louis,29189,0.2342,38.63165907,-90.23951136,120.0,,yes,pending,no,2,,,,2026-05-09,
+prj_142,proposals_opposed,Oppidan Foristell Data Center Sites,Oppidan Investment Company; Connect,MO,st. charles county; warren,,,38.81659009,-90.95349831,,,yes,pending,no,2,,,,2026-05-09,
+prj_143,proposals_unopposed,White Cloud Acres,Scale Microgrids,MO,nodaway,29147,-0.4374,40.17786437,-94.78400949,600.0,,no,pending,no,0,,,2025-09-15,2026-05-09,
+prj_144,proposals_unopposed,Project Mica,Google; Diode Ventures,MO,clay,29047,-0.0565,39.31526749,-94.59489243,700.0,,no,advanced_confirmed,yes,0,2026-02-01,month,,2026-05-09,county_shared_with_opposed_project
+prj_145,proposals_unopposed,Nottingham Data Center,Nottingham Business Park LLC,NH,rockingham,33015,-0.0244,43.17994869,-71.1001181,,,no,blocked_confirmed,yes,0,2026-05-01,month,,2026-09-16,
+prj_146,proposals_opposed,DataOne Vineland,DataOne; Ardian; BSO; DataOne; Nebius Group; Microsoft,NJ,cumberland,34011,-0.0375,39.42766589,-75.0167957,300.0,,yes,advanced_confirmed,yes,1,2024-01-01,year,,2026-05-20,
+prj_147,proposals_opposed,Princeton Nurseries Data Center,WRV Nurseries South Brunswick LLC,NJ,middlesex,34023,0.0804,40.3616451,-74.60748403,,,yes,pending,no,1,2025-01-01,year,,2026-02-07,
+prj_148,proposals_opposed,Nutley Data Center,Prism Capital Partners,NJ,essex,34013,0.4491,40.82934313,-74.15375476,,,yes,pending,no,1,2025-01-01,year,,2026-02-07,
+prj_149,proposals_opposed,New Brunswick Data Center,Undisclosed Developer,NJ,middlesex,34023,0.0804,40.48746648,-74.4575096,,,yes,blocked_confirmed,yes,1,2025-01-01,year,,2026-02-21,
+prj_150,proposals_opposed,East Greenwich Township Data Center,American Tower,NJ,gloucester,34015,-0.0280,39.79936564,-75.19931475,,,yes,blocked_confirmed,yes,2,2026-03-01,month,,2026-06-16,
+prj_151,proposals_opposed,CoreWeave Kenilworth,CoreWeave,NJ,union,34039,0.2421,40.6779928,-74.27441747,250.0,,yes,advanced_confirmed,yes,3,2025-01-01,year,,2026-04-14,
+prj_152,proposals_opposed,Monroe Township Data Center,Hexa Builders,NJ,gloucester,34015,-0.0280,39.63068297,-74.93468954,,,yes,blocked_confirmed,yes,2,2026-03-01,month,,2026-05-20,
+prj_153,proposals_unopposed,Andover Data Center,"Dykstra Associates, PC; Abbey Beta, LLC",NJ,sussex,34037,-0.2494,41.03259839,-74.76603349,,,no,pending,no,0,2026-05-01,month,,2026-05-23,
+prj_154,proposals_unopposed,Millville Energy & Data Center Campus,A1 Data Center,NJ,cumberland,34011,-0.0375,39.4088032,-75.0332377,,,no,blocked_confirmed,yes,0,2026-05-01,month,,2026-05-20,county_shared_with_opposed_project
+prj_155,proposals_unopposed,Sugar Hill Portland Data Center,WEED Inc,NY,chautauqua,36013,-0.2198,42.37579809,-79.51981497,,,no,pending,no,0,2026-01-01,year,,2026-05-05,
+prj_156,proposals_unopposed,Massena Petawatt Data Center Site Advertisement,Five 9s Digital,NY,st. lawrence,36089,-0.1800,44.95771162,-74.84814718,200.0,,no,pending,no,0,2026-01-01,year,,2026-05-05,
+prj_157,proposals_unopposed,Riverview Innovative and Technology Campus Data Center,Undisclosed Developer,NY,erie,36029,0.0968,42.98332989,-78.92629003,,,no,pending,no,0,2026-04-01,month,,2026-05-20,
+prj_158,proposals_opposed,Albany Kenwood Data Center,Undisclosed Developer,NY,albany,36001,0.2584,42.62886666,-73.77148535,,,yes,pending,no,1,2026-05-01,month,2026-03-05,2026-06-03,
+prj_159,proposals_opposed,STAMP Data Center,Stream Data Centers,NY,genesee,36037,-0.3395,42.9915,-78.304,500.0,,yes,pending,no,5,2025-01-01,year,2025-08-13,2026-07-14,
+prj_160,proposals_unopposed,Ilion Data Center,Turin Hoefler Avenue LLC,NY,herkimer,36043,-0.3644,43.01352625,-75.03366628,,,no,pending,no,0,2026-04-01,month,2025-10-07,2026-05-05,
+prj_161,proposals_opposed,Niagara Digital Campus Data Center Development,Niagara Falls Redevelopment,NY,niagara,36063,-0.1492,43.08391756,-79.05282532,,,yes,pending,no,1,2024-01-01,year,,2026-02-01,
+prj_162,proposals_unopposed,Brookhaven National Laboratory Data Center,United States Department of Energy,NY,suffolk,36103,-0.0997,40.86743817,-72.89549013,,,no,pending,no,0,2024-01-01,year,,2026-04-22,
+prj_163,proposals_opposed,Cayuga Data Campus,TeraWulf,NY,tompkins,36109,0.5062,42.6023,-76.628,138.0,,yes,pending,no,4,2025-01-01,year,,2026-02-09,
+prj_164,proposals_opposed,Lysander Data Center,Ranalli Super DC,NY,onondaga,36067,0.1728,43.1325,-76.3376,300.0,,yes,pending,no,2,2026-01-01,year,,2026-04-01,
+prj_165,proposals_opposed,Oneonta West End Data Center,EcoYotta Inc.,NY,otsego,36077,-0.0787,42.455,-75.055,,,yes,pending,no,1,2025-01-01,year,,2025-12-01,
+prj_166,proposals_unopposed,Rural Hall Data Center,Thomas & Hutton; Drox Group LLC; Montrose Environmental Group,NC,forsyth,37067,0.1317,36.24135237,-80.30180901,,,no,pending,no,0,2026-03-01,month,,2026-04-26,
+prj_167,proposals_unopposed,Person County Mega Park,Microsoft Corporation; Timmons Group; Microsoft Corporation; Centurylink; Spectrum; Person County Mega Park; Duke Energy; Dominion Energy,NC,person,37145,-0.2371,36.47985187,-78.98963775,,,no,pending,no,0,2024-10-01,month,,2026-04-26,
+prj_168,proposals_opposed,Tarboro Data Center Campus,ARCO Design/Build; 142 Design Group; Energy Storage Solutions,NC,edgecombe,37065,0.2271,35.90700022,-77.5905037,300.0,,yes,pending,no,2,2025-09-01,month,,2024-04-29,
+prj_169,proposals_unopposed,High Point Data Center,DC BLOX; DC BLOX,NC,guilford,37081,0.2184,36.05205784,-79.95182154,,,no,pending,no,0,2021-05-01,month,,2023-03-30,
+prj_170,proposals_unopposed,CLT20 Moores Chapel,Digital Realty Trust; Digital Moores Chapel LLC; Digital Realty Trust; Digital Realty Trust,NC,mecklenburg,37119,0.3289,35.25092167,-81.00084159,,,no,pending,no,0,2025-05-01,month,,2023-03-30,county_shared_with_opposed_project
+prj_171,proposals_opposed,CLT10 Uptown Expansion,Digital Realty Trust; Digital Realty Trust; Digital Realty Trust,NC,mecklenburg,37119,0.3289,35.22191683,-80.83534781,,,yes,advanced_confirmed,yes,2,2025-03-01,month,,2023-03-30,
+prj_172,proposals_unopposed,Greensboro Dream Center,ImpactData; Raeden; ImpactData; Raeden; Gateway Research Park; NC A&T State University,NC,guilford,37081,0.2184,36.05768666,-79.74575475,10.0,,no,advanced_confirmed,yes,0,,,,2023-03-30,
+prj_173,proposals_unopposed,Marble Data Center Campus,Core Scientific; CoreWeave; Core Scientific; CoreWeave,NC,cherokee,37039,-0.5745,35.18558998,-83.91616364,,,no,advanced_confirmed,yes,0,,,,2023-03-30,
+prj_174,proposals_unopposed,Maiden iDataCenter Campus,Apple; Duke Energy; Bloom Energy,NC,catawba county; lincoln,,,35.58929658,-81.25730925,,,no,advanced_confirmed,yes,0,,,,2023-03-30,
+prj_175,proposals_opposed,T5 Data Centers Kings Mountain,T5 Data Centers; T5 Data Centers; AT&T; Walt Disney Co.; Wipro; Duke Energy,NC,cleveland county; gaston,,,35.25027157,-81.39640542,,,yes,advanced_confirmed,yes,1,,,,2023-03-30,
+prj_176,proposals_unopposed,Forest City Data Center Campus,Meta,NC,rutherford,37161,-0.4781,35.31677477,-81.82520272,,,no,advanced_confirmed,yes,0,,,,2023-03-30,
+prj_177,proposals_unopposed,Lenoir Campus (Existing + Project Cardinal 2024),Google; Tapaha Dynamics LLC; Blue Ridge Energy,NC,caldwell,37027,-0.5262,35.89389169,-81.54542395,,,no,advanced_confirmed,yes,0,,,,2023-03-30,
+prj_178,proposals_opposed,Natelli Investments New Hill Digital Campus,Natelli Investments LLC; Protect Wake County Coalition; Natelli Investments LLC,NC,,,,35.65264621,-78.95610019,250.0,,yes,blocked_confirmed,yes,2,,,,2023-03-30,
+prj_179,proposals_opposed,Kingsboro Data Center,ARCO Design/Build; 142 Design Group; Energy Storage Solutions,NC,edgecombe,37065,0.2271,35.92501155,-77.69463669,300.0,,yes,pending,no,1,2025-09-01,month,,2026-04-29,
+prj_180,proposals_opposed,Fayetteville Data Center Campus,Energy Storage Solutions (ESS); PWC (Fayetteville Public Works Commission); Duke Energy,NC,cumberland,37051,0.1341,,,,,yes,pending,no,2,2025-12-01,month,,2023-03-30,
+prj_181,proposals_unopposed,Lenoir Data Center Expansion,Google; Tapaha Dynamics LLC; Google; Blue Ridge Energy,NC,caldwell,37027,-0.5262,,,,,no,advanced_confirmed,yes,0,2026-03-01,month,,2023-03-30,no_coordinates
+prj_182,proposals_opposed,Rowan County Data Center,Edged (EDC Charlotte LLC); Edged (EDC Charlotte LLC); Duke Energy,NC,rowan,37159,-0.3591,35.69406105,-80.37033957,,,yes,advanced_confirmed,yes,4,2025-01-01,month,,2023-03-30,
+prj_183,proposals_opposed,Project Delta,Engineered Land Solutions (ELS); DFC Stokes LLC; Blue Ridge Companies; CleanAIRE NC; Dan River Basin Association; National Hairston Clan; David Couch / Blue Ridge Companies; Duke Energy (Belews Creek Steam Station),NC,stokes,37169,-0.5960,36.38118435,-79.94112825,,,yes,pending,no,1,2025-01-01,month,,2023-03-30,
+prj_184,proposals_unopposed,AWS Richmond County Campus,Amazon Web Services; Amazon Web Services; Duke Energy (Sherwood H. Smith Jr. Energy Complex),NC,richmond,37153,-0.2088,34.82060089,-79.72416668,,,no,advanced_confirmed,yes,0,2025-01-01,year,,2023-03-30,
+prj_185,proposals_opposed,Statesville Data Center Campus,Compass Datacenters; Brookfield Infrastructure (owner of Compass); Compass Datacenters; Duke Energy,NC,iredell,37097,-0.3262,35.77086367,-80.96640357,,,yes,pending,no,1,2025-01-01,year,,2023-03-30,
+prj_186,proposals_opposed,Charlotte University City Data Center,PowerHouse Data Centers (AREP); Town Lane; American Real Estate Partners (AREP); Town Lane; PowerHouse Data Centers; PowerHouse Data Centers; Town Lane; Duke Energy,NC,mecklenburg,37119,0.3289,35.30122025,-80.73226971,,,yes,advanced_confirmed,yes,1,,,,2023-03-30,
+prj_187,proposals_unopposed,5C Charlotte Data Center,5C Group; Hypertec Cloud; 5C Data Centers; Brookfield Asset Management; Deutsche Bank; 5C Group,NC,mecklenburg,37119,0.3289,,,,,no,advanced_confirmed,yes,0,,,,2023-03-30,county_shared_with_opposed_project
+prj_188,proposals_unopposed,NC-1 Campus (Madison) Data Center,WhiteFiber HPC; Bit Digital; Enovum Data Centers; Bit Digital; WhiteFiber HPC; WhiteFiber HPC; Nscale; Rockingham County,NC,rockingham,37157,-0.3591,36.40427826,-79.98908995,,,no,advanced_confirmed,yes,0,,,,2023-03-30,within_15km_of_opposed_project
+prj_189,proposals_unopposed,Microsoft — Catawba County Campus Cluster (Lyle Creek / Boyd Farm / Hickory / Stover North),Whiting-Turner Contracting; Morgan Construction; Ames Construction; Microsoft Corporation; Whiting-Turner Contracting; Morgan Construction; Ames Construction; Microsoft Corporation; Duke Energy,NC,,,,,,,,no,advanced_confirmed,yes,0,,,,2023-03-30,no_coordinates
+prj_190,proposals_unopposed,Raleigh New Build Data Center,Flexential; GI Partners; Morgan Stanley Infrastructure Partners; Flexential,NC,wake,37183,0.2555,,,,,no,advanced_confirmed,yes,0,,,,2023-03-30,county_shared_with_opposed_project
+prj_191,proposals_opposed,American Tower RA1,American Tower Corporation; CoreSite,NC,wake,37183,0.2555,,,,,yes,advanced_confirmed,yes,1,,,,2023-03-30,
+prj_192,proposals_opposed,Tract Mooresville Technology Park,Tract; Teresa Earnhardt (property owner),NC,iredell,37097,-0.3262,35.51718123,-80.75378681,,,yes,blocked_confirmed,yes,3,2025-08-01,month,,2023-03-30,
+prj_193,proposals_opposed,Project Accelerate,East John Master Development; Matthews DC LLC; Engineered Land Solutions (ELS); East John Master Development,NC,mecklenburg,37119,0.3289,,,,,yes,blocked_confirmed,yes,1,2025-10-01,month,,2023-03-30,
+prj_194,proposals_unopposed,Project Fighting Pike,Critical Data House LLC,ND,williams,38105,-0.6812,48.2324742,-103.6344227,455.0,,no,pending,no,0,2025-03-01,month,,2026-09-21,county_shared_with_opposed_project
+prj_195,proposals_opposed,Polaris Forge 1,Applied Digital; CoreWeave; Montana-Dakota Utilities,ND,dickey,38021,-0.5224,46.01289235,-98.57186221,400.0,,yes,advanced_confirmed,yes,1,2022-09-01,month,,2026-09-21,
+prj_196,proposals_unopposed,Atlas Power Williston,FX Solutions Inc.; Atlas Power Group; Mountrail-Williams Electric Cooperative,ND,williams,38105,-0.6812,48.14614934,-103.7725071,240.0,,no,advanced_confirmed,yes,0,2022-01-01,year,,2026-09-21,county_shared_with_opposed_project
+prj_197,proposals_opposed,Polaris Forge 2,Applied Digital; Oracle; Cass County Electric Cooperative; Minnkota Power Cooperative,ND,cass,38017,-0.0842,46.96719859,-96.87059463,280.0,,yes,advanced_confirmed,yes,1,2025-08-01,month,,2026-09-16,
+prj_198,proposals_opposed,River Run Energy Center,NextEra Energy Resources; Boulevard Associates; Basin Electric Power Cooperative,ND,mercer,38057,-0.6901,47.27256043,-101.4503149,1450.0,,yes,pending,no,1,2025-12-01,month,,2026-06-10,
+prj_199,proposals_opposed,Applied Digital Oliver County,Applied Digital; Minnkota Power Cooperative,ND,oliver,38065,-0.6946,47.10645479,-101.344641,430.0,,yes,pending,no,1,2026-02-01,month,,2026-09-16,
+prj_200,proposals_opposed,Nakota Data Campus,Nixxy; Tachyon 9,ND,williams,38105,-0.6812,48.25607,-103.31802,120.0,,yes,pending,no,1,,,,2026-09-16,
+prj_201,proposals_unopposed,Aurum Capital Ventures Bismarck,Aurum Capital Ventures,ND,burleigh,38015,-0.4323,46.80318111,-100.723539,,,no,pending,no,0,2025-06-01,month,,2026-09-21,
+prj_202,proposals_unopposed,AWS Innovation Campus New Albany,Amazon Web Services,OH,licking,39089,-0.3001,40.09489884,-82.74916286,,,no,advanced_confirmed,yes,0,2024-11-01,month,,2026-02-19,
+prj_203,proposals_unopposed,Vantage New Albany Campus,Vantage Data Centers,OH,licking,39089,-0.3001,40.10047343,-82.74714551,192.0,,no,advanced_confirmed,yes,0,2024-01-01,year,2025-11-18,2026-02-19,
+prj_204,proposals_unopposed,QTS New Albany Campus,QTS Data Centers,OH,licking,39089,-0.3001,40.06443251,-82.75820015,78.0,,no,advanced_confirmed,yes,0,2024-11-01,month,,2026-02-19,
+prj_205,proposals_unopposed,AWS Hillard Campus,Amazon Web Services,OH,franklin,39049,0.2840,40.0189827,-83.12332992,382.0,,no,advanced_confirmed,yes,0,2025-09-22,day,,2026-09-15,county_shared_with_opposed_project
+prj_206,proposals_opposed,Project Mila / Trenton Industrial Park Data Center,Prologis,OH,butler,39017,-0.2627,39.4544315,-84.45850395,,,yes,pending,no,3,2025-01-01,year,2025-09-12,2026-02-19,
+prj_207,proposals_opposed,Hamilton Data Center,Logistix Property Group,OH,butler,39017,-0.2627,39.38353851,-84.55755333,240.0,,yes,pending,no,1,2024-01-01,year,,2026-02-19,
+prj_208,proposals_unopposed,5C Springfield,5C Data Center; Vultr,OH,clark,39023,-0.2953,39.91311998,-83.7233217,150.0,,no,advanced_confirmed,yes,0,2025-01-01,year,,2026-02-19,
+prj_209,proposals_opposed,Ashville Data Center,EdgeConneX,OH,pickaway,39129,-0.4854,39.74005791,-82.97048559,,,yes,pending,no,3,2025-01-01,year,,2026-02-19,
+prj_210,proposals_opposed,Piqua Data Center,Shaytura LLC,OH,miami,39109,-0.4513,40.11175813,-84.24667915,,,yes,pending,no,1,2025-01-01,year,,2026-02-19,
+prj_211,proposals_unopposed,Project Galaxy,Amazon Web Services,OH,shelby,39149,-0.6481,40.2683695,-84.18982925,,,no,advanced_confirmed,yes,0,2025-01-01,year,,2026-02-19,
+prj_212,proposals_opposed,Van Wert Mega Site,Thor Equities Group,OH,van wert,39161,-0.5850,40.89245226,-84.55737851,500.0,,yes,pending,no,1,2025-08-19,day,,2026-02-20,
+prj_213,proposals_unopposed,Stargate Project - Lordstown AI Data Center Campus,OpenAI,OH,trumbull,39155,-0.1681,41.14548227,-80.87920589,,,no,pending,no,0,2025-09-23,day,,2026-02-20,county_shared_with_opposed_project
+prj_214,proposals_opposed,Lordstown Data Center,Bristolville 25 Developer LLC,OH,trumbull county; mahoning,,,41.13519379,-80.86106491,600.0,,yes,pending,no,2,2025-11-01,month,,2026-02-20,
+prj_215,proposals_opposed,Google Lockbourne,Google,OH,franklin,39049,0.2840,39.84852577,-82.99642495,,,yes,advanced_confirmed,yes,1,2021-01-01,year,,2026-02-20,
+prj_216,proposals_opposed,Project Cosmos,Amazon Web Services,OH,union,39159,-0.2963,40.2201438,-83.32361447,,,yes,advanced_confirmed,yes,1,2025-01-01,year,,2026-03-27,
+prj_217,proposals_unopposed,Cologix Lewis Center Data Center,Cologix,OH,delaware,39041,-0.0659,40.19081248,-83.01106238,120.0,,no,advanced_confirmed,yes,0,2025-06-14,day,,2026-02-20,
+prj_218,proposals_opposed,Strata Expanse AI Center of Excellence,Strata Expanse,OH,lawrence,39087,-0.5054,38.56759954,-82.78277491,,,yes,advanced_confirmed,yes,2,2025-12-01,month,,2026-02-21,
+prj_219,proposals_opposed,Hannibal Data Center Campus,DP Facilities,OH,monroe,39111,-0.5976,39.70567776,-80.84146301,300.0,,yes,pending,no,2,2020-01-09,day,,2026-02-23,
+prj_220,proposals_unopposed,Bitdeer Clarington Data Center,Bitdeer,OH,monroe,39111,-0.5976,39.70341657,-80.84947879,,,no,advanced_confirmed,yes,0,2025-12-01,month,,2026-02-21,county_shared_with_opposed_project
+prj_221,proposals_unopposed,NEO-01 / Sandusky Data Center,Aligned Data Centers,OH,sandusky,39143,-0.3087,41.43007557,-82.71984903,96.0,,no,advanced_confirmed,yes,0,2024-01-01,year,,2026-03-06,
+prj_222,proposals_unopposed,Microsoft Heath Data Center,Microsoft,OH,licking,39089,-0.3001,40.02477167,-82.4893704,,,no,advanced_confirmed,yes,0,2024-01-01,year,,2026-03-06,
+prj_223,proposals_unopposed,Microsoft Hebron Data Center,Microsoft,OH,licking,39089,-0.3001,39.97039675,-82.4967654,,,no,advanced_confirmed,yes,0,2024-01-01,year,,2026-03-06,
+prj_224,proposals_unopposed,Akron Data Center Expansion,ark data centers,OH,fulton,39051,-0.4240,41.05720574,-81.52212942,,,no,advanced_confirmed,yes,0,2026-03-01,month,,2026-03-08,
+prj_225,proposals_opposed,AWS Wilmington Data Center,Amazon Web Services,OH,clinton,39027,-0.5463,39.424014,-83.84240396,,,yes,pending,no,2,2026-03-01,month,,2026-09-15,
+prj_226,proposals_opposed,Mt. Orab Mega Site,Undisclosed Developer,OH,brown,39015,-0.6151,39.01320104,-83.89244177,,,yes,pending,no,1,2024-12-01,month,,2026-03-26,
+prj_227,proposals_opposed,J.M. Stuart Revitilization Project,Commercial Liability; Independent Investor; Core Real Estate; High Table LLC; Energy Strike LLC; Hecate Energy,OH,adams,39001,-0.6574,38.63781178,-83.69208115,650.0,,yes,pending,no,1,2026-02-01,month,2026-03-27,2026-03-27,
+prj_228,proposals_opposed,Killen Revitilization Project,Commercial Liability; Independent Investor; Core Real Estate; High Table LLC; Energy Strike LLC; Hecate Energy,OH,adams,39001,-0.6574,38.69144702,-83.47869649,650.0,,yes,pending,no,1,2026-02-01,month,2026-05-27,2026-03-27,
+prj_229,proposals_opposed,Marysville South Data Center,EMH&T; New Albany Company; Anadonna LLC; Marysville Land Company LLC; 14879 Industrial Parkway LLC; Weaver Road Holdings LLC; Underhill & Hodge LLC; Amazon Web Services; AES Ohio; Columbia Gas of Ohio; Union Rural Electric,OH,union,39159,-0.2963,40.21492701,-83.34128299,800.0,,yes,pending,no,1,2025-11-01,month,2026-05-21,2026-03-27,
+prj_230,proposals_opposed,Buck Canyon Properties Data Center,Ramboll; 68 Yards LLC; Buck Canyon Properties LLC; AES Ohio; AEP Ohio,OH,adams,39001,-0.6574,38.64639927,-83.65890902,1300.0,,yes,pending,no,3,2026-02-01,month,,2026-03-27,
+prj_231,proposals_unopposed,PORTS Technology Center,U.S. Department of Energy; SB Energy; SoftBank; AEP Ohio,OH,pike,39131,-0.5368,39.01316521,-83.00090893,10000.0,,no,pending,no,0,2026-03-01,month,,2026-04-25,
+prj_232,proposals_opposed,Perry Township Data Center,Panattoni Development Company; AEP Ohio; City of Canton Water and Sewer,OH,stark,39151,-0.2193,40.75045298,-81.44956755,240.0,,yes,pending,no,1,2026-03-01,month,,2026-04-26,
+prj_233,proposals_unopposed,Morabito Slavic Village Data Center,500 ER-EBY Trust,OH,cuyahoga,39035,0.3147,41.46127794,-81.65465458,,,no,blocked_confirmed,yes,0,2026-05-01,month,,2026-05-15,
+prj_234,proposals_opposed,Google Franklin Furnace Data Center,Google,OH,scioto,39145,-0.4797,38.59569705,-82.82726031,,,yes,pending,no,2,2025-01-01,year,,2026-02-19,
+prj_235,proposals_opposed,Urbana Data Center,Thor Equities,OH,champaign,39021,-0.5076,40.08852371,-83.7608865,,,yes,pending,no,2,2026-02-01,month,,2026-03-08,
+prj_236,proposals_opposed,Project BOSC,Google,OH,allen,39003,-0.4410,40.79615096,-84.11932669,,,yes,pending,no,1,2025-01-01,year,,2026-04-25,
+prj_237,proposals_unopposed,"Cipher Mining's ""Ulysses""",Cipher Mining,OH,union,39159,-0.2963,40.12032121,-83.20573591,200.0,,no,pending,no,0,2025-12-01,month,2026-01-20,2026-02-20,county_shared_with_opposed_project
+prj_238,proposals_opposed,Bitdeer Weathersfield Project,Bitdeer,OH,trumbull,39155,-0.1681,41.16692553,-80.74706385,300.0,,yes,pending,no,1,2025-10-14,day,,2026-02-20,
+prj_239,proposals_unopposed,Johnstown Cologix Data Center,Cologix,OH,licking,39089,-0.3001,40.13371988,-82.7145744,800.0,,no,advanced_confirmed,yes,0,2025-10-01,month,,2026-02-20,
+prj_240,proposals_opposed,Meta Bowling Green Data Center,Meta,OH,wood,39173,-0.1015,41.46794364,-83.64052123,,,yes,advanced_confirmed,yes,6,2023-09-28,day,,2026-03-05,
+prj_241,proposals_unopposed,Microsoft New Albany Data Center,Microsoft,OH,licking,39089,-0.3001,40.10545505,-82.75829708,,,no,advanced_confirmed,yes,0,2023-09-28,day,,2026-03-06,
+prj_242,proposals_unopposed,Fairview Crossroads Data Center,Fairview Crossroads LLC,PA,york,42133,-0.2526,40.20763745,-76.88105807,,,no,pending,no,0,2025-07-01,month,,2026-03-22,county_shared_with_opposed_project
+prj_243,proposals_opposed,Project Hazelnut,NorthPoint Development,PA,luzerne,42079,-0.1917,40.96611988,-76.04552288,,,yes,blocked_confirmed,yes,2,2025-05-01,month,,2026-08-11,
+prj_244,proposals_opposed,Panther Creek (Nesquehoning) HPC/AI Conversion,T5; Bitfarms,PA,carbon,42025,-0.3479,40.85810449,-75.86678277,350.0,,yes,pending,no,1,2025-08-01,month,,2026-03-29,
+prj_245,proposals_opposed,Zediker Station Data Center,CNX; Jones Lang LaSalle,PA,washington,42125,-0.2551,40.17611743,-80.16151557,,,yes,pending,no,2,2025-10-01,month,,2026-03-22,
+prj_246,proposals_unopposed,Wildcat Ridge AI Data Center,Cornell Realty Management LLC,PA,lackawanna,42069,0.0279,41.50265393,-75.58996376,1600.0,,no,pending,no,0,2025-01-01,month,,2026-09-21,county_shared_with_opposed_project
+prj_247,proposals_opposed,Project Gravity,Western Hospitality Partners,PA,lackawanna,42069,0.0279,41.52487025,-75.55982315,,,yes,pending,no,1,2025-04-01,month,2026-02-10,2026-09-21,
+prj_248,proposals_opposed,Blakely AI Data Center,Alpesh “Al” Patel,PA,lackawanna,42069,0.0279,41.48730234,-75.59677116,400.0,,yes,blocked_confirmed,yes,1,2025-08-01,month,,2026-09-21,
+prj_249,proposals_unopposed,Project Boson,"PDC Realty, LLC",PA,lackawanna,42069,0.0279,41.51204229,-75.55615342,,,no,pending,no,0,2025-01-01,year,,2026-09-15,county_shared_with_opposed_project
+prj_250,proposals_opposed,Project Gold,NE Edge Data Centers,PA,lackawanna,42069,0.0279,41.25171332,-75.51721079,1500.0,,yes,pending,no,1,2025-07-01,month,,2026-09-16,
+prj_251,proposals_opposed,East Whiteland Township Data Center,"Sentinel Green Fig, LLC",PA,chester,42029,0.1446,40.03918189,-75.58675747,290.0,,yes,pending,no,1,2023-01-01,month,,2026-09-21,
+prj_252,proposals_unopposed,QTS Salem Data Center,Blackstone; QTS,PA,luzerne,42079,-0.1917,41.08918402,-76.17975485,,,no,pending,no,0,2025-07-01,month,,2026-09-21,county_shared_with_opposed_project
+prj_253,proposals_opposed,AWS Keystone Trade Center Campus,Amazon Web Services,PA,bucks,42017,-0.0007,40.16092786,-74.7577123,,,yes,pending,no,1,2025-06-01,month,,2026-08-11,
+prj_254,proposals_opposed,CoreWeave Lancaster AI Campuses,Machine Investment Group; Chirisa Technology Parks; CoreWeave,PA,lancaster,42071,-0.1595,40.0432,-76.2576,300.0,,yes,advanced_confirmed,yes,2,2025-07-01,month,,2026-01-17,
+prj_255,proposals_unopposed,Allentown Warehouse Conversion Data Center,Langan Engineering; Quantm LLC,PA,lehigh,42077,0.0269,40.56743843,-75.47433818,,,no,pending,no,0,2026-05-01,month,,2026-09-15,county_shared_with_opposed_project
+prj_256,proposals_opposed,PAX – Pennsylvania Digital I,PowerHouse Data Center; Pennsylvania Data Center Partners,PA,cumberland,42041,-0.0944,40.25827177,-77.11782185,1350.0,,yes,advanced_confirmed,yes,1,2025-07-01,month,,2026-08-11,
+prj_257,proposals_unopposed,Springdale AI Data Center Redevelopment,"Dynamo DC; Allegheny DC Property Co., LLC",PA,allegheny,42003,0.2031,40.53856579,-79.79046974,180.0,,no,pending,no,0,2025-08-01,month,,2026-04-13,
+prj_258,proposals_unopposed,Homer City Energy + AI Campus,Homer City Redevelopment; Kiewit; GE Vernova; Amazon,PA,indiana,42063,-0.3912,40.51388415,-79.19678004,4500.0,,no,advanced_confirmed,yes,0,2025-08-01,month,2026-02-23,2026-09-15,
+prj_259,proposals_unopposed,Dauphin Highlands Golf Course sold for Data Center,"Harrisburg I, LLC",PA,dauphin,42043,0.0592,40.2272952,-76.80957537,,,no,pending,no,0,2025-08-01,month,,2026-04-28,
+prj_260,proposals_opposed,Hollenback Township Data Center Development Zoning Application,Undisclosed Developer,PA,luzerne,42079,-0.1917,41.08020287,-76.10642775,,,yes,pending,no,1,2026-01-01,month,,2026-03-02,
+prj_261,proposals_unopposed,Jessup Sunnyside Data Center,"Sunnyside Road Associates, LLC",PA,lackawanna,42069,0.0279,41.46826509,-75.54760961,,,no,pending,no,0,2025-09-01,month,,2026-09-15,county_shared_with_opposed_project
+prj_262,proposals_unopposed,McKees Rocks Industrial Site Data Center,SunCap Property Group,PA,allegheny,42003,0.2031,40.4802974,-80.05962827,,,no,pending,no,0,2025-10-01,month,,,
+prj_263,proposals_unopposed,Project Hummingbird,Essential Utilities,PA,greene,42059,-0.4483,39.8340493,-79.94407164,910.0,,no,pending,no,0,2025-10-01,month,,2026-03-30,
+prj_264,proposals_opposed,Archbald I LLC Data Center Campuses,Archbald 1 LLC; Provident Realty,PA,lackawanna,42069,0.0279,41.51661739,-75.56512591,,,yes,blocked_confirmed,yes,1,2025-10-01,month,,2026-09-21,
+prj_265,proposals_opposed,Former Air Products Headquarters Data Center,Air Products,PA,lehigh,42077,0.0269,40.55415027,-75.59980631,,,yes,blocked_confirmed,yes,1,2025-11-01,month,2026-05-12,2026-08-11,
+prj_266,proposals_opposed,Pennhurst Data Center,Pennhurst Holdings LLC,PA,chester,42029,0.1446,40.19431755,-75.56108097,,,yes,blocked_confirmed,yes,1,2025-10-01,month,,2026-05-22,
+prj_267,proposals_opposed,Conshohocken Data Center,MLP Ventures; 900 Conshohocken Road LLC,PA,montgomery,42091,0.2280,40.086677,-75.317786,,,yes,pending,no,1,2025-10-01,month,,2026-09-16,
+prj_268,proposals_opposed,Dickson City Data Centers,Dickson City Development LLC; Kriger Construction Inc,PA,lackawanna,42069,0.0279,41.47228006,-75.6389869,,,yes,blocked_confirmed,yes,1,2025-11-01,month,,2026-05-22,
+prj_269,proposals_unopposed,West Hazleton Data Center,One Trinity Real Estate Investments,PA,luzerne,42079,-0.1917,40.96565469,-76.01156213,,,no,pending,no,0,2025-09-01,month,,2025-12-22,county_shared_with_opposed_project
+prj_270,proposals_unopposed,Sugarloaf Township Data Center,LBT Investment Group LLC,PA,luzerne,42079,-0.1917,40.97036803,-76.0721478,,,no,pending,no,0,2025-07-01,month,,2026-04-22,county_shared_with_opposed_project
+prj_271,proposals_opposed,Linfield Data Center,Limerick Town Center LLC,PA,montgomery,42091,0.2280,40.20092763,-75.57527627,,,yes,pending,no,1,2026-01-01,month,,2026-09-16,
+prj_272,proposals_opposed,Kline Township Data Center,Amazon Web Services,PA,schuylkill,42107,-0.4206,40.87754226,-76.01469842,,,yes,pending,no,1,2025-01-01,year,,2025-03-02,
+prj_273,proposals_opposed,Ransom Township Data Center,Scranton Materials LLC,PA,lackawanna,42069,0.0279,41.4485852,-75.70026061,,,yes,blocked_confirmed,yes,2,2025-12-01,month,,2026-09-15,
+prj_274,proposals_opposed,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,CDE Acquisitions LLC,PA,lehigh,42077,0.0269,40.64345138,-75.53658984,,,yes,pending,no,2,2025-12-01,month,,2026-04-22,
+prj_275,proposals_unopposed,Smithfield Gateway Project,DEPG Moiser Assoc LP,PA,monroe,42089,-0.0078,41.00617471,-75.15065763,,,no,pending,no,0,2025-11-01,month,,2026-01-02,
+prj_276,proposals_opposed,Project Phoenix,Frontier Group of Companies,PA,beaver,42007,-0.2071,40.633,-80.4153,3600.0,,yes,pending,no,15,2025-07-01,month,,2026-09-15,
+prj_277,proposals_opposed,Klondike Data Center Project,KDI Wyalusing Power LLC,PA,bradford,42015,-0.4792,41.65369277,-76.23256883,218.0,,yes,pending,no,9,2025-01-01,year,,2026-09-16,
+prj_278,proposals_unopposed,Limerick / Project Laurel Data Center,MCD 7 LLC,PA,montgomery,42091,0.2280,40.23218123,-75.57349531,750.0,,no,pending,no,0,2026-01-01,month,,2026-09-16,county_shared_with_opposed_project
+prj_279,proposals_opposed,Tobyhanna Township / Blakeslee Data Center,Undisclosed Developer,PA,allemonroe,,,41.13227151,-75.61026733,,,yes,pending,no,1,2025-12-01,month,,2026-09-15,
+prj_280,proposals_opposed,Talen Energy Rezone Request for Possible Data Center in Montour County,Talen Energy,PA,montour,42093,-0.2101,41.09449749,-76.65469331,,,yes,blocked_confirmed,yes,2,2025-01-01,year,,2026-01-23,
+prj_281,proposals_unopposed,Fezzik Aliquippa Data Center,Fezzik Energy; Five 9s Digital,PA,beaver,42007,-0.2071,40.63013352,-80.23637249,496.0,,no,pending,no,0,2025-01-01,year,,2026-09-15,county_shared_with_opposed_project
+prj_282,proposals_unopposed,Project Green Mountain,Green Mountain 6,PA,lackawanna,42069,0.0279,41.50989356,-75.52445531,,,no,pending,no,0,2026-01-01,month,,2026-09-21,county_shared_with_opposed_project
+prj_283,proposals_opposed,Conewago Township Data Center Land Considerations,Undisclosed Developer,PA,york,42133,-0.2526,40.02474644,-76.82033606,,,yes,pending,no,1,2025-10-01,month,,2026-04-13,
+prj_284,proposals_unopposed,Briar Creek Township Data Center Zoning Overlay,Undisclosed Developer,PA,columbia,42037,-0.3103,41.12070111,-76.23433152,,,no,pending,no,0,2026-02-01,month,,2026-04-28,within_15km_of_opposed_project
+prj_285,proposals_unopposed,South Hanover Township Data Center,HCI DP Land Acquisition LLC,PA,dauphin,42043,0.0592,40.27370582,-76.70247517,,,no,pending,no,0,2025-02-01,month,,2026-06-24,
+prj_286,proposals_opposed,Sellersville / West Rockhill Township Data Center,National Land Developers,PA,bucks,42017,-0.0007,40.34879997,-75.32982269,,,yes,pending,no,1,2026-02-01,month,,2026-04-18,
+prj_287,proposals_opposed,North Coventry Township Data Center,Envision Land Use,PA,chester,42029,0.1446,40.23595694,-75.65857193,,,yes,blocked_confirmed,yes,1,2026-02-01,month,,2026-03-21,
+prj_288,proposals_unopposed,Prologis Warehouse Data Center,Prologis,PA,northampton,42095,-0.0177,40.7015124,-75.4801445,,,no,pending,no,0,2026-03-01,month,,2026-08-16,county_shared_with_opposed_project
+prj_289,proposals_opposed,Switch Data Center at Former Pitt Race Complex,Switch; Provident Data Centers,PA,beaver,42007,-0.2071,40.84777195,-80.34616116,,,yes,pending,no,1,2025-08-01,month,,2026-09-15,
+prj_290,proposals_opposed,Allenwood Data Center,PNK Group,PA,union,42119,-0.2338,41.11573034,-76.90130208,300.0,,yes,pending,no,2,2026-03-01,month,,2026-07-24,
+prj_291,proposals_unopposed,Fort Cherry Development District,Imperial Land Corp; Range Resources Corp; Liberty Energy Inc.,PA,washington,42125,-0.2551,40.3687382,-80.25693285,,,no,pending,no,0,2025-01-01,year,,2026-03-30,county_shared_with_opposed_project
+prj_292,proposals_opposed,Champion Data Center Project,Next Generation Land,PA,washington,42125,-0.2551,40.41702422,-80.30112451,300.0,,yes,pending,no,1,2026-01-01,year,,2026-09-16,
+prj_293,proposals_opposed,South Annville Township Data Center,Inch & Co; Eastern Land & Resources Co,PA,lebanon,42075,-0.3195,40.32188693,-76.52813066,,,yes,blocked_confirmed,yes,2,2026-04-01,month,,2026-09-16,
+prj_294,proposals_unopposed,Newton Township Data Center,Popca LLC,PA,lackawanna,42069,0.0279,41.45147677,-75.71165521,,,no,blocked_confirmed,yes,0,2026-02-01,month,,2026-04-10,county_shared_with_opposed_project
+prj_295,proposals_opposed,New Castle Data Center,KRNL Data Centers,PA,schuylkill,42107,-0.4206,40.77481697,-76.23620462,,,yes,pending,no,1,2025-01-01,year,,2026-04-15,
+prj_296,proposals_opposed,Watts Township Data Center,"MRP Industrial; MRPI Amity Hall, LLC",PA,perry,42099,-0.4932,40.43360096,-77.00724929,,,yes,pending,no,1,2026-03-01,month,,2026-05-09,
+prj_297,proposals_opposed,Project Triboro,"Triboro Commerce Park, LLC; Sansone Group",PA,lackawanna,42069,0.0279,41.44415192,-75.56713892,,,yes,pending,no,2,2026-04-01,month,,2026-09-15,
+prj_298,proposals_unopposed,Linde Clinton Data Center,Linde Corporation,PA,wayne,42127,-0.3709,41.63476786,-75.44576229,,,no,blocked_confirmed,yes,0,2026-04-01,month,2026-05-22,2026-09-10,
+prj_299,proposals_unopposed,East Brandywine Data Center,500 ER-EBY Trust,PA,chester,42029,0.1446,40.02715476,-75.78690503,,,no,pending,no,0,2026-05-01,month,,2026-05-14,county_shared_with_opposed_project
+prj_300,proposals_unopposed,Renaissance Boulevard Data Center Campus,MLP Ventures,PA,montgomery,42091,0.2280,40.08265474,-75.3410236,,,no,blocked_confirmed,yes,0,2026-03-01,month,,2026-08-14,county_shared_with_opposed_project
+prj_301,proposals_unopposed,600 River Road Data Center,MLP Ventures; Innovation River Run LLC,PA,montgomery,42091,0.2280,40.0939398,-75.32503398,,,no,blocked_confirmed,yes,0,2026-05-01,month,,2026-08-14,county_shared_with_opposed_project
+prj_302,proposals_unopposed,3200 Horizon Drive Data Center,MLP Ventures,PA,montgomery,42091,0.2280,40.08705063,-75.33861848,,,no,blocked_confirmed,yes,0,2026-05-01,month,,2026-08-14,county_shared_with_opposed_project
+prj_303,proposals_unopposed,Quakertown Data Center Park,Arrow Real Estate Services,PA,bucks,42017,-0.0007,40.41121767,-75.34561374,1000.0,,no,pending,no,0,2026-05-01,month,,2026-05-23,county_shared_with_opposed_project
+prj_304,proposals_opposed,Granville Data Center,Pennsylvania Data Center Partners; PowerHouse Data Centers,PA,mifflin,42087,-0.5640,40.56908144,-77.61398863,,,yes,pending,no,1,2026-05-01,month,,2026-06-03,
+prj_305,proposals_unopposed,Muncy Data Center,Danko Holdings II; Fishlips LLC; The Liberty Group,PA,lycoming,42081,-0.4146,41.22793466,-76.81183441,,,no,pending,no,0,2026-04-01,month,,2026-06-10,within_15km_of_opposed_project
+prj_306,proposals_unopposed,Gravel Pike Data Center,"Hanover Development, LP",PA,montgomery,42091,0.2280,40.4190452,-75.5133896,,,no,pending,no,0,2026-06-01,month,,2026-09-16,county_shared_with_opposed_project
+prj_307,proposals_unopposed,Sharon Keel Infrastructure Data Center Expansion,Keel Infrastructure,PA,mercer,42085,-0.3016,41.24401767,-80.50629588,110.0,,no,advanced_confirmed,yes,0,2026-04-01,month,,2026-06-23,
+prj_308,proposals_unopposed,PNK Valley View Data Center,PNK Group,PA,lackawanna,42069,0.0279,41.47914648,-75.51858421,,,no,pending,no,0,2026-07-01,month,,2026-07-16,county_shared_with_opposed_project
+prj_309,proposals_unopposed,Mudiita Ransom Township Data Center,Mudiita Group,PA,lackawanna,42069,0.0279,41.38663332,-75.76165592,750.0,,no,blocked_confirmed,yes,0,2026-07-01,month,,2026-09-21,county_shared_with_opposed_project
+prj_310,proposals_opposed,Nebius Butler Township Data Center,Nebius,PA,schuylkill,42107,-0.4206,40.7386815,-76.3191425,1200.0,,yes,pending,no,1,2026-06-01,month,,2026-07-28,
+prj_311,proposals_unopposed,Swedeland Discovery Center Data Center Campus,MLP Ventures,PA,montgomery,42091,0.2280,40.07589993,-75.33279859,,,no,blocked_confirmed,yes,0,2026-05-01,month,,2026-08-14,county_shared_with_opposed_project
+prj_312,proposals_opposed,Stonebridge Lawrence Data Center,Stonebridge,PA,lawrence,42073,-0.3377,40.99142125,-80.42833073,,,yes,blocked_confirmed,yes,1,2026-07-01,month,,2026-09-16,
+prj_313,proposals_unopposed,North Coventry Mall Data Center,PGOB Coventry Holdings; Pennmark Management Company Inc.,PA,chester,42029,0.1446,40.23541132,-75.66262445,,,no,blocked_confirmed,yes,0,2026-08-25,day,,2026-09-10,county_shared_with_opposed_project
+prj_314,proposals_unopposed,Storage Data Center Project,Next Generation Land,PA,tioga,42117,-0.5175,41.97718191,-77.14159141,,,no,pending,no,0,2025-11-01,month,,2026-09-16,
+prj_315,proposals_unopposed,TECfusions “Keystone Connect” AI Campus,TECfusions,PA,westmoreland,42129,-0.2842,40.55148482,-79.64813466,336.0,,no,pending,no,0,2025-01-01,month,,,
+prj_316,proposals_opposed,Starpointe Data Center Project,Prime Data Centers LLC; Next Generation Land; Energy Transfer; Range Resources Corp.,PA,washington,42125,-0.2551,40.42897263,-80.41166631,,,yes,pending,no,1,2026-01-01,year,,2026-09-21,
+prj_317,proposals_unopposed,AWS Salem Township Data Center,Amazon Web Services,PA,luzerne,42079,-0.1917,41.08541393,-76.15505141,1920.0,,no,advanced_confirmed,yes,0,2025-01-01,year,,2026-09-15,county_shared_with_opposed_project
+prj_318,proposals_opposed,4-3 Salem Township Data Center,4-3 Consulting,PA,luzerne,42079,-0.1917,41.09268711,-76.20451035,3500.0,,yes,pending,no,1,2026-06-01,month,,2026-06-15,
+prj_319,proposals_unopposed,Iron City No. 1 Power Generator and Compute Center,Iron City,PA,clearfield,42033,-0.5153,41.12090453,-78.1138798,,,no,pending,no,0,2026-02-01,month,,2026-09-16,
+prj_320,proposals_opposed,Lower Mount Bethel Technology Center,Peron Development,PA,northampton,42095,-0.0177,40.82152787,-75.1017816,1200.0,,yes,pending,no,2,2026-04-01,month,,2026-03-08,
+prj_321,proposals_opposed,Cumru Titus Data Center,Titus Development Co.; Go Energy Group,PA,berks,42011,-0.1218,40.30604668,-75.91162467,200.0,,yes,pending,no,1,2026-05-01,month,,2026-05-23,
+prj_322,proposals_opposed,Jessup Breaker Street Data Center,Breaker Street Associates LLC,PA,lackawanna,42069,0.0279,41.47418356,-75.55167722,600.0,,yes,pending,no,2,2025-06-01,month,,2026-09-15,
+prj_323,proposals_opposed,Peach Bottom Data Center,Calpine,PA,york,42133,-0.2526,39.73803078,-76.30721563,,,yes,pending,no,1,2025-07-01,month,,2026-03-20,
+prj_324,proposals_opposed,NorthPoint Spring Mountain Data Center,NorthPoint Development,PA,carbon,42025,-0.3479,40.91668696,-75.92819869,,,yes,pending,no,1,2025-08-01,month,,2026-04-15,
+prj_325,proposals_opposed,Penn Forest Township Data Center,Mele Brothers Realty,PA,carbon,42025,-0.3479,40.90018884,-75.66877208,,,yes,pending,no,1,2025-12-01,month,,2026-03-04,
+prj_326,proposals_opposed,Dorrance Township Data Center Zoning Ordinance Challenge,Brewster Land Company,PA,luzerne,42079,-0.1917,41.08587671,-75.95575846,,,yes,pending,no,2,2025-01-01,year,,2026-09-14,
+prj_327,proposals_unopposed,East Manchester Farmland to Data Center Initiative Interest,Undisclosed Developer,PA,york,42133,-0.2526,40.06896237,-76.68420106,,,no,pending,no,0,2025-12-01,month,,2026-04-11,county_shared_with_opposed_project
+prj_328,proposals_opposed,Alpha Compute Data Center,Alpha Compute,PA,,,,,,200.0,,yes,pending,no,1,2026-08-01,month,,2026-09-16,
+prj_329,proposals_opposed,Newport Township Data Center Campus,Undisclosed Developer,PA,luzerne,42079,-0.1917,41.16246671,-76.08389734,,,yes,pending,no,1,2026-09-14,day,,2026-09-15,
+prj_330,proposals_opposed,Smithfield Data Center,ReNew Developers LLC; Hanton City Investments; Revity Energy,RI,providence,44007,0.1443,41.935469,-71.52036919,,,yes,pending,no,2,2026-04-01,month,,2026-04-25,
+prj_331,proposals_opposed,Gemini Sioux Falls Data Center,Gemini Data Center LLC; A1 Development Solutions; Xcel Energy,SD,minnehaha,46099,-0.1268,43.59370023,-96.6401013,500.0,,yes,pending,no,1,2025-01-01,year,,2026-09-21,
+prj_332,proposals_unopposed,Sequitor Edge Rapid City,Sequitor Edge; Dream Design International; Elevate Rapid City; Black Hills Energy,SD,pennington,46103,-0.2644,44.02731001,-103.1840971,2.0,,no,pending,no,0,2026-02-01,month,,2026-09-21,
+prj_333,proposals_unopposed,Applied Digital Toronto,Applied Digital,SD,deuel,46039,-0.5174,44.5836554,-96.56283,,,no,blocked_confirmed,yes,0,2025-05-01,month,,2026-09-21,
+prj_334,proposals_opposed,xAI Colossus 1,CTC Property LLC; Phoenix Investors; xAI,TN,shelby,47157,0.2537,35.06015556,-90.15650152,,,yes,advanced_confirmed,yes,2,2024-01-01,year,,2026-09-21,
+prj_335,proposals_opposed,xAI Colossus 2,xAI,TN,shelby,47157,0.2537,34.99870981,-90.03812933,,,yes,advanced_confirmed,yes,5,2025-01-01,year,,2026-09-21,
+prj_336,proposals_unopposed,Meta Gallatin,Plateau Excavation LLC.; DPR Construction; Meta,TN,sumner,47165,-0.4183,36.40865292,-86.37040153,300.0,,no,advanced_confirmed,yes,0,2020-01-01,year,,2026-09-21,
+prj_337,proposals_unopposed,Neural Nexus Data Center,Legacy Power Capital,TN,shelby,47157,0.2537,35.14095312,-90.04757753,70.0,,no,pending,no,0,2025-12-01,month,,,county_shared_with_opposed_project
+prj_338,proposals_opposed,RadiusDC Nashville I,RadiusDC,TN,davidson,47037,0.2745,36.22227227,-86.78351657,12.0,,yes,advanced_confirmed,yes,1,2025-09-01,month,,2026-09-21,
+prj_339,proposals_opposed,5C Memphis Data Center,5C Group,TN,shelby,47157,0.2537,35.03183751,-89.93263096,60.0,,yes,advanced_confirmed,yes,1,2025-11-01,month,,,
+prj_340,proposals_unopposed,Lawrenceburg / Ethridge Data Center,"Cadence, LLC",TN,lawrence,47099,-0.6906,35.29402267,-87.32017668,,,no,pending,no,0,2025-11-01,month,,2026-04-27,
+prj_341,proposals_opposed,Jailhouse Studios,Urban Story Ventures,TN,hamilton,47065,-0.1305,35.04954023,-85.30803088,,,yes,pending,no,1,2026-03-01,month,,2026-09-21,
+prj_342,proposals_opposed,DC Blox Nashville,DC BLOX,TN,davidson,47037,0.2745,36.09042198,-86.74633128,,,yes,pending,no,1,2026-05-01,month,,2026-09-21,
+prj_343,proposals_unopposed,CleanSpark Mountain City Bitcoin Mine,CleanSpark,TN,johnson,47091,-0.6933,36.44568006,-81.80073638,30.0,,no,blocked_confirmed,yes,0,2025-01-01,year,,2026-04-26,
+prj_344,proposals_unopposed,ExoticRidge Bitcoin Mine,ExoticRidge,TN,hawkins,47073,-0.6883,36.29580681,-83.03926889,8.0,,no,pending,no,0,2025-01-01,year,,2026-04-14,
+prj_345,proposals_unopposed,Arnold Air Force Data Center,Arnold Air Force,TN,coffee,47031,-0.5509,35.375389,-86.07293,,,no,blocked_confirmed,yes,0,2025-11-01,month,,2026-09-21,
+prj_346,proposals_unopposed,Hixson Data Center,,TN,warren,47177,-0.5610,35.7189351,-85.83887,25.0,,no,pending,no,0,,,,2026-09-21,
+prj_347,proposals_unopposed,Quantum Leap,,TN,davidson,47037,0.2745,36.1683166,-86.805565,30.0,,no,pending,no,0,2026-05-01,month,,2026-09-21,county_shared_with_opposed_project
+prj_348,proposals_unopposed,Cielo Digital Clarksville,,TN,montgomery,47125,-0.1842,36.57269,-87.3423,350.0,,no,blocked_confirmed,yes,0,,,,2026-09-21,
+prj_349,proposals_opposed,Monarch Compute Campus and Mountaineer Gigasystem,Nscale; Fidelis; Caterpillar; NVIDIA,WV,mason,54053,-0.5804,38.91458813,-82.11477824,2000.0,,yes,advanced_confirmed,yes,1,2025-01-01,year,,2026-09-18,
+prj_350,proposals_unopposed,QTS Kearneysville Data Center Complex,QTS Data Centers,WV,jefferson county; berkeley,,,39.40601474,-77.89272666,,,no,pending,no,0,2025-01-01,year,,2026-09-18,
+prj_351,proposals_unopposed,Google Buffalo Data Center,Google,WV,putnam,54079,-0.4633,38.64062703,-81.95363899,,,no,pending,no,0,2026-03-01,month,,2026-09-18,
+prj_352,proposals_unopposed,Appalachian Mega Site / Hog Lick Data Center,Hog Lick Aggregates,WV,marion,54049,-0.3124,39.42024395,-80.21559907,200.0,,no,pending,no,0,2025-01-01,year,,2026-09-18,
+prj_353,proposals_opposed,Ridgeline Facility,Fundamental Data,WV,tucker,54093,-0.4893,39.13472331,-79.49681575,1656.0,,yes,pending,no,2,2025-08-01,month,,2026-09-18,
+prj_354,proposals_unopposed,Alpha Technologies Huntington,Alpha Technologies,WV,cabell,54011,-0.2189,38.41845,-82.4386,,,no,pending,no,0,,,,2026-09-18,
+prj_355,proposals_opposed,"Adams Fork Harless Data Center Energy Campus, Holden",TransGas Development Systems,WV,logan,54045,-0.6672,37.75306909,-82.11292654,2400.0,,yes,pending,no,1,2024-01-01,year,,2026-09-18,
+prj_356,proposals_unopposed,"Adams Fork Data Center Energy Campus, Wharncliffe",TransGas Development Systems,WV,mingo,54059,-0.7378,37.59932181,-81.95434418,2400.0,,no,pending,no,0,2025-01-01,year,,2026-09-18,
+prj_357,proposals_unopposed,Penzance Intelligence Center,Penzance Management,WV,berkeley,54003,-0.3579,39.53777133,-77.88682289,600.0,,no,pending,no,0,2026-02-01,month,,2026-09-18,
+prj_358,proposals_unopposed,NOAA Environmental Security Computing Center,NASA,WV,marion,54049,-0.3124,39.4305781,-80.196,,,no,pending,no,0,,,,2026-09-18,
+prj_359,proposals_unopposed,Stokes Wheeling,Stokes,WV,ohio,54069,-0.2604,40.10135429,-80.70367016,100.0,,no,pending,no,0,,,,2026-09-18,
+prj_360,proposals_unopposed,NETL Computational Science & Engineering Center,National Energy Technology Laboratory,WV,monongalia,54061,-0.0439,39.6710214,-79.975006,,,no,advanced_confirmed,yes,0,,,,2026-09-18,
 prj_1001,proposals_opposed,Harper Road Technology Park,Diode Ventures,MO,cass,29037,-0.3209,38.7192,-94.4585,,,yes,pending,no,1,2024-10-01,day,,2026-07-10,
 prj_1002,proposals_opposed,Province Group Perry Village Data Center Campus,Province Group,OH,lake,39085,-0.1435,41.7631,-81.143,,,yes,blocked_confirmed,yes,1,,,,2026-07-10,
 prj_1003,proposals_opposed,Meta Hyperion,Meta,LA,richland,22083,-0.3940,32.507,-91.647,,,yes,advanced_confirmed,yes,10,2024-12-01,day,,2026-07-10,
@@ -360,7 +377,7 @@ aic_0005,ai_centers,Microsoft Fairwater Atlanta,Microsoft #confident,GA,,,,33.44
 aic_0006,ai_centers,xAI Colossus 2,xAI #confident,TN,,,,34.9979829,-90.0348674,302.0,,no,,,,,,,,within_15km_of_opposed_project
 aic_0007,ai_centers,xAI Colossus 1,xAI #confident,TN,,,,35.0735541,-90.0873076,425.0,,no,,,,,,,,within_15km_of_opposed_project
 aic_0008,ai_centers,Amazon Madison Mega Site,Amazon #confident,,,,,30.4213,-87.2169,341.0,,no,,,,,,,,
-aic_0009,ai_centers,Google New Albany,Google #confident,OH,,,,40.070051,-82.754042,407.0,,no,,,,,,,,within_15km_of_opposed_project
+aic_0009,ai_centers,Google New Albany,Google #confident,OH,,,,40.070051,-82.754042,407.0,,no,,,,,,,,
 aic_0010,ai_centers,Microsoft Goodyear,Microsoft #confident,AZ,,,,33.4089905,-112.3647996,263.0,,no,,,,,,,,
 aic_0011,ai_centers,Meta Temple,Meta #confident,TX,,,,31.1260165,-97.3600001,198.0,,no,,,,,,,,
 aic_0013,ai_centers,Google Council Bluffs (East),Google #confident,IA,,,,41.2619,-95.8608,190.0,,no,,,,,,,,within_15km_of_opposed_project
@@ -379,7 +396,7 @@ aic_0026,ai_centers,OpenAI Stargate Shackelford,Oracle #confident,,,,,32.7357,-1
 aic_0027,ai_centers,Crusoe Abilene Expansion,Microsoft #confident,TX,,,,32.4487,-99.7331,0.0,,no,,,,,,,,
 aic_0028,ai_centers,Stream Phoenix,,,,,,33.4484,-112.074,0.0,,no,,,,,,,,
 atl_00000,atlas,Verizon,,NJ,middlesex,34023,0.0804,40.54425557630532,-74.49652096447575,,105786.0,no,,,,,,,,county_shared_with_opposed_project
-atl_00001,atlas,Google Data Center,Google,NC,caldwell,37027,-0.5262,35.89473769568106,-81.54651452543965,,3407194.0,no,,,,,,,,county_shared_with_opposed_project
+atl_00001,atlas,Google Data Center,Google,NC,caldwell,37027,-0.5262,35.89473769568106,-81.54651452543965,,3407194.0,no,,,,,,,,
 atl_00002,atlas,Project Alluvion,Microsoft,IA,polk,19153,0.1089,41.51596683171199,-93.71182964871085,,11169421.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00003,atlas,Apple - Maiden Data Center,,NC,catawba,37035,-0.3799,35.588771360781784,-81.26180877040838,,5431080.0,no,,,,,,,,
 atl_00004,atlas,HPC,Sandia National Laboratories,NM,bernalillo,35001,0.2103,35.04994198074902,-106.54282203991325,,158463.0,no,,,,,,,,
@@ -442,7 +459,7 @@ atl_00060,atlas,CoreSite SV9,CoreSite,CA,santa clara,06085,0.3995,37.37555851580
 atl_00061,atlas,QTS Santa Clara 2,Quality Technology Services,CA,santa clara,06085,0.3995,37.392721680154914,-121.97839685451906,,36808.0,no,,,,,,,,
 atl_00062,atlas,STACK NVA01A - Northern Virginia,Stack Infrastructure,VA,loudoun,51107,0.1629,39.00469915120877,-77.44176406797281,,179330.0,no,,,,,,,,
 atl_00063,atlas,Minnesota Gateway Data Center,,MN,hennepin,27053,0.4263,44.97130185223087,-93.25465186805064,,87697.0,no,,,,,,,,
-atl_00064,atlas,IBM Building,,NY,albany,36001,0.2584,42.64935307487593,-73.7527452452726,,15355.0,no,,,,,,,,
+atl_00064,atlas,IBM Building,,NY,albany,36001,0.2584,42.64935307487593,-73.7527452452726,,15355.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00065,atlas,Unknown,Verizon Wireless,MI,wayne,26163,0.2897,42.32626638236376,-83.07698605760793,,24933.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00066,atlas,Unknown,University of New Hampshire,NH,strafford,33017,0.1207,43.14361852296161,-70.95247263069143,,30553.0,no,,,,,,,,
 atl_00067,atlas,VA3,Digital Realty,VA,fairfax,51059,0.3500,38.94846385493133,-77.32729535242555,,96241.0,no,,,,,,,,
@@ -465,7 +482,7 @@ atl_00083,atlas,H5 Minneapolis,H5,MN,ramsey,27123,0.4332,44.97225309779238,-93.1
 atl_00084,atlas,Iron Mountain Records Storage,,AZ,maricopa,04013,-0.0348,33.42038002636909,-112.04132578020344,,145832.0,no,,,,,,,,
 atl_00085,atlas,Equinix SV8,Equinix,CA,santa clara,06085,0.3995,37.44589521919974,-122.16078171336196,,12034.0,no,,,,,,,,
 atl_00086,atlas,NCSA Petascale Computing Facility,,IL,champaign,17019,0.2409,40.09525910728646,-88.24203140069088,,45620.0,no,,,,,,,,
-atl_00087,atlas,LexisNexus Springfield,,OH,clark,39023,-0.2953,39.912780083635845,-83.72376141562717,,79937.0,no,,,,,,,,county_shared_with_opposed_project
+atl_00087,atlas,LexisNexus Springfield,,OH,clark,39023,-0.2953,39.912780083635845,-83.72376141562717,,79937.0,no,,,,,,,,
 atl_00088,atlas,Digital Realty ORD11,Digital Realty,IL,cook,17031,0.4201,41.87429345515449,-87.6299544230129,,9092.0,no,,,,,,,,
 atl_00089,atlas,Lumen,Lumen Technologies,AZ,maricopa,04013,-0.0348,33.49433566334995,-112.0707857401212,,25456.0,no,,,,,,,,
 atl_00090,atlas,L3Harris Technologies Inc,,AZ,maricopa,04013,-0.0348,33.30535847275577,-111.67170400659428,,14469.0,no,,,,,,,,
@@ -550,7 +567,7 @@ atl_00168,atlas,OVH US East Vint Hill,,VA,fauquier,51061,-0.2166,38.747444697578
 atl_00169,atlas,NCAR-Wyoming Supercomputing Center,University Corporation for Atmospheric Research,WY,laramie,56021,-0.3242,41.12879048730292,-104.89748679471974,,101129.0,no,,,,,,,,
 atl_00170,atlas,The Seattle Times,H5 Data Centers,WA,king,53033,0.5169,47.61898482839781,-122.33646162358502,,48589.0,no,,,,,,,,
 atl_00171,atlas,Google Data Center The Dalles Oregon,Google,OR,wasco,41065,-0.0568,45.63204799165709,-121.2013022306046,,1487396.0,no,,,,,,,,
-atl_00172,atlas,Segra Data Center,,NC,wake,37183,0.2555,35.7249920936468,-78.66236321040674,,46141.0,no,,,,,,,,
+atl_00172,atlas,Segra Data Center,,NC,wake,37183,0.2555,35.7249920936468,-78.66236321040674,,46141.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00173,atlas,Equinix Ashburn DC2,Equinix,VA,loudoun,51107,0.1629,39.0164707082229,-77.45900624552966,,175215.0,no,,,,,,,,
 atl_00174,atlas,H5 Data Centers Ashburn,H5,VA,loudoun,51107,0.1629,39.01367498906444,-77.45171989501627,,83656.0,no,,,,,,,,
 atl_00175,atlas,TierPoint Sioux Falls West Data Center,,SD,minnehaha,46099,-0.1268,43.60697077791878,-96.80919489840308,,55963.0,no,,,,,,,,county_shared_with_opposed_project
@@ -742,7 +759,7 @@ atl_00360,atlas,"CyrusOne NVA1, NVA2 & NVA3",CyrusOne,VA,loudoun,51107,0.1629,39
 atl_00361,atlas,NAP of the Americas,,FL,miami-dade,12086,-0.1145,25.782378977030262,-80.19307541186281,,122625.0,no,,,,,,,,
 atl_00362,atlas,Unknown,,FL,miami-dade,12086,-0.1145,25.79754440402661,-80.230033722435,,15911.0,no,,,,,,,,
 atl_00363,atlas,CyrusOne NVA5,CyrusOne,VA,loudoun,51107,0.1629,39.02432710048146,-77.43403366059391,,506948.0,no,,,,,,,,
-atl_00364,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.540615955851,-93.82494906980826,,39146.0,no,,,,,,,,within_15km_of_opposed_project
+atl_00364,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.540615955851,-93.82494906980826,,39146.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00365,atlas,Facebook Altoona Data Center 1,Meta,IA,polk,19153,0.1089,41.6642411277008,-93.51472775765038,,315400.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00366,atlas,Facebook Altoona Data Center 2,Meta,IA,polk,19153,0.1089,41.66553719114288,-93.5081704115336,,307370.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00367,atlas,Lumen Technologies,,CA,orange,06059,0.0265,33.716777907497594,-117.80580094927475,,85658.0,no,,,,,,,,
@@ -770,7 +787,7 @@ atl_00388,atlas,Amazon IAD15,Amazon Web Services,VA,loudoun,51107,0.1629,38.9916
 atl_00389,atlas,Amazon IAD14,Amazon Web Services,VA,prince william,51153,0.1798,38.78993178096453,-77.54821678521624,,118192.0,no,,,,,,,,
 atl_00390,atlas,Amazon IAD59,Amazon Web Services,VA,prince william,51153,0.1798,38.79222600770484,-77.54844963730864,,127281.0,no,,,,,,,,
 atl_00391,atlas,Amazon IAD52,Amazon Web Services,VA,prince william,51153,0.1798,38.79106882111887,-77.54837196346583,,126699.0,no,,,,,,,,
-atl_00392,atlas,Amazon Web Services Datacenter Complex,Amazon Web Services,OH,licking,39089,-0.3001,40.09388273554784,-82.75171093377944,,1106310.0,no,,,,,,,,county_shared_with_opposed_project
+atl_00392,atlas,Amazon Web Services Datacenter Complex,Amazon Web Services,OH,licking,39089,-0.3001,40.09388273554784,-82.75171093377944,,1106310.0,no,,,,,,,,
 atl_00393,atlas,Amazon AWS: Hilliard Data Center,Amazon Web Services us-east-2 datacenter,OH,franklin,39049,0.2840,40.05990219147888,-83.13425799033122,,2578490.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00394,atlas,Unknown,,OR,umatilla,41059,-0.3775,45.91583559984652,-119.26632355,,2605.0,no,,,,,,,,
 atl_00395,atlas,Unknown,,OR,umatilla,41059,-0.3775,45.915835599846574,-119.2665274,,2608.0,no,,,,,,,,
@@ -883,7 +900,7 @@ atl_00501,atlas,Facebook Altoona Data Center 3,Meta,IA,polk,19153,0.1089,41.6670
 atl_00502,atlas,Amazon IAD71,Amazon Web Services,VA,loudoun,51107,0.1629,39.02790807231044,-77.4575028799799,,121176.0,no,,,,,,,,
 atl_00503,atlas,Amazon IAD50,Amazon Web Services,VA,loudoun,51107,0.1629,39.02956976120693,-77.45968288935686,,202194.0,no,,,,,,,,
 atl_00504,atlas,Amazon IAD60,Amazon Web Services,VA,loudoun,51107,0.1629,39.02877370248201,-77.4582461041282,,110965.0,no,,,,,,,,
-atl_00505,atlas,Amazon Web Services  CMH50,Amazon Web Services,OH,licking,39089,-0.3001,40.09462975659448,-82.75133937578003,,161683.0,no,,,,,,,,county_shared_with_opposed_project
+atl_00505,atlas,Amazon Web Services  CMH50,Amazon Web Services,OH,licking,39089,-0.3001,40.09462975659448,-82.75133937578003,,161683.0,no,,,,,,,,
 atl_00506,atlas,Unknown,,AZ,maricopa,04013,-0.0348,33.34702102097167,-111.60413892780116,,1263277.0,no,,,,,,,,
 atl_00507,atlas,Apple Mesa Data Center,Apple,AZ,maricopa,04013,-0.0348,33.34679827603292,-111.60431805940924,,3983906.0,no,,,,,,,,
 atl_00508,atlas,Thin-nology,,TX,travis,48453,0.3932,30.421141229242764,-97.59160304354108,,9209.0,no,,,,,,,,
@@ -952,7 +969,7 @@ atl_00570,atlas,Unknown,,NC,catawba,37035,-0.3799,35.58705991324804,-81.26027296
 atl_00571,atlas,Expedient Milwaukee,,WI,milwaukee,55079,0.3852,42.86317702172799,-87.97785780206577,,26099.0,no,,,,,,,,
 atl_00572,atlas,Amazon Web Services,Amazon IAD85,VA,prince william,51153,0.1798,38.779381509444576,-77.54172453948773,,149064.0,no,,,,,,,,
 atl_00573,atlas,Oxford Networks,FirstLight,ME,cumberland,23005,0.3631,43.895071082625066,-69.92315054547124,,55383.0,no,,,,,,,,
-atl_00574,atlas,Meta New Albany Data Center,Meta,OH,licking,39089,-0.3001,40.06840826479164,-82.7503408359755,,663238.0,no,,,,,,,,county_shared_with_opposed_project
+atl_00574,atlas,Meta New Albany Data Center,Meta,OH,licking,39089,-0.3001,40.06840826479164,-82.7503408359755,,663238.0,no,,,,,,,,
 atl_00575,atlas,Rice Data Center,,TX,harris,48201,0.0553,29.65814636487484,-95.44332796622496,,25487.0,no,,,,,,,,
 atl_00576,atlas,Facebook Fort Worth Datacenter,Meta,TX,tarrant,48439,-0.0512,32.984993663270515,-97.25507514509351,,435206.0,no,,,,,,,,
 atl_00577,atlas,Amazon Web Services,Amazon Web Services,OH,franklin,39049,0.2840,40.06115215749759,-83.13517288858029,,161809.0,no,,,,,,,,county_shared_with_opposed_project
@@ -1041,7 +1058,7 @@ atl_00659,atlas,Unknown,,MI,genesee,26049,0.0420,42.968713165412495,-83.77960216
 atl_00660,atlas,Unknown,,NJ,somerset,34035,0.1392,40.59934510477914,-74.70962307676368,,19551.0,no,,,,,,,,
 atl_00661,atlas,Unknown,,NJ,somerset,34035,0.1392,40.59971850671678,-74.71011198716056,,54527.0,no,,,,,,,,
 atl_00662,atlas,Meta,Meta,NM,valencia,35061,-0.1637,34.83004000903251,-106.78034710972685,,543736.0,no,,,,,,,,
-atl_00663,atlas,iGLASS Networks,,NC,wake,37183,0.2555,35.76675058444294,-78.7839857849851,,8134.0,no,,,,,,,,
+atl_00663,atlas,iGLASS Networks,,NC,wake,37183,0.2555,35.76675058444294,-78.7839857849851,,8134.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00664,atlas,Central Office,AT&T,WI,walworth,55127,-0.2223,42.83365364525283,-88.73398014165807,,9001.0,no,,,,,,,,
 atl_00665,atlas,Unknown,,MT,granite,30039,-0.4403,46.33213162016486,-113.29267194552416,,1510.0,no,,,,,,,,
 atl_00666,atlas,Vital Records,,NJ,somerset,34035,0.1392,40.52807180013584,-74.68281624993381,,7942.0,no,,,,,,,,
@@ -1077,7 +1094,7 @@ atl_00695,atlas,PHX-10,Microsoft,AZ,maricopa,04013,-0.0348,33.40794624396243,-11
 atl_00696,atlas,Sarpy Meta Data Center,Meta,NE,sarpy,31153,-0.1166,41.12194722186616,-96.13364372425686,,6242843.0,no,,,,,,,,
 atl_00697,atlas,Equinix Ashburn DC21,Equinix,VA,loudoun,51107,0.1629,39.01182265065321,-77.45455808439559,,78961.0,no,,,,,,,,
 atl_00698,atlas,Unknown,,NY,westchester,36119,0.2628,40.95126975040576,-73.89790099960555,,13426.0,no,,,,,,,,
-atl_00699,atlas,Meta New Albany Data Center,Meta,OH,licking,39089,-0.3001,40.06527171787832,-82.74890966242867,,663286.0,no,,,,,,,,county_shared_with_opposed_project
+atl_00699,atlas,Meta New Albany Data Center,Meta,OH,licking,39089,-0.3001,40.06527171787832,-82.74890966242867,,663286.0,no,,,,,,,,
 atl_00700,atlas,Unknown,,WA,grant,53025,-0.3748,47.23709780537748,-119.8951561143571,,216848.0,no,,,,,,,,
 atl_00701,atlas,EdgeCore,,AZ,maricopa,04013,-0.0348,33.344131138754335,-111.6195525034396,,112901.0,no,,,,,,,,
 atl_00702,atlas,Comcast,Comcast,MI,wayne,26163,0.2897,42.21390200001323,-83.19821400000001,,953.0,no,,,,,,,,county_shared_with_opposed_project
@@ -1102,7 +1119,7 @@ atl_00720,atlas,Unknown,,TN,williamson,47187,-0.3240,36.02321854497319,-86.79153
 atl_00721,atlas,EdgeCore Digital,,AZ,maricopa,04013,-0.0348,33.3442978188128,-111.62196431898784,,1602504.0,no,,,,,,,,
 atl_00722,atlas,Amazon IAD84,Amazon Web Services,VA,prince william,51153,0.1798,38.8161031223026,-77.65249934084503,,152692.0,no,,,,,,,,
 atl_00723,atlas,StrongMind,,AZ,maricopa,04013,-0.0348,33.342616247713266,-111.84097388722816,,20604.0,no,,,,,,,,
-atl_00724,atlas,BB&T Data Center,,NC,wake,37183,0.2555,35.839325206702256,-78.32812683838715,,143011.0,no,,,,,,,,
+atl_00724,atlas,BB&T Data Center,,NC,wake,37183,0.2555,35.839325206702256,-78.32812683838715,,143011.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00725,atlas,Microsoft,Microsoft,IA,polk,19153,0.1089,41.51674074828143,-93.70254178906356,,153956.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00726,atlas,Microsoft,Microsoft,IA,polk,19153,0.1089,41.51584274137181,-93.70251346931218,,149149.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00727,atlas,Microsoft,Microsoft,IA,polk,19153,0.1089,41.5158179370744,-93.70630110395008,,144428.0,no,,,,,,,,county_shared_with_opposed_project
@@ -1111,10 +1128,10 @@ atl_00729,atlas,Microsoft,Microsoft,IA,polk,19153,0.1089,41.51850163161288,-93.7
 atl_00730,atlas,Microsoft,Microsoft,IA,polk,19153,0.1089,41.51760660601612,-93.7063124996927,,143145.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00731,atlas,Microsoft,Microsoft,IA,polk,19153,0.1089,41.51764119065465,-93.70249272354832,,141016.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00732,atlas,Microsoft,Microsoft,IA,polk,19153,0.1089,41.51853822500233,-93.70252494893268,,141225.0,no,,,,,,,,county_shared_with_opposed_project
-atl_00733,atlas,Microsoft,Microsoft,IA,warren,19181,-0.2074,41.49787064306023,-93.78703936226476,,239270.0,no,,,,,,,,within_15km_of_opposed_project
-atl_00734,atlas,Microsoft,Microsoft,IA,warren,19181,-0.2074,41.49891302864557,-93.78707464281725,,243678.0,no,,,,,,,,within_15km_of_opposed_project
+atl_00733,atlas,Microsoft,Microsoft,IA,warren,19181,-0.2074,41.49787064306023,-93.78703936226476,,239270.0,no,,,,,,,,county_shared_with_opposed_project
+atl_00734,atlas,Microsoft,Microsoft,IA,warren,19181,-0.2074,41.49891302864557,-93.78707464281725,,243678.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00735,atlas,Project Osmium,Microsoft,IA,madison,19121,-0.3858,41.4982126945884,-93.78856494092211,,3691114.0,no,,,,,,,,within_15km_of_opposed_project
-atl_00736,atlas,Project Osmium,Microsoft,IA,warren,19181,-0.2074,41.4982126945884,-93.78856494092211,,3691114.0,no,,,,,,,,within_15km_of_opposed_project
+atl_00736,atlas,Project Osmium,Microsoft,IA,warren,19181,-0.2074,41.4982126945884,-93.78856494092211,,3691114.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00737,atlas,Facebook Altoona Data Center 5,Meta,IA,polk,19153,0.1089,41.67117312225116,-93.51662854518422,,628003.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00738,atlas,Unknown,Blockfusion,NY,niagara,36063,-0.1492,43.07483783638032,-78.94480168233245,,16242.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00739,atlas,Lumen,Lumen Technologies,UT,washington,49053,-0.5228,37.062799199655686,-113.54474869182133,,1833.0,no,,,,,,,,
@@ -1136,7 +1153,7 @@ atl_00754,atlas,Unknown,,VA,loudoun,51107,0.1629,39.05060777386236,-77.540025899
 atl_00755,atlas,Google,Google,TX,ellis,48139,-0.3107,32.44212970719258,-97.06248797347524,,144574.0,no,,,,,,,,
 atl_00756,atlas,Google,Google,TX,ellis,48139,-0.3107,32.44355545089075,-97.06333284249686,,138230.0,no,,,,,,,,
 atl_00757,atlas,Google,Google,TN,montgomery,47125,-0.1842,36.62458167653138,-87.26129639057423,,169736.0,no,,,,,,,,
-atl_00758,atlas,Google NBY-1,Google,OH,licking,39089,-0.3001,40.06114460722927,-82.76429366972576,,145177.0,no,,,,,,,,county_shared_with_opposed_project
+atl_00758,atlas,Google NBY-1,Google,OH,licking,39089,-0.3001,40.06114460722927,-82.76429366972576,,145177.0,no,,,,,,,,
 atl_00759,atlas,Meta Sarpy Data center,Meta,NE,sarpy,31153,-0.1166,41.12354217069119,-96.14419028998032,,666382.0,no,,,,,,,,
 atl_00760,atlas,Meta Sarpy Data center,Meta,NE,sarpy,31153,-0.1166,41.1207319993102,-96.14485433047682,,515084.0,no,,,,,,,,
 atl_00761,atlas,Google,Google,NE,sarpy,31153,-0.1166,41.13497469466853,-96.14672977480356,,152487.0,no,,,,,,,,
@@ -1148,8 +1165,8 @@ atl_00766,atlas,Flexential Portland - Hillsboro 4,Flexential,OR,washington,41067
 atl_00767,atlas,Stream Chicago II,Stream,IL,cook,17031,0.4201,41.99912438131275,-87.95776458161538,,215922.0,no,,,,,,,,
 atl_00768,atlas,STACK Chicago CHI01,Stack Infrastructure,IL,cook,17031,0.4201,42.006843875852,-87.96519018575371,,298471.0,no,,,,,,,,
 atl_00769,atlas,Stream Chicago I,Stream,IL,cook,17031,0.4201,42.00260065820328,-87.95113481547399,,120616.0,no,,,,,,,,
-atl_00770,atlas,Turnkey Internet,,NY,albany,36001,0.2584,42.74544108847024,-73.75919958242348,,10465.0,no,,,,,,,,
-atl_00771,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.540709217348976,-93.82789533434016,,220735.0,no,,,,,,,,within_15km_of_opposed_project
+atl_00770,atlas,Turnkey Internet,,NY,albany,36001,0.2584,42.74544108847024,-73.75919958242348,,10465.0,no,,,,,,,,county_shared_with_opposed_project
+atl_00771,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.540709217348976,-93.82789533434016,,220735.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00772,atlas,Unknown,,NC,catawba,37035,-0.3799,35.5903923643093,-81.26456965310366,,203410.0,no,,,,,,,,
 atl_00773,atlas,Amazon Web Services,Amazon Web Services,OH,franklin,39049,0.2840,40.06014718926057,-83.13490722876958,,161757.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00774,atlas,Iron Mountain,,WA,spokane,53063,-0.0497,47.59461614024328,-117.53714762552474,,14085.0,no,,,,,,,,
@@ -1187,7 +1204,7 @@ atl_00805,atlas,Lumen Cleveland,,OH,cuyahoga,39035,0.3147,41.50506588325723,-81.
 atl_00806,atlas,Unknown,,NC,union,37179,-0.2528,35.179383199219835,-80.57017464245234,,608141.0,no,,,,,,,,
 atl_00807,atlas,SU Green Data Center,Syracuse University,NY,onondaga,36067,0.1728,43.01207616834648,-76.11592528923454,,12169.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00808,atlas,Amazon IAD163,Amazon Web Services,VA,loudoun,51107,0.1629,39.03230534445815,-77.42970207458241,,131936.0,no,,,,,,,,
-atl_00809,atlas,Johns Hopkins Data Center,,MD,baltimore city,24510,0.7295,39.29355879768687,-76.55173790938491,,3880.0,no,,,,,,,,
+atl_00809,atlas,Johns Hopkins Data Center,,MD,baltimore city,24510,0.7295,39.29355879768687,-76.55173790938491,,3880.0,no,,,,,,,,within_15km_of_opposed_project
 atl_00810,atlas,Unknown,,TX,collin,48085,-0.1115,33.00895262021403,-96.67610355446038,,605006.0,no,,,,,,,,
 atl_00811,atlas,Ebay,,UT,salt lake,49035,0.1023,40.56409515233066,-112.05062821391914,,146408.0,no,,,,,,,,
 atl_00812,atlas,Edgeconnex Data Center,EdgeConneX,CA,sacramento,06067,0.1971,38.59229735741739,-121.27743720748433,,29318.0,no,,,,,,,,
@@ -1260,9 +1277,9 @@ atl_00878,atlas,Switch Las Vegas 5,Switch,NV,clark,32003,0.0263,36.1427634999891
 atl_00879,atlas,T-Mobile Everglades MSO Data Center,,FL,broward,12011,0.1697,26.18499694137505,-80.28691594165383,,49233.0,no,,,,,,,,
 atl_00880,atlas,DeKalb Meta Data Center,Meta Platforms,IL,dekalb,17037,0.0198,41.88904034750541,-88.72856898056978,,12793294.0,no,,,,,,,,
 atl_00881,atlas,EdgeConneX Data Center,EdgeConneX,OR,washington,41067,0.3397,45.556621303589225,-122.91221283734208,,111564.0,no,,,,,,,,
-atl_00882,atlas,Amazon Web Services  CMH53,Amazon Web Services,OH,licking,39089,-0.3001,40.09361643944408,-82.75145548070124,,154029.0,no,,,,,,,,county_shared_with_opposed_project
-atl_00883,atlas,Amazon Web Services CMH56,Amazon Web Services,OH,licking,39089,-0.3001,40.09653435041937,-82.75205114610061,,154677.0,no,,,,,,,,county_shared_with_opposed_project
-atl_00884,atlas,Amazon Web Services  CMH59,Amazon Web Services,OH,licking,39089,-0.3001,40.09404615807959,-82.74749104888826,,161123.0,no,,,,,,,,county_shared_with_opposed_project
+atl_00882,atlas,Amazon Web Services  CMH53,Amazon Web Services,OH,licking,39089,-0.3001,40.09361643944408,-82.75145548070124,,154029.0,no,,,,,,,,
+atl_00883,atlas,Amazon Web Services CMH56,Amazon Web Services,OH,licking,39089,-0.3001,40.09653435041937,-82.75205114610061,,154677.0,no,,,,,,,,
+atl_00884,atlas,Amazon Web Services  CMH59,Amazon Web Services,OH,licking,39089,-0.3001,40.09404615807959,-82.74749104888826,,161123.0,no,,,,,,,,
 atl_00885,atlas,Searcy Information Technologies,City of Searcy,AR,white,05145,-0.6120,35.2492158371357,-91.7409058590938,,4580.0,no,,,,,,,,
 atl_00886,atlas,Amazon Web Services,Amazon Web Services,VA,loudoun,51107,0.1629,38.9958476154284,-77.4712911922763,,131476.0,no,,,,,,,,
 atl_00887,atlas,Amazon Web Services,Amazon Web Services,VA,loudoun,51107,0.1629,38.99660796472238,-77.47326247561796,,131482.0,no,,,,,,,,
@@ -1321,11 +1338,11 @@ atl_00939,atlas,Google,Google,IA,pottawattamie,19155,-0.1997,41.17555376295006,-
 atl_00940,atlas,Google,Google,IA,pottawattamie,19155,-0.1997,41.1726347246986,-95.80402364214318,,174264.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00941,atlas,Google,Google,IA,pottawattamie,19155,-0.1997,41.172640078023726,-95.80252143647044,,174583.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00942,atlas,Google,Google,IA,pottawattamie,19155,-0.1997,41.17261142832355,-95.8011477197886,,158241.0,no,,,,,,,,county_shared_with_opposed_project
-atl_00943,atlas,Microsoft,Microsoft,IA,warren,19181,-0.2074,41.49683039481866,-93.78699632287524,,242270.0,no,,,,,,,,within_15km_of_opposed_project
-atl_00944,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.5398138870052,-93.82631357913507,,90065.0,no,,,,,,,,within_15km_of_opposed_project
-atl_00945,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.539670453163886,-93.82866540068235,,80538.0,no,,,,,,,,within_15km_of_opposed_project
+atl_00943,atlas,Microsoft,Microsoft,IA,warren,19181,-0.2074,41.49683039481866,-93.78699632287524,,242270.0,no,,,,,,,,county_shared_with_opposed_project
+atl_00944,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.5398138870052,-93.82631357913507,,90065.0,no,,,,,,,,county_shared_with_opposed_project
+atl_00945,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.539670453163886,-93.82866540068235,,80538.0,no,,,,,,,,county_shared_with_opposed_project
 atl_00946,atlas,Unknown,,CA,santa clara,06085,0.3995,37.3611399057634,-121.9423061882177,,108346.0,no,,,,,,,,
-atl_00947,atlas,xAI Macrohardrr,xAI,MS,desoto,28033,-0.2408,34.99348804291279,-90.03416995691286,,812955.0,no,,,,,,,,county_shared_with_opposed_project
+atl_00947,atlas,xAI Macrohardrr,xAI,MS,desoto,28033,-0.2408,34.99348804291279,-90.03416995691286,,812955.0,no,,,,,,,,within_15km_of_opposed_project
 atl_00948,atlas,Flexential Portland - Hillsboro 4 Expansion,Flexential,OR,washington,41067,0.3397,45.55539062526872,-122.94108717504778,,20041.0,no,,,,,,,,
 atl_00949,atlas,Flexential Portland - Hillsboro 5,Flexential,OR,washington,41067,0.3397,45.55642410414443,-122.93929618708306,,180357.0,no,,,,,,,,
 atl_00950,atlas,QTS San Antonio II,Quality Technology Services,TX,bexar,48029,0.0975,29.4491563911304,-98.65314490826424,,140321.0,no,,,,,,,,
@@ -1385,7 +1402,7 @@ atl_01003,atlas,Amazon Web Services,Amazon Web Services,VA,loudoun,51107,0.1629,
 atl_01004,atlas,Unknown,,VA,loudoun,51107,0.1629,38.95733457436757,-77.49759322033701,,1524370.0,no,,,,,,,,
 atl_01005,atlas,Microsoft EAT03,Microsoft,WA,douglas,53017,-0.2698,47.41832392189266,-120.20770997491816,,235418.0,no,,,,,,,,
 atl_01006,atlas,Microsoft EAT04,Microsoft,WA,douglas,53017,-0.2698,47.419636588714944,-120.21382073657306,,234834.0,no,,,,,,,,
-atl_01007,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.534990295223466,-93.86344403715006,,250486.0,no,,,,,,,,within_15km_of_opposed_project
+atl_01007,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.534990295223466,-93.86344403715006,,250486.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01008,atlas,Google: Arcola 2,Google,VA,loudoun,51107,0.1629,38.94182146398183,-77.52742942359154,,289889.0,no,,,,,,,,
 atl_01009,atlas,EAT14,,WA,chelan,53007,-0.0947,47.35949692084332,-120.16009077106148,,241836.0,no,,,,,,,,
 atl_01010,atlas,EAT13,,WA,chelan,53007,-0.0947,47.35842571835008,-120.15997586326914,,232237.0,no,,,,,,,,
@@ -1424,14 +1441,14 @@ atl_01042,atlas,Unknown,,NV,washoe,32031,0.0100,39.57098620148502,-119.535317562
 atl_01043,atlas,Carrier Services Group,,OH,mahoning,39099,-0.0942,41.04105972873746,-80.63309049266806,,75379.0,no,,,,,,,,
 atl_01044,atlas,Flexential Nashville - Cool Springs,Flexential,TN,williamson,47187,-0.3240,35.9510406627101,-86.83338099610178,,69261.0,no,,,,,,,,
 atl_01045,atlas,Unknown,,WI,columbia,55021,-0.0459,43.63833310938071,-89.72140293849328,,361.0,no,,,,,,,,
-atl_01046,atlas,Gallatin Data Center,Meta,TN,sumner,47165,-0.4183,36.408653770477216,-86.37031411803846,,17045005.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01046,atlas,Gallatin Data Center,Meta,TN,sumner,47165,-0.4183,36.408653770477216,-86.37031411803846,,17045005.0,no,,,,,,,,
 atl_01047,atlas,Aligned Data Center - Chicago ORD-01,Aligned,IL,cook,17031,0.4201,41.91398308559336,-87.91746545885744,,194551.0,no,,,,,,,,
 atl_01048,atlas,Aligned Data Center - Chicago ORD-02,Aligned,IL,cook,17031,0.4201,41.91296223024628,-87.91749234723224,,111422.0,no,,,,,,,,
 atl_01049,atlas,Unknown,,IL,cook,17031,0.4201,42.02314332706365,-87.97218622171744,,110471.0,no,,,,,,,,
 atl_01050,atlas,T5 Chicago II,T5 Data Centers,IL,cook,17031,0.4201,42.02304233326569,-87.97555687597257,,163237.0,no,,,,,,,,
 atl_01051,atlas,Cortex supercomputer,,TX,travis,48453,0.3932,30.21539943501369,-97.61896045736678,,427833.0,no,,,,,,,,
 atl_01052,atlas,AWS IAD106,Amazon Web Services,VA,prince william,51153,0.1798,38.74697497598997,-77.51852812758843,,205206.0,no,,,,,,,,
-atl_01053,atlas,Google NBY-2,Google,OH,licking,39089,-0.3001,40.05963281203005,-82.76452657909626,,138878.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01053,atlas,Google NBY-2,Google,OH,licking,39089,-0.3001,40.05963281203005,-82.76452657909626,,138878.0,no,,,,,,,,
 atl_01054,atlas,Amazon Web Services,Amazon Web Services,VA,loudoun,51107,0.1629,38.94913486865636,-77.52358042964754,,14235.0,no,,,,,,,,
 atl_01055,atlas,Unknown,,IA,pottawattamie,19155,-0.1997,41.21209899075678,-95.87791366422856,,117949.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01056,atlas,Amazon Web Services,Amazon Web Services,OR,morrow,41049,-0.4837,45.836184457262725,-119.69404769468916,,213843.0,no,,,,,,,,
@@ -1459,19 +1476,19 @@ atl_01077,atlas,Amazon Web Services,Amazon Web Services,VA,fairfax,51059,0.3500,
 atl_01078,atlas,Amazon Web Services,Amazon Web Services,VA,fairfax,51059,0.3500,38.90483706376053,-77.45475996912757,,118988.0,no,,,,,,,,
 atl_01079,atlas,Amazon Web Services,Amazon Web Services,VA,loudoun,51107,0.1629,38.915904671232965,-77.49055174718535,,87645.0,no,,,,,,,,
 atl_01080,atlas,Amazon Web Services,Amazon Web Services,VA,loudoun,51107,0.1629,38.91498995679571,-77.49097634789652,,13879.0,no,,,,,,,,
-atl_01081,atlas,Amazon Web Services CMH62,Amazon Web Services,OH,licking,39089,-0.3001,40.09298279215547,-82.74763713445286,,136329.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01082,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.09344044223075,-82.7321598268788,,214329.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01083,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.09215828085437,-82.72755119564094,,214261.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01084,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.092965346506006,-82.72649053707603,,14223.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01081,atlas,Amazon Web Services CMH62,Amazon Web Services,OH,licking,39089,-0.3001,40.09298279215547,-82.74763713445286,,136329.0,no,,,,,,,,
+atl_01082,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.09344044223075,-82.7321598268788,,214329.0,no,,,,,,,,
+atl_01083,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.09215828085437,-82.72755119564094,,214261.0,no,,,,,,,,
+atl_01084,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.092965346506006,-82.72649053707603,,14223.0,no,,,,,,,,
 atl_01085,atlas,Amazon Web Services,Amazon Web Services,OH,union,39159,-0.2963,40.11625887855608,-83.20139113655297,,218032.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01086,atlas,Unknown,Amazon Web Services,OH,union,39159,-0.2963,40.11739966334843,-83.20208181892225,,213349.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01087,atlas,Amazon Web Services,Amazon Web Services,OH,union,39159,-0.2963,40.11904802129847,-83.20025962657277,,13652.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01088,atlas,Amazon Web Services,Amazon Web Services,OH,franklin,39049,0.2840,40.04935754088761,-83.17546025829033,,220580.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01089,atlas,Unknown,Amazon Web Services,OH,franklin,39049,0.2840,40.04813089818562,-83.17528384542761,,217845.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01090,atlas,Amazon Web Services,Amazon Web Services,OH,franklin,39049,0.2840,40.04790974075581,-83.17754692245403,,14456.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01091,atlas,Google NBY-3,Google,OH,licking,39089,-0.3001,40.05795740696205,-82.76528495795795,,284807.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01091,atlas,Google NBY-3,Google,OH,licking,39089,-0.3001,40.05795740696205,-82.76528495795795,,284807.0,no,,,,,,,,
 atl_01092,atlas,Google NBY-4,Google,OH,franklin,39049,0.2840,40.059342128156295,-82.77177556209224,,294201.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01093,atlas,Meta New Albany Data Center,Meta,OH,licking,39089,-0.3001,40.06037970378648,-82.75098831560908,,608761.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01093,atlas,Meta New Albany Data Center,Meta,OH,licking,39089,-0.3001,40.06037970378648,-82.75098831560908,,608761.0,no,,,,,,,,
 atl_01094,atlas,Google,Google,OH,franklin,39049,0.2840,39.85209794675051,-82.99487523065918,,289874.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01095,atlas,Google,Google,VA,prince william,51153,0.1798,38.776122951150654,-77.58252358239119,,289731.0,no,,,,,,,,
 atl_01096,atlas,Amazon Web Services,Amazon Web Services,OR,morrow,41049,-0.4837,45.85874996159125,-119.60509631980196,,210570.0,no,,,,,,,,
@@ -1518,7 +1535,7 @@ atl_01136,atlas,Amazon Web Services,Amazon Web Services,OR,morrow,41049,-0.4837,
 atl_01137,atlas,Amazon Web Services,Amazon Web Services,OR,morrow,41049,-0.4837,45.840670297393935,-119.65130207689772,,13923.0,no,,,,,,,,
 atl_01138,atlas,Amazon Web Services,Amazon Web Services,OR,morrow,41049,-0.4837,45.81993095962179,-119.63208588156591,,212775.0,no,,,,,,,,
 atl_01139,atlas,"Google Lockbourne, OH",Google,OH,franklin,39049,0.2840,39.84875267736796,-82.99616096097107,,11463730.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01140,atlas,Amazon New Albany: Jug and Beach Road,,OH,licking,39089,-0.3001,40.09907370699043,-82.75147401690785,,1524640.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01140,atlas,Amazon New Albany: Jug and Beach Road,,OH,licking,39089,-0.3001,40.09907370699043,-82.75147401690785,,1524640.0,no,,,,,,,,
 atl_01141,atlas,UPS Data Center,,GA,forsyth,13117,-0.3311,34.10338317620051,-84.2149739266172,,173693.0,no,,,,,,,,
 atl_01142,atlas,MineOne Wyoming Data Center,MineOne,WY,laramie,56021,-0.3242,41.125124440694,-104.89498384404324,,306030.0,no,,,,,,,,
 atl_01143,atlas,Iron Mountain VA-3,,VA,prince william,51153,0.1798,38.77550687563078,-77.54520013096746,,181174.0,no,,,,,,,,
@@ -1536,7 +1553,7 @@ atl_01154,atlas,T5@Cleveland,T5 Data Centers,OH,cuyahoga,39035,0.3147,41.4424949
 atl_01155,atlas,42311 THUNDERBALL DR,True North Data Solutions,VA,loudoun,51107,0.1629,39.042552536948456,-77.53829965963824,,40683.0,no,,,,,,,,
 atl_01156,atlas,42255 THUNDERBALL DR,True North Data Solutions,VA,loudoun,51107,0.1629,39.04162316420013,-77.53922373708994,,60458.0,no,,,,,,,,
 atl_01157,atlas,42254 THUNDERBALL DR,True North Data Solutions,VA,loudoun,51107,0.1629,39.04350173521111,-77.54087429950766,,77498.0,no,,,,,,,,
-atl_01158,atlas,Meta Gallatin Data Center,Meta,TN,sumner,47165,-0.4183,36.41186544511472,-86.36966140352041,,626571.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01158,atlas,Meta Gallatin Data Center,Meta,TN,sumner,47165,-0.4183,36.41186544511472,-86.36966140352041,,626571.0,no,,,,,,,,
 atl_01159,atlas,Modesto Junior College West Data Center,Yosemite Community College District,CA,stanislaus,06099,-0.1096,37.66514737401328,-121.04003747175076,,6017.0,no,,,,,,,,
 atl_01160,atlas,GVTC,GVTC,TX,bexar,48029,0.0975,29.68640301722139,-98.4626474985889,,445.0,no,,,,,,,,
 atl_01161,atlas,Stream Data Centers,,TX,dallas,48113,0.2221,32.9836681552358,-96.65427329455416,,280635.0,no,,,,,,,,
@@ -1553,8 +1570,8 @@ atl_01171,atlas,Meta Aiken Data Center,Meta,SC,aiken,45003,-0.2590,33.6422731490
 atl_01172,atlas,Unknown,Meta,IL,dekalb,17037,0.0198,41.88853040860736,-88.72185807435966,,568454.0,no,,,,,,,,
 atl_01173,atlas,Unknown,Meta,IL,dekalb,17037,0.0198,41.88928381978822,-88.73105377072714,,568442.0,no,,,,,,,,
 atl_01174,atlas,Unknown,Meta,IL,dekalb,17037,0.0198,41.89027497092366,-88.72635519613044,,320184.0,no,,,,,,,,
-atl_01175,atlas,Meta Gallatin Data Center,Meta,TN,sumner,47165,-0.4183,36.41135065140836,-86.3660125010422,,626568.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01176,atlas,Meta Gallatin Data Center,Meta,TN,sumner,47165,-0.4183,36.40604868216981,-86.36660783519794,,626683.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01175,atlas,Meta Gallatin Data Center,Meta,TN,sumner,47165,-0.4183,36.41135065140836,-86.3660125010422,,626568.0,no,,,,,,,,
+atl_01176,atlas,Meta Gallatin Data Center,Meta,TN,sumner,47165,-0.4183,36.40604868216981,-86.36660783519794,,626683.0,no,,,,,,,,
 atl_01177,atlas,Google,Google,NE,sarpy,31153,-0.1166,41.1379099302681,-96.15143114556096,,297414.0,no,,,,,,,,
 atl_01178,atlas,Unknown,,CA,santa clara,06085,0.3995,37.370642952923895,-121.97450722223287,,124069.0,no,,,,,,,,
 atl_01179,atlas,Vantage Santa Clara CA2,Vantage Data Centers,CA,santa clara,06085,0.3995,37.36403183434052,-121.9468448755741,,132031.0,no,,,,,,,,
@@ -1562,9 +1579,9 @@ atl_01180,atlas,Digital Realty Silicon Valley SJC37,Digital Realty,CA,santa clar
 atl_01181,atlas,Switch Las Vegas 12,,NV,clark,32003,0.0263,36.05813028989026,-115.21038851286193,,484037.0,no,,,,,,,,
 atl_01182,atlas,QTS,Quality Technology Services,AZ,maricopa,04013,-0.0348,33.46474691950877,-111.99753426906965,,162484.0,no,,,,,,,,
 atl_01183,atlas,Digital Realty Northern Virginia IAD44,Digital Realty,VA,loudoun,51107,0.1629,38.96085555401278,-77.49143162866764,,399540.0,no,,,,,,,,
-atl_01184,atlas,Microsoft,Microsoft,IA,warren,19181,-0.2074,41.49580619609169,-93.78705539830352,,247197.0,no,,,,,,,,within_15km_of_opposed_project
-atl_01185,atlas,Microsoft,Microsoft,IA,warren,19181,-0.2074,41.49474989609202,-93.7870205983035,,247201.0,no,,,,,,,,within_15km_of_opposed_project
-atl_01186,atlas,Apple,Apple,IA,dallas,19049,-0.0475,41.61685112776159,-93.92440196315307,,313804.0,no,,,,,,,,
+atl_01184,atlas,Microsoft,Microsoft,IA,warren,19181,-0.2074,41.49580619609169,-93.78705539830352,,247197.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01185,atlas,Microsoft,Microsoft,IA,warren,19181,-0.2074,41.49474989609202,-93.7870205983035,,247201.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01186,atlas,Apple,Apple,IA,dallas,19049,-0.0475,41.61685112776159,-93.92440196315307,,313804.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01187,atlas,Unknown,,VA,loudoun,51107,0.1629,38.94986181026408,-77.5495090011084,,172204.0,no,,,,,,,,
 atl_01188,atlas,Unknown,,OH,delaware,39041,-0.0659,40.22452425388648,-83.04586008454727,,307645.0,no,,,,,,,,
 atl_01189,atlas,DC BLOX Myrtle Beach Cable Landing Station,,SC,horry,45051,-0.3855,33.674583221801456,-78.94369603285817,,91946.0,no,,,,,,,,
@@ -1598,10 +1615,10 @@ atl_01216,atlas,CenturyLink,,MO,caldwell,29025,-0.6130,39.74404823646494,-93.997
 atl_01217,atlas,Unknown,,AZ,maricopa,04013,-0.0348,33.35323014577916,-111.67808965639534,,241211.0,no,,,,,,,,
 atl_01218,atlas,Amazon Web Services,Amazon Web Services,OR,umatilla,41059,-0.3775,45.87953253861672,-119.34163563129184,,218723.0,no,,,,,,,,
 atl_01219,atlas,Amazon Web Services,Amazon Web Services,OR,umatilla,41059,-0.3775,45.88252484149941,-119.3396900641125,,218708.0,no,,,,,,,,
-atl_01220,atlas,Unknown,,OH,licking,39089,-0.3001,40.05924761990545,-82.76269811748983,,95190.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01221,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.53391629522377,-93.86343863715008,,250490.0,no,,,,,,,,within_15km_of_opposed_project
-atl_01222,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.53283774495582,-93.86346169206516,,250494.0,no,,,,,,,,within_15km_of_opposed_project
-atl_01223,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.53181414495484,-93.86344214206296,,250498.0,no,,,,,,,,within_15km_of_opposed_project
+atl_01220,atlas,Unknown,,OH,licking,39089,-0.3001,40.05924761990545,-82.76269811748983,,95190.0,no,,,,,,,,
+atl_01221,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.53391629522377,-93.86343863715008,,250490.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01222,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.53283774495582,-93.86346169206516,,250494.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01223,atlas,Microsoft,Microsoft,IA,dallas,19049,-0.0475,41.53181414495484,-93.86344214206296,,250498.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01224,atlas,Meta Bowling Green Data Center,,OH,wood,39173,-0.1015,41.46529826036125,-83.63835552524,,21498189.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01225,atlas,Flexential Las Vegas - Downtown,Flexential,NV,clark,32003,0.0263,36.168643800000766,-115.14314455000994,,439.0,no,,,,,,,,
 atl_01226,atlas,Unknown,,VA,fauquier,51061,-0.2166,38.73721263324728,-77.82624892405599,,59703.0,no,,,,,,,,
@@ -1611,16 +1628,16 @@ atl_01229,atlas,Unknown,CloudHQ,VA,loudoun,51107,0.1629,39.00235750653911,-77.47
 atl_01230,atlas,T5@Cleveland,T5 Data Centers,OH,cuyahoga,39035,0.3147,41.44246938202044,-81.80215430324107,,244723.0,no,,,,,,,,
 atl_01231,atlas,Databank LGA3,Databank,NY,rockland,36087,-0.1182,41.0399432449328,-73.98965093105873,,197452.0,no,,,,,,,,
 atl_01232,atlas,CoreSite NY3,CoreSite,NJ,hudson,34017,0.2805,40.784903830537054,-74.06535725613013,,39679.0,no,,,,,,,,within_15km_of_opposed_project
-atl_01233,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.10242869167073,-82.75012924483033,,213519.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01234,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.10197816995511,-82.75191229497905,,125656.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01235,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.09421858757698,-82.73211149672552,,213118.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01236,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.09437825776618,-82.72928126568107,,72426.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01237,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.0955017340038,-82.73200435141196,,211441.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01233,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.10242869167073,-82.75012924483033,,213519.0,no,,,,,,,,
+atl_01234,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.10197816995511,-82.75191229497905,,125656.0,no,,,,,,,,
+atl_01235,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.09421858757698,-82.73211149672552,,213118.0,no,,,,,,,,
+atl_01236,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.09437825776618,-82.72928126568107,,72426.0,no,,,,,,,,
+atl_01237,atlas,Amazon Web Services,Amazon Web Services,OH,licking,39089,-0.3001,40.0955017340038,-82.73200435141196,,211441.0,no,,,,,,,,
 atl_01238,atlas,Google NBY-5,Google,OH,franklin,39049,0.2840,40.05652000741912,-82.772048580204,,287008.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01239,atlas,Google NBY-6,Google,OH,franklin,39049,0.2840,40.05392734996134,-82.76761078944944,,287583.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01240,atlas,Google NBY-6,Google,OH,licking,39089,-0.3001,40.05392734996134,-82.76761078944944,,287583.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01241,atlas,Meta,Meta,OH,licking,39089,-0.3001,40.06149628180154,-82.74054460541299,,365548.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01242,atlas,Meta,Meta,OH,licking,39089,-0.3001,40.065239403615855,-82.74114938512078,,304109.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01240,atlas,Google NBY-6,Google,OH,licking,39089,-0.3001,40.05392734996134,-82.76761078944944,,287583.0,no,,,,,,,,
+atl_01241,atlas,Meta,Meta,OH,licking,39089,-0.3001,40.06149628180154,-82.74054460541299,,365548.0,no,,,,,,,,
+atl_01242,atlas,Meta,Meta,OH,licking,39089,-0.3001,40.065239403615855,-82.74114938512078,,304109.0,no,,,,,,,,
 atl_01243,atlas,Amazon Web Services,Amazon Web Services,OH,union,39159,-0.2963,40.13579696334773,-83.21264447651147,,210421.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01244,atlas,Amazon Web Services,Amazon Web Services,OH,union,39159,-0.2963,40.12007223395813,-83.19930886076622,,156855.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01245,atlas,Amazon Web Services,Amazon Web Services,OH,union,39159,-0.2963,40.11930148042772,-83.20321748466178,,211969.0,no,,,,,,,,county_shared_with_opposed_project
@@ -1655,10 +1672,10 @@ atl_01273,atlas,Google,Google,NE,douglas,31055,0.1017,41.33914158417576,-96.0846
 atl_01274,atlas,Google,Google,NE,douglas,31055,0.1017,41.34193880105854,-96.08771931019496,,290130.0,no,,,,,,,,
 atl_01275,atlas,Google,Google,NE,douglas,31055,0.1017,41.345162392266765,-96.0935333091696,,290105.0,no,,,,,,,,
 atl_01276,atlas,Applied Digital / Ellendale Data Center,Applied Digital,ND,dickey,38021,-0.5224,46.0135494595369,-98.57244091744636,,2706037.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01277,atlas,QTS NAL 2 DC1,Quality Technology Services,OH,licking,39089,-0.3001,40.0556836587917,-82.75637526337734,,163319.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01278,atlas,QTS NAL 2 DC2,Quality Technology Services,OH,licking,39089,-0.3001,40.0531198921073,-82.75657723017025,,147657.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01279,atlas,QTS NAL1 DC2,Quality Technology Services,OH,licking,39089,-0.3001,40.06356213641001,-82.75816917488658,,226711.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01280,atlas,QTS NAL1 DC1,Quality Technology Services,OH,licking,39089,-0.3001,40.06510848413083,-82.75805608235054,,225116.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01277,atlas,QTS NAL 2 DC1,Quality Technology Services,OH,licking,39089,-0.3001,40.0556836587917,-82.75637526337734,,163319.0,no,,,,,,,,
+atl_01278,atlas,QTS NAL 2 DC2,Quality Technology Services,OH,licking,39089,-0.3001,40.0531198921073,-82.75657723017025,,147657.0,no,,,,,,,,
+atl_01279,atlas,QTS NAL1 DC2,Quality Technology Services,OH,licking,39089,-0.3001,40.06356213641001,-82.75816917488658,,226711.0,no,,,,,,,,
+atl_01280,atlas,QTS NAL1 DC1,Quality Technology Services,OH,licking,39089,-0.3001,40.06510848413083,-82.75805608235054,,225116.0,no,,,,,,,,
 atl_01281,atlas,Unknown,,IL,dupage,17043,0.1333,41.795384289880126,-88.2469228118375,,169253.0,no,,,,,,,,
 atl_01282,atlas,Google,Google,TX,ellis,48139,-0.3107,32.5389942949367,-96.79316889732078,,288830.0,no,,,,,,,,
 atl_01283,atlas,Compass Data Center,,TX,ellis,48139,-0.3107,32.54551791172823,-96.80209872095472,,248978.0,no,,,,,,,,
@@ -1673,10 +1690,10 @@ atl_01291,atlas,Compass Data Center,,TX,ellis,48139,-0.3107,32.543965285497585,-
 atl_01292,atlas,Compass Data Center,,TX,ellis,48139,-0.3107,32.545296653507904,-96.7884905818255,,251941.0,no,,,,,,,,
 atl_01293,atlas,Unknown,,VA,fairfax,51059,0.3500,38.92310082624394,-77.42497941796181,,113584.0,no,,,,,,,,
 atl_01294,atlas,Unknown,,VA,fairfax,51059,0.3500,38.936479140978506,-77.42469054341261,,131768.0,no,,,,,,,,
-atl_01295,atlas,Google NBY-7,Google,OH,licking,39089,-0.3001,40.05393985497952,-82.7644472443362,,175532.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01296,atlas,Vantage Building 1,Vantage,OH,licking,39089,-0.3001,40.10249753450011,-82.74695373508102,,245446.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01297,atlas,Vantage Building 2,Vantage,OH,licking,39089,-0.3001,40.1005314675866,-82.74711627367479,,237734.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01298,atlas,Vantage Building 3,Vantage,OH,licking,39089,-0.3001,40.098765283375776,-82.74724322674068,,222450.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01295,atlas,Google NBY-7,Google,OH,licking,39089,-0.3001,40.05393985497952,-82.7644472443362,,175532.0,no,,,,,,,,
+atl_01296,atlas,Vantage Building 1,Vantage,OH,licking,39089,-0.3001,40.10249753450011,-82.74695373508102,,245446.0,no,,,,,,,,
+atl_01297,atlas,Vantage Building 2,Vantage,OH,licking,39089,-0.3001,40.1005314675866,-82.74711627367479,,237734.0,no,,,,,,,,
+atl_01298,atlas,Vantage Building 3,Vantage,OH,licking,39089,-0.3001,40.098765283375776,-82.74724322674068,,222450.0,no,,,,,,,,
 atl_01299,atlas,Microsoft,Microsoft,WA,grant,53025,-0.3748,47.23859240981344,-119.88741175976487,,143441.0,no,,,,,,,,
 atl_01300,atlas,Unknown,,TX,bexar,48029,0.0975,29.449680291111807,-98.71438661856558,,154443.0,no,,,,,,,,
 atl_01301,atlas,Unknown,,TX,bexar,48029,0.0975,29.45093084145712,-98.71389142350314,,154441.0,no,,,,,,,,
@@ -1739,7 +1756,7 @@ atl_01357,atlas,Unknown,,TX,travis,48453,0.3932,30.20713756172528,-97.7006695227
 atl_01358,atlas,Unknown,,TX,travis,48453,0.3932,30.20595060024873,-97.69793314800336,,249430.0,no,,,,,,,,
 atl_01359,atlas,CoreSite Secaucus Campus,CoreSite,NJ,hudson,34017,0.2805,40.78433424839382,-74.06526820534951,,438062.0,no,,,,,,,,within_15km_of_opposed_project
 atl_01360,atlas,Google Data Center,Google,OH,franklin,39049,0.2840,40.05820687502756,-82.76621082766692,,22688090.0,no,,,,,,,,county_shared_with_opposed_project
-atl_01361,atlas,Google Data Center,Google,OH,licking,39089,-0.3001,40.05820687502756,-82.76621082766692,,22688090.0,no,,,,,,,,county_shared_with_opposed_project
+atl_01361,atlas,Google Data Center,Google,OH,licking,39089,-0.3001,40.05820687502756,-82.76621082766692,,22688090.0,no,,,,,,,,
 atl_01362,atlas,Microsoft Data Center,Microsoft,VA,loudoun,51107,0.1629,38.949312045394976,-77.5594854254625,,1575278.0,no,,,,,,,,
 atl_01363,atlas,Unknown,,CA,san diego,06073,0.1679,33.15360010009989,-117.23884634999423,,13597.0,no,,,,,,,,
 atl_01364,atlas,Unknown,,NJ,somerset,34035,0.1392,40.5242144195126,-74.54801971324707,,284322.0,no,,,,,,,,within_15km_of_opposed_project
@@ -1831,7 +1848,7 @@ atl_01449,atlas,Flexential Dallas - Downtown Dallas,Flexential,TX,dallas,48113,0
 atl_01450,atlas,Flexential Jacksonville,Flexential,FL,duval,12031,-0.0147,30.245748200000005,-81.5817226,,0.0,no,,,,,,,,
 atl_01451,atlas,Flexential - Denver - Aurora,Flexential,CO,arapahoe,08005,0.2010,39.66104880000002,-104.8488321,,0.0,no,,,,,,,,
 atl_01452,atlas,Flexential Nashville - Brentwood,Flexential,TN,williamson,47187,-0.3240,35.97272939999996,-86.8084949,,0.0,no,,,,,,,,within_15km_of_opposed_project
-atl_01453,atlas,Flexential Raleigh,Flexential,NC,wake,37183,0.2555,35.850528100000005,-78.8291431,,0.0,no,,,,,,,,
+atl_01453,atlas,Flexential Raleigh,Flexential,NC,wake,37183,0.2555,35.850528100000005,-78.8291431,,0.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01454,atlas,Flexential Tampa - West,Flexential,FL,hillsborough,12057,-0.0306,28.037299100000027,-82.5399781,,0.0,no,,,,,,,,
 atl_01455,atlas,Flexential Salt Lake City - Lindon,Flexential,UT,utah,49049,-0.3979,40.33264800000003,-111.7278754,,0.0,no,,,,,,,,
 atl_01456,atlas,Digital Realty New York JFK13,Digital Realty,NY,new york,36061,0.6482,40.71992800000002,-74.00445830000001,,0.0,no,,,,,,,,
@@ -1842,7 +1859,7 @@ atl_01460,atlas,Prime Santa Clara,Prime,CA,santa clara,06085,0.3995,37.3666621,-
 atl_01461,atlas,Open Data Centers Piscataway,,NJ,middlesex,34023,0.0804,40.55035010000003,-74.4568563,,0.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01462,atlas,H5 Secaucus,H5,NJ,hudson,34017,0.2805,40.785394800000006,-74.0750122,,0.0,no,,,,,,,,within_15km_of_opposed_project
 atl_01463,atlas,"Forescout Technologies, Inc.",,CA,santa clara,06085,0.3995,37.322867500000015,-121.9474176,,0.0,no,,,,,,,,
-atl_01464,atlas,Lumen Albany 4,Lumen Technologies,NY,albany,36001,0.2584,42.73563079999996,-73.818665,,0.0,no,,,,,,,,
+atl_01464,atlas,Lumen Albany 4,Lumen Technologies,NY,albany,36001,0.2584,42.73563079999996,-73.818665,,0.0,no,,,,,,,,county_shared_with_opposed_project
 atl_01465,atlas,Equinix Chicago Data Center - CH1,Equinix,IL,cook,17031,0.4201,41.8535578,-87.6180475,,0.0,no,,,,,,,,
 atl_01466,atlas,501 West,,NJ,mercer,34021,0.3386,40.31555800000002,-74.6688514,,0.0,no,,,,,,,,within_15km_of_opposed_project
 atl_01467,atlas,Dataverge,Dataverge,NY,kings,36047,0.4398,40.65769569999999,-74.0048163,,0.0,no,,,,,,,,
