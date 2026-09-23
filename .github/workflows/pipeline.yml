@@ -241,7 +241,23 @@ jobs:
       - name: Project resolution (links + lifecycles; includes leak audit)
         id: project_resolution
         continue-on-error: true
-        run: python project_resolution.py && python control_group.py && python control_comparison.py && python triage_accelerator.py
+        # Four scripts, fail-fast, each named as it runs. Previously this was
+        # a bare `a && b && c && d` and the failure surface below attributed
+        # any failure to the first one. On 2026-09-22 and 09-23 that sent the
+        # reader to project_resolution.py -- which had succeeded and printed
+        # "leak audit: clean" -- when the actual failure was control_group.py's
+        # geo audit, two scripts later. The loop keeps the same fail-fast
+        # semantics and says which one stopped.
+        run: |
+          for s in project_resolution control_group control_comparison triage_accelerator; do
+            echo "::group::$s.py"
+            if ! python "$s.py"; then
+              echo "::endgroup::"
+              echo "::error::$s.py failed (see the $s.py group above for the reason)."
+              exit 1
+            fi
+            echo "::endgroup::"
+          done
 
       - name: Link disagreement audit (rules vs the registered model scores)
         # Reads the live link state that project_resolution.py just rebuilt
@@ -594,7 +610,7 @@ jobs:
       - name: Surface project-resolution failure (visible, non-blocking)
         if: steps.project_resolution.outcome == 'failure'
         run: |
-          echo "::error::project_resolution.py failed (link build or leak audit). Clean feed and Iowa sync were unaffected."
+          echo "::error::The project-resolution step failed. It chains project_resolution.py, control_group.py, control_comparison.py and triage_accelerator.py; the step log names which one stopped. Clean feed and Iowa sync were unaffected."
           exit 1
 
       - name: Surface county-layer failure (visible, non-blocking)

@@ -500,8 +500,17 @@ KNOWN_BAD = {
     # overwritten by the next export and would reintroduce the two-writer
     # problem the id migration removed. It has to be fixed at the source.
     #
-    # Carried as prj_61 until 2026-09-17, when the source renumbered it to 68.
-    "prj_68": ("Project Pulse",
+    # Carried as prj_61 until 2026-09-17, when the source renumbered it to 68,
+    # and as prj_68 until 2026-09-23, when it renumbered again to 78. Both
+    # moves were caught by the name check below rather than by anyone noticing,
+    # and each one failed the build until the key was updated. That is the
+    # design working -- a wandering exemption is worse than a red gate -- but
+    # twice in six days says the id is not a stable handle for this row. The
+    # row itself has not changed: state KY, county clark, fips 21049 (Clark
+    # County, Kentucky), coordinates 34.0537,-93.1059 (Clark County, Arkansas).
+    # If it renumbers a third time, key the exemption on something the source
+    # does not reassign rather than re-pinning the id again.
+    "prj_78": ("Project Pulse",
                "address and coordinates say Arkansas; state column says Kentucky"),
 }
 
