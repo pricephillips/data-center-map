@@ -245,6 +245,25 @@ candidates (an unreviewed row from the refresh delta) are counted separately,
 so a promotion that disagrees with an upstream surfaces on the next build
 without an unreviewed row ever moving a label by itself.
 
+`county-profile.html` reads the ledger and its conflicts directly, in the
+**core** load wave rather than the detail wave. The page states a restriction
+label in its first paint, and for the 2,893 counties recorded as having none it
+previously stated that label by rendering nothing: the restriction section is
+skipped when no instrument is on file. Silence reads as verification, so the
+grade must arrive with the claim it qualifies, not behind it.
+
+Two things about grade `D` matter to anything reading this file. It is the
+fall-through for "nothing on record supports this label", so it is reached both
+by a county no source has been consulted for and by a county whose sources
+**were** consulted and returned nothing usable — a restriction census asserts
+positives only and can never clear a county. The two are distinguishable only
+by whether `families_checked` is empty. And `U` is not a defect in the ledger:
+every probe host in `configs/restriction_evidence_sources.json` is denied by
+the egress policy where this repository's agent sessions run, so no adapter
+could be written and verified. Synthesising probe results from this
+repository's own tracker would be circular and would read downstream as
+verification, so the grade stays `U` until a real probe runs.
+
 ### Layer E, derived analytics
 
 Everything computed from the layers above: baselines, models, audits,
