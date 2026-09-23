@@ -1,6 +1,6 @@
 # Link disagreement audit
 
-Generated 2026-09-21 by `link_disagreement_audit.py`.
+Generated 2026-09-23 by `link_disagreement_audit.py`.
 
 Where the live rule cascade and the frozen model scores from `splink_spike.py`
 disagree about the same pair. The spike's NO-GO verdict on adoption stands and
@@ -10,8 +10,8 @@ read against the rules, never as a decision.
 | | count |
 |---|---|
 | rule-confirmed, model below 0.5 | 10 |
-| unlinked, model at or above 0.99 | 430 |
-| **open disagreements** | **440** |
+| unlinked, model at or above 0.99 | 429 |
+| **open disagreements** | **439** |
 
 Rows are in `data/link_disagreement_worklist.csv`, most disagreeable first.
 
@@ -38,9 +38,9 @@ of this repository and this module does not re-score.
 
 | | count |
 |---|---|
-| current rule links | 380 |
-| of those, carrying a model score | 67 (17.6 pct) |
-| of those, with no score | 313 |
+| current rule links | 364 |
+| of those, carrying a model score | 63 (17.3 pct) |
+| of those, with no score | 301 |
 
 A link created after the spike ran cannot be audited here and is counted above
 rather than passed over. As that number grows the audit covers less of the
@@ -49,23 +49,23 @@ sample as though it were the whole.
 
 Unscored current links (first 20):
 
+- opp_007362ac6379 -> prj_212
 - opp_021c2c472697 -> prj_339
-- opp_039ab1e1e6fd -> prj_279
+- opp_039ab1e1e6fd -> prj_292
 - opp_03cd61627883 -> prj_106
-- opp_04092e1aeef4 -> prj_277
+- opp_04092e1aeef4 -> prj_290
 - opp_0453f3eb092f -> prj_138
 - opp_062ff8f63413 -> prj_138
-- opp_079ba18862cf -> prj_90
-- opp_08ec2eb3c157 -> prj_197
-- opp_0c2b8287973b -> prj_260
-- opp_0c8866392928 -> prj_81
-- opp_0d9643b0e958 -> prj_110
+- opp_079ba18862cf -> prj_102
+- opp_08ec2eb3c157 -> prj_210
+- opp_0c2b8287973b -> prj_273
+- opp_0c8866392928 -> prj_93
+- opp_0d9643b0e958 -> prj_123
 - opp_0d9643b0e958 -> prj_277
 - opp_0dd5fa8d7b11 -> prj_122
-- opp_0e4c335737e1 -> prj_321
-- opp_0f01cb4fa3f5 -> prj_217
-- opp_0f9c5e6b0f52 -> prj_117
-- opp_11176d608380 -> prj_19
-- opp_112e9c2fa247 -> prj_322
-- opp_11fa1ec005e1 -> prj_90
+- opp_0e4c335737e1 -> prj_334
+- opp_0f01cb4fa3f5 -> prj_230
+- opp_0f9c5e6b0f52 -> prj_130
+- opp_11176d608380 -> prj_21
+- opp_11fa1ec005e1 -> prj_102
 - opp_1228ae833969 -> prj_1003
