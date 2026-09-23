@@ -61,6 +61,14 @@ button.primary:hover { filter:brightness(1.1) }
 .flag.on { background:#3a2116; border:1px solid var(--accent); color:var(--accent2) }
 .flag.off { background:var(--panel2); border:1px solid var(--border); color:var(--muted) }
 .flag.warn { background:#3a1520; border:1px solid #7a2535; color:#ffb4c0 }
+/* A grade badge sits inside a KPI value. The generic `.kpi span` rule is more
+ * specific than `.flag`, so without these it flattens the pill into muted
+ * block text and the colour that distinguishes "checked" from "never looked
+ * at" is lost -- on the one section whose whole job is that distinction. */
+.kpi b .flag { display:inline-block; margin-top:0; font-size:11px }
+.kpi b .flag.on { color:var(--accent2) }
+.kpi b .flag.off { color:var(--muted) }
+.kpi b .flag.warn { color:#ffb4c0 }
 .delta { font-variant-numeric:tabular-nums; white-space:nowrap }
 .delta.up { color:var(--accent2) }
 .delta.down { color:#5fae7e }
@@ -246,7 +254,16 @@ var CORE_FILES = {
    * on this page from a value into a comparison, so they load in the fast wave
    * with the scorecards rather than behind them. The per-county percentile and
    * peer file is ten times the size and waits for the detail wave. */
-  benchmark_ref: 'data/county_benchmark_reference.csv'
+  benchmark_ref: 'data/county_benchmark_reference.csv',
+  /* The evidence ledger loads in the CORE wave, not the detail wave, on
+   * purpose. This page states a restriction label in the first paint, and for
+   * 2,893 counties that label is "none on record". Loading the provenance
+   * behind it would leave a window in which the page asserts a clear county
+   * and cannot yet say whether anyone checked. Silence reads as verification,
+   * so the grade has to arrive with the claim it qualifies. At 30 KB gzipped
+   * it is smaller than the reference profiles already in this wave. */
+  evidence: 'data/restriction_evidence.csv',
+  evidence_conflicts: 'data/restriction_evidence_conflicts.csv'
 };
 var DETAIL_FILES = {
   lifecycles: 'data/project_lifecycles.csv',
@@ -678,9 +695,26 @@ function county_slice(fips) {
     cost: [], trend: [], contagion: null,
     stakeholders_county: [], stakeholders_state: [],
     benchmark: null, peers: [], census_unreviewed: [],
+    evidence: null, evidence_conflicts: [],
+    /* Declared here, not only after the detail gate below, because
+     * export_csv() reads both unconditionally while the Export button is
+     * enabled as soon as a county is picked -- which happens in the core
+     * wave. Left undefined, an export clicked before the detail wave lands
+     * threw on Object.keys(undefined) and produced no file at all. */
+    pred_by_pid: {}, decision_by_pid: {},
     body_actions: [], priorities: [], legislators: [], position_bills: [],
     positions_state: []
   };
+  /* Populated BEFORE the detail-wave gate below: the evidence ledger rides
+   * the core wave so that the restriction label and the grade behind it paint
+   * together. See the CORE_FILES note. */
+  (DATA.evidence || []).forEach(function (r) {
+    if (String(r.fips || '').padStart(5, '0') === fips) out.evidence = r;
+  });
+  (DATA.evidence_conflicts || []).forEach(function (r) {
+    if (String(r.fips || '').padStart(5, '0') === fips) out.evidence_conflicts.push(r);
+  });
+
   if (!DETAIL_READY) return out;
 
   (DATA.lifecycles || []).forEach(function (r) {
@@ -1341,6 +1375,264 @@ function vs_cell(metric, value, reference) {
   return '<span class="vs ' + cls + '">' + sign + fmt_delta(metric, d) + '</span>';
 }
 
+/* ------------------- evidence behind the label -------------------- *
+ * This page makes a claim about every county it renders: an enacted
+ * restriction is on record, or none is. For 2,893 of 3,222 counties the
+ * claim is the negative one, and until this section existed the page
+ * made it by saying nothing at all. An empty restriction section is not
+ * a neutral absence to a reader deciding where to site a facility; it
+ * reads as "checked, and clear". The ledger records which source
+ * families were actually consulted for each county and grades the
+ * result, so the honest answer is available and is usually "nobody has
+ * checked this one yet". Saying that plainly is the point.
+ *
+ * The grade vocabulary is pre-registered in
+ * configs/restriction_evidence_sources.json and is reproduced here as
+ * prose rather than re-derived, so the page cannot drift into grading
+ * counties by its own rule. */
+
+/* Short titles for the badge. D is deliberately phrased for what it always
+ * means -- nothing on record supports this label -- rather than for the more
+ * common of the two routes to it, since the other route is a county that WAS
+ * consulted. grade_reading() carries the distinction in prose. */
+var GRADE_TITLE = {
+  A: 'Corroborated', B: 'Single source', C: 'Partial',
+  D: 'Nothing supports this', U: 'Unverified'
+};
+/* Plain-language readings of the pre-registered rubric. Each says what the
+ * grade licenses a reader to do, which is the question a client actually
+ * has, rather than restating the rule that produced it. */
+var GRADE_CLEAR = {
+  A: 'Two or more independent kinds of source were consulted and agree that ' +
+     'nothing is on the books here, all within the freshness window. This is ' +
+     'the strongest clear reading this repository issues.',
+  B: 'One independent kind of source was consulted and found nothing on the ' +
+     'books, within the freshness window. Reasonable to rely on, but it rests ' +
+     'on a single line of evidence.',
+  C: 'A check ran but did not complete: coverage was partial, or a source ' +
+     'could not be reached. Treat the clear reading as provisional.',
+  /* D is the grade for "nothing supports this label", and it is reached two
+   * different ways. See grade_reading(): a D whose families were consulted is
+   * NOT an unexamined county, and saying so would be false. */
+  D: 'A registered source family covers this county, but the check has not ' +
+     'run yet. Nothing here has been looked at; the label is the absence of a ' +
+     'tracker row, not a finding.',
+  D_consulted: 'A source that covers this county was consulted, and nothing ' +
+     'it returned can support a clear reading. A restriction census records ' +
+     'adopted instruments only: it can confirm that a restriction exists and ' +
+     'can never establish that none does. So this county has been looked at, ' +
+     'and the look could not have cleared it either way.',
+  U: 'No registered source family covers this county at all. Nothing has been ' +
+     'checked and nothing could have been. The label means only that no ' +
+     'tracker row asserts a restriction — it is not evidence of absence.'
+};
+var GRADE_POSITIVE = {
+  A: 'The restriction on record is corroborated by two or more independent ' +
+     'kinds of source, within the freshness window.',
+  B: 'The restriction on record is supported by one independent kind of ' +
+     'source, within the freshness window.',
+  C: 'A check ran but did not complete, so the restriction on record is only ' +
+     'partially supported.',
+  D: 'A registered source family covers this county but has not been checked ' +
+     'yet, so the restriction on record rests on the tracker alone.',
+  D_consulted: 'A source that covers this county was consulted, and nothing ' +
+     'it returned corroborates the restriction on record, which therefore ' +
+     'rests on the tracker alone.',
+  U: 'No registered source family covers this county, so the restriction on ' +
+     'record rests on the tracker alone and has no independent support here.'
+};
+/* Conflicts are the ledger's own cross-checks. Rendered in the reader's
+ * terms: what disagrees with what, and what it would take to settle it. */
+var CONFLICT_TEXT = {
+  label_negative_source_hit:
+    'A source in the reviewed census reports an adopted instrument here, ' +
+    'while this county is recorded as having none. One of the two is wrong ' +
+    'and this is the strongest form of that disagreement, because the census ' +
+    'row has already been reviewed.',
+  label_negative_upstream_hit:
+    'An unreviewed upstream row reports an adopted instrument here, while ' +
+    'this county is recorded as having none. The upstream row has not been ' +
+    'reviewed, so this raises a question about the label rather than ' +
+    'overturning it.',
+  label_positive_no_support:
+    'This county is recorded as restrictive on tracker evidence, and no ' +
+    'registered source family has been checked to corroborate it. The label ' +
+    'is not contradicted — it is simply unsupported by anything ' +
+    'independent of the tracker.'
+};
+var CONFLICT_TITLE = {
+  label_negative_source_hit: 'Reviewed source contradicts a clear label',
+  label_negative_upstream_hit: 'Unreviewed source questions a clear label',
+  label_positive_no_support: 'Restrictive label with no independent support'
+};
+
+/* Display names for the ledger's internal vocabulary. Mirrored from
+ * configs/restriction_evidence_sources.json rather than invented here, so the
+ * page and the registry name the same things the same way. An unmapped value
+ * falls through to the raw token: better a reader sees "meeting_portal" and
+ * asks than that the page silently drops a family it was told about. */
+var FAMILY_TEXT = {
+  municipal_code: 'Municipal code libraries',
+  meeting_portal: 'County meeting agendas and minutes',
+  restriction_census: 'Third-party restriction censuses',
+  state_aggregator: 'State-level ordinance and planning repositories'
+};
+var CLASS_TEXT = {
+  primary_law: 'primary law (the instrument as the jurisdiction published it)',
+  proceeding: 'proceeding (the adopting body\u2019s own deliberative record)',
+  secondary: 'secondary (a third-party compilation that read one of the above)'
+};
+var PROBE_TEXT = {
+  never_probed: 'never checked',
+  complete: 'checked',
+  partial: 'partly checked',
+  unreachable: 'source unreachable'
+};
+
+/* Renders a semicolon- or comma-separated token list in the reader's terms. */
+function vocab_list(raw, map) {
+  return String(raw || '').split(/[;,]/)
+    .map(function (t) { return t.trim(); })
+    .filter(function (t) { return t; })
+    .map(function (t) { return map[t] || t; })
+    .join(', ');
+}
+
+/* Picks the reading for a grade. Exists because grade D is reached two ways:
+ * a county no source has been consulted for, and a county whose sources WERE
+ * consulted but returned nothing that can support the label. The ledger
+ * reaches the same letter for both (grade_county() falls through to D on a
+ * non-empty `covered` set), and the difference is legible only in
+ * families_checked. Telling a client "nothing here has been looked at" about a
+ * county where a reviewed census actively reported a moratorium would be a
+ * false statement on the section whose purpose is to prevent exactly that. */
+function grade_reading(g, is_clear, e) {
+  var map = is_clear ? GRADE_CLEAR : GRADE_POSITIVE;
+  var consulted = String(e.families_checked || '').trim() !== '';
+  if (g === 'D' && consulted && map.D_consulted) return map.D_consulted;
+  return map[g] || 'No grade is on record for this county.';
+}
+
+function grade_flag(g) {
+  /* A and B are the only grades that license reliance, so they are the only
+   * ones that read as affirmative. D and U are the absence of a check and
+   * carry the warning colour precisely because they are easy to misread as
+   * reassurance. */
+  var cls = (g === 'A' || g === 'B') ? 'on' : (g === 'C' ? 'off' : 'warn');
+  return '<span class="flag ' + cls + '">' + esc(g || '—') + ' · ' +
+    esc(GRADE_TITLE[g] || 'no grade on record') + '</span>';
+}
+
+/* National context for a grade, computed from the ledger actually loaded
+ * rather than hardcoded, so it cannot go stale against the file. */
+function grade_distribution() {
+  var dist = {}, total = 0;
+  (DATA.evidence || []).forEach(function (r) {
+    var g = String(r.evidence_grade || '').trim() || '?';
+    dist[g] = (dist[g] || 0) + 1;
+    total += 1;
+  });
+  return { dist: dist, total: total };
+}
+
+function provenance_section(slice) {
+  /* slice.county is the picker wrapper; the aggregate row is on .agg, the
+   * same binding render() uses. Reading has_enacted_restrictive off the
+   * wrapper yields undefined, which compares unequal to '1' and silently
+   * reports every county as clear -- the exact failure this section exists
+   * to prevent. */
+  var a = slice.county.agg;
+  var e = slice.evidence;
+  var is_clear = a.has_enacted_restrictive !== '1';
+  var claim = is_clear
+    ? 'no enacted restriction on record'
+    : 'an enacted restriction on record';
+
+  var html = '<section><h3>Evidence behind this label</h3>';
+
+  if (!e) {
+    /* The ledger covers the full national frame, so a missing row means the
+     * ledger and the county frame have diverged. Say so rather than falling
+     * back to a reassuring default. */
+    html += '<div class="empty">This county has <b>' + esc(claim) + '</b>, and ' +
+      'there is no row for it in the evidence ledger. The ledger is built over ' +
+      'the whole county frame, so a missing row is a build problem rather than ' +
+      'a statement about this county — treat the label as unverified until ' +
+      'it reappears.</div></section>';
+    return html;
+  }
+
+  var g = String(e.evidence_grade || '').trim();
+  var reading = grade_reading(g, is_clear, e);
+  var gd = grade_distribution();
+  var share = gd.total ? (gd.dist[g] || 0) : 0;
+
+  html += '<div class="sub">This county is recorded as having <b>' + esc(claim) +
+    '</b>. What follows is what was actually checked to support that, from the ' +
+    'evidence ledger — not a restatement of the label itself. ' +
+    '<details class="more"><summary aria-label="How grades are assigned" ' +
+    'title="How grades are assigned">i</summary><div>Grades are assigned by a ' +
+    'rubric registered in <code>configs/restriction_evidence_sources.json</code> ' +
+    'before any county was graded, and count <i>independent kinds</i> of source ' +
+    'rather than source counts: two compilations that both read the same press ' +
+    'coverage can be wrong together. This page reproduces that rubric and does ' +
+    'not grade anything itself.</div></details></div>';
+
+  html += '<div class="kpis">' +
+    '<div class="kpi"><b>' + grade_flag(g) + '</b><span>Evidence grade</span></div>' +
+    '<div class="kpi"><b>' +
+      esc(PROBE_TEXT[String(e.probe_status || '').trim()] ||
+          e.probe_status || '—') + '</b>' +
+      '<span>Source check</span></div>' +
+    '<div class="kpi"><b>' + (e.last_checked ? fmt_date(e.last_checked) : 'never') +
+      '</b><span>Last checked</span></div>' +
+    '<div class="kpi"><b>' + (gd.total
+      ? fmt_int(share) + ' of ' + fmt_int(gd.total)
+      : '—') + '</b><span>Counties sharing this grade</span></div>' +
+    '</div>';
+
+  html += '<div class="sub trailing">' + esc(reading) + '</div>';
+
+  /* Families are the part a reader can act on: it names the doors that were
+   * opened and the ones that were not. */
+  var covered = String(e.families_covered || '').trim();
+  var checked = String(e.families_checked || '').trim();
+  html += '<div class="sub trailing"><b>Source families.</b> ' +
+    (covered
+      ? 'Registered as covering this county: <b>' +
+        esc(vocab_list(covered, FAMILY_TEXT)) + '</b>. '
+      : 'No registered source family covers this county. ') +
+    (checked
+      ? 'Actually consulted: <b>' + esc(vocab_list(checked, FAMILY_TEXT)) + '</b>.'
+      : 'None has been consulted yet.') +
+    (e.independence_classes
+      ? ' Independent kinds of source represented: <b>' +
+        esc(vocab_list(e.independence_classes, CLASS_TEXT)) + '</b>.'
+      : '') +
+    '</div>';
+
+  if (slice.evidence_conflicts.length) {
+    /* table_now, not table: these rows ride the core wave, so the gated
+     * renderer would park a "Loading..." over data already in hand. */
+    html += table_now(['Disagreement', 'What it means', 'Detail', 'Source'],
+      slice.evidence_conflicts, function (r) {
+        var k = String(r.conflict || '').trim();
+        return ['<span class="flag warn">' +
+                  esc(CONFLICT_TITLE[k] || k || '—') + '</span>',
+                esc(CONFLICT_TEXT[k] || ''),
+                esc(r.detail || '—'),
+                r.source_url ? link(r.source_url) : esc(r.source_id || '—')];
+      }, '');
+  }
+
+  if (String(e.needs_recheck || '') === '1') {
+    html += '<div class="sub trailing">This county is queued for a re-check: ' +
+      'either it has never been probed, or the last check has aged past the ' +
+      'freshness window.</div>';
+  }
+  return html + '</section>';
+}
+
 function comparison_section(slice) {
   var c = slice.county, bm = slice.benchmark;
   var st_group = 'state:' + String(c.state_abbr || '').toUpperCase();
@@ -1494,6 +1786,13 @@ function render(slice) {
       'census is hand-verified and covers ' + fmt_int((DATA.restriction_census || []).length) +
       ' counties, so absence here is a coverage gap, not a contradiction.</div></section>';
   }
+
+  /* Rendered immediately after the restriction record, and unconditionally.
+   * The record above renders nothing at all for a county with no instrument
+   * on file, so this is the section that keeps an empty space from reading as
+   * a verified all-clear. It rides the core wave, so on a county with no
+   * instrument it is the FIRST thing said about the label. */
+  html += provenance_section(slice);
 
   /* ---- predictive ---- */
   html += '<section><h3>Model outlook</h3>';
@@ -2181,6 +2480,12 @@ function export_csv() {
   push('identity', c.fips, 'state_abbr', c.state_abbr);
   push('identity', c.fips, 'state_name', c.state_name);
   push('identity', c.fips, 'exported_utc', new Date().toISOString());
+  /* The Export button is live as soon as a county is picked, which is before
+     the detail wave lands. An export taken in that window is real but partial:
+     the label, its evidence and the comparison are present, the project and
+     event tables are not. Saying so in the file is the difference between a
+     short export and a misleading one. */
+  push('identity', c.fips, 'detail_tables_complete', DETAIL_READY ? '1' : '0');
 
   push_row('county_aggregate', c.fips, c.agg);
   if (c.score) push_row('policy_score', c.fips, c.score);
@@ -2217,6 +2522,13 @@ function export_csv() {
      an unreviewed upstream row for a census finding. */
   slice.census_unreviewed.forEach(function (r, i) {
     push_row('external_row_awaiting_review', (r.instrument || 'row') + '_' + (i + 1), r);
+  });
+  /* The grade travels with the data. A downloaded row that carries a
+     restriction label and not the evidence behind it is the same silence this
+     page exists to break, one format further from anyone who could catch it. */
+  if (slice.evidence) push_row('label_evidence', c.fips, slice.evidence);
+  slice.evidence_conflicts.forEach(function (r, i) {
+    push_row('label_evidence_conflict', (r.conflict || 'conflict') + '_' + (i + 1), r);
   });
   slice.coverage.forEach(function (r, i) { push_row('coverage_gap', c.fips + '_' + (i + 1), r); });
   slice.universe.forEach(function (r) { push_row('baseline_universe', r.universe_id, r); });

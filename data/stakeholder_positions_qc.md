@@ -1,6 +1,6 @@
 # Stakeholder positions QC report
 
-Generated 2026-09-21.
+Generated 2026-09-23.
 
 Every published row is an act on the record with the URL it came from. No position is inferred from a party, a title, a district or a model. An official with no recorded act carries no position here.
 

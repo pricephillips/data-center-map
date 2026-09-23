@@ -204,13 +204,28 @@ embedded iframes in Notion / Simple.ink.
 
 `county-profile.html` is the client-facing surface and the one to keep most
 current. It answers one county at a time across every layer in the
-repository, and two of its sections exist to stop a number being read on its
+repository, and three of its sections exist to stop a number being read on its
 own: **How this county compares** puts each figure against all counties, the
 counties that have actually enacted a restriction, the state, and ten
 structurally matched peers; **Public positions on data centers** lists what
 officials and governing bodies here have done on the record, each with its
-source. Everything on the page, both of those sections included, comes down
-in one CSV from the Export button.
+source; **Evidence behind this label** says what was actually consulted to
+support this county's restriction label, when, and how strongly it is graded.
+
+That third section always renders, and that is the point of it. The page
+records 2,893 of 3,222 counties as having no enacted restriction, and it used
+to make that claim by showing nothing — the restriction section is skipped
+when no instrument is on file. To a reader deciding where to site a facility,
+an empty space is not a neutral absence; it reads as "checked, and clear". For
+most counties the honest answer is that nothing has been checked, because
+every probe host the evidence registry names is blocked by the egress policy
+where this repository's automation runs. The section says so rather than
+letting the silence imply otherwise.
+
+Everything on the page, all three of those sections included, comes down in
+one CSV from the Export button — the grade travels with the label, since a
+downloaded row carrying a restriction label and not the evidence behind it is
+the same silence one format further from anyone who could catch it.
 
 `positions-dashboard.html` is the national view of that same position record,
 filterable by state, evidence class, stance and bill direction.
