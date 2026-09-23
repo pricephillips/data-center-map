@@ -9,11 +9,11 @@ Reference profiles for the county comparison layer. Every figure is a summary ov
 | group | counties | description |
 | --- | --- | --- |
 | `national` | 3,222 | All counties in the frame |
-| `restrictive` | 329 | Counties with an enacted restrictive action on record |
-| `non_restrictive` | 2,893 | Counties with no enacted restriction on record |
+| `restrictive` | 359 | Counties with an enacted restrictive action on record |
+| `non_restrictive` | 2,863 | Counties with no enacted restriction on record |
 | `dc_present` | 251 | Counties with a data center on record |
 | `dc_absent` | 2,971 | Counties with no data center on record |
-| `tracked_activity` | 674 | Counties with at least one tracked opposition event |
+| `tracked_activity` | 701 | Counties with at least one tracked opposition event |
 | `state:XX` | varies | 52 state groups, one per state in the frame |
 
 ## The comparison that matters
@@ -22,15 +22,15 @@ Median values for the three groups a county page reads against.
 
 | metric | all counties | enacted a restriction | no restriction |
 | --- | --- | --- | --- |
-| Restriction resemblance score | 0.0575 | 0.1735 | 0.0533 |
-| Opposition events | 0 | 2 | 0 |
-| Opposition events per 100k residents | 0.000 | 1.673 | 0.000 |
+| Restriction resemblance score | 0.0699 | 0.1642 | 0.0650 |
+| Opposition events | 0 | 1 | 0 |
+| Opposition events per 100k residents | 0.000 | 1.809 | 0.000 |
 | Data center records in the atlas | 0 | 0 | 0 |
-| Population | 25967 | 106833 | 23133 |
-| Population density (per sq mi) | 46.58 | 184.00 | 40.67 |
-| Median household income | 63162 | 70535 | 62407 |
-| Bachelor's degree or higher (%) | 21.53 | 28.76 | 21.08 |
-| 2024 presidential margin | -0.4197 | -0.2070 | -0.4401 |
+| Population | 25967 | 98592 | 22890 |
+| Population density (per sq mi) | 46.58 | 162.66 | 40.55 |
+| Median household income | 63162 | 69990 | 62385 |
+| Bachelor's degree or higher (%) | 21.53 | 27.66 | 21.05 |
+| 2024 presidential margin | -0.4197 | -0.2301 | -0.4405 |
 
 ## Peer matching
 

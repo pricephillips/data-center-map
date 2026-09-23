@@ -6,13 +6,13 @@ Age is a prompt to re-verify, not evidence that anything changed. Nothing in thi
 
 ## Counts
 
-- Non-terminal county records in scope: 334
-- Past threshold (priorities 1 to 3): 269
+- Non-terminal county records in scope: 353
+- Past threshold (priorities 1 to 3): 277
 - Priority 1, label-moving: 27 across 26 counties
 - Label-moving rows at any priority, early warning included: 51 across 49 counties
-- Priority 2, grade only: 197
+- Priority 2, grade only: 205
 - Priority 3, non-restrictive: 45
-- Priority 4, early warning: 65
+- Priority 4, early warning: 76
 - Excluded, statewide (owned by bill_sync.py): 188
 - Excluded, undated (owned by the date worklists): 3
 
@@ -64,34 +64,34 @@ Age is a prompt to re-verify, not evidence that anything changed. Nothing in thi
 |---|---|
 | MI | 41 |
 | OH | 25 |
+| GA | 18 |
+| NC | 18 |
 | PA | 18 |
-| GA | 17 |
-| NC | 17 |
 | TN | 17 |
+| IA | 12 |
 | WI | 11 |
-| IA | 10 |
 | VA | 10 |
-| IN | 8 |
+| IN | 9 |
 | KS | 8 |
 | TX | 8 |
 | MD | 7 |
 | KY | 6 |
+| MN | 6 |
 | CA | 5 |
+| CO | 5 |
 | IL | 5 |
-| MN | 5 |
 | NY | 5 |
 | AL | 4 |
-| CO | 4 |
 | FL | 4 |
 | MO | 4 |
 | LA | 3 |
 | MA | 3 |
+| ND | 3 |
 | NJ | 3 |
 | SC | 3 |
 | AK | 2 |
 | AZ | 2 |
 | ID | 2 |
-| ND | 2 |
 | WA | 2 |
 | CT | 1 |
 | DE | 1 |

@@ -1,8 +1,8 @@
 {
   "n": 3144,
   "n_excluded_puerto_rico": 78,
-  "n_positive": 329,
-  "base_rate": 0.1046,
+  "n_positive": 359,
+  "base_rate": 0.1142,
   "cv": {
     "folds": 5,
     "repeats": 5,
@@ -12,14 +12,14 @@
     "criterion": "sign-stable on all folds; among those, highest median AUC, then most variables retained, then strongest regularization. Candidates are the named anchors plus backward elimination from the full variable pool, regenerated from the data on every run, so a variable enters when it holds a direction and leaves when it stops.",
     "registered": "2026-08-26",
     "selected": {
-      "spec": "drop_density_minus2",
-      "C": 1.0,
+      "spec": "no_shift_minus2",
+      "C": 0.1,
       "variables": [
-        "margin_shift",
         "existing_dc_count",
         "n_projects_tracked",
         "state_legislation_events",
-        "land_sqmi",
+        "median_hh_income",
+        "pop_density_sqmi",
         "pct_bachelors_plus",
         "population"
       ]
@@ -29,27 +29,25 @@
     "stability_cost_alarm": 0.05,
     "changed_this_run": true,
     "entered": [
-      "land_sqmi",
-      "margin_shift"
-    ],
-    "left": [
-      "margin_2024",
       "median_hh_income",
       "pop_density_sqmi"
     ],
+    "left": [
+      "land_sqmi",
+      "margin_shift"
+    ],
     "change_reasons": [
-      "land_sqmi: sign stable this run, negative in all folds, median coefficient -0.1394",
-      "margin_shift: sign stable this run, positive in all folds, median coefficient +0.2806",
-      "margin_2024: sign stable but not selected; another specification scored higher under the registered criterion",
-      "median_hh_income: sign stable but not selected; another specification scored higher under the registered criterion",
-      "pop_density_sqmi: sign stable but not selected; another specification scored higher under the registered criterion"
+      "median_hh_income: sign stable this run, positive in all folds, median coefficient +0.0834",
+      "pop_density_sqmi: sign stable this run, positive in all folds, median coefficient +0.2356",
+      "land_sqmi: coefficient changed sign across folds, ranging -0.0180 to +0.0497, so its direction is not supported by the data",
+      "margin_shift: sign stable but not selected; another specification scored higher under the registered criterion"
     ],
     "grid": [
       {
         "spec": "full_pool",
         "C": 1.0,
         "n_vars": 10,
-        "auc_median": 0.8062,
+        "auc_median": 0.7815,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -68,7 +66,7 @@
         "spec": "full_pool_minus1",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.8063,
+        "auc_median": 0.7821,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -77,8 +75,8 @@
           "n_projects_tracked",
           "state_legislation_events",
           "land_sqmi",
+          "median_hh_income",
           "pop_density_sqmi",
-          "pct_bachelors_plus",
           "population"
         ]
       },
@@ -86,7 +84,24 @@
         "spec": "full_pool_minus2",
         "C": 1.0,
         "n_vars": 8,
-        "auc_median": 0.8067,
+        "auc_median": 0.7821,
+        "sign_stable": false,
+        "variables": [
+          "margin_2024",
+          "margin_shift",
+          "existing_dc_count",
+          "n_projects_tracked",
+          "state_legislation_events",
+          "land_sqmi",
+          "median_hh_income",
+          "population"
+        ]
+      },
+      {
+        "spec": "full_pool_minus3",
+        "C": 1.0,
+        "n_vars": 7,
+        "auc_median": 0.7828,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -94,8 +109,7 @@
           "n_projects_tracked",
           "state_legislation_events",
           "land_sqmi",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
+          "median_hh_income",
           "population"
         ]
       },
@@ -103,7 +117,7 @@
         "spec": "no_shift",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.8056,
+        "auc_median": 0.7864,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -121,7 +135,7 @@
         "spec": "no_shift_minus1",
         "C": 1.0,
         "n_vars": 8,
-        "auc_median": 0.8068,
+        "auc_median": 0.7886,
         "sign_stable": false,
         "variables": [
           "existing_dc_count",
@@ -138,14 +152,14 @@
         "spec": "no_shift_minus2",
         "C": 1.0,
         "n_vars": 7,
-        "auc_median": 0.8067,
+        "auc_median": 0.7885,
         "sign_stable": true,
         "variables": [
           "existing_dc_count",
           "n_projects_tracked",
           "state_legislation_events",
           "land_sqmi",
-          "pop_density_sqmi",
+          "median_hh_income",
           "pct_bachelors_plus",
           "population"
         ]
@@ -154,7 +168,7 @@
         "spec": "drop_density",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.8063,
+        "auc_median": 0.7816,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -169,43 +183,10 @@
         ]
       },
       {
-        "spec": "drop_density_minus1",
-        "C": 1.0,
-        "n_vars": 8,
-        "auc_median": 0.8062,
-        "sign_stable": false,
-        "variables": [
-          "margin_2024",
-          "margin_shift",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "land_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "drop_density_minus2",
-        "C": 1.0,
-        "n_vars": 7,
-        "auc_median": 0.8068,
-        "sign_stable": true,
-        "variables": [
-          "margin_shift",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "land_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
         "spec": "core_six",
         "C": 1.0,
         "n_vars": 6,
-        "auc_median": 0.7809,
+        "auc_median": 0.7618,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -220,10 +201,10 @@
         "spec": "core_six_minus1",
         "C": 1.0,
         "n_vars": 5,
-        "auc_median": 0.7838,
+        "auc_median": 0.7626,
         "sign_stable": false,
         "variables": [
-          "existing_dc_count",
+          "margin_2024",
           "median_hh_income",
           "pop_density_sqmi",
           "pct_bachelors_plus",
@@ -234,7 +215,7 @@
         "spec": "core_six_minus2",
         "C": 1.0,
         "n_vars": 4,
-        "auc_median": 0.7835,
+        "auc_median": 0.7628,
         "sign_stable": false,
         "variables": [
           "median_hh_income",
@@ -247,7 +228,7 @@
         "spec": "core_six_minus3",
         "C": 1.0,
         "n_vars": 3,
-        "auc_median": 0.7834,
+        "auc_median": 0.7625,
         "sign_stable": true,
         "variables": [
           "pop_density_sqmi",
@@ -259,7 +240,7 @@
         "spec": "tier1_plus_size",
         "C": 1.0,
         "n_vars": 5,
-        "auc_median": 0.8034,
+        "auc_median": 0.7826,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -273,7 +254,7 @@
         "spec": "full_pool",
         "C": 0.3,
         "n_vars": 10,
-        "auc_median": 0.8062,
+        "auc_median": 0.7807,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -292,7 +273,7 @@
         "spec": "full_pool_minus1",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.8057,
+        "auc_median": 0.7818,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -301,8 +282,8 @@
           "n_projects_tracked",
           "state_legislation_events",
           "land_sqmi",
+          "median_hh_income",
           "pop_density_sqmi",
-          "pct_bachelors_plus",
           "population"
         ]
       },
@@ -310,16 +291,16 @@
         "spec": "full_pool_minus2",
         "C": 0.3,
         "n_vars": 8,
-        "auc_median": 0.806,
+        "auc_median": 0.7818,
         "sign_stable": false,
         "variables": [
+          "margin_2024",
           "margin_shift",
           "existing_dc_count",
           "n_projects_tracked",
           "state_legislation_events",
-          "land_sqmi",
+          "median_hh_income",
           "pop_density_sqmi",
-          "pct_bachelors_plus",
           "population"
         ]
       },
@@ -327,15 +308,15 @@
         "spec": "full_pool_minus3",
         "C": 0.3,
         "n_vars": 7,
-        "auc_median": 0.8058,
+        "auc_median": 0.7821,
         "sign_stable": true,
         "variables": [
           "margin_shift",
           "existing_dc_count",
           "n_projects_tracked",
           "state_legislation_events",
+          "median_hh_income",
           "pop_density_sqmi",
-          "pct_bachelors_plus",
           "population"
         ]
       },
@@ -343,7 +324,7 @@
         "spec": "no_shift",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.8048,
+        "auc_median": 0.7859,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -361,7 +342,7 @@
         "spec": "no_shift_minus1",
         "C": 0.3,
         "n_vars": 8,
-        "auc_median": 0.8065,
+        "auc_median": 0.7888,
         "sign_stable": false,
         "variables": [
           "existing_dc_count",
@@ -378,13 +359,13 @@
         "spec": "no_shift_minus2",
         "C": 0.3,
         "n_vars": 7,
-        "auc_median": 0.8064,
+        "auc_median": 0.7887,
         "sign_stable": true,
         "variables": [
           "existing_dc_count",
           "n_projects_tracked",
           "state_legislation_events",
-          "land_sqmi",
+          "median_hh_income",
           "pop_density_sqmi",
           "pct_bachelors_plus",
           "population"
@@ -394,7 +375,7 @@
         "spec": "drop_density",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.8057,
+        "auc_median": 0.7814,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -412,7 +393,7 @@
         "spec": "drop_density_minus1",
         "C": 0.3,
         "n_vars": 8,
-        "auc_median": 0.8057,
+        "auc_median": 0.782,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -421,7 +402,7 @@
           "n_projects_tracked",
           "state_legislation_events",
           "land_sqmi",
-          "pct_bachelors_plus",
+          "median_hh_income",
           "population"
         ]
       },
@@ -429,7 +410,7 @@
         "spec": "drop_density_minus2",
         "C": 0.3,
         "n_vars": 7,
-        "auc_median": 0.8064,
+        "auc_median": 0.7823,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -437,7 +418,7 @@
           "n_projects_tracked",
           "state_legislation_events",
           "land_sqmi",
-          "pct_bachelors_plus",
+          "median_hh_income",
           "population"
         ]
       },
@@ -445,7 +426,7 @@
         "spec": "core_six",
         "C": 0.3,
         "n_vars": 6,
-        "auc_median": 0.7817,
+        "auc_median": 0.7621,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -460,10 +441,10 @@
         "spec": "core_six_minus1",
         "C": 0.3,
         "n_vars": 5,
-        "auc_median": 0.7839,
+        "auc_median": 0.7632,
         "sign_stable": false,
         "variables": [
-          "existing_dc_count",
+          "margin_2024",
           "median_hh_income",
           "pop_density_sqmi",
           "pct_bachelors_plus",
@@ -474,10 +455,10 @@
         "spec": "core_six_minus2",
         "C": 0.3,
         "n_vars": 4,
-        "auc_median": 0.7837,
+        "auc_median": 0.7633,
         "sign_stable": false,
         "variables": [
-          "existing_dc_count",
+          "median_hh_income",
           "pop_density_sqmi",
           "pct_bachelors_plus",
           "population"
@@ -487,7 +468,7 @@
         "spec": "core_six_minus3",
         "C": 0.3,
         "n_vars": 3,
-        "auc_median": 0.7835,
+        "auc_median": 0.7629,
         "sign_stable": true,
         "variables": [
           "pop_density_sqmi",
@@ -499,7 +480,7 @@
         "spec": "tier1_plus_size",
         "C": 0.3,
         "n_vars": 5,
-        "auc_median": 0.8034,
+        "auc_median": 0.7822,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -513,7 +494,7 @@
         "spec": "full_pool",
         "C": 0.1,
         "n_vars": 10,
-        "auc_median": 0.8055,
+        "auc_median": 0.7797,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -532,7 +513,7 @@
         "spec": "full_pool_minus1",
         "C": 0.1,
         "n_vars": 9,
-        "auc_median": 0.8059,
+        "auc_median": 0.7799,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -550,32 +531,16 @@
         "spec": "full_pool_minus2",
         "C": 0.1,
         "n_vars": 8,
-        "auc_median": 0.8056,
-        "sign_stable": false,
+        "auc_median": 0.7821,
+        "sign_stable": true,
         "variables": [
           "margin_2024",
           "margin_shift",
           "existing_dc_count",
           "n_projects_tracked",
           "state_legislation_events",
+          "median_hh_income",
           "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "full_pool_minus3",
-        "C": 0.1,
-        "n_vars": 7,
-        "auc_median": 0.8059,
-        "sign_stable": true,
-        "variables": [
-          "margin_shift",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
           "population"
         ]
       },
@@ -583,7 +548,7 @@
         "spec": "no_shift",
         "C": 0.1,
         "n_vars": 9,
-        "auc_median": 0.8039,
+        "auc_median": 0.7853,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -601,7 +566,7 @@
         "spec": "no_shift_minus1",
         "C": 0.1,
         "n_vars": 8,
-        "auc_median": 0.8039,
+        "auc_median": 0.7858,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -618,8 +583,8 @@
         "spec": "no_shift_minus2",
         "C": 0.1,
         "n_vars": 7,
-        "auc_median": 0.8057,
-        "sign_stable": false,
+        "auc_median": 0.7892,
+        "sign_stable": true,
         "variables": [
           "existing_dc_count",
           "n_projects_tracked",
@@ -631,25 +596,10 @@
         ]
       },
       {
-        "spec": "no_shift_minus3",
-        "C": 0.1,
-        "n_vars": 6,
-        "auc_median": 0.8055,
-        "sign_stable": true,
-        "variables": [
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
         "spec": "drop_density",
         "C": 0.1,
         "n_vars": 9,
-        "auc_median": 0.805,
+        "auc_median": 0.7814,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -667,8 +617,8 @@
         "spec": "drop_density_minus1",
         "C": 0.1,
         "n_vars": 8,
-        "auc_median": 0.8049,
-        "sign_stable": false,
+        "auc_median": 0.7827,
+        "sign_stable": true,
         "variables": [
           "margin_2024",
           "margin_shift",
@@ -676,23 +626,7 @@
           "n_projects_tracked",
           "state_legislation_events",
           "land_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "drop_density_minus2",
-        "C": 0.1,
-        "n_vars": 7,
-        "auc_median": 0.8054,
-        "sign_stable": true,
-        "variables": [
-          "margin_shift",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "land_sqmi",
-          "pct_bachelors_plus",
+          "median_hh_income",
           "population"
         ]
       },
@@ -700,7 +634,7 @@
         "spec": "core_six",
         "C": 0.1,
         "n_vars": 6,
-        "auc_median": 0.7831,
+        "auc_median": 0.7629,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -715,324 +649,297 @@
         "spec": "core_six_minus1",
         "C": 0.1,
         "n_vars": 5,
+        "auc_median": 0.764,
+        "sign_stable": false,
+        "variables": [
+          "margin_2024",
+          "median_hh_income",
+          "pop_density_sqmi",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
+        "spec": "core_six_minus2",
+        "C": 0.1,
+        "n_vars": 4,
+        "auc_median": 0.7639,
+        "sign_stable": false,
+        "variables": [
+          "median_hh_income",
+          "pop_density_sqmi",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
+        "spec": "core_six_minus3",
+        "C": 0.1,
+        "n_vars": 3,
+        "auc_median": 0.7638,
+        "sign_stable": true,
+        "variables": [
+          "pop_density_sqmi",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
+        "spec": "tier1_plus_size",
+        "C": 0.1,
+        "n_vars": 5,
+        "auc_median": 0.7821,
+        "sign_stable": true,
+        "variables": [
+          "margin_2024",
+          "existing_dc_count",
+          "n_projects_tracked",
+          "land_sqmi",
+          "population"
+        ]
+      },
+      {
+        "spec": "full_pool",
+        "C": 0.03,
+        "n_vars": 10,
+        "auc_median": 0.7784,
+        "sign_stable": false,
+        "variables": [
+          "margin_2024",
+          "margin_shift",
+          "existing_dc_count",
+          "n_projects_tracked",
+          "state_legislation_events",
+          "land_sqmi",
+          "median_hh_income",
+          "pop_density_sqmi",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
+        "spec": "full_pool_minus1",
+        "C": 0.03,
+        "n_vars": 9,
+        "auc_median": 0.78,
+        "sign_stable": false,
+        "variables": [
+          "margin_2024",
+          "margin_shift",
+          "existing_dc_count",
+          "n_projects_tracked",
+          "state_legislation_events",
+          "median_hh_income",
+          "pop_density_sqmi",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
+        "spec": "full_pool_minus2",
+        "C": 0.03,
+        "n_vars": 8,
+        "auc_median": 0.7814,
+        "sign_stable": true,
+        "variables": [
+          "margin_2024",
+          "margin_shift",
+          "existing_dc_count",
+          "n_projects_tracked",
+          "state_legislation_events",
+          "median_hh_income",
+          "pop_density_sqmi",
+          "population"
+        ]
+      },
+      {
+        "spec": "no_shift",
+        "C": 0.03,
+        "n_vars": 9,
+        "auc_median": 0.7855,
+        "sign_stable": false,
+        "variables": [
+          "margin_2024",
+          "existing_dc_count",
+          "n_projects_tracked",
+          "state_legislation_events",
+          "land_sqmi",
+          "median_hh_income",
+          "pop_density_sqmi",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
+        "spec": "no_shift_minus1",
+        "C": 0.03,
+        "n_vars": 8,
+        "auc_median": 0.7861,
+        "sign_stable": false,
+        "variables": [
+          "margin_2024",
+          "existing_dc_count",
+          "n_projects_tracked",
+          "state_legislation_events",
+          "median_hh_income",
+          "pop_density_sqmi",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
+        "spec": "no_shift_minus2",
+        "C": 0.03,
+        "n_vars": 7,
+        "auc_median": 0.7876,
+        "sign_stable": true,
+        "variables": [
+          "existing_dc_count",
+          "n_projects_tracked",
+          "state_legislation_events",
+          "median_hh_income",
+          "pop_density_sqmi",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
+        "spec": "drop_density",
+        "C": 0.03,
+        "n_vars": 9,
+        "auc_median": 0.7795,
+        "sign_stable": false,
+        "variables": [
+          "margin_2024",
+          "margin_shift",
+          "existing_dc_count",
+          "n_projects_tracked",
+          "state_legislation_events",
+          "land_sqmi",
+          "median_hh_income",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
+        "spec": "drop_density_minus1",
+        "C": 0.03,
+        "n_vars": 8,
+        "auc_median": 0.7822,
+        "sign_stable": true,
+        "variables": [
+          "margin_2024",
+          "margin_shift",
+          "existing_dc_count",
+          "n_projects_tracked",
+          "state_legislation_events",
+          "land_sqmi",
+          "median_hh_income",
+          "population"
+        ]
+      },
+      {
+        "spec": "core_six",
+        "C": 0.03,
+        "n_vars": 6,
+        "auc_median": 0.7652,
+        "sign_stable": false,
+        "variables": [
+          "margin_2024",
+          "existing_dc_count",
+          "median_hh_income",
+          "pop_density_sqmi",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
+        "spec": "core_six_minus1",
+        "C": 0.03,
+        "n_vars": 5,
+        "auc_median": 0.7657,
+        "sign_stable": false,
+        "variables": [
+          "margin_2024",
+          "median_hh_income",
+          "pop_density_sqmi",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
+        "spec": "core_six_minus2",
+        "C": 0.03,
+        "n_vars": 4,
+        "auc_median": 0.7652,
+        "sign_stable": true,
+        "variables": [
+          "median_hh_income",
+          "pop_density_sqmi",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
+        "spec": "tier1_plus_size",
+        "C": 0.03,
+        "n_vars": 5,
+        "auc_median": 0.7815,
+        "sign_stable": true,
+        "variables": [
+          "margin_2024",
+          "existing_dc_count",
+          "n_projects_tracked",
+          "land_sqmi",
+          "population"
+        ]
+      },
+      {
+        "spec": "full_pool",
+        "C": 0.01,
+        "n_vars": 10,
+        "auc_median": 0.7773,
+        "sign_stable": false,
+        "variables": [
+          "margin_2024",
+          "margin_shift",
+          "existing_dc_count",
+          "n_projects_tracked",
+          "state_legislation_events",
+          "land_sqmi",
+          "median_hh_income",
+          "pop_density_sqmi",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
+        "spec": "full_pool_minus1",
+        "C": 0.01,
+        "n_vars": 9,
+        "auc_median": 0.7781,
+        "sign_stable": true,
+        "variables": [
+          "margin_2024",
+          "margin_shift",
+          "existing_dc_count",
+          "n_projects_tracked",
+          "state_legislation_events",
+          "median_hh_income",
+          "pop_density_sqmi",
+          "pct_bachelors_plus",
+          "population"
+        ]
+      },
+      {
+        "spec": "no_shift",
+        "C": 0.01,
+        "n_vars": 9,
         "auc_median": 0.7829,
         "sign_stable": false,
         "variables": [
           "margin_2024",
           "existing_dc_count",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "core_six_minus2",
-        "C": 0.1,
-        "n_vars": 4,
-        "auc_median": 0.7842,
-        "sign_stable": false,
-        "variables": [
-          "existing_dc_count",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "core_six_minus3",
-        "C": 0.1,
-        "n_vars": 3,
-        "auc_median": 0.7837,
-        "sign_stable": true,
-        "variables": [
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "tier1_plus_size",
-        "C": 0.1,
-        "n_vars": 5,
-        "auc_median": 0.8031,
-        "sign_stable": true,
-        "variables": [
-          "margin_2024",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "land_sqmi",
-          "population"
-        ]
-      },
-      {
-        "spec": "full_pool",
-        "C": 0.03,
-        "n_vars": 10,
-        "auc_median": 0.8037,
-        "sign_stable": false,
-        "variables": [
-          "margin_2024",
-          "margin_shift",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "land_sqmi",
-          "median_hh_income",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "full_pool_minus1",
-        "C": 0.03,
-        "n_vars": 9,
-        "auc_median": 0.8034,
-        "sign_stable": false,
-        "variables": [
-          "margin_2024",
-          "margin_shift",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "median_hh_income",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "full_pool_minus2",
-        "C": 0.03,
-        "n_vars": 8,
-        "auc_median": 0.8035,
-        "sign_stable": true,
-        "variables": [
-          "margin_2024",
-          "margin_shift",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "no_shift",
-        "C": 0.03,
-        "n_vars": 9,
-        "auc_median": 0.8029,
-        "sign_stable": false,
-        "variables": [
-          "margin_2024",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "land_sqmi",
-          "median_hh_income",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "no_shift_minus1",
-        "C": 0.03,
-        "n_vars": 8,
-        "auc_median": 0.8042,
-        "sign_stable": false,
-        "variables": [
-          "margin_2024",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "median_hh_income",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "no_shift_minus2",
-        "C": 0.03,
-        "n_vars": 7,
-        "auc_median": 0.8045,
-        "sign_stable": false,
-        "variables": [
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "median_hh_income",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "no_shift_minus3",
-        "C": 0.03,
-        "n_vars": 6,
-        "auc_median": 0.8039,
-        "sign_stable": true,
-        "variables": [
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "drop_density",
-        "C": 0.03,
-        "n_vars": 9,
-        "auc_median": 0.8024,
-        "sign_stable": false,
-        "variables": [
-          "margin_2024",
-          "margin_shift",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "land_sqmi",
-          "median_hh_income",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "drop_density_minus1",
-        "C": 0.03,
-        "n_vars": 8,
-        "auc_median": 0.8017,
-        "sign_stable": true,
-        "variables": [
-          "margin_2024",
-          "margin_shift",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "land_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "core_six",
-        "C": 0.03,
-        "n_vars": 6,
-        "auc_median": 0.7846,
-        "sign_stable": false,
-        "variables": [
-          "margin_2024",
-          "existing_dc_count",
-          "median_hh_income",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "core_six_minus1",
-        "C": 0.03,
-        "n_vars": 5,
-        "auc_median": 0.7841,
-        "sign_stable": false,
-        "variables": [
-          "margin_2024",
-          "median_hh_income",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "core_six_minus2",
-        "C": 0.03,
-        "n_vars": 4,
-        "auc_median": 0.7839,
-        "sign_stable": false,
-        "variables": [
-          "margin_2024",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "core_six_minus3",
-        "C": 0.03,
-        "n_vars": 3,
-        "auc_median": 0.7839,
-        "sign_stable": true,
-        "variables": [
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "tier1_plus_size",
-        "C": 0.03,
-        "n_vars": 5,
-        "auc_median": 0.7992,
-        "sign_stable": true,
-        "variables": [
-          "margin_2024",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "land_sqmi",
-          "population"
-        ]
-      },
-      {
-        "spec": "full_pool",
-        "C": 0.01,
-        "n_vars": 10,
-        "auc_median": 0.7974,
-        "sign_stable": false,
-        "variables": [
-          "margin_2024",
-          "margin_shift",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "land_sqmi",
-          "median_hh_income",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "full_pool_minus1",
-        "C": 0.01,
-        "n_vars": 9,
-        "auc_median": 0.7974,
-        "sign_stable": true,
-        "variables": [
-          "margin_2024",
-          "margin_shift",
-          "existing_dc_count",
-          "n_projects_tracked",
-          "state_legislation_events",
-          "median_hh_income",
-          "pop_density_sqmi",
-          "pct_bachelors_plus",
-          "population"
-        ]
-      },
-      {
-        "spec": "no_shift",
-        "C": 0.01,
-        "n_vars": 9,
-        "auc_median": 0.8012,
-        "sign_stable": false,
-        "variables": [
-          "margin_2024",
-          "existing_dc_count",
           "n_projects_tracked",
           "state_legislation_events",
           "land_sqmi",
@@ -1046,7 +953,7 @@
         "spec": "no_shift_minus1",
         "C": 0.01,
         "n_vars": 8,
-        "auc_median": 0.8022,
+        "auc_median": 0.7832,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1063,7 +970,7 @@
         "spec": "drop_density",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.7976,
+        "auc_median": 0.7773,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1081,7 +988,7 @@
         "spec": "core_six",
         "C": 0.01,
         "n_vars": 6,
-        "auc_median": 0.787,
+        "auc_median": 0.7657,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1096,7 +1003,7 @@
         "spec": "tier1_plus_size",
         "C": 0.01,
         "n_vars": 5,
-        "auc_median": 0.7958,
+        "auc_median": 0.7766,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1109,82 +1016,82 @@
     ]
   },
   "roc_auc": {
-    "p10": 0.7653,
-    "p50": 0.8068,
-    "p90": 0.8277
+    "p10": 0.7485,
+    "p50": 0.7892,
+    "p90": 0.8074
   },
   "brier": {
-    "p10": 0.0752,
-    "p50": 0.0793,
-    "p90": 0.084,
-    "base_rate_brier": 0.0937
+    "p10": 0.0853,
+    "p50": 0.0877,
+    "p90": 0.0917,
+    "base_rate_brier": 0.1011
   },
   "calibration": {
-    "raw_slope": 0.984,
-    "raw_intercept": -0.031,
-    "post_recalibration_slope": 0.993,
-    "post_recalibration_intercept": -0.014,
-    "brier_calibrated": 0.0796,
+    "raw_slope": 1.024,
+    "raw_intercept": 0.041,
+    "post_recalibration_slope": 0.995,
+    "post_recalibration_intercept": -0.009,
+    "brier_calibrated": 0.0884,
     "note": "raw scores are compressed by shrinkage; the model includes a cross-fitted logistic recalibration layer. calibrated_score in the scores file is cross-fitted: no county's calibration was fit on itself. Post slope near 1 and intercept near 0 indicate the calibrated scores are honest probabilities."
   },
   "coefficients": {
-    "margin_shift": {
-      "min": 0.2,
-      "median": 0.281,
-      "max": 0.338,
-      "sign_stable": true
-    },
     "existing_dc_count": {
-      "min": -0.778,
-      "median": -0.679,
-      "max": -0.575,
+      "min": -0.645,
+      "median": -0.559,
+      "max": -0.473,
       "sign_stable": true
     },
     "n_projects_tracked": {
-      "min": 0.725,
-      "median": 0.858,
-      "max": 0.959,
+      "min": 0.661,
+      "median": 0.705,
+      "max": 0.784,
       "sign_stable": true
     },
     "state_legislation_events": {
-      "min": -0.136,
-      "median": -0.076,
-      "max": -0.03,
-      "sign_stable": true
-    },
-    "land_sqmi": {
-      "min": -0.185,
-      "median": -0.139,
+      "min": -0.19,
+      "median": -0.127,
       "max": -0.064,
       "sign_stable": true
     },
+    "median_hh_income": {
+      "min": 0.025,
+      "median": 0.083,
+      "max": 0.164,
+      "sign_stable": true
+    },
+    "pop_density_sqmi": {
+      "min": 0.147,
+      "median": 0.236,
+      "max": 0.344,
+      "sign_stable": true
+    },
     "pct_bachelors_plus": {
-      "min": 0.054,
-      "median": 0.109,
-      "max": 0.163,
+      "min": 0.097,
+      "median": 0.159,
+      "max": 0.226,
       "sign_stable": true
     },
     "population": {
-      "min": 0.631,
-      "median": 0.715,
-      "max": 0.79,
+      "min": 0.319,
+      "median": 0.44,
+      "max": 0.524,
       "sign_stable": true
     }
   },
   "aggregate_manifest": {
     "generated": "2026-09-23",
     "counties": 3222,
-    "event_rows_with_county": 1446,
-    "event_match_rate": 0.991,
-    "enacted_restriction_counties": 329,
+    "event_rows_with_county": 1476,
+    "event_match_rate": 0.9912,
+    "enacted_restriction_counties": 359,
     "dc_presence_counties": 415,
     "inputs": {
       "county_census_features.csv": "c94063d9123016f5",
       "county_votes.json": "b521eb017a7acfa5",
       "atlas.csv": "7a8c78d3ed6cea2d",
-      "master_opposition.csv": "dbc5292b777d10fb",
-      "baseline_universe.csv": "e48bbbf131aeade8",
-      "project_lifecycles.csv": "a3cf2df8d27d9e05"
+      "master_opposition.csv": "26390fa2060e1cea",
+      "baseline_universe.csv": "45454675b943579f",
+      "project_lifecycles.csv": "d2871d279725ca3e"
     }
   }
 }
