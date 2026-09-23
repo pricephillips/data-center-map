@@ -2,37 +2,47 @@
   "generated": "2026-09-23",
   "coverage": {
     "national": {
-      "census_in_scope": 87,
-      "recall_any": 0.989,
-      "label_false_negatives": 3,
+      "census_in_scope": 154,
+      "recall_any": 0.799,
+      "label_false_negatives": 38,
       "unjoined_frame": 0,
       "label_positive_no_tracker_record": 0,
-      "recall_confirmed": 0.448,
-      "missing": 1
+      "recall_confirmed": 0.429,
+      "missing": 31
     },
     "states": [
       {
         "state": "CO",
-        "census_in_scope": 2,
+        "census_in_scope": 4,
         "covered_confirmed": 0,
         "covered_unconfirmed": 2,
-        "missing": 0,
-        "recall_any": 1.0,
+        "missing": 2,
+        "recall_any": 0.5,
         "recall_confirmed": 0.0,
-        "label_false_negatives": 0
+        "label_false_negatives": 2
+      },
+      {
+        "state": "NV",
+        "census_in_scope": 2,
+        "covered_confirmed": 0,
+        "covered_unconfirmed": 0,
+        "missing": 2,
+        "recall_any": 0.0,
+        "recall_confirmed": 0.0,
+        "label_false_negatives": 2
+      },
+      {
+        "state": "WA",
+        "census_in_scope": 2,
+        "covered_confirmed": 0,
+        "covered_unconfirmed": 1,
+        "missing": 1,
+        "recall_any": 0.5,
+        "recall_confirmed": 0.0,
+        "label_false_negatives": 2
       },
       {
         "state": "ID",
-        "census_in_scope": 1,
-        "covered_confirmed": 0,
-        "covered_unconfirmed": 1,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.0,
-        "label_false_negatives": 0
-      },
-      {
-        "state": "NE",
         "census_in_scope": 1,
         "covered_confirmed": 0,
         "covered_unconfirmed": 1,
@@ -52,54 +62,134 @@
         "label_false_negatives": 1
       },
       {
-        "state": "WI",
+        "state": "SD",
         "census_in_scope": 1,
         "covered_confirmed": 0,
         "covered_unconfirmed": 1,
         "missing": 0,
         "recall_any": 1.0,
         "recall_confirmed": 0.0,
-        "label_false_negatives": 0
+        "label_false_negatives": 1
       },
       {
         "state": "KS",
-        "census_in_scope": 8,
-        "covered_confirmed": 1,
-        "covered_unconfirmed": 7,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.125,
-        "label_false_negatives": 0
-      },
-      {
-        "state": "IA",
         "census_in_scope": 10,
-        "covered_confirmed": 2,
+        "covered_confirmed": 1,
         "covered_unconfirmed": 8,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.2,
-        "label_false_negatives": 0
+        "missing": 1,
+        "recall_any": 0.9,
+        "recall_confirmed": 0.1,
+        "label_false_negatives": 1
       },
       {
-        "state": "GA",
-        "census_in_scope": 19,
-        "covered_confirmed": 8,
-        "covered_unconfirmed": 11,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.421,
-        "label_false_negatives": 0
+        "state": "WI",
+        "census_in_scope": 6,
+        "covered_confirmed": 1,
+        "covered_unconfirmed": 3,
+        "missing": 2,
+        "recall_any": 0.667,
+        "recall_confirmed": 0.167,
+        "label_false_negatives": 3
       },
       {
         "state": "KY",
-        "census_in_scope": 4,
+        "census_in_scope": 7,
         "covered_confirmed": 2,
         "covered_unconfirmed": 2,
-        "missing": 0,
-        "recall_any": 1.0,
+        "missing": 3,
+        "recall_any": 0.571,
+        "recall_confirmed": 0.286,
+        "label_false_negatives": 3
+      },
+      {
+        "state": "IA",
+        "census_in_scope": 20,
+        "covered_confirmed": 6,
+        "covered_unconfirmed": 8,
+        "missing": 6,
+        "recall_any": 0.7,
+        "recall_confirmed": 0.3,
+        "label_false_negatives": 6
+      },
+      {
+        "state": "MO",
+        "census_in_scope": 3,
+        "covered_confirmed": 1,
+        "covered_unconfirmed": 0,
+        "missing": 2,
+        "recall_any": 0.333,
+        "recall_confirmed": 0.333,
+        "label_false_negatives": 2
+      },
+      {
+        "state": "SC",
+        "census_in_scope": 3,
+        "covered_confirmed": 1,
+        "covered_unconfirmed": 1,
+        "missing": 1,
+        "recall_any": 0.667,
+        "recall_confirmed": 0.333,
+        "label_false_negatives": 1
+      },
+      {
+        "state": "MD",
+        "census_in_scope": 5,
+        "covered_confirmed": 2,
+        "covered_unconfirmed": 2,
+        "missing": 1,
+        "recall_any": 0.8,
+        "recall_confirmed": 0.4,
+        "label_false_negatives": 1
+      },
+      {
+        "state": "GA",
+        "census_in_scope": 24,
+        "covered_confirmed": 10,
+        "covered_unconfirmed": 12,
+        "missing": 2,
+        "recall_any": 0.917,
+        "recall_confirmed": 0.417,
+        "label_false_negatives": 3
+      },
+      {
+        "state": "IN",
+        "census_in_scope": 16,
+        "covered_confirmed": 8,
+        "covered_unconfirmed": 7,
+        "missing": 1,
+        "recall_any": 0.938,
         "recall_confirmed": 0.5,
-        "label_false_negatives": 0
+        "label_false_negatives": 2
+      },
+      {
+        "state": "ND",
+        "census_in_scope": 6,
+        "covered_confirmed": 3,
+        "covered_unconfirmed": 2,
+        "missing": 1,
+        "recall_any": 0.833,
+        "recall_confirmed": 0.5,
+        "label_false_negatives": 1
+      },
+      {
+        "state": "NE",
+        "census_in_scope": 4,
+        "covered_confirmed": 2,
+        "covered_unconfirmed": 1,
+        "missing": 1,
+        "recall_any": 0.75,
+        "recall_confirmed": 0.5,
+        "label_false_negatives": 1
+      },
+      {
+        "state": "UT",
+        "census_in_scope": 4,
+        "covered_confirmed": 2,
+        "covered_unconfirmed": 1,
+        "missing": 1,
+        "recall_any": 0.75,
+        "recall_confirmed": 0.5,
+        "label_false_negatives": 1
       },
       {
         "state": "IL",
@@ -112,49 +202,79 @@
         "label_false_negatives": 0
       },
       {
-        "state": "MD",
+        "state": "MN",
         "census_in_scope": 2,
         "covered_confirmed": 1,
-        "covered_unconfirmed": 1,
-        "missing": 0,
-        "recall_any": 1.0,
+        "covered_unconfirmed": 0,
+        "missing": 1,
+        "recall_any": 0.5,
         "recall_confirmed": 0.5,
-        "label_false_negatives": 0
-      },
-      {
-        "state": "IN",
-        "census_in_scope": 15,
-        "covered_confirmed": 8,
-        "covered_unconfirmed": 7,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.533,
         "label_false_negatives": 1
       },
       {
-        "state": "ND",
-        "census_in_scope": 5,
-        "covered_confirmed": 3,
+        "state": "NC",
+        "census_in_scope": 11,
+        "covered_confirmed": 7,
         "covered_unconfirmed": 2,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.6,
-        "label_false_negatives": 0
+        "missing": 2,
+        "recall_any": 0.818,
+        "recall_confirmed": 0.636,
+        "label_false_negatives": 2
       },
       {
-        "state": "NC",
-        "census_in_scope": 8,
-        "covered_confirmed": 5,
-        "covered_unconfirmed": 2,
-        "missing": 1,
-        "recall_any": 0.875,
-        "recall_confirmed": 0.625,
+        "state": "FL",
+        "census_in_scope": 4,
+        "covered_confirmed": 3,
+        "covered_unconfirmed": 1,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.75,
         "label_false_negatives": 1
       },
       {
         "state": "TN",
-        "census_in_scope": 7,
-        "covered_confirmed": 7,
+        "census_in_scope": 10,
+        "covered_confirmed": 9,
+        "covered_unconfirmed": 0,
+        "missing": 1,
+        "recall_any": 0.9,
+        "recall_confirmed": 0.9,
+        "label_false_negatives": 1
+      },
+      {
+        "state": "NM",
+        "census_in_scope": 2,
+        "covered_confirmed": 2,
+        "covered_unconfirmed": 0,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 1.0,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "CA",
+        "census_in_scope": 1,
+        "covered_confirmed": 1,
+        "covered_unconfirmed": 0,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 1.0,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "MT",
+        "census_in_scope": 1,
+        "covered_confirmed": 1,
+        "covered_unconfirmed": 0,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 1.0,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "OH",
+        "census_in_scope": 1,
+        "covered_confirmed": 1,
         "covered_unconfirmed": 0,
         "missing": 0,
         "recall_any": 1.0,
@@ -176,50 +296,69 @@
   },
   "promotions": {
     "census_gaps": {
-      "decisions": 5,
+      "decisions": 35,
       "by_action": {
+        "promoted": 30,
         "held": 5
       },
-      "first_run": null,
-      "last_run": null,
+      "first_run": "2026-05-04",
+      "last_run": "2026-07-28",
       "recent": [
         {
-          "date": "",
-          "action": "held",
-          "what": "NC Cherokee County moratorium",
-          "reason": "no usable date: a dateless row is held out of the clean feed as incomplete, stranding the label"
+          "date": "2026-07-21",
+          "action": "promoted",
+          "what": "WI Monroe County moratorium",
+          "reason": ""
         },
         {
-          "date": "",
-          "action": "held",
-          "what": "NC Cherokee County moratorium",
-          "reason": "no usable date: a dateless row is held out of the clean feed as incomplete, stranding the label"
+          "date": "2026-07-14",
+          "action": "promoted",
+          "what": "WI Green County moratorium",
+          "reason": ""
         },
         {
-          "date": "",
-          "action": "held",
-          "what": "NC Cherokee County moratorium",
-          "reason": "no usable date: a dateless row is held out of the clean feed as incomplete, stranding the label"
+          "date": "2026-06-01",
+          "action": "promoted",
+          "what": "WA Skagit County moratorium",
+          "reason": ""
         },
         {
-          "date": "",
-          "action": "held",
-          "what": "NC Cherokee County moratorium",
-          "reason": "no usable date: a dateless row is held out of the clean feed as incomplete, stranding the label"
+          "date": "2026-07-08",
+          "action": "promoted",
+          "what": "UT Wayne County moratorium",
+          "reason": ""
         },
         {
-          "date": "",
-          "action": "held",
-          "what": "NC Cherokee County moratorium",
-          "reason": "no usable date: a dateless row is held out of the clean feed as incomplete, stranding the label"
+          "date": "2026-06-15",
+          "action": "promoted",
+          "what": "TN Cumberland County moratorium",
+          "reason": ""
+        },
+        {
+          "date": "2026-06-01",
+          "action": "promoted",
+          "what": "SC Chesterfield County moratorium",
+          "reason": ""
+        },
+        {
+          "date": "2026-05-19",
+          "action": "promoted",
+          "what": "ND Barnes County moratorium",
+          "reason": ""
+        },
+        {
+          "date": "2026-05-18",
+          "action": "promoted",
+          "what": "NC Pasquotank County moratorium",
+          "reason": ""
         }
       ]
     },
     "harvested_signals": {
-      "decisions": 4025,
+      "decisions": 4148,
       "by_action": {
-        "blocked": 2128,
-        "promoted": 1897
+        "blocked": 2186,
+        "promoted": 1962
       },
       "first_run": "2026-08-13",
       "last_run": "2026-09-23",
@@ -250,27 +389,27 @@
         },
         {
           "date": "2026-09-23",
-          "action": "promoted",
+          "action": "blocked",
           "what": "",
-          "reason": ""
-        },
-        {
-          "date": "2026-09-23",
-          "action": "promoted",
-          "what": "",
-          "reason": ""
+          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
         },
         {
           "date": "2026-09-23",
           "action": "blocked",
           "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
+          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
         },
         {
           "date": "2026-09-23",
           "action": "blocked",
           "what": "",
-          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
+          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+        },
+        {
+          "date": "2026-09-23",
+          "action": "blocked",
+          "what": "",
+          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
         }
       ]
     }
@@ -353,19 +492,19 @@
   },
   "worklists": {
     "national_restriction": {
-      "rows": 3,
+      "rows": 38,
       "by_task_class": {
-        "reconcile_label": 2,
-        "ingest_missing": 1
+        "ingest_missing": 31,
+        "reconcile_label": 7
       },
-      "priority_1": 2
+      "priority_1": 7
     },
     "stale_pending": {
       "scoped": 334,
-      "stale": 267,
-      "priority_1_label_moving": 26,
-      "counties_in_priority_1": 25,
-      "as_of": "2026-09-21"
+      "stale": 269,
+      "priority_1_label_moving": 27,
+      "counties_in_priority_1": 26,
+      "as_of": "2026-09-23"
     },
     "decision_dates": {
       "open": 48
@@ -659,8 +798,8 @@
     },
     "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
     "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
-    "decisions_newly_recorded": 131,
-    "decisions_unchanged_since_last_run": 1592
+    "decisions_newly_recorded": 130,
+    "decisions_unchanged_since_last_run": 1593
   },
   "note": "Every figure here is read from an audit trail the pipeline writes on its own runs. A missing input becomes a null section rather than a zero: an operations page that invents a number is worse than one with a gap in it."
 }
