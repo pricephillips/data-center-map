@@ -1,6 +1,6 @@
 # County benchmark reference
 
-Generated 2026-09-23.
+Generated 2026-09-24.
 
 Reference profiles for the county comparison layer. Every figure is a summary over the county frame in `data/county_aggregate.csv` joined to the published policy scores. Nothing here is an estimate; these are descriptions of groups that exist.
 
@@ -22,7 +22,7 @@ Median values for the three groups a county page reads against.
 
 | metric | all counties | enacted a restriction | no restriction |
 | --- | --- | --- | --- |
-| Restriction resemblance score | 0.0699 | 0.1642 | 0.0650 |
+| Restriction resemblance score | 0.0706 | 0.1636 | 0.0654 |
 | Opposition events | 0 | 1 | 0 |
 | Opposition events per 100k residents | 0.000 | 1.809 | 0.000 |
 | Data center records in the atlas | 0 | 0 | 0 |

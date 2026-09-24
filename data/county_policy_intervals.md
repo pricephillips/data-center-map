@@ -26,11 +26,11 @@ Per-county interval on the enacted-restriction probability, cross Venn-Abers ove
 
 | statistic | value |
 | :-- | --: |
-| median interval width | 0.0586 |
-| p90 interval width | 0.1400 |
+| median interval width | 0.0592 |
+| p90 interval width | 0.1269 |
 | max interval width | 0.6667 |
-| counties with width over 0.10 | 598 |
-| median width, counties with an enacted restriction | 0.1094 |
+| counties with width over 0.10 | 613 |
+| median width, counties with an enacted restriction | 0.1083 |
 
 A wide interval is the model saying it does not know, which is information: those counties are where the enacted-restriction evidence is thinnest relative to profile. Any external use quotes the interval, never the point alone.
 
@@ -40,26 +40,26 @@ A wide interval is the model saying it does not know, which is information: thos
 
 | label | counties | share |
 | :-- | --: | --: |
-| `none_supported` | 3028 | 96.3% |
-| `enacted_supported` | 40 | 1.3% |
-| `indeterminate` | 76 | 2.4% |
+| `none_supported` | 3024 | 96.2% |
+| `enacted_supported` | 39 | 1.2% |
+| `indeterminate` | 81 | 2.6% |
 | `atypical` | 0 | 0.0% |
 
 - Empirical marginal coverage: 0.901 (nominal 0.90)
-- Coverage on counties WITH an enacted restriction: 0.164
-- Coverage on counties without: 0.996
+- Coverage on counties WITH an enacted restriction: 0.167
+- Coverage on counties without: 0.995
 
 ### 80 pct confidence
 
 | label | counties | share |
 | :-- | --: | --: |
-| `none_supported` | 2732 | 86.9% |
-| `enacted_supported` | 6 | 0.2% |
+| `none_supported` | 2737 | 87.1% |
+| `enacted_supported` | 3 | 0.1% |
 | `indeterminate` | 0 | 0.0% |
-| `atypical` | 406 | 12.9% |
+| `atypical` | 404 | 12.8% |
 
 - Empirical marginal coverage: 0.802 (nominal 0.80)
-- Coverage on counties WITH an enacted restriction: 0.017
-- Coverage on counties without: 0.903
+- Coverage on counties WITH an enacted restriction: 0.008
+- Coverage on counties without: 0.904
 
 The class-conditional gap is the expected behavior of marginal conformal prediction under a low base rate: the minority class is covered less often than the nominal level, and on this frame the enacted class is covered at or near zero. The LAC sets are retained as documentation of that limitation; the Venn-Abers intervals above are the object to use. Any external use of either must carry the marginal caveat.

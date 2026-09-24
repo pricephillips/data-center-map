@@ -1,7 +1,7 @@
 # County FIPS resolution
 
-Proposals examined: 370
-Already resolved by the existing lookup: 356
+Proposals examined: 388
+Already resolved by the existing lookup: 374
 Applied by this pass: 13
 Held for confirmation: 0
 Still unresolved: 1

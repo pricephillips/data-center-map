@@ -1,10 +1,11 @@
 opp_id,project_id,action,note,suggestion_confidence,corroborations,red_flags,first_pass_signals,distance_km,opp_incident,opp_date,project_name,opp_state
+opp_634fa6fff5c1,prj_244,suggest_confirm,,high,summary_names_project(2/4); city_in_project_towns,,geo:4.8km; county,4.8,Nesquehoning Borough,2026-01-01,Keel Infrastructure Panther Creek,PA
 opp_1898a067957a,prj_69,needs_review,,,,,geo:18.3km,18.3,Clinton County,2025-12-08,Jackson County Data Center,IA
 opp_5d1c237068fa,prj_353,needs_review,,,summary_names_company(2),,company:0.50,204.8,West Virginia (statewide),2026-01-01,Ridgeline Facility,WV
 opp_c2e1339c93eb,prj_114,needs_review,,,,,county,22.1,Oakland University (Rochester Hills),2025-06-01,Metrobloks Southfield Data Center,MI
 opp_c1c9c7fd466b,prj_209,needs_review,,,,,geo:3.0km; county,3.0,Commercial Point / Scioto Township (Pickaway County),2026-03-01,Ashville Data Center,OH
 opp_e8b0f17bc6c2,prj_113,needs_review,,,,,geo:8.9km; county,8.9,Augusta Charter Township,2025-08-01,Sansone York Township Data Center,MI
-opp_39600983e4f1,prj_161,needs_review,,,,,geo:16.1km; county,16.1,North Tonawanda,2026-06-16,Niagara Digital Campus Data Center Development,NY
+opp_39600983e4f1,prj_161,needs_review,,,summary_names_company(1),,geo:16.1km; county,16.1,North Tonawanda,2026-06-16,Niagara Digital Campus,NY
 opp_fecec6ae1774,prj_8,needs_review,,,summary_names_company(2),,geo:14.3km; county,14.3,Wilsonville,2025-08-24,Columbiana Mining Facility and Data Center,AL
 opp_e50cf18fe4db,prj_283,needs_review,,,summary_names_company(1),,company:0.50,25.9,Hampden Township,2025-09-01,Conewago Township Data Center Land Considerations,PA
 opp_0fb5631594a2,prj_50,needs_review,,,summary_names_company(1),,company:0.50,134.5,White County,2025-10-01,Bristol Data Center,IN
@@ -41,7 +42,7 @@ opp_0634cbb0acd3,prj_104,needs_review,,,,,county,24.7,Sterling Heights,2026-02-0
 opp_ae02c8386641,prj_113,needs_review,,,summary_names_project(1/2),,geo:15.0km; county,15.0,Lodi Township,2026-02-03,Sansone York Township Data Center,MI
 opp_800a31abdbf2,prj_273,needs_review,,,,,geo:19.7km; county,19.7,Covington Township (Lackawanna County),2026-02-03,Ransom Township Data Center,PA
 opp_546ea09f2967,prj_209,needs_review,,,,,geo:13.2km; county,13.2,Muhlenberg Township,2026-02-06,Ashville Data Center,OH
-opp_0e3b862642cd,prj_158,needs_review,,,,,geo:2.9km,2.9,New York State,2026-02-06,Albany Kenwood Data Center,NY
+opp_0e3b862642cd,prj_158,needs_review,,,,,geo:2.9km,2.9,New York State,2026-02-06,Kenwood Commons,NY
 opp_8e45dc254c70,prj_214,needs_review,,,summary_names_company(3),,company:1.00,24.2,Hubbard Township,2026-02-15,Lordstown Data Center,OH
 opp_23023943734f,prj_205,needs_review,,,date_plausible(gap 148d),,geo:12.4km; county,12.4,Ohio (statewide),2026-02-17,AWS Hillard Campus,OH
 opp_b844c002abf1,prj_259,needs_review,,,,,geo:8.3km; county,8.3,Pennsylvania (statewide moratorium proposal),2026-02-17,Dauphin Highlands Golf Course sold for Data Center,PA
@@ -51,7 +52,8 @@ opp_7146943d67ee,prj_217,needs_review,,,date_plausible(gap 305d),,geo:14.1km; co
 opp_5702ca2728a1,prj_286,needs_review,,,summary_names_project(1/2),,geo:3.9km; county,3.9,East Rockhill Township (Bucks County),2026-02-24,Sellersville / West Rockhill Township Data Center,PA
 opp_b2369279b7b0,prj_112,needs_review,,,,,geo:7.5km; county,7.5,City of Portage,2026-02-25,Pavilion Township Data Center,MI
 opp_35fc8ebfe1ac,prj_111,needs_review,,,,,geo:0.9km,0.9,Michigan (statewide),2026-07-15,Deep Green Lansing Data Center,MI
-opp_18e2c9d1787f,prj_158,needs_review,,,,,geo:2.9km; county,2.9,New York (100+ groups coalition),2026-03-02,Albany Kenwood Data Center,NY
+opp_fcea9e266046,prj_251,needs_review,,,,,geo:4.1km; county,4.1,East Whiteland Township (Curative Amendment),2026-02-26,Sentinel Green Fig East Whiteland,PA
+opp_18e2c9d1787f,prj_158,needs_review,,,,,geo:2.9km; county,2.9,New York (100+ groups coalition),2026-03-02,Kenwood Commons,NY
 opp_84df29c95d0a,prj_256,needs_review,,,summary_names_company(2),,geo:19.9km,19.9,Pennsylvania (HB 2151),2026-03-02,PAX – Pennsylvania Digital I,PA
 opp_ddad161cab07,prj_209,needs_review,,,,,geo:12.3km; county,12.3,Scioto Township (Pickaway County),2026-03-06,Ashville Data Center,OH
 opp_40562000f97f,prj_113,needs_review,,,,,county,27.7,Dexter Township,2026-02-01,Sansone York Township Data Center,MI
@@ -72,8 +74,8 @@ opp_a233c4b83a66,prj_259,needs_review,,,,,geo:8.3km; county,8.3,Pennsylvania (Go
 opp_f37aa63e4079,prj_29,needs_review,,,,,geo:9.9km; county,9.9,New Castle County,2026-03-11,"St. Georges Business Park Data Center Development / ""Frightland Project""",DE
 opp_826ee04a3d40,prj_205,needs_review,,,date_plausible(gap 171d),,geo:12.4km; county,12.4,Columbus,2026-03-12,AWS Hillard Campus,OH
 opp_28b2b06bc795,prj_111,needs_review,,,,,geo:0.9km,0.9,Michigan (SB 761-763),2025-12-18,Deep Green Lansing Data Center,MI
-opp_8158a1419e07,prj_43,needs_review,,,,,geo:5.8km; county,5.8,Lake County,2026-02-18,Hobart Tech Park,IN
-opp_1f51183f1ba8,prj_158,needs_review,,,,,geo:2.9km,2.9,New York,2025-10-22,Albany Kenwood Data Center,NY
+opp_8158a1419e07,prj_377,needs_review,,,date_plausible(gap 455d),,geo:2.9km; county,2.9,Lake County,2026-02-18,Wylie Capital,IN
+opp_1f51183f1ba8,prj_158,needs_review,,,,,geo:2.9km,2.9,New York,2025-10-22,Kenwood Commons,NY
 opp_c87efd961c79,prj_101,needs_review,,,summary_names_company(1),,county,33.7,Lowell,2026-03-11,Everett Docklands Data Center,MA
 opp_3520d562ea2c,prj_103,needs_review,,,summary_names_company(2),,county,24.8,Gibraltar,2026-03-09,Project Cannoli,MI
 opp_3e4046d6da58,prj_239,needs_review,,,,,geo:9.9km; county,9.9,St. Albans Township,2026-03-10,Johnstown Cologix Data Center,OH
@@ -90,8 +92,9 @@ opp_c40234aaa75c,prj_221,needs_review,,,summary_names_company(1),,county,53.7,Sa
 opp_5fedc2794e61,prj_226,needs_review,,,summary_names_company(2),,company:0.50,228.7,Washington County (Waterford),2026-01-01,Mt. Orab Mega Site,OH
 opp_cfe5efa219b7,prj_1010,needs_review,,,summary_names_company(1),,company:0.50,104.8,Floyd County (Rome),2025-05-01,Project Sail Data Center,GA
 opp_9f1476cb49c2,prj_301,needs_review,,,,,geo:3.1km,3.1,Plymouth Township,2025-11-17,600 River Road Data Center,PA
-opp_97c473fa11a2,prj_158,needs_review,,,,,geo:2.9km,2.9,New York (statewide moratorium bill),2026-02-06,Albany Kenwood Data Center,NY
+opp_97c473fa11a2,prj_158,needs_review,,,,,geo:2.9km,2.9,New York (statewide moratorium bill),2026-02-06,Kenwood Commons,NY
 opp_d410fe5c52a0,prj_221,needs_review,,,summary_names_company(3),,company:1.00,298.3,Monroe Township (Adams County),2026-03-09,NEO-01 / Sandusky Data Center,OH
+opp_f71509c41637,prj_362,needs_review,,,,,geo:8.1km; county,8.1,Pemberton Township,2026-02-20,Joint Base McGuire-Dix-Lakehurst,NJ
 opp_8471bf2ceed9,prj_360,needs_review,,,summary_names_company(1),,company:0.25,20.1,West Virginia (MARL 500kV transmission line),2026-02-01,NETL Computational Science & Engineering Center,WV
 opp_750ff09c946f,prj_259,needs_review,,,,,geo:10.9km; county,10.9,United States (DOE Loan - Three Mile Island),2025-11-18,Dauphin Highlands Golf Course sold for Data Center,PA
 opp_fcaee30f5d9f,prj_301,needs_review,,,,,geo:18.5km; county,18.5,Montgomery Township,2026-03-23,600 River Road Data Center,PA
@@ -110,7 +113,7 @@ opp_492c39c8a10f,prj_245,needs_review,,,,,geo:7.0km; county,7.0,North Franklin T
 opp_d51e905c487c,prj_338,needs_review,,,summary_names_project(1/2),,geo:6.6km; county,6.6,Nashville/Davidson County,2026-04-17,RadiusDC Nashville I,TN
 opp_5ca926b64e95,prj_314,needs_review,,,,,county,28.7,Pennsylvania (Wellsboro hearing),2026-04-17,Storage Data Center Project,PA
 opp_4abdf137cfd4,prj_301,needs_review,,,,,geo:13.9km; county,13.9,Upper Gwynedd Township,2026-04-13,600 River Road Data Center,PA
-opp_ddc082118693,prj_251,needs_review,,,summary_names_project(1/1),,geo:10.4km; county,10.4,Tredyffrin Township,2026-04-21,East Whiteland Township Data Center,PA
+opp_ddc082118693,prj_287,needs_review,,,summary_names_project(1/1),,county,25.9,Tredyffrin Township,2026-04-21,North Coventry Township Data Center,PA
 opp_7c06af7ad5fe,prj_102,needs_review,,,summary_names_company(3),,geo:9.6km; company:0.75; county,9.6,Saline Township (consent judgment with Related Digital),2025-10-15,Project Mitten / The Barn,MI
 opp_cfc60c2760ad,prj_102,needs_review,,,summary_names_company(3),,company:0.38; county,87.5,Michigan Public Service Commission (DTE Saline data-center contract filing),2025-10-31,Project Mitten / The Barn,MI
 opp_8a10bd8bf5a5,prj_102,needs_review,,,summary_names_company(1),,company:0.12; county,87.5,Michigan Public Service Commission (environmental groups' intervention petition),2025-11-13,Project Mitten / The Barn,MI
@@ -128,13 +131,14 @@ opp_1be02c246210,prj_153,needs_review,,,summary_names_project(1/1),,geo:3.7km; c
 opp_b29f67af362e,prj_101,needs_review,,,,,county,33.7,"Middlesex County Superior Court (Honest Future for Lowell + Yale Environmental Justice Clinic v. Markley Group, MA DEP), MA",2026-07-29,Everett Docklands Data Center,MA
 opp_98c042718a1b,prj_259,needs_review,,,,,geo:8.2km,8.2,Pennsylvania Public Utility Commission (large-load customer model tariff advanced for public comment),2026-05-04,Dauphin Highlands Golf Course sold for Data Center,PA
 opp_ec7559165f38,prj_301,needs_review,,,summary_names_company(1),,geo:3.2km; county,3.2,"Plymouth Township (Montgomery County — Cleveland-Cliffs steel mill site data center resubmitted after legal-technicality withdrawal), PA",2026-05-05,600 River Road Data Center,PA
+opp_f10d2130a01f,prj_370,needs_review,,,summary_names_project(1/1),,geo:7.5km; county,7.5,"Town of East Fishkill (Dutchess County — Treetop Development data center; industrial moratorium extended to data centers), NY",2026-05-08,Treetop Development Project,NY
 opp_1d761fb9f489,prj_233,needs_review,,,summary_names_project(1/2),,geo:5.4km; county,5.4,"Cleveland City Council (1-yr moratorium proposed; Lakeland Equity permit rejected), OH",2026-05-22,Morabito Slavic Village Data Center,OH
 opp_2b34dcad2e16,prj_1002,needs_review,,,,,geo:9.9km; county,9.9,"Painesville Township Trustees (Lake County), OH",2026-05-21,Province Group Perry Village Data Center Campus,OH
 opp_7690ccb1bb24,prj_238,needs_review,,,date_plausible(gap 231d),,geo:14.9km; county,14.9,"City of Hubbard (Trumbull County — moratorium drafted amid 'Project Milo' NDA controversy), OH",2026-06-02,Bitdeer Weathersfield Project,OH
 opp_86cf615f2f1e,prj_48,needs_review,,,,,geo:7.5km; county,7.5,"Indianapolis / Warren Township (DC BLOX $2B campus opposition), IN",2026-06-11,Project Flo,IN
 opp_a21a79c66f82,prj_1005,needs_review,,,summary_names_project(3/5),,geo:2.1km; county,2.1,"St. Joseph County Council (third New Carlisle-area data center rezoning, ~$13B), IN",2026-05-13,New Carlisle Chicago Trail Data Center (Third Site),IN
 opp_0ed995538d5d,prj_141,needs_review,,,,,geo:3.5km,3.5,"City of St. Louis (three-tier data center regulatory framework vote delayed), MO",2026-05-19,Armory Innovation Data Center,MO
-opp_11c80b6abe68,prj_158,needs_review,,,summary_names_project(1/2),,geo:2.9km,2.9,New York State (S.9144A/A.10141 statewide moratorium bill amended; Albany rally & lobby day),2026-05-13,Albany Kenwood Data Center,NY
+opp_11c80b6abe68,prj_158,needs_review,,,,,geo:2.9km,2.9,New York State (S.9144A/A.10141 statewide moratorium bill amended; Albany rally & lobby day),2026-05-13,Kenwood Commons,NY
 opp_387615c605b8,prj_215,needs_review,,,,,geo:10.2km; county,10.2,Jackson Township,2026-05-12,Google Lockbourne,OH
 opp_f5077e0e3f43,prj_46,needs_review,,,city_in_project_towns,,geo:11.3km; county,11.3,Madison,2026-05-20,JPG Data Center,IN
 opp_d69130fe5af6,prj_111,needs_review,,,,,geo:10.4km; county,10.4,Meridian Township,2026-05-19,Deep Green Lansing Data Center,MI
@@ -145,8 +149,8 @@ opp_d716cfc560ff,prj_86,needs_review,,,city_in_project_towns,,geo:5.8km; county,
 opp_72e5b51624fe,prj_301,needs_review,,,,,geo:16.9km; county,16.9,Towamencin Township,2026-05-06,600 River Road Data Center,PA
 opp_7974b9e42558,prj_245,needs_review,,,,,geo:14.9km; county,14.9,Amwell Township,2026-05-15,Zediker Station Data Center,PA
 opp_5559c86cd09d,prj_48,needs_review,,,,,geo:14.5km; county,14.5,"Indianapolis / Marion County (City-County Council nonbinding moratorium resolution, Prop. 158), IN",2026-05-15,Project Flo,IN
-opp_6c96590821d1,prj_162,needs_review,,,summary_names_company(1),,geo:3.8km; county,3.8,"Town of Brookhaven (Yaphank — 18-month data center moratorium hearing set), NY",2026-05-29,Brookhaven National Laboratory Data Center,NY
-opp_e50db9370773,prj_158,needs_review,,,,,geo:2.9km,2.9,"New York (Legislature passes first-in-nation statewide data center moratorium; awaits Gov. Hochul), NY",2026-06-22,Albany Kenwood Data Center,NY
+opp_6c96590821d1,prj_365,needs_review,,,summary_names_project(1/2),,geo:2.7km; county,2.7,"Town of Brookhaven (Yaphank — 18-month data center moratorium hearing set), NY",2026-05-29,Brookhaven Logistics Center,NY
+opp_e50db9370773,prj_158,needs_review,,,,,geo:2.9km,2.9,"New York (Legislature passes first-in-nation statewide data center moratorium; awaits Gov. Hochul), NY",2026-06-22,Kenwood Commons,NY
 opp_b0426dd41d94,prj_255,needs_review,,,,,geo:4.7km; county,4.7,"City of Allentown (Bill 20 data center zoning tabled after marathon hearing), PA",2026-06-03,Allentown Warehouse Conversion Data Center,PA
 opp_2ff266107555,prj_126,needs_review,,,,,county,23.3,"Jackson County (moratorium vote delayed on two competing proposals), MO",2026-06-22,Nebius Independence Hyperscale Campus,MO
 opp_83a5249f68e8,prj_346,needs_review,,,,,geo:7.4km; county,7.4,"McMinnville (18-month data center moratorium, first reading), TN",2026-06-09,Hixson Data Center,TN
@@ -162,14 +166,13 @@ opp_5e7cea46d0dd,prj_72,needs_review,,,summary_names_project(1/1),,county,21.6,W
 opp_9fd595e77727,prj_48,needs_review,,,,,geo:14.5km; county,14.5,Indianapolis Metropolitan Development Commission (data center development standards recommendation),2026-07-01,Project Flo,IN
 opp_d1058e1c8a3c,prj_111,needs_review,,,,,geo:0.9km,0.9,Michigan State Capitol ('People Over Data Centers' rally + HB 5396-5398 tax exemption repeal),2026-06-23,Deep Green Lansing Data Center,MI
 opp_6ddf9cca39ab,prj_1010,needs_review,,,,,geo:7.7km; county,7.7,Coweta County (Project Oak resident survey),2026-06-24,Project Sail Data Center,GA
-opp_0235d4dd4a85,prj_347,needs_review,,,,,geo:0.2km; county,0.2,Fisk University (self-developed data center/tech center opposition),2026-06-30,Quantum Leap,TN
-opp_dcb73fe1722c,prj_156,needs_review,,,summary_names_company(1),,geo:4.6km; company:0.14; county,4.6,Town of Massena (NYDIG data center zoning question referred to Zoning Board of Appeals),2026-06-29,Massena Petawatt Data Center Site Advertisement,NY
+opp_dcb73fe1722c,prj_156,needs_review,,,summary_names_company(3),,geo:4.6km; company:0.09; county,4.6,Town of Massena (NYDIG data center zoning question referred to Zoning Board of Appeals),2026-06-29,Massena Petawatt Data Center Site Advertisement,NY
 opp_64b33f101885,prj_147,needs_review,,,,,geo:14.9km; county,14.9,Monroe Township Council (ordinance striking 'data processing facilities' from zoning code),2026-06-29,Princeton Nurseries Data Center,NJ
 opp_3b973db4b898,prj_262,needs_review,,,,,county,22.5,Allegheny County (residents ask county to regulate data centers directly),2026-06-24,McKees Rocks Industrial Site Data Center,PA
 opp_e1555ad34dbe,prj_93,needs_review,,,,,geo:10.6km; county,10.6,Prince George's County Council (2-year data center moratorium),2026-07-07,Brightseat Tech Park Data Center Development,MD
 opp_c7bef103b644,prj_138,needs_review,,,city_in_project_towns,,geo:5.3km; county,5.3,St. Charles County,2026-07-14,Project Cumulus,MO
 opp_ec3ccb8bbe1d,prj_139,needs_review,,,city_in_project_towns,,geo:6.4km; county,6.4,Joplin,2026-07-06,Wildwood Ranch AI Data Center,MO
-opp_ba67bec0f3c1,prj_158,needs_review,,,,,geo:2.9km,2.9,State of New York (Executive Order),2026-07-14,Albany Kenwood Data Center,NY
+opp_ba67bec0f3c1,prj_158,needs_review,,,,,geo:2.9km,2.9,State of New York (Executive Order),2026-07-14,Kenwood Commons,NY
 opp_0dfe602b7707,prj_24,needs_review,,,,,county,23.9,New Haven Board of Alders (12-month data center moratorium ordinance),2026-07-06,Wallingford Data Center,CT
 opp_020fce1935b1,prj_111,needs_review,,,city_in_project_towns,,geo:0.9km; county,0.9,Lansing,2026-07-15,Deep Green Lansing Data Center,MI
 opp_54b7a4ed2e97,prj_104,needs_review,,,,,county,31.8,Warren (Macomb County),2026-07-14,32 Mile Road Technical Campus,MI
@@ -204,11 +207,13 @@ opp_c005e94db5a6,prj_1,needs_review,,,,,county,,Jefferson council approves one y
 opp_0c45b84cb3c5,prj_47,needs_review,,,,,county,,"Fulton commissioners OK changes to zoning code , zoning request",2026-08-21,Decennial Group Akron Data Center,
 opp_1f5d7440bc1d,prj_301,needs_review,,,,,geo:13.5km; county,13.5,Montgomery County,2026-04-01,600 River Road Data Center,PA
 opp_8bfa0f35100b,prj_258,needs_review,,,,,county,,Data center ordinance dismissed in Vermillion County – Inside INdiana Business,2026-08-27,Homer City Energy + AI Campus,PA
+opp_b6d458dbb684,prj_373,needs_review,,,,,county,,News 12 | Westchester | Orangetown Board Approves Moratorium On New Data Center Applications,2026-08-26,Holtec Decommissioning International,NY
 opp_d160710ccabb,prj_50,needs_review,,,,,county,,Elkhart City Council expected to vote on data center moratorium on Thursday,2026-08-27,Bristol Data Center,IN
 opp_1b82dd493252,prj_258,needs_review,,,,,county,,Indiana House Democrats ask Legislature to investigate NIPSCO,2026-08-27,Homer City Energy + AI Campus,PA
 opp_04f981272502,prj_254,needs_review,,,,,county,,Lancaster County Considers Data Center Moratorium,2026-08-27,CoreWeave Lancaster AI Campuses,
 opp_95aeac3ae6bf,prj_10,needs_review,,,,,county,,Lowndes County approves 60 - day data center moratorium,2026-08-26,Project Red Clay,
 opp_ccd91b2ebb89,prj_10,needs_review,,,,,county,,Lowndes County commissioners approve 60 - day moratorium on data center permits,2026-08-26,Project Red Clay,
+opp_b6d458dbb684,prj_373,needs_review,,,,,county,,News 12 | Westchester | Orangetown Board Approves Moratorium On New Data Center Applications,2026-08-26,Holtec Decommissioning International,NY
 opp_319ad2c2a272,prj_50,needs_review,,,,,county,,Elkhart City Council to go forward with data center moratorium after unanimous vote,2026-08-28,Bristol Data Center,IN
 opp_d160710ccabb,prj_50,needs_review,,,,,county,,Elkhart City Council expected to vote on data center moratorium on Thursday,2026-08-27,Bristol Data Center,IN
 opp_1b82dd493252,prj_258,needs_review,,,,,county,,Indiana House Democrats ask Legislature to investigate NIPSCO,2026-08-27,Homer City Energy + AI Campus,PA
@@ -221,6 +226,7 @@ opp_95aeac3ae6bf,prj_10,needs_review,,,,,county,,Lowndes County approves 60 - da
 opp_1b82dd493252,prj_258,needs_review,,,,,county,,Indiana House Democrats ask Legislature to investigate NIPSCO,2026-08-27,Homer City Energy + AI Campus,PA
 opp_04f981272502,prj_254,needs_review,,,,,county,,Lancaster County Considers Data Center Moratorium,2026-08-27,CoreWeave Lancaster AI Campuses,
 opp_f4e4d957d444,prj_225,needs_review,,,,,county,,Clinton data center ordinance to be discussed at Tuesday meeting,2026-08-29,AWS Wilmington Data Center,
+opp_b6d458dbb684,prj_373,needs_review,,,,,county,,News 12 | Westchester | Orangetown Board Approves Moratorium On New Data Center Applications,2026-08-26,Holtec Decommissioning International,NY
 opp_d160710ccabb,prj_50,needs_review,,,,,county,,Elkhart City Council expected to vote on data center moratorium on Thursday,2026-08-27,Bristol Data Center,IN
 opp_04f981272502,prj_254,needs_review,,,,,county,,Lancaster County Considers Data Center Moratorium,2026-08-27,CoreWeave Lancaster AI Campuses,
 opp_95aeac3ae6bf,prj_10,needs_review,,,,,county,,Lowndes County approves 60 - day data center moratorium,2026-08-26,Project Red Clay,

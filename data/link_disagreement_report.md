@@ -1,6 +1,6 @@
 # Link disagreement audit
 
-Generated 2026-09-23 by `link_disagreement_audit.py`.
+Generated 2026-09-24 by `link_disagreement_audit.py`.
 
 Where the live rule cascade and the frozen model scores from `splink_spike.py`
 disagree about the same pair. The spike's NO-GO verdict on adoption stands and
@@ -38,9 +38,9 @@ of this repository and this module does not re-score.
 
 | | count |
 |---|---|
-| current rule links | 431 |
-| of those, carrying a model score | 64 (14.8 pct) |
-| of those, with no score | 367 |
+| current rule links | 433 |
+| of those, carrying a model score | 63 (14.5 pct) |
+| of those, with no score | 370 |
 
 A link created after the spike ran cannot be audited here and is counted above
 rather than passed over. As that number grows the audit covers less of the
@@ -52,6 +52,7 @@ Unscored current links (first 20):
 - opp_007362ac6379 -> prj_212
 - opp_021c2c472697 -> prj_339
 - opp_021c2c472697 -> prj_357
+- opp_0235d4dd4a85 -> prj_347
 - opp_039ab1e1e6fd -> prj_292
 - opp_03cd61627883 -> prj_106
 - opp_03cd61627883 -> prj_119
@@ -68,4 +69,3 @@ Unscored current links (first 20):
 - opp_0d9643b0e958 -> prj_277
 - opp_0dd5fa8d7b11 -> prj_122
 - opp_0dd5fa8d7b11 -> prj_135
-- opp_0e4c335737e1 -> prj_334
