@@ -1,8 +1,8 @@
 # Scraper field audit
 
-Generated 2026-09-23 by `scripts/scrape-trackdatacenters-proposals.py`.
+Generated 2026-09-24 by `scripts/scrape-trackdatacenters-proposals.py`.
 
-358 records; 50 distinct top-level keys in the response.
+376 records; 52 distinct top-level keys in the response.
 
 ## Retired, and expected to be absent
 
@@ -30,7 +30,7 @@ Candidate landing places for anything in the list above, with up to 4 distinct o
 - `btmPowerName` -- <list n=0>, <list n=1>
 - `capacityMaxMw` -- 200, 20, 1000, 4
 - `coolingSource` -- "water", "air", "hybrid"
-- `coolingType` -- "closed", "fans"
+- `coolingType` -- "closed"
 - `dateCreated` -- "2026-9-16", "2026-9-17", "2026-9-18", "2026-9-10"
 - `dateOnline` -- "2032", "2026", "2027", "2028"
 - `dedicatedSubstation` -- "unknown", "true", "false"
@@ -47,7 +47,17 @@ Candidate landing places for anything in the list above, with up to 4 distinct o
 - `numberOfGenerators` -- 4, 516, 41, 588
 - `powerSource` -- <list n=1>, <list n=0>, <list n=2>, <list n=3>
 - `projectCost` -- 90000000, 14500000000, 1500000000, 6000000000
+- `slug` -- "project-nebius", "project-marvel", "meta-platforms-montgomery", "dc-blox-montgomery"
 - `sources` -- <list n=4>, <list n=6>, <list n=5>, <list n=3>
 - `stakeholders` -- <dict keys=D>, <dict keys=A, C, D>, <dict keys=D, U>, <dict keys=O>
+- `stateSlug` -- "alabama", "alaska", "arkansas", "connecticut"
 - `zip` -- "35221", "35022", "35233", "35044"
+
+## Suggested pairings
+
+Paired by name similarity; the values are there so the pairing can be judged rather than guessed. Two fields can have similar names and different meanings, and the values are usually what shows it.
+
+| absent | candidate | values seen |
+|---|---|---|
+| `status` | `stateSlug` | "alabama", "alaska", "arkansas", "connecticut" |
 
