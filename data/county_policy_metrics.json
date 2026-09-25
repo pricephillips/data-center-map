@@ -13,7 +13,7 @@
     "registered": "2026-08-26",
     "selected": {
       "spec": "no_shift_minus2",
-      "C": 0.1,
+      "C": 0.3,
       "variables": [
         "existing_dc_count",
         "n_projects_tracked",
@@ -36,7 +36,7 @@
         "spec": "full_pool",
         "C": 1.0,
         "n_vars": 10,
-        "auc_median": 0.7794,
+        "auc_median": 0.7783,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -55,7 +55,7 @@
         "spec": "full_pool_minus1",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.7806,
+        "auc_median": 0.7795,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -73,7 +73,7 @@
         "spec": "full_pool_minus2",
         "C": 1.0,
         "n_vars": 8,
-        "auc_median": 0.7804,
+        "auc_median": 0.7794,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -90,7 +90,7 @@
         "spec": "full_pool_minus3",
         "C": 1.0,
         "n_vars": 7,
-        "auc_median": 0.7818,
+        "auc_median": 0.7806,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -106,7 +106,7 @@
         "spec": "no_shift",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.7855,
+        "auc_median": 0.7856,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -124,7 +124,7 @@
         "spec": "no_shift_minus1",
         "C": 1.0,
         "n_vars": 8,
-        "auc_median": 0.7883,
+        "auc_median": 0.7874,
         "sign_stable": false,
         "variables": [
           "existing_dc_count",
@@ -141,7 +141,7 @@
         "spec": "no_shift_minus2",
         "C": 1.0,
         "n_vars": 7,
-        "auc_median": 0.7883,
+        "auc_median": 0.7877,
         "sign_stable": true,
         "variables": [
           "existing_dc_count",
@@ -157,7 +157,7 @@
         "spec": "drop_density",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.7792,
+        "auc_median": 0.7783,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -243,7 +243,7 @@
         "spec": "full_pool",
         "C": 0.3,
         "n_vars": 10,
-        "auc_median": 0.7786,
+        "auc_median": 0.7778,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -262,7 +262,7 @@
         "spec": "full_pool_minus1",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.7803,
+        "auc_median": 0.7794,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -280,7 +280,7 @@
         "spec": "full_pool_minus2",
         "C": 0.3,
         "n_vars": 8,
-        "auc_median": 0.7805,
+        "auc_median": 0.7795,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -297,7 +297,7 @@
         "spec": "full_pool_minus3",
         "C": 0.3,
         "n_vars": 7,
-        "auc_median": 0.7812,
+        "auc_median": 0.7798,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -313,7 +313,7 @@
         "spec": "no_shift",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.7852,
+        "auc_median": 0.7854,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -331,7 +331,7 @@
         "spec": "no_shift_minus1",
         "C": 0.3,
         "n_vars": 8,
-        "auc_median": 0.7884,
+        "auc_median": 0.7877,
         "sign_stable": false,
         "variables": [
           "existing_dc_count",
@@ -348,7 +348,7 @@
         "spec": "no_shift_minus2",
         "C": 0.3,
         "n_vars": 7,
-        "auc_median": 0.7883,
+        "auc_median": 0.7877,
         "sign_stable": true,
         "variables": [
           "existing_dc_count",
@@ -364,7 +364,7 @@
         "spec": "drop_density",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.7789,
+        "auc_median": 0.7782,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -382,7 +382,7 @@
         "spec": "drop_density_minus1",
         "C": 0.3,
         "n_vars": 8,
-        "auc_median": 0.7809,
+        "auc_median": 0.7798,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -399,7 +399,7 @@
         "spec": "drop_density_minus2",
         "C": 0.3,
         "n_vars": 7,
-        "auc_median": 0.7812,
+        "auc_median": 0.78,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -469,7 +469,7 @@
         "spec": "tier1_plus_size",
         "C": 0.3,
         "n_vars": 5,
-        "auc_median": 0.7817,
+        "auc_median": 0.7816,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -483,7 +483,7 @@
         "spec": "full_pool",
         "C": 0.1,
         "n_vars": 10,
-        "auc_median": 0.7777,
+        "auc_median": 0.7784,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -502,7 +502,7 @@
         "spec": "full_pool_minus1",
         "C": 0.1,
         "n_vars": 9,
-        "auc_median": 0.7782,
+        "auc_median": 0.7783,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -520,7 +520,7 @@
         "spec": "full_pool_minus2",
         "C": 0.1,
         "n_vars": 8,
-        "auc_median": 0.7803,
+        "auc_median": 0.7794,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -572,7 +572,7 @@
         "spec": "no_shift_minus2",
         "C": 0.1,
         "n_vars": 7,
-        "auc_median": 0.7887,
+        "auc_median": 0.7875,
         "sign_stable": true,
         "variables": [
           "existing_dc_count",
@@ -588,7 +588,7 @@
         "spec": "drop_density",
         "C": 0.1,
         "n_vars": 9,
-        "auc_median": 0.7791,
+        "auc_median": 0.7784,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -606,7 +606,7 @@
         "spec": "drop_density_minus1",
         "C": 0.1,
         "n_vars": 8,
-        "auc_median": 0.7809,
+        "auc_median": 0.7799,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -677,7 +677,7 @@
         "spec": "tier1_plus_size",
         "C": 0.1,
         "n_vars": 5,
-        "auc_median": 0.7816,
+        "auc_median": 0.7815,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -691,7 +691,7 @@
         "spec": "full_pool",
         "C": 0.03,
         "n_vars": 10,
-        "auc_median": 0.7776,
+        "auc_median": 0.7782,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -710,7 +710,7 @@
         "spec": "full_pool_minus1",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.7789,
+        "auc_median": 0.7788,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -728,7 +728,7 @@
         "spec": "full_pool_minus2",
         "C": 0.03,
         "n_vars": 8,
-        "auc_median": 0.7804,
+        "auc_median": 0.7796,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -745,7 +745,7 @@
         "spec": "no_shift",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.785,
+        "auc_median": 0.7851,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -763,7 +763,7 @@
         "spec": "no_shift_minus1",
         "C": 0.03,
         "n_vars": 8,
-        "auc_median": 0.786,
+        "auc_median": 0.7859,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -780,7 +780,7 @@
         "spec": "no_shift_minus2",
         "C": 0.03,
         "n_vars": 7,
-        "auc_median": 0.7866,
+        "auc_median": 0.786,
         "sign_stable": true,
         "variables": [
           "existing_dc_count",
@@ -796,7 +796,7 @@
         "spec": "drop_density",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.7787,
+        "auc_median": 0.7781,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -814,7 +814,7 @@
         "spec": "drop_density_minus1",
         "C": 0.03,
         "n_vars": 8,
-        "auc_median": 0.7813,
+        "auc_median": 0.7804,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -873,7 +873,7 @@
         "spec": "tier1_plus_size",
         "C": 0.03,
         "n_vars": 5,
-        "auc_median": 0.781,
+        "auc_median": 0.7804,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -887,7 +887,7 @@
         "spec": "full_pool",
         "C": 0.01,
         "n_vars": 10,
-        "auc_median": 0.7768,
+        "auc_median": 0.7774,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -906,7 +906,7 @@
         "spec": "full_pool_minus1",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.7775,
+        "auc_median": 0.7774,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -924,7 +924,7 @@
         "spec": "no_shift",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.7827,
+        "auc_median": 0.7828,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -959,7 +959,7 @@
         "spec": "drop_density",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.777,
+        "auc_median": 0.7767,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -992,7 +992,7 @@
         "spec": "tier1_plus_size",
         "C": 0.01,
         "n_vars": 5,
-        "auc_median": 0.7766,
+        "auc_median": 0.78,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1005,82 +1005,82 @@
     ]
   },
   "roc_auc": {
-    "p10": 0.7478,
-    "p50": 0.7887,
-    "p90": 0.8076
+    "p10": 0.7452,
+    "p50": 0.7877,
+    "p90": 0.8107
   },
   "brier": {
-    "p10": 0.0854,
-    "p50": 0.0878,
-    "p90": 0.0922,
+    "p10": 0.0855,
+    "p50": 0.0874,
+    "p90": 0.0928,
     "base_rate_brier": 0.1011
   },
   "calibration": {
-    "raw_slope": 1.02,
-    "raw_intercept": 0.034,
-    "post_recalibration_slope": 0.995,
-    "post_recalibration_intercept": -0.009,
+    "raw_slope": 0.991,
+    "raw_intercept": -0.017,
+    "post_recalibration_slope": 0.994,
+    "post_recalibration_intercept": -0.011,
     "brier_calibrated": 0.0886,
     "note": "raw scores are compressed by shrinkage; the model includes a cross-fitted logistic recalibration layer. calibrated_score in the scores file is cross-fitted: no county's calibration was fit on itself. Post slope near 1 and intercept near 0 indicate the calibrated scores are honest probabilities."
   },
   "coefficients": {
     "existing_dc_count": {
-      "min": -0.622,
-      "median": -0.523,
-      "max": -0.44,
+      "min": -0.71,
+      "median": -0.596,
+      "max": -0.498,
       "sign_stable": true
     },
     "n_projects_tracked": {
-      "min": 0.625,
-      "median": 0.675,
-      "max": 0.758,
+      "min": 0.684,
+      "median": 0.749,
+      "max": 0.842,
       "sign_stable": true
     },
     "state_legislation_events": {
-      "min": -0.189,
-      "median": -0.126,
-      "max": -0.064,
+      "min": -0.193,
+      "median": -0.128,
+      "max": -0.062,
       "sign_stable": true
     },
     "median_hh_income": {
-      "min": 0.02,
-      "median": 0.077,
-      "max": 0.158,
+      "min": 0.014,
+      "median": 0.076,
+      "max": 0.162,
       "sign_stable": true
     },
     "pop_density_sqmi": {
-      "min": 0.15,
-      "median": 0.236,
+      "min": 0.115,
+      "median": 0.223,
       "max": 0.344,
       "sign_stable": true
     },
     "pct_bachelors_plus": {
       "min": 0.099,
-      "median": 0.16,
-      "max": 0.229,
+      "median": 0.163,
+      "max": 0.241,
       "sign_stable": true
     },
     "population": {
-      "min": 0.316,
-      "median": 0.436,
-      "max": 0.519,
+      "min": 0.318,
+      "median": 0.468,
+      "max": 0.564,
       "sign_stable": true
     }
   },
   "aggregate_manifest": {
-    "generated": "2026-09-24",
+    "generated": "2026-09-25",
     "counties": 3222,
-    "event_rows_with_county": 1476,
-    "event_match_rate": 0.9912,
+    "event_rows_with_county": 1497,
+    "event_match_rate": 0.9913,
     "enacted_restriction_counties": 359,
-    "dc_presence_counties": 420,
+    "dc_presence_counties": 424,
     "inputs": {
       "county_census_features.csv": "c94063d9123016f5",
       "county_votes.json": "b521eb017a7acfa5",
       "atlas.csv": "7a8c78d3ed6cea2d",
-      "master_opposition.csv": "26390fa2060e1cea",
-      "baseline_universe.csv": "a95098bef63a93c0",
-      "project_lifecycles.csv": "2ba0960c18f2964c"
+      "master_opposition.csv": "ab21ed48f118af6a",
+      "baseline_universe.csv": "0001197fc230ae0d",
+      "project_lifecycles.csv": "a1b29356e35d770b"
     }
   }
 }

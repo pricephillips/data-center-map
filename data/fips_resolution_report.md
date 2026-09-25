@@ -1,7 +1,7 @@
 # County FIPS resolution
 
-Proposals examined: 388
-Already resolved by the existing lookup: 374
+Proposals examined: 396
+Already resolved by the existing lookup: 382
 Applied by this pass: 13
 Held for confirmation: 0
 Still unresolved: 1
@@ -34,7 +34,7 @@ Retired codes caught: 5. A retired code is a FIPS the lookup still returns that 
 | prj_123 | Mississippi | BDeSoto County | DeSoto County, Mississippi | 28033 | `census_reverse` |
 | prj_178 | North Carolina | (blank) | Wake County, North Carolina | 37183 | `census_reverse` |
 | prj_189 | North Carolina | (blank) | Catawba County, North Carolina | 37035 | `name_extract` |
-| prj_279 | Pennsylvania | alleMonroe County | Monroe County, Pennsylvania | 42089 | `census_reverse` |
+| prj_390 | Kentucky | Carrollton County | Carroll County, Kentucky | 21041 | `census_reverse` |
 
 ## Still unresolved
 

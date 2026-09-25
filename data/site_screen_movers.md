@@ -1,54 +1,44 @@
 # Opposition Environment Movement Report
 
-Run date: 2026-09-24
-Compared against: 2026-09-23
+Run date: 2026-09-25
+Compared against: 2026-09-24
 
-Sites screened: 386 | tier changes: 6 | composite moves of 3 points or more: 6 | newly screened: 18
+Sites screened: 394 | tier changes: 7 | composite moves of 3 points or more: 5 | newly screened: 8
 
 ## Tier changes
 
 | Site | County, State | From | To | Composite change |
 | :-- | :-- | :-- | :-- | --: |
-| Riverview Innovative and Technology Campus Data Center | Erie County, NY | Low | Guarded | +5.2 |
-| STAMP Data Center | Genesee County, NY | Low | Guarded | +10.3 |
-| Project Mila / Trenton Industrial Park Data Center | Butler County, OH | Guarded | Elevated | +0.2 |
-| Project Hazelnut | Luzerne County, PA | Elevated | High | +0.6 |
-| Allenwood Data Center | Union County, PA | Low | Guarded | +4.0 |
-| Alpha Technologies Huntington | Cabell County, WV | Guarded | Low | -0.9 |
+| VoltCore Bitcoin Mine | Morgan County, AL | Low | Guarded | +1.2 |
+| Granger Data Center | St. Joseph County, IN | Guarded | Elevated | +1.3 |
+| Tobyhanna Township / Blakeslee Data Center | Monroe County, PA | Elevated | High | +5.8 |
+| Muncy Data Center | Lycoming County, PA | Low | Guarded | +0.8 |
+| East Manchester Farmland to Data Center Initiative Interest | York County, PA | Guarded | Elevated | +0.7 |
+| Alpha Technologies Huntington | Cabell County, WV | Low | Guarded | +1.0 |
+| Terra Nexus Custer Avenue Data Center | Cumberland, NC | Guarded | Elevated | +1.1 |
 
 ## Largest composite moves
 
 | Site | County, State | Tier | Composite | Change |
 | :-- | :-- | :-- | :-- | --: |
-| STAMP Data Center | Genesee County, NY | Guarded | 43.0 | +10.3 |
-| Hobart Tech Park | Lake County, IN | Guarded | 54.1 | +5.9 |
-| Riverview Innovative and Technology Campus Data Center | Erie County, NY | Guarded | 44.7 | +5.2 |
-| Klondike Data Center Project | Bradford County, PA | Low | 22.0 | +5.0 |
-| Massena Petawatt Data Center Site Advertisement | St. Lawrence County, NY | Low | 25.8 | +4.5 |
-| Allenwood Data Center | Union County, PA | Guarded | 42.2 | +4.0 |
+| Smithfield Gateway Project | Monroe County, PA | Elevated | 72.6 | +6.0 |
+| Tobyhanna Township / Blakeslee Data Center | Monroe County, PA | High | 85.3 | +5.8 |
+| Columbiana Mining Facility and Data Center | Shelby County, AL | Guarded | 62.9 | +5.5 |
+| Massena Petawatt Data Center Site Advertisement | St. Lawrence County, NY | Low | 30.5 | +4.7 |
+| Former Sears Data Center | St. Lawrence County, NY | Low | 30.5 | +4.7 |
 
 ## Newly screened sites
 
 | Site | County, State | Tier | Composite |
 | :-- | :-- | :-- | --: |
-| QLevr Charlestown | Clark County, IN | Guarded | 59.6 |
-| Joint Base McGuire-Dix-Lakehurst | Burlington County, NJ | Elevated | 80.1 |
-| Tower Gate Project | Burlington County, NJ | Elevated | 81.9 |
-| Comcast Moorestown | Burlington County, NJ | Elevated | 81.4 |
-| Brookhaven Logistics Center | Suffolk County, NY | Low | 36.0 |
-| Former Sears Data Center | St. Lawrence County, NY | Low | 25.8 |
-| 9Lives Niagara | Erie County, NY | Guarded | 44.7 |
-| Tesla Dojo Supercomputer | Erie County, NY | Guarded | 44.7 |
-| Treetop Development Project | Dutchess County, NY | Low | 33.5 |
-| Camp Monterey Data Center | Schuyler County, NY | Low | 12.7 |
-| Holtec Decommissioning International | Westchester County, NY | Low | 37.5 |
-| IBM Quantum Data Center | Dutchess County, NY | Low | 33.5 |
-| Provident Charleston | Porter County, IN | Guarded | 59.9 |
-| Karis Critical | Lake County, IN | Guarded | 54.1 |
-| Wylie Capital | Lake County, IN | Guarded | 54.1 |
-| Slate Belt Data Centers | Northampton County, PA | Elevated | 66.8 |
-| Soltier Cryptomine | Bradford County, PA | Low | 22.0 |
-| Data Centric LLC Allenwood | Union County, PA | Guarded | 42.2 |
+| North Country Colocation Services | St. Lawrence County, NY | Low | 30.5 |
+| Wilsonville Data Center | Shelby County, AL | Guarded | 58.3 |
+| Project Bluegrass | Mercer County, KY | Guarded | 51.7 |
+| Jenkins KY Data Center | Letcher County, KY | Low | 16.8 |
+| Brookfield Data Center | McCracken County, KY | Low | 15.4 |
+| Sphere 3D Data Center | Christian County, KY | Low | 16.2 |
+| Rubix Data Center | Greenup County, KY | Low | 33.1 |
+| PowerHouse Carrollton | Carroll County, KY | Guarded | 40.4 |
 
 ## Reading this report
 

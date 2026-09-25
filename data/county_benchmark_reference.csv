@@ -1,6 +1,6 @@
 group_key,group_label,group_n,metric,metric_label,direction,n_obs,mean,median,p10,p25,p75,p90,sd,min,max
-dc_absent,Counties with no data center on record,2971,calibrated_score,Restriction resemblance score,up_is_more_restrictive,2895,0.096173,0.065800,0.033200,0.045300,0.106050,0.190760,0.094826,0.005500,0.916200
-dc_absent,Counties with no data center on record,2971,va_width,Score interval width,neutral,2895,0.069570,0.056200,0.028200,0.039650,0.074100,0.117600,0.057664,0.021100,0.500000
+dc_absent,Counties with no data center on record,2971,calibrated_score,Restriction resemblance score,up_is_more_restrictive,2895,0.096914,0.065900,0.033640,0.045600,0.105450,0.193560,0.097694,0.005600,0.936800
+dc_absent,Counties with no data center on record,2971,va_width,Score interval width,neutral,2895,0.069969,0.058500,0.029400,0.039600,0.079400,0.116800,0.056362,0.021100,0.571400
 dc_absent,Counties with no data center on record,2971,population,Population,neutral,2971,60834.92,23149.00,4662.00,10115.00,53701.00,143592.00,128770.08,43.00,2330124.00
 dc_absent,Counties with no data center on record,2971,pop_density_sqmi,Population density (per sq mi),neutral,2971,180.5001,41.1500,3.7400,15.0100,104.6200,340.2400,905.5103,0.0400,33650.6500
 dc_absent,Counties with no data center on record,2971,median_hh_income,Median household income,neutral,2969,63406.30,62337.00,44791.40,53364.00,71870.00,83036.00,16907.60,16170.00,156000.00
@@ -9,26 +9,26 @@ dc_absent,Counties with no data center on record,2971,margin_2024,2024 president
 dc_absent,Counties with no data center on record,2971,margin_2016,2016 presidential margin,neutral,2885,-0.344396,-0.401000,-0.665360,-0.556200,-0.183600,0.060180,0.290775,-0.916400,0.791300
 dc_absent,Counties with no data center on record,2971,land_sqmi,Land area (sq mi),neutral,2971,1102.014,604.194,257.976,420.358,911.976,1781.696,3678.053,2.046,145581.869
 dc_absent,Counties with no data center on record,2971,existing_dc_count,Data center records in the atlas,neutral,2971,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-dc_absent,Counties with no data center on record,2971,n_opposition_events,Opposition events,up_is_more_restrictive,2971,0.34,0.00,0.00,0.00,0.00,1.00,1.18,0.00,27.00
-dc_absent,Counties with no data center on record,2971,n_moratorium_events,Moratorium events,up_is_more_restrictive,2971,0.15,0.00,0.00,0.00,0.00,1.00,0.67,0.00,14.00
+dc_absent,Counties with no data center on record,2971,n_opposition_events,Opposition events,up_is_more_restrictive,2971,0.35,0.00,0.00,0.00,0.00,1.00,1.20,0.00,27.00
+dc_absent,Counties with no data center on record,2971,n_moratorium_events,Moratorium events,up_is_more_restrictive,2971,0.15,0.00,0.00,0.00,0.00,1.00,0.68,0.00,15.00
 dc_absent,Counties with no data center on record,2971,n_zoning_events,Zoning events,up_is_more_restrictive,2971,0.07,0.00,0.00,0.00,0.00,0.00,0.35,0.00,6.00
 dc_absent,Counties with no data center on record,2971,n_ban_events,Ban events,up_is_more_restrictive,2971,0.00,0.00,0.00,0.00,0.00,0.00,0.03,0.00,1.00
-dc_absent,Counties with no data center on record,2971,n_legislation_events,Legislation events,up_is_more_restrictive,2971,0.02,0.00,0.00,0.00,0.00,0.00,0.26,0.00,8.00
+dc_absent,Counties with no data center on record,2971,n_legislation_events,Legislation events,up_is_more_restrictive,2971,0.02,0.00,0.00,0.00,0.00,0.00,0.29,0.00,8.00
 dc_absent,Counties with no data center on record,2971,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,2971,0.03,0.00,0.00,0.00,0.00,0.00,0.24,0.00,6.00
 dc_absent,Counties with no data center on record,2971,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,2971,0.12,0.00,0.00,0.00,0.00,0.00,0.46,0.00,12.00
 dc_absent,Counties with no data center on record,2971,state_legislation_events,Statewide legislation events,up_is_more_restrictive,2971,2.87,2.00,1.00,1.00,4.00,4.00,2.70,0.00,14.00
-dc_absent,Counties with no data center on record,2971,n_projects_tracked,Projects tracked,neutral,2971,0.09,0.00,0.00,0.00,0.00,0.00,0.48,0.00,15.00
+dc_absent,Counties with no data center on record,2971,n_projects_tracked,Projects tracked,neutral,2971,0.09,0.00,0.00,0.00,0.00,0.00,0.49,0.00,15.00
 dc_absent,Counties with no data center on record,2971,n_projects_opposed,Projects opposed,up_is_more_restrictive,2971,0.05,0.00,0.00,0.00,0.00,0.00,0.31,0.00,8.00
 dc_absent,Counties with no data center on record,2971,n_decided,Projects decided,neutral,2971,0.03,0.00,0.00,0.00,0.00,0.00,0.20,0.00,6.00
 dc_absent,Counties with no data center on record,2971,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,2971,0.01,0.00,0.00,0.00,0.00,0.00,0.16,0.00,6.00
-dc_absent,Counties with no data center on record,2971,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,2971,0.01,0.00,0.00,0.00,0.00,0.00,0.11,0.00,2.00
+dc_absent,Counties with no data center on record,2971,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,2971,0.01,0.00,0.00,0.00,0.00,0.00,0.12,0.00,2.00
 dc_absent,Counties with no data center on record,2971,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,2971,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 dc_absent,Counties with no data center on record,2971,median_days_to_decision,Median days to decision,neutral,5,185.00,98.00,61.80,78.00,206.00,377.60,181.43,51.00,492.00
-dc_absent,Counties with no data center on record,2971,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,2971,1.05544,0.00000,0.00000,0.00000,0.00000,2.22135,7.75457,0.00000,329.48929
-dc_absent,Counties with no data center on record,2971,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,169,0.602498,1.000000,0.000000,0.000000,1.000000,1.000000,0.453727,0.000000,1.000000
-dc_absent,Counties with no data center on record,2971,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,63,0.444444,0.000000,0.000000,0.000000,1.000000,1.000000,0.492779,0.000000,1.000000
-dc_present,Counties with a data center on record,251,calibrated_score,Restriction resemblance score,up_is_more_restrictive,249,0.324043,0.312200,0.096940,0.173500,0.457500,0.552900,0.171324,0.035500,0.781600
-dc_present,Counties with a data center on record,251,va_width,Score interval width,neutral,249,0.215901,0.177700,0.067100,0.117600,0.304200,0.366840,0.131302,0.030800,0.666700
+dc_absent,Counties with no data center on record,2971,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,2971,1.11548,0.00000,0.00000,0.00000,0.00000,2.24462,9.54682,0.00000,439.31906
+dc_absent,Counties with no data center on record,2971,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,173,0.593385,1.000000,0.000000,0.000000,1.000000,1.000000,0.456382,0.000000,1.000000
+dc_absent,Counties with no data center on record,2971,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,64,0.437500,0.000000,0.000000,0.000000,1.000000,1.000000,0.491999,0.000000,1.000000
+dc_present,Counties with a data center on record,251,calibrated_score,Restriction resemblance score,up_is_more_restrictive,249,0.315566,0.302200,0.094840,0.171200,0.437400,0.535900,0.168014,0.035600,0.789000
+dc_present,Counties with a data center on record,251,va_width,Score interval width,neutral,249,0.209573,0.179300,0.074980,0.116800,0.305100,0.371400,0.126181,0.028600,0.705900
 dc_present,Counties with a data center on record,251,population,Population,neutral,251,617139.01,326296.00,47237.00,104791.50,788939.50,1321635.00,957473.48,3419.00,9848406.00
 dc_present,Counties with a data center on record,251,pop_density_sqmi,Population density (per sq mi),neutral,251,1660.5073,488.1500,49.0200,156.8200,1558.6550,2787.6600,5454.4313,1.9800,71841.6500
 dc_present,Counties with a data center on record,251,median_hh_income,Median household income,neutral,251,84449.85,80374.00,59076.00,67829.00,97192.00,118411.00,23455.92,26981.00,178707.00
@@ -37,27 +37,27 @@ dc_present,Counties with a data center on record,251,margin_2024,2024 presidenti
 dc_present,Counties with a data center on record,251,margin_2016,2016 presidential margin,neutral,245,-0.019195,-0.004300,-0.478980,-0.271400,0.197800,0.386240,0.334272,-0.805900,0.887200
 dc_present,Counties with a data center on record,251,land_sqmi,Land area (sq mi),neutral,251,1046.375,611.835,224.478,403.435,1019.429,2115.736,1389.318,9.843,9202.016
 dc_present,Counties with a data center on record,251,existing_dc_count,Data center records in the atlas,neutral,251,5.89,2.00,1.00,1.00,4.00,14.00,16.27,1.00,213.00
-dc_present,Counties with a data center on record,251,n_opposition_events,Opposition events,up_is_more_restrictive,251,1.79,1.00,0.00,0.00,3.00,5.00,2.67,0.00,21.00
-dc_present,Counties with a data center on record,251,n_moratorium_events,Moratorium events,up_is_more_restrictive,251,0.45,0.00,0.00,0.00,1.00,1.00,0.89,0.00,5.00
+dc_present,Counties with a data center on record,251,n_opposition_events,Opposition events,up_is_more_restrictive,251,1.81,1.00,0.00,0.00,3.00,5.00,2.69,0.00,21.00
+dc_present,Counties with a data center on record,251,n_moratorium_events,Moratorium events,up_is_more_restrictive,251,0.47,0.00,0.00,0.00,1.00,1.00,0.93,0.00,6.00
 dc_present,Counties with a data center on record,251,n_zoning_events,Zoning events,up_is_more_restrictive,251,0.46,0.00,0.00,0.00,1.00,1.00,1.00,0.00,9.00
 dc_present,Counties with a data center on record,251,n_ban_events,Ban events,up_is_more_restrictive,251,0.00,0.00,0.00,0.00,0.00,0.00,0.06,0.00,1.00
 dc_present,Counties with a data center on record,251,n_legislation_events,Legislation events,up_is_more_restrictive,251,0.18,0.00,0.00,0.00,0.00,1.00,0.64,0.00,4.00
 dc_present,Counties with a data center on record,251,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,251,0.18,0.00,0.00,0.00,0.00,0.00,0.69,0.00,6.00
 dc_present,Counties with a data center on record,251,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,251,0.49,0.00,0.00,0.00,1.00,1.00,0.92,0.00,6.00
 dc_present,Counties with a data center on record,251,state_legislation_events,Statewide legislation events,up_is_more_restrictive,251,3.44,3.00,1.00,1.00,4.00,5.00,3.43,0.00,14.00
-dc_present,Counties with a data center on record,251,n_projects_tracked,Projects tracked,neutral,251,6.33,2.00,1.00,1.00,5.00,14.00,16.32,0.00,213.00
+dc_present,Counties with a data center on record,251,n_projects_tracked,Projects tracked,neutral,251,6.34,2.00,1.00,1.00,5.00,14.00,16.32,0.00,213.00
 dc_present,Counties with a data center on record,251,n_projects_opposed,Projects opposed,up_is_more_restrictive,251,0.26,0.00,0.00,0.00,0.00,1.00,0.63,0.00,3.00
 dc_present,Counties with a data center on record,251,n_decided,Projects decided,neutral,251,0.23,0.00,0.00,0.00,0.00,1.00,0.74,0.00,7.00
 dc_present,Counties with a data center on record,251,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,251,0.06,0.00,0.00,0.00,0.00,0.00,0.33,0.00,4.00
 dc_present,Counties with a data center on record,251,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,251,0.18,0.00,0.00,0.00,0.00,1.00,0.66,0.00,7.00
 dc_present,Counties with a data center on record,251,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,251,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 dc_present,Counties with a data center on record,251,median_days_to_decision,Median days to decision,neutral,2,485.50,485.50,250.70,338.75,632.25,720.30,415.07,192.00,779.00
-dc_present,Counties with a data center on record,251,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,251,0.77681,0.18368,0.00000,0.00000,0.76769,1.93547,1.83612,0.00000,20.16536
-dc_present,Counties with a data center on record,251,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,251,0.97642,0.19231,0.00000,0.00000,1.00000,3.00000,1.79229,0.00000,14.00000
+dc_present,Counties with a data center on record,251,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,251,0.77852,0.18485,0.00000,0.00000,0.79734,1.93547,1.83589,0.00000,20.16536
+dc_present,Counties with a data center on record,251,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,251,0.98862,0.19231,0.00000,0.00000,1.00000,3.00000,1.83311,0.00000,14.00000
 dc_present,Counties with a data center on record,251,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,249,0.067811,0.000000,0.000000,0.000000,0.000000,0.333333,0.168664,0.000000,0.750000
 dc_present,Counties with a data center on record,251,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,35,0.264286,0.000000,0.000000,0.000000,0.625000,1.000000,0.441183,0.000000,1.000000
-national,All counties in the frame,3222,calibrated_score,Restriction resemblance score,up_is_more_restrictive,3144,0.114220,0.070600,0.034100,0.046600,0.125200,0.250770,0.119931,0.005500,0.916200
-national,All counties in the frame,3222,va_width,Score interval width,neutral,3144,0.081159,0.059200,0.030000,0.041700,0.088900,0.126900,0.077357,0.021100,0.666700
+national,All counties in the frame,3222,calibrated_score,Restriction resemblance score,up_is_more_restrictive,3144,0.114231,0.070400,0.034430,0.047075,0.124950,0.250790,0.120428,0.005600,0.936800
+national,All counties in the frame,3222,va_width,Score interval width,neutral,3144,0.081026,0.060900,0.030300,0.040900,0.089900,0.147900,0.074853,0.021100,0.705900
 national,All counties in the frame,3222,population,Population,neutral,3222,104172.07,25967.00,5043.60,10985.50,67526.25,215723.70,329668.90,43.00,9848406.00
 national,All counties in the frame,3222,pop_density_sqmi,Population density (per sq mi),neutral,3222,295.7955,46.5750,4.0610,16.9625,137.5575,516.0490,1795.1536,0.0400,71841.6500
 national,All counties in the frame,3222,median_hh_income,Median household income,neutral,3220,65046.65,63161.50,45454.80,54113.25,73216.25,86398.40,18388.68,16170.00,178707.00
@@ -66,11 +66,11 @@ national,All counties in the frame,3222,margin_2024,2024 presidential margin,neu
 national,All counties in the frame,3222,margin_2016,2016 presidential margin,neutral,3130,-0.318941,-0.379850,-0.657560,-0.545975,-0.151700,0.115040,0.307043,-0.916400,0.887200
 national,All counties in the frame,3222,land_sqmi,Land area (sq mi),neutral,3222,1097.679,604.443,253.328,418.982,914.850,1818.803,3553.016,2.046,145581.869
 national,All counties in the frame,3222,existing_dc_count,Data center records in the atlas,neutral,3222,0.46,0.00,0.00,0.00,0.00,0.00,4.80,0.00,213.00
-national,All counties in the frame,3222,n_opposition_events,Opposition events,up_is_more_restrictive,3222,0.45,0.00,0.00,0.00,0.00,1.00,1.41,0.00,27.00
-national,All counties in the frame,3222,n_moratorium_events,Moratorium events,up_is_more_restrictive,3222,0.17,0.00,0.00,0.00,0.00,1.00,0.69,0.00,14.00
+national,All counties in the frame,3222,n_opposition_events,Opposition events,up_is_more_restrictive,3222,0.46,0.00,0.00,0.00,0.00,1.00,1.43,0.00,27.00
+national,All counties in the frame,3222,n_moratorium_events,Moratorium events,up_is_more_restrictive,3222,0.17,0.00,0.00,0.00,0.00,1.00,0.71,0.00,15.00
 national,All counties in the frame,3222,n_zoning_events,Zoning events,up_is_more_restrictive,3222,0.10,0.00,0.00,0.00,0.00,0.00,0.45,0.00,9.00
 national,All counties in the frame,3222,n_ban_events,Ban events,up_is_more_restrictive,3222,0.00,0.00,0.00,0.00,0.00,0.00,0.04,0.00,1.00
-national,All counties in the frame,3222,n_legislation_events,Legislation events,up_is_more_restrictive,3222,0.03,0.00,0.00,0.00,0.00,0.00,0.31,0.00,8.00
+national,All counties in the frame,3222,n_legislation_events,Legislation events,up_is_more_restrictive,3222,0.03,0.00,0.00,0.00,0.00,0.00,0.33,0.00,8.00
 national,All counties in the frame,3222,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,3222,0.04,0.00,0.00,0.00,0.00,0.00,0.30,0.00,6.00
 national,All counties in the frame,3222,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,3222,0.15,0.00,0.00,0.00,0.00,1.00,0.52,0.00,12.00
 national,All counties in the frame,3222,state_legislation_events,Statewide legislation events,up_is_more_restrictive,3222,2.91,2.00,1.00,1.00,4.00,4.00,2.77,0.00,14.00
@@ -81,12 +81,12 @@ national,All counties in the frame,3222,n_blocked_confirmed,Projects blocked (co
 national,All counties in the frame,3222,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,3222,0.03,0.00,0.00,0.00,0.00,0.00,0.22,0.00,7.00
 national,All counties in the frame,3222,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,3222,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 national,All counties in the frame,3222,median_days_to_decision,Median days to decision,neutral,7,270.86,192.00,67.20,88.00,349.00,606.80,268.62,51.00,779.00
-national,All counties in the frame,3222,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,3222,1.03374,0.00000,0.00000,0.00000,0.00000,2.17407,7.46423,0.00000,329.48929
-national,All counties in the frame,3222,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,251,0.97642,0.19231,0.00000,0.00000,1.00000,3.00000,1.79229,0.00000,14.00000
-national,All counties in the frame,3222,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,418,0.283989,0.000000,0.000000,0.000000,0.500000,1.000000,0.410948,0.000000,1.000000
-national,All counties in the frame,3222,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,98,0.380102,0.000000,0.000000,0.000000,1.000000,1.000000,0.480589,0.000000,1.000000
-non_restrictive,Counties with no enacted restriction on record,2863,calibrated_score,Restriction resemblance score,up_is_more_restrictive,2785,0.099041,0.065400,0.032800,0.044700,0.107300,0.205900,0.097734,0.005500,0.763600
-non_restrictive,Counties with no enacted restriction on record,2863,va_width,Score interval width,neutral,2785,0.071888,0.056200,0.028200,0.039200,0.075600,0.117600,0.061281,0.021100,0.600000
+national,All counties in the frame,3222,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,3222,1.08923,0.00000,0.00000,0.00000,0.00000,2.20345,9.18200,0.00000,439.31906
+national,All counties in the frame,3222,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,251,0.98862,0.19231,0.00000,0.00000,1.00000,3.00000,1.83311,0.00000,14.00000
+national,All counties in the frame,3222,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,422,0.283271,0.000000,0.000000,0.000000,0.500000,1.000000,0.410887,0.000000,1.000000
+national,All counties in the frame,3222,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,99,0.376263,0.000000,0.000000,0.000000,1.000000,1.000000,0.479655,0.000000,1.000000
+non_restrictive,Counties with no enacted restriction on record,2863,calibrated_score,Restriction resemblance score,up_is_more_restrictive,2785,0.098940,0.065200,0.033300,0.045000,0.107200,0.205100,0.097481,0.005600,0.792600
+non_restrictive,Counties with no enacted restriction on record,2863,va_width,Score interval width,neutral,2785,0.072075,0.057200,0.028600,0.039200,0.081300,0.119660,0.059857,0.021100,0.642900
 non_restrictive,Counties with no enacted restriction on record,2863,population,Population,neutral,2863,83617.49,22890.00,4560.20,9903.00,54937.50,163926.40,256521.14,43.00,5185812.00
 non_restrictive,Counties with no enacted restriction on record,2863,pop_density_sqmi,Population density (per sq mi),neutral,2863,276.2215,40.5500,3.7320,14.6350,105.5850,415.4640,1886.0307,0.0400,71841.6500
 non_restrictive,Counties with no enacted restriction on record,2863,median_hh_income,Median household income,neutral,2861,63828.65,62385.00,44492.00,53102.00,72437.00,84778.00,17822.28,16170.00,159674.00
@@ -95,11 +95,11 @@ non_restrictive,Counties with no enacted restriction on record,2863,margin_2024,
 non_restrictive,Counties with no enacted restriction on record,2863,margin_2016,2016 presidential margin,neutral,2771,-0.337925,-0.399600,-0.667100,-0.557200,-0.166900,0.087200,0.300640,-0.916400,0.887200
 non_restrictive,Counties with no enacted restriction on record,2863,land_sqmi,Land area (sq mi),neutral,2863,1124.790,616.318,252.005,420.358,929.349,1854.584,3733.008,2.046,145581.869
 non_restrictive,Counties with no enacted restriction on record,2863,existing_dc_count,Data center records in the atlas,neutral,2863,0.29,0.00,0.00,0.00,0.00,0.00,2.58,0.00,75.00
-non_restrictive,Counties with no enacted restriction on record,2863,n_opposition_events,Opposition events,up_is_more_restrictive,2863,0.22,0.00,0.00,0.00,0.00,1.00,0.91,0.00,16.00
-non_restrictive,Counties with no enacted restriction on record,2863,n_moratorium_events,Moratorium events,up_is_more_restrictive,2863,0.05,0.00,0.00,0.00,0.00,0.00,0.52,0.00,14.00
+non_restrictive,Counties with no enacted restriction on record,2863,n_opposition_events,Opposition events,up_is_more_restrictive,2863,0.22,0.00,0.00,0.00,0.00,1.00,0.93,0.00,17.00
+non_restrictive,Counties with no enacted restriction on record,2863,n_moratorium_events,Moratorium events,up_is_more_restrictive,2863,0.05,0.00,0.00,0.00,0.00,0.00,0.54,0.00,15.00
 non_restrictive,Counties with no enacted restriction on record,2863,n_zoning_events,Zoning events,up_is_more_restrictive,2863,0.04,0.00,0.00,0.00,0.00,0.00,0.25,0.00,6.00
 non_restrictive,Counties with no enacted restriction on record,2863,n_ban_events,Ban events,up_is_more_restrictive,2863,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-non_restrictive,Counties with no enacted restriction on record,2863,n_legislation_events,Legislation events,up_is_more_restrictive,2863,0.02,0.00,0.00,0.00,0.00,0.00,0.26,0.00,8.00
+non_restrictive,Counties with no enacted restriction on record,2863,n_legislation_events,Legislation events,up_is_more_restrictive,2863,0.02,0.00,0.00,0.00,0.00,0.00,0.27,0.00,8.00
 non_restrictive,Counties with no enacted restriction on record,2863,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,2863,0.02,0.00,0.00,0.00,0.00,0.00,0.19,0.00,4.00
 non_restrictive,Counties with no enacted restriction on record,2863,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,2863,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 non_restrictive,Counties with no enacted restriction on record,2863,state_legislation_events,Statewide legislation events,up_is_more_restrictive,2863,2.92,2.00,1.00,1.00,4.00,4.00,2.81,0.00,14.00
@@ -110,12 +110,12 @@ non_restrictive,Counties with no enacted restriction on record,2863,n_blocked_co
 non_restrictive,Counties with no enacted restriction on record,2863,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,2863,0.02,0.00,0.00,0.00,0.00,0.00,0.14,0.00,3.00
 non_restrictive,Counties with no enacted restriction on record,2863,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,2863,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 non_restrictive,Counties with no enacted restriction on record,2863,median_days_to_decision,Median days to decision,neutral,5,261.20,192.00,61.80,78.00,206.00,549.80,297.36,51.00,779.00
-non_restrictive,Counties with no enacted restriction on record,2863,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,2863,0.58304,0.00000,0.00000,0.00000,0.00000,0.50579,3.97001,0.00000,92.67841
-non_restrictive,Counties with no enacted restriction on record,2863,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,170,0.57879,0.00000,0.00000,0.00000,0.33333,1.50000,1.57197,0.00000,14.00000
-non_restrictive,Counties with no enacted restriction on record,2863,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,275,0.213776,0.000000,0.000000,0.000000,0.250000,1.000000,0.385275,0.000000,1.000000
-non_restrictive,Counties with no enacted restriction on record,2863,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,58,0.379310,0.000000,0.000000,0.000000,1.000000,1.000000,0.489453,0.000000,1.000000
-restrictive,Counties with an enacted restrictive action on record,359,calibrated_score,Restriction resemblance score,up_is_more_restrictive,359,0.231972,0.163600,0.060800,0.091800,0.328450,0.524160,0.190523,0.022100,0.916200
-restrictive,Counties with an enacted restrictive action on record,359,va_width,Score interval width,neutral,359,0.153076,0.108300,0.054360,0.062900,0.240200,0.342700,0.132203,0.027000,0.666700
+non_restrictive,Counties with no enacted restriction on record,2863,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,2863,0.60572,0.00000,0.00000,0.00000,0.00000,0.52359,4.30469,0.00000,118.38990
+non_restrictive,Counties with no enacted restriction on record,2863,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,170,0.58504,0.00000,0.00000,0.00000,0.33333,1.50000,1.59769,0.00000,14.00000
+non_restrictive,Counties with no enacted restriction on record,2863,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,278,0.213267,0.000000,0.000000,0.000000,0.250000,1.000000,0.383998,0.000000,1.000000
+non_restrictive,Counties with no enacted restriction on record,2863,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,59,0.372881,0.000000,0.000000,0.000000,1.000000,1.000000,0.487722,0.000000,1.000000
+restrictive,Counties with an enacted restrictive action on record,359,calibrated_score,Restriction resemblance score,up_is_more_restrictive,359,0.232853,0.160800,0.060600,0.091100,0.319850,0.533640,0.193650,0.022100,0.936800
+restrictive,Counties with an enacted restrictive action on record,359,va_width,Score interval width,neutral,359,0.150460,0.095200,0.048900,0.066300,0.189700,0.333300,0.125978,0.027000,0.705900
 restrictive,Counties with an enacted restrictive action on record,359,population,Population,neutral,359,268093.48,98592.00,17051.60,36710.50,282652.00,661024.00,649191.41,812.00,9848406.00
 restrictive,Counties with an enacted restrictive action on record,359,pop_density_sqmi,Population density (per sq mi),neutral,359,451.8964,162.6600,25.6960,63.1000,493.6100,1269.4300,727.7811,0.9200,5571.3900
 restrictive,Counties with an enacted restrictive action on record,359,median_hh_income,Median household income,neutral,359,74753.29,69990.00,55302.00,61623.50,82309.50,101404.60,19914.85,45573.00,178707.00
@@ -124,27 +124,27 @@ restrictive,Counties with an enacted restrictive action on record,359,margin_202
 restrictive,Counties with an enacted restrictive action on record,359,margin_2016,2016 presidential margin,neutral,359,-0.172409,-0.224800,-0.531360,-0.423950,0.043400,0.296540,0.316739,-0.816000,0.809900
 restrictive,Counties with an enacted restrictive action on record,359,land_sqmi,Land area (sq mi),neutral,359,881.472,553.084,286.602,413.820,778.428,1244.231,1456.828,102.766,18181.914
 restrictive,Counties with an enacted restrictive action on record,359,existing_dc_count,Data center records in the atlas,neutral,359,1.82,0.00,0.00,0.00,0.00,2.00,12.33,0.00,213.00
-restrictive,Counties with an enacted restrictive action on record,359,n_opposition_events,Opposition events,up_is_more_restrictive,359,2.36,1.00,1.00,1.00,3.00,5.00,2.68,1.00,27.00
-restrictive,Counties with an enacted restrictive action on record,359,n_moratorium_events,Moratorium events,up_is_more_restrictive,359,1.12,1.00,0.00,1.00,1.00,2.00,1.05,0.00,10.00
+restrictive,Counties with an enacted restrictive action on record,359,n_opposition_events,Opposition events,up_is_more_restrictive,359,2.38,1.00,1.00,1.00,3.00,5.00,2.71,1.00,27.00
+restrictive,Counties with an enacted restrictive action on record,359,n_moratorium_events,Moratorium events,up_is_more_restrictive,359,1.13,1.00,0.00,1.00,1.00,2.00,1.08,0.00,10.00
 restrictive,Counties with an enacted restrictive action on record,359,n_zoning_events,Zoning events,up_is_more_restrictive,359,0.57,0.00,0.00,0.00,1.00,2.00,1.03,0.00,9.00
 restrictive,Counties with an enacted restrictive action on record,359,n_ban_events,Ban events,up_is_more_restrictive,359,0.01,0.00,0.00,0.00,0.00,0.00,0.11,0.00,1.00
-restrictive,Counties with an enacted restrictive action on record,359,n_legislation_events,Legislation events,up_is_more_restrictive,359,0.11,0.00,0.00,0.00,0.00,0.00,0.57,0.00,5.00
+restrictive,Counties with an enacted restrictive action on record,359,n_legislation_events,Legislation events,up_is_more_restrictive,359,0.11,0.00,0.00,0.00,0.00,0.00,0.63,0.00,7.00
 restrictive,Counties with an enacted restrictive action on record,359,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,359,0.19,0.00,0.00,0.00,0.00,0.00,0.71,0.00,6.00
 restrictive,Counties with an enacted restrictive action on record,359,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,359,1.33,1.00,1.00,1.00,1.00,2.00,0.95,1.00,12.00
 restrictive,Counties with an enacted restrictive action on record,359,state_legislation_events,Statewide legislation events,up_is_more_restrictive,359,2.87,2.00,1.00,1.00,4.00,4.00,2.43,0.00,14.00
-restrictive,Counties with an enacted restrictive action on record,359,n_projects_tracked,Projects tracked,neutral,359,2.35,0.00,0.00,0.00,1.00,4.00,12.44,0.00,213.00
-restrictive,Counties with an enacted restrictive action on record,359,n_projects_opposed,Projects opposed,up_is_more_restrictive,359,0.37,0.00,0.00,0.00,0.00,1.00,0.84,0.00,8.00
+restrictive,Counties with an enacted restrictive action on record,359,n_projects_tracked,Projects tracked,neutral,359,2.36,0.00,0.00,0.00,1.00,4.00,12.44,0.00,213.00
+restrictive,Counties with an enacted restrictive action on record,359,n_projects_opposed,Projects opposed,up_is_more_restrictive,359,0.37,0.00,0.00,0.00,0.00,1.00,0.85,0.00,8.00
 restrictive,Counties with an enacted restrictive action on record,359,n_decided,Projects decided,neutral,359,0.19,0.00,0.00,0.00,0.00,1.00,0.70,0.00,7.00
 restrictive,Counties with an enacted restrictive action on record,359,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,359,0.08,0.00,0.00,0.00,0.00,0.00,0.47,0.00,6.00
 restrictive,Counties with an enacted restrictive action on record,359,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,359,0.11,0.00,0.00,0.00,0.00,0.00,0.51,0.00,7.00
 restrictive,Counties with an enacted restrictive action on record,359,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,359,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 restrictive,Counties with an enacted restrictive action on record,359,median_days_to_decision,Median days to decision,neutral,2,295.00,295.00,137.40,196.50,393.50,452.60,278.60,98.00,492.00
-restrictive,Counties with an enacted restrictive action on record,359,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,359,4.62803,1.80912,0.36200,0.73891,4.16948,8.17083,18.99204,0.04062,329.48929
-restrictive,Counties with an enacted restrictive action on record,359,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,81,1.81096,1.00000,0.14286,0.50000,2.00000,4.00000,1.94348,0.02347,10.50000
-restrictive,Counties with an enacted restrictive action on record,359,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,143,0.419013,0.333333,0.000000,0.000000,1.000000,1.000000,0.426149,0.000000,1.000000
+restrictive,Counties with an enacted restrictive action on record,359,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,359,4.94519,1.80912,0.36200,0.75158,4.32657,8.17083,24.36448,0.04062,439.31906
+restrictive,Counties with an enacted restrictive action on record,359,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,81,1.83565,1.00000,0.14286,0.50000,2.00000,4.00000,2.00897,0.02347,10.50000
+restrictive,Counties with an enacted restrictive action on record,359,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,144,0.418418,0.333333,0.000000,0.000000,1.000000,1.000000,0.428360,0.000000,1.000000
 restrictive,Counties with an enacted restrictive action on record,359,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,40,0.381250,0.000000,0.000000,0.000000,1.000000,1.000000,0.473623,0.000000,1.000000
-state:AK,AK counties,30,calibrated_score,Restriction resemblance score,up_is_more_restrictive,30,0.059157,0.041850,0.030820,0.034725,0.061425,0.122350,0.048872,0.019400,0.260700
-state:AK,AK counties,30,va_width,Score interval width,neutral,30,0.053233,0.044800,0.033720,0.040425,0.061225,0.078500,0.021650,0.024100,0.126900
+state:AK,AK counties,30,calibrated_score,Restriction resemblance score,up_is_more_restrictive,30,0.060040,0.042900,0.030960,0.035450,0.062925,0.123030,0.048420,0.019700,0.256800
+state:AK,AK counties,30,va_width,Score interval width,neutral,30,0.060073,0.045300,0.035590,0.042375,0.066100,0.097810,0.032992,0.023800,0.153400
 state:AK,AK counties,30,population,Population,neutral,30,24465.70,6333.00,1277.90,2391.25,12381.25,63414.20,56617.32,506.00,289069.00
 state:AK,AK counties,30,pop_density_sqmi,Population density (per sq mi),neutral,30,7.4773,0.7750,0.1060,0.2650,2.6275,5.2140,30.7281,0.0400,169.3400
 state:AK,AK counties,30,median_hh_income,Median household income,neutral,30,79407.33,78158.00,62157.90,72628.25,88842.50,100524.20,14504.70,48233.00,107344.00
@@ -168,8 +168,8 @@ state:AK,AK counties,30,n_blocked_confirmed,Projects blocked (confirmed),up_is_m
 state:AK,AK counties,30,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,30,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:AK,AK counties,30,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,30,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:AK,AK counties,30,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,30,2.28297,0.00000,0.00000,0.00000,0.00000,0.91783,9.16878,0.00000,47.48338
-state:AL,AL counties,67,calibrated_score,Restriction resemblance score,up_is_more_restrictive,67,0.111301,0.062900,0.039440,0.045750,0.106050,0.265120,0.123801,0.026300,0.595600
-state:AL,AL counties,67,va_width,Score interval width,neutral,67,0.079375,0.053400,0.031300,0.037000,0.091600,0.123220,0.076008,0.027000,0.466700
+state:AL,AL counties,67,calibrated_score,Restriction resemblance score,up_is_more_restrictive,67,0.115634,0.063600,0.039920,0.046350,0.104900,0.276180,0.136136,0.026700,0.614600
+state:AL,AL counties,67,va_width,Score interval width,neutral,67,0.078552,0.043000,0.034840,0.040450,0.089250,0.147900,0.073995,0.027000,0.371400
 state:AL,AL counties,67,population,Population,neutral,67,75436.61,34450.00,11776.40,18128.50,89066.00,197379.80,110673.41,7589.00,669744.00
 state:AL,AL counties,67,pop_density_sqmi,Population density (per sq mi),neutral,67,95.1790,48.0400,14.0760,23.1950,132.0150,201.1100,112.9804,11.4400,602.5400
 state:AL,AL counties,67,median_hh_income,Median household income,neutral,67,54195.84,51551.00,40885.00,47230.50,60319.00,66851.20,12068.56,31495.00,93543.00
@@ -186,8 +186,8 @@ state:AL,AL counties,67,n_legislation_events,Legislation events,up_is_more_restr
 state:AL,AL counties,67,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,67,0.04,0.00,0.00,0.00,0.00,0.00,0.27,0.00,2.00
 state:AL,AL counties,67,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,67,0.04,0.00,0.00,0.00,0.00,0.00,0.21,0.00,1.00
 state:AL,AL counties,67,state_legislation_events,Statewide legislation events,up_is_more_restrictive,67,4.00,4.00,4.00,4.00,4.00,4.00,0.00,4.00,4.00
-state:AL,AL counties,67,n_projects_tracked,Projects tracked,neutral,67,0.36,0.00,0.00,0.00,0.00,1.00,1.01,0.00,6.00
-state:AL,AL counties,67,n_projects_opposed,Projects opposed,up_is_more_restrictive,67,0.10,0.00,0.00,0.00,0.00,0.00,0.43,0.00,3.00
+state:AL,AL counties,67,n_projects_tracked,Projects tracked,neutral,67,0.37,0.00,0.00,0.00,0.00,1.00,1.03,0.00,6.00
+state:AL,AL counties,67,n_projects_opposed,Projects opposed,up_is_more_restrictive,67,0.12,0.00,0.00,0.00,0.00,0.00,0.48,0.00,3.00
 state:AL,AL counties,67,n_decided,Projects decided,neutral,67,0.07,0.00,0.00,0.00,0.00,0.00,0.26,0.00,1.00
 state:AL,AL counties,67,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,67,0.01,0.00,0.00,0.00,0.00,0.00,0.12,0.00,1.00
 state:AL,AL counties,67,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,67,0.06,0.00,0.00,0.00,0.00,0.00,0.24,0.00,1.00
@@ -196,8 +196,8 @@ state:AL,AL counties,67,opposition_events_per_100k,Opposition events per 100k re
 state:AL,AL counties,67,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,4,1.79167,0.08333,0.00000,0.00000,1.87500,4.95000,3.47311,0.00000,7.00000
 state:AL,AL counties,67,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,12,0.312500,0.000000,0.000000,0.000000,0.562500,0.975000,0.414578,0.000000,1.000000
 state:AL,AL counties,67,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,5,0.200000,0.000000,0.000000,0.000000,0.000000,0.600000,0.447214,0.000000,1.000000
-state:AR,AR counties,75,calibrated_score,Restriction resemblance score,up_is_more_restrictive,75,0.086316,0.058300,0.039140,0.048400,0.085150,0.159940,0.083792,0.035000,0.517300
-state:AR,AR counties,75,va_width,Score interval width,neutral,75,0.062441,0.045300,0.034100,0.038500,0.070000,0.099740,0.042166,0.027000,0.280000
+state:AR,AR counties,75,calibrated_score,Restriction resemblance score,up_is_more_restrictive,75,0.087039,0.058200,0.039560,0.048300,0.084700,0.159700,0.086794,0.035200,0.537200
+state:AR,AR counties,75,va_width,Score interval width,neutral,75,0.061461,0.043300,0.031980,0.037350,0.074700,0.094680,0.041052,0.027000,0.258900
 state:AR,AR counties,75,population,Population,neutral,75,40435.35,18111.00,7981.40,12099.00,38244.00,90995.20,64689.73,4717.00,398949.00
 state:AR,AR counties,75,pop_density_sqmi,Population density (per sq mi),neutral,75,56.1820,27.6800,11.7620,19.0350,51.9000,129.4540,82.9502,7.5000,526.0600
 state:AR,AR counties,75,median_hh_income,Median household income,neutral,75,51155.93,50221.00,40238.20,44751.00,54896.50,60652.60,9427.59,36064.00,89879.00
@@ -224,8 +224,8 @@ state:AR,AR counties,75,opposition_events_per_100k,Opposition events per 100k re
 state:AR,AR counties,75,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,2,3.00000,3.00000,0.60000,1.50000,4.50000,5.40000,4.24264,0.00000,6.00000
 state:AR,AR counties,75,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,6,0.777778,1.000000,0.333333,0.750000,1.000000,1.000000,0.403687,0.000000,1.000000
 state:AR,AR counties,75,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,1,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,,1.000000,1.000000
-state:AZ,AZ counties,15,calibrated_score,Restriction resemblance score,up_is_more_restrictive,15,0.128933,0.083800,0.046440,0.060150,0.127000,0.220600,0.136891,0.032300,0.577600
-state:AZ,AZ counties,15,va_width,Score interval width,neutral,15,0.085193,0.061800,0.040780,0.050950,0.072150,0.108700,0.084517,0.038500,0.381000
+state:AZ,AZ counties,15,calibrated_score,Restriction resemblance score,up_is_more_restrictive,15,0.128873,0.085100,0.048040,0.061800,0.131600,0.221380,0.130447,0.033300,0.551600
+state:AZ,AZ counties,15,va_width,Score interval width,neutral,15,0.096567,0.066600,0.045020,0.053650,0.082950,0.125980,0.105310,0.041700,0.465300
 state:AZ,AZ counties,15,population,Population,neutral,15,484545.00,125458.00,25507.00,50909.50,229538.00,809655.80,1139198.81,9452.00,4491987.00
 state:AZ,AZ counties,15,pop_density_sqmi,Population density (per sq mi),neutral,15,58.8020,16.3100,5.4260,8.0900,38.3350,102.0460,122.8935,3.6900,488.1500
 state:AZ,AZ counties,15,median_hh_income,Median household income,neutral,15,62662.60,60417.00,50804.40,54706.50,68838.50,76648.40,11786.75,40338.00,85518.00
@@ -234,8 +234,8 @@ state:AZ,AZ counties,15,margin_2024,2024 presidential margin,neutral,15,-0.18279
 state:AZ,AZ counties,15,margin_2016,2016 presidential margin,neutral,15,-0.108800,-0.193200,-0.409320,-0.319000,0.050150,0.299040,0.292304,-0.514500,0.471300
 state:AZ,AZ counties,15,land_sqmi,Land area (sq mi),neutral,15,7577.026,6209.863,2904.334,4689.728,9575.754,12478.595,4547.648,1236.260,18616.354
 state:AZ,AZ counties,15,existing_dc_count,Data center records in the atlas,neutral,15,4.33,0.00,0.00,0.00,0.00,1.00,16.23,0.00,63.00
-state:AZ,AZ counties,15,n_opposition_events,Opposition events,up_is_more_restrictive,15,1.67,0.00,0.00,0.00,1.00,5.00,3.87,0.00,14.00
-state:AZ,AZ counties,15,n_moratorium_events,Moratorium events,up_is_more_restrictive,15,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+state:AZ,AZ counties,15,n_opposition_events,Opposition events,up_is_more_restrictive,15,1.73,0.00,0.00,0.00,1.00,5.60,3.97,0.00,14.00
+state:AZ,AZ counties,15,n_moratorium_events,Moratorium events,up_is_more_restrictive,15,0.07,0.00,0.00,0.00,0.00,0.00,0.26,0.00,1.00
 state:AZ,AZ counties,15,n_zoning_events,Zoning events,up_is_more_restrictive,15,0.87,0.00,0.00,0.00,0.00,2.20,2.39,0.00,9.00
 state:AZ,AZ counties,15,n_ban_events,Ban events,up_is_more_restrictive,15,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:AZ,AZ counties,15,n_legislation_events,Legislation events,up_is_more_restrictive,15,0.07,0.00,0.00,0.00,0.00,0.00,0.26,0.00,1.00
@@ -248,11 +248,11 @@ state:AZ,AZ counties,15,n_decided,Projects decided,neutral,15,0.00,0.00,0.00,0.0
 state:AZ,AZ counties,15,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,15,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:AZ,AZ counties,15,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,15,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:AZ,AZ counties,15,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,15,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:AZ,AZ counties,15,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,15,0.19413,0.00000,0.00000,0.00000,0.37844,0.68149,0.30329,0.00000,0.79708
-state:AZ,AZ counties,15,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,3,2.74074,1.00000,0.37778,0.61111,4.00000,5.80000,3.70907,0.22222,7.00000
+state:AZ,AZ counties,15,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,15,0.20048,0.00000,0.00000,0.00000,0.37844,0.73371,0.31468,0.00000,0.79708
+state:AZ,AZ counties,15,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,3,3.07407,1.00000,0.37778,0.61111,4.50000,6.60000,4.28367,0.22222,8.00000
 state:AZ,AZ counties,15,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,3,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:CA,CA counties,58,calibrated_score,Restriction resemblance score,up_is_more_restrictive,58,0.164928,0.114250,0.038870,0.062075,0.211200,0.390330,0.145208,0.021100,0.612500
-state:CA,CA counties,58,va_width,Score interval width,neutral,58,0.122593,0.092150,0.054010,0.067100,0.125950,0.248100,0.102079,0.022200,0.600000
+state:CA,CA counties,58,calibrated_score,Restriction resemblance score,up_is_more_restrictive,58,0.162919,0.114150,0.040690,0.063000,0.211100,0.379450,0.139077,0.021800,0.583600
+state:CA,CA counties,58,va_width,Score interval width,neutral,58,0.118710,0.082100,0.050850,0.064875,0.127800,0.201070,0.104083,0.022200,0.642900
 state:CA,CA counties,58,population,Population,neutral,58,676599.74,186926.50,18280.10,48214.50,696887.50,1727353.40,1443820.84,1695.00,9848406.00
 state:CA,CA counties,58,pop_density_sqmi,Population density (per sq mi),neutral,58,698.1690,110.8950,6.3090,26.1825,361.7900,1626.3900,2414.6003,1.8400,17908.3700
 state:CA,CA counties,58,median_hh_income,Median household income,neutral,58,87001.14,80701.50,60794.50,67888.50,102701.25,117992.70,25546.76,53498.00,159674.00
@@ -278,8 +278,8 @@ state:CA,CA counties,58,n_restricted_conditional,Projects restricted or conditio
 state:CA,CA counties,58,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,58,0.12009,0.00000,0.00000,0.00000,0.00000,0.06868,0.80485,0.00000,6.13432
 state:CA,CA counties,58,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,13,0.45308,0.00000,0.00000,0.00000,0.25000,1.68000,0.93966,0.00000,3.00000
 state:CA,CA counties,58,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,13,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:CO,CO counties,64,calibrated_score,Restriction resemblance score,up_is_more_restrictive,64,0.109111,0.072800,0.029050,0.039175,0.115975,0.311740,0.112132,0.019500,0.514100
-state:CO,CO counties,64,va_width,Score interval width,neutral,64,0.079777,0.066900,0.027000,0.039875,0.086600,0.127600,0.069833,0.023300,0.342500
+state:CO,CO counties,64,calibrated_score,Restriction resemblance score,up_is_more_restrictive,64,0.108058,0.073550,0.029790,0.040175,0.117375,0.296330,0.107708,0.019900,0.492600
+state:CO,CO counties,64,va_width,Score interval width,neutral,64,0.079419,0.065400,0.027000,0.040875,0.092625,0.147900,0.063071,0.023300,0.326600
 state:CO,CO counties,64,population,Population,neutral,64,90793.34,15093.00,2357.70,5690.75,44802.50,356706.00,184270.21,690.00,736008.00
 state:CO,CO counties,64,pop_density_sqmi,Population density (per sq mi),neutral,64,174.7103,11.0200,1.8220,3.5500,32.9500,410.4180,654.5985,0.7700,4662.6700
 state:CO,CO counties,64,median_hh_income,Median household income,neutral,64,74792.34,71230.00,50719.10,57298.00,91369.75,103053.40,22512.98,36519.00,145737.00
@@ -305,8 +305,8 @@ state:CO,CO counties,64,n_restricted_conditional,Projects restricted or conditio
 state:CO,CO counties,64,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,64,0.49287,0.00000,0.00000,0.00000,0.00000,0.38560,1.66799,0.00000,9.49352
 state:CO,CO counties,64,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,6,0.37500,0.12500,0.00000,0.00000,0.81250,1.00000,0.49371,0.00000,1.00000
 state:CO,CO counties,64,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,6,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:CT,CT counties,9,calibrated_score,Restriction resemblance score,up_is_more_restrictive,9,0.272833,0.258800,0.160680,0.214000,0.339500,0.373760,0.099345,0.133800,0.444800
-state:CT,CT counties,9,va_width,Score interval width,neutral,9,0.184344,0.135900,0.107500,0.120100,0.240200,0.311980,0.094180,0.067100,0.342700
+state:CT,CT counties,9,calibrated_score,Restriction resemblance score,up_is_more_restrictive,9,0.265200,0.252400,0.158820,0.209700,0.328100,0.361920,0.094601,0.132100,0.430400
+state:CT,CT counties,9,va_width,Score interval width,neutral,9,0.170767,0.147900,0.081020,0.116800,0.189700,0.309400,0.089733,0.073500,0.326600
 state:CT,CT counties,9,population,Population,neutral,9,399816.44,326296.00,109444.20,174983.00,566803.00,690791.40,284818.43,95829.00,969029.00
 state:CT,CT counties,9,pop_density_sqmi,Population density (per sq mi),neutral,9,919.2611,943.2300,167.1000,412.5800,1167.4500,1700.5040,714.7887,143.4600,2327.6800
 state:CT,CT counties,9,median_hh_income,Median household income,neutral,9,93306.78,87564.00,85849.80,86365.00,91541.00,105804.20,12735.99,84185.00,124553.00
@@ -331,8 +331,8 @@ state:CT,CT counties,9,n_restricted_conditional,Projects restricted or condition
 state:CT,CT counties,9,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,9,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000
 state:CT,CT counties,9,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,4,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000
 state:CT,CT counties,9,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,4,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:DC,DC counties,1,calibrated_score,Restriction resemblance score,up_is_more_restrictive,1,0.520300,0.520300,0.520300,0.520300,0.520300,0.520300,,0.520300,0.520300
-state:DC,DC counties,1,va_width,Score interval width,neutral,1,0.321600,0.321600,0.321600,0.321600,0.321600,0.321600,,0.321600,0.321600
+state:DC,DC counties,1,calibrated_score,Restriction resemblance score,up_is_more_restrictive,1,0.499700,0.499700,0.499700,0.499700,0.499700,0.499700,,0.499700,0.499700
+state:DC,DC counties,1,va_width,Score interval width,neutral,1,0.227600,0.227600,0.227600,0.227600,0.227600,0.227600,,0.227600,0.227600
 state:DC,DC counties,1,population,Population,neutral,1,672079.00,672079.00,672079.00,672079.00,672079.00,672079.00,,672079.00,672079.00
 state:DC,DC counties,1,pop_density_sqmi,Population density (per sq mi),neutral,1,10994.9800,10994.9800,10994.9800,10994.9800,10994.9800,10994.9800,,10994.9800,10994.9800
 state:DC,DC counties,1,median_hh_income,Median household income,neutral,1,106287.00,106287.00,106287.00,106287.00,106287.00,106287.00,,106287.00,106287.00
@@ -358,8 +358,8 @@ state:DC,DC counties,1,n_restricted_conditional,Projects restricted or condition
 state:DC,DC counties,1,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,1,0.44638,0.44638,0.44638,0.44638,0.44638,0.44638,,0.44638,0.44638
 state:DC,DC counties,1,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,1,3.00000,3.00000,3.00000,3.00000,3.00000,3.00000,,3.00000,3.00000
 state:DC,DC counties,1,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,1,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,,0.000000,0.000000
-state:DE,DE counties,3,calibrated_score,Restriction resemblance score,up_is_more_restrictive,3,0.389133,0.202800,0.179040,0.187950,0.497150,0.673760,0.348776,0.173100,0.791500
-state:DE,DE counties,3,va_width,Score interval width,neutral,3,0.232600,0.117600,0.087680,0.098900,0.308800,0.423520,0.232329,0.080200,0.500000
+state:DE,DE counties,3,calibrated_score,Restriction resemblance score,up_is_more_restrictive,3,0.394367,0.200000,0.176240,0.185150,0.506400,0.690240,0.362678,0.170300,0.812800
+state:DE,DE counties,3,va_width,Score interval width,neutral,3,0.197633,0.112800,0.086640,0.096450,0.256400,0.342560,0.176016,0.080100,0.400000
 state:DE,DE counties,3,population,Population,neutral,3,335290.67,247799.00,197594.20,216421.00,410414.50,507983.80,208265.63,185043.00,573030.00
 state:DE,DE counties,3,pop_density_sqmi,Population density (per sq mi),neutral,3,641.5067,315.7400,274.9080,290.2200,829.9100,1138.4120,608.9813,264.7000,1344.0800
 state:DE,DE counties,3,median_hh_income,Median household income,neutral,3,80311.67,78162.00,73930.00,75517.00,84031.50,87553.20,8715.65,72872.00,89901.00
@@ -384,8 +384,8 @@ state:DE,DE counties,3,n_advanced_confirmed,Projects advanced (confirmed),up_is_
 state:DE,DE counties,3,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,3,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:DE,DE counties,3,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,3,0.23268,0.00000,0.00000,0.00000,0.34902,0.55843,0.40302,0.00000,0.69804
 state:DE,DE counties,3,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,1,0.666667,0.666667,0.666667,0.666667,0.666667,0.666667,,0.666667,0.666667
-state:FL,FL counties,67,calibrated_score,Restriction resemblance score,up_is_more_restrictive,67,0.180758,0.175400,0.055160,0.073750,0.258100,0.350020,0.118774,0.040700,0.470500
-state:FL,FL counties,67,va_width,Score interval width,neutral,67,0.110282,0.100600,0.041000,0.057250,0.126900,0.240200,0.075636,0.030800,0.342700
+state:FL,FL counties,67,calibrated_score,Restriction resemblance score,up_is_more_restrictive,67,0.177272,0.172300,0.055140,0.073550,0.253150,0.343200,0.114925,0.041300,0.455200
+state:FL,FL counties,67,va_width,Score interval width,neutral,67,0.117304,0.093900,0.042220,0.065450,0.147900,0.242500,0.082459,0.034000,0.326800
 state:FL,FL counties,67,population,Population,neutral,67,327296.73,137536.00,14748.40,28037.00,393196.50,859841.20,503141.06,7650.00,2685296.00
 state:FL,FL counties,67,pop_density_sqmi,Population density (per sq mi),neutral,67,391.6175,194.1500,24.3760,50.0300,464.1950,1137.2440,577.4725,9.1600,3508.5000
 state:FL,FL counties,67,median_hh_income,Median household income,neutral,67,65467.91,66154.00,47679.60,54650.50,74358.50,81641.00,13332.28,38905.00,106169.00
@@ -394,8 +394,8 @@ state:FL,FL counties,67,margin_2024,2024 presidential margin,neutral,67,-0.34269
 state:FL,FL counties,67,margin_2016,2016 presidential margin,neutral,67,-0.269534,-0.282500,-0.572460,-0.470150,-0.135800,0.181940,0.272983,-0.778700,0.374700
 state:FL,FL counties,67,land_sqmi,Land area (sq mi),neutral,67,800.809,696.529,483.257,562.240,967.582,1174.734,381.055,243.555,1996.848
 state:FL,FL counties,67,existing_dc_count,Data center records in the atlas,neutral,67,0.24,0.00,0.00,0.00,0.00,0.40,0.76,0.00,4.00
-state:FL,FL counties,67,n_opposition_events,Opposition events,up_is_more_restrictive,67,0.85,0.00,0.00,0.00,1.00,1.00,2.69,0.00,16.00
-state:FL,FL counties,67,n_moratorium_events,Moratorium events,up_is_more_restrictive,67,0.57,0.00,0.00,0.00,0.00,1.00,2.40,0.00,14.00
+state:FL,FL counties,67,n_opposition_events,Opposition events,up_is_more_restrictive,67,0.87,0.00,0.00,0.00,1.00,1.00,2.78,0.00,17.00
+state:FL,FL counties,67,n_moratorium_events,Moratorium events,up_is_more_restrictive,67,0.58,0.00,0.00,0.00,0.00,1.00,2.49,0.00,15.00
 state:FL,FL counties,67,n_zoning_events,Zoning events,up_is_more_restrictive,67,0.06,0.00,0.00,0.00,0.00,0.00,0.24,0.00,1.00
 state:FL,FL counties,67,n_ban_events,Ban events,up_is_more_restrictive,67,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:FL,FL counties,67,n_legislation_events,Legislation events,up_is_more_restrictive,67,0.06,0.00,0.00,0.00,0.00,0.00,0.38,0.00,3.00
@@ -408,11 +408,11 @@ state:FL,FL counties,67,n_decided,Projects decided,neutral,67,0.00,0.00,0.00,0.0
 state:FL,FL counties,67,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,67,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:FL,FL counties,67,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,67,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:FL,FL counties,67,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,67,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:FL,FL counties,67,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,67,0.51654,0.00000,0.00000,0.00000,0.40124,1.13780,1.40261,0.00000,9.34789
+state:FL,FL counties,67,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,67,0.51753,0.00000,0.00000,0.00000,0.40124,1.17760,1.40302,0.00000,9.34789
 state:FL,FL counties,67,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,7,0.64286,0.00000,0.00000,0.00000,0.25000,1.90000,1.49204,0.00000,4.00000
 state:FL,FL counties,67,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,7,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:GA,GA counties,159,calibrated_score,Restriction resemblance score,up_is_more_restrictive,159,0.089051,0.062000,0.034180,0.042500,0.099450,0.179480,0.081034,0.018400,0.565500
-state:GA,GA counties,159,va_width,Score interval width,neutral,159,0.066579,0.054600,0.027960,0.034600,0.067100,0.114640,0.055144,0.021700,0.381000
+state:GA,GA counties,159,calibrated_score,Restriction resemblance score,up_is_more_restrictive,159,0.087573,0.061100,0.034260,0.042400,0.098500,0.175260,0.078132,0.018300,0.541000
+state:GA,GA counties,159,va_width,Score interval width,neutral,159,0.065696,0.048000,0.027960,0.038400,0.070900,0.110320,0.057813,0.021700,0.483700
 state:GA,GA counties,159,population,Population,neutral,159,68066.60,23840.00,7291.60,11077.50,57186.00,151365.40,147299.03,1740.00,1068507.00
 state:GA,GA counties,159,pop_density_sqmi,Population density (per sq mi),neutral,159,216.2069,68.5200,20.3320,32.5250,161.0250,570.4120,434.7040,8.2500,2847.0400
 state:GA,GA counties,159,median_hh_income,Median household income,neutral,159,60487.55,55714.00,43799.60,49716.00,68688.00,84860.80,17330.07,25425.00,138000.00
@@ -440,8 +440,8 @@ state:GA,GA counties,159,opposition_events_per_100k,Opposition events per 100k r
 state:GA,GA counties,159,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,8,0.75521,0.83333,0.26250,0.46875,1.00000,1.15000,0.46635,0.00000,1.50000
 state:GA,GA counties,159,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,9,0.111111,0.000000,0.000000,0.000000,0.000000,0.200000,0.333333,0.000000,1.000000
 state:GA,GA counties,159,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,1,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,,0.000000,0.000000
-state:HI,HI counties,5,calibrated_score,Restriction resemblance score,up_is_more_restrictive,5,0.253660,0.193100,0.077620,0.168400,0.223800,0.489060,0.243788,0.017100,0.665900
-state:HI,HI counties,5,va_width,Score interval width,neutral,5,0.169100,0.120100,0.042300,0.074100,0.130200,0.352080,0.189959,0.021100,0.500000
+state:HI,HI counties,5,calibrated_score,Restriction resemblance score,up_is_more_restrictive,5,0.254080,0.194300,0.076380,0.165300,0.220700,0.492080,0.247095,0.017100,0.673000
+state:HI,HI counties,5,va_width,Score interval width,neutral,5,0.179000,0.118200,0.056340,0.109200,0.146500,0.358600,0.185471,0.021100,0.500000
 state:HI,HI counties,5,population,Population,neutral,5,289127.00,164632.00,29469.80,73610.00,203684.00,683673.20,407241.52,43.00,1003666.00
 state:HI,HI counties,5,pop_density_sqmi,Population density (per sq mi),neutral,5,397.0480,118.7600,22.3780,50.5600,141.7400,1059.0500,714.0376,3.5900,1670.5900
 state:HI,HI counties,5,median_hh_income,Median household income,neutral,5,91283.40,93612.00,80829.00,86250.00,95076.00,100588.80,10143.44,77215.00,104264.00
@@ -467,8 +467,8 @@ state:HI,HI counties,5,n_restricted_conditional,Projects restricted or condition
 state:HI,HI counties,5,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,5,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000
 state:HI,HI counties,5,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,1,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,,0.000000,0.000000
 state:HI,HI counties,5,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,1,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,,0.000000,0.000000
-state:IA,IA counties,99,calibrated_score,Restriction resemblance score,up_is_more_restrictive,99,0.094681,0.059900,0.045080,0.050150,0.082650,0.196880,0.096758,0.035600,0.573800
-state:IA,IA counties,99,va_width,Score interval width,neutral,99,0.071075,0.053400,0.031300,0.043750,0.066450,0.117600,0.066537,0.030800,0.496600
+state:IA,IA counties,99,calibrated_score,Restriction resemblance score,up_is_more_restrictive,99,0.095037,0.059800,0.044920,0.050350,0.082100,0.193940,0.098700,0.035600,0.604300
+state:IA,IA counties,99,va_width,Score interval width,neutral,99,0.069230,0.044700,0.038300,0.041100,0.066300,0.116960,0.062375,0.030000,0.487500
 state:IA,IA counties,99,population,Population,neutral,99,32282.19,15168.00,7351.20,9911.00,25408.00,61468.60,60109.34,3641.00,497441.00
 state:IA,IA counties,99,pop_density_sqmi,Population density (per sq mi),neutral,99,55.7625,26.5900,14.8280,19.3350,46.6650,97.7900,103.0452,8.6000,869.0700
 state:IA,IA counties,99,median_hh_income,Median household income,neutral,99,69830.03,68704.00,59987.80,64489.00,74645.50,80498.40,8640.17,51146.00,102349.00
@@ -477,8 +477,8 @@ state:IA,IA counties,99,margin_2024,2024 presidential margin,neutral,99,-0.34378
 state:IA,IA counties,99,margin_2016,2016 presidential margin,neutral,99,-0.278447,-0.295700,-0.457680,-0.401850,-0.194050,-0.063320,0.178296,-0.693300,0.382700
 state:IA,IA counties,99,land_sqmi,Land area (sq mi),neutral,99,564.174,569.558,429.364,479.019,587.032,716.284,118.084,380.532,972.731
 state:IA,IA counties,99,existing_dc_count,Data center records in the atlas,neutral,99,0.65,0.00,0.00,0.00,0.00,0.00,3.43,0.00,26.00
-state:IA,IA counties,99,n_opposition_events,Opposition events,up_is_more_restrictive,99,0.40,0.00,0.00,0.00,1.00,1.00,0.91,0.00,6.00
-state:IA,IA counties,99,n_moratorium_events,Moratorium events,up_is_more_restrictive,99,0.30,0.00,0.00,0.00,0.50,1.00,0.66,0.00,5.00
+state:IA,IA counties,99,n_opposition_events,Opposition events,up_is_more_restrictive,99,0.42,0.00,0.00,0.00,1.00,1.00,1.03,0.00,7.00
+state:IA,IA counties,99,n_moratorium_events,Moratorium events,up_is_more_restrictive,99,0.31,0.00,0.00,0.00,0.50,1.00,0.69,0.00,5.00
 state:IA,IA counties,99,n_zoning_events,Zoning events,up_is_more_restrictive,99,0.03,0.00,0.00,0.00,0.00,0.00,0.22,0.00,2.00
 state:IA,IA counties,99,n_ban_events,Ban events,up_is_more_restrictive,99,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:IA,IA counties,99,n_legislation_events,Legislation events,up_is_more_restrictive,99,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
@@ -491,12 +491,12 @@ state:IA,IA counties,99,n_decided,Projects decided,neutral,99,0.06,0.00,0.00,0.0
 state:IA,IA counties,99,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,99,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:IA,IA counties,99,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,99,0.06,0.00,0.00,0.00,0.00,0.00,0.37,0.00,3.00
 state:IA,IA counties,99,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,99,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:IA,IA counties,99,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,99,1.76780,0.00000,0.00000,0.00000,1.18899,6.04747,3.67739,0.00000,17.78726
+state:IA,IA counties,99,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,99,1.78756,0.00000,0.00000,0.00000,1.18899,6.24960,3.69974,0.00000,17.78726
 state:IA,IA counties,99,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,7,0.29286,0.00000,0.00000,0.00000,0.52500,1.00000,0.48342,0.00000,1.00000
 state:IA,IA counties,99,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,13,0.369614,0.142857,0.000000,0.033333,0.500000,1.000000,0.408712,0.000000,1.000000
 state:IA,IA counties,99,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,3,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:ID,ID counties,44,calibrated_score,Restriction resemblance score,up_is_more_restrictive,44,0.072295,0.056050,0.030970,0.037850,0.091575,0.136100,0.055668,0.016300,0.329700
-state:ID,ID counties,44,va_width,Score interval width,neutral,44,0.058425,0.053400,0.027000,0.037950,0.065450,0.080100,0.044022,0.021300,0.304300
+state:ID,ID counties,44,calibrated_score,Restriction resemblance score,up_is_more_restrictive,44,0.072291,0.056250,0.031620,0.038600,0.092125,0.133480,0.053885,0.016700,0.317500
+state:ID,ID counties,44,va_width,Score interval width,neutral,44,0.058677,0.045800,0.027000,0.042300,0.069350,0.096660,0.031784,0.021300,0.189700
 state:ID,ID counties,44,population,Population,neutral,44,43029.45,14208.00,4467.40,8038.25,34254.25,91021.80,86040.62,776.00,508052.00
 state:ID,ID counties,44,pop_density_sqmi,Population density (per sq mi),neutral,44,42.8716,9.6300,1.6570,3.9975,35.9700,76.0840,94.8039,0.4400,482.9300
 state:ID,ID counties,44,median_hh_income,Median household income,neutral,44,65770.25,65530.50,52540.50,58796.75,72407.00,77254.50,10513.36,43281.00,90740.00
@@ -505,9 +505,9 @@ state:ID,ID counties,44,margin_2024,2024 presidential margin,neutral,44,-0.52443
 state:ID,ID counties,44,margin_2016,2016 presidential margin,neutral,44,-0.460591,-0.532100,-0.638920,-0.597775,-0.413675,-0.191330,0.205885,-0.665300,0.286900
 state:ID,ID counties,44,land_sqmi,Land area (sq mi),neutral,44,1878.298,1315.742,567.953,830.473,2129.421,3488.107,1713.481,406.893,8477.499
 state:ID,ID counties,44,existing_dc_count,Data center records in the atlas,neutral,44,0.11,0.00,0.00,0.00,0.00,0.00,0.49,0.00,3.00
-state:ID,ID counties,44,n_opposition_events,Opposition events,up_is_more_restrictive,44,0.20,0.00,0.00,0.00,0.00,0.00,0.82,0.00,5.00
+state:ID,ID counties,44,n_opposition_events,Opposition events,up_is_more_restrictive,44,0.23,0.00,0.00,0.00,0.00,0.00,0.86,0.00,5.00
 state:ID,ID counties,44,n_moratorium_events,Moratorium events,up_is_more_restrictive,44,0.07,0.00,0.00,0.00,0.00,0.00,0.33,0.00,2.00
-state:ID,ID counties,44,n_zoning_events,Zoning events,up_is_more_restrictive,44,0.05,0.00,0.00,0.00,0.00,0.00,0.21,0.00,1.00
+state:ID,ID counties,44,n_zoning_events,Zoning events,up_is_more_restrictive,44,0.07,0.00,0.00,0.00,0.00,0.00,0.25,0.00,1.00
 state:ID,ID counties,44,n_ban_events,Ban events,up_is_more_restrictive,44,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:ID,ID counties,44,n_legislation_events,Legislation events,up_is_more_restrictive,44,0.07,0.00,0.00,0.00,0.00,0.00,0.45,0.00,3.00
 state:ID,ID counties,44,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,44,0.02,0.00,0.00,0.00,0.00,0.00,0.15,0.00,1.00
@@ -519,11 +519,11 @@ state:ID,ID counties,44,n_decided,Projects decided,neutral,44,0.00,0.00,0.00,0.0
 state:ID,ID counties,44,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,44,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:ID,ID counties,44,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,44,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:ID,ID counties,44,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,44,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:ID,ID counties,44,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,44,0.62775,0.00000,0.00000,0.00000,0.00000,0.00000,3.75847,0.00000,24.94388
+state:ID,ID counties,44,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,44,0.65345,0.00000,0.00000,0.00000,0.00000,0.00000,3.76584,0.00000,24.94388
 state:ID,ID counties,44,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,3,0.55556,0.00000,0.00000,0.00000,0.83333,1.33333,0.96225,0.00000,1.66667
 state:ID,ID counties,44,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,3,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:IL,IL counties,102,calibrated_score,Restriction resemblance score,up_is_more_restrictive,102,0.091318,0.061950,0.036720,0.047650,0.095725,0.171670,0.092576,0.025800,0.688100
-state:IL,IL counties,102,va_width,Score interval width,neutral,102,0.073013,0.059400,0.031580,0.047600,0.078400,0.117600,0.065411,0.027000,0.576900
+state:IL,IL counties,102,calibrated_score,Restriction resemblance score,up_is_more_restrictive,102,0.090185,0.062000,0.036730,0.047950,0.095900,0.170880,0.088919,0.025700,0.663100
+state:IL,IL counties,102,va_width,Score interval width,neutral,102,0.067918,0.053200,0.037100,0.042550,0.076000,0.116800,0.045233,0.027000,0.349200
 state:IL,IL counties,102,population,Population,neutral,102,124437.77,25066.50,6287.60,13688.50,52866.50,193678.40,527061.39,3623.00,5185812.00
 state:IL,IL counties,102,pop_density_sqmi,Population density (per sq mi),neutral,102,194.1458,45.5400,20.4450,27.9050,90.6500,330.1070,631.4131,10.1900,5488.0700
 state:IL,IL counties,102,median_hh_income,Median household income,neutral,102,68579.70,65189.00,54545.90,60796.25,73838.75,85297.50,13954.51,43227.00,110502.00
@@ -532,8 +532,8 @@ state:IL,IL counties,102,margin_2024,2024 presidential margin,neutral,102,-0.349
 state:IL,IL counties,102,margin_2016,2016 presidential margin,neutral,102,-0.320129,-0.378850,-0.579620,-0.494300,-0.158700,0.023670,0.234056,-0.716400,0.529600
 state:IL,IL counties,102,land_sqmi,Land area (sq mi),neutral,102,544.247,510.661,289.868,380.077,682.197,862.192,223.119,160.097,1183.248
 state:IL,IL counties,102,existing_dc_count,Data center records in the atlas,neutral,102,0.49,0.00,0.00,0.00,0.00,0.00,3.20,0.00,29.00
-state:IL,IL counties,102,n_opposition_events,Opposition events,up_is_more_restrictive,102,0.45,0.00,0.00,0.00,0.00,1.00,1.54,0.00,14.00
-state:IL,IL counties,102,n_moratorium_events,Moratorium events,up_is_more_restrictive,102,0.26,0.00,0.00,0.00,0.00,1.00,1.42,0.00,14.00
+state:IL,IL counties,102,n_opposition_events,Opposition events,up_is_more_restrictive,102,0.46,0.00,0.00,0.00,0.00,1.00,1.55,0.00,14.00
+state:IL,IL counties,102,n_moratorium_events,Moratorium events,up_is_more_restrictive,102,0.27,0.00,0.00,0.00,0.00,1.00,1.43,0.00,14.00
 state:IL,IL counties,102,n_zoning_events,Zoning events,up_is_more_restrictive,102,0.07,0.00,0.00,0.00,0.00,0.00,0.25,0.00,1.00
 state:IL,IL counties,102,n_ban_events,Ban events,up_is_more_restrictive,102,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:IL,IL counties,102,n_legislation_events,Legislation events,up_is_more_restrictive,102,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
@@ -546,11 +546,11 @@ state:IL,IL counties,102,n_decided,Projects decided,neutral,102,0.00,0.00,0.00,0
 state:IL,IL counties,102,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,102,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:IL,IL counties,102,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,102,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:IL,IL counties,102,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,102,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:IL,IL counties,102,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,102,0.63379,0.00000,0.00000,0.00000,0.00000,0.93414,3.28306,0.00000,31.78784
+state:IL,IL counties,102,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,102,0.67974,0.00000,0.00000,0.00000,0.00000,0.93414,3.37194,0.00000,31.78784
 state:IL,IL counties,102,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,6,0.74938,0.19643,0.05172,0.11330,0.81250,2.00000,1.15967,0.00000,3.00000
 state:IL,IL counties,102,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,6,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:IN,IN counties,92,calibrated_score,Restriction resemblance score,up_is_more_restrictive,92,0.154896,0.092850,0.062150,0.075175,0.161800,0.363240,0.147860,0.048500,0.774800
-state:IN,IN counties,92,va_width,Score interval width,neutral,92,0.100851,0.063900,0.053400,0.056200,0.092900,0.240200,0.096518,0.031300,0.500000
+state:IN,IN counties,92,calibrated_score,Restriction resemblance score,up_is_more_restrictive,92,0.155872,0.091700,0.061450,0.074275,0.158250,0.376710,0.153137,0.048400,0.792600
+state:IN,IN counties,92,va_width,Score interval width,neutral,92,0.101685,0.066950,0.041050,0.060450,0.086350,0.227600,0.092181,0.030000,0.500000
 state:IN,IN counties,92,population,Population,neutral,92,74040.78,34518.00,12582.80,20685.25,72358.25,173133.30,125948.72,5993.00,971822.00
 state:IN,IN counties,92,pop_density_sqmi,Population density (per sq mi),neutral,92,186.6124,86.5100,41.9980,55.5750,169.1150,438.4160,304.8375,21.4300,2454.1600
 state:IN,IN counties,92,median_hh_income,Median household income,neutral,92,68680.68,66673.50,56686.30,61301.00,72512.00,80298.70,11542.44,47560.00,117957.00
@@ -559,11 +559,11 @@ state:IN,IN counties,92,margin_2024,2024 presidential margin,neutral,92,-0.41874
 state:IN,IN counties,92,margin_2016,2016 presidential margin,neutral,92,-0.399843,-0.463000,-0.552490,-0.514325,-0.339225,-0.170270,0.177794,-0.628300,0.237000
 state:IN,IN counties,92,land_sqmi,Land area (sq mi),neutral,92,389.403,396.439,263.794,359.923,443.895,504.072,95.986,86.150,657.146
 state:IN,IN counties,92,existing_dc_count,Data center records in the atlas,neutral,92,0.05,0.00,0.00,0.00,0.00,0.00,0.27,0.00,2.00
-state:IN,IN counties,92,n_opposition_events,Opposition events,up_is_more_restrictive,92,0.82,0.00,0.00,0.00,1.00,2.00,1.83,0.00,13.00
+state:IN,IN counties,92,n_opposition_events,Opposition events,up_is_more_restrictive,92,0.83,0.00,0.00,0.00,1.00,2.00,1.83,0.00,13.00
 state:IN,IN counties,92,n_moratorium_events,Moratorium events,up_is_more_restrictive,92,0.35,0.00,0.00,0.00,0.00,1.00,0.97,0.00,8.00
 state:IN,IN counties,92,n_zoning_events,Zoning events,up_is_more_restrictive,92,0.18,0.00,0.00,0.00,0.00,1.00,0.55,0.00,4.00
 state:IN,IN counties,92,n_ban_events,Ban events,up_is_more_restrictive,92,0.01,0.00,0.00,0.00,0.00,0.00,0.10,0.00,1.00
-state:IN,IN counties,92,n_legislation_events,Legislation events,up_is_more_restrictive,92,0.02,0.00,0.00,0.00,0.00,0.00,0.15,0.00,1.00
+state:IN,IN counties,92,n_legislation_events,Legislation events,up_is_more_restrictive,92,0.03,0.00,0.00,0.00,0.00,0.00,0.18,0.00,1.00
 state:IN,IN counties,92,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,92,0.04,0.00,0.00,0.00,0.00,0.00,0.33,0.00,3.00
 state:IN,IN counties,92,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,92,0.22,0.00,0.00,0.00,0.00,1.00,0.41,0.00,1.00
 state:IN,IN counties,92,state_legislation_events,Statewide legislation events,up_is_more_restrictive,92,1.00,1.00,1.00,1.00,1.00,1.00,0.00,1.00,1.00
@@ -573,12 +573,12 @@ state:IN,IN counties,92,n_decided,Projects decided,neutral,92,0.11,0.00,0.00,0.0
 state:IN,IN counties,92,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,92,0.04,0.00,0.00,0.00,0.00,0.00,0.25,0.00,2.00
 state:IN,IN counties,92,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,92,0.07,0.00,0.00,0.00,0.00,0.00,0.29,0.00,2.00
 state:IN,IN counties,92,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,92,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:IN,IN counties,92,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,92,1.58391,0.00000,0.00000,0.00000,2.19610,3.95531,4.89264,0.00000,45.30158
+state:IN,IN counties,92,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,92,1.63708,0.00000,0.00000,0.00000,2.33047,4.03981,4.90181,0.00000,45.30158
 state:IN,IN counties,92,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,4,1.00000,1.00000,0.00000,0.00000,2.00000,2.00000,1.15470,0.00000,2.00000
 state:IN,IN counties,92,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,18,0.472222,0.375000,0.000000,0.000000,1.000000,1.000000,0.460889,0.000000,1.000000
 state:IN,IN counties,92,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,8,0.375000,0.000000,0.000000,0.000000,1.000000,1.000000,0.517549,0.000000,1.000000
-state:KS,KS counties,105,calibrated_score,Restriction resemblance score,up_is_more_restrictive,105,0.066045,0.047900,0.029840,0.035600,0.071700,0.108480,0.060025,0.024400,0.498800
-state:KS,KS counties,105,va_width,Score interval width,neutral,105,0.052732,0.053100,0.027000,0.031300,0.056200,0.088900,0.031841,0.026700,0.280000
+state:KS,KS counties,105,calibrated_score,Restriction resemblance score,up_is_more_restrictive,105,0.065690,0.048000,0.030140,0.036000,0.071400,0.107100,0.057890,0.024800,0.477900
+state:KS,KS counties,105,va_width,Score interval width,neutral,105,0.050653,0.043700,0.027000,0.034000,0.060800,0.080820,0.028675,0.025900,0.227600
 state:KS,KS counties,105,population,Population,neutral,105,27976.85,6961.00,2450.80,3118.00,19949.00,38578.20,81395.45,1296.00,614764.00
 state:KS,KS counties,105,pop_density_sqmi,Population density (per sq mi),neutral,105,51.3828,8.4400,2.5920,4.0400,30.6400,61.6480,174.8737,1.6000,1298.0300
 state:KS,KS counties,105,median_hh_income,Median household income,neutral,105,64427.95,63136.00,53683.40,57615.00,70495.00,76000.20,9562.36,48152.00,107261.00
@@ -604,8 +604,8 @@ state:KS,KS counties,105,n_restricted_conditional,Projects restricted or conditi
 state:KS,KS counties,105,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,105,0.75814,0.00000,0.00000,0.00000,0.00000,2.41502,2.35906,0.00000,13.72872
 state:KS,KS counties,105,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,2,0.83333,0.83333,0.16667,0.41667,1.25000,1.50000,1.17851,0.00000,1.66667
 state:KS,KS counties,105,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,2,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:KY,KY counties,120,calibrated_score,Restriction resemblance score,up_is_more_restrictive,120,0.085168,0.061900,0.039820,0.049775,0.091900,0.142930,0.071416,0.029000,0.503300
-state:KY,KY counties,120,va_width,Score interval width,neutral,120,0.063176,0.053400,0.031300,0.038500,0.066950,0.096800,0.053004,0.027000,0.496600
+state:KY,KY counties,120,calibrated_score,Restriction resemblance score,up_is_more_restrictive,120,0.089559,0.061650,0.039880,0.049800,0.094225,0.174680,0.076115,0.028900,0.514500
+state:KY,KY counties,120,va_width,Score interval width,neutral,120,0.064814,0.042400,0.031850,0.038300,0.073500,0.116800,0.055301,0.027000,0.503700
 state:KY,KY counties,120,population,Population,neutral,120,37589.38,19636.00,8352.10,12205.00,35416.25,67685.60,78631.80,2239.00,777392.00
 state:KY,KY counties,120,pop_density_sqmi,Population density (per sq mi),neutral,120,122.4111,59.4550,30.3510,38.8750,98.7050,227.4090,238.0116,18.4500,2041.3100
 state:KY,KY counties,120,median_hh_income,Median household income,neutral,120,55909.20,55017.00,39796.10,45503.25,63306.50,70201.60,14350.48,29052.00,121491.00
@@ -622,7 +622,7 @@ state:KY,KY counties,120,n_legislation_events,Legislation events,up_is_more_rest
 state:KY,KY counties,120,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,120,0.03,0.00,0.00,0.00,0.00,0.00,0.22,0.00,2.00
 state:KY,KY counties,120,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,120,0.12,0.00,0.00,0.00,0.00,1.00,0.33,0.00,1.00
 state:KY,KY counties,120,state_legislation_events,Statewide legislation events,up_is_more_restrictive,120,2.00,2.00,2.00,2.00,2.00,2.00,0.00,2.00,2.00
-state:KY,KY counties,120,n_projects_tracked,Projects tracked,neutral,120,0.11,0.00,0.00,0.00,0.00,0.00,0.38,0.00,3.00
+state:KY,KY counties,120,n_projects_tracked,Projects tracked,neutral,120,0.15,0.00,0.00,0.00,0.00,1.00,0.44,0.00,3.00
 state:KY,KY counties,120,n_projects_opposed,Projects opposed,up_is_more_restrictive,120,0.06,0.00,0.00,0.00,0.00,0.00,0.24,0.00,1.00
 state:KY,KY counties,120,n_decided,Projects decided,neutral,120,0.02,0.00,0.00,0.00,0.00,0.00,0.13,0.00,1.00
 state:KY,KY counties,120,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,120,0.01,0.00,0.00,0.00,0.00,0.00,0.09,0.00,1.00
@@ -630,10 +630,10 @@ state:KY,KY counties,120,n_advanced_confirmed,Projects advanced (confirmed),up_i
 state:KY,KY counties,120,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,120,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:KY,KY counties,120,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,120,0.85681,0.00000,0.00000,0.00000,0.00000,2.34042,2.73876,0.00000,17.52541
 state:KY,KY counties,120,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,4,0.37500,0.00000,0.00000,0.00000,0.37500,1.05000,0.75000,0.00000,1.50000
-state:KY,KY counties,120,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,11,0.575758,1.000000,0.000000,0.000000,1.000000,1.000000,0.496452,0.000000,1.000000
+state:KY,KY counties,120,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,15,0.422222,0.000000,0.000000,0.000000,1.000000,1.000000,0.495482,0.000000,1.000000
 state:KY,KY counties,120,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,2,0.500000,0.500000,0.100000,0.250000,0.750000,0.900000,0.707107,0.000000,1.000000
-state:LA,LA counties,64,calibrated_score,Restriction resemblance score,up_is_more_restrictive,64,0.093205,0.072800,0.039330,0.054675,0.113000,0.175110,0.062293,0.023500,0.284400
-state:LA,LA counties,64,va_width,Score interval width,neutral,64,0.062956,0.058200,0.031300,0.038500,0.077075,0.108220,0.028297,0.027000,0.127900
+state:LA,LA counties,64,calibrated_score,Restriction resemblance score,up_is_more_restrictive,64,0.092717,0.072650,0.039760,0.054975,0.112700,0.171680,0.061485,0.023700,0.275700
+state:LA,LA counties,64,va_width,Score interval width,neutral,64,0.065809,0.060800,0.035500,0.038300,0.085800,0.102350,0.033007,0.027000,0.147900
 state:LA,LA counties,64,population,Population,neutral,64,72203.52,32122.50,9662.50,19114.75,72427.50,193742.40,99147.54,3992.00,452821.00
 state:LA,LA counties,64,pop_density_sqmi,Population density (per sq mi),neutral,64,161.5192,48.4800,17.3780,26.7025,117.8550,263.5410,355.2885,4.0600,2218.5000
 state:LA,LA counties,64,median_hh_income,Median household income,neutral,64,55250.36,53177.00,37363.10,45188.75,64863.00,73863.60,14222.67,28321.00,92266.00
@@ -660,8 +660,8 @@ state:LA,LA counties,64,opposition_events_per_100k,Opposition events per 100k re
 state:LA,LA counties,64,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,1,1.00000,1.00000,1.00000,1.00000,1.00000,1.00000,,1.00000,1.00000
 state:LA,LA counties,64,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,2,0.500000,0.500000,0.100000,0.250000,0.750000,0.900000,0.707107,0.000000,1.000000
 state:LA,LA counties,64,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,1,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,,0.000000,0.000000
-state:MA,MA counties,14,calibrated_score,Restriction resemblance score,up_is_more_restrictive,14,0.344871,0.317550,0.162730,0.199250,0.451700,0.576680,0.163137,0.150400,0.647500
-state:MA,MA counties,14,va_width,Score interval width,neutral,14,0.223514,0.191600,0.093770,0.126900,0.258900,0.452750,0.141527,0.067700,0.500000
+state:MA,MA counties,14,calibrated_score,Restriction resemblance score,up_is_more_restrictive,14,0.338536,0.310950,0.157230,0.194425,0.439700,0.582630,0.163402,0.148500,0.636500
+state:MA,MA counties,14,va_width,Score interval width,neutral,14,0.215964,0.169150,0.092490,0.147900,0.227600,0.447980,0.136261,0.082900,0.500000
 state:MA,MA counties,14,population,Population,neutral,14,499456.79,497371.00,35802.30,135184.00,767764.00,845342.20,447516.01,14299.00,1622896.00
 state:MA,MA counties,14,pop_density_sqmi,Population density (per sq mi),neutral,14,1691.7586,666.9050,157.0260,300.1475,1490.7425,1937.7680,3435.3170,101.4300,13427.1500
 state:MA,MA counties,14,median_hh_income,Median household income,neutral,14,96546.29,94006.50,72570.70,84746.25,107860.50,124472.90,18959.08,70535.00,126779.00
@@ -687,8 +687,8 @@ state:MA,MA counties,14,n_restricted_conditional,Projects restricted or conditio
 state:MA,MA counties,14,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,14,0.16021,0.00000,0.00000,0.00000,0.00000,0.50916,0.40029,0.00000,1.41000
 state:MA,MA counties,14,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,2,0.75000,0.75000,0.15000,0.37500,1.12500,1.35000,1.06066,0.00000,1.50000
 state:MA,MA counties,14,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,3,0.444444,0.333333,0.066667,0.166667,0.666667,0.866667,0.509175,0.000000,1.000000
-state:MD,MD counties,24,calibrated_score,Restriction resemblance score,up_is_more_restrictive,24,0.262867,0.167550,0.075870,0.116175,0.437550,0.590980,0.196700,0.063900,0.617700
-state:MD,MD counties,24,va_width,Score interval width,neutral,24,0.157308,0.094650,0.059950,0.067100,0.256075,0.315120,0.125127,0.045100,0.500000
+state:MD,MD counties,24,calibrated_score,Restriction resemblance score,up_is_more_restrictive,24,0.260646,0.163850,0.075590,0.114725,0.422500,0.602000,0.198096,0.063400,0.614900
+state:MD,MD counties,24,va_width,Score interval width,neutral,24,0.177333,0.099550,0.062450,0.074375,0.252350,0.371400,0.151172,0.039100,0.571400
 state:MD,MD counties,24,population,Population,neutral,24,257114.08,109369.00,29882.70,47640.00,293734.75,771991.00,312780.57,19265.00,1057586.00
 state:MD,MD counties,24,pop_density_sqmi,Population density (per sq mi),neutral,24,824.9017,328.8150,71.8450,131.2550,783.0575,1813.3130,1479.7228,44.2400,7130.5900
 state:MD,MD counties,24,median_hh_income,Median household income,neutral,24,94152.12,91025.00,59884.60,71903.50,116988.00,126290.70,27530.21,52462.00,146982.00
@@ -697,8 +697,8 @@ state:MD,MD counties,24,margin_2024,2024 presidential margin,neutral,24,-0.00504
 state:MD,MD counties,24,margin_2016,2016 presidential margin,neutral,24,-0.065929,-0.169550,-0.387330,-0.330825,0.048400,0.489220,0.374868,-0.615000,0.809900
 state:MD,MD counties,24,land_sqmi,Land area (sq mi),neutral,24,404.631,418.502,256.232,319.672,471.962,581.080,136.754,80.946,660.621
 state:MD,MD counties,24,existing_dc_count,Data center records in the atlas,neutral,24,0.54,0.00,0.00,0.00,1.00,1.00,1.28,0.00,6.00
-state:MD,MD counties,24,n_opposition_events,Opposition events,up_is_more_restrictive,24,1.21,0.50,0.00,0.00,2.00,3.70,1.67,0.00,6.00
-state:MD,MD counties,24,n_moratorium_events,Moratorium events,up_is_more_restrictive,24,0.71,0.00,0.00,0.00,1.00,2.70,1.20,0.00,4.00
+state:MD,MD counties,24,n_opposition_events,Opposition events,up_is_more_restrictive,24,1.29,0.50,0.00,0.00,2.00,4.00,1.81,0.00,6.00
+state:MD,MD counties,24,n_moratorium_events,Moratorium events,up_is_more_restrictive,24,0.79,0.00,0.00,0.00,1.00,2.70,1.41,0.00,5.00
 state:MD,MD counties,24,n_zoning_events,Zoning events,up_is_more_restrictive,24,0.17,0.00,0.00,0.00,0.00,0.70,0.48,0.00,2.00
 state:MD,MD counties,24,n_ban_events,Ban events,up_is_more_restrictive,24,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:MD,MD counties,24,n_legislation_events,Legislation events,up_is_more_restrictive,24,0.29,0.00,0.00,0.00,0.00,1.00,0.75,0.00,3.00
@@ -711,12 +711,12 @@ state:MD,MD counties,24,n_decided,Projects decided,neutral,24,0.08,0.00,0.00,0.0
 state:MD,MD counties,24,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,24,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:MD,MD counties,24,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,24,0.08,0.00,0.00,0.00,0.00,0.00,0.28,0.00,1.00
 state:MD,MD counties,24,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,24,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:MD,MD counties,24,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,24,0.41462,0.08663,0.00000,0.00000,0.52417,0.72682,0.75610,0.00000,3.19860
+state:MD,MD counties,24,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,24,0.50347,0.08663,0.00000,0.00000,0.52417,0.72682,1.13021,0.00000,5.33100
 state:MD,MD counties,24,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,7,2.66667,2.00000,0.66667,1.25000,4.00000,4.80000,2.06155,0.16667,6.00000
 state:MD,MD counties,24,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,8,0.375000,0.416667,0.000000,0.000000,0.541667,0.766667,0.364605,0.000000,1.000000
 state:MD,MD counties,24,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,2,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:ME,ME counties,16,calibrated_score,Restriction resemblance score,up_is_more_restrictive,16,0.185006,0.143250,0.081100,0.108250,0.287050,0.329150,0.109077,0.048900,0.404000
-state:ME,ME counties,16,va_width,Score interval width,neutral,16,0.116581,0.075200,0.061000,0.066550,0.127900,0.231600,0.082685,0.056000,0.342500
+state:ME,ME counties,16,calibrated_score,Restriction resemblance score,up_is_more_restrictive,16,0.189656,0.141700,0.082550,0.107875,0.298125,0.346000,0.114722,0.050100,0.414300
+state:ME,ME counties,16,va_width,Score interval width,neutral,16,0.122188,0.094050,0.066800,0.074700,0.158350,0.189700,0.070142,0.057200,0.321700
 state:ME,ME counties,16,population,Population,neutral,16,86087.50,53468.00,30703.00,36779.75,115645.75,184151.00,79548.97,17125.00,305940.00
 state:ME,ME counties,16,pop_density_sqmi,Population density (per sq mi),neutral,16,95.3038,50.0050,11.1400,16.5600,145.1125,228.3350,103.9012,4.3200,365.8700
 state:ME,ME counties,16,median_hh_income,Median household income,neutral,16,66872.12,66180.00,54744.00,57499.50,71933.75,82492.00,11607.49,52237.00,92983.00
@@ -743,8 +743,8 @@ state:ME,ME counties,16,opposition_events_per_100k,Opposition events per 100k re
 state:ME,ME counties,16,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,1,1.50000,1.50000,1.50000,1.50000,1.50000,1.50000,,1.50000,1.50000
 state:ME,ME counties,16,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,6,0.333333,0.000000,0.000000,0.000000,0.750000,1.000000,0.516398,0.000000,1.000000
 state:ME,ME counties,16,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,2,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,0.000000,1.000000,1.000000
-state:MI,MI counties,83,calibrated_score,Restriction resemblance score,up_is_more_restrictive,83,0.152458,0.098700,0.048740,0.070900,0.155850,0.386640,0.154733,0.036600,0.794500
-state:MI,MI counties,83,va_width,Score interval width,neutral,83,0.101910,0.067100,0.040600,0.056350,0.091600,0.240200,0.103639,0.028500,0.500000
+state:MI,MI counties,83,calibrated_score,Restriction resemblance score,up_is_more_restrictive,83,0.152724,0.097800,0.049140,0.070550,0.153500,0.396780,0.157856,0.037400,0.817800
+state:MI,MI counties,83,va_width,Score interval width,neutral,83,0.101341,0.074700,0.038560,0.060850,0.094050,0.227600,0.095626,0.025900,0.500000
 state:MI,MI counties,83,population,Population,neutral,83,121103.55,37428.00,10421.00,22864.50,97290.00,248178.20,262737.07,2106.00,1773767.00
 state:MI,MI counties,83,pop_density_sqmi,Population density (per sq mi),neutral,83,192.0581,60.1000,13.3640,35.0650,154.0150,441.7900,411.7841,3.9000,2899.0900
 state:MI,MI counties,83,median_hh_income,Median household income,neutral,83,64303.95,61868.00,52300.00,56838.00,69937.00,79193.80,11230.10,47777.00,101315.00
@@ -753,11 +753,11 @@ state:MI,MI counties,83,margin_2024,2024 presidential margin,neutral,83,-0.23266
 state:MI,MI counties,83,margin_2016,2016 presidential margin,neutral,83,-0.226784,-0.273500,-0.398980,-0.332000,-0.144800,-0.015260,0.177126,-0.523400,0.415000
 state:MI,MI counties,83,land_sqmi,Land area (sq mi),neutral,83,682.052,567.781,481.500,541.218,780.877,1019.323,258.346,319.696,1809.051
 state:MI,MI counties,83,existing_dc_count,Data center records in the atlas,neutral,83,0.12,0.00,0.00,0.00,0.00,0.00,0.53,0.00,4.00
-state:MI,MI counties,83,n_opposition_events,Opposition events,up_is_more_restrictive,83,1.08,0.00,0.00,0.00,1.00,2.00,3.33,0.00,27.00
-state:MI,MI counties,83,n_moratorium_events,Moratorium events,up_is_more_restrictive,83,0.65,0.00,0.00,0.00,0.50,2.00,1.57,0.00,10.00
+state:MI,MI counties,83,n_opposition_events,Opposition events,up_is_more_restrictive,83,1.12,0.00,0.00,0.00,1.00,2.00,3.37,0.00,27.00
+state:MI,MI counties,83,n_moratorium_events,Moratorium events,up_is_more_restrictive,83,0.67,0.00,0.00,0.00,0.50,2.00,1.63,0.00,10.00
 state:MI,MI counties,83,n_zoning_events,Zoning events,up_is_more_restrictive,83,0.16,0.00,0.00,0.00,0.00,0.80,0.55,0.00,4.00
 state:MI,MI counties,83,n_ban_events,Ban events,up_is_more_restrictive,83,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:MI,MI counties,83,n_legislation_events,Legislation events,up_is_more_restrictive,83,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+state:MI,MI counties,83,n_legislation_events,Legislation events,up_is_more_restrictive,83,0.01,0.00,0.00,0.00,0.00,0.00,0.11,0.00,1.00
 state:MI,MI counties,83,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,83,0.08,0.00,0.00,0.00,0.00,0.00,0.67,0.00,6.00
 state:MI,MI counties,83,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,83,0.67,0.00,0.00,0.00,0.00,2.00,1.76,0.00,12.00
 state:MI,MI counties,83,state_legislation_events,Statewide legislation events,up_is_more_restrictive,83,1.00,1.00,1.00,1.00,1.00,1.00,0.00,1.00,1.00
@@ -768,12 +768,12 @@ state:MI,MI counties,83,n_blocked_confirmed,Projects blocked (confirmed),up_is_m
 state:MI,MI counties,83,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,83,0.01,0.00,0.00,0.00,0.00,0.00,0.11,0.00,1.00
 state:MI,MI counties,83,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,83,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:MI,MI counties,83,median_days_to_decision,Median days to decision,neutral,1,98.00,98.00,98.00,98.00,98.00,98.00,,98.00,98.00
-state:MI,MI counties,83,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,83,1.27019,0.00000,0.00000,0.00000,0.71540,2.70656,5.34948,0.00000,47.48338
-state:MI,MI counties,83,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,6,3.16667,2.50000,0.50000,1.25000,5.25000,6.50000,2.78687,0.00000,7.00000
+state:MI,MI counties,83,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,83,1.28418,0.00000,0.00000,0.00000,0.78131,2.70656,5.34747,0.00000,47.48338
+state:MI,MI counties,83,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,6,3.50000,2.50000,0.50000,1.25000,6.00000,7.50000,3.27109,0.00000,8.00000
 state:MI,MI counties,83,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,13,0.656410,0.666667,0.040000,0.500000,1.000000,1.000000,0.390248,0.000000,1.000000
 state:MI,MI counties,83,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,5,0.800000,1.000000,0.400000,1.000000,1.000000,1.000000,0.447214,0.000000,1.000000
-state:MN,MN counties,87,calibrated_score,Restriction resemblance score,up_is_more_restrictive,87,0.091985,0.066000,0.040800,0.049750,0.094350,0.162240,0.078501,0.030400,0.473700
-state:MN,MN counties,87,va_width,Score interval width,neutral,87,0.069060,0.058100,0.035620,0.052800,0.067100,0.099220,0.048880,0.027000,0.342700
+state:MN,MN counties,87,calibrated_score,Restriction resemblance score,up_is_more_restrictive,87,0.091029,0.065600,0.041140,0.049550,0.093900,0.162380,0.075336,0.031000,0.456300
+state:MN,MN counties,87,va_width,Score interval width,neutral,87,0.069284,0.059800,0.039200,0.044000,0.074700,0.115660,0.042472,0.027000,0.305100
 state:MN,MN counties,87,population,Population,neutral,87,65674.90,22067.00,6289.80,11040.00,44449.00,148344.80,158458.73,3279.00,1268903.00
 state:MN,MN counties,87,pop_density_sqmi,Population density (per sq mi),neutral,87,141.7829,26.8800,8.5700,14.5050,63.8550,223.4640,467.1634,2.9300,3575.9700
 state:MN,MN counties,87,median_hh_income,Median household income,neutral,87,75757.39,71573.00,65259.80,69100.50,77582.00,94632.00,13041.52,53925.00,123144.00
@@ -799,8 +799,8 @@ state:MN,MN counties,87,n_restricted_conditional,Projects restricted or conditio
 state:MN,MN counties,87,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,87,0.48663,0.00000,0.00000,0.00000,0.00000,1.58838,1.45256,0.00000,8.73362
 state:MN,MN counties,87,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,7,1.14286,1.00000,0.00000,0.16667,2.00000,2.26667,1.08623,0.00000,2.66667
 state:MN,MN counties,87,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,7,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:MO,MO counties,115,calibrated_score,Restriction resemblance score,up_is_more_restrictive,115,0.109332,0.065100,0.040080,0.048350,0.099950,0.229060,0.119608,0.028300,0.644700
-state:MO,MO counties,115,va_width,Score interval width,neutral,115,0.081403,0.056200,0.032600,0.041000,0.072700,0.119100,0.087980,0.027000,0.500000
+state:MO,MO counties,115,calibrated_score,Restriction resemblance score,up_is_more_restrictive,115,0.109997,0.065100,0.040340,0.048450,0.099050,0.242480,0.121898,0.028200,0.650300
+state:MO,MO counties,115,va_width,Score interval width,neutral,115,0.079218,0.045800,0.034000,0.039000,0.074700,0.147340,0.078648,0.027000,0.500000
 state:MO,MO counties,115,population,Population,neutral,115,53636.36,18722.00,6124.40,9883.50,39130.00,99681.20,126112.42,1956.00,996618.00
 state:MO,MO counties,115,pop_density_sqmi,Population density (per sq mi),neutral,115,131.4615,30.6800,10.8640,17.1850,64.2700,180.9460,492.1214,7.1100,4749.0100
 state:MO,MO counties,115,median_hh_income,Median household income,neutral,115,59503.10,57488.00,46960.20,52163.50,64245.50,73713.40,11477.52,35084.00,102912.00
@@ -827,8 +827,8 @@ state:MO,MO counties,115,opposition_events_per_100k,Opposition events per 100k r
 state:MO,MO counties,115,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,6,0.66667,0.25000,0.00000,0.04167,1.20833,1.75000,0.86281,0.00000,2.00000
 state:MO,MO counties,115,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,17,0.524510,0.500000,0.000000,0.000000,1.000000,1.000000,0.478500,0.000000,1.000000
 state:MO,MO counties,115,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,5,0.400000,0.000000,0.000000,0.000000,1.000000,1.000000,0.547723,0.000000,1.000000
-state:MS,MS counties,82,calibrated_score,Restriction resemblance score,up_is_more_restrictive,82,0.084778,0.058700,0.038970,0.045800,0.075800,0.145180,0.080568,0.011800,0.516200
-state:MS,MS counties,82,va_width,Score interval width,neutral,82,0.060450,0.053400,0.031300,0.034100,0.059450,0.075450,0.051313,0.021100,0.342800
+state:MS,MS counties,82,calibrated_score,Restriction resemblance score,up_is_more_restrictive,82,0.085857,0.058500,0.039370,0.046125,0.075475,0.143300,0.084144,0.012000,0.537900
+state:MS,MS counties,82,va_width,Score interval width,neutral,82,0.061095,0.042400,0.030000,0.034700,0.067950,0.095300,0.052152,0.021100,0.326800
 state:MS,MS counties,82,population,Population,neutral,82,35993.15,21481.50,8423.90,12482.00,34357.00,71469.50,43564.05,1095.00,222494.00
 state:MS,MS counties,82,pop_density_sqmi,Population density (per sq mi),neutral,82,62.1156,42.6900,15.8030,22.3025,66.2775,129.4660,70.3126,2.6500,395.9300
 state:MS,MS counties,82,median_hh_income,Median household income,neutral,82,48514.35,48207.00,35957.70,40442.25,53855.00,63591.90,10915.07,29271.00,82980.00
@@ -856,8 +856,8 @@ state:MS,MS counties,82,opposition_events_per_100k,Opposition events per 100k re
 state:MS,MS counties,82,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,2,5.00000,5.00000,3.40000,4.00000,6.00000,6.60000,2.82843,3.00000,7.00000
 state:MS,MS counties,82,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,8,0.718750,1.000000,0.000000,0.562500,1.000000,1.000000,0.451930,0.000000,1.000000
 state:MS,MS counties,82,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,4,0.250000,0.000000,0.000000,0.000000,0.250000,0.700000,0.500000,0.000000,1.000000
-state:MT,MT counties,56,calibrated_score,Restriction resemblance score,up_is_more_restrictive,56,0.053971,0.042500,0.022800,0.030200,0.053475,0.109750,0.039732,0.014600,0.203100
-state:MT,MT counties,56,va_width,Score interval width,neutral,56,0.046063,0.044800,0.027000,0.027000,0.054950,0.064900,0.020148,0.021700,0.117600
+state:MT,MT counties,56,calibrated_score,Restriction resemblance score,up_is_more_restrictive,56,0.054723,0.043550,0.023200,0.030875,0.054675,0.110150,0.039765,0.014800,0.204100
+state:MT,MT counties,56,va_width,Score interval width,neutral,56,0.046359,0.043850,0.026450,0.027000,0.057200,0.076100,0.020717,0.021700,0.116800
 state:MT,MT counties,56,population,Population,neutral,56,19733.43,7425.00,1306.00,2626.00,12942.75,59193.50,34984.28,401.00,167340.00
 state:MT,MT counties,56,pop_density_sqmi,Population density (per sq mi),neutral,56,8.1396,2.6900,0.7200,1.4250,5.6375,21.4200,13.8025,0.2000,63.5500
 state:MT,MT counties,56,median_hh_income,Median household income,neutral,56,62294.55,61857.50,52648.00,56015.50,69464.00,72660.00,9118.84,45129.00,87454.00
@@ -866,11 +866,11 @@ state:MT,MT counties,56,margin_2024,2024 presidential margin,neutral,56,-0.43416
 state:MT,MT counties,56,margin_2016,2016 presidential margin,neutral,56,-0.418364,-0.474250,-0.698600,-0.586025,-0.309075,-0.008800,0.266657,-0.865700,0.297400
 state:MT,MT counties,56,land_sqmi,Land area (sq mi),neutral,56,2599.110,2363.264,1205.989,1656.654,3369.953,4801.337,1273.673,717.990,5542.687
 state:MT,MT counties,56,existing_dc_count,Data center records in the atlas,neutral,56,0.04,0.00,0.00,0.00,0.00,0.00,0.19,0.00,1.00
-state:MT,MT counties,56,n_opposition_events,Opposition events,up_is_more_restrictive,56,0.23,0.00,0.00,0.00,0.00,1.00,0.71,0.00,4.00
+state:MT,MT counties,56,n_opposition_events,Opposition events,up_is_more_restrictive,56,0.27,0.00,0.00,0.00,0.00,1.00,0.92,0.00,6.00
 state:MT,MT counties,56,n_moratorium_events,Moratorium events,up_is_more_restrictive,56,0.02,0.00,0.00,0.00,0.00,0.00,0.13,0.00,1.00
 state:MT,MT counties,56,n_zoning_events,Zoning events,up_is_more_restrictive,56,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:MT,MT counties,56,n_ban_events,Ban events,up_is_more_restrictive,56,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:MT,MT counties,56,n_legislation_events,Legislation events,up_is_more_restrictive,56,0.07,0.00,0.00,0.00,0.00,0.00,0.53,0.00,4.00
+state:MT,MT counties,56,n_legislation_events,Legislation events,up_is_more_restrictive,56,0.11,0.00,0.00,0.00,0.00,0.00,0.80,0.00,6.00
 state:MT,MT counties,56,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,56,0.04,0.00,0.00,0.00,0.00,0.00,0.19,0.00,1.00
 state:MT,MT counties,56,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,56,0.02,0.00,0.00,0.00,0.00,0.00,0.13,0.00,1.00
 state:MT,MT counties,56,state_legislation_events,Statewide legislation events,up_is_more_restrictive,56,1.00,1.00,1.00,1.00,1.00,1.00,0.00,1.00,1.00
@@ -880,11 +880,11 @@ state:MT,MT counties,56,n_decided,Projects decided,neutral,56,0.00,0.00,0.00,0.0
 state:MT,MT counties,56,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,56,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:MT,MT counties,56,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,56,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:MT,MT counties,56,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,56,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:MT,MT counties,56,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,56,2.64914,0.00000,0.00000,0.00000,0.00000,1.18860,12.33490,0.00000,78.92660
+state:MT,MT counties,56,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,56,3.35384,0.00000,0.00000,0.00000,0.00000,1.18860,17.01235,0.00000,118.38990
 state:MT,MT counties,56,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,2,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000
 state:MT,MT counties,56,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,2,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:NC,NC counties,100,calibrated_score,Restriction resemblance score,up_is_more_restrictive,100,0.144948,0.104150,0.053320,0.064625,0.163350,0.262090,0.131229,0.027000,0.674000
-state:NC,NC counties,100,va_width,Score interval width,neutral,100,0.099646,0.067100,0.038110,0.054675,0.117600,0.137530,0.095519,0.027000,0.500000
+state:NC,NC counties,100,calibrated_score,Restriction resemblance score,up_is_more_restrictive,100,0.145576,0.103000,0.052930,0.063900,0.161350,0.263640,0.134457,0.027600,0.680700
+state:NC,NC counties,100,va_width,Score interval width,neutral,100,0.099960,0.074700,0.040630,0.053175,0.113850,0.147900,0.091417,0.026700,0.571400
 state:NC,NC counties,100,population,Population,neutral,100,105843.40,51777.50,13062.90,22492.50,116990.25,231218.80,174681.25,3376.00,1151009.00
 state:NC,NC counties,100,pop_density_sqmi,Population density (per sq mi),neutral,100,215.7375,113.8750,36.3220,60.0950,214.4200,411.8220,316.2660,7.5500,2159.8300
 state:NC,NC counties,100,median_hh_income,Median household income,neutral,100,61072.21,58949.00,45258.20,51377.50,65662.50,79975.60,13238.93,40318.00,101763.00
@@ -912,8 +912,8 @@ state:NC,NC counties,100,opposition_events_per_100k,Opposition events per 100k r
 state:NC,NC counties,100,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,8,0.30417,0.16667,0.00000,0.00000,0.52500,0.72000,0.37435,0.00000,1.00000
 state:NC,NC counties,100,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,20,0.381667,0.083333,0.000000,0.000000,1.000000,1.000000,0.452992,0.000000,1.000000
 state:NC,NC counties,100,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,11,0.113636,0.000000,0.000000,0.000000,0.000000,0.250000,0.303390,0.000000,1.000000
-state:ND,ND counties,53,calibrated_score,Restriction resemblance score,up_is_more_restrictive,53,0.066719,0.038300,0.026060,0.029600,0.059900,0.117060,0.084640,0.020700,0.461800
-state:ND,ND counties,53,va_width,Score interval width,neutral,53,0.053366,0.044800,0.027000,0.027000,0.056000,0.067100,0.047358,0.023800,0.258900
+state:ND,ND counties,53,calibrated_score,Restriction resemblance score,up_is_more_restrictive,53,0.068709,0.038600,0.026320,0.030200,0.060100,0.117580,0.090130,0.021000,0.504300
+state:ND,ND counties,53,va_width,Score interval width,neutral,53,0.053164,0.040500,0.027000,0.027800,0.057200,0.081800,0.041048,0.023800,0.227600
 state:ND,ND counties,53,population,Population,neutral,53,14704.92,3961.00,1826.40,2319.00,10488.00,33406.40,31075.50,795.00,189286.00
 state:ND,ND counties,53,pop_density_sqmi,Population density (per sq mi),neutral,53,9.5621,3.6800,1.7280,2.2100,8.0000,18.6360,17.8435,0.6500,107.2500
 state:ND,ND counties,53,median_hh_income,Median household income,neutral,53,72537.02,70827.00,60401.40,63214.00,80744.00,87620.80,11331.02,41676.00,96339.00
@@ -922,11 +922,11 @@ state:ND,ND counties,53,margin_2024,2024 presidential margin,neutral,53,-0.50659
 state:ND,ND counties,53,margin_2016,2016 presidential margin,neutral,53,-0.467840,-0.508600,-0.728520,-0.663300,-0.357700,-0.180120,0.245431,-0.747100,0.426500
 state:ND,ND counties,53,land_sqmi,Land area (sq mi),neutral,53,1301.779,1161.809,859.161,987.547,1508.401,1991.971,458.231,630.239,2760.133
 state:ND,ND counties,53,existing_dc_count,Data center records in the atlas,neutral,53,0.04,0.00,0.00,0.00,0.00,0.00,0.19,0.00,1.00
-state:ND,ND counties,53,n_opposition_events,Opposition events,up_is_more_restrictive,53,0.45,0.00,0.00,0.00,0.00,1.00,1.39,0.00,8.00
+state:ND,ND counties,53,n_opposition_events,Opposition events,up_is_more_restrictive,53,0.49,0.00,0.00,0.00,0.00,1.00,1.56,0.00,8.00
 state:ND,ND counties,53,n_moratorium_events,Moratorium events,up_is_more_restrictive,53,0.13,0.00,0.00,0.00,0.00,1.00,0.34,0.00,1.00
 state:ND,ND counties,53,n_zoning_events,Zoning events,up_is_more_restrictive,53,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:ND,ND counties,53,n_ban_events,Ban events,up_is_more_restrictive,53,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:ND,ND counties,53,n_legislation_events,Legislation events,up_is_more_restrictive,53,0.26,0.00,0.00,0.00,0.00,0.00,1.29,0.00,8.00
+state:ND,ND counties,53,n_legislation_events,Legislation events,up_is_more_restrictive,53,0.30,0.00,0.00,0.00,0.00,0.00,1.45,0.00,8.00
 state:ND,ND counties,53,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,53,0.02,0.00,0.00,0.00,0.00,0.00,0.14,0.00,1.00
 state:ND,ND counties,53,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,53,0.11,0.00,0.00,0.00,0.00,0.80,0.32,0.00,1.00
 state:ND,ND counties,53,state_legislation_events,Statewide legislation events,up_is_more_restrictive,53,1.00,1.00,1.00,1.00,1.00,1.00,0.00,1.00,1.00
@@ -936,12 +936,12 @@ state:ND,ND counties,53,n_decided,Projects decided,neutral,53,0.06,0.00,0.00,0.0
 state:ND,ND counties,53,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,53,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:ND,ND counties,53,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,53,0.06,0.00,0.00,0.00,0.00,0.00,0.23,0.00,1.00
 state:ND,ND counties,53,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,53,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:ND,ND counties,53,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,53,9.87820,0.00000,0.00000,0.00000,0.00000,16.52708,46.29509,0.00000,329.48929
+state:ND,ND counties,53,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,53,11.95046,0.00000,0.00000,0.00000,0.00000,16.52708,60.99950,0.00000,439.31906
 state:ND,ND counties,53,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,2,1.00000,1.00000,1.00000,1.00000,1.00000,1.00000,0.00000,1.00000,1.00000
 state:ND,ND counties,53,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,6,0.555556,0.500000,0.166667,0.375000,0.875000,1.000000,0.389682,0.000000,1.000000
 state:ND,ND counties,53,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,3,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:NE,NE counties,93,calibrated_score,Restriction resemblance score,up_is_more_restrictive,93,0.059531,0.045900,0.022480,0.032500,0.060800,0.095080,0.063266,0.015400,0.460400
-state:NE,NE counties,93,va_width,Score interval width,neutral,93,0.049825,0.044800,0.026060,0.027000,0.056000,0.066900,0.040734,0.021500,0.342700
+state:NE,NE counties,93,calibrated_score,Restriction resemblance score,up_is_more_restrictive,93,0.059009,0.046200,0.023000,0.033000,0.061100,0.093940,0.059945,0.015500,0.436500
+state:NE,NE counties,93,va_width,Score interval width,neutral,93,0.050104,0.042400,0.025680,0.027000,0.057200,0.073020,0.044190,0.021500,0.326600
 state:NE,NE counties,93,population,Population,neutral,93,21138.99,6084.00,820.40,2601.00,10544.00,33504.40,71002.83,385.00,585461.00
 state:NE,NE counties,93,pop_density_sqmi,Population density (per sq mi),neutral,93,46.8340,7.9200,0.9600,3.2100,17.2700,51.7540,205.4063,0.5400,1793.2400
 state:NE,NE counties,93,median_hh_income,Median household income,neutral,93,66880.39,65438.00,56630.40,60132.00,72335.00,79162.60,9766.16,44777.00,101402.00
@@ -967,8 +967,8 @@ state:NE,NE counties,93,n_restricted_conditional,Projects restricted or conditio
 state:NE,NE counties,93,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,93,2.48592,0.00000,0.00000,0.00000,0.00000,2.44759,13.56651,0.00000,123.15271
 state:NE,NE counties,93,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,3,0.05556,0.06667,0.01333,0.03333,0.08333,0.09333,0.05092,0.00000,0.10000
 state:NE,NE counties,93,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,3,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:NH,NH counties,10,calibrated_score,Restriction resemblance score,up_is_more_restrictive,10,0.173130,0.139300,0.100210,0.123875,0.197975,0.267120,0.093163,0.063400,0.390600
-state:NH,NH counties,10,va_width,Score interval width,neutral,10,0.105670,0.067100,0.058660,0.065450,0.115825,0.148460,0.088377,0.031300,0.342500
+state:NH,NH counties,10,calibrated_score,Restriction resemblance score,up_is_more_restrictive,10,0.171020,0.138300,0.099610,0.123325,0.192725,0.263110,0.091110,0.064600,0.384700
+state:NH,NH counties,10,va_width,Score interval width,neutral,10,0.110440,0.079450,0.063500,0.070125,0.114375,0.165770,0.081894,0.038300,0.326600
 state:NH,NH counties,10,population,Population,neutral,10,138783.40,84352.00,42314.70,54519.25,149199.25,327919.90,130703.31,31386.00,424732.00
 state:NH,NH counties,10,pop_density_sqmi,Population density (per sq mi),neutral,10,194.1350,134.4450,50.0790,61.4900,310.4250,458.9370,173.9405,17.4900,484.5600
 state:NH,NH counties,10,median_hh_income,Median household income,neutral,10,86520.50,85292.50,74180.00,81491.00,92453.75,101785.10,14727.67,58439.00,113927.00
@@ -995,8 +995,8 @@ state:NH,NH counties,10,opposition_events_per_100k,Opposition events per 100k re
 state:NH,NH counties,10,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,2,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000
 state:NH,NH counties,10,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,2,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
 state:NH,NH counties,10,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,1,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,,1.000000,1.000000
-state:NJ,NJ counties,21,calibrated_score,Restriction resemblance score,up_is_more_restrictive,21,0.366067,0.375100,0.164100,0.269500,0.491800,0.509000,0.145672,0.104400,0.679000
-state:NJ,NJ counties,21,va_width,Score interval width,neutral,21,0.238419,0.240200,0.120100,0.137700,0.304100,0.363300,0.109634,0.092900,0.500000
+state:NJ,NJ counties,21,calibrated_score,Restriction resemblance score,up_is_more_restrictive,21,0.360224,0.363300,0.160800,0.264800,0.460700,0.502600,0.146909,0.102400,0.703000
+state:NJ,NJ counties,21,va_width,Score interval width,neutral,21,0.212224,0.227600,0.118700,0.147900,0.227600,0.321700,0.093652,0.095600,0.500000
 state:NJ,NJ counties,21,population,Population,neutral,21,441286.38,464226.00,110238.00,152915.00,643615.00,854130.00,273805.65,64973.00,954717.00
 state:NJ,NJ counties,21,pop_density_sqmi,Population density (per sq mi),neutral,21,2377.7733,1107.0400,302.5700,378.6400,2784.5100,5571.3900,3486.5687,195.7800,15380.3100
 state:NJ,NJ counties,21,median_hh_income,Median household income,neutral,21,100890.67,99596.00,76819.00,86411.00,114316.00,134929.00,21273.83,64499.00,139453.00
@@ -1005,8 +1005,8 @@ state:NJ,NJ counties,21,margin_2024,2024 presidential margin,neutral,21,0.022429
 state:NJ,NJ counties,21,margin_2016,2016 presidential margin,neutral,21,0.072033,0.062300,-0.256000,-0.138400,0.217500,0.361700,0.259751,-0.340000,0.563600
 state:NJ,NJ counties,21,land_sqmi,Land area (sq mi),neutral,21,350.235,322.008,126.083,224.478,468.204,555.578,185.928,46.194,799.285
 state:NJ,NJ counties,21,existing_dc_count,Data center records in the atlas,neutral,21,2.52,0.00,0.00,0.00,1.00,13.00,5.03,0.00,16.00
-state:NJ,NJ counties,21,n_opposition_events,Opposition events,up_is_more_restrictive,21,2.10,1.00,0.00,0.00,3.00,6.00,2.49,0.00,9.00
-state:NJ,NJ counties,21,n_moratorium_events,Moratorium events,up_is_more_restrictive,21,0.19,0.00,0.00,0.00,0.00,1.00,0.40,0.00,1.00
+state:NJ,NJ counties,21,n_opposition_events,Opposition events,up_is_more_restrictive,21,2.14,2.00,0.00,0.00,3.00,6.00,2.48,0.00,9.00
+state:NJ,NJ counties,21,n_moratorium_events,Moratorium events,up_is_more_restrictive,21,0.24,0.00,0.00,0.00,0.00,1.00,0.44,0.00,1.00
 state:NJ,NJ counties,21,n_zoning_events,Zoning events,up_is_more_restrictive,21,0.90,1.00,0.00,0.00,2.00,2.00,1.04,0.00,3.00
 state:NJ,NJ counties,21,n_ban_events,Ban events,up_is_more_restrictive,21,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:NJ,NJ counties,21,n_legislation_events,Legislation events,up_is_more_restrictive,21,0.19,0.00,0.00,0.00,0.00,0.00,0.87,0.00,4.00
@@ -1019,12 +1019,12 @@ state:NJ,NJ counties,21,n_decided,Projects decided,neutral,21,0.33,0.00,0.00,0.0
 state:NJ,NJ counties,21,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,21,0.24,0.00,0.00,0.00,0.00,1.00,0.54,0.00,2.00
 state:NJ,NJ counties,21,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,21,0.10,0.00,0.00,0.00,0.00,0.00,0.30,0.00,1.00
 state:NJ,NJ counties,21,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,21,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:NJ,NJ counties,21,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,21,1.15924,0.43082,0.00000,0.00000,0.68910,1.56541,2.98638,0.00000,13.85191
-state:NJ,NJ counties,21,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,10,1.80900,0.44231,0.00000,0.08259,2.75000,6.00000,2.41977,0.00000,6.00000
+state:NJ,NJ counties,21,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,21,1.16595,0.43082,0.00000,0.00000,0.68910,1.56541,2.98414,0.00000,13.85191
+state:NJ,NJ counties,21,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,10,1.81525,0.44231,0.00000,0.12946,2.75000,6.00000,2.41483,0.00000,6.00000
 state:NJ,NJ counties,21,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,13,0.228205,0.000000,0.000000,0.000000,0.333333,0.633333,0.323707,0.000000,1.000000
 state:NJ,NJ counties,21,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,5,0.700000,1.000000,0.200000,0.500000,1.000000,1.000000,0.447214,0.000000,1.000000
-state:NM,NM counties,33,calibrated_score,Restriction resemblance score,up_is_more_restrictive,33,0.097506,0.076000,0.031020,0.046700,0.109400,0.201800,0.081951,0.018100,0.407800
-state:NM,NM counties,33,va_width,Score interval width,neutral,33,0.074303,0.057400,0.035220,0.041100,0.082500,0.110500,0.056061,0.024700,0.342700
+state:NM,NM counties,33,calibrated_score,Restriction resemblance score,up_is_more_restrictive,33,0.097185,0.077700,0.031720,0.047600,0.110600,0.200760,0.078618,0.018300,0.389300
+state:NM,NM counties,33,va_width,Score interval width,neutral,33,0.077506,0.064600,0.038800,0.044700,0.080100,0.116480,0.054132,0.024700,0.326800
 state:NM,NM counties,33,population,Population,neutral,33,64083.88,27036.00,4050.60,11511.00,68235.00,145466.00,121079.05,748.00,674357.00
 state:NM,NM counties,33,pop_density_sqmi,Population density (per sq mi),neutral,33,36.8994,7.0300,1.0860,2.7500,16.6600,69.6740,103.6662,0.3500,580.7200
 state:NM,NM counties,33,median_hh_income,Median household income,neutral,33,55468.64,51765.00,40893.20,45921.00,56259.00,73501.20,19318.75,37840.00,143188.00
@@ -1050,8 +1050,8 @@ state:NM,NM counties,33,n_restricted_conditional,Projects restricted or conditio
 state:NM,NM counties,33,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,33,0.68025,0.00000,0.00000,0.00000,0.00000,1.93341,1.93819,0.00000,8.10636
 state:NM,NM counties,33,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,4,1.53125,0.56250,0.03750,0.09375,2.00000,3.80000,2.35490,0.00000,5.00000
 state:NM,NM counties,33,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,4,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:NV,NV counties,17,calibrated_score,Restriction resemblance score,up_is_more_restrictive,17,0.110500,0.062000,0.029600,0.038400,0.111400,0.234880,0.128562,0.023900,0.508600
-state:NV,NV counties,17,va_width,Score interval width,neutral,17,0.089171,0.070000,0.034320,0.044800,0.077200,0.188600,0.082864,0.027000,0.304300
+state:NV,NV counties,17,calibrated_score,Restriction resemblance score,up_is_more_restrictive,17,0.108353,0.063200,0.030220,0.039100,0.111300,0.225920,0.122541,0.024300,0.487400
+state:NV,NV counties,17,va_width,Score interval width,neutral,17,0.090529,0.074700,0.034320,0.044800,0.096200,0.147940,0.082717,0.027000,0.371400
 state:NV,NV counties,17,population,Population,neutral,17,184764.71,17299.00,3147.40,4557.00,53852.00,233086.00,555612.92,962.00,2293764.00
 state:NV,NV counties,17,pop_density_sqmi,Population density (per sq mi),neutral,17,53.3282,2.9300,0.4120,1.0400,30.2700,162.9800,114.9335,0.2700,403.8100
 state:NV,NV counties,17,median_hh_income,Median household income,neutral,16,75206.12,73364.00,62735.50,71957.50,83688.75,86809.00,11350.67,50584.00,96000.00
@@ -1060,11 +1060,11 @@ state:NV,NV counties,17,margin_2024,2024 presidential margin,neutral,17,-0.44350
 state:NV,NV counties,17,margin_2016,2016 presidential margin,neutral,17,-0.410882,-0.487300,-0.634500,-0.546900,-0.321200,-0.079500,0.232644,-0.760000,0.106500
 state:NV,NV counties,17,land_sqmi,Land area (sq mi),neutral,17,6462.375,5519.247,531.842,3581.889,8886.665,13249.352,5262.207,144.534,18181.914
 state:NV,NV counties,17,existing_dc_count,Data center records in the atlas,neutral,17,2.24,0.00,0.00,0.00,0.00,6.80,6.03,0.00,23.00
-state:NV,NV counties,17,n_opposition_events,Opposition events,up_is_more_restrictive,17,1.00,0.00,0.00,0.00,1.00,3.00,1.87,0.00,7.00
+state:NV,NV counties,17,n_opposition_events,Opposition events,up_is_more_restrictive,17,1.06,0.00,0.00,0.00,1.00,3.00,1.92,0.00,7.00
 state:NV,NV counties,17,n_moratorium_events,Moratorium events,up_is_more_restrictive,17,0.29,0.00,0.00,0.00,0.00,1.00,0.59,0.00,2.00
 state:NV,NV counties,17,n_zoning_events,Zoning events,up_is_more_restrictive,17,0.41,0.00,0.00,0.00,0.00,1.20,1.18,0.00,4.00
 state:NV,NV counties,17,n_ban_events,Ban events,up_is_more_restrictive,17,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:NV,NV counties,17,n_legislation_events,Legislation events,up_is_more_restrictive,17,0.06,0.00,0.00,0.00,0.00,0.00,0.24,0.00,1.00
+state:NV,NV counties,17,n_legislation_events,Legislation events,up_is_more_restrictive,17,0.12,0.00,0.00,0.00,0.00,0.40,0.33,0.00,1.00
 state:NV,NV counties,17,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,17,0.06,0.00,0.00,0.00,0.00,0.00,0.24,0.00,1.00
 state:NV,NV counties,17,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,17,0.24,0.00,0.00,0.00,0.00,1.00,0.56,0.00,2.00
 state:NV,NV counties,17,state_legislation_events,Statewide legislation events,up_is_more_restrictive,17,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
@@ -1074,11 +1074,11 @@ state:NV,NV counties,17,n_decided,Projects decided,neutral,17,0.00,0.00,0.00,0.0
 state:NV,NV counties,17,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,17,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:NV,NV counties,17,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,17,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:NV,NV counties,17,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,17,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:NV,NV counties,17,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,17,4.48722,0.00000,0.00000,0.00000,1.42343,5.28110,14.49299,0.00000,60.24096
+state:NV,NV counties,17,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,17,4.59778,0.00000,0.00000,0.00000,1.42343,5.69529,14.49425,0.00000,60.24096
 state:NV,NV counties,17,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,3,0.25560,0.13043,0.02609,0.06522,0.38340,0.53518,0.33614,0.00000,0.63636
 state:NV,NV counties,17,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,3,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:NY,NY counties,62,calibrated_score,Restriction resemblance score,up_is_more_restrictive,62,0.232479,0.155000,0.085910,0.101150,0.304075,0.493380,0.177870,0.036000,0.745100
-state:NY,NY counties,62,va_width,Score interval width,neutral,62,0.151639,0.091600,0.056920,0.062900,0.212125,0.342680,0.127068,0.044800,0.500000
+state:NY,NY counties,62,calibrated_score,Restriction resemblance score,up_is_more_restrictive,62,0.233306,0.153200,0.085250,0.100475,0.303325,0.516300,0.179122,0.036600,0.722600
+state:NY,NY counties,62,va_width,Score interval width,neutral,62,0.150155,0.093200,0.059470,0.066300,0.179250,0.326600,0.123643,0.044800,0.571400
 state:NY,NY counties,62,population,Population,neutral,62,320521.27,86966.50,37337.90,48444.75,235217.50,992203.60,555885.19,5102.00,2646306.00
 state:NY,NY counties,62,pop_density_sqmi,Population density (per sq mi),neutral,62,3140.1047,113.3300,42.8090,72.9575,420.3275,2277.6990,11242.8698,2.9700,71841.6500
 state:NY,NY counties,62,median_hh_income,Median household income,neutral,62,76432.69,70695.00,61919.30,65720.50,79497.50,99516.70,18436.69,49036.00,143408.00
@@ -1087,26 +1087,26 @@ state:NY,NY counties,62,margin_2024,2024 presidential margin,neutral,62,-0.08842
 state:NY,NY counties,62,margin_2016,2016 presidential margin,neutral,62,-0.091576,-0.134950,-0.360990,-0.275650,0.004300,0.232910,0.276185,-0.509800,0.791300
 state:NY,NY counties,62,land_sqmi,Land area (sq mi),neutral,62,760.055,653.654,207.227,441.774,1022.564,1382.275,490.792,22.658,2679.526
 state:NY,NY counties,62,existing_dc_count,Data center records in the atlas,neutral,62,0.34,0.00,0.00,0.00,0.00,1.00,0.90,0.00,4.00
-state:NY,NY counties,62,n_opposition_events,Opposition events,up_is_more_restrictive,62,0.39,0.00,0.00,0.00,0.00,1.00,0.88,0.00,4.00
-state:NY,NY counties,62,n_moratorium_events,Moratorium events,up_is_more_restrictive,62,0.16,0.00,0.00,0.00,0.00,1.00,0.49,0.00,3.00
+state:NY,NY counties,62,n_opposition_events,Opposition events,up_is_more_restrictive,62,0.40,0.00,0.00,0.00,0.75,1.00,0.88,0.00,4.00
+state:NY,NY counties,62,n_moratorium_events,Moratorium events,up_is_more_restrictive,62,0.18,0.00,0.00,0.00,0.00,1.00,0.50,0.00,3.00
 state:NY,NY counties,62,n_zoning_events,Zoning events,up_is_more_restrictive,62,0.02,0.00,0.00,0.00,0.00,0.00,0.13,0.00,1.00
 state:NY,NY counties,62,n_ban_events,Ban events,up_is_more_restrictive,62,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:NY,NY counties,62,n_legislation_events,Legislation events,up_is_more_restrictive,62,0.03,0.00,0.00,0.00,0.00,0.00,0.18,0.00,1.00
 state:NY,NY counties,62,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,62,0.10,0.00,0.00,0.00,0.00,0.00,0.47,0.00,3.00
 state:NY,NY counties,62,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,62,0.08,0.00,0.00,0.00,0.00,0.00,0.27,0.00,1.00
 state:NY,NY counties,62,state_legislation_events,Statewide legislation events,up_is_more_restrictive,62,2.00,2.00,2.00,2.00,2.00,2.00,0.00,2.00,2.00
-state:NY,NY counties,62,n_projects_tracked,Projects tracked,neutral,62,0.65,0.00,0.00,0.00,1.00,2.00,1.23,0.00,5.00
+state:NY,NY counties,62,n_projects_tracked,Projects tracked,neutral,62,0.66,0.00,0.00,0.00,1.00,2.90,1.25,0.00,5.00
 state:NY,NY counties,62,n_projects_opposed,Projects opposed,up_is_more_restrictive,62,0.10,0.00,0.00,0.00,0.00,0.00,0.30,0.00,1.00
-state:NY,NY counties,62,n_decided,Projects decided,neutral,62,0.02,0.00,0.00,0.00,0.00,0.00,0.13,0.00,1.00
+state:NY,NY counties,62,n_decided,Projects decided,neutral,62,0.03,0.00,0.00,0.00,0.00,0.00,0.18,0.00,1.00
 state:NY,NY counties,62,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,62,0.02,0.00,0.00,0.00,0.00,0.00,0.13,0.00,1.00
-state:NY,NY counties,62,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,62,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+state:NY,NY counties,62,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,62,0.02,0.00,0.00,0.00,0.00,0.00,0.13,0.00,1.00
 state:NY,NY counties,62,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,62,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:NY,NY counties,62,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,62,0.34296,0.00000,0.00000,0.00000,0.00000,0.86856,1.10617,0.00000,6.90334
+state:NY,NY counties,62,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,62,0.36987,0.00000,0.00000,0.00000,0.04607,0.94447,1.11792,0.00000,6.90334
 state:NY,NY counties,62,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,10,0.68333,0.29167,0.00000,0.06250,1.00000,1.20000,0.91692,0.00000,3.00000
 state:NY,NY counties,62,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,18,0.226852,0.000000,0.000000,0.000000,0.312500,1.000000,0.383275,0.000000,1.000000
-state:NY,NY counties,62,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,1,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,,1.000000,1.000000
-state:OH,OH counties,88,calibrated_score,Restriction resemblance score,up_is_more_restrictive,88,0.167434,0.115750,0.069210,0.082950,0.217550,0.309360,0.114413,0.046100,0.552500
-state:OH,OH counties,88,va_width,Score interval width,neutral,88,0.104766,0.091600,0.054240,0.059500,0.117600,0.176220,0.068787,0.031300,0.381000
+state:NY,NY counties,62,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,2,0.500000,0.500000,0.100000,0.250000,0.750000,0.900000,0.707107,0.000000,1.000000
+state:OH,OH counties,88,calibrated_score,Restriction resemblance score,up_is_more_restrictive,88,0.168130,0.114900,0.068850,0.081650,0.227625,0.315770,0.115004,0.045700,0.525100
+state:OH,OH counties,88,va_width,Score interval width,neutral,88,0.106336,0.082350,0.042400,0.064550,0.116800,0.189700,0.071774,0.031900,0.483700
 state:OH,OH counties,88,population,Population,neutral,88,133864.16,58591.00,26975.30,36816.25,126802.25,266831.20,221391.76,12686.00,1321635.00
 state:OH,OH counties,88,pop_density_sqmi,Population density (per sq mi),neutral,88,296.9908,119.1650,59.0560,84.3875,265.5250,643.8540,483.0569,29.2000,2732.6900
 state:OH,OH counties,88,median_hh_income,Median household income,neutral,88,68101.23,65182.00,55014.20,58410.50,73660.00,82902.90,13785.44,46701.00,130088.00
@@ -1133,8 +1133,8 @@ state:OH,OH counties,88,opposition_events_per_100k,Opposition events per 100k re
 state:OH,OH counties,88,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,14,0.88261,0.33636,0.00000,0.01471,1.00000,2.70000,1.25874,0.00000,4.00000
 state:OH,OH counties,88,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,32,0.476980,0.500000,0.000000,0.000000,1.000000,1.000000,0.466857,0.000000,1.000000
 state:OH,OH counties,88,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,13,0.153846,0.000000,0.000000,0.000000,0.000000,0.800000,0.375534,0.000000,1.000000
-state:OK,OK counties,77,calibrated_score,Restriction resemblance score,up_is_more_restrictive,77,0.070000,0.055200,0.031220,0.040400,0.080200,0.112460,0.052031,0.022300,0.311100
-state:OK,OK counties,77,va_width,Score interval width,neutral,77,0.055103,0.053400,0.027000,0.031300,0.060600,0.069900,0.038503,0.026300,0.304300
+state:OK,OK counties,77,calibrated_score,Restriction resemblance score,up_is_more_restrictive,77,0.069794,0.055600,0.031760,0.041200,0.080800,0.111960,0.050237,0.022400,0.302600
+state:OK,OK counties,77,va_width,Score interval width,neutral,77,0.053117,0.042400,0.027000,0.036800,0.066300,0.077640,0.030439,0.025600,0.189700
 state:OK,OK counties,77,population,Population,neutral,77,51886.49,20880.00,5181.40,9495.00,45963.00,76722.60,120643.81,2247.00,800487.00
 state:OK,OK counties,77,pop_density_sqmi,Population density (per sq mi),neutral,77,73.4851,27.6000,5.7600,10.2300,58.6800,116.3460,190.9868,1.2200,1181.4400
 state:OK,OK counties,77,median_hh_income,Median household income,neutral,77,58272.97,57551.00,47731.80,50512.00,61980.00,70289.40,9710.77,41048.00,85427.00
@@ -1160,8 +1160,8 @@ state:OK,OK counties,77,n_restricted_conditional,Projects restricted or conditio
 state:OK,OK counties,77,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,77,0.19771,0.00000,0.00000,0.00000,0.00000,0.69764,0.57039,0.00000,2.70841
 state:OK,OK counties,77,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,4,1.25000,1.00000,0.30000,0.75000,1.50000,2.40000,1.25831,0.00000,3.00000
 state:OK,OK counties,77,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,4,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:OR,OR counties,36,calibrated_score,Restriction resemblance score,up_is_more_restrictive,36,0.153836,0.121300,0.038400,0.079225,0.191050,0.284750,0.124131,0.027400,0.554500
-state:OR,OR counties,36,va_width,Score interval width,neutral,36,0.098211,0.085150,0.043350,0.058600,0.118225,0.128550,0.062929,0.027000,0.296600
+state:OR,OR counties,36,calibrated_score,Restriction resemblance score,up_is_more_restrictive,36,0.150797,0.120650,0.039250,0.079925,0.187650,0.277950,0.118825,0.027800,0.525600
+state:OR,OR counties,36,va_width,Score interval width,neutral,36,0.098167,0.084500,0.045300,0.066025,0.112700,0.158350,0.052677,0.027000,0.258900
 state:OR,OR counties,36,population,Population,neutral,36,117742.06,45987.50,7376.50,21796.25,109043.25,364580.00,180299.25,1434.00,803863.00
 state:OR,OR counties,36,pop_density_sqmi,Population density (per sq mi),neutral,36,122.4117,24.9050,1.6300,5.8900,80.1600,188.3850,332.2034,0.7400,1865.0300
 state:OR,OR counties,36,median_hh_income,Median household income,neutral,36,69965.44,67628.00,58413.50,60184.75,77337.75,86721.50,13190.90,48338.00,104434.00
@@ -1187,8 +1187,8 @@ state:OR,OR counties,36,n_restricted_conditional,Projects restricted or conditio
 state:OR,OR counties,36,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,36,0.63198,0.00000,0.00000,0.00000,0.00000,1.04080,1.91874,0.00000,8.16393
 state:OR,OR counties,36,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,12,0.27169,0.01613,0.00000,0.00000,0.39423,1.00000,0.44246,0.00000,1.00000
 state:OR,OR counties,36,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,12,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:PA,PA counties,67,calibrated_score,Restriction resemblance score,up_is_more_restrictive,67,0.285325,0.199900,0.071160,0.088500,0.431800,0.695880,0.243398,0.030300,0.916200
-state:PA,PA counties,67,va_width,Score interval width,neutral,67,0.172606,0.117600,0.055560,0.067100,0.240200,0.410740,0.139725,0.027000,0.500000
+state:PA,PA counties,67,calibrated_score,Restriction resemblance score,up_is_more_restrictive,67,0.295797,0.198900,0.070680,0.088050,0.446500,0.730360,0.253121,0.030200,0.936800
+state:PA,PA counties,67,va_width,Score interval width,neutral,67,0.167569,0.116800,0.053120,0.070900,0.227600,0.371400,0.129049,0.027000,0.500000
 state:PA,PA counties,67,population,Population,neutral,67,193828.63,83213.00,25012.60,41824.00,212806.00,491945.60,279710.34,4475.00,1582432.00
 state:PA,PA counties,67,pop_density_sqmi,Population density (per sq mi),neutral,67,480.6681,138.7200,39.4400,63.8600,355.0850,774.1420,1486.2485,11.2900,11777.9000
 state:PA,PA counties,67,median_hh_income,Median household income,neutral,67,69613.63,64758.00,58800.80,60683.00,76371.50,84475.40,13647.56,47681.00,123041.00
@@ -1197,24 +1197,24 @@ state:PA,PA counties,67,margin_2024,2024 presidential margin,neutral,67,-0.30345
 state:PA,PA counties,67,margin_2016,2016 presidential margin,neutral,67,-0.307319,-0.375500,-0.545100,-0.468650,-0.198750,0.030520,0.250478,-0.707700,0.669100
 state:PA,PA counties,67,land_sqmi,Land area (sq mi),neutral,67,667.794,653.321,360.057,443.745,865.801,1046.645,270.580,130.331,1228.920
 state:PA,PA counties,67,existing_dc_count,Data center records in the atlas,neutral,67,0.13,0.00,0.00,0.00,0.00,0.00,0.60,0.00,4.00
-state:PA,PA counties,67,n_opposition_events,Opposition events,up_is_more_restrictive,67,1.34,0.00,0.00,0.00,1.50,4.40,2.37,0.00,11.00
-state:PA,PA counties,67,n_moratorium_events,Moratorium events,up_is_more_restrictive,67,0.09,0.00,0.00,0.00,0.00,0.00,0.38,0.00,2.00
+state:PA,PA counties,67,n_opposition_events,Opposition events,up_is_more_restrictive,67,1.36,0.00,0.00,0.00,1.50,4.40,2.37,0.00,11.00
+state:PA,PA counties,67,n_moratorium_events,Moratorium events,up_is_more_restrictive,67,0.10,0.00,0.00,0.00,0.00,0.00,0.39,0.00,2.00
 state:PA,PA counties,67,n_zoning_events,Zoning events,up_is_more_restrictive,67,0.55,0.00,0.00,0.00,1.00,1.40,1.22,0.00,6.00
 state:PA,PA counties,67,n_ban_events,Ban events,up_is_more_restrictive,67,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:PA,PA counties,67,n_legislation_events,Legislation events,up_is_more_restrictive,67,0.09,0.00,0.00,0.00,0.00,0.00,0.54,0.00,4.00
 state:PA,PA counties,67,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,67,0.15,0.00,0.00,0.00,0.00,0.40,0.50,0.00,3.00
 state:PA,PA counties,67,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,67,0.28,0.00,0.00,0.00,0.00,1.00,0.67,0.00,3.00
 state:PA,PA counties,67,state_legislation_events,Statewide legislation events,up_is_more_restrictive,67,3.00,3.00,3.00,3.00,3.00,3.00,0.00,3.00,3.00
-state:PA,PA counties,67,n_projects_tracked,Projects tracked,neutral,67,1.46,1.00,0.00,0.00,1.00,4.00,2.70,0.00,15.00
-state:PA,PA counties,67,n_projects_opposed,Projects opposed,up_is_more_restrictive,67,0.66,0.00,0.00,0.00,1.00,2.00,1.33,0.00,8.00
+state:PA,PA counties,67,n_projects_tracked,Projects tracked,neutral,67,1.48,1.00,0.00,0.00,1.50,4.00,2.70,0.00,15.00
+state:PA,PA counties,67,n_projects_opposed,Projects opposed,up_is_more_restrictive,67,0.69,0.00,0.00,0.00,1.00,2.00,1.35,0.00,8.00
 state:PA,PA counties,67,n_decided,Projects decided,neutral,67,0.39,0.00,0.00,0.00,0.00,1.00,1.00,0.00,6.00
 state:PA,PA counties,67,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,67,0.30,0.00,0.00,0.00,0.00,1.00,0.97,0.00,6.00
 state:PA,PA counties,67,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,67,0.09,0.00,0.00,0.00,0.00,0.00,0.29,0.00,1.00
 state:PA,PA counties,67,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,67,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:PA,PA counties,67,median_days_to_decision,Median days to decision,neutral,3,149.67,192.00,79.20,121.50,199.00,203.20,85.73,51.00,206.00
-state:PA,PA counties,67,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,67,0.95096,0.00000,0.00000,0.00000,1.18415,2.52145,1.92515,0.00000,11.06256
+state:PA,PA counties,67,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,67,1.04266,0.00000,0.00000,0.00000,1.26477,2.69559,2.02301,0.00000,11.06256
 state:PA,PA counties,67,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,4,1.37500,1.50000,0.30000,0.75000,2.12500,2.35000,1.10868,0.00000,2.50000
-state:PA,PA counties,67,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,35,0.446825,0.500000,0.000000,0.000000,0.875000,1.000000,0.409805,0.000000,1.000000
+state:PA,PA counties,67,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,35,0.470635,0.500000,0.000000,0.000000,1.000000,1.000000,0.411274,0.000000,1.000000
 state:PA,PA counties,67,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,15,0.633333,1.000000,0.000000,0.000000,1.000000,1.000000,0.480575,0.000000,1.000000
 state:PR,PR counties,78,population,Population,neutral,78,41729.29,30691.00,14236.90,20399.25,41019.00,72472.90,46534.33,1281.00,338661.00
 state:PR,PR counties,78,pop_density_sqmi,Population density (per sq mi),neutral,78,1090.3679,767.2050,333.6180,494.9725,1177.2350,2246.6950,1123.8119,109.9900,7072.2300
@@ -1238,8 +1238,8 @@ state:PR,PR counties,78,n_advanced_confirmed,Projects advanced (confirmed),up_is
 state:PR,PR counties,78,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,78,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:PR,PR counties,78,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,78,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000
 state:PR,PR counties,78,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,2,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000
-state:RI,RI counties,5,calibrated_score,Restriction resemblance score,up_is_more_restrictive,5,0.301340,0.231600,0.225600,0.226800,0.268800,0.440340,0.142766,0.224800,0.554700
-state:RI,RI counties,5,va_width,Score interval width,neutral,5,0.195760,0.120100,0.117600,0.117600,0.126900,0.348720,0.168218,0.117600,0.496600
+state:RI,RI counties,5,calibrated_score,Restriction resemblance score,up_is_more_restrictive,5,0.297400,0.226300,0.216080,0.218600,0.261800,0.444260,0.151256,0.214400,0.565900
+state:RI,RI counties,5,va_width,Score interval width,neutral,5,0.209320,0.147900,0.128680,0.146500,0.147900,0.351660,0.156073,0.116800,0.487500
 state:RI,RI counties,5,population,Population,neutral,5,219074.20,130073.00,64378.80,85095.00,170658.00,463649.40,250062.28,50568.00,658977.00
 state:RI,RI counties,5,pop_density_sqmi,Population density (per sq mi),neutral,5,1188.5860,1012.4000,569.3120,830.7500,1609.2900,1900.9980,668.6302,395.0200,2095.4700
 state:RI,RI counties,5,median_hh_income,Median household income,neutral,5,96749.00,100859.00,83433.60,91278.00,102478.00,107546.80,12495.50,78204.00,110926.00
@@ -1264,8 +1264,8 @@ state:RI,RI counties,5,n_advanced_confirmed,Projects advanced (confirmed),up_is_
 state:RI,RI counties,5,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,5,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:RI,RI counties,5,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,5,0.06070,0.00000,0.00000,0.00000,0.00000,0.18210,0.13573,0.00000,0.30350
 state:RI,RI counties,5,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,1,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,,1.000000,1.000000
-state:SC,SC counties,46,calibrated_score,Restriction resemblance score,up_is_more_restrictive,46,0.118887,0.094200,0.053800,0.061400,0.159750,0.229550,0.072816,0.033200,0.290200
-state:SC,SC counties,46,va_width,Score interval width,neutral,46,0.071215,0.059500,0.031300,0.042225,0.095050,0.120100,0.032330,0.027000,0.126900
+state:SC,SC counties,46,calibrated_score,Restriction resemblance score,up_is_more_restrictive,46,0.117361,0.093350,0.053900,0.061350,0.157150,0.225550,0.070777,0.033400,0.285600
+state:SC,SC counties,46,va_width,Score interval width,neutral,46,0.071739,0.066300,0.032600,0.039475,0.082900,0.132650,0.035494,0.027000,0.147900
 state:SC,SC counties,46,population,Population,neutral,46,113321.17,59526.50,17442.50,26628.50,157471.75,319233.00,131169.59,7738.00,537575.00
 state:SC,SC counties,46,pop_density_sqmi,Population density (per sq mi),neutral,46,156.6496,77.2050,33.3000,47.4950,208.1550,420.9750,160.0718,18.9600,683.9900
 state:SC,SC counties,46,median_hh_income,Median household income,neutral,46,57005.70,55753.50,42429.50,47083.75,64668.00,75955.00,13794.17,31603.00,84819.00
@@ -1291,8 +1291,8 @@ state:SC,SC counties,46,n_restricted_conditional,Projects restricted or conditio
 state:SC,SC counties,46,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,46,0.92224,0.00000,0.00000,0.00000,0.68949,2.45906,2.22027,0.00000,10.35652
 state:SC,SC counties,46,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,3,0.66667,1.00000,0.20000,0.50000,1.00000,1.00000,0.57735,0.00000,1.00000
 state:SC,SC counties,46,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,3,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:SD,SD counties,66,calibrated_score,Restriction resemblance score,up_is_more_restrictive,66,0.049868,0.036650,0.019800,0.025825,0.051800,0.083000,0.046942,0.018500,0.280200
-state:SD,SD counties,66,va_width,Score interval width,neutral,66,0.044088,0.036950,0.024250,0.027000,0.053475,0.072400,0.023204,0.021300,0.127900
+state:SD,SD counties,66,calibrated_score,Restriction resemblance score,up_is_more_restrictive,66,0.050603,0.037100,0.020250,0.026375,0.052725,0.083000,0.047981,0.018800,0.281500
+state:SD,SD counties,66,va_width,Score interval width,neutral,66,0.044595,0.038150,0.024250,0.027000,0.049475,0.081800,0.026977,0.021300,0.147900
 state:SD,SD counties,66,population,Population,neutral,66,13624.15,5279.50,1801.00,2823.75,10458.25,27565.00,28858.54,1030.00,200689.00
 state:SD,SD counties,66,pop_density_sqmi,Population density (per sq mi),neutral,66,15.6109,5.4450,1.5200,2.4075,12.3675,38.5450,34.3254,0.4100,248.7300
 state:SD,SD counties,66,median_hh_income,Median household income,neutral,66,66925.77,70045.50,49348.50,61306.50,74414.00,79268.50,12520.10,26686.00,96552.00
@@ -1319,8 +1319,8 @@ state:SD,SD counties,66,opposition_events_per_100k,Opposition events per 100k re
 state:SD,SD counties,66,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,1,0.50000,0.50000,0.50000,0.50000,0.50000,0.50000,,0.50000,0.50000
 state:SD,SD counties,66,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,3,0.444444,0.333333,0.066667,0.166667,0.666667,0.866667,0.509175,0.000000,1.000000
 state:SD,SD counties,66,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,1,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,,1.000000,1.000000
-state:TN,TN counties,95,calibrated_score,Restriction resemblance score,up_is_more_restrictive,95,0.113288,0.073500,0.045940,0.056950,0.122250,0.208960,0.108104,0.034300,0.667400
-state:TN,TN counties,95,va_width,Score interval width,neutral,95,0.076263,0.059500,0.031300,0.044150,0.089100,0.117600,0.065941,0.027000,0.500000
+state:TN,TN counties,95,calibrated_score,Restriction resemblance score,up_is_more_restrictive,95,0.112716,0.073100,0.045560,0.056400,0.120550,0.213780,0.108499,0.034300,0.678900
+state:TN,TN counties,95,va_width,Score interval width,neutral,95,0.078242,0.064600,0.038300,0.040900,0.089450,0.127660,0.073370,0.027000,0.571400
 state:TN,TN counties,95,population,Population,neutral,95,73537.71,32221.00,11835.80,17740.50,58193.00,147251.00,135690.27,5062.00,922195.00
 state:TN,TN counties,95,pop_density_sqmi,Population density (per sq mi),neutral,95,153.4598,73.7100,36.2280,46.3650,144.1000,383.2120,227.9671,20.6400,1409.8900
 state:TN,TN counties,95,median_hh_income,Median household income,neutral,95,58994.19,57408.00,46179.80,50413.00,63099.50,74429.00,13583.82,30500.00,131202.00
@@ -1347,8 +1347,8 @@ state:TN,TN counties,95,opposition_events_per_100k,Opposition events per 100k re
 state:TN,TN counties,95,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,8,1.67708,0.12500,0.00000,0.00000,1.16667,4.31667,3.61721,0.00000,10.50000
 state:TN,TN counties,95,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,14,0.157143,0.000000,0.000000,0.000000,0.150000,0.500000,0.303098,0.000000,1.000000
 state:TN,TN counties,95,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,6,0.500000,0.500000,0.000000,0.000000,1.000000,1.000000,0.547723,0.000000,1.000000
-state:TX,TX counties,254,calibrated_score,Restriction resemblance score,up_is_more_restrictive,254,0.079897,0.051000,0.022000,0.032900,0.087300,0.162400,0.090771,0.005500,0.531600
-state:TX,TX counties,254,va_width,Score interval width,neutral,254,0.058082,0.051200,0.025000,0.027000,0.063800,0.092510,0.050267,0.021100,0.350900
+state:TX,TX counties,254,calibrated_score,Restriction resemblance score,up_is_more_restrictive,254,0.079152,0.051150,0.022430,0.033525,0.086850,0.160910,0.087084,0.005600,0.513600
+state:TX,TX counties,254,va_width,Score interval width,neutral,254,0.056966,0.043000,0.024880,0.027000,0.066300,0.098470,0.042635,0.021100,0.326600
 state:TX,TX counties,254,population,Population,neutral,254,116694.26,18502.50,2459.80,6205.50,52564.50,185684.40,414356.99,52.00,4758579.00
 state:TX,TX counties,254,pop_density_sqmi,Population density (per sq mi),neutral,254,124.2185,21.6600,1.8290,5.9100,67.5850,257.1990,361.6326,0.0400,2981.9200
 state:TX,TX counties,254,median_hh_income,Median household income,neutral,253,64736.90,63367.00,47080.60,55305.00,71420.00,84342.80,15635.00,29014.00,124917.00
@@ -1374,8 +1374,8 @@ state:TX,TX counties,254,n_restricted_conditional,Projects restricted or conditi
 state:TX,TX counties,254,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,254,1.00832,0.00000,0.00000,0.00000,0.00000,0.85229,6.39819,0.00000,92.67841
 state:TX,TX counties,254,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,16,0.73262,0.01515,0.00000,0.00000,1.00000,2.00000,1.33687,0.00000,5.00000
 state:TX,TX counties,254,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,16,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:UT,UT counties,29,calibrated_score,Restriction resemblance score,up_is_more_restrictive,29,0.106579,0.063600,0.031340,0.043200,0.131100,0.226480,0.106581,0.014500,0.432500
-state:UT,UT counties,29,va_width,Score interval width,neutral,29,0.079538,0.056000,0.027000,0.044800,0.080100,0.129420,0.067639,0.021100,0.342700
+state:UT,UT counties,29,calibrated_score,Restriction resemblance score,up_is_more_restrictive,29,0.105521,0.064200,0.032160,0.045100,0.131200,0.221100,0.101779,0.014700,0.410600
+state:UT,UT counties,29,va_width,Score interval width,neutral,29,0.079276,0.057200,0.027000,0.044800,0.081800,0.123020,0.073779,0.021100,0.326800
 state:UT,UT counties,29,population,Population,neutral,29,114868.52,20446.00,2581.80,9697.00,60201.00,286294.80,251355.99,747.00,1184689.00
 state:UT,UT counties,29,pop_density_sqmi,Population density (per sq mi),neutral,29,133.5100,10.3300,1.6940,2.2500,22.8300,359.9640,356.7800,1.0000,1573.6000
 state:UT,UT counties,29,median_hh_income,Median household income,neutral,29,80175.72,75000.00,57978.00,67459.00,89803.00,109475.60,21626.54,44650.00,137058.00
@@ -1401,8 +1401,8 @@ state:UT,UT counties,29,n_restricted_conditional,Projects restricted or conditio
 state:UT,UT counties,29,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,29,2.51207,0.00000,0.00000,0.00000,0.43884,8.07947,7.61757,0.00000,39.10833
 state:UT,UT counties,29,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,4,0.10714,0.00000,0.00000,0.00000,0.10714,0.30000,0.21429,0.00000,0.42857
 state:UT,UT counties,29,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,4,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:VA,VA counties,133,calibrated_score,Restriction resemblance score,up_is_more_restrictive,133,0.100770,0.068900,0.036200,0.048600,0.119900,0.188420,0.092286,0.021300,0.592800
-state:VA,VA counties,133,va_width,Score interval width,neutral,133,0.094792,0.078400,0.030500,0.058300,0.117600,0.167580,0.079838,0.023500,0.666700
+state:VA,VA counties,133,calibrated_score,Restriction resemblance score,up_is_more_restrictive,133,0.097940,0.067500,0.036380,0.048400,0.117700,0.183580,0.087002,0.021600,0.564400
+state:VA,VA counties,133,va_width,Score interval width,neutral,133,0.096888,0.078700,0.032500,0.053600,0.116800,0.147620,0.084961,0.023500,0.705900
 state:VA,VA counties,133,population,Population,neutral,133,65093.98,25765.00,7578.40,14777.00,53913.00,142567.60,128211.46,2265.00,1144474.00
 state:VA,VA counties,133,pop_density_sqmi,Population density (per sq mi),neutral,133,902.3301,105.5900,31.6640,49.6100,1027.0300,2880.6560,1685.5529,5.4600,10498.0200
 state:VA,VA counties,133,median_hh_income,Median household income,neutral,133,74957.23,66718.00,48492.20,55933.00,88225.00,113043.80,26877.71,38497.00,178707.00
@@ -1411,9 +1411,9 @@ state:VA,VA counties,133,margin_2024,2024 presidential margin,neutral,133,-0.155
 state:VA,VA counties,133,margin_2016,2016 presidential margin,neutral,133,-0.142747,-0.178000,-0.546540,-0.393800,0.092800,0.301480,0.329025,-0.678300,0.769600
 state:VA,VA counties,133,land_sqmi,Land area (sq mi),neutral,133,296.858,310.017,9.709,53.275,461.952,557.210,227.261,2.046,969.003
 state:VA,VA counties,133,existing_dc_count,Data center records in the atlas,neutral,133,2.40,0.00,0.00,0.00,0.00,0.00,19.34,0.00,213.00
-state:VA,VA counties,133,n_opposition_events,Opposition events,up_is_more_restrictive,133,0.53,0.00,0.00,0.00,1.00,2.00,1.23,0.00,9.00
+state:VA,VA counties,133,n_opposition_events,Opposition events,up_is_more_restrictive,133,0.54,0.00,0.00,0.00,1.00,2.00,1.25,0.00,9.00
 state:VA,VA counties,133,n_moratorium_events,Moratorium events,up_is_more_restrictive,133,0.05,0.00,0.00,0.00,0.00,0.00,0.21,0.00,1.00
-state:VA,VA counties,133,n_zoning_events,Zoning events,up_is_more_restrictive,133,0.26,0.00,0.00,0.00,0.00,1.00,0.77,0.00,6.00
+state:VA,VA counties,133,n_zoning_events,Zoning events,up_is_more_restrictive,133,0.27,0.00,0.00,0.00,0.00,1.00,0.77,0.00,6.00
 state:VA,VA counties,133,n_ban_events,Ban events,up_is_more_restrictive,133,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:VA,VA counties,133,n_legislation_events,Legislation events,up_is_more_restrictive,133,0.02,0.00,0.00,0.00,0.00,0.00,0.12,0.00,1.00
 state:VA,VA counties,133,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,133,0.02,0.00,0.00,0.00,0.00,0.00,0.12,0.00,1.00
@@ -1425,11 +1425,11 @@ state:VA,VA counties,133,n_decided,Projects decided,neutral,133,0.00,0.00,0.00,0
 state:VA,VA counties,133,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,133,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:VA,VA counties,133,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,133,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:VA,VA counties,133,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,133,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-state:VA,VA counties,133,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,133,0.99226,0.00000,0.00000,0.00000,0.87964,3.27252,2.47334,0.00000,17.75253
+state:VA,VA counties,133,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,133,1.01890,0.00000,0.00000,0.00000,0.87964,3.27252,2.55717,0.00000,17.75253
 state:VA,VA counties,133,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,11,0.75779,0.14286,0.00000,0.01174,1.33333,2.00000,1.03302,0.00000,3.00000
 state:VA,VA counties,133,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,11,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:VT,VT counties,14,calibrated_score,Restriction resemblance score,up_is_more_restrictive,14,0.129079,0.121750,0.091600,0.102725,0.141325,0.160750,0.054741,0.041000,0.287900
-state:VT,VT counties,14,va_width,Score interval width,neutral,14,0.071957,0.067100,0.054600,0.058125,0.081725,0.103080,0.023932,0.034100,0.126900
+state:VT,VT counties,14,calibrated_score,Restriction resemblance score,up_is_more_restrictive,14,0.127921,0.120600,0.091110,0.101450,0.140325,0.159350,0.053777,0.041000,0.283400
+state:VT,VT counties,14,va_width,Score interval width,neutral,14,0.075236,0.069000,0.059400,0.064600,0.083950,0.092130,0.025631,0.034000,0.147900
 state:VT,VT counties,14,population,Population,neutral,14,46089.57,37404.50,12985.90,28017.50,56070.75,60326.20,39367.83,5972.00,168831.00
 state:VT,VT counties,14,pop_density_sqmi,Population density (per sq mi),neutral,14,75.3214,57.4350,40.6300,47.3775,76.1300,89.4680,71.8974,9.0200,314.4900
 state:VT,VT counties,14,median_hh_income,Median household income,neutral,14,75042.50,73370.50,65167.10,66824.75,79659.25,89980.90,10544.73,58985.00,94310.00
@@ -1453,8 +1453,8 @@ state:VT,VT counties,14,n_blocked_confirmed,Projects blocked (confirmed),up_is_m
 state:VT,VT counties,14,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,14,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:VT,VT counties,14,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,14,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
 state:VT,VT counties,14,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,14,0.24235,0.00000,0.00000,0.00000,0.00000,1.16748,0.61615,0.00000,1.72509
-state:WA,WA counties,39,calibrated_score,Restriction resemblance score,up_is_more_restrictive,39,0.153703,0.121600,0.050020,0.077950,0.177550,0.310200,0.120004,0.033400,0.624900
-state:WA,WA counties,39,va_width,Score interval width,neutral,39,0.103823,0.074100,0.044460,0.060300,0.110500,0.139480,0.092557,0.030300,0.500000
+state:WA,WA counties,39,calibrated_score,Restriction resemblance score,up_is_more_restrictive,39,0.150803,0.121600,0.050600,0.078400,0.168900,0.300700,0.114775,0.033800,0.599500
+state:WA,WA counties,39,va_width,Score interval width,neutral,39,0.105221,0.082900,0.044500,0.064600,0.118300,0.154180,0.075908,0.028600,0.371400
 state:WA,WA counties,39,population,Population,neutral,39,198486.77,66968.00,10482.00,22753.00,170315.50,517277.40,401380.39,2326.00,2262713.00
 state:WA,WA counties,39,pop_density_sqmi,Population density (per sq mi),neutral,39,150.4690,37.4800,6.8960,17.9300,106.7000,443.6860,251.1355,3.2700,1069.4700
 state:WA,WA counties,39,median_hh_income,Median household income,neutral,39,76363.38,71528.00,61938.60,67702.00,84578.00,95284.80,14832.48,52893.00,122148.00
@@ -1480,8 +1480,8 @@ state:WA,WA counties,39,n_restricted_conditional,Projects restricted or conditio
 state:WA,WA counties,39,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,39,0.26676,0.00000,0.00000,0.00000,0.02210,1.04811,0.63507,0.00000,2.61790
 state:WA,WA counties,39,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,9,0.26880,0.07692,0.00000,0.02564,0.33333,0.73333,0.34978,0.00000,1.00000
 state:WA,WA counties,39,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,9,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:WI,WI counties,72,calibrated_score,Restriction resemblance score,up_is_more_restrictive,72,0.101393,0.081700,0.048210,0.057100,0.126525,0.176880,0.065666,0.032600,0.357000
-state:WI,WI counties,72,va_width,Score interval width,neutral,72,0.074837,0.062350,0.034600,0.053400,0.080100,0.116890,0.050289,0.027000,0.342700
+state:WI,WI counties,72,calibrated_score,Restriction resemblance score,up_is_more_restrictive,72,0.100189,0.082000,0.048490,0.056800,0.125350,0.173750,0.062967,0.032700,0.339100
+state:WI,WI counties,72,va_width,Score interval width,neutral,72,0.073407,0.065550,0.039520,0.047850,0.085450,0.115830,0.042376,0.027000,0.326800
 state:WI,WI counties,72,population,Population,neutral,72,81833.65,41417.00,14302.00,19396.00,89699.75,167966.10,135308.95,4256.00,927656.00
 state:WI,WI counties,72,pop_density_sqmi,Population density (per sq mi),neutral,72,168.1335,50.4100,15.3720,28.5675,139.6375,386.6670,466.6541,8.1300,3841.9100
 state:WI,WI counties,72,median_hh_income,Median household income,neutral,72,71715.49,70946.50,59547.90,64135.75,76190.75,83320.50,10327.57,57258.00,104100.00
@@ -1507,8 +1507,8 @@ state:WI,WI counties,72,n_restricted_conditional,Projects restricted or conditio
 state:WI,WI counties,72,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,72,0.98183,0.00000,0.00000,0.00000,0.72879,2.44302,2.54502,0.00000,17.32633
 state:WI,WI counties,72,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,10,2.13333,0.16667,0.00000,0.00000,1.75000,5.00000,4.36654,0.00000,14.00000
 state:WI,WI counties,72,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,10,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:WV,WV counties,55,calibrated_score,Restriction resemblance score,up_is_more_restrictive,55,0.090944,0.059600,0.035920,0.041800,0.095100,0.210540,0.083642,0.027500,0.364000
-state:WV,WV counties,55,va_width,Score interval width,neutral,55,0.066827,0.053800,0.028200,0.038750,0.067100,0.111360,0.053477,0.027000,0.304200
+state:WV,WV counties,55,calibrated_score,Restriction resemblance score,up_is_more_restrictive,55,0.092982,0.059100,0.035920,0.041650,0.094100,0.219880,0.088443,0.027600,0.389400
+state:WV,WV counties,55,va_width,Score interval width,neutral,55,0.070445,0.045900,0.030300,0.039650,0.067250,0.142700,0.060550,0.027000,0.326600
 state:WV,WV counties,55,population,Population,neutral,55,32444.76,22053.00,7650.00,12089.00,36351.00,70362.40,33300.74,5131.00,178198.00
 state:WV,WV counties,55,pop_density_sqmi,Population density (per sq mi),neutral,55,94.3851,46.1500,21.8940,26.4750,110.1650,266.7340,103.8030,8.3500,395.9600
 state:WV,WV counties,55,median_hh_income,Median household income,neutral,55,54746.25,53475.00,42642.40,48627.50,60314.00,63364.60,10393.88,29980.00,95523.00
@@ -1535,8 +1535,8 @@ state:WV,WV counties,55,opposition_events_per_100k,Opposition events per 100k re
 state:WV,WV counties,55,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,1,0.00000,0.00000,0.00000,0.00000,0.00000,0.00000,,0.00000,0.00000
 state:WV,WV counties,55,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,11,0.454545,0.000000,0.000000,0.000000,1.000000,1.000000,0.522233,0.000000,1.000000
 state:WV,WV counties,55,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,2,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-state:WY,WY counties,23,calibrated_score,Restriction resemblance score,up_is_more_restrictive,23,0.065357,0.050900,0.035840,0.040350,0.075500,0.108400,0.038850,0.022500,0.200100
-state:WY,WY counties,23,va_width,Score interval width,neutral,23,0.058226,0.053400,0.042960,0.044800,0.067000,0.078080,0.023642,0.026000,0.146600
+state:WY,WY counties,23,calibrated_score,Restriction resemblance score,up_is_more_restrictive,23,0.066200,0.052000,0.036520,0.041400,0.076950,0.111680,0.037443,0.023100,0.190500
+state:WY,WY counties,23,va_width,Score interval width,neutral,23,0.058130,0.049500,0.040220,0.044800,0.065750,0.074860,0.027702,0.026700,0.168800
 state:WY,WY counties,23,population,Population,neutral,23,25207.00,14549.00,6935.80,8604.00,34649.00,45971.60,24498.55,2415.00,100661.00
 state:WY,WY counties,23,pop_density_sqmi,Population density (per sq mi),neutral,23,6.5839,4.1300,1.8860,2.7100,7.3300,11.9960,7.6520,0.9200,37.4800
 state:WY,WY counties,23,median_hh_income,Median household income,neutral,23,73360.04,70855.00,60967.20,64510.50,80918.00,87254.40,13681.58,48987.00,112681.00
@@ -1562,32 +1562,32 @@ state:WY,WY counties,23,n_restricted_conditional,Projects restricted or conditio
 state:WY,WY counties,23,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,23,0.42697,0.00000,0.00000,0.00000,0.00000,0.00000,1.41475,0.00000,4.96717
 state:WY,WY counties,23,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,2,0.13889,0.13889,0.02778,0.06944,0.20833,0.25000,0.19642,0.00000,0.27778
 state:WY,WY counties,23,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,2,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
-tracked_activity,Counties with at least one tracked opposition event,701,calibrated_score,Restriction resemblance score,up_is_more_restrictive,701,0.216380,0.157000,0.056900,0.086500,0.284400,0.498300,0.176403,0.014700,0.916200
-tracked_activity,Counties with at least one tracked opposition event,701,va_width,Score interval width,neutral,701,0.141726,0.093200,0.053400,0.061900,0.137700,0.326800,0.120801,0.021100,0.666700
-tracked_activity,Counties with at least one tracked opposition event,701,population,Population,neutral,701,239787.25,83531.00,16067.00,33479.00,229463.00,585461.00,552443.11,812.00,9848406.00
-tracked_activity,Counties with at least one tracked opposition event,701,pop_density_sqmi,Population density (per sq mi),neutral,701,565.4140,140.9400,21.9000,52.9800,396.3100,1129.2000,2958.1490,0.1200,71841.6500
-tracked_activity,Counties with at least one tracked opposition event,701,median_hh_income,Median household income,neutral,701,74213.86,70147.00,54829.00,61346.00,81797.00,100678.00,19318.73,34501.00,178707.00
-tracked_activity,Counties with at least one tracked opposition event,701,pct_bachelors_plus,Bachelor's degree or higher (%),neutral,701,29.2773,26.9800,17.0500,20.5500,35.6600,45.6300,11.3154,9.5200,68.2500
-tracked_activity,Counties with at least one tracked opposition event,701,margin_2024,2024 presidential margin,neutral,697,-0.208681,-0.249600,-0.583980,-0.450300,-0.007800,0.244640,0.318337,-0.872700,0.860700
-tracked_activity,Counties with at least one tracked opposition event,701,margin_2016,2016 presidential margin,neutral,701,-0.199267,-0.242800,-0.552000,-0.432300,-0.010700,0.246100,0.308918,-0.848900,0.887200
-tracked_activity,Counties with at least one tracked opposition event,701,land_sqmi,Land area (sq mi),neutral,701,1097.162,568.409,283.855,413.135,868.230,1730.231,3748.518,6.904,88823.624
-tracked_activity,Counties with at least one tracked opposition event,701,existing_dc_count,Data center records in the atlas,neutral,701,1.70,0.00,0.00,0.00,0.00,2.00,10.02,0.00,213.00
-tracked_activity,Counties with at least one tracked opposition event,701,n_opposition_events,Opposition events,up_is_more_restrictive,701,2.09,1.00,1.00,1.00,2.00,4.00,2.39,1.00,27.00
-tracked_activity,Counties with at least one tracked opposition event,701,n_moratorium_events,Moratorium events,up_is_more_restrictive,701,0.78,1.00,0.00,0.00,1.00,2.00,1.31,0.00,14.00
-tracked_activity,Counties with at least one tracked opposition event,701,n_zoning_events,Zoning events,up_is_more_restrictive,701,0.46,0.00,0.00,0.00,1.00,1.00,0.88,0.00,9.00
-tracked_activity,Counties with at least one tracked opposition event,701,n_ban_events,Ban events,up_is_more_restrictive,701,0.01,0.00,0.00,0.00,0.00,0.00,0.08,0.00,1.00
-tracked_activity,Counties with at least one tracked opposition event,701,n_legislation_events,Legislation events,up_is_more_restrictive,701,0.15,0.00,0.00,0.00,0.00,0.00,0.65,0.00,8.00
-tracked_activity,Counties with at least one tracked opposition event,701,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,701,0.18,0.00,0.00,0.00,0.00,1.00,0.63,0.00,6.00
-tracked_activity,Counties with at least one tracked opposition event,701,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,701,0.68,1.00,0.00,0.00,1.00,1.00,0.95,0.00,12.00
-tracked_activity,Counties with at least one tracked opposition event,701,state_legislation_events,Statewide legislation events,up_is_more_restrictive,701,3.04,3.00,1.00,1.00,4.00,5.00,2.72,0.00,14.00
-tracked_activity,Counties with at least one tracked opposition event,701,n_projects_tracked,Projects tracked,neutral,701,2.13,0.00,0.00,0.00,1.00,3.00,10.08,0.00,213.00
-tracked_activity,Counties with at least one tracked opposition event,701,n_projects_opposed,Projects opposed,up_is_more_restrictive,701,0.30,0.00,0.00,0.00,0.00,1.00,0.70,0.00,8.00
-tracked_activity,Counties with at least one tracked opposition event,701,n_decided,Projects decided,neutral,701,0.15,0.00,0.00,0.00,0.00,1.00,0.56,0.00,7.00
-tracked_activity,Counties with at least one tracked opposition event,701,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,701,0.06,0.00,0.00,0.00,0.00,0.00,0.37,0.00,6.00
-tracked_activity,Counties with at least one tracked opposition event,701,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,701,0.09,0.00,0.00,0.00,0.00,0.00,0.42,0.00,7.00
-tracked_activity,Counties with at least one tracked opposition event,701,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,701,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
-tracked_activity,Counties with at least one tracked opposition event,701,median_days_to_decision,Median days to decision,neutral,6,307.50,199.00,88.00,121.50,420.50,635.50,274.43,78.00,779.00
-tracked_activity,Counties with at least one tracked opposition event,701,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,701,4.75136,1.90771,0.33470,0.73831,4.14267,8.55469,15.44921,0.04062,329.48929
-tracked_activity,Counties with at least one tracked opposition event,701,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,151,1.62306,1.00000,0.10345,0.33333,2.00000,4.00000,2.07299,0.02347,14.00000
-tracked_activity,Counties with at least one tracked opposition event,701,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,279,0.408415,0.250000,0.000000,0.000000,1.000000,1.000000,0.439985,0.000000,1.000000
-tracked_activity,Counties with at least one tracked opposition event,701,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,75,0.376667,0.000000,0.000000,0.000000,1.000000,1.000000,0.478196,0.000000,1.000000
+tracked_activity,Counties with at least one tracked opposition event,705,calibrated_score,Restriction resemblance score,up_is_more_restrictive,705,0.216827,0.155500,0.057400,0.086400,0.281700,0.496940,0.178728,0.015100,0.936800
+tracked_activity,Counties with at least one tracked opposition event,705,va_width,Score interval width,neutral,705,0.140486,0.095200,0.047600,0.066300,0.147900,0.321700,0.115303,0.021100,0.705900
+tracked_activity,Counties with at least one tracked opposition event,705,population,Population,neutral,705,238710.28,83213.00,16070.20,33442.00,228227.00,583162.60,551062.53,812.00,9848406.00
+tracked_activity,Counties with at least one tracked opposition event,705,pop_density_sqmi,Population density (per sq mi),neutral,705,562.6965,140.0600,21.7140,52.9400,395.9600,1118.7720,2949.9600,0.1200,71841.6500
+tracked_activity,Counties with at least one tracked opposition event,705,median_hh_income,Median household income,neutral,705,74151.97,70074.00,54834.20,61130.00,81612.00,100550.80,19283.09,34501.00,178707.00
+tracked_activity,Counties with at least one tracked opposition event,705,pct_bachelors_plus,Bachelor's degree or higher (%),neutral,705,29.2198,26.8900,17.0200,20.5300,35.6000,45.6180,11.3111,9.5200,68.2500
+tracked_activity,Counties with at least one tracked opposition event,705,margin_2024,2024 presidential margin,neutral,701,-0.209852,-0.249600,-0.585000,-0.450800,-0.008600,0.244400,0.318092,-0.872700,0.860700
+tracked_activity,Counties with at least one tracked opposition event,705,margin_2016,2016 presidential margin,neutral,705,-0.200429,-0.244700,-0.552720,-0.433200,-0.011000,0.244900,0.308758,-0.848900,0.887200
+tracked_activity,Counties with at least one tracked opposition event,705,land_sqmi,Land area (sq mi),neutral,705,1095.627,568.409,284.130,413.135,869.071,1720.940,3738.053,6.904,88823.624
+tracked_activity,Counties with at least one tracked opposition event,705,existing_dc_count,Data center records in the atlas,neutral,705,1.69,0.00,0.00,0.00,0.00,2.00,9.99,0.00,213.00
+tracked_activity,Counties with at least one tracked opposition event,705,n_opposition_events,Opposition events,up_is_more_restrictive,705,2.10,1.00,1.00,1.00,2.00,4.00,2.42,1.00,27.00
+tracked_activity,Counties with at least one tracked opposition event,705,n_moratorium_events,Moratorium events,up_is_more_restrictive,705,0.80,1.00,0.00,0.00,1.00,2.00,1.34,0.00,15.00
+tracked_activity,Counties with at least one tracked opposition event,705,n_zoning_events,Zoning events,up_is_more_restrictive,705,0.46,0.00,0.00,0.00,1.00,1.00,0.87,0.00,9.00
+tracked_activity,Counties with at least one tracked opposition event,705,n_ban_events,Ban events,up_is_more_restrictive,705,0.01,0.00,0.00,0.00,0.00,0.00,0.08,0.00,1.00
+tracked_activity,Counties with at least one tracked opposition event,705,n_legislation_events,Legislation events,up_is_more_restrictive,705,0.16,0.00,0.00,0.00,0.00,0.00,0.70,0.00,8.00
+tracked_activity,Counties with at least one tracked opposition event,705,n_lawsuit_events,Lawsuit events,up_is_more_restrictive,705,0.18,0.00,0.00,0.00,0.00,1.00,0.63,0.00,6.00
+tracked_activity,Counties with at least one tracked opposition event,705,n_enacted_restrictive,Enacted restrictive actions,up_is_more_restrictive,705,0.68,1.00,0.00,0.00,1.00,1.00,0.95,0.00,12.00
+tracked_activity,Counties with at least one tracked opposition event,705,state_legislation_events,Statewide legislation events,up_is_more_restrictive,705,3.03,3.00,1.00,1.00,4.00,5.00,2.71,0.00,14.00
+tracked_activity,Counties with at least one tracked opposition event,705,n_projects_tracked,Projects tracked,neutral,705,2.13,0.00,0.00,0.00,1.00,3.00,10.05,0.00,213.00
+tracked_activity,Counties with at least one tracked opposition event,705,n_projects_opposed,Projects opposed,up_is_more_restrictive,705,0.30,0.00,0.00,0.00,0.00,1.00,0.70,0.00,8.00
+tracked_activity,Counties with at least one tracked opposition event,705,n_decided,Projects decided,neutral,705,0.15,0.00,0.00,0.00,0.00,1.00,0.56,0.00,7.00
+tracked_activity,Counties with at least one tracked opposition event,705,n_blocked_confirmed,Projects blocked (confirmed),up_is_more_restrictive,705,0.06,0.00,0.00,0.00,0.00,0.00,0.37,0.00,6.00
+tracked_activity,Counties with at least one tracked opposition event,705,n_advanced_confirmed,Projects advanced (confirmed),up_is_less_restrictive,705,0.09,0.00,0.00,0.00,0.00,0.00,0.42,0.00,7.00
+tracked_activity,Counties with at least one tracked opposition event,705,n_restricted_conditional,Projects restricted or conditional,up_is_more_restrictive,705,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00
+tracked_activity,Counties with at least one tracked opposition event,705,median_days_to_decision,Median days to decision,neutral,6,307.50,199.00,88.00,121.50,420.50,635.50,274.43,78.00,779.00
+tracked_activity,Counties with at least one tracked opposition event,705,opposition_events_per_100k,Opposition events per 100k residents,up_is_more_restrictive,705,4.97801,1.93547,0.33477,0.74713,4.29185,8.74647,19.14034,0.04062,439.31906
+tracked_activity,Counties with at least one tracked opposition event,705,opposition_events_per_dc,Opposition events per data center record,up_is_more_restrictive,151,1.64334,1.00000,0.12500,0.33333,2.00000,4.00000,2.12541,0.02347,14.00000
+tracked_activity,Counties with at least one tracked opposition event,705,opposed_share_of_tracked,Share of tracked projects opposed,up_is_more_restrictive,281,0.408473,0.250000,0.000000,0.000000,1.000000,1.000000,0.440275,0.000000,1.000000
+tracked_activity,Counties with at least one tracked opposition event,705,blocked_share_of_decided,Share of decided projects blocked,up_is_more_restrictive,76,0.371711,0.000000,0.000000,0.000000,1.000000,1.000000,0.476958,0.000000,1.000000
