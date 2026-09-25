@@ -1,8 +1,8 @@
 # Scraper field audit
 
-Generated 2026-09-24 by `scripts/scrape-trackdatacenters-proposals.py`.
+Generated 2026-09-25 by `scripts/scrape-trackdatacenters-proposals.py`.
 
-376 records; 52 distinct top-level keys in the response.
+384 records; 53 distinct top-level keys in the response.
 
 ## Retired, and expected to be absent
 
@@ -24,7 +24,7 @@ These are the fields that will arrive empty. A field here was dropped or renamed
 
 Candidate landing places for anything in the list above, with up to 4 distinct observed values each. Strings longer than 40 characters are described by length rather than quoted.
 
-- `additionalLocations` -- <list n=0>, <list n=1>, <list n=2>
+- `additionalSites` -- <list n=0>, <list n=1>, <list n=2>
 - `approvals` -- <list n=0>, <list n=1>
 - `btmPower` -- "unknown", "true", "false"
 - `btmPowerName` -- <list n=0>, <list n=1>
@@ -33,6 +33,7 @@ Candidate landing places for anything in the list above, with up to 4 distinct o
 - `coolingType` -- "closed"
 - `dateCreated` -- "2026-9-16", "2026-9-17", "2026-9-18", "2026-9-10"
 - `dateOnline` -- "2032", "2026", "2027", "2028"
+- `dateOnlineMax` -- "2028"
 - `dedicatedSubstation` -- "unknown", "true", "false"
 - `facilitySizeSqft` -- 4500000, 263000, 300000, 1000000
 - `geojson` -- <list n=1>, <list n=0>, <list n=2>, <list n=4>
@@ -40,7 +41,7 @@ Candidate landing places for anything in the list above, with up to 4 distinct o
 - `isExisting` -- True
 - `kind` -- "proposal"
 - `media` -- <list n=0>, <list n=1>
-- `nda` -- <str len=84>, "Childersburg Mayor Ken Vesson", "Company asked town to sign NDA"
+- `nda` -- <str len=84>, "Childersburg Mayor Ken Vesson", "Company asked town to sign NDA", "true"
 - `niche` -- <list n=1>, <list n=0>, <list n=3>, <list n=2>
 - `notes` -- <list n=1>, <list n=0>, <list n=2>, <list n=4>
 - `numberOfBuildings` -- 18, 1, 2, 4
