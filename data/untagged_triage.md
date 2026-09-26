@@ -1,6 +1,6 @@
 # Untagged row triage
 
-Held rows in the worklist: 5715
+Held rows in the worklist: 5782
 
 These rows are excluded from the clean feed and from every count. They are recoverable only by resolving the redirect to a publisher article and reading it. Everything below is a suggestion derived from the headline text, not a verified field.
 
@@ -8,17 +8,17 @@ These rows are excluded from the clean feed and from every count. They are recov
 
 | confidence | rows |
 | :-- | --: |
-| high | 487 |
-| medium | 1194 |
-| state_only | 334 |
-| low | 1285 |
-| none | 2415 |
+| high | 494 |
+| medium | 1205 |
+| state_only | 340 |
+| low | 1302 |
+| none | 2441 |
 
 ## Mechanism hint
 
 | hint | rows |
 | :-- | --: |
-| none | 5518 |
+| none | 5585 |
 | moratorium | 186 |
 | zoning_restriction | 3 |
 | public_comment | 3 |
@@ -30,7 +30,7 @@ These rows are excluded from the clean feed and from every count. They are recov
 
 | status | rows |
 | :-- | --: |
-| not_attempted | 5715 |
+| not_attempted | 5782 |
 
 Rows ready for a reviewer to open: 0
 Rows whose county and mechanism are already covered by a sourced row: 62
@@ -39,10 +39,10 @@ Rows whose county and mechanism are already covered by a sourced row: 62
 
 | outlet | rows |
 | :-- | --: |
-| unknown | 4714 |
+| unknown | 4775 |
 | Gazette | 26 |
+| WSLR+Fogartyville | 21 |
 | Nevada News and Views | 20 |
-| WSLR+Fogartyville | 20 |
 | Your Illinois News Radar » Isabel morning briefing | 18 |
 | Your Illinois News Radar » Isabel afternoon roundup | 16 |
 | Effingham Herald | 15 |

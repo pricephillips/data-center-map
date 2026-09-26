@@ -1,4 +1,4 @@
-# Headline metrics (as of 2026-09-25)
+# Headline metrics (as of 2026-09-26)
 
 Scope note: this dataset tracks opposition incidents, not all data center projects. Every rate below is conditional on a conflict being visible enough to enter the tracker; projects that proceeded without tracked opposition are absent by construction.
 
@@ -11,7 +11,7 @@ Unit is the primary incident RECORD in the clean feed, not the project entity. D
 ## Decided-case confirmed-block rate, project entities
 Unit is the resolved project in data/project_lifecycles.csv, all periods pooled. Quote this figure whenever the claim is about projects; quote the record figure above only when the claim is explicitly about tracked opposition events.
 
-- 38% of 142 decided projects (54 blocked_confirmed) out of 387 tracked
+- 38% of 143 decided projects (54 blocked_confirmed) out of 395 tracked
 
 The two rates differ because the populations differ: one project can carry several decided records, and many decided records are not yet linked to a project entity. Neither number is wrong; quoting either without its unit is.
 

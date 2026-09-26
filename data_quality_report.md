@@ -1,6 +1,6 @@
 # Data Quality Report — master_opposition.csv
 
-**Rows processed:** 7760
+**Rows processed:** 7829
 
 This pass is **backward compatible**: existing columns keep their names and meanings, values were fixed in place only where the correction is unambiguous, and all new structure was added as additional columns. The HTML map and Notion sync continue to work without modification.
 
@@ -13,7 +13,7 @@ This pass is **backward compatible**: existing columns keep their names and mean
 260 cell(s) repaired
 
 **3. Validation flag: source_url_valid (new column)**  
-2045 valid; 0 non-empty but still non-URL (flagged for review)
+2047 valid; 0 non-empty but still non-URL (flagged for review)
 
 **4. Sources — backfilled from Source URL where empty**  
 0 row(s) now have a populated Sources list (Source URL was confirmed == Sources[0] in 100% of dual-filled rows)
@@ -46,7 +46,7 @@ Columns: is_air_quality, is_anti_ai, is_community_impact, is_contract_guarantees
 58 raw values -> 11 controlled codes (active, announced, approved, expired, failed, introduced, passed, pending, resolved, unknown, withdrawn); 0 narrative memo(s) preserved in status_notes; 0 legislative stage(s) extracted. Raw Status untouched.
 
 **14. Legislative completion verification: bill_progress + action_complete + outcome_overstated (new columns)**  
-348 legislative record(s) staged via the gate's ladder (now reading the Status field too); status_clean corrected on 51 record(s) so committee/one-chamber actions aren't labelled enacted; 4 record(s) flagged outcome_overstated (claims success but only at committee/one chamber — the 'approved ≠ law' trap).
+349 legislative record(s) staged via the gate's ladder (now reading the Status field too); status_clean corrected on 51 record(s) so committee/one-chamber actions aren't labelled enacted; 4 record(s) flagged outcome_overstated (claims success but only at committee/one chamber — the 'approved ≠ law' trap).
 
 **15. Judgment-assisted classifications (new columns)**  
 objective_type: 1087/1234 objectives classified (147 left as 'other'); actor_type: 171/172 sponsors classified, party/chamber extracted for legislators; opposition_group_type assigned; opposition_group_verified flags 345/774 named groups as having a website/social presence (429 unverified — the network-analysis follow-up). All are first-pass heuristics; original Objective/Sponsors/Opposition Groups text is preserved.
