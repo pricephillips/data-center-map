@@ -1,6 +1,6 @@
 # County benchmark reference
 
-Generated 2026-09-26.
+Generated 2026-09-27.
 
 Reference profiles for the county comparison layer. Every figure is a summary over the county frame in `data/county_aggregate.csv` joined to the published policy scores. Nothing here is an estimate; these are descriptions of groups that exist.
 
@@ -13,7 +13,7 @@ Reference profiles for the county comparison layer. Every figure is a summary ov
 | `non_restrictive` | 2,863 | Counties with no enacted restriction on record |
 | `dc_present` | 251 | Counties with a data center on record |
 | `dc_absent` | 2,971 | Counties with no data center on record |
-| `tracked_activity` | 705 | Counties with at least one tracked opposition event |
+| `tracked_activity` | 706 | Counties with at least one tracked opposition event |
 | `state:XX` | varies | 52 state groups, one per state in the frame |
 
 ## The comparison that matters

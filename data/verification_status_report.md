@@ -1,16 +1,16 @@
 # Verification status
 
 Source: `master_opposition.csv`
-Rows: 7829
+Rows: 8096
 
 | status | rows | counted externally | reaches the feed |
 | :-- | --: | :-- | :-- |
-| `sourced` | 2047 | yes | yes |
+| `sourced` | 2056 | yes | yes |
 | `sourced_no_url` | 0 | yes | yes |
 | `headline_only` | 369 | no | no |
-| `incomplete` | 5413 | no | no |
+| `incomplete` | 5671 | no | no |
 
-Countable rows: 2047
-Held out of the feed build: 5782
+Countable rows: 2056
+Held out of the feed build: 6040
 
 Held rows are preserved in `master_opposition.csv` and listed in `data/verification_holdout.csv`. They are recoverable through `untagged_triage.py`, which builds the per-row review worklist. Recovery requires a publisher URL, not a redirect.
