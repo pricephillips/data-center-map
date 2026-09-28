@@ -6,34 +6,34 @@ Generated 2026-09-28 by `control_comparison.py`. All figures re-derived from the
 
 ## 1. Sample composition
 
-- Opposed projects (treatment side): **231**, of which 84 decided / 147 pending
-- Eligible control pool: **1309** — proposals_unopposed: 82, ai_centers: 16, atlas: 1211
+- Opposed projects (treatment side): **232**, of which 84 decided / 148 pending
+- Eligible control pool: **1308** — proposals_unopposed: 81, ai_centers: 16, atlas: 1211
 - Excluded from control pool: **361** — county_shared_with_opposed_project: 289, within_15km_of_opposed_project: 70, no_coordinates: 2
-- Matched: **231** opposed projects × k=3 → 693 match rows
+- Matched: **232** opposed projects × k=3 → 696 match rows
 
 ## 2. Covariate balance (opposed vs. their matched controls)
 
 Standardized mean differences across match rows. |SMD| < 0.10 = well balanced; 0.10–0.25 = moderate; > 0.25 = imbalanced.
 
-**all tiers** (693 match rows)
-- County 2024 margin: opposed mean -0.120, control mean -0.126, SMD 0.020 — well balanced (n pairs: 663)
-- log10 capacity MW: opposed mean 2.584, control mean 2.313, SMD 0.465 — IMBALANCED — down-weight or re-match (n pairs: 48; capacity is sparse outside the proposals tier)
+**all tiers** (696 match rows)
+- County 2024 margin: opposed mean -0.121, control mean -0.128, SMD 0.020 — well balanced (n pairs: 666)
+- log10 capacity MW: opposed mean 2.566, control mean 2.286, SMD 0.468 — IMBALANCED — down-weight or re-match (n pairs: 49; capacity is sparse outside the proposals tier)
 
-**proposals_unopposed** (575 match rows)
-- County 2024 margin: opposed mean -0.141, control mean -0.146, SMD 0.018 — well balanced (n pairs: 547)
-- log10 capacity MW: opposed mean 2.580, control mean 2.304, SMD 0.470 — IMBALANCED — down-weight or re-match (n pairs: 47; capacity is sparse outside the proposals tier)
+**proposals_unopposed** (577 match rows)
+- County 2024 margin: opposed mean -0.142, control mean -0.148, SMD 0.018 — well balanced (n pairs: 549)
+- log10 capacity MW: opposed mean 2.562, control mean 2.277, SMD 0.472 — IMBALANCED — down-weight or re-match (n pairs: 48; capacity is sparse outside the proposals tier)
 
 **ai_centers** (1 match rows)
 - County 2024 margin: opposed mean n/a, control mean n/a, SMD n/a — insufficient data (n pairs: 0)
 - log10 capacity MW: opposed mean 2.778, control mean 2.725, SMD n/a — insufficient data (n pairs: 1; capacity is sparse outside the proposals tier)
 
-**atlas** (117 match rows)
-- County 2024 margin: opposed mean -0.019, control mean -0.029, SMD 0.031 — well balanced (n pairs: 116)
+**atlas** (118 match rows)
+- County 2024 margin: opposed mean -0.023, control mean -0.033, SMD 0.029 — well balanced (n pairs: 117)
 - log10 capacity MW: opposed mean n/a, control mean n/a, SMD n/a — insufficient data (n pairs: 0; capacity is sparse outside the proposals tier)
 
 ## 3. Political geography (descriptive)
 
-- Opposed projects sit in counties with mean 2024 margin -0.120 (n=221); the eligible control pool mean is 0.046 (n=1279).
+- Opposed projects sit in counties with mean 2024 margin -0.121 (n=222); the eligible control pool mean is 0.047 (n=1278).
 - This is a raw compositional difference between two differently-constructed samples. It describes where tracked opposition occurs; it does not measure any political driver of opposition.
 
 ## 4. Outcomes among decided opposed projects
@@ -58,8 +58,8 @@ Decided means terminal dispositions only; pending and mixed cases are excluded, 
 ## 6. Match-quality flags
 
 - `no_shared_covariates` matches (state/tier only): **18** — down-weight or manually review before any use.
-- `national_fallback` matches (no in-state pool): **373**, covering 178 opposed projects. Growing the proposals_unopposed tier is the fix.
-- Tier usage across all matches: proposals_unopposed: 575, ai_centers: 1, atlas: 117.
+- `national_fallback` matches (no in-state pool): **374**, covering 179 opposed projects. Growing the proposals_unopposed tier is the fix.
+- Tier usage across all matches: proposals_unopposed: 577, ai_centers: 1, atlas: 118.
 
 ## 7. Limitations (binding)
 

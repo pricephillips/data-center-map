@@ -29,21 +29,10 @@
     "stability_cost_alarm": 0.05,
     "promoted_candidates": [],
     "promotions_source": null,
-    "changed_this_run": true,
-    "entered": [
-      "land_sqmi",
-      "margin_shift"
-    ],
-    "left": [
-      "pct_bachelors_plus",
-      "pop_density_sqmi"
-    ],
-    "change_reasons": [
-      "land_sqmi: sign stable this run, negative in all folds, median coefficient -0.1030",
-      "margin_shift: sign stable this run, positive in all folds, median coefficient +0.2378",
-      "pct_bachelors_plus: coefficient changed sign across folds, ranging -0.0255 to +0.0794, so its direction is not supported by the data",
-      "pop_density_sqmi: sign stable but not selected; another specification scored higher under the registered criterion"
-    ],
+    "changed_this_run": false,
+    "entered": [],
+    "left": [],
+    "change_reasons": [],
     "grid": [
       {
         "spec": "full_pool",
@@ -1082,8 +1071,8 @@
       "county_votes.json": "b521eb017a7acfa5",
       "atlas.csv": "7a8c78d3ed6cea2d",
       "master_opposition.csv": "a3a78d29f9377fb5",
-      "baseline_universe.csv": "0001197fc230ae0d",
-      "project_lifecycles.csv": "a1b29356e35d770b"
+      "baseline_universe.csv": "dbcecd8411d7ffe6",
+      "project_lifecycles.csv": "71710ec89ae7da55"
     }
   }
 }
