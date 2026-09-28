@@ -20,7 +20,7 @@ The worklist front-loads rows whose outcome is blocked_confirmed, because a proj
 | Stratum | Frame | Coded | Coverage |
 | :-- | :-- | :-- | :-- |
 | purposive (blocked_confirmed) | 22 | 0 | 0.0% |
-| random (all other frame rows) | 169 | 2 | 1.2% |
+| random (all other frame rows) | 168 | 2 | 1.2% |
 
 ## Purposive cell: blocked with no recorded opposition
 
@@ -32,7 +32,7 @@ Determinate codings: 1 (1 verified_opposition, 0 verified_none). Undeterminable:
 
 - Rate over determinate codings only: 1.000. This figure assumes the undeterminable rows resemble the determinate ones, which is exactly the assumption the audit exists to avoid making. It is reported for completeness and should not be the quoted number.
 - Worst-case bounds over all coded rows: [0.500, 1.000], width 0.500. This is the defensible interval.
-- Sampling interval on the determinate rate, exact binomial: [0.025, 1.000]; after finite population correction against a frame of 169: [0.026, 0.999].
+- Sampling interval on the determinate rate, exact binomial: [0.025, 1.000]; after finite population correction against a frame of 168: [0.026, 0.999].
 
 The two intervals answer different questions and both belong in any external statement. The sampling interval narrows as coding proceeds and collapses to a point at full coverage, because the frame is a census rather than a sample. The worst-case bounds do not narrow with coverage at all; their width is the undeterminable share.
 
