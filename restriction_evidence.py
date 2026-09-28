@@ -59,6 +59,10 @@ Two directions, both written to data/restriction_evidence_conflicts.csv:
                                source reports a restriction. A false negative
                                in the model's target variable, and the highest
                                priority row the platform can produce.
+  label_positive_circular_support  (added 2026-09-28) the county's label
+                               rests only on rows promoted FROM the census,
+                               so the census cannot also corroborate it. One
+                               source counted twice is still one source.
   label_positive_no_support    the county is labeled restrictive and no
                                registered source corroborates it. Not
                                necessarily wrong, since the tracker sees things
@@ -439,9 +443,30 @@ def build(frame: list[dict], probe_cache: dict, census_rows: list[dict],
         state = (rec.get("state") or "").strip().upper()
         cname = (rec.get("county_name") or "").strip()
         label_positive = str(rec.get("has_enacted_restrictive", "")).strip() == "1"
+        # Self-corroboration guard (2026-09-28). county_aggregator.py records
+        # whether a positive label rests on tracker-sourced rows, on rows that
+        # census_gap_candidates.py promoted from the census, or both. A
+        # census_only county was put into the tracker BY the census, so a
+        # census hit for it is the label's own source read back, not a second
+        # reading. Before this guard 138 such counties graded B on a single
+        # source. The hit is kept as "self_source": the census still reaches
+        # the county (grade D, not U) but it corroborates nothing. Absent
+        # column (older aggregate) means no guard, which is the prior behavior.
+        provenance = (rec.get("label_provenance") or "").strip()
 
         probes = list(probe_cache.get(fips, []))
-        probes.extend(cen.get((state, norm_county(cname, state)), []))
+        census_hits = cen.get((state, norm_county(cname, state)), [])
+        self_sourced = 0
+        if label_positive and provenance == "census_only":
+            guarded = []
+            for p in census_hits:
+                if p.get("result") == "hit":
+                    p = dict(p, result="self_source",
+                             detail=("label source read back: " + p.get("detail", ""))[:300])
+                    self_sourced += 1
+                guarded.append(p)
+            census_hits = guarded
+        probes.extend(census_hits)
 
         grade, d = grade_county(probes, reg, label_positive, asof)
 
@@ -461,7 +486,8 @@ def build(frame: list[dict], probe_cache: dict, census_rows: list[dict],
             # a person to confirm the instrument before it can move a label.
             conflict = "label_negative_upstream_hit"
         elif label_positive and not d["any_hit"]:
-            conflict = "label_positive_no_support"
+            conflict = ("label_positive_circular_support" if self_sourced
+                        else "label_positive_no_support")
 
         if conflict:
             src = next((p for p in probes
@@ -471,6 +497,9 @@ def build(frame: list[dict], probe_cache: dict, census_rows: list[dict],
                 "conflict": conflict, "label_state": label_state,
                 "evidence_grade": grade,
                 "detail": (src.get("detail", "") if conflict.endswith("hit")
+                           else ("label rests only on census-promoted rows; the "
+                                 "census cannot corroborate its own rows")
+                           if conflict == "label_positive_circular_support"
                            else "no reviewed source corroborates the label"),
                 "source_id": src.get("source_id", ""),
                 "source_url": src.get("url", ""),
@@ -506,7 +535,8 @@ def build(frame: list[dict], probe_cache: dict, census_rows: list[dict],
     rows.sort(key=lambda r: r["fips"])
     _conflict_rank = {"label_negative_source_hit": 0,
                       "label_negative_upstream_hit": 1,
-                      "label_positive_no_support": 2}
+                      "label_positive_circular_support": 2,
+                      "label_positive_no_support": 3}
     conflicts.sort(key=lambda r: (_conflict_rank.get(r["conflict"], 9),
                                   r["state"], r["county_name"]))
     return rows, conflicts
@@ -676,6 +706,11 @@ def write_report(rows: list[dict], conflicts: list[dict], reg: dict,
              f"candidate false negative: it needs a person to confirm the "
              f"instrument before it can move a label, and it is counted "
              f"separately from the confirmed ones above for that reason.")
+    cs = natl.get("label_positive_circular_support", 0)
+    L.append(f"- `label_positive_circular_support`: **{cs}**. The county is "
+             f"recorded as restrictive only through rows promoted from the "
+             f"census, so the census cannot also corroborate it. Needs a "
+             f"primary_law or proceeding source.")
     L.append(f"- `label_positive_no_support`: **{ns}**. The county is recorded "
              f"as restrictive and no reviewed source corroborates it. Not "
              f"necessarily wrong, since the tracker sees local records a "
@@ -693,7 +728,8 @@ def write_report(rows: list[dict], conflicts: list[dict], reg: dict,
         tot = sum(c.get(g, 0) for g in GRADES)
         confl = (c.get("label_negative_source_hit", 0)
                  + c.get("label_negative_upstream_hit", 0)
-                 + c.get("label_positive_no_support", 0))
+                 + c.get("label_positive_no_support", 0)
+                 + c.get("label_positive_circular_support", 0))
         L.append(f"| {st} | {tot} | " + " | ".join(str(c.get(g, 0)) for g in GRADES)
                  + f" | {c.get('asserted_clear', 0)} | "
                    f"{c.get('unverified', 0)} | {confl} |")
@@ -890,6 +926,34 @@ def selftest() -> int:
     check("census clears the conflict", by2["19169"]["conflict"], "")
     check("in force recorded", by2["19169"]["in_force_as_of"], "2026-02-02")
 
+    # Self-corroboration guard: a census_only positive may not be graded up by
+    # the census that created it; a tracker positive still is.
+    circ_frame = [
+        {"fips": "55095", "county_name": "Polk County, Wisconsin", "state": "WI",
+         "has_enacted_restrictive": "1", "label_provenance": "census_only"},
+        {"fips": "19169", "county_name": "Story County, Iowa", "state": "IA",
+         "has_enacted_restrictive": "1", "label_provenance": "tracker"},
+    ]
+    circ_census = [
+        {"state": "WI", "county": "Polk County", "instrument": "moratorium",
+         "census_status": "active", "date_enacted": "2026-08-18",
+         "source": "moratorium-nation:wi-polk-county-2026"},
+        {"state": "IA", "county": "Story County", "instrument": "moratorium",
+         "census_status": "active", "date_enacted": "2026-02-02",
+         "source": "https://example.org/story"},
+    ]
+    crows, cconf = build(circ_frame, {}, circ_census, reg, asof)
+    cby = {r["fips"]: r for r in crows}
+    check("circular: no hit counted", cby["55095"]["sources_hit"], 0)
+    check("circular: grade D not B", cby["55095"]["evidence_grade"], "D")
+    check("circular: conflict", cby["55095"]["conflict"],
+          "label_positive_circular_support")
+    check("tracker positive still corroborated", cby["19169"]["evidence_grade"], "B")
+    check("tracker positive no conflict", cby["19169"]["conflict"], "")
+    if qc(crows, circ_frame, cconf):
+        failures.append(f"qc: circular ledger reported failures: "
+                        f"{qc(crows, circ_frame, cconf)}")
+
     # QC gate: frame parity must fail loudly when a county goes missing.
     bad = [r for r in rows if r["fips"] != "01001"]
     if not qc(bad, frame, []):
@@ -986,7 +1050,9 @@ def main() -> int:
           f"label_negative_source_hit {natl.get('label_negative_source_hit', 0)}, "
           f"label_negative_upstream_hit "
           f"{natl.get('label_negative_upstream_hit', 0)}, "
-          f"label_positive_no_support {natl.get('label_positive_no_support', 0)}")
+          f"label_positive_no_support {natl.get('label_positive_no_support', 0)}, "
+          f"label_positive_circular_support "
+          f"{natl.get('label_positive_circular_support', 0)}")
     print(f"grade changes appended to history: {n_hist}")
 
     if args.state:

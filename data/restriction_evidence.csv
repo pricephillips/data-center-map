@@ -35,7 +35,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 01067,"Henry County, Alabama",AL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 01069,"Houston County, Alabama",AL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 01071,"Jackson County, Alabama",AL,unverified,U,,,,0,0,0,,,never_probed,,,,1
-01073,"Jefferson County, Alabama",AL,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
+01073,"Jefferson County, Alabama",AL,asserted_restrictive,B,meeting_portal,meeting_portal,proceeding,0,1,0,2026-09-28,0,complete,2026-06-09,https://www.birminghamal.gov/news/city-birmingham-approves-alabamas-toughest-zoning-ordinance-establishing-20-point-community-protections-data-center-development,,0
 01075,"Lamar County, Alabama",AL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 01077,"Lauderdale County, Alabama",AL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 01079,"Lawrence County, Alabama",AL,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -50,7 +50,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 01097,"Mobile County, Alabama",AL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 01099,"Monroe County, Alabama",AL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 01101,"Montgomery County, Alabama",AL,unverified,U,,,,0,0,0,,,never_probed,,,,1
-01103,"Morgan County, Alabama",AL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-23,"moratorium-nation:al-morgan-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+01103,"Morgan County, Alabama",AL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 01105,"Perry County, Alabama",AL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 01107,"Pickens County, Alabama",AL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 01109,"Pike County, Alabama",AL,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -97,7 +97,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 02282,"Yakutat City and Borough, Alaska",AK,unverified,U,,,,0,0,0,,,never_probed,,,,1
 02290,"Yukon-Koyukuk Census Area, Alaska",AK,unverified,U,,,,0,0,0,,,never_probed,,,,1
 04001,"Apache County, Arizona",AZ,unverified,U,,,,0,0,0,,,never_probed,,,,1
-04003,"Cochise County, Arizona",AZ,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
+04003,"Cochise County, Arizona",AZ,asserted_restrictive,B,meeting_portal,meeting_portal,proceeding,0,1,0,2026-09-28,0,complete,,https://www.cochise.az.gov/m/newsflash/home/detail/418,,0
 04005,"Coconino County, Arizona",AZ,unverified,U,,,,0,0,0,,,never_probed,,,,1
 04007,"Gila County, Arizona",AZ,unverified,U,,,,0,0,0,,,never_probed,,,,1
 04009,"Graham County, Arizona",AZ,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -106,7 +106,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 04013,"Maricopa County, Arizona",AZ,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 04015,"Mohave County, Arizona",AZ,unverified,U,,,,0,0,0,,,never_probed,,,,1
 04017,"Navajo County, Arizona",AZ,unverified,U,,,,0,0,0,,,never_probed,,,,1
-04019,"Pima County, Arizona",AZ,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-08-11,"moratorium-nation:az-pima-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
+04019,"Pima County, Arizona",AZ,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-11,"moratorium-nation:az-pima-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 04021,"Pinal County, Arizona",AZ,unverified,U,,,,0,0,0,,,never_probed,,,,1
 04023,"Santa Cruz County, Arizona",AZ,unverified,U,,,,0,0,0,,,never_probed,,,,1
 04025,"Yavapai County, Arizona",AZ,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -142,7 +142,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 05057,"Hempstead County, Arkansas",AR,unverified,U,,,,0,0,0,,,never_probed,,,,1
 05059,"Hot Spring County, Arkansas",AR,unverified,U,,,,0,0,0,,,never_probed,,,,1
 05061,"Howard County, Arkansas",AR,unverified,U,,,,0,0,0,,,never_probed,,,,1
-05063,"Independence County, Arkansas",AR,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-10,"moratorium-nation:ar-independence-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+05063,"Independence County, Arkansas",AR,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 05065,"Izard County, Arkansas",AR,unverified,U,,,,0,0,0,,,never_probed,,,,1
 05067,"Jackson County, Arkansas",AR,unverified,U,,,,0,0,0,,,never_probed,,,,1
 05069,"Jefferson County, Arkansas",AR,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -154,7 +154,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 05081,"Little River County, Arkansas",AR,unverified,U,,,,0,0,0,,,never_probed,,,,1
 05083,"Logan County, Arkansas",AR,unverified,U,,,,0,0,0,,,never_probed,,,,1
 05085,"Lonoke County, Arkansas",AR,unverified,U,,,,0,0,0,,,never_probed,,,,1
-05087,"Madison County, Arkansas",AR,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-17,"moratorium-nation:ar-madison-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+05087,"Madison County, Arkansas",AR,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 05089,"Marion County, Arkansas",AR,unverified,U,,,,0,0,0,,,never_probed,,,,1
 05091,"Miller County, Arkansas",AR,unverified,U,,,,0,0,0,,,never_probed,,,,1
 05093,"Mississippi County, Arkansas",AR,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -190,7 +190,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 06003,"Alpine County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 06005,"Amador County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 06007,"Butte County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-06009,"Calaveras County, California",CA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-25,"moratorium-nation:ca-calaveras-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+06009,"Calaveras County, California",CA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 06011,"Colusa County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 06013,"Contra Costa County, California",CA,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 06015,"Del Norte County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -208,7 +208,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 06039,"Madera County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 06041,"Marin County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 06043,"Mariposa County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-06045,"Mendocino County, California",CA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-01,"moratorium-nation:ca-mendocino-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+06045,"Mendocino County, California",CA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 06047,"Merced County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 06049,"Modoc County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 06051,"Mono County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -239,7 +239,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 06101,"Sutter County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 06103,"Tehama County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 06105,"Trinity County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-06107,"Tulare County, California",CA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-18,"moratorium-nation:ca-tulare-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+06107,"Tulare County, California",CA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 06109,"Tuolumne County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 06111,"Ventura County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 06113,"Yolo County, California",CA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -247,10 +247,10 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 08001,"Adams County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08003,"Alamosa County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08005,"Arapahoe County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
-08007,"Archuleta County, Colorado",CO,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-16,"moratorium-nation:co-archuleta-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+08007,"Archuleta County, Colorado",CO,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-06-16,https://www.archuletacounty.gov/wp-content/uploads/06-16-2026R.pdf,,0
 08009,"Baca County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08011,"Bent County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
-08013,"Boulder County, Colorado",CO,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_no_support,1
+08013,"Boulder County, Colorado",CO,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-06-02,https://bouldercounty.gov/news/data-centers-and-detention-centers-commissioners-declare-moratorium/,,0
 08014,"Broomfield County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08015,"Chaffee County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08017,"Cheyenne County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -259,7 +259,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 08023,"Costilla County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08025,"Crowley County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08027,"Custer County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
-08029,"Delta County, Colorado",CO,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-07,"moratorium-nation:co-delta-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+08029,"Delta County, Colorado",CO,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 08031,"Denver County, Colorado",CO,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 08033,"Dolores County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08035,"Douglas County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -274,7 +274,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 08053,"Hinsdale County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08055,"Huerfano County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08057,"Jackson County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
-08059,"Jefferson County, Colorado",CO,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-19,"moratorium-nation:co-jefferson-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+08059,"Jefferson County, Colorado",CO,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 08061,"Kiowa County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08063,"Kit Carson County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08065,"Lake County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -287,12 +287,12 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 08079,"Mineral County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08081,"Moffat County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08083,"Montezuma County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
-08085,"Montrose County, Colorado",CO,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-01,"moratorium-nation:co-montrose-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+08085,"Montrose County, Colorado",CO,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 08087,"Morgan County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08089,"Otero County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08091,"Ouray County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08093,"Park County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
-08095,"Phillips County, Colorado",CO,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-02-27,"moratorium-nation:co-phillips-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+08095,"Phillips County, Colorado",CO,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 08097,"Pitkin County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08099,"Prowers County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 08101,"Pueblo County, Colorado",CO,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -323,7 +323,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 11001,"District of Columbia, District of Columbia",DC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12001,"Alachua County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12003,"Baker County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
-12005,"Bay County, Florida",FL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-07,"moratorium-nation:fl-bay-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+12005,"Bay County, Florida",FL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 12007,"Bradford County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12009,"Brevard County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12011,"Broward County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -337,8 +337,8 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 12029,"Dixie County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12031,"Duval County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12033,"Escambia County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
-12035,"Flagler County, Florida",FL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-03,"moratorium-nation:fl-flagler-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-12037,"Franklin County, Florida",FL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-15,"moratorium-nation:fl-franklin-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+12035,"Flagler County, Florida",FL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
+12037,"Franklin County, Florida",FL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 12039,"Gadsden County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12041,"Gilchrist County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12043,"Glades County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -354,14 +354,14 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 12063,"Jackson County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12065,"Jefferson County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12067,"Lafayette County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
-12069,"Lake County, Florida",FL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-08,"moratorium-nation:fl-lake-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+12069,"Lake County, Florida",FL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 12071,"Lee County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12073,"Leon County, Florida",FL,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,,1
-12075,"Levy County, Florida",FL,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-09-08,"moratorium-nation:fl-levy-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
+12075,"Levy County, Florida",FL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-08,"moratorium-nation:fl-levy-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 12077,"Liberty County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12079,"Madison County, Florida",FL,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
-12081,"Manatee County, Florida",FL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-22,"moratorium-nation:fl-manatee-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-12083,"Marion County, Florida",FL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-15,"moratorium-nation:fl-marion-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+12081,"Manatee County, Florida",FL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
+12083,"Marion County, Florida",FL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 12085,"Martin County, Florida",FL,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,,1
 12086,"Miami-Dade County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12087,"Monroe County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -370,11 +370,11 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 12093,"Okeechobee County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12095,"Orange County, Florida",FL,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,,1
 12097,"Osceola County, Florida",FL,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
-12099,"Palm Beach County, Florida",FL,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
-12101,"Pasco County, Florida",FL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-14,"moratorium-nation:fl-pasco-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-12103,"Pinellas County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
+12099,"Palm Beach County, Florida",FL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_no_support,1
+12101,"Pasco County, Florida",FL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
+12103,"Pinellas County, Florida",FL,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 12105,"Polk County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
-12107,"Putnam County, Florida",FL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-08,"moratorium-nation:fl-putnam-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+12107,"Putnam County, Florida",FL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 12109,"St. Johns County, Florida",FL,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,,1
 12111,"St. Lucie County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12113,"Santa Rosa County, Florida",FL,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
@@ -385,15 +385,15 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 12123,"Taylor County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12125,"Union County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 12127,"Volusia County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
-12129,"Wakulla County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
+12129,"Wakulla County, Florida",FL,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 12131,"Walton County, Florida",FL,unverified,U,,,,0,0,0,,,never_probed,,,,1
-12133,"Washington County, Florida",FL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-20,"moratorium-nation:fl-washington-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-13001,"Appling County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,,"moratorium-nation:ga-appling-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+12133,"Washington County, Florida",FL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
+13001,"Appling County, Georgia",GA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 13003,"Atkinson County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13005,"Bacon County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13007,"Baker County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13009,"Baldwin County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-13011,"Banks County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-01,"moratorium-nation:ga-banks-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+13011,"Banks County, Georgia",GA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 13013,"Barrow County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13015,"Bartow County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13017,"Ben Hill County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -401,7 +401,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 13021,"Bibb County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13023,"Bleckley County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13025,"Brantley County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-13027,"Brooks County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-02-02,"moratorium-nation:ga-brooks-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+13027,"Brooks County, Georgia",GA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 13029,"Bryan County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13031,"Bulloch County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-02-17,"moratorium-nation:ga-bulloch-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 13033,"Burke County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -412,7 +412,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 13045,"Carroll County, Georgia",GA,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-03-03,"moratorium-nation:ga-carroll-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
 13047,"Catoosa County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13049,"Charlton County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-13051,"Chatham County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-11,"moratorium-nation:ga-chatham-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+13051,"Chatham County, Georgia",GA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 13053,"Chattahoochee County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13055,"Chattooga County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13057,"Cherokee County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-22,"moratorium-nation:ga-cherokee-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
@@ -422,7 +422,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 13065,"Clinch County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13067,"Cobb County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-02-24,"moratorium-nation:ga-cobb-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 13069,"Coffee County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-13071,"Colquitt County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-02,"moratorium-nation:ga-colquitt-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+13071,"Colquitt County, Georgia",GA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 13073,"Columbia County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13075,"Cook County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13077,"Coweta County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,,"moratorium-nation:ga-coweta-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
@@ -430,7 +430,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 13081,"Crisp County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13083,"Dade County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13085,"Dawson County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-13087,"Decatur County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-04-14,"moratorium-nation:ga-decatur-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+13087,"Decatur County, Georgia",GA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 13089,"DeKalb County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2025-06-25,"moratorium-nation:ga-dekalb-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 13091,"Dodge County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13093,"Dooly County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -460,7 +460,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 13141,"Hancock County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13143,"Haralson County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13145,"Harris County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-13147,"Hart County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-26,"moratorium-nation:ga-hart-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+13147,"Hart County, Georgia",GA,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-05-26,https://www.hartcountyga.gov/documents/bocminutes/REG%20MTG%20MIN%205.26.26.pdf,,0
 13149,"Heard County, Georgia",GA,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
 13151,"Henry County, Georgia",GA,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 13153,"Houston County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -484,9 +484,9 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 13189,"McDuffie County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13191,"McIntosh County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13193,"Macon County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-13195,"Madison County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-03,"moratorium-nation:ga-madison-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+13195,"Madison County, Georgia",GA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 13197,"Marion County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-13199,"Meriwether County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-02-24,"moratorium-nation:ga-meriwether-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+13199,"Meriwether County, Georgia",GA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 13201,"Miller County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13205,"Mitchell County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13207,"Monroe County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,,"moratorium-nation:ga-monroe-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
@@ -497,12 +497,12 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 13217,"Newton County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-02-17,"moratorium-nation:ga-newton-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 13219,"Oconee County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13221,"Oglethorpe County, Georgia",GA,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
-13223,"Paulding County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-28,"moratorium-nation:ga-paulding-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+13223,"Paulding County, Georgia",GA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 13225,"Peach County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13227,"Pickens County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13229,"Pierce County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13231,"Pike County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2025-09-01,"moratorium-nation:ga-pike-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-13233,"Polk County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-03-03,"moratorium-nation:ga-polk-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+13233,"Polk County, Georgia",GA,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-03-03,"https://cms2.revize.com/revize/polkcountyga/Regular%20Meeting%20Minutes%20of%20March%2003,%202026.pdf",,0
 13235,"Pulaski County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13237,"Putnam County, Georgia",GA,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
 13239,"Quitman County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -514,7 +514,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 13251,"Screven County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13253,"Seminole County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13255,"Spalding County, Georgia",GA,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
-13257,"Stephens County, Georgia",GA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-04-14,"moratorium-nation:ga-stephens-county-undated (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+13257,"Stephens County, Georgia",GA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 13259,"Stewart County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13261,"Sumter County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 13263,"Talbot County, Georgia",GA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -571,7 +571,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 16033,"Clark County, Idaho",ID,unverified,U,,,,0,0,0,,,never_probed,,,,1
 16035,"Clearwater County, Idaho",ID,unverified,U,,,,0,0,0,,,never_probed,,,,1
 16037,"Custer County, Idaho",ID,unverified,U,,,,0,0,0,,,never_probed,,,,1
-16039,"Elmore County, Idaho",ID,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-02,"moratorium-nation:id-elmore-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+16039,"Elmore County, Idaho",ID,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-07-02,https://elmorecounty.org/wp-content/uploads/2026july2.pdf,,0
 16041,"Franklin County, Idaho",ID,unverified,U,,,,0,0,0,,,never_probed,,,,1
 16043,"Fremont County, Idaho",ID,unverified,U,,,,0,0,0,,,never_probed,,,,1
 16045,"Gem County, Idaho",ID,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -610,7 +610,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 17023,"Clark County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17025,"Clay County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17027,"Clinton County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
-17029,"Coles County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
+17029,"Coles County, Illinois",IL,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 17031,"Cook County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17033,"Crawford County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17035,"Cumberland County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -632,7 +632,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 17067,"Hancock County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17069,"Hardin County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17071,"Henderson County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
-17073,"Henry County, Illinois",IL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-18,"moratorium-nation:il-henry-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+17073,"Henry County, Illinois",IL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 17075,"Iroquois County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17077,"Jackson County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17079,"Jasper County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -644,10 +644,10 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 17091,"Kankakee County, Illinois",IL,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 17093,"Kendall County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17095,"Knox County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
-17097,"Lake County, Illinois",IL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-08,"moratorium-nation:il-lake-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+17097,"Lake County, Illinois",IL,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-09-08,https://webapi.legistar.com/v1/lakecounty/matters?$filter=MatterFile%20eq%20'26-1018',,0
 17099,"LaSalle County, Illinois",IL,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
-17101,"Lawrence County, Illinois",IL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-17,"moratorium-nation:il-lawrence-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-17103,"Lee County, Illinois",IL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-20,"moratorium-nation:il-lee-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+17101,"Lawrence County, Illinois",IL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
+17103,"Lee County, Illinois",IL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 17105,"Livingston County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17107,"Logan County, Illinois",IL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,,"moratorium-nation:il-logan-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 17109,"McDonough County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -664,7 +664,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 17131,"Mercer County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17133,"Monroe County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17135,"Montgomery County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
-17137,"Morgan County, Illinois",IL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-04-27,"moratorium-nation:il-morgan-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+17137,"Morgan County, Illinois",IL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 17139,"Moultrie County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17141,"Ogle County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17143,"Peoria County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -697,7 +697,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 17197,"Will County, Illinois",IL,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 17199,"Williamson County, Illinois",IL,unverified,U,,,,0,0,0,,,never_probed,,,,1
 17201,"Winnebago County, Illinois",IL,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
-17203,"Woodford County, Illinois",IL,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-18,"moratorium-nation:il-woodford-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+17203,"Woodford County, Illinois",IL,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 18001,"Adams County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18003,"Allen County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18005,"Bartholomew County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -707,7 +707,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 18013,"Brown County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18015,"Carroll County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18017,"Cass County, Indiana",IN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,,https://www.wfyi.org/statewide/2026-07-06/indiana-counties-data-center-moratoriums-bans-2026 (per IU ERI via WFYI 2026-07-06; prior citation pointed to a Starke County article and was corrected 2026-08-21),,0
-18019,"Clark County, Indiana",IN,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
+18019,"Clark County, Indiana",IN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_no_support,1
 18021,"Clay County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18023,"Clinton County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18025,"Crawford County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -731,8 +731,8 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 18061,"Harrison County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18063,"Hendricks County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18065,"Henry County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-18067,"Howard County, Indiana",IN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-17,"moratorium-nation:in-howard-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-18069,"Huntington County, Indiana",IN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-02-23,"moratorium-nation:in-huntington-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+18067,"Howard County, Indiana",IN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
+18069,"Huntington County, Indiana",IN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 18071,"Jackson County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18073,"Jasper County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18075,"Jay County, Indiana",IN,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
@@ -749,7 +749,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 18097,"Marion County, Indiana",IN,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 18099,"Marshall County, Indiana",IN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-04-20,https://wkvi.com/2026/07/starke-county-planning-commission-begins-exploring-possible-countywide-data-center-ban/ (ban succeeding expired 2025 moratorium),,0
 18101,"Martin County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-18103,"Miami County, Indiana",IN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-04,"moratorium-nation:in-miami-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+18103,"Miami County, Indiana",IN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 18105,"Monroe County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18107,"Montgomery County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18109,"Morgan County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -763,17 +763,17 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 18125,"Pike County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18127,"Porter County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18129,"Posey County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-18131,"Pulaski County, Indiana",IN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-01-20,"moratorium-nation:in-pulaski-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+18131,"Pulaski County, Indiana",IN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 18133,"Putnam County, Indiana",IN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2025-11-17,"moratorium-nation:in-putnam-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 18135,"Randolph County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18137,"Ripley County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18139,"Rush County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18141,"St. Joseph County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18143,"Scott County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-18145,"Shelby County, Indiana",IN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-02-23,"moratorium-nation:in-shelby-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+18145,"Shelby County, Indiana",IN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 18147,"Spencer County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18149,"Starke County, Indiana",IN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2025-12-15,"moratorium-nation:in-starke-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-18151,"Steuben County, Indiana",IN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-15,"moratorium-nation:in-steuben-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+18151,"Steuben County, Indiana",IN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 18153,"Sullivan County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18155,"Switzerland County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18157,"Tippecanoe County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -782,7 +782,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 18163,"Vanderburgh County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18165,"Vermillion County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18167,"Vigo County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-18169,"Wabash County, Indiana",IN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-31,"moratorium-nation:in-wabash-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+18169,"Wabash County, Indiana",IN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 18171,"Warren County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 18173,"Warrick County, Indiana",IN,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
 18175,"Washington County, Indiana",IN,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -794,12 +794,12 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 19003,"Adams County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19005,"Allamakee County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19007,"Appanoose County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-19009,"Audubon County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-05,"moratorium-nation:ia-audubon-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+19009,"Audubon County, Iowa",IA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 19011,"Benton County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19013,"Black Hawk County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-19015,"Boone County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-09,"moratorium-nation:ia-boone-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+19015,"Boone County, Iowa",IA,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-09-09,https://boonecounty.iowa.gov/files/meetings/2026-09-09_minutes_4873.pdf,,0
 19017,"Bremer County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-19019,"Buchanan County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-01-01,"moratorium-nation:ia-buchanan-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+19019,"Buchanan County, Iowa",IA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 19021,"Buena Vista County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19023,"Butler County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19025,"Calhoun County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -818,13 +818,13 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 19051,"Davis County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19053,"Decatur County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19055,"Delaware County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-19057,"Des Moines County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-19,"moratorium-nation:ia-des-moines-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+19057,"Des Moines County, Iowa",IA,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-05-19,https://desmoinescounty.iowa.gov/files/meetings/2026-05-19_minutes_9536.pdf,,0
 19059,"Dickinson County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-12,"moratorium-nation:ia-dickinson-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 19061,"Dubuque County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-26,"moratorium-nation:ia-dubuque-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-19063,"Emmet County, Iowa",IA,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-08-25,"moratorium-nation:ia-emmet-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
+19063,"Emmet County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-25,"moratorium-nation:ia-emmet-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 19065,"Fayette County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19067,"Floyd County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-19069,"Franklin County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-03-31,"moratorium-nation:ia-franklin-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+19069,"Franklin County, Iowa",IA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 19071,"Fremont County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19073,"Greene County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19075,"Grundy County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -836,18 +836,18 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 19087,"Henry County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-14,"moratorium-nation:ia-henry-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 19089,"Howard County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19091,"Humboldt County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-19093,"Ida County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-30,"moratorium-nation:ia-ida-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+19093,"Ida County, Iowa",IA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 19095,"Iowa County, Iowa",IA,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-07-31,"moratorium-nation:ia-iowa-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
 19097,"Jackson County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2024-09-17,"moratorium-nation:ia-jackson-county-2024 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 19099,"Jasper County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-19101,"Jefferson County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-11,"moratorium-nation:ia-jefferson-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+19101,"Jefferson County, Iowa",IA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 19103,"Johnson County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2025-11-06,"moratorium-nation:ia-johnson-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 19105,"Jones County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,,"moratorium-nation:ia-jones-county-2024 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 19107,"Keokuk County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19109,"Kossuth County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-19111,"Lee County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-16,"moratorium-nation:ia-lee-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+19111,"Lee County, Iowa",IA,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-06-16,https://www.leecounty.org/docview.aspx?doctype=minuteDoc&docid=12301,,0
 19113,"Linn County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-01,"moratorium-nation:ia-linn-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-19115,"Louisa County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-07,"moratorium-nation:ia-louisa-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+19115,"Louisa County, Iowa",IA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 19117,"Lucas County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19119,"Lyon County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19121,"Madison County, Iowa",IA,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
@@ -863,8 +863,8 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 19141,"O'Brien County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19143,"Osceola County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19145,"Page County, Iowa",IA,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
-19147,"Palo Alto County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-08,"moratorium-nation:ia-palo-alto-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-19149,"Plymouth County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-16,"moratorium-nation:ia-plymouth-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+19147,"Palo Alto County, Iowa",IA,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-07-07,https://paloaltocounty.iowa.gov/wp-content/uploads/2026/07/Minutes-7-7-2026.pdf,,0
+19149,"Plymouth County, Iowa",IA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 19151,"Pocahontas County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19153,"Polk County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19155,"Pottawattamie County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -872,11 +872,11 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 19159,"Ringgold County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19161,"Sac County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19163,"Scott County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-19165,"Shelby County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-03-17,"moratorium-nation:ia-shelby-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-19167,"Sioux County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-16,"moratorium-nation:ia-sioux-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-19169,"Story County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,,"moratorium-nation:ia-story-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+19165,"Shelby County, Iowa",IA,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-03-17,https://shelbycounty.iowa.gov/files/meetings/2026-03-17_minutes_2701.pdf,,0
+19167,"Sioux County, Iowa",IA,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-06-16,https://siouxcountyia.gov/wp-content/uploads/2026/07/MINUTES-06-16-2026.pdf,,0
+19169,"Story County, Iowa",IA,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-03-17,https://www.storycountyiowa.gov/AgendaCenter/ViewFile/Minutes/_03172026-3119,,0
 19171,"Tama County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2025-11-10,"moratorium-nation:ia-tama-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-19173,"Taylor County, Iowa",IA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-07,"moratorium-nation:ia-taylor-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+19173,"Taylor County, Iowa",IA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 19175,"Union County, Iowa",IA,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,,1
 19177,"Van Buren County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19179,"Wapello County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -895,7 +895,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 20007,"Barber County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20009,"Barton County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20011,"Bourbon County, Kansas",KS,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-15,"moratorium-nation:ks-bourbon-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-20013,"Brown County, Kansas",KS,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-03-02,"moratorium-nation:ks-brown-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+20013,"Brown County, Kansas",KS,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 20015,"Butler County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20017,"Chase County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20019,"Chautauqua County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -909,7 +909,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 20035,"Cowley County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20037,"Crawford County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20039,"Decatur County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
-20041,"Dickinson County, Kansas",KS,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-30,"moratorium-nation:ks-dickinson-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+20041,"Dickinson County, Kansas",KS,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 20043,"Doniphan County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20045,"Douglas County, Kansas",KS,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 20047,"Edwards County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -918,8 +918,8 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 20053,"Ellsworth County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20055,"Finney County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20057,"Ford County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
-20059,"Franklin County, Kansas",KS,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-02,"moratorium-nation:ks-franklin-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-20061,"Geary County, Kansas",KS,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-22,"moratorium-nation:ks-geary-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+20059,"Franklin County, Kansas",KS,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-09-02,https://www.franklincoks.org/AgendaCenter/ViewFile/Item/16886?fileID=11960,,0
+20061,"Geary County, Kansas",KS,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 20063,"Gove County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20065,"Graham County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20067,"Grant County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -936,7 +936,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 20089,"Jewell County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20091,"Johnson County, Kansas",KS,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 20093,"Kearny County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
-20095,"Kingman County, Kansas",KS,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-02-09,"moratorium-nation:ks-kingman-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+20095,"Kingman County, Kansas",KS,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 20097,"Kiowa County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20099,"Labette County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20101,"Lane County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -945,8 +945,8 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 20107,"Linn County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20109,"Logan County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20111,"Lyon County, Kansas",KS,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-23,"moratorium-nation:ks-lyon-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-20113,"McPherson County, Kansas",KS,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2025-08-04,"moratorium-nation:ks-mcpherson-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-20115,"Marion County, Kansas",KS,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-03-02,"moratorium-nation:ks-marion-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+20113,"McPherson County, Kansas",KS,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
+20115,"Marion County, Kansas",KS,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 20117,"Marshall County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20119,"Meade County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20121,"Miami County, Kansas",KS,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
@@ -955,7 +955,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 20127,"Morris County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20129,"Morton County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20131,"Nemaha County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
-20133,"Neosho County, Kansas",KS,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-19,"moratorium-nation:ks-neosho-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+20133,"Neosho County, Kansas",KS,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 20135,"Ness County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20137,"Norton County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20139,"Osage County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -969,7 +969,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 20155,"Reno County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20157,"Republic County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20159,"Rice County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
-20161,"Riley County, Kansas",KS,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-04-13,"moratorium-nation:ks-riley-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+20161,"Riley County, Kansas",KS,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 20163,"Rooks County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20165,"Rush County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20167,"Russell County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -977,7 +977,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 20171,"Scott County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20173,"Sedgwick County, Kansas",KS,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-01-14,"moratorium-nation:ks-sedgwick-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 20175,"Seward County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
-20177,"Shawnee County, Kansas",KS,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-08-13,"moratorium-nation:ks-shawnee-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
+20177,"Shawnee County, Kansas",KS,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-13,"moratorium-nation:ks-shawnee-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 20179,"Sheridan County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20181,"Sherman County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20183,"Smith County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -995,16 +995,16 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 20207,"Woodson County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 20209,"Wyandotte County, Kansas",KS,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21001,"Adair County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
-21003,"Allen County, Kentucky",KY,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-10,"moratorium-nation:ky-allen-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+21003,"Allen County, Kentucky",KY,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 21005,"Anderson County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21007,"Ballard County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21009,"Barren County, Kentucky",KY,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 21011,"Bath County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21013,"Bell County, Kentucky",KY,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
-21015,"Boone County, Kentucky",KY,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-15,"moratorium-nation:ky-boone-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+21015,"Boone County, Kentucky",KY,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 21017,"Bourbon County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21019,"Boyd County, Kentucky",KY,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_no_support,1
-21021,"Boyle County, Kentucky",KY,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-09,"moratorium-nation:ky-boyle-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+21021,"Boyle County, Kentucky",KY,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 21023,"Bracken County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21025,"Breathitt County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21027,"Breckinridge County, Kentucky",KY,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2025-12-05,"moratorium-nation:ky-breckinridge-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
@@ -1024,7 +1024,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 21055,"Crittenden County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21057,"Cumberland County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21059,"Daviess County, Kentucky",KY,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_no_support,1
-21061,"Edmonson County, Kentucky",KY,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-08,"moratorium-nation:ky-edmonson-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+21061,"Edmonson County, Kentucky",KY,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 21063,"Elliott County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21065,"Estill County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21067,"Fayette County, Kentucky",KY,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
@@ -1038,7 +1038,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 21083,"Graves County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21085,"Grayson County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21087,"Green County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
-21089,"Greenup County, Kentucky",KY,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-01,"moratorium-nation:ky-greenup-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+21089,"Greenup County, Kentucky",KY,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 21091,"Hancock County, Kentucky",KY,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 21093,"Hardin County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21095,"Harlan County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1064,7 +1064,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 21135,"Lewis County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21137,"Lincoln County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21139,"Livingston County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
-21141,"Logan County, Kentucky",KY,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-28,"moratorium-nation:ky-logan-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+21141,"Logan County, Kentucky",KY,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 21143,"Lyon County, Kentucky",KY,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
 21145,"McCracken County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21147,"McCreary County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1083,7 +1083,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 21173,"Montgomery County, Kentucky",KY,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,,1
 21175,"Morgan County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21177,"Muhlenberg County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
-21179,"Nelson County, Kentucky",KY,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-07,"moratorium-nation:ky-nelson-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+21179,"Nelson County, Kentucky",KY,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 21181,"Nicholas County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21183,"Ohio County, Kentucky",KY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 21185,"Oldham County, Kentucky",KY,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2025-06-26,"moratorium-nation:ky-oldham-county-fiscal-court-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
@@ -1197,12 +1197,12 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 24001,"Allegany County, Maryland",MD,unverified,U,,,,0,0,0,,,never_probed,,,,1
 24003,"Anne Arundel County, Maryland",MD,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,,1
 24005,"Baltimore County, Maryland",MD,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-02-02,"moratorium-nation:md-baltimore-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-24009,"Calvert County, Maryland",MD,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-08-18,"moratorium-nation:md-calvert-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
-24011,"Caroline County, Maryland",MD,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-21,"moratorium-nation:md-caroline-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+24009,"Calvert County, Maryland",MD,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-18,"moratorium-nation:md-calvert-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+24011,"Caroline County, Maryland",MD,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 24013,"Carroll County, Maryland",MD,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-02-19,"moratorium-nation:md-carroll-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 24015,"Cecil County, Maryland",MD,unverified,U,,,,0,0,0,,,never_probed,,,,1
 24017,"Charles County, Maryland",MD,unverified,U,,,,0,0,0,,,never_probed,,,,1
-24019,"Dorchester County, Maryland",MD,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-04,"moratorium-nation:md-dorchester-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+24019,"Dorchester County, Maryland",MD,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 24021,"Frederick County, Maryland",MD,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-01,"moratorium-nation:md-frederick-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 24023,"Garrett County, Maryland",MD,unverified,U,,,,0,0,0,,,never_probed,,,,1
 24025,"Harford County, Maryland",MD,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1210,13 +1210,13 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 24029,"Kent County, Maryland",MD,unverified,U,,,,0,0,0,,,never_probed,,,,1
 24031,"Montgomery County, Maryland",MD,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-28,"moratorium-nation:md-montgomery-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 24033,"Prince George's County, Maryland",MD,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2025-09-16,"moratorium-nation:md-prince-george-s-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-24035,"Queen Anne's County, Maryland",MD,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-04,"moratorium-nation:md-queen-anne-s-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+24035,"Queen Anne's County, Maryland",MD,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 24037,"St. Mary's County, Maryland",MD,unverified,U,,,,0,0,0,,,never_probed,,,,1
 24039,"Somerset County, Maryland",MD,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,,1
-24041,"Talbot County, Maryland",MD,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-08,"moratorium-nation:md-talbot-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-24043,"Washington County, Maryland",MD,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-30,"moratorium-nation:md-washington-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-24045,"Wicomico County, Maryland",MD,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-04,"moratorium-nation:md-wicomico-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-24047,"Worcester County, Maryland",MD,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-21,"moratorium-nation:md-worcester-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+24041,"Talbot County, Maryland",MD,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-09-08,https://www.talbotcountymd.gov/press-releases/talbot-county-council-meeting-highlights-september-8-2026,,0
+24043,"Washington County, Maryland",MD,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-06-30,https://www.washco-md.net/washington-county-board-of-county-commissioners-approves-temporary-moratorium-on-data-center-applications/,,0
+24045,"Wicomico County, Maryland",MD,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
+24047,"Worcester County, Maryland",MD,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-07-21,https://worcestermd.gov/news/worcester-county-enacts-moratorium-data-centers-and-cable-landing-stations-while-new,,0
 24510,"Baltimore city, Maryland",MD,unverified,U,,,,0,0,0,,,never_probed,,,,1
 25001,"Barnstable County, Massachusetts",MA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 25003,"Berkshire County, Massachusetts",MA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1259,7 +1259,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 26049,"Genesee County, Michigan",MI,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 26051,"Gladwin County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 26053,"Gogebic County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
-26055,"Grand Traverse County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
+26055,"Grand Traverse County, Michigan",MI,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 26057,"Gratiot County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 26059,"Hillsdale County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 26061,"Houghton County, Michigan",MI,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
@@ -1294,7 +1294,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 26119,"Montmorency County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 26121,"Muskegon County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 26123,"Newaygo County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
-26125,"Oakland County, Michigan",MI,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
+26125,"Oakland County, Michigan",MI,asserted_restrictive,B,meeting_portal,meeting_portal,proceeding,0,1,0,2026-09-28,0,complete,,https://www.wixomgov.org/departments/construction-development-services-building/data-center-moratorium-ordinance,,0
 26127,"Oceana County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 26129,"Ogemaw County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 26131,"Ontonagon County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1323,11 +1323,11 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 27011,"Big Stone County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27013,"Blue Earth County, Minnesota",MN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-25,"moratorium-nation:mn-blue-earth-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 27015,"Brown County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-27017,"Carlton County, Minnesota",MN,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-08-24,"moratorium-nation:mn-carlton-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
+27017,"Carlton County, Minnesota",MN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-24,"moratorium-nation:mn-carlton-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 27019,"Carver County, Minnesota",MN,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 27021,"Cass County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27023,"Chippewa County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-27025,"Chisago County, Minnesota",MN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-05,"moratorium-nation:mn-chisago-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+27025,"Chisago County, Minnesota",MN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 27027,"Clay County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27029,"Clearwater County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27031,"Cook County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1338,10 +1338,10 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 27041,"Douglas County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27043,"Faribault County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27045,"Fillmore County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-27047,"Freeborn County, Minnesota",MN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2025-08-19,"moratorium-nation:mn-freeborn-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+27047,"Freeborn County, Minnesota",MN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 27049,"Goodhue County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27051,"Grant County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-27053,"Hennepin County, Minnesota",MN,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
+27053,"Hennepin County, Minnesota",MN,asserted_restrictive,B,meeting_portal,meeting_portal,proceeding,0,1,0,2026-09-28,0,complete,,https://www.minneapolismn.gov/business-services/planning-zoning/amendments/proposed-adopted/data-centers/,,0
 27055,"Houston County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27057,"Hubbard County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27059,"Isanti County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1354,7 +1354,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 27073,"Lac qui Parle County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27075,"Lake County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27077,"Lake of the Woods County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-27079,"Le Sueur County, Minnesota",MN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-26,"moratorium-nation:mn-le-sueur-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+27079,"Le Sueur County, Minnesota",MN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 27081,"Lincoln County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27083,"Lyon County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27085,"McLeod County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1366,13 +1366,13 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 27097,"Morrison County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27099,"Mower County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27101,"Murray County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-27103,"Nicollet County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
+27103,"Nicollet County, Minnesota",MN,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 27105,"Nobles County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27107,"Norman County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27109,"Olmsted County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27111,"Otter Tail County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27113,"Pennington County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-27115,"Pine County, Minnesota",MN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-01,"moratorium-nation:mn-pine-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+27115,"Pine County, Minnesota",MN,asserted_restrictive,B,municipal_code,municipal_code|restriction_census,primary_law,0,1,0,2026-09-28,0,complete,,https://www.pinecountymn.gov/government/ordinances.php,,0
 27117,"Pipestone County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27119,"Polk County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 27121,"Pope County, Minnesota",MN,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1491,7 +1491,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 29009,"Barry County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29011,"Barton County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29013,"Bates County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
-29015,"Benton County, Missouri",MO,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-10,"moratorium-nation:mo-benton-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+29015,"Benton County, Missouri",MO,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 29017,"Bollinger County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29019,"Boone County, Missouri",MO,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 29021,"Buchanan County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1503,7 +1503,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 29033,"Carroll County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29035,"Carter County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29037,"Cass County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
-29039,"Cedar County, Missouri",MO,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-08,"moratorium-nation:mo-cedar-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+29039,"Cedar County, Missouri",MO,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 29041,"Chariton County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29043,"Christian County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29045,"Clark County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1531,7 +1531,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 29089,"Howard County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29091,"Howell County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29093,"Iron County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
-29095,"Jackson County, Missouri",MO,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_no_support,1
+29095,"Jackson County, Missouri",MO,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-06-22,https://webapi.legistar.com/v1/jacksonco/matters/19330/histories,,0
 29097,"Jasper County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29099,"Jefferson County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29101,"Johnson County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1557,7 +1557,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 29141,"Morgan County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29143,"New Madrid County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29145,"Newton County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
-29147,"Nodaway County, Missouri",MO,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-21,"moratorium-nation:mo-nodaway-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+29147,"Nodaway County, Missouri",MO,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 29149,"Oregon County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29151,"Osage County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29153,"Ozark County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1570,7 +1570,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 29167,"Polk County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29169,"Pulaski County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29171,"Putnam County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
-29173,"Ralls County, Missouri",MO,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-23,"moratorium-nation:mo-ralls-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+29173,"Ralls County, Missouri",MO,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 29175,"Randolph County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29177,"Ray County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29179,"Reynolds County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1587,7 +1587,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 29203,"Shannon County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29205,"Shelby County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29207,"Stoddard County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
-29209,"Stone County, Missouri",MO,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-04,"moratorium-nation:mo-stone-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+29209,"Stone County, Missouri",MO,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 29211,"Sullivan County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29213,"Taney County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29215,"Texas County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1595,7 +1595,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 29219,"Warren County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29221,"Washington County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29223,"Wayne County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
-29225,"Webster County, Missouri",MO,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-16,"moratorium-nation:mo-webster-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+29225,"Webster County, Missouri",MO,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 29227,"Worth County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29229,"Wright County, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
 29510,"St. Louis city, Missouri",MO,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1666,11 +1666,11 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 31017,"Brown County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31019,"Buffalo County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31021,"Burt County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
-31023,"Butler County, Nebraska",NE,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-03-16,"moratorium-nation:ne-butler-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+31023,"Butler County, Nebraska",NE,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-03-16,https://butlercountyne.gov/wp-content/uploads/sites/29/2026/03/BOS-Minutes-03.16.26-Public-Hearing-Special-Mtg.pdf,,0
 31025,"Cass County, Nebraska",NE,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-08-11,"moratorium-nation:ne-cass-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
 31027,"Cedar County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31029,"Chase County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
-31031,"Cherry County, Nebraska",NE,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-14,"moratorium-nation:ne-cherry-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+31031,"Cherry County, Nebraska",NE,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 31033,"Cheyenne County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31035,"Clay County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31037,"Colfax County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1683,12 +1683,12 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 31051,"Dixon County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31053,"Dodge County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31055,"Douglas County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
-31057,"Dundy County, Nebraska",NE,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2025-06-01,"moratorium-nation:ne-dundy-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+31057,"Dundy County, Nebraska",NE,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 31059,"Fillmore County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31061,"Franklin County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31063,"Frontier County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31065,"Furnas County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
-31067,"Gage County, Nebraska",NE,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-16,"moratorium-nation:ne-gage-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+31067,"Gage County, Nebraska",NE,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 31069,"Garden County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31071,"Garfield County, Nebraska",NE,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,,1
 31073,"Gosper County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1713,7 +1713,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 31111,"Lincoln County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31113,"Logan County, Nebraska",NE,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-15,"moratorium-nation:ne-logan-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 31115,"Loup County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
-31117,"McPherson County, Nebraska",NE,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-10,"moratorium-nation:ne-mcpherson-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+31117,"McPherson County, Nebraska",NE,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-06-10,https://mcphersoncounty.ne.gov/wp-content/uploads/sites/26/2026/06/Published-Minutes-6-JUNE-10-2026.pdf,,0
 31119,"Madison County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31121,"Merrick County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31123,"Morrill County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1727,7 +1727,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 31139,"Pierce County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31141,"Platte County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31143,"Polk County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
-31145,"Red Willow County, Nebraska",NE,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2025-09-22,"moratorium-nation:ne-red-willow-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+31145,"Red Willow County, Nebraska",NE,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 31147,"Richardson County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31149,"Rock County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
 31151,"Saline County, Nebraska",NE,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1754,16 +1754,16 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 32007,"Elko County, Nevada",NV,unverified,U,,,,0,0,0,,,never_probed,,,,1
 32009,"Esmeralda County, Nevada",NV,unverified,U,,,,0,0,0,,,never_probed,,,,1
 32011,"Eureka County, Nevada",NV,unverified,U,,,,0,0,0,,,never_probed,,,,1
-32013,"Humboldt County, Nevada",NV,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-06,"moratorium-nation:nv-humboldt-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+32013,"Humboldt County, Nevada",NV,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 32015,"Lander County, Nevada",NV,unverified,U,,,,0,0,0,,,never_probed,,,,1
 32017,"Lincoln County, Nevada",NV,unverified,U,,,,0,0,0,,,never_probed,,,,1
 32019,"Lyon County, Nevada",NV,unverified,U,,,,0,0,0,,,never_probed,,,,1
 32021,"Mineral County, Nevada",NV,unverified,U,,,,0,0,0,,,never_probed,,,,1
-32023,"Nye County, Nevada",NV,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-02,"moratorium-nation:nv-nye-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+32023,"Nye County, Nevada",NV,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 32027,"Pershing County, Nevada",NV,unverified,U,,,,0,0,0,,,never_probed,,,,1
 32029,"Storey County, Nevada",NV,unverified,U,,,,0,0,0,,,never_probed,,,,1
 32031,"Washoe County, Nevada",NV,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
-32033,"White Pine County, Nevada",NV,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-22,"moratorium-nation:nv-white-pine-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+32033,"White Pine County, Nevada",NV,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 32510,"Carson City, Nevada",NV,unverified,U,,,,0,0,0,,,never_probed,,,,1
 33001,"Belknap County, New Hampshire",NH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 33003,"Carroll County, New Hampshire",NH,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1777,7 +1777,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 33019,"Sullivan County, New Hampshire",NH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 34001,"Atlantic County, New Jersey",NJ,unverified,U,,,,0,0,0,,,never_probed,,,,1
 34003,"Bergen County, New Jersey",NJ,unverified,U,,,,0,0,0,,,never_probed,,,,1
-34005,"Burlington County, New Jersey",NJ,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
+34005,"Burlington County, New Jersey",NJ,asserted_restrictive,B,state_aggregator,state_aggregator,primary_law,0,1,0,2026-09-28,0,complete,2026-04-15,https://www.nj.gov/pinelands/landuse/amend/ords.shtml,,0
 34007,"Camden County, New Jersey",NJ,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 34009,"Cape May County, New Jersey",NJ,unverified,U,,,,0,0,0,,,never_probed,,,,1
 34011,"Cumberland County, New Jersey",NJ,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
@@ -1823,7 +1823,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 35045,"San Juan County, New Mexico",NM,unverified,U,,,,0,0,0,,,never_probed,,,,1
 35047,"San Miguel County, New Mexico",NM,unverified,U,,,,0,0,0,,,never_probed,,,,1
 35049,"Santa Fe County, New Mexico",NM,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-30,"moratorium-nation:nm-santa-fe-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-35051,"Sierra County, New Mexico",NM,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-21,"moratorium-nation:nm-sierra-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+35051,"Sierra County, New Mexico",NM,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 35053,"Socorro County, New Mexico",NM,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-09,"moratorium-nation:nm-socorro-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 35055,"Taos County, New Mexico",NM,unverified,U,,,,0,0,0,,,never_probed,,,,1
 35057,"Torrance County, New Mexico",NM,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1872,7 +1872,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 36081,"Queens County, New York",NY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 36083,"Rensselaer County, New York",NY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 36085,"Richmond County, New York",NY,unverified,U,,,,0,0,0,,,never_probed,,,,1
-36087,"Rockland County, New York",NY,unverified,U,,,,0,0,0,,,never_probed,,,,1
+36087,"Rockland County, New York",NY,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 36089,"St. Lawrence County, New York",NY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 36091,"Saratoga County, New York",NY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 36093,"Schenectady County, New York",NY,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1891,7 +1891,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 36119,"Westchester County, New York",NY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 36121,"Wyoming County, New York",NY,unverified,U,,,,0,0,0,,,never_probed,,,,1
 36123,"Yates County, New York",NY,unverified,U,,,,0,0,0,,,never_probed,,,,1
-37001,"Alamance County, North Carolina",NC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-17,"moratorium-nation:nc-alamance-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+37001,"Alamance County, North Carolina",NC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 37003,"Alexander County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37005,"Alleghany County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37007,"Anson County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1905,7 +1905,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 37023,"Burke County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37025,"Cabarrus County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37027,"Caldwell County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
-37029,"Camden County, North Carolina",NC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-03,"moratorium-nation:nc-camden-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+37029,"Camden County, North Carolina",NC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 37031,"Carteret County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37033,"Caswell County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37035,"Catawba County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1920,7 +1920,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 37053,"Currituck County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37055,"Dare County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37057,"Davidson County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
-37059,"Davie County, North Carolina",NC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-06,"moratorium-nation:nc-davie-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+37059,"Davie County, North Carolina",NC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 37061,"Duplin County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37063,"Durham County, North Carolina",NC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-24,"moratorium-nation:nc-durham-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 37065,"Edgecombe County, North Carolina",NC,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-08-03,"moratorium-nation:nc-edgecombe-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
@@ -1940,27 +1940,27 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 37093,"Hoke County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37095,"Hyde County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37097,"Iredell County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
-37099,"Jackson County, North Carolina",NC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-18,"moratorium-nation:nc-jackson-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+37099,"Jackson County, North Carolina",NC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 37101,"Johnston County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37103,"Jones County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37105,"Lee County, North Carolina",NC,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 37107,"Lenoir County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37109,"Lincoln County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
-37111,"McDowell County, North Carolina",NC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-31,"moratorium-nation:nc-mcdowell-county-2026-2 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+37111,"McDowell County, North Carolina",NC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 37113,"Macon County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
-37115,"Madison County, North Carolina",NC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,,"moratorium-nation:nc-madison-county-2023 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+37115,"Madison County, North Carolina",NC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 37117,"Martin County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
-37119,"Mecklenburg County, North Carolina",NC,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
+37119,"Mecklenburg County, North Carolina",NC,asserted_restrictive,B,meeting_portal,meeting_portal,proceeding,0,1,0,2026-09-28,0,complete,2026-06-08,https://webapi.legistar.com/v1/charlottenc/matters/29662/histories,,0
 37121,"Mitchell County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37123,"Montgomery County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37125,"Moore County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
-37127,"Nash County, North Carolina",NC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-08,"moratorium-nation:nc-nash-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+37127,"Nash County, North Carolina",NC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 37129,"New Hanover County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37131,"Northampton County, North Carolina",NC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-04,"moratorium-nation:nc-northampton-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 37133,"Onslow County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37135,"Orange County, North Carolina",NC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-04-21,"moratorium-nation:nc-orange-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 37137,"Pamlico County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
-37139,"Pasquotank County, North Carolina",NC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-18,"moratorium-nation:nc-pasquotank-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+37139,"Pasquotank County, North Carolina",NC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 37141,"Pender County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37143,"Perquimans County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37145,"Person County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1983,16 +1983,16 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 37179,"Union County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37181,"Vance County, North Carolina",NC,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-09-14,"moratorium-nation:nc-vance-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
 37183,"Wake County, North Carolina",NC,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
-37185,"Warren County, North Carolina",NC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-19,"moratorium-nation:nc-warren-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+37185,"Warren County, North Carolina",NC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 37187,"Washington County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37189,"Watauga County, North Carolina",NC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_no_support,1
 37191,"Wayne County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37193,"Wilkes County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37195,"Wilson County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
-37197,"Yadkin County, North Carolina",NC,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-08-17,"moratorium-nation:nc-yadkin-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
+37197,"Yadkin County, North Carolina",NC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-17,"moratorium-nation:nc-yadkin-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 37199,"Yancey County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 38001,"Adams County, North Dakota",ND,unverified,U,,,,0,0,0,,,never_probed,,,,1
-38003,"Barnes County, North Dakota",ND,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-19,"moratorium-nation:nd-barnes-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+38003,"Barnes County, North Dakota",ND,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-05-19,https://www.barnescounty.us/wp-content/uploads/2026/06/May-19-2026-Commission-Minutes.pdf,,0
 38005,"Benson County, North Dakota",ND,unverified,U,,,,0,0,0,,,never_probed,,,,1
 38007,"Billings County, North Dakota",ND,unverified,U,,,,0,0,0,,,never_probed,,,,1
 38009,"Bottineau County, North Dakota",ND,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2003,7 +2003,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 38019,"Cavalier County, North Dakota",ND,unverified,U,,,,0,0,0,,,never_probed,,,,1
 38021,"Dickey County, North Dakota",ND,unverified,U,,,,0,0,0,,,never_probed,,,,1
 38023,"Divide County, North Dakota",ND,unverified,U,,,,0,0,0,,,never_probed,,,,1
-38025,"Dunn County, North Dakota",ND,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-03-18,"moratorium-nation:nd-dunn-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+38025,"Dunn County, North Dakota",ND,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 38027,"Eddy County, North Dakota",ND,unverified,U,,,,0,0,0,,,never_probed,,,,1
 38029,"Emmons County, North Dakota",ND,unverified,U,,,,0,0,0,,,never_probed,,,,1
 38031,"Foster County, North Dakota",ND,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2043,7 +2043,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 38099,"Walsh County, North Dakota",ND,unverified,U,,,,0,0,0,,,never_probed,,,,1
 38101,"Ward County, North Dakota",ND,unverified,U,,,,0,0,0,,,never_probed,,,,1
 38103,"Wells County, North Dakota",ND,unverified,U,,,,0,0,0,,,never_probed,,,,1
-38105,"Williams County, North Dakota",ND,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,,"moratorium-nation:nd-williams-county-2023 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+38105,"Williams County, North Dakota",ND,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 39001,"Adams County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 39003,"Allen County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 39005,"Ashland County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2056,28 +2056,28 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 39019,"Carroll County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 39021,"Champaign County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 39023,"Clark County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
-39025,"Clermont County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
+39025,"Clermont County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 39027,"Clinton County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 39029,"Columbiana County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 39031,"Coshocton County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 39033,"Crawford County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
-39035,"Cuyahoga County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
+39035,"Cuyahoga County, Ohio",OH,asserted_restrictive,B,meeting_portal,meeting_portal,proceeding,0,1,0,2026-09-28,0,complete,2026-07-15,https://www.clevelandcitycouncil.gov/council-meeting-highlights-7-15-2026,,0
 39037,"Darke County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 39039,"Defiance County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 39041,"Delaware County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 39043,"Erie County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 39045,"Fairfield County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
-39047,"Fayette County, Ohio",OH,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-21,"moratorium-nation:oh-fayette-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-39049,"Franklin County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
+39047,"Fayette County, Ohio",OH,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
+39049,"Franklin County, Ohio",OH,asserted_restrictive,B,municipal_code,municipal_code,primary_law,0,1,0,2026-09-28,0,complete,2026-05-12,https://jacksontwpfranklinoh.gov/cdn/Letter-to-the-Community-Data-Center.pdf,,0
 39051,"Fulton County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 39053,"Gallia County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 39055,"Geauga County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 39057,"Greene County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 39059,"Guernsey County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
-39061,"Hamilton County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
+39061,"Hamilton County, Ohio",OH,asserted_restrictive,B,municipal_code,municipal_code,primary_law,0,1,0,2026-09-28,0,complete,2026-02-11,https://www.cincinnati-oh.gov/planning/projects/active/interim-development-control-overlay-89-data-centers-and-zoning-study/,,0
 39063,"Hancock County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 39065,"Hardin County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
-39067,"Harrison County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
+39067,"Harrison County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 39069,"Henry County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 39071,"Highland County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 39073,"Hocking County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2091,7 +2091,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 39089,"Licking County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 39091,"Logan County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 39093,"Lorain County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
-39095,"Lucas County, Ohio",OH,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
+39095,"Lucas County, Ohio",OH,asserted_restrictive,B,meeting_portal,meeting_portal,proceeding,0,1,0,2026-09-28,0,complete,2026-02-17,http://monclovatwp.org/wp-content/uploads/2026/02/Data-Center-Reso-Intro-and-Motion.pdf,,0
 39097,"Madison County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 39099,"Mahoning County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
 39101,"Marion County, Ohio",OH,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2232,7 +2232,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 41041,"Lincoln County, Oregon",OR,unverified,U,,,,0,0,0,,,never_probed,,,,1
 41043,"Linn County, Oregon",OR,unverified,U,,,,0,0,0,,,never_probed,,,,1
 41045,"Malheur County, Oregon",OR,unverified,U,,,,0,0,0,,,never_probed,,,,1
-41047,"Marion County, Oregon",OR,unverified,U,,,,0,0,0,,,never_probed,,,,1
+41047,"Marion County, Oregon",OR,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 41049,"Morrow County, Oregon",OR,unverified,U,,,,0,0,0,,,never_probed,,,,1
 41051,"Multnomah County, Oregon",OR,unverified,U,,,,0,0,0,,,never_probed,,,,1
 41053,"Polk County, Oregon",OR,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2259,14 +2259,14 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 42023,"Cameron County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42025,"Carbon County, Pennsylvania",PA,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 42027,"Centre County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-42029,"Chester County, Pennsylvania",PA,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
+42029,"Chester County, Pennsylvania",PA,asserted_restrictive,B,municipal_code,municipal_code,primary_law,0,1,0,2026-09-28,0,complete,,"https://www.eastwhiteland.org/government/departments/planning_development/sentinel,_green_fig_data_center_on_swedesford_road.php",,0
 42031,"Clarion County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42033,"Clearfield County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42035,"Clinton County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42037,"Columbia County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42039,"Crawford County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42041,"Cumberland County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-42043,"Dauphin County, Pennsylvania",PA,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
+42043,"Dauphin County, Pennsylvania",PA,asserted_restrictive,B,municipal_code,municipal_code,primary_law,0,1,0,2026-09-28,0,complete,,https://www.londonderrypa.org/news_detail_T25_R43.php,,0
 42045,"Delaware County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42047,"Elk County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42049,"Erie County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2290,7 +2290,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 42085,"Mercer County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42087,"Mifflin County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42089,"Monroe County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-42091,"Montgomery County, Pennsylvania",PA,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
+42091,"Montgomery County, Pennsylvania",PA,asserted_restrictive,B,municipal_code,municipal_code,primary_law,0,1,0,2026-09-28,0,complete,,https://www.towamencin.org/government/proposed-recently-adopted-ordinances/,,0
 42093,"Montour County, Pennsylvania",PA,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2025-11-18,"moratorium-nation:pa-montour-county-2025 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
 42095,"Northampton County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42097,"Northumberland County, Pennsylvania",PA,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
@@ -2304,7 +2304,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 42113,"Sullivan County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42115,"Susquehanna County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42117,"Tioga County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-42119,"Union County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
+42119,"Union County, Pennsylvania",PA,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 42121,"Venango County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42123,"Warren County, Pennsylvania",PA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 42125,"Washington County, Pennsylvania",PA,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
@@ -2320,7 +2320,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 45001,"Abbeville County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45003,"Aiken County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45005,"Allendale County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
-45007,"Anderson County, South Carolina",SC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-18,"moratorium-nation:sc-anderson-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+45007,"Anderson County, South Carolina",SC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 45009,"Bamberg County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45011,"Barnwell County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45013,"Beaufort County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2329,14 +2329,14 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 45019,"Charleston County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45021,"Cherokee County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45023,"Chester County, South Carolina",SC,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-07-20,"moratorium-nation:sc-chester-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
-45025,"Chesterfield County, South Carolina",SC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-01,"moratorium-nation:sc-chesterfield-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-45027,"Clarendon County, South Carolina",SC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-14,"moratorium-nation:sc-clarendon-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+45025,"Chesterfield County, South Carolina",SC,asserted_restrictive,B,municipal_code,municipal_code|restriction_census,primary_law,0,1,0,2026-09-28,0,complete,2026-06-01,https://www.chesterfieldcountysc.com/ordinances,,0
+45027,"Clarendon County, South Carolina",SC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 45029,"Colleton County, South Carolina",SC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-06,"moratorium-nation:sc-colleton-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 45031,"Darlington County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45033,"Dillon County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45035,"Dorchester County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45037,"Edgefield County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
-45039,"Fairfield County, South Carolina",SC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-14,"moratorium-nation:sc-fairfield-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+45039,"Fairfield County, South Carolina",SC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 45041,"Florence County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45043,"Georgetown County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45045,"Greenville County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2344,9 +2344,9 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 45049,"Hampton County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45051,"Horry County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45053,"Jasper County, South Carolina",SC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-21,"moratorium-nation:sc-jasper-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-45055,"Kershaw County, South Carolina",SC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-22,"moratorium-nation:sc-kershaw-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+45055,"Kershaw County, South Carolina",SC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 45057,"Lancaster County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
-45059,"Laurens County, South Carolina",SC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-14,"moratorium-nation:sc-laurens-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+45059,"Laurens County, South Carolina",SC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 45061,"Lee County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45063,"Lexington County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45065,"McCormick County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2358,8 +2358,8 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 45077,"Pickens County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45079,"Richland County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45081,"Saluda County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
-45083,"Spartanburg County, South Carolina",SC,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-09-21,"moratorium-nation:sc-spartanburg-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
-45085,"Sumter County, South Carolina",SC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-11,"moratorium-nation:sc-sumter-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+45083,"Spartanburg County, South Carolina",SC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-21,"moratorium-nation:sc-spartanburg-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+45085,"Sumter County, South Carolina",SC,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 45087,"Union County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45089,"Williamsburg County, South Carolina",SC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 45091,"York County, South Carolina",SC,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-13,"moratorium-nation:sc-york-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
@@ -2438,15 +2438,15 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 47013,"Campbell County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 47015,"Cannon County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 47017,"Carroll County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-47019,"Carter County, Tennessee",TN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-17,"moratorium-nation:tn-carter-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+47019,"Carter County, Tennessee",TN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 47021,"Cheatham County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 47023,"Chester County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 47025,"Claiborne County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 47027,"Clay County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-47029,"Cocke County, Tennessee",TN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-15,"moratorium-nation:tn-cocke-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+47029,"Cocke County, Tennessee",TN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 47031,"Coffee County, Tennessee",TN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-09,https://www.newschannel5.com/news/state/tennessee/coffee-county/coffee-county-bans-new-data-centers-for-one-year (hawthorn-tva-review-2026-08-21: one-year term),,0
 47033,"Crockett County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-47035,"Cumberland County, Tennessee",TN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-15,"moratorium-nation:tn-cumberland-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+47035,"Cumberland County, Tennessee",TN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 47037,"Davidson County, Tennessee",TN,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 47039,"Decatur County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 47041,"DeKalb County, Tennessee",TN,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
@@ -2488,7 +2488,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 47113,"Madison County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 47115,"Marion County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 47117,"Marshall County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-47119,"Maury County, Tennessee",TN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-20,"moratorium-nation:tn-maury-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+47119,"Maury County, Tennessee",TN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 47121,"Meigs County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 47123,"Monroe County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 47125,"Montgomery County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2500,7 +2500,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 47137,"Pickett County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 47139,"Polk County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 47141,"Putnam County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-47143,"Rhea County, Tennessee",TN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-21,"moratorium-nation:tn-rhea-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+47143,"Rhea County, Tennessee",TN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 47145,"Roane County, Tennessee",TN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_no_support,1
 47147,"Robertson County, Tennessee",TN,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 47149,"Rutherford County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2523,7 +2523,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 47183,"Weakley County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
 47185,"White County, Tennessee",TN,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
 47187,"Williamson County, Tennessee",TN,unverified,U,,,,0,0,0,,,never_probed,,,,1
-47189,"Wilson County, Tennessee",TN,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-20,"moratorium-nation:tn-wilson-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+47189,"Wilson County, Tennessee",TN,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 48001,"Anderson County, Texas",TX,unverified,U,,,,0,0,0,,,never_probed,,,,1
 48003,"Andrews County, Texas",TX,unverified,U,,,,0,0,0,,,never_probed,,,,1
 48005,"Angelina County, Texas",TX,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
@@ -2531,7 +2531,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 48009,"Archer County, Texas",TX,unverified,U,,,,0,0,0,,,never_probed,,,,1
 48011,"Armstrong County, Texas",TX,unverified,U,,,,0,0,0,,,never_probed,,,,1
 48013,"Atascosa County, Texas",TX,unverified,U,,,,0,0,0,,,never_probed,,,,1
-48015,"Austin County, Texas",TX,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-27,"moratorium-nation:tx-austin-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+48015,"Austin County, Texas",TX,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 48017,"Bailey County, Texas",TX,unverified,U,,,,0,0,0,,,never_probed,,,,1
 48019,"Bandera County, Texas",TX,unverified,U,,,,0,0,0,,,never_probed,,,,1
 48021,"Bastrop County, Texas",TX,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2797,7 +2797,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 49033,"Rich County, Utah",UT,unverified,U,,,,0,0,0,,,never_probed,,,,1
 49035,"Salt Lake County, Utah",UT,unverified,U,,,,0,0,0,,,never_probed,,,,1
 49037,"San Juan County, Utah",UT,unverified,U,,,,0,0,0,,,never_probed,,,,1
-49039,"Sanpete County, Utah",UT,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-04,"moratorium-nation:ut-sanpete-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+49039,"Sanpete County, Utah",UT,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 49041,"Sevier County, Utah",UT,unverified,U,,,,0,0,0,,,never_probed,,,,1
 49043,"Summit County, Utah",UT,unverified,U,,,,0,0,0,,,never_probed,,,,1
 49045,"Tooele County, Utah",UT,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2805,7 +2805,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 49049,"Utah County, Utah",UT,unverified,U,,,,0,0,0,,,never_probed,,,,1
 49051,"Wasatch County, Utah",UT,unverified,U,,,,0,0,0,,,never_probed,,,,1
 49053,"Washington County, Utah",UT,unverified,U,,,,0,0,0,,,never_probed,,,,1
-49055,"Wayne County, Utah",UT,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-08,"moratorium-nation:ut-wayne-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+49055,"Wayne County, Utah",UT,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 49057,"Weber County, Utah",UT,unverified,U,,,,0,0,0,,,never_probed,,,,1
 50001,"Addison County, Vermont",VT,unverified,U,,,,0,0,0,,,never_probed,,,,1
 50003,"Bennington County, Vermont",VT,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2970,20 +2970,20 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 53027,"Grays Harbor County, Washington",WA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 53029,"Island County, Washington",WA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 53031,"Jefferson County, Washington",WA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-53033,"King County, Washington",WA,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
+53033,"King County, Washington",WA,asserted_restrictive,B,meeting_portal,meeting_portal,proceeding,0,1,0,2026-09-28,0,complete,2026-06-09,https://council.seattle.gov/2026/06/09/city-council-passes-emergency-data-center-moratorium-and-policy-framework/,,0
 53035,"Kitsap County, Washington",WA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-53037,"Kittitas County, Washington",WA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-10,"moratorium-nation:wa-kittitas-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+53037,"Kittitas County, Washington",WA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 53039,"Klickitat County, Washington",WA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 53041,"Lewis County, Washington",WA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-53043,"Lincoln County, Washington",WA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-01,"moratorium-nation:wa-lincoln-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+53043,"Lincoln County, Washington",WA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 53045,"Mason County, Washington",WA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 53047,"Okanogan County, Washington",WA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 53049,"Pacific County, Washington",WA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 53051,"Pend Oreille County, Washington",WA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-53053,"Pierce County, Washington",WA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-25,"moratorium-nation:wa-pierce-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+53053,"Pierce County, Washington",WA,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-08-25,https://online.co.pierce.wa.us/cfapps/council/iview/proposal.cfm?proposal_num=O2026-557,,0
 53055,"San Juan County, Washington",WA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-53057,"Skagit County, Washington",WA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-01,"moratorium-nation:wa-skagit-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-53059,"Skamania County, Washington",WA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-18,"moratorium-nation:wa-skamania-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+53057,"Skagit County, Washington",WA,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-06-01,https://www.skagitcounty.net/Departments/Home/press/060126.htm,,0
+53059,"Skamania County, Washington",WA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 53061,"Snohomish County, Washington",WA,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-06-24,"moratorium-nation:wa-snohomish-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
 53063,"Spokane County, Washington",WA,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-08-18,"moratorium-nation:wa-spokane-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
 53065,"Stevens County, Washington",WA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -2992,7 +2992,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 53071,"Walla Walla County, Washington",WA,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 53073,"Whatcom County, Washington",WA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 53075,"Whitman County, Washington",WA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-53077,"Yakima County, Washington",WA,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-11,"moratorium-nation:wa-yakima-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+53077,"Yakima County, Washington",WA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 54001,"Barbour County, West Virginia",WV,unverified,U,,,,0,0,0,,,never_probed,,,,1
 54003,"Berkeley County, West Virginia",WV,unverified,U,,,,0,0,0,,,never_probed,,,,1
 54005,"Boone County, West Virginia",WV,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -3056,13 +3056,13 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 55011,"Buffalo County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55013,"Burnett County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55015,"Calumet County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
-55017,"Chippewa County, Wisconsin",WI,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-11,"moratorium-nation:wi-chippewa-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+55017,"Chippewa County, Wisconsin",WI,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 55019,"Clark County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55021,"Columbia County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55023,"Crawford County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55025,"Dane County, Wisconsin",WI,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-04,"moratorium-nation:wi-dane-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 55027,"Dodge County, Wisconsin",WI,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-18,"moratorium-nation:wi-dodge-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-55029,"Door County, Wisconsin",WI,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-05-26,"moratorium-nation:wi-door-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+55029,"Door County, Wisconsin",WI,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 55031,"Douglas County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55033,"Dunn County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55035,"Eau Claire County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -3070,7 +3070,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 55039,"Fond du Lac County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55041,"Forest County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55043,"Grant County, Wisconsin",WI,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-06-16,"moratorium-nation:wi-grant-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
-55045,"Green County, Wisconsin",WI,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-14,"moratorium-nation:wi-green-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+55045,"Green County, Wisconsin",WI,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 55047,"Green Lake County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55049,"Iowa County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55051,"Iron County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -3089,23 +3089,23 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 55077,"Marquette County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55078,"Menominee County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55079,"Milwaukee County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
-55081,"Monroe County, Wisconsin",WI,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-21,"moratorium-nation:wi-monroe-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+55081,"Monroe County, Wisconsin",WI,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 55083,"Oconto County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55085,"Oneida County, Wisconsin",WI,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-18,"moratorium-nation:wi-oneida-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 55087,"Outagamie County, Wisconsin",WI,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 55089,"Ozaukee County, Wisconsin",WI,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 55091,"Pepin County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55093,"Pierce County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
-55095,"Polk County, Wisconsin",WI,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-18,"moratorium-nation:wi-polk-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+55095,"Polk County, Wisconsin",WI,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 55097,"Portage County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55099,"Price County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55101,"Racine County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55103,"Richland County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55105,"Rock County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55107,"Rusk County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
-55109,"St. Croix County, Wisconsin",WI,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-09-01,"moratorium-nation:wi-st-croix-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+55109,"St. Croix County, Wisconsin",WI,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 55111,"Sauk County, Wisconsin",WI,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,label_negative_upstream_hit,1
-55113,"Sawyer County, Wisconsin",WI,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-08-01,"moratorium-nation:wi-sawyer-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
+55113,"Sawyer County, Wisconsin",WI,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 55115,"Shawano County, Wisconsin",WI,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-06-24,"moratorium-nation:wi-shawano-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
 55117,"Sheboygan County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55119,"Taylor County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
