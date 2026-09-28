@@ -1,0 +1,21 @@
+{
+  "_comment": [
+    "County variables from outside the platform's own layers, registered for",
+    "the adaptive feature search. Drop a fips-keyed CSV under data/features/,",
+    "add an entry below, and the next county_features.py run adds its columns",
+    "to the candidate pool; feature_search.py then ranks them with everything",
+    "else. No code change is needed to widen the search.",
+    "",
+    "Per column: name (the feature name; must not collide with an existing",
+    "one), label, tier (1 low detection-bias exposure, 3 high), transform",
+    "(identity, log1p, log10), leakage_class (none unless the column carries",
+    "outcome information; only 'none' can reach the production model).",
+    "",
+    "Example entry, disabled:",
+    "  {\"file\": \"data/features/eia_retail_price.csv\", \"key\": \"fips\",",
+    "   \"enabled\": false, \"columns\": {\"cents_per_kwh\": {\"name\":",
+    "   \"plg_retail_price\", \"label\": \"average retail electricity price\",",
+    "   \"tier\": 1, \"transform\": \"identity\", \"leakage_class\": \"none\"}}}"
+  ],
+  "plugins": []
+}

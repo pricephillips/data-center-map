@@ -1,0 +1,66 @@
+{
+  "_comment": [
+    "Registered settings for feature_search.py. Changing a value here is a",
+    "specification change and is recorded in data/feature_search_metrics.json",
+    "under config_hash. Targets, learners and gates are data, not code, so a",
+    "new target or a tighter gate is a config edit with no new code path."
+  ],
+  "targets": {
+    "restrict": {
+      "label": "has_enacted_restrictive",
+      "frame": "all",
+      "description": "county has ever enacted a restrictive instrument (moratorium, zoning restriction, ban)",
+      "exclude_leakage": []
+    },
+    "restrict_profile": {
+      "label": "has_enacted_restrictive",
+      "frame": "all",
+      "description": "same outcome, county profile variables only (no outcome-derived information of any kind); the weights a client-facing score may use",
+      "exclude_leakage": ["neighbor_outcome", "pre_outcome"]
+    },
+    "moratorium": {
+      "label": "has_enacted_moratorium",
+      "frame": "all",
+      "description": "county has ever enacted a moratorium specifically",
+      "exclude_leakage": []
+    },
+    "conversion": {
+      "label": "has_enacted_restrictive",
+      "frame": "in_conversion_frame",
+      "description": "among counties with recorded local opposition before any enactment, which went on to enact a restriction",
+      "exclude_leakage": []
+    }
+  },
+  "min_positives": 40,
+  "cv": {"splits": 5, "repeats": 3, "seed": 7},
+  "stability_selection": {
+    "_comment": "Only penalties sparse enough to keep the expected number of falsely selected variables at or below max_expected_false at the threshold are used (Meinshausen-Buhlmann bound). The bound decides the penalty range, so selection probability carries error control rather than being a tuning artifact.",
+    "n_pairs": 50,
+    "C_grid": [0.003, 0.005, 0.01, 0.02, 0.05, 0.1, 0.3],
+    "threshold": 0.75,
+    "max_expected_false": 2.0,
+    "sign_consistency": 0.9
+  },
+  "gbm": {
+    "max_depth": 3,
+    "learning_rate": 0.05,
+    "max_iter": 200,
+    "min_samples_leaf": 20,
+    "l2_regularization": 1.0
+  },
+  "permutation_repeats": 5,
+  "cluster_threshold": 0.7,
+  "weight_filter": {
+    "_comment": "Local-level Kalman filter on each feature's held-out importance. process_sd is how far a true importance may move between runs; a larger value adapts faster and smooths less.",
+    "process_sd": 0.003,
+    "initial_sd": 0.02,
+    "drift_z": 3.0
+  },
+  "promotion": {
+    "enabled": true,
+    "target": "restrict_profile",
+    "allowed_leakage_classes": ["none"],
+    "max_promoted": 6,
+    "exclude_families": ["base"]
+  }
+}
