@@ -116,6 +116,19 @@ SEED = 7
 C_GRID = (1.0, 0.3, 0.1, 0.03, 0.01)
 STABILITY_COST_ALARM = 0.05
 SPEC_HISTORY = P("data", "county_model_spec_history.csv")
+
+# Promoted candidates (ADDITIVE, 2026-09-28). feature_search.py ranks an
+# expanded county pool (county_features.py) and promotes the variables that
+# earn it into data/feature_search_promotions.json. Those variables join the
+# candidate pool below as extra starting material for the same backward
+# elimination; nothing about the selection rule changes. A promoted variable
+# still has to hold its sign in every fold and survive the stability-cost
+# alarm and the calibration gate, exactly like the ten registered variables.
+# If either file is absent, disabled, or --no-promotions is passed, the pool
+# is the registered ten and the module behaves exactly as before.
+PROMOTIONS_JSON = P("data", "feature_search_promotions.json")
+EXPANDED_CSV = P("data", "county_features_expanded.csv")
+USE_PROMOTIONS = True
 MIN_VARS = 3          # never eliminate below a describable model
 SPECS = {
     "full": ["margin_2024", "margin_shift", "existing_dc_count",
@@ -323,6 +336,57 @@ def parse_float(v):
         return None
 
 
+def load_promotions(promo_path=None, csv_path=None, base_names=None):
+    """Promoted variables and their per-county values.
+
+    Returns (vars, values): vars in the VARS tuple shape with transform
+    'identity' (county_features.py already applied each transform), values
+    as fips -> {column: raw string}. A promoted name that collides with a
+    registered variable, or that is absent from the expanded CSV, is skipped
+    rather than trusted: this function can only ever widen the pool with
+    columns that actually exist.
+    """
+    base_names = set(base_names if base_names is not None
+                     else (v for v, *_ in VARS))
+    try:
+        promo = json.load(open(promo_path or PROMOTIONS_JSON, encoding="utf-8"))
+    except (OSError, ValueError):
+        return [], {}
+    if not promo.get("enabled", False):
+        return [], {}
+    try:
+        with open(csv_path or EXPANDED_CSV, encoding="utf-8-sig",
+                  newline="") as fh:
+            rows = list(csv.DictReader(fh))
+    except OSError:
+        return [], {}
+    cols = set(rows[0]) if rows else set()
+    out = []
+    for p in promo.get("promoted", []):
+        name = p.get("feature", "")
+        if not name or name in base_names or name not in cols:
+            continue
+        if any(name == v for v, *_ in out):
+            continue
+        out.append((name, f"{p.get('label', name)} (promoted)",
+                    int(p.get("tier", 3)), "identity"))
+    keep = [v for v, *_ in out]
+    values = {r["fips"].zfill(5): {k: r.get(k, "") for k in keep}
+              for r in rows}
+    return out, values
+
+
+def model_vars():
+    """The full candidate pool this run: the registered VARS plus any
+    promoted variables. county_policy_intervals.py rebuilds the selected
+    specification from this, so the two modules can never disagree about
+    what a selected variable means."""
+    if not USE_PROMOTIONS:
+        return list(VARS)
+    extra, _ = load_promotions()
+    return list(VARS) + extra
+
+
 def transform(name, x):
     if x is None:
         return None
@@ -344,6 +408,10 @@ def load():
     # distribution, and local land-use institutions differ. They remain in
     # the aggregate layer for the map.
     kept = [r for r in rows if not r["fips"].startswith("72")]
+    if USE_PROMOTIONS:
+        _, promo_vals = load_promotions()
+        for r in kept:
+            r.update(promo_vals.get(r["fips"], {}))
     for r in kept:
         m24, m16 = parse_float(r.get("margin_2024")), parse_float(r.get("margin_2016"))
         r["margin_shift"] = ("" if m24 is None or m16 is None
@@ -365,11 +433,12 @@ def main() -> int:
         return 1
 
     rows, n_excluded_pr = load()
-    all_feats = [v for v, _, _, _ in VARS]
-    tr_by = {v: tr for v, _, _, tr in VARS}
+    POOL = model_vars()
+    promoted = [v for v, *_ in POOL[len(VARS):]]
+    all_feats = [v for v, _, _, _ in POOL]
     Xall = np.array(
-        [[np.nan if (t := transform(tr, parse_float(r[f]))) is None else t
-          for f, _, _, tr in VARS] for r in rows], dtype=float)
+        [[np.nan if (t := transform(tr, parse_float(r.get(f)))) is None else t
+          for f, _, _, tr in POOL] for r in rows], dtype=float)
     y = np.array([int(r["has_enacted_restrictive"]) for r in rows])
     fips = [r["fips"] for r in rows]
     cv = RepeatedStratifiedKFold(n_splits=N_SPLITS, n_repeats=N_REPEATS,
@@ -445,6 +514,18 @@ def main() -> int:
     # the line this rule exists to hold.
     starts = [("full_pool", list(all_feats))] + [
         (name, list(flist)) for name, flist in SPECS.items()]
+    # Promoted variables are also tried on top of the last recorded
+    # specification. From the full pool alone a promoted variable competes
+    # with every collinear registered variable at once and is usually
+    # eliminated alongside them; this anchor asks the narrower question the
+    # promotion raises: does it add to the model that currently ships?
+    if promoted:
+        hist = read_spec_history()
+        last = hist[-1]["variables"].split("; ") if hist else []
+        last = [v for v in last if v in all_feats]
+        if last:
+            starts.append(("promoted_on_last",
+                           last + [v for v in promoted if v not in last]))
 
     for c_reg in C_GRID:
         for origin, start in starts:
@@ -569,6 +650,9 @@ def main() -> int:
                 "gap beyond " + str(STABILITY_COST_ALARM) + " is a hard "
                 "stop."),
             "stability_cost_alarm": STABILITY_COST_ALARM,
+            "promoted_candidates": promoted,
+            "promotions_source": ("data/feature_search_promotions.json"
+                                  if promoted else None),
             "changed_this_run": changed,
             "entered": entered,
             "left": left,
@@ -662,6 +746,11 @@ def main() -> int:
       f"specification tried. Under shrinkage, coefficient magnitudes are "
       f"compressed toward zero by design; read relative ordering and sign, "
       f"not absolute size.")
+    if promoted:
+        w(f"- Candidate pool widened by feature_search.py promotion: "
+          f"{', '.join(promoted)}. Promoted variables are candidates only and "
+          f"face the same sign-stability rule; "
+          f"{'selected: ' + ', '.join(v for v in feats if v in promoted) if any(v in promoted for v in feats) else 'none were selected this run'}.")
     w(f"- ROC AUC: {a['p50']:.2f} (p10 {a['p10']:.2f}, p90 {a['p90']:.2f}).")
     w(f"- Brier: {b['p50']:.3f} vs base-rate Brier "
       f"{b['base_rate_brier']:.3f}.")
@@ -677,8 +766,8 @@ def main() -> int:
     w("")
     w("| Variable | Tier | Median | Fold range | Sign stable |")
     w("|---|---|---|---|---|")
-    tier = {v: t for v, _, t, _ in VARS}
-    label = {v: l for v, l, _, _ in VARS}
+    tier = {v: t for v, _, t, _ in POOL}
+    label = {v: l for v, l, _, _ in POOL}
     for f, cs in sorted(metrics["coefficients"].items(),
                         key=lambda kv: -abs(kv[1]["median"])):
         w(f"| {label[f]} | {tier[f]} | {cs['median']:+.2f} | "
@@ -849,6 +938,36 @@ def selftest() -> int:
         check("every field is present on every row",
               all(set(r) == set(HISTORY_FIELDS) for r in rows))
 
+    with tempfile.TemporaryDirectory() as tmp:
+        promo = os.path.join(tmp, "promo.json")
+        exp = os.path.join(tmp, "exp.csv")
+        with open(exp, "w", encoding="utf-8") as fh:
+            fh.write("fips,new_a,new_b,population\n01001,1.5,,9\n")
+        json.dump({"enabled": True, "promoted": [
+            {"feature": "new_a", "label": "A", "tier": 2},
+            {"feature": "population", "label": "dup", "tier": 3},
+            {"feature": "ghost", "label": "absent", "tier": 1},
+            {"feature": "new_a", "label": "A again", "tier": 2}]},
+            open(promo, "w"))
+        pv, vals = load_promotions(promo, exp, {"population"})
+        names = [v for v, *_ in pv]
+        check("a promoted variable joins the pool", names == ["new_a"])
+        check("a promotion never overrides a registered variable",
+              "population" not in names)
+        check("a promotion absent from the expanded CSV is skipped",
+              "ghost" not in names)
+        check("promoted values are already transformed",
+              pv and pv[0][3] == "identity")
+        check("promoted values are keyed on fips",
+              vals.get("01001", {}).get("new_a") == "1.5")
+        json.dump({"enabled": False, "promoted": [{"feature": "new_a"}]},
+                  open(promo, "w"))
+        check("a disabled promotion file widens nothing",
+              load_promotions(promo, exp, set()) == ([], {}))
+        check("no promotion file widens nothing",
+              load_promotions(os.path.join(tmp, "none.json"), exp, set())
+              == ([], {}))
+
     failed = [n for n, ok in checks if not ok]
     for n, ok in checks:
         print(f"  {'PASS' if ok else 'FAIL'}  {n}")
@@ -859,4 +978,9 @@ def selftest() -> int:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--selftest", action="store_true")
-    raise SystemExit(selftest() if ap.parse_args().selftest else main())
+    ap.add_argument("--no-promotions", action="store_true",
+                    help="registered ten-variable pool only (legacy behaviour)")
+    args = ap.parse_args()
+    if args.no_promotions:
+        USE_PROMOTIONS = False
+    raise SystemExit(selftest() if args.selftest else main())

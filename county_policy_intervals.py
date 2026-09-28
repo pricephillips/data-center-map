@@ -148,12 +148,16 @@ def build_frame(variables):
     fips = [r["fips"] for r in rows]
     y = np.array([1 if str(r.get("has_enacted_restrictive", "")).strip()
                   in ("1", "True", "true") else 0 for r in rows])
-    tf = {name: t for (name, _label, _tier, t) in CPM.VARS}
+    # model_vars() is the registered VARS plus any feature_search.py
+    # promotions, which is the pool the selected specification was drawn
+    # from. Older county_policy_model.py copies without it fall back to VARS.
+    pool = CPM.model_vars() if hasattr(CPM, "model_vars") else CPM.VARS
+    tf = {name: t for (name, _label, _tier, t) in pool}
     missing = [v for v in variables if v not in tf]
     if missing:
         raise ValueError(
             f"selected variables {missing} are not defined in "
-            f"county_policy_model.VARS; the two modules have diverged.")
+            f"county_policy_model.model_vars(); the two modules have diverged.")
     X = np.full((len(rows), len(variables)), np.nan)
     for j, v in enumerate(variables):
         for i, r in enumerate(rows):
