@@ -447,6 +447,7 @@ def write_field_audit(audit, out_dir="data"):
 
 FIELD_LOSS_MIN_PRIOR = 20   # fields below this were always sparse; ignore them
 FIELD_LOSS_RATIO = 0.5      # flag when more than half the population is gone
+CAPACITY_LOSS_RATIO = 0.2   # tighter threshold for capacity_mw specifically; see 2026-09-10 regression
 
 
 def _present(value):
@@ -721,6 +722,31 @@ def selftest():
     check("an always-sparse field is ignored",
           population_violations(
               [{"date": "x"}] * (FIELD_LOSS_MIN_PRIOR - 1), [], ["date"]) == [])
+
+    # --- capacity_mw coverage threshold (2026-09-10 regression) -----------
+    # The 20% threshold is a selftest-only safety net; it does not change the
+    # runtime guard. These checks pin the boundary so a future relaxation of
+    # CAPACITY_LOSS_RATIO cannot slip through unnoticed.
+    check("capacity coverage drop of 21% is flagged at 20% threshold",
+          population_violations(
+              [{"capacity_mw": "x"}] * 100,
+              [{"capacity_mw": "x"}] * 79,
+              ["capacity_mw"], ratio=CAPACITY_LOSS_RATIO) != [])
+    check("capacity coverage drop of 19% is not flagged at 20% threshold",
+          population_violations(
+              [{"capacity_mw": "x"}] * 100,
+              [{"capacity_mw": "x"}] * 81,
+              ["capacity_mw"], ratio=CAPACITY_LOSS_RATIO) == [])
+    check("capacity coverage drop at exactly 20% is flagged (boundary fires at <=)",
+          population_violations(
+              [{"capacity_mw": "x"}] * 100,
+              [{"capacity_mw": "x"}] * 80,
+              ["capacity_mw"], ratio=CAPACITY_LOSS_RATIO) != [])
+    check("capacity coverage sparse skip applies at 20% threshold",
+          population_violations(
+              [{"capacity_mw": "x"}] * (FIELD_LOSS_MIN_PRIOR - 1),
+              [],
+              ["capacity_mw"], ratio=CAPACITY_LOSS_RATIO) == [])
 
     # --- field audit -------------------------------------------------------
     keys = api_keys_read()

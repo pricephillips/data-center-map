@@ -20,6 +20,9 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Selftest
+        run: python scripts/scrape-trackdatacenters-proposals.py --selftest
+
       - name: Run scraper
         id: scrape
         run: python scripts/scrape-trackdatacenters-proposals.py --out data/proposals.csv
