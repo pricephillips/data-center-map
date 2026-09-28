@@ -1,0 +1,9 @@
+# IDENTIFIABILITY.md, Principle IV: describe associations, never causes.
+extends: existence
+message: "'%s' reads as a causal claim; describe the association instead (IDENTIFIABILITY.md)."
+level: warning
+ignorecase: true
+tokens:
+  - caused by
+  - due to (?:the )?opposition
+  - attributable to

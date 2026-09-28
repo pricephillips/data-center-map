@@ -6,7 +6,7 @@ File: `.pre-commit-config.yaml`. Every hook is `repo: local` and
 
 | Hook id | Entry | Files | pass_filenames | Exit 0 when | Exit 1 when |
 |---|---|---|---|---|---|
-| `csv-lf` | `python scripts/precommit_gates.py crlf --fix` | `\.csv$`, minus generated paths and `master_opposition.csv` (resolved inside the script) | true | no staged in-scope CSV has CR | any file was rewritten; prints `fixed CRLF -> LF: <path>` per file |
+| `csv-lf` | `python scripts/precommit_gates.py crlf --fix` | `\.csv$`; `master_opposition.csv` is skipped inside the script | true | no staged CSV introduces CR bytes relative to HEAD (a new CSV has no baseline, so it must be LF) | any file was rewritten; prints `fixed CRLF -> LF: <path>` per file |
 | `deliverable-emdash` | `python scripts/precommit_gates.py emdash` | `^(headline_metrics\.md\|docs/.*_report.*\.md\|deliverables/.*\.md)$` | true | no U+2014 | prints `<path>:<line>: em-dash` per hit |
 | `leak-audit` | `python leak_audit.py --tier blocking` | `\.(py\|md\|html\|csv\|json\|ya?ml)$` (trigger only) | false | 0 blocking hits | any blocking hit, in leak_audit's own format |
 | `node-check` | `python scripts/precommit_gates.py nodecheck` | `\.(js\|html)$` | true | `node --check` passes on each file and each inline script block | prints the file and node's error |

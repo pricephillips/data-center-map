@@ -541,6 +541,29 @@ def main(path, outdir="data"):
     check("a file nothing writes still reads as hand-maintained",
           any("hand maintained" in f["detail"] for f in f_none))
 
+    # --no-write audits the real repo but leaves both outputs untouched.
+    # The outputs are redirected with setattr, not by assigning the globals:
+    # this module's own write-map walk would read an assignment as a second,
+    # temp-dir target and lose track of its real outputs.
+    import contextlib
+    import io
+    import tempfile
+    mod = sys.modules[__name__]
+    keep = (mod.OUT_CSV, mod.OUT_JSON)
+    td = tempfile.mkdtemp()
+    tmp_csv = os.path.join(td, "layer_audit.csv")
+    tmp_json = os.path.join(td, "layer_audit_summary.json")
+    setattr(mod, "OUT_CSV", tmp_csv)
+    setattr(mod, "OUT_JSON", tmp_json)
+    try:
+        with contextlib.redirect_stdout(io.StringIO()):
+            main(["--no-write"])
+        check("--no-write leaves both outputs unwritten",
+              not os.path.exists(tmp_csv) and not os.path.exists(tmp_json))
+    finally:
+        setattr(mod, "OUT_CSV", keep[0])
+        setattr(mod, "OUT_JSON", keep[1])
+
     failed = [n for n, ok in checks if not ok]
     for n, ok in checks:
         print(f"  {'PASS' if ok else 'FAIL'}  {n}")
@@ -648,7 +671,20 @@ def write_gitattributes(root: str = HERE) -> tuple[int, bool]:
     return len(paths), True
 
 
-def main() -> int:
+def write_outputs(findings: list[dict], summary: dict) -> None:
+    os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)
+    with open(OUT_CSV, "w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=["finding", "subject", "layer",
+                                           "detail", "reason"],
+                           lineterminator="\n")
+        w.writeheader()
+        w.writerows(findings)
+    with open(OUT_JSON, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(summary, fh, indent=2)
+        fh.write("\n")
+
+
+def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--strict", action="store_true",
@@ -659,7 +695,11 @@ def main() -> int:
                     help="regenerate .gitattributes from the write map")
     ap.add_argument("--check-gitattributes", action="store_true",
                     help="exit nonzero if .gitattributes is stale")
-    args = ap.parse_args()
+    ap.add_argument("--no-write", action="store_true",
+                    help="audit and report without writing the csv/json "
+                         "outputs (for the pre-commit hook, which fails on "
+                         "any hook that modifies files)")
+    args = ap.parse_args(argv)
     if args.selftest:
         return selftest()
 
@@ -709,16 +749,8 @@ def main() -> int:
     findings = audit(config, wmap, inv, ambiguous)
     summary = summarize(findings, config, wmap)
 
-    os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)
-    with open(OUT_CSV, "w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=["finding", "subject", "layer",
-                                           "detail", "reason"],
-                           lineterminator="\n")
-        w.writeheader()
-        w.writerows(findings)
-    with open(OUT_JSON, "w", encoding="utf-8", newline="\n") as fh:
-        json.dump(summary, fh, indent=2)
-        fh.write("\n")
+    if not args.no_write:
+        write_outputs(findings, summary)
 
     print(f"layer audit: {summary['files_written']} written files, "
           f"{len(findings)} findings "

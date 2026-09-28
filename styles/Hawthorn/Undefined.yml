@@ -1,0 +1,8 @@
+# Statistical terms must be defined on first use in client-facing copy.
+# A term followed by a parenthetical definition anywhere in the file clears it.
+extends: conditional
+message: "'%s' is used without a definition on first use."
+level: warning
+ignorecase: false
+first: '\b(Venn-Abers|calibrated score|decile|AUC|Brier)\b'
+second: '\b(Venn-Abers|calibrated score|decile|AUC|Brier)\s*\([^)]{6,}\)'

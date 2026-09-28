@@ -86,7 +86,17 @@ append to one file.
 | `data/signal_harvest_log.csv` | 141 | 71 | yes |
 | `data/signal_promotion_report.csv` | 4,438 | 2,490 | yes |
 
-**Decision**: The `csv-lf` hook covers hand-edited CSVs only. It excludes:
+**Revised at implementation (2026-09-28)**: the exclusion below could not be
+built reliably. `layer_audit.py`'s write map misses 16 of the 19 non-generated
+CR-bearing CSVs, among them `master_opposition_clean.csv`, `data/project_links.csv`
+and `data/proposals.csv`, which are written through CLI-supplied paths. A first
+`pre-commit run --all-files` rewrote them, and those rewrites were reverted. The
+shipped rule needs no list: `csv-lf` fails only when a CSV *introduces* CR bytes
+relative to its committed (HEAD) version, or is a new CSV that has CR bytes.
+`master_opposition.csv` is always skipped. The original decision follows for the
+record.
+
+**Original decision**: The `csv-lf` hook covers hand-edited CSVs only. It excludes:
 
 - every path `layer_audit.py --list-generated` prints, which is the same
   AST-derived write map that generates `.gitattributes`;

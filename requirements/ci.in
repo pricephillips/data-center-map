@@ -1,0 +1,15 @@
+# Union of every workflow's pip install line, plus the spec 004 CI tools.
+# Compiled to ci.txt with: uv pip compile requirements/ci.in --python-version 3.11 -o requirements/ci.txt
+# Pins below equal the versions CI resolved on CPython 3.11.16 (run 36485905804).
+pandas==3.0.6
+numpy==2.4.6
+scipy==1.17.1
+scikit-learn==1.9.1
+mapie==1.5.0
+lifelines
+pyarrow
+requests
+pytest>=8.4
+ruff>=0.13
+daff>=1.4
+vale>=3.12

@@ -1,0 +1,765 @@
+diff --git a/.github/workflows/acquire-geo-sources.yml b/.github/workflows/acquire-geo-sources.yml
+index 8e337a9..730331d 100644
+--- a/.github/workflows/acquire-geo-sources.yml
++++ b/.github/workflows/acquire-geo-sources.yml
+@@ -47,10 +47,9 @@ jobs:
+   acquire:
+     runs-on: ubuntu-latest
+     steps:
+-      - uses: actions/checkout@v4
+-
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+       - name: Set up Python
+-        uses: actions/setup-python@v5
++        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: '3.12'
+ 
+diff --git a/.github/workflows/bill-sync.yml b/.github/workflows/bill-sync.yml
+index 3ddb806..f014118 100644
+--- a/.github/workflows/bill-sync.yml
++++ b/.github/workflows/bill-sync.yml
+@@ -26,10 +26,10 @@ jobs:
+   sync:
+     runs-on: ubuntu-latest
+     steps:
+-      - uses: actions/checkout@v4
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+         with:
+           fetch-depth: 0
+-      - uses: actions/setup-python@v5
++      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: "3.11"
+ 
+@@ -74,6 +74,7 @@ jobs:
+             echo "No worklist files were produced; nothing to commit."
+             exit 0
+           fi
++          # shellcheck disable=SC2086 # EXISTING is a space-separated file list; splitting is intended
+           git add $EXISTING
+           if git diff --cached --quiet; then
+             echo "No changes to commit"
+diff --git a/.github/workflows/feature-search.yml b/.github/workflows/feature-search.yml
+index 8ab2e9e..1ad9906 100644
+--- a/.github/workflows/feature-search.yml
++++ b/.github/workflows/feature-search.yml
+@@ -45,17 +45,20 @@ jobs:
+       # that triggered it and misses artifacts an earlier run already pushed,
+       # which is what produced the add/add conflicts on 2026-09-28.
+       - name: Checkout data-center-map
+-        uses: actions/checkout@v4
++        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+         with:
+           ref: ${{ github.ref_name }}
+ 
+       - name: Set up Python
+-        uses: actions/setup-python@v5
++        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: "3.11"
+ 
++      - name: Set up uv
++        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
++
+       - name: Install dependencies
+-        run: pip install pandas numpy scipy "scikit-learn>=1.2"
++        run: uv pip install --system -c requirements/ci.txt pandas numpy scipy "scikit-learn>=1.2"
+ 
+       - name: Self-tests (BLOCKING)
+         run: |
+diff --git a/.github/workflows/fetch-census-features.yml b/.github/workflows/fetch-census-features.yml
+index c23d7ad..154efbf 100644
+--- a/.github/workflows/fetch-census-features.yml
++++ b/.github/workflows/fetch-census-features.yml
+@@ -20,10 +20,10 @@ jobs:
+   fetch:
+     runs-on: ubuntu-latest
+     steps:
+-      - uses: actions/checkout@v4
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+         with:
+           fetch-depth: 0
+-      - uses: actions/setup-python@v5
++      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: "3.11"
+       - name: Fetch ACS + Gazetteer
+diff --git a/.github/workflows/fetch-features.yml b/.github/workflows/fetch-features.yml
+index 0b9d737..ae5ddc8 100644
+--- a/.github/workflows/fetch-features.yml
++++ b/.github/workflows/fetch-features.yml
+@@ -37,16 +37,19 @@ jobs:
+     runs-on: ubuntu-latest
+     timeout-minutes: 45
+     steps:
+-      - uses: actions/checkout@v4
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+         with:
+           fetch-depth: 0
+ 
+-      - uses: actions/setup-python@v5
++      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: "3.11"
+ 
++      - name: Set up uv
++        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
++
+       - name: Install parquet reader
+-        run: pip install pyarrow
++        run: uv pip install --system -c requirements/ci.txt pyarrow
+ 
+       - name: Self-test (BLOCKING)
+         run: python fetch_county_features.py --selftest
+diff --git a/.github/workflows/fetch-permits.yml b/.github/workflows/fetch-permits.yml
+index 56fe7be..9235d9c 100644
+--- a/.github/workflows/fetch-permits.yml
++++ b/.github/workflows/fetch-permits.yml
+@@ -44,10 +44,9 @@ jobs:
+   fetch:
+     runs-on: ubuntu-latest
+     steps:
+-      - uses: actions/checkout@v4
+-
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+       - name: Set up Python
+-        uses: actions/setup-python@v5
++        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: '3.12'
+ 
+@@ -69,9 +68,11 @@ jobs:
+ 
+       - name: Resolve config list (scheduled runs cover every registered source)
+         id: cfg
++        env:
++          CONFIG_INPUT: ${{ github.event.inputs.config }}
+         run: |
+-          if [ -n "${{ github.event.inputs.config }}" ]; then
+-            echo "configs=${{ github.event.inputs.config }}" >> "$GITHUB_OUTPUT"
++          if [ -n "$CONFIG_INPUT" ]; then
++            echo "configs=$CONFIG_INPUT" >> "$GITHUB_OUTPUT"
+           else
+             LIST=$(python fetch_permits.py --list-sources | tr '\n' ' ')
+             echo "Registered sources: $LIST"
+@@ -95,9 +96,11 @@ jobs:
+           done
+ 
+       - name: Discover, fetch, and ingest each source
++        env:
++          CONFIGS: ${{ steps.cfg.outputs.configs }}
+         run: |
+           FAILED=""
+-          for NAME in ${{ steps.cfg.outputs.configs }}; do
++          for NAME in $CONFIGS; do
+             CFG="configs/$NAME"
+             SOURCE="$(basename "$NAME" .json)"
+             echo "=== $SOURCE ==="
+diff --git a/.github/workflows/fetch-pudl.yml b/.github/workflows/fetch-pudl.yml
+index 01e4557..2f751d1 100644
+--- a/.github/workflows/fetch-pudl.yml
++++ b/.github/workflows/fetch-pudl.yml
+@@ -37,15 +37,18 @@ jobs:
+   fetch:
+     runs-on: ubuntu-latest
+     steps:
+-      - uses: actions/checkout@v4
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+         with:
+           fetch-depth: 0
+-      - uses: actions/setup-python@v5
++      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: "3.11"
+ 
++      - name: Set up uv
++        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
++
+       - name: Install parquet reader
+-        run: pip install pyarrow
++        run: uv pip install --system -c requirements/ci.txt pyarrow
+ 
+       - name: Self-test schema resolution and aggregation
+         run: python fetch_pudl.py --selftest
+@@ -60,6 +63,7 @@ jobs:
+           if [ -n "$REPORT_YEAR" ]; then
+             ARGS="$ARGS --report-year $REPORT_YEAR"
+           fi
++          # shellcheck disable=SC2086 # ARGS holds several flags; splitting is intended
+           python fetch_pudl.py $ARGS
+ 
+       - name: Validate output against the county frame
+diff --git a/.github/workflows/gate-check.yml b/.github/workflows/gate-check.yml
+index 485495f..299c22b 100644
+--- a/.github/workflows/gate-check.yml
++++ b/.github/workflows/gate-check.yml
+@@ -41,6 +41,9 @@ on:
+       - 'negative_audit.py'
+       - 'emergence_analysis.py'
+       - '.github/workflows/gate-check.yml'
++      # Tool registry (spec 004, FR-007).
++      - 'configs/integrations.json'
++      - 'integration_audit.py'
+   schedule:
+     # Mondays 07:10 UTC, after the nightly pipeline has settled.
+     - cron: '10 7 * * 1'
+@@ -55,15 +58,17 @@ jobs:
+     timeout-minutes: 15
+     steps:
+       - name: Checkout data-center-map
+-        uses: actions/checkout@v4
+-
++        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+       - name: Set up Python
+-        uses: actions/setup-python@v5
++        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: "3.11"
+ 
++      - name: Set up uv
++        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
++
+       - name: Install dependencies
+-        run: pip install pandas "scikit-learn>=1.2" numpy
++        run: uv pip install --system -c requirements/ci.txt pandas "scikit-learn>=1.2" numpy
+ 
+       - name: Rebuild project frame (landmark reads lifecycles + links)
+         id: frame
+@@ -108,6 +113,9 @@ jobs:
+         continue-on-error: true
+         run: python emergence_analysis.py
+ 
++      - name: Integration registry audit (GATE; license policy, pins, sessions)
++        run: python integration_audit.py
++
+       - name: Leak audit on everything written (GATE)
+         run: python leak_audit.py
+ 
+@@ -152,16 +160,16 @@ jobs:
+       - name: Report gate status to the run summary
+         if: always()
+         run: |
+-          echo "## Gate status" >> $GITHUB_STEP_SUMMARY
++          echo "## Gate status" >> "$GITHUB_STEP_SUMMARY"
+           if [ -f data/landmark_model_predictions.csv ]; then
+-            echo "- Landmark: OPEN. Pending-project predictions were written; promotion still runs through calibration_gate.py." >> $GITHUB_STEP_SUMMARY
++            echo "- Landmark: OPEN. Pending-project predictions were written; promotion still runs through calibration_gate.py." >> "$GITHUB_STEP_SUMMARY"
+           else
+-            echo "- Landmark: CLOSED. Report and date worklists refreshed, no model written. See data/landmark_model_report.md." >> $GITHUB_STEP_SUMMARY
++            echo "- Landmark: CLOSED. Report and date worklists refreshed, no model written. See data/landmark_model_report.md." >> "$GITHUB_STEP_SUMMARY"
+           fi
+           if [ -f data/emergence_bounds.csv ]; then
+-            echo "- Emergence: bounds refreshed. See data/emergence_analysis.md for the lock state and the random-stratum coverage." >> $GITHUB_STEP_SUMMARY
++            echo "- Emergence: bounds refreshed. See data/emergence_analysis.md for the lock state and the random-stratum coverage." >> "$GITHUB_STEP_SUMMARY"
+           else
+-            echo "- Emergence: no bounds written." >> $GITHUB_STEP_SUMMARY
++            echo "- Emergence: no bounds written." >> "$GITHUB_STEP_SUMMARY"
+           fi
+ 
+       - name: Surface landmark failure (visible, non-blocking)
+diff --git a/.github/workflows/harden-pipeline-publishing.yml b/.github/workflows/harden-pipeline-publishing.yml
+index 843bcb7..5bc09e3 100644
+--- a/.github/workflows/harden-pipeline-publishing.yml
++++ b/.github/workflows/harden-pipeline-publishing.yml
+@@ -11,7 +11,7 @@ jobs:
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout main
+-        uses: actions/checkout@v4
++        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+         with:
+           ref: main
+           fetch-depth: 0
+diff --git a/.github/workflows/local-signals.yml b/.github/workflows/local-signals.yml
+index 0193c47..25e4b1c 100644
+--- a/.github/workflows/local-signals.yml
++++ b/.github/workflows/local-signals.yml
+@@ -23,10 +23,10 @@ jobs:
+   signals:
+     runs-on: ubuntu-latest
+     steps:
+-      - uses: actions/checkout@v4
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+         with:
+           fetch-depth: 0
+-      - uses: actions/setup-python@v5
++      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: "3.11"
+ 
+@@ -89,6 +89,7 @@ jobs:
+             echo "No signal files were produced; nothing to commit."
+             exit 0
+           fi
++          # shellcheck disable=SC2086 # EXISTING is a space-separated file list; splitting is intended
+           git add $EXISTING
+           if git diff --cached --quiet; then
+             echo "No changes to commit"
+diff --git a/.github/workflows/manual-records.yml b/.github/workflows/manual-records.yml
+index e1228c0..5d0c68b 100644
+--- a/.github/workflows/manual-records.yml
++++ b/.github/workflows/manual-records.yml
+@@ -33,10 +33,10 @@ jobs:
+     runs-on: ubuntu-latest
+     timeout-minutes: 10
+     steps:
+-      - uses: actions/checkout@v4
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+         with:
+           fetch-depth: 0
+-      - uses: actions/setup-python@v5
++      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: "3.11"
+ 
+@@ -85,7 +85,7 @@ jobs:
+ 
+       - name: Rebuild the clean feed now (main only)
+         if: steps.commit.outputs.committed == 'yes' && github.ref == 'refs/heads/main'
+-        uses: actions/github-script@v7
++        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+         with:
+           script: |
+             await github.rest.actions.createWorkflowDispatch({
+diff --git a/.github/workflows/pipeline.yml b/.github/workflows/pipeline.yml
+index 62a132d..072c269 100644
+--- a/.github/workflows/pipeline.yml
++++ b/.github/workflows/pipeline.yml
+@@ -84,6 +84,11 @@ on:
+       - '*.py'
+       - 'qc/*.py'
+       - 'scripts/*.py'
++      - 'tests/**'
++      - 'requirements/ci.txt'
++      - 'ruff.toml'
++      - '.vale.ini'
++      - 'styles/**'
+       - '.github/workflows/pipeline.yml'
+   # Safety net: a code path that somehow escapes the filter above, or an
+   # upstream data file edited outside the repo, still gets a rebuild daily.
+@@ -113,96 +118,36 @@ jobs:
+     timeout-minutes: 20
+     steps:
+       - name: Checkout data-center-map
+-        uses: actions/checkout@v4
+-
++        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
++        with:
++          # master_diff.py compares against HEAD~1, which a depth-1 clone lacks.
++          fetch-depth: 2
+       - name: Set up Python
+-        uses: actions/setup-python@v5
++        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: "3.11"
+ 
+       - name: Set up Node
+-        uses: actions/setup-node@v4
++        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+         with:
+           node-version: "20"
+ 
++      - name: Set up uv
++        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
++
+       - name: Install dependencies
+-        run: pip install pandas "scikit-learn>=1.2" mapie
++        run: uv pip install --system -c requirements/ci.txt pandas "scikit-learn>=1.2" mapie pytest ruff daff vale
+ 
+       - name: Gate — run self-tests (BLOCKING; a failure stops the build)
+         run: |
+-          echo "Cleaner self-tests:"
+-          python clean_opposition_data.py --selftest
+-          echo "QC gate self-tests:"
+-          python qc/qc_pipeline.py --selftest || (cd qc && python qc_pipeline.py --selftest)
+-          echo "Verification status self-tests:"
+-          python verification_status.py --selftest
+-          echo "Untagged triage self-tests:"
+-          python untagged_triage.py --selftest
+-          echo "Entity splitter self-tests:"
+-          python entity_split.py --selftest
+-          echo "Leak audit self-tests:"
+-          python leak_audit.py --selftest
+-          echo "Group registry audit self-tests:"
+-          python group_registry_audit.py --selftest
+-          echo "Coverage audit self-tests:"
+-          python coverage_audit.py --selftest
+-          echo "Restriction worklist self-tests:"
+-          python restriction_worklist.py --selftest
+-          echo "Gap-to-candidate builder self-tests:"
+-          python census_gap_candidates.py --selftest
+-          echo "Restriction evidence ledger self-tests:"
+-          python restriction_evidence.py --selftest
+-          echo "Status resolution + verification worklist self-tests:"
+-          python status_resolution.py --selftest
+-          python restriction_verification_worklist.py --selftest
+-          # Offline as of 2026-09-15. This self-test used to make a live call
+-          # to the upstream census repo, so it could not sit in a blocking
+-          # gate: an upstream outage would have read as a code failure and
+-          # stopped the whole build.
+-          echo "External census refresh self-tests:"
+-          python refresh_external_census.py --selftest
+-          echo "Staleness audit self-tests:"
+-          python stale_pending_audit.py --selftest
+-          echo "County adjacency self-tests:"
+-          python fetch_county_adjacency.py --selftest
+-          echo "Adjacency scan self-tests:"
+-          python adjacency_scan.py --selftest
+-          echo "Visibility audit self-tests:"
+-          python visibility_audit.py --selftest
+-          echo "Facility manifest self-tests:"
+-          python facility_manifest.py --selftest
+-          echo "Operations summary self-tests:"
+-          python operations_summary.py --selftest
+-          echo "County model selection-rule self-tests:"
+-          python county_policy_model.py --selftest
+-          # Adaptive feature search (added 2026-09-28): expanded county pool
+-          # and the promotion rule county_policy_model.py reads.
+-          python county_features.py --selftest
+-          python feature_search.py --selftest
+-          echo "Layer audit self-tests:"
+-          python layer_audit.py --selftest
+-          echo "Facility registry self-tests:"
+-          python facility_registry.py --selftest
+-          echo "Signal harvest self-tests:"
+-          python signal_harvest.py --selftest
+-          # Also gated in fetch-permits.yml, where a regression would reach a
+-          # live portal. Repeated here because this gate runs on every push
+-          # touching a .py file and that one runs weekly: a discoverer broken
+-          # on a Wednesday should not stay unnoticed until the next Tuesday.
+-          # Same reason leak_audit is gated in two workflows. All three are
+-          # offline and take about a second between them.
+-          echo "Source discoverer self-tests:"
+-          python discover_arcgis_layer.py --selftest
+-          python discover_socrata_dataset.py --selftest
+-          python discover_endpoint.py --selftest
+-          python fetch_permits.py --selftest
+-          echo "Front-end syntax gate self-tests:"
+-          python proximity_analysis.py --selftest
+-          python link_disagreement_audit.py --selftest
+-          python date_recovery.py --selftest
+-          python negative_audit.py --selftest
+-          python scripts/scrape-trackdatacenters-proposals.py --selftest
+-          python scripts/check_inline_js.py --selftest
++          # Every module that ships a --selftest is discovered and run by
++          # tests/test_selftests.py (spec 004), replacing the hand-kept list
++          # that had to be edited for each new module. `python -m pytest` so
++          # the selftests run on this interpreter, with the packages above.
++          echo "Lint (blocking set in ruff.toml: syntax-class errors only):"
++          ruff check .
++          echo "Module self-tests (discovered):"
++          python -m pytest tests/test_selftests.py -q
+           # A syntax error in a page loader takes a client-visible surface
+           # down silently, and nothing checked for one: the .js self-tests
+           # existed but were in no workflow, so a broken chain could ship.
+@@ -214,10 +159,12 @@ jobs:
+           node map_mode_selftest.js
+           node facility_freshness_selftest.js
+           node basemap_selftest.js
+-          echo "Frame audit self-tests:"
+-          python subframe_audit.py --selftest
+-          echo "Local meeting feed self-tests (watchlist union):"
+-          python local_meeting_feed.py --selftest
++
++      - name: Lint report (full ruff default set, report-only)
++        if: always()
++        run: |
++          echo "## ruff (report-only)" >> "$GITHUB_STEP_SUMMARY"
++          ruff check --select E,F --exit-zero --statistics . >> "$GITHUB_STEP_SUMMARY"
+ 
+       - name: Apply confirmed status resolutions
+         run: |
+@@ -233,6 +180,14 @@ jobs:
+       - name: Run pipeline (clean -> gate -> clean feed)
+         run: python build_clean_feed.py --in master_opposition.csv --out master_opposition_clean.csv
+ 
++      - name: Source-of-truth diff (master_diff.py -> data/master_diff_summary.md)
++        run: python master_diff.py
++
++      - name: Deliverable prose lint (Vale; errors block, warnings reported)
++        run: |
++          vale --minAlertLevel=error headline_metrics.md
++          { echo "## Vale warnings"; vale --output=line headline_metrics.md || true; } >> "$GITHUB_STEP_SUMMARY"
++
+       - name: Entity and vocabulary audits (leak audit is a GATE)
+         id: audits
+         run: |
+@@ -499,6 +454,7 @@ jobs:
+         run: |
+           git config user.name  "github-actions[bot]"
+           git config user.email "github-actions[bot]@users.noreply.github.com"
++          git add data/master_diff_summary.md 2>/dev/null || true
+           git add master_opposition_clean.csv \
+                   quarantine.json qc_report.md data_quality_report.md change_log.csv \
+                   review_conflicts.csv review_stale_pending.csv group_registry.csv \
+@@ -692,7 +648,7 @@ jobs:
+ 
+       - name: Trigger Iowa Notion sync
+         if: success() || steps.verification.outcome == 'failure' || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure' || steps.coverage.outcome == 'failure' || steps.detection.outcome == 'failure' || steps.fips_resolution.outcome == 'failure' || steps.site_screener.outcome == 'failure'
+-        uses: actions/github-script@v7
++        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+         with:
+           # Cross-repo dispatch needs a PAT with repo scope (the default
+           # GITHUB_TOKEN cannot trigger workflows in another repository).
+diff --git a/.github/workflows/positions-refresh.yml b/.github/workflows/positions-refresh.yml
+index 9128c09..5302aca 100644
+--- a/.github/workflows/positions-refresh.yml
++++ b/.github/workflows/positions-refresh.yml
+@@ -50,12 +50,12 @@ jobs:
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout data-center-map
+-        uses: actions/checkout@v4
++        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+         with:
+           fetch-depth: 0
+ 
+       - name: Set up Python
+-        uses: actions/setup-python@v5
++        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: "3.11"
+ 
+diff --git a/.github/workflows/qc.yml b/.github/workflows/qc.yml
+index 7d4c90c..f28bc03 100644
+--- a/.github/workflows/qc.yml
++++ b/.github/workflows/qc.yml
+@@ -22,9 +22,8 @@ jobs:
+   qc:
+     runs-on: ubuntu-latest
+     steps:
+-      - uses: actions/checkout@v4
+-
+-      - uses: actions/setup-python@v5
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
++      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: "3.11"
+ 
+@@ -106,7 +105,7 @@ jobs:
+ 
+       - name: Upload feed and quarantine as artifacts
+         if: always()
+-        uses: actions/upload-artifact@v4
++        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+         with:
+           name: qc-output
+           path: |
+diff --git a/.github/workflows/refresh-external-census.yml b/.github/workflows/refresh-external-census.yml
+index d5e44a7..fd297b6 100644
+--- a/.github/workflows/refresh-external-census.yml
++++ b/.github/workflows/refresh-external-census.yml
+@@ -24,12 +24,12 @@ jobs:
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout data-center-map
+-        uses: actions/checkout@v4
++        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+         with:
+           fetch-depth: 0
+ 
+       - name: Set up Python
+-        uses: actions/setup-python@v5
++        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: "3.11"
+ 
+diff --git a/.github/workflows/retrain.yml b/.github/workflows/retrain.yml
+index 23fe318..fa9368a 100644
+--- a/.github/workflows/retrain.yml
++++ b/.github/workflows/retrain.yml
+@@ -45,15 +45,17 @@ jobs:
+     timeout-minutes: 15
+     steps:
+       - name: Checkout data-center-map
+-        uses: actions/checkout@v4
+-
++        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+       - name: Set up Python
+-        uses: actions/setup-python@v5
++        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: "3.11"
+ 
++      - name: Set up uv
++        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
++
+       - name: Install dependencies
+-        run: pip install "scikit-learn>=1.2" lifelines pandas numpy
++        run: uv pip install --system -c requirements/ci.txt "scikit-learn>=1.2" lifelines pandas numpy
+ 
+       - name: Rebuild lifecycles (needed inputs for the models)
+         run: python project_resolution.py
+diff --git a/.github/workflows/scrape-trackdatacenters-proposals.yml b/.github/workflows/scrape-trackdatacenters-proposals.yml
+index d36a935..215623d 100644
+--- a/.github/workflows/scrape-trackdatacenters-proposals.yml
++++ b/.github/workflows/scrape-trackdatacenters-proposals.yml
+@@ -13,10 +13,9 @@ jobs:
+   scrape:
+     runs-on: ubuntu-latest
+     steps:
+-      - uses: actions/checkout@v4
+-
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+       - name: Set up Python
+-        uses: actions/setup-python@v5
++        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: '3.12'
+ 
+@@ -70,7 +69,7 @@ jobs:
+             MSG="chore: no upstream changes; refreshed scraper field audit"
+           fi
+           git commit -m "$MSG [$(date -u +%Y-%m-%dT%H:%M:%SZ)]"
+-          for i in 1 2 3; do
++          for _ in 1 2 3; do
+             git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
+             git rebase --abort 2>/dev/null || true
+             sleep 10
+@@ -79,7 +78,7 @@ jobs:
+ 
+       - name: Notify on failure
+         if: failure()
+-        uses: actions/github-script@v7
++        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+         with:
+           script: |
+             github.rest.issues.create({
+diff --git a/.github/workflows/stakeholder-refresh.yml b/.github/workflows/stakeholder-refresh.yml
+index 3f81ce4..872dfdd 100644
+--- a/.github/workflows/stakeholder-refresh.yml
++++ b/.github/workflows/stakeholder-refresh.yml
+@@ -27,12 +27,12 @@ jobs:
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout data-center-map
+-        uses: actions/checkout@v4
++        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+         with:
+           fetch-depth: 0
+ 
+       - name: Set up Python
+-        uses: actions/setup-python@v5
++        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: "3.11"
+ 
+@@ -45,6 +45,7 @@ jobs:
+       - name: Build registry
+         env:
+           OPENSTATES_API_KEY: ${{ secrets.OPENSTATES_API_KEY }}
++          CACHE_DAYS: ${{ github.event.inputs.cache_days || '14' }}
+         run: |
+           # Without a key the county tier still republishes and still gets
+           # re-validated, which is the half of the job that catches expired
+@@ -52,7 +53,7 @@ jobs:
+           # leave the published registry unchecked for a week.
+           if [ -n "$OPENSTATES_API_KEY" ]; then
+             python stakeholder_registry.py --refresh-state \
+-              --cache-days "${{ github.event.inputs.cache_days || '14' }}"
++              --cache-days "$CACHE_DAYS"
+           else
+             echo "::warning::OPENSTATES_API_KEY not set; county tier only."
+             python stakeholder_registry.py --build
+diff --git a/.github/workflows/update-opposition-csv.yml b/.github/workflows/update-opposition-csv.yml
+index be50238..25bd19b 100644
+--- a/.github/workflows/update-opposition-csv.yml
++++ b/.github/workflows/update-opposition-csv.yml
+@@ -1,7 +1,7 @@
+ name: Update opposition CSV
+ 
+ on:
+-  workflow_run:
++  workflow_run: # zizmor: ignore[dangerous-triggers] same-repo workflow; the job checks out the default branch only and uses no artifacts from the triggering run
+     workflows: ["Scrape TrackDataCenters proposals"]
+     types: [completed]
+   workflow_dispatch:
+@@ -18,15 +18,17 @@ jobs:
+ 
+     steps:
+       - name: Check out repo
+-        uses: actions/checkout@v4
+-
++        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+       - name: Set up Python
+-        uses: actions/setup-python@v5
++        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+         with:
+           python-version: '3.11'
+ 
++      - name: Set up uv
++        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
++
+       - name: Install dependencies
+-        run: pip install requests
++        run: uv pip install --system -c requirements/ci.txt requests
+ 
+       - name: Run CSV build
+         run: python scripts/build_master_csv.py
+@@ -72,7 +74,7 @@ jobs:
+ 
+       - name: Notify on failure
+         if: failure()
+-        uses: actions/github-script@v7
++        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+         with:
+           script: |
+             github.rest.issues.create({
+diff --git a/.github/workflows/workflow-lint.yml b/.github/workflows/workflow-lint.yml
+new file mode 100644
+index 0000000..7a20c28
+--- /dev/null
++++ b/.github/workflows/workflow-lint.yml
+@@ -0,0 +1,51 @@
++name: Workflow Lint
++
++# Lints every workflow on change (spec 004, US2).
++#   actionlint  BLOCKING. Syntax, expressions, and shellcheck on run: blocks.
++#   zizmor      REPORT-ONLY. Security audit; findings go to the job summary.
++#               The high-severity findings were fixed when this was added
++#               (template injection, unpinned actions, workflow_run); the
++#               remaining medium ones (artipacked) are listed, not blocking.
++
++on:
++  push:
++    paths:
++      - '.github/workflows/**'
++  pull_request:
++    paths:
++      - '.github/workflows/**'
++  workflow_dispatch:
++
++permissions:
++  contents: read
++
++jobs:
++  actionlint:
++    runs-on: ubuntu-latest
++    timeout-minutes: 5
++    steps:
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
++        with:
++          persist-credentials: false
++      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
++      - name: actionlint (with the runner's shellcheck)
++        run: uvx --from actionlint-py actionlint
++
++  zizmor:
++    runs-on: ubuntu-latest
++    timeout-minutes: 5
++    continue-on-error: true
++    steps:
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
++        with:
++          persist-credentials: false
++      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
++      - name: zizmor (report-only)
++        run: |
++          uvx zizmor --offline --format plain .github/workflows > zizmor.txt || true
++          {
++            echo "## zizmor (report-only)"
++            echo '```'
++            cat zizmor.txt
++            echo '```'
++          } >> "$GITHUB_STEP_SUMMARY"
