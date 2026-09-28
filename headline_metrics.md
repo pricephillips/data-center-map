@@ -16,15 +16,15 @@ Unit is the resolved project in data/project_lifecycles.csv, all periods pooled.
 The two rates differ because the populations differ: one project can carry several decided records, and many decided records are not yet linked to a project entity. Neither number is wrong; quoting either without its unit is.
 
 ## Political context
-- Incident share in Trump-won counties: 68% (n=1078)
+- Incident share in Trump-won counties: 70% (n=1179)
 - County base rate (share of counties Trump won): 85%
-- Relative to the share of counties Trump won (85%), tracked opposition is UNDER-represented in Trump-won counties at 68%. Quote the pair, never the share alone; an exposure denominator (where projects are proposed) is the fair comparison and siting is not uniform.
+- Relative to the share of counties Trump won (85%), tracked opposition is UNDER-represented in Trump-won counties at 70%. Quote the pair, never the share alone; an exposure denominator (where projects are proposed) is the fair comparison and siting is not uniform.
 
 ## Contested investment (floors, not totals)
 - $673B disclosed across 231 primary projects (review-flagged figures excluded)
 - $86B behind enacted blocks
 
 ## Data caveats attached to every use
-- 4 rows have no usable date and are absent from all temporal statistics; these skew toward the newest intake stream, so recent-period counts are floors.
+- 12 rows have no usable date and are absent from all temporal statistics; these skew toward the newest intake stream, so recent-period counts are floors.
 - Severity values in use: ['1', '2'] - the 1-5 scale is effectively binary and should not be treated as a graded intensity measure.
 - Mechanism/concern categories are keyword-classified; see validation_sample.csv workflow for measured precision before citing category-level rates externally.

@@ -1,0 +1,486 @@
+{
+  "generated": "2026-09-28",
+  "n_counties": 3144,
+  "n_features": 57,
+  "families": {
+    "base": 9,
+    "political": 4,
+    "dc_exposure": 3,
+    "pipeline": 6,
+    "opposition": 28,
+    "spatial": 7
+  },
+  "leakage_classes": {
+    "none": 26,
+    "pre_outcome": 29,
+    "neighbor_outcome": 2
+  },
+  "labels": {
+    "has_enacted_restrictive": 460,
+    "has_enacted_moratorium": 383,
+    "in_conversion_frame": 255,
+    "conversion_frame_positive": 61,
+    "restricted_without_enactment_date": 2
+  },
+  "undated_records_excluded_from_window": 0,
+  "plugins": [],
+  "content_hash": "5ede9c3b02d5",
+  "features": {
+    "margin_2024": {
+      "family": "base",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "2024 presidential margin",
+      "source": "data/county_aggregate.csv",
+      "transform_applied": true
+    },
+    "existing_dc_count": {
+      "family": "base",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "existing data centers (atlas), log",
+      "source": "data/county_aggregate.csv",
+      "transform_applied": true
+    },
+    "n_projects_tracked": {
+      "family": "base",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "tracked projects, log",
+      "source": "data/county_aggregate.csv",
+      "transform_applied": true
+    },
+    "state_legislation_events": {
+      "family": "base",
+      "tier": 2,
+      "leakage_class": "none",
+      "label": "state legislation activity, log",
+      "source": "data/county_aggregate.csv",
+      "transform_applied": true
+    },
+    "land_sqmi": {
+      "family": "base",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "land area, log",
+      "source": "data/county_aggregate.csv",
+      "transform_applied": true
+    },
+    "median_hh_income": {
+      "family": "base",
+      "tier": 3,
+      "leakage_class": "none",
+      "label": "median household income, log10",
+      "source": "data/county_aggregate.csv",
+      "transform_applied": true
+    },
+    "pop_density_sqmi": {
+      "family": "base",
+      "tier": 3,
+      "leakage_class": "none",
+      "label": "population density, log",
+      "source": "data/county_aggregate.csv",
+      "transform_applied": true
+    },
+    "pct_bachelors_plus": {
+      "family": "base",
+      "tier": 3,
+      "leakage_class": "none",
+      "label": "bachelors or higher, pct",
+      "source": "data/county_aggregate.csv",
+      "transform_applied": true
+    },
+    "population": {
+      "family": "base",
+      "tier": 3,
+      "leakage_class": "none",
+      "label": "population, log",
+      "source": "data/county_aggregate.csv",
+      "transform_applied": true
+    },
+    "margin_2016": {
+      "family": "political",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "2016 presidential margin",
+      "source": "data/county_aggregate.csv",
+      "transform_applied": true
+    },
+    "margin_shift": {
+      "family": "political",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "margin shift 2016 to 2024",
+      "source": "derived",
+      "transform_applied": true
+    },
+    "competitiveness": {
+      "family": "political",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "closeness of 2024 race (1 minus absolute margin)",
+      "source": "derived",
+      "transform_applied": true
+    },
+    "swing_magnitude": {
+      "family": "political",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "absolute margin shift 2016 to 2024",
+      "source": "derived",
+      "transform_applied": true
+    },
+    "dc_per_100k": {
+      "family": "dc_exposure",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "existing data centers per 100k residents, log",
+      "source": "atlas.csv",
+      "transform_applied": true
+    },
+    "dc_per_1k_sqmi": {
+      "family": "dc_exposure",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "existing data centers per 1,000 sq mi, log",
+      "source": "atlas.csv",
+      "transform_applied": true
+    },
+    "dc_sqft_total": {
+      "family": "dc_exposure",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "existing data center floor area, log",
+      "source": "atlas.csv",
+      "transform_applied": true
+    },
+    "proposed_mw_total": {
+      "family": "pipeline",
+      "tier": 2,
+      "leakage_class": "none",
+      "label": "proposed capacity MW in county, log",
+      "source": "data/baseline_universe.csv",
+      "transform_applied": true
+    },
+    "proposed_mw_max": {
+      "family": "pipeline",
+      "tier": 2,
+      "leakage_class": "none",
+      "label": "largest proposed project MW, log",
+      "source": "data/baseline_universe.csv",
+      "transform_applied": true
+    },
+    "proposed_mw_per_capita": {
+      "family": "pipeline",
+      "tier": 2,
+      "leakage_class": "none",
+      "label": "proposed MW per 1,000 residents, log",
+      "source": "data/baseline_universe.csv",
+      "transform_applied": true
+    },
+    "projects_since_2024": {
+      "family": "pipeline",
+      "tier": 2,
+      "leakage_class": "none",
+      "label": "projects announced 2024 or later, log",
+      "source": "data/baseline_universe.csv",
+      "transform_applied": true
+    },
+    "hyperscale_projects": {
+      "family": "pipeline",
+      "tier": 2,
+      "leakage_class": "none",
+      "label": "projects at or above 300 MW, log",
+      "source": "data/baseline_universe.csv",
+      "transform_applied": true
+    },
+    "projects_per_100k": {
+      "family": "pipeline",
+      "tier": 2,
+      "leakage_class": "none",
+      "label": "tracked projects per 100k residents, log",
+      "source": "data/county_aggregate.csv",
+      "transform_applied": true
+    },
+    "opp_pre_events": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome local opposition records, log",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_lawsuits": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome lawsuits, log",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_public_comment": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome public comment records, log",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_withdrawals": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome project withdrawals, log",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_ordinance_activity": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome non-restrictive ordinance records, log",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_groups": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "distinct organized opposition groups, log",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_projects": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "distinct opposed projects, log",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_petition_max": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "largest petition signature count, log",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_online_org": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "organized online presence (website or Facebook), 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_severity_mean": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "mean recorded severity (0 when no records)",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_hyperscaler": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "hyperscaler named in a pre-outcome record, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_contested_mw": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "largest contested project MW, log",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_contested_acres": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "largest contested project acreage, log",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_span_days": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "days from first to last pre-outcome record, log",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_water": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome records citing water concern, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_noise": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome records citing noise concern, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_grid_energy": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome records citing grid energy concern, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_farmland": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome records citing farmland concern, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_property_values": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome records citing property values concern, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_ratepayer": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome records citing ratepayer concern, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_tax_incentive": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome records citing tax incentive concern, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_environmental": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome records citing environmental concern, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_transparency": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome records citing transparency concern, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_traffic": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome records citing traffic concern, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_air_quality": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome records citing air quality concern, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_anti_ai": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome records citing anti ai concern, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_zoning": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome records citing zoning concern, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "opp_pre_community_impact": {
+      "family": "opposition",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "pre-outcome records citing community impact concern, 0/1",
+      "source": "master_opposition_clean.csv",
+      "transform_applied": true
+    },
+    "nbr_existing_dc": {
+      "family": "spatial",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "neighbour mean existing data centers (log)",
+      "source": "data/county_adjacency.csv",
+      "transform_applied": true
+    },
+    "nbr_projects": {
+      "family": "spatial",
+      "tier": 2,
+      "leakage_class": "none",
+      "label": "neighbour mean tracked projects (log)",
+      "source": "data/county_adjacency.csv",
+      "transform_applied": true
+    },
+    "nbr_proposed_mw": {
+      "family": "spatial",
+      "tier": 2,
+      "leakage_class": "none",
+      "label": "neighbour mean proposed MW (log)",
+      "source": "data/county_adjacency.csv",
+      "transform_applied": true
+    },
+    "nbr_opp_pre_events": {
+      "family": "spatial",
+      "tier": 3,
+      "leakage_class": "pre_outcome",
+      "label": "neighbour mean pre-outcome opposition records (log)",
+      "source": "data/county_adjacency.csv",
+      "transform_applied": true
+    },
+    "nbr_restrict_share": {
+      "family": "spatial",
+      "tier": 2,
+      "leakage_class": "neighbor_outcome",
+      "label": "share of neighbours with an enacted restriction",
+      "source": "data/county_adjacency.csv",
+      "transform_applied": true
+    },
+    "state_restrict_rate_loo": {
+      "family": "spatial",
+      "tier": 2,
+      "leakage_class": "neighbor_outcome",
+      "label": "same-state enacted-restriction rate, this county excluded",
+      "source": "data/county_aggregate.csv",
+      "transform_applied": true
+    },
+    "state_projects_loo": {
+      "family": "spatial",
+      "tier": 2,
+      "leakage_class": "none",
+      "label": "same-state mean tracked projects (log), this county excluded",
+      "source": "data/county_aggregate.csv",
+      "transform_applied": true
+    }
+  }
+}

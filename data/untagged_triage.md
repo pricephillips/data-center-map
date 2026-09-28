@@ -33,7 +33,7 @@ These rows are excluded from the clean feed and from every count. They are recov
 | not_attempted | 6106 |
 
 Rows ready for a reviewer to open: 0
-Rows whose county and mechanism are already covered by a sourced row: 62
+Rows whose county and mechanism are already covered by a sourced row: 69
 
 ## Outlets, top 15
 

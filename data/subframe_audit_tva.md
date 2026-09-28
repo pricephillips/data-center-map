@@ -15,20 +15,20 @@ PROVISIONAL FRAME. The recall figures below are a proxy over an expanded county 
 ## Coverage inside the frame
 
 - Census counties with an in-scope enacted instrument: 93
-- Covered by any tracker restrictive record: 67 (recall 0.72)
+- Covered by any tracker restrictive record: 92 (recall 0.989)
 - Covered with a terminal confirmation: 35 (recall 0.376)
 
 ## Actions
 
 | Action | Counties |
 |---|---|
-| ingest_missing_census_enacted | 26 |
-| reverify_stale_nonterminal_restrictive | 51 |
-| confirm_unconfirmed_coverage | 14 |
+| ingest_missing_census_enacted | 1 |
+| reverify_stale_nonterminal_restrictive | 54 |
+| confirm_unconfirmed_coverage | 36 |
 | check_adjacent_enactment | 62 |
 | covered | 72 |
 
-Unresolved priority-1 items (ingest, reconcile, re-verify): 77
+Unresolved priority-1 items (ingest, reconcile, re-verify): 55
 
 Delivery clear: no
 
@@ -38,32 +38,7 @@ Only counties carrying a signal are listed below.
 
 | Action | State | County | Census | Gap | Label | Non-terminal | Stale | Adj P |
 |---|---|---|---|---|---|---|---|---|
-| ingest_missing_census_enacted | AL | Morgan County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | GA | Appling County | expired | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | GA | Banks County | extended | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | GA | Chatham County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | GA | Colquitt County | extended | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | GA | Madison County | extended | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | GA | Meriwether County | extended | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | GA | Stephens County | extended | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | KY | Allen County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | KY | Boone County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | KY | Greenup County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | KY | Logan County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | KY | Scott County | extended | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | NC | Alamance County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | NC | Camden County | active | missing | 0 | 0 | 0 | - |
 | ingest_missing_census_enacted | NC | Cherokee County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | NC | Davie County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | NC | Jackson County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | NC | McDowell County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | NC | Nash County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | NC | Warren County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | TN | Carter County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | TN | Cocke County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | TN | Maury County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | TN | Rhea County | active | missing | 0 | 0 | 0 | - |
-| ingest_missing_census_enacted | TN | Wilson County | active | missing | 0 | 0 | 0 | - |
 | reverify_stale_nonterminal_restrictive | AL | Jefferson County | - | - | 1 | 3 | 1 | - |
 | reverify_stale_nonterminal_restrictive | AL | Talladega County | - | - | 0 | 1 | 1 | 4 |
 | reverify_stale_nonterminal_restrictive | GA | Brooks County | active | covered_unconfirmed | 1 | 1 | 1 | - |
@@ -78,8 +53,10 @@ Only counties carrying a signal are listed below.
 | reverify_stale_nonterminal_restrictive | GA | Henry County | - | - | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Lamar County | active | covered_unconfirmed | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Lowndes County | active | covered_unconfirmed | 1 | 1 | 1 | - |
+| reverify_stale_nonterminal_restrictive | GA | Meriwether County | extended | covered_unconfirmed | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Pike County | active | covered_unconfirmed | 1 | 2 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Polk County | active | covered_unconfirmed | 1 | 1 | 1 | - |
+| reverify_stale_nonterminal_restrictive | GA | Stephens County | extended | covered_unconfirmed | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Troup County | expired | covered_unconfirmed | 1 | 3 | 3 | - |
 | reverify_stale_nonterminal_restrictive | GA | Walton County | - | - | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | KY | Breckinridge County | active | covered_unconfirmed | 1 | 1 | 1 | - |
@@ -87,6 +64,7 @@ Only counties carrying a signal are listed below.
 | reverify_stale_nonterminal_restrictive | KY | Jefferson County | - | - | 0 | 1 | 1 | 1 |
 | reverify_stale_nonterminal_restrictive | KY | Meade County | active | covered_confirmed | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | KY | Oldham County | extended | covered_confirmed | 1 | 2 | 2 | - |
+| reverify_stale_nonterminal_restrictive | KY | Scott County | extended | covered_unconfirmed | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | NC | Brunswick County | - | - | 0 | 3 | 2 | - |
 | reverify_stale_nonterminal_restrictive | NC | Buncombe County | - | - | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | NC | Chatham County | active | covered_unconfirmed | 1 | 2 | 2 | - |
@@ -115,6 +93,28 @@ Only counties carrying a signal are listed below.
 | reverify_stale_nonterminal_restrictive | VA | Orange County | - | - | 0 | 1 | 1 | 1 |
 | reverify_stale_nonterminal_restrictive | VA | Prince William County | - | - | 0 | 3 | 1 | 1 |
 | reverify_stale_nonterminal_restrictive | VA | Spotsylvania County | - | - | 1 | 2 | 1 | - |
+| confirm_unconfirmed_coverage | AL | Morgan County | active | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | GA | Appling County | expired | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | GA | Banks County | extended | covered_unconfirmed | 1 | 1 | 0 | - |
 | confirm_unconfirmed_coverage | GA | Carroll County | extended | covered_unconfirmed | 0 | 0 | 0 | - |
+| confirm_unconfirmed_coverage | GA | Chatham County | active | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | GA | Colquitt County | extended | covered_unconfirmed | 1 | 1 | 0 | - |
 | confirm_unconfirmed_coverage | GA | Coweta County | replaced | covered_unconfirmed | 1 | 1 | 0 | - |
 | confirm_unconfirmed_coverage | GA | Lee County | extended | covered_unconfirmed | 0 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | GA | Madison County | extended | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | GA | Paulding County | active | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | KY | Allen County | active | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | KY | Boone County | active | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | KY | Boyle County | active | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | KY | Edmonson County | active | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | KY | Greenup County | active | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | KY | Harrison County | active | covered_unconfirmed | 0 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | KY | Logan County | active | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | KY | Nelson County | active | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | KY | Simpson County | active | covered_unconfirmed | 1 | 0 | 0 | - |
+| confirm_unconfirmed_coverage | NC | Alamance County | active | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | NC | Camden County | active | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | NC | Davie County | active | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | NC | Edgecombe County | active | covered_unconfirmed | 0 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | NC | Jackson County | active | covered_unconfirmed | 1 | 1 | 0 | - |
+| confirm_unconfirmed_coverage | NC | McDowell County | active | covered_unconfirmed | 1 | 1 | 0 | - |

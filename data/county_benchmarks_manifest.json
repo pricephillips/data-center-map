@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-28T20:20:39Z",
+  "generated": "2026-09-28T20:48:07Z",
   "counties": 3222,
   "counties_matchable": 3115,
   "peers_per_county": 10,
@@ -7,11 +7,11 @@
   "metrics": 29,
   "groups": {
     "national": 3222,
-    "restrictive": 359,
-    "non_restrictive": 2863,
+    "restrictive": 460,
+    "non_restrictive": 2762,
     "dc_present": 251,
     "dc_absent": 2971,
-    "tracked_activity": 706
+    "tracked_activity": 802
   },
   "state_groups": 52,
   "match_features": [
@@ -20,10 +20,10 @@
     "pct_bachelors_plus",
     "margin_2024"
   ],
-  "score_separation_restrictive_minus_non": 0.0956,
+  "score_separation_restrictive_minus_non": 0.0852,
   "medians": {
     "national": {
-      "calibrated_score": 0.07039999999999999,
+      "calibrated_score": 0.1033,
       "n_opposition_events": 0.0,
       "opposition_events_per_100k": 0.0,
       "existing_dc_count": 0.0,
@@ -34,29 +34,29 @@
       "margin_2024": -0.41974999999999996
     },
     "restrictive": {
-      "calibrated_score": 0.1608,
+      "calibrated_score": 0.18059999999999998,
       "n_opposition_events": 1.0,
-      "opposition_events_per_100k": 1.8091197727745565,
+      "opposition_events_per_100k": 2.1700524376675547,
       "existing_dc_count": 0.0,
-      "population": 98592.0,
-      "pop_density_sqmi": 162.66,
-      "median_hh_income": 69990.0,
-      "pct_bachelors_plus": 27.66,
-      "margin_2024": -0.2301
+      "population": 68524.5,
+      "pop_density_sqmi": 120.77,
+      "median_hh_income": 68707.5,
+      "pct_bachelors_plus": 26.205,
+      "margin_2024": -0.25175000000000003
     },
     "non_restrictive": {
-      "calibrated_score": 0.0652,
+      "calibrated_score": 0.0954,
       "n_opposition_events": 0.0,
       "opposition_events_per_100k": 0.0,
       "existing_dc_count": 0.0,
-      "population": 22890.0,
-      "pop_density_sqmi": 40.55,
-      "median_hh_income": 62385.0,
-      "pct_bachelors_plus": 21.045,
-      "margin_2024": -0.4405
+      "population": 22444.0,
+      "pop_density_sqmi": 39.72,
+      "median_hh_income": 62175.0,
+      "pct_bachelors_plus": 20.98,
+      "margin_2024": -0.44225000000000003
     },
     "dc_present": {
-      "calibrated_score": 0.3022,
+      "calibrated_score": 0.3398,
       "n_opposition_events": 1.0,
       "opposition_events_per_100k": 0.18485472883043647,
       "existing_dc_count": 2.0,
@@ -67,20 +67,20 @@
       "margin_2024": -0.0168
     },
     "tracked_activity": {
-      "calibrated_score": 0.15535,
+      "calibrated_score": 0.1926,
       "n_opposition_events": 1.0,
-      "opposition_events_per_100k": 1.9385906268834274,
+      "opposition_events_per_100k": 2.126534143910778,
       "existing_dc_count": 0.0,
-      "population": 82853.0,
-      "pop_density_sqmi": 139.89499999999998,
-      "median_hh_income": 70032.0,
-      "pct_bachelors_plus": 26.875,
-      "margin_2024": -0.2502
+      "population": 71558.5,
+      "pop_density_sqmi": 117.7,
+      "median_hh_income": 69024.5,
+      "pct_bachelors_plus": 25.845,
+      "margin_2024": -0.2615
     }
   },
   "inputs": {
-    "county_aggregate.csv": "2f57db62a8a40ee5",
-    "county_policy_scores.csv": "2672f0816003f374",
-    "county_policy_intervals.csv": "a229c1056f9f5c3b"
+    "county_aggregate.csv": "8c61d0084f8613c8",
+    "county_policy_scores.csv": "df959c1dde2b197a",
+    "county_policy_intervals.csv": "9fd43ede2de97cd5"
   }
 }
