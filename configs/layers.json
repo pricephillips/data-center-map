@@ -91,6 +91,7 @@
         "data/county_adjacency.csv",
         "data/county_adjacency_manifest.json",
         "data/county_votes.json",
+        "data/features/*.csv",
         "data/county_fips_*.csv",
         "data/county_fips_*.json",
         "data/fips_resolution_*.csv",
@@ -214,7 +215,15 @@
         "data/bill_taxonomy_manifest.json",
         "data/stakeholder_openstates_cache.json",
         "data/stakeholder_seed_county.csv",
-        "docs/*.patch"
+        "docs/*.patch",
+        "data/county_features_expanded.csv",
+        "data/county_features_catalog.json",
+        "data/feature_search_metrics.json",
+        "data/feature_search_ranking.csv",
+        "data/feature_search_weights.json",
+        "data/feature_search_weight_history.csv",
+        "data/feature_search_promotions.json",
+        "data/feature_search_report.md"
       ]
     }
   },
@@ -253,6 +262,8 @@
     "master_opposition.csv": "The Layer C source of record. Written by three modules under the ownership rule that ended the 2026 corruption, all append-or-refresh, and hand-edited besides.",
     "data/signal_candidates.csv": "A handoff queue, not a derived artifact: signal_harvest.py writes it and promote_signal_candidates.py rewrites what remains after promotion.",
     "data/restriction_evidence_history.csv": "Append-only grade-change log. Its value is that earlier rows are never rewritten, so a regeneration would destroy the history it exists to hold.",
-    "data/census_promotion_report.csv": "Append-only audit trail of every promote and hold decision, for the same reason."
+    "data/census_promotion_report.csv": "Append-only audit trail of every promote and hold decision, for the same reason.",
+    "data/feature_search_weight_history.csv": "Append-only. One row per variable per weight update, carrying the observation, its standard error and the filtered state; the filter's state file (feature_search_weights.json) can be rebuilt from it, it cannot be rebuilt from the state file.",
+    "data/feature_search_weights.json": "Filter state carried between runs. Each run updates the previous state rather than recomputing from scratch, so a regeneration from the current data alone would reset every weight's history to a single observation."
   }
 }
