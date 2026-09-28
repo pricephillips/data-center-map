@@ -65,7 +65,7 @@ Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is n
 - Statewide legislative records on data centers: 4 (0 supportive, 1 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
   - 2026-02-12 (statewide): restrictive (feed qc_leg_stance: restrictive)
-  - 2026-02-01 (HB 1030): unclear (feed qc_leg_stance: unclear)
+  - 2026-02-01 (HB 1030): unclear (verified roll call, latest recorded action: HB 1030 passed 11 yes / 2 no on 2026-05-07)
   - 2026-04-10 (Xcel Power Pathway): unclear (feed qc_leg_stance: unclear)
   - 2026-05-11 (HB26-1030 + SB26-102 both died in committee): unclear (feed qc_leg_stance: unclear)
 - This proxy reads the public statewide legislative record only. Governor's position, local board and EDO stance, and utility/regulator posture are not covered and must be researched separately; see political_alignment_worklist.py.
@@ -305,13 +305,13 @@ Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is n
 
 ### Political alignment proxy: NC
 
-Proxy score 4. Verified chamber roll calls show restrictive measures failing and/or supportive measures passing by a clear margin. A 1 is never assigned automatically; see module docstring.
+Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is never assigned automatically; see module docstring.
 
 - Statewide legislative records on data centers: 4 (0 supportive, 3 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
   - 2026-02-01 (statewide HB 1002): restrictive (feed qc_leg_stance: restrictive)
   - 2026-05-08 (HB 7971 Ratepayer and Resource Protection Act, Rep. Prather D-Buncombe): unclear (feed qc_leg_stance: unclear)
-  - 2026-06-08 (SB 730 — closed-loop water + foreign-ownership ban for data centers): restrictive (verified roll call, latest recorded action: SB 730 failed 48 yes / 63 no on 2026-06-03)
+  - 2026-06-08 (SB 730 — closed-loop water + foreign-ownership ban for data centers): restrictive (feed qc_leg_stance: restrictive)
   - 2026-07-07 (Duke Energy large-load data center tariff rate case): restrictive (feed qc_leg_stance: restrictive)
 - This proxy reads the public statewide legislative record only. Governor's position, local board and EDO stance, and utility/regulator posture are not covered and must be researched separately; see political_alignment_worklist.py.
 
@@ -348,12 +348,12 @@ Proxy score 2. A verified chamber roll call shows a restrictive measure passing 
 
 ### Political alignment proxy: NJ
 
-Proxy score 2. A verified chamber roll call shows a restrictive measure passing or a supportive measure failing. A 1 is never assigned automatically; see module docstring.
+Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is never assigned automatically; see module docstring.
 
 - Statewide legislative records on data centers: 11 (0 supportive, 9 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
   - 2026-04-08 (statewide): restrictive (feed qc_leg_stance: restrictive)
-  - 2026-01-21 (A5462 Conditional Veto): restrictive (verified roll call, latest recorded action: A 5462 passed 53 yes / 26 no on 2025-06-30)
+  - 2026-01-21 (A5462 Conditional Veto): restrictive (feed qc_leg_stance: restrictive)
   - 2026-02-12 (S3379): restrictive (feed qc_leg_stance: restrictive)
   - 2026-02-12 (S731/A796 Large Load Tariff): restrictive (feed qc_leg_stance: restrictive)
   - 2026-01-20 (unidentified): restrictive (feed qc_leg_stance: restrictive)
@@ -437,13 +437,13 @@ Proxy score 2. A verified chamber roll call shows a restrictive measure passing 
 
 ### Political alignment proxy: PA
 
-Proxy score 2. A verified chamber roll call shows a restrictive measure passing or a supportive measure failing. A 1 is never assigned automatically; see module docstring.
+Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is never assigned automatically; see module docstring.
 
 - Statewide legislative records on data centers: 8 (1 supportive, 5 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
   - 2026-02-17 (statewide moratorium proposal): restrictive (feed qc_leg_stance: restrictive)
-  - 2026-03-02 (HB 2151): restrictive (verified roll call, latest recorded action: HB 2151 passed 124 yes / 77 no on 2026-04-13)
-  - 2026-03-09 (HB 2150): restrictive (verified roll call, latest recorded action: HB 2150 passed 133 yes / 68 no on 2026-04-13)
+  - 2026-03-02 (HB 2151): restrictive (feed qc_leg_stance: restrictive)
+  - 2026-03-09 (HB 2150): restrictive (feed qc_leg_stance: restrictive)
   - 2026-03-10 (Statewide): supportive (feed qc_leg_stance: supportive)
   - 2026-03-24 (statewide HB 1834): restrictive (feed qc_leg_stance: restrictive)
   - 2026-06-18 (statewide): unclear (feed qc_leg_stance: unclear)
@@ -569,13 +569,13 @@ Proxy score 2. A verified chamber roll call shows a restrictive measure passing 
 
 ### Political alignment proxy: WI
 
-Proxy score 2. A verified chamber roll call shows a restrictive measure passing or a supportive measure failing. A 1 is never assigned automatically; see module docstring.
+Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is never assigned automatically; see module docstring.
 
 - Statewide legislative records on data centers: 13 (0 supportive, 7 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
   - 2026-02-11 (statewide PSC rate hearing): restrictive (feed qc_leg_stance: restrictive)
   - 2026-02-12 (statewide moratorium bill): restrictive (feed qc_leg_stance: restrictive)
-  - 2026-01-09 (AB 840 / SB 843 GOP regulation): restrictive (verified roll call, latest recorded action: AB 840 passed 53 yes / 45 no on 2026-01-20)
+  - 2026-01-09 (AB 840 / SB 843 GOP regulation): restrictive (feed qc_leg_stance: restrictive)
   - 2026-01-01 (SB 729 / AB 722 Dem regulation): unclear (feed qc_leg_stance: unclear)
   - 2026-02-18 (unidentified): restrictive (feed qc_leg_stance: restrictive)
   - 2026-04-24 (We Energies VLC + Bespoke Resources Tariff, Docket 6630-TE-113): restrictive (feed qc_leg_stance: restrictive)
