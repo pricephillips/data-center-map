@@ -1,0 +1,95 @@
+{
+  "frame_counties": 3144,
+  "note": "county profile variables for the adaptive feature search; all leakage class none; zoning regime not built (no national source)",
+  "sources": {
+    "drought": {
+      "attempted": "2026-09-28T20:55:00Z",
+      "error": "SourceError: only 0 of 3144 counties with 150+ weeks; state errors: []",
+      "status": "failed"
+    },
+    "farmland": {
+      "attempted": "2026-09-28T20:55:00Z",
+      "built": "2026-09-28T20:55:00Z",
+      "coverage": {
+        "census_year": 3057,
+        "cropland_acres": 3046,
+        "cropland_share": 3046,
+        "farm_acres": 3050,
+        "farmland_share": 3050
+      },
+      "file": "data/features/farmland.csv",
+      "info": {
+        "series": {
+          "cropland_acres": "AG LAND, CROPLAND - ACRES",
+          "farm_acres": "FARM OPERATIONS - ACRES OPERATED"
+        }
+      },
+      "license": "public domain (USDA NASS Census of Agriculture)",
+      "rows": 3144,
+      "sha256": "4eb7304d40aeae3ed5797f2d5aab74fa16f9ba97ad84d5c8d4aafc5dbb395604",
+      "status": "ok"
+    },
+    "grid_generation": {
+      "attempted": "2026-09-28T20:55:00Z",
+      "error": "SourceError: schema drift: missing ['fips']; columns present: ['associated_combined_heat_power', 'bga_source', 'bypass_heat_recovery', 'can_burn_multiple_fuels', 'can_cofire_fuels', 'can_switch_oil_gas', 'capacity_factor', 'capacity_mw', 'carbon_capture', 'city', 'county', 'current_planned_generator_operating_date', 'data_maturity', 'deliver_power_transgrid', 'distributed_generation', 'duct_burners', 'energy_source_1_transport_1', 'energy_source_1_transport_2', 'energy_source_1_transport_3', 'energy_source_2_transport_1', 'energy_source_2_transport_2', 'energy_source_2_transport_3', 'energy_source_code_1', 'energy_source_code_2', 'energy_source_code_3', 'energy_source_code_4', 'energy_source_code_5', 'energy_source_code_6', 'energy_storage_capacity_mwh', 'ferc_qualifying_facility', 'fluidi",
+      "status": "failed"
+    },
+    "retail_price": {
+      "attempted": "2026-09-28T20:55:00Z",
+      "built": "2026-09-28T20:55:00Z",
+      "coverage": {
+        "n_bundled_utilities": 3124,
+        "n_utilities": 3124,
+        "price_com_cents": 3097,
+        "price_ind_cents": 3074,
+        "report_year": 3144,
+        "state_price_com_cents": 3144,
+        "state_price_ind_cents": 3144
+      },
+      "file": "data/features/retail_price.csv",
+      "info": {
+        "report_year": 2023,
+        "resolved_sales": {
+          "cls": "customer_class",
+          "customers": "customers",
+          "mwh": "sales_mwh",
+          "revenue_usd": "sales_revenue",
+          "service": "service_type",
+          "state": "state",
+          "utility": "utility_id_eia",
+          "year": "report_date"
+        },
+        "resolved_territory": {
+          "fips": "county_id_fips",
+          "state": "state",
+          "utility": "utility_id_eia",
+          "year": "report_date"
+        }
+      },
+      "license": "CC-BY-4.0 (Catalyst Cooperative PUDL; EIA-861)",
+      "rows": 3144,
+      "sha256": "5eca771d35e8b513c77400457ab311d0df2ac8d18c118fd2676b05df8e38a199",
+      "status": "ok"
+    },
+    "water_use": {
+      "attempted": "2026-09-28T20:55:00Z",
+      "built": "2026-09-28T20:55:00Z",
+      "coverage": {
+        "fw_withdrawal_mgd": 3133,
+        "fw_withdrawal_per_sqmi": 3133,
+        "gw_share": 3127,
+        "irrigation_share": 3127,
+        "thermo_share": 3127,
+        "vintage": 3133
+      },
+      "file": "data/features/water_use.csv",
+      "info": {
+        "url": "https://www.sciencebase.gov/catalog/file/get/5af3311be4b0da30c1b245d8?name=usco2015v2.0.csv"
+      },
+      "license": "public domain (USGS Estimated Use of Water in the United States, county data 2015)",
+      "rows": 3144,
+      "sha256": "927992a017b600544c17a191ec74c893127b658d4ce9de751c0eaf987e5925d4",
+      "status": "ok"
+    }
+  }
+}
