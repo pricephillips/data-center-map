@@ -155,6 +155,9 @@ jobs:
           echo "Status resolution + verification worklist self-tests:"
           python status_resolution.py --selftest
           python restriction_verification_worklist.py --selftest
+          echo "Follow-up headline check + Legistar probe self-tests:"
+          python status_followup.py --selftest
+          python legistar_probe.py --selftest
           # Offline as of 2026-09-15. This self-test used to make a live call
           # to the upstream census repo, so it could not sit in a blocking
           # gate: an upstream outage would have read as a code failure and
@@ -392,6 +395,12 @@ jobs:
           # probe cache never existed and no county could rise above what the
           # census alone supports. Completed rows of the verification worklist
           # are exported as the import file and loaded here, before grading.
+          # Legistar (2026-09-28): fills open worklist rows from county
+          # Legistar systems (adopted moratorium/ban matters only), then the
+          # worklist re-exports so this run's import already carries them.
+          # A network failure never fails the step.
+          python legistar_probe.py || true
+          python restriction_verification_worklist.py --offline || true
           if [ -s data/restriction_probe_import.csv ]; then
             python restriction_probe.py --import data/restriction_probe_import.csv
           fi
@@ -413,6 +422,11 @@ jobs:
           # Same-week complement to the 120-day staleness trigger: pending rows
           # whose own headline reports a completed adoption. Proposes only.
           python status_resolution.py || true
+          # Later coverage of the same pending rows (2026-09-28): searches
+          # Google News RSS per place and writes corroborated adoption leads
+          # (two outlets, or one .gov) to data/status_followup_leads.csv.
+          # Proposes only; a network failure never fails the step.
+          python status_followup.py || true
           # County borders do not move. The adjacency table is built once and
           # committed; a rebuild only happens if the file is missing, so the
           # daily run never re-fetches the 3 MB county geojson.
@@ -588,6 +602,7 @@ jobs:
                     data/restriction_probe_cache.json data/restriction_probe_log.csv \
                     data/restriction_verification_worklist.csv \
                     data/restriction_probe_import.csv \
+                    data/legistar_discovery.json \
                     data/restriction_evidence_conflicts.csv \
                     data/restriction_evidence_history.csv \
                     data/restriction_evidence_report.md 2>/dev/null || true
@@ -599,6 +614,8 @@ jobs:
           if [ "${{ steps.detection.outcome }}" = "success" ]; then
             git add data/stale_pending_worklist.csv \
                     data/status_resolution_worklist.csv \
+                    data/status_followup_leads.csv \
+                    data/status_followup_cache.json \
                     data/stale_pending_summary.json \
                     data/stale_pending_report.md \
                     data/county_adjacency.csv \

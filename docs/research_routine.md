@@ -22,8 +22,18 @@ minutes are enough when they state the body, the date and the action.
 
 ## 1. Pending adoptions (`data/status_resolution_worklist.csv`)
 
-Run `python status_resolution.py` to refresh the worklist. For each row not
-already attempted in the last 14 days (see `data/research_routine_log.csv`):
+Start with `data/status_followup_leads.csv`, which the nightly pipeline fills
+without tokens: each lead already carries two or more outlets' adoption
+headlines for the place, the proposed action per master row and a link. For
+each lead, confirm one headline states the adoption (a search snippet is
+enough), then copy the proposed rows into `data/status_resolutions.csv`
+(action, status, opposition_type, superseded_by and evidence_url as proposed;
+fill authority_level, county and note). Skip a lead whose headlines turn out
+to describe another place or a non-final vote, and log it.
+
+Then run `python status_resolution.py` to refresh the worklist. For each row
+not already attempted in the last 14 days (see `data/research_routine_log.csv`)
+and not covered by a lead above:
 
 1. Identify the jurisdiction and instrument from the incident, URL and county.
    The harvest geocoder often mis-tags rows (a generic "Iowa county" headline,
@@ -53,6 +63,10 @@ already attempted in the last 14 days (see `data/research_routine_log.csv`):
    instead.
 
 ## 2. County evidence (`data/restriction_verification_worklist.csv`)
+
+The nightly pipeline's `legistar_probe.py` already fills rows it can confirm
+from county Legistar systems (their `detail` starts with "auto
+(legistar_probe)"). Leave those as they are.
 
 Take the first 25 rows with an empty `result`, lowest `priority` first,
 skipping fips attempted in the last 14 days. Use `search_hint` and
