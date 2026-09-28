@@ -1,23 +1,23 @@
 # Time-to-Decision Survival Model — First Iteration (Phase 3)
 
-Generated 2026-09-18 by `survival_model.py`. Figures re-derived from current CSVs at generation time.
+Generated 2026-09-28 by `survival_model.py`. Figures re-derived from current CSVs at generation time.
 
 **Internal diagnostic only — NOT client-facing.** Small sample, retrospective, predictive-not-causal. Hazard ratios describe association with the RATE of reaching a decision, not causes of it.
 
 ## Sample and censoring
 
-- Opposed projects in the model: **110** (6 reached a terminal decision = events; 104 still pending = right-censored).
-- Of the 6 events: 5 `advanced_confirmed`, 1 `blocked_confirmed`.
+- Opposed projects in the model: **117** (6 reached a terminal decision = events; 111 still pending = right-censored).
+- Of the 6 events: 4 `advanced_confirmed`, 2 `blocked_confirmed`.
 - Time axis is announced→decision in days. Censored projects are observed to their last known activity date (last opposition event or status update).
-- 68 opposed projects were EXCLUDED from the time axis because their announcement date is only year-precision (too coarse to floor without fabricating months).
+- 72 opposed projects were EXCLUDED from the time axis because their announcement date is only year-precision (too coarse to floor without fabricating months).
 - Month-precision announcement dates (floored to the 1st) carry up to ~30 days of error each.
 
 ## 1. Kaplan-Meier: time to a terminal decision
 
-- Median time to decision across all opposed projects: **911 days**.
-- Median time to a `advanced` decision: 911 days.
+- Median not reached within observed follow-up (more than half of opposed projects remain pending at their last-observed time) — itself an informative result about how long opposition-linked projects stay unresolved.
+- Median time to a `advanced` decision: not reached.
 - Median time to a `blocked` decision: not reached.
-- Log-rank test (blocked vs advanced timing, decided subset): p = 0.247. No significant timing difference at this sample size.
+- Log-rank test (blocked vs advanced timing, decided subset): p = 0.464. No significant timing difference at this sample size.
 
 Full KM table (time, survival, at-risk, events) is in `survival_km_curve.csv`.
 
@@ -29,6 +29,6 @@ WITHHELD: only 6 events (< 25 minimum). A Cox model on this few events would be 
 
 - 6 events is a small basis for survival estimates; treat all numbers as provisional and interval-wide.
 - Censored projects' eventual direction is unknown; by-direction KM curves estimate time-to-that-direction treating other outcomes as censored, which is standard but assumes non-informative censoring.
-- **Datable-outcome asymmetry (informative-censoring caution).** Among opposed projects that reached a terminal outcome, blocked outcomes are datable far more often than advanced ones: in the current data, 1/30 blocked vs 10/68 advanced carry a verified discrete decision date. This is structural, not a collection gap: a blocked project passes through a discrete denial or withdrawal that gets recorded, whereas an opposed project that advances often proceeds by-right (pre-zoned land, retrofits, incentive agreements) with no contested vote to date. The advanced side of any survival split is therefore both smaller and later-arriving than the true population, which depresses the advanced-cause hazard and is the main reason a cause-specific model is not yet fittable. Treat advanced-side timing as a lower bound on how fast advances actually occur.
+- **Datable-outcome asymmetry (informative-censoring caution).** Among opposed projects that reached a terminal outcome, blocked outcomes are datable far more often than advanced ones: in the current data, 3/32 blocked vs 5/52 advanced carry a verified discrete decision date. This is structural, not a collection gap: a blocked project passes through a discrete denial or withdrawal that gets recorded, whereas an opposed project that advances often proceeds by-right (pre-zoned land, retrofits, incentive agreements) with no contested vote to date. The advanced side of any survival split is therefore both smaller and later-arriving than the true population, which depresses the advanced-cause hazard and is the main reason a cause-specific model is not yet fittable. Treat advanced-side timing as a lower bound on how fast advances actually occur.
 - Announced→decision spans are raw durations within the opposed sample, NOT opposition-attributable delay (that needs the matched controls at adequate n).
 - Not wired into CI. Automated retraining requires the Phase 5 calibration gate.
