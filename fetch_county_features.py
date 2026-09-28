@@ -289,6 +289,71 @@ def year_of(v):
 # grid_generation
 # --------------------------------------------------------------------------
 
+# County polygons for placing plants that carry coordinates but no county.
+# The Plotly county file is the 2010-vintage Census boundary set (already the
+# county geometry the Restriction Model page draws). Renamed or recoded
+# counties are mapped to the current frame; Connecticut's pre-2022 counties
+# and Alaska's split Valdez-Cordova have no single successor and stay
+# unplaced.
+COUNTY_GEOJSON_URLS = [
+    "https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json",
+    "https://cdn.jsdelivr.net/gh/plotly/datasets@master/geojson-counties-fips.json",
+]
+GEO_RECODE = {"46113": "46102", "02270": "02158", "51515": "51019"}
+
+
+def _rings(geom):
+    t, c = geom.get("type"), geom.get("coordinates") or []
+    if t == "Polygon":
+        return [c]
+    if t == "MultiPolygon":
+        return list(c)
+    return []
+
+
+def _in_ring(x, y, ring):
+    inside = False
+    j = len(ring) - 1
+    for i in range(len(ring)):
+        xi, yi = ring[i][0], ring[i][1]
+        xj, yj = ring[j][0], ring[j][1]
+        if (yi > y) != (yj > y) and x < (xj - xi) * (y - yi) / ((yj - yi) or 1e-12) + xi:
+            inside = not inside
+        j = i
+    return inside
+
+
+class CountyLocator:
+    """Point-in-polygon county lookup with a bounding-box prefilter."""
+
+    def __init__(self, geojson: dict):
+        self.polys = []
+        for feat in geojson.get("features", []):
+            fid = str(feat.get("id") or (feat.get("properties") or {}).get("GEO_ID", "")[-5:])
+            fid = GEO_RECODE.get(fid, fid)
+            for poly in _rings(feat.get("geometry") or {}):
+                if not poly or not poly[0]:
+                    continue
+                xs = [pt[0] for pt in poly[0]]
+                ys = [pt[1] for pt in poly[0]]
+                self.polys.append((min(xs), min(ys), max(xs), max(ys), fid, poly))
+
+    def locate(self, lon, lat) -> str:
+        if lon is None or lat is None:
+            return ""
+        for x0, y0, x1, y1, fid, poly in self.polys:
+            if x0 <= lon <= x1 and y0 <= lat <= y1:
+                if _in_ring(lon, lat, poly[0]) and not any(
+                        _in_ring(lon, lat, hole) for hole in poly[1:]):
+                    return fid
+        return ""
+
+
+def load_locator(urls=None):
+    raw, _ = first_ok(urls or COUNTY_GEOJSON_URLS, timeout=120)
+    return CountyLocator(json.loads(raw))
+
+
 GEN_COLS = ["fips", "gen_capacity_mw", "gen_fossil_share", "gen_renewable_share",
             "gen_nuclear_mw", "planned_capacity_mw", "planned_renewable_mw",
             "planned_gas_mw", "retiring_capacity_mw", "report_year", "source"]
@@ -355,6 +420,8 @@ GEN_CANDS = {
                "operational_status_pudl"],
     "year": ["report_date", "report_year"],
     "plant": ["plant_id_eia"],
+    "lat": ["latitude"],
+    "lon": ["longitude"],
     "retirement": ["planned_generator_retirement_date", "planned_retirement_date",
                    "planned_retirement_year"],
 }
@@ -388,6 +455,7 @@ def src_grid(cfg, frame, tmpdir):
             if f or r.get("county"):
                 plant_geo[str(pid)] = (f, r.get("county"), r.get("state"))
     unmatched = defaultdict(float)
+    locator, geo_note, geo_placed = [None], [], [0.0]
     placed_state = defaultdict(float)
     unplaced_state = defaultdict(float)
 
@@ -401,6 +469,19 @@ def src_grid(cfg, frame, tmpdir):
                 f = norm_fips(f)
             if not f:
                 f = by_name.get(county_key(county, state), "")
+            if not f and "lat" in m and "lon" in m:
+                if locator[0] is None:
+                    try:
+                        locator[0] = load_locator(cfg.get("county_geojson_urls"))
+                    except SourceError as exc:
+                        locator[0] = False
+                        geo_note.append(str(exc))
+                if locator[0]:
+                    f = locator[0].locate(fnum(r.get("lon")), fnum(r.get("lat")))
+                    if f and f in frame:
+                        geo_placed[0] += cap
+                    else:
+                        f = ""
             st = str(state or "").strip().upper()
             if f:
                 placed_state[st] += cap
@@ -433,6 +514,8 @@ def src_grid(cfg, frame, tmpdir):
     return OUT_GRID, GEN_COLS, rows, {"report_year": yr, "resolved": m,
                                       "unmatched_mw": round(lost, 1),
                                       "blank_states": blank_states,
+                                      "placed_by_coordinates_mw": round(geo_placed[0], 1),
+                                      "geo_note": geo_note,
                                       "unmatched_top": [[k, round(v, 1)] for k, v in top]}
 
 
@@ -829,6 +912,15 @@ def selftest() -> int:
     check("share clipped", share(3, 2) == 1.0 and share(1, 0) is None)
     check("county key hyphen", county_key("Miami Dade", "FL") == county_key("Miami-Dade County", "FL"))
     check("county key saint", county_key("St. Louis", "MO") == county_key("Saint Louis County", "MO"))
+    sq = {"features": [
+        {"id": "19001", "geometry": {"type": "Polygon", "coordinates": [[[0, 0], [2, 0], [2, 2], [0, 2], [0, 0]],
+                                                                        [[0.5, 0.5], [1, 0.5], [1, 1], [0.5, 1], [0.5, 0.5]]]}},
+        {"id": "46113", "geometry": {"type": "MultiPolygon", "coordinates": [[[[5, 5], [6, 5], [6, 6], [5, 6], [5, 5]]]]}}]}
+    loc = CountyLocator(sq)
+    check("locator inside polygon", loc.locate(1.5, 1.5) == "19001")
+    check("locator respects hole", loc.locate(0.75, 0.75) == "")
+    check("locator recodes renamed county", loc.locate(5.5, 5.5) == "46102")
+    check("locator outside is blank", loc.locate(9, 9) == "" and loc.locate(None, 1) == "")
     check("county key null", county_key(None, "IL") == "" and county_key("None", "IL") == "")
 
     # grid
