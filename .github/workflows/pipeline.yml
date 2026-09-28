@@ -91,11 +91,22 @@ on:
 
 permissions:
   contents: write          # allows committing the generated clean feed back
+  actions: write           # lets the commit step re-dispatch this workflow after a generated-file conflict
+
+# One pipeline run per branch at a time (2026-09-28). Two overlapping runs
+# each regenerate the same -merge artifacts, so the second one's rebase
+# conflicted deterministically and its retries could never succeed. Queue
+# rather than cancel: a cancelled run would drop that push's feed build.
+concurrency:
+  group: pipeline-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # Raised from 10 (2026-09-28): run #244 took 7m40s with the verification
+    # step alone at 5m27s, leaving too little headroom before a hard kill.
+    timeout-minutes: 20
     steps:
       - name: Checkout data-center-map
         uses: actions/checkout@v4
@@ -589,13 +600,58 @@ jobs:
           # A failed rebase is also aborted before each retry, because a
           # worktree stuck mid-rebase fails every subsequent pull with
           # "unmerged files".
+          #
+          # Generated-conflict resolution (2026-09-28, run #244). Every derived
+          # artifact is -merge in .gitattributes, so when the branch moved and
+          # the new upstream commit touched any file this run also regenerated
+          # (there: configs/local_meeting_watchlist.csv and
+          # data/county_benchmarks_manifest.json), the rebase conflicted
+          # identically on all three attempts. Retrying cannot fix a
+          # deterministic conflict. Now a conflicted rebase hands the unmerged
+          # paths to scripts/resolve_generated_conflicts.py, which:
+          #   - takes "ours" -- during a rebase that is UPSTREAM, so a
+          #     reviewer's watchlist note or an uploaded file on the branch is
+          #     never overwritten by this run's copy;
+          #   - regenerates what its offline allowlist can, defers the rest;
+          #   - exits 1 if any conflict is in a source of record or other
+          #     hand-maintained file, which fails the step for a person.
+          # Deferred files were built from pre-move inputs, so the step then
+          # dispatches one fresh run on the merged tree to rebuild them. A
+          # dispatched run does not dispatch again, so this cannot loop; the
+          # daily cron is the backstop.
+          RESOLVED_GENERATED=0
           for i in 1 2 3; do
-            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && break
+            if git pull --rebase --autostash origin "$GITHUB_REF_NAME"; then
+              git push && break
+            elif [ -n "$(git diff --name-only --diff-filter=U)" ]; then
+              echo "::group::Rebase conflict -- resolving generated paths"
+              git diff --name-only --diff-filter=U
+              if python scripts/resolve_generated_conflicts.py; then
+                echo "::endgroup::"
+                if GIT_EDITOR=true git rebase --continue; then
+                  RESOLVED_GENERATED=1
+                  git push && break
+                fi
+              else
+                echo "::endgroup::"
+                echo "::error::Rebase conflict in a non-generated file (source of record, append-only, or hand-maintained). Not auto-resolved; the list is above."
+                git rebase --abort 2>/dev/null || true
+                exit 1
+              fi
+            fi
             if [ "$i" = "3" ]; then echo "Push failed after 3 attempts"; exit 1; fi
             echo "Push attempt $i failed (another workflow moved the branch); retrying in 10s"
             git rebase --abort 2>/dev/null || true
             sleep 10
           done
+          if [ "$RESOLVED_GENERATED" = "1" ]; then
+            echo "::warning::Generated-file conflict resolved to the upstream copy; files the resolver could not rebuild here are stale until the next run."
+            if [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
+              GH_TOKEN="${{ github.token }}" gh workflow run pipeline.yml --ref "$GITHUB_REF_NAME" \
+                && echo "Dispatched a rebuild on the merged tree." \
+                || echo "::warning::Could not dispatch the rebuild; the daily cron will pick it up."
+            fi
+          fi
 
       - name: Trigger Iowa Notion sync
         if: success() || steps.verification.outcome == 'failure' || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure' || steps.coverage.outcome == 'failure' || steps.detection.outcome == 'failure' || steps.fips_resolution.outcome == 'failure' || steps.site_screener.outcome == 'failure'
