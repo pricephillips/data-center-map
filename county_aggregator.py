@@ -132,6 +132,28 @@ ENACTED_STATUSES = {"passed", "approved", "enacted", "active",
                     "extended", "expired", "moratorium passed"}
 DIRECTION_AMBIGUOUS_STATUSES = {"approved"}
 
+# Label provenance (ADDITIVE, 2026-09-28). has_enacted_restrictive is computed
+# exactly as before, but a county's label can rest on two kinds of record: rows
+# the tracker sourced itself (news, minutes, ordinances), and rows
+# census_gap_candidates.py promoted from the Moratorium Nation census, whose
+# only citation is the census page. Before this split the two were summed into
+# one label with no way to tell them apart, so the September 16 newsletter's
+# "329 counties" silently included 18 counties that rested on the census alone,
+# and the evidence ledger then "corroborated" those same counties with the same
+# census. The split columns make the basis of every published county count
+# explicit and let restriction_evidence.py refuse self-corroboration.
+CENSUS_DERIVED_SOURCES = {"moratorium_nation_ingest", "coverage_audit_worklist"}
+CENSUS_URL_MARKERS = ("mjbommar.github.io", "moratorium-nation:",
+                      "github.com/mjbommar/moratorium-data")
+
+
+def is_census_derived(r: dict) -> bool:
+    """True when a master row's only basis is an external restriction census."""
+    if (r.get("data_source") or "").strip() in CENSUS_DERIVED_SOURCES:
+        return True
+    url = (r.get("Source URL") or "").strip().lower()
+    return any(m in url for m in CENSUS_URL_MARKERS)
+
 
 def _type_tokens(cell: str) -> set:
     return {t.strip().lower() for t in str(cell or "").split(";")
@@ -235,6 +257,8 @@ def main() -> int:
     ev_total = Counter()
     ev_bytype = defaultdict(Counter)
     enacted_restrictive = Counter()
+    enacted_tracker = Counter()   # provenance split, see CENSUS_DERIVED_SOURCES
+    enacted_census = Counter()
     ev_rows = 0
     ev_matched = 0
     state_leg = Counter()
@@ -270,6 +294,10 @@ def main() -> int:
                 pass  # approval belongs to the project side; see defect note
             else:
                 enacted_restrictive[f] += 1
+                if is_census_derived(r):
+                    enacted_census[f] += 1
+                else:
+                    enacted_tracker[f] += 1
 
     # --- project outcomes (four-tier vocabulary; decided = terminal only) ---
     life = {r["project_id"]: r for r in
@@ -312,6 +340,9 @@ def main() -> int:
         "median_days_to_decision",
         "restriction_evidence_grade", "restriction_label_state",
         "restriction_last_checked", "restriction_in_force_as_of",
+        # provenance split (additive, appended so column order is stable)
+        "n_enacted_restrictive_tracker", "n_enacted_restrictive_census",
+        "has_enacted_restrictive_tracker", "label_provenance",
     ]
 
     # Optional evidence join. Absent file, unreadable file or a county the
@@ -373,6 +404,15 @@ def main() -> int:
                 evidence.get(fips, {}).get("last_checked", ""),
             "restriction_in_force_as_of":
                 evidence.get(fips, {}).get("in_force_as_of", ""),
+            "n_enacted_restrictive_tracker": enacted_tracker.get(fips, 0),
+            "n_enacted_restrictive_census": enacted_census.get(fips, 0),
+            "has_enacted_restrictive_tracker":
+                1 if enacted_tracker.get(fips, 0) else 0,
+            "label_provenance": (
+                "both" if enacted_tracker.get(fips, 0) and enacted_census.get(fips, 0)
+                else "tracker" if enacted_tracker.get(fips, 0)
+                else "census_only" if enacted_census.get(fips, 0)
+                else ""),
         })
 
     with open(OUT_CSV, "w", newline="", encoding="utf-8") as fh:
@@ -421,6 +461,11 @@ def main() -> int:
                                           + r["n_ban_events"]):
             failures.append(f"{r['fips']}: enacted exceeds moratorium+zoning+ban events")
             break
+        if (r["n_enacted_restrictive_tracker"] + r["n_enacted_restrictive_census"]
+                != r["n_enacted_restrictive"]):
+            failures.append(f"{r['fips']}: provenance split does not sum to "
+                            f"n_enacted_restrictive")
+            break
         if r["n_projects_opposed"] > r["n_projects_tracked"]:
             failures.append(f"{r['fips']}: opposed exceeds tracked projects")
             break
@@ -446,6 +491,11 @@ def main() -> int:
         "event_match_rate": round(match_rate, 4),
         "enacted_restriction_counties": sum(r["has_enacted_restrictive"] for r in out_rows),
         "dc_presence_counties": sum(r["dc_presence"] for r in out_rows),
+        # Which basis a published county count uses must be stated with it.
+        "enacted_restriction_counties_tracker":
+            sum(r["has_enacted_restrictive_tracker"] for r in out_rows),
+        "enacted_restriction_counties_census_only":
+            sum(1 for r in out_rows if r["label_provenance"] == "census_only"),
         "inputs": {os.path.basename(p): _sha(p) for p in
                    (CENSUS_CSV, VOTES_JSON, ATLAS_CSV, MASTER_CSV,
                     UNIVERSE_CSV, LIFECYCLES_CSV)},

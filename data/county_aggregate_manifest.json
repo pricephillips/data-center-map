@@ -1,15 +1,17 @@
 {
   "generated": "2026-09-28",
   "counties": 3222,
-  "event_rows_with_county": 1608,
-  "event_match_rate": 0.9919,
-  "enacted_restriction_counties": 460,
+  "event_rows_with_county": 1630,
+  "event_match_rate": 0.992,
+  "enacted_restriction_counties": 480,
   "dc_presence_counties": 424,
+  "enacted_restriction_counties_tracker": 334,
+  "enacted_restriction_counties_census_only": 146,
   "inputs": {
     "county_census_features.csv": "c94063d9123016f5",
     "county_votes.json": "b521eb017a7acfa5",
     "atlas.csv": "7a8c78d3ed6cea2d",
-    "master_opposition.csv": "a3a78d29f9377fb5",
+    "master_opposition.csv": "c151d83b88e71f00",
     "baseline_universe.csv": "dbcecd8411d7ffe6",
     "project_lifecycles.csv": "71710ec89ae7da55"
   }

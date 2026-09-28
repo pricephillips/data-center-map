@@ -71,6 +71,19 @@ except Exception as _e:
           "unverified rows will NOT be held out of the feed.")
     _HAVE_VERIFICATION = False
 
+# Status resolutions (ADDITIVE, 2026-09-28; no-op if the module is absent).
+# Rows data/status_resolutions.csv marks "supersede" (earlier-stage coverage of
+# an instrument whose final adoption is recorded on another row) stay in
+# master_opposition.csv and are held out of the feed, so one vote reported by
+# three articles counts once.
+try:
+    import status_resolution as _SR
+    _HAVE_RESOLUTIONS = True
+except Exception as _e:
+    print(f"  ! status_resolution unavailable ({_e.__class__.__name__}: {_e}); "
+          "superseded rows will NOT be held out of the feed.")
+    _HAVE_RESOLUTIONS = False
+
 try:
     import group_registry as _GR
     import date_recovery as _DR
@@ -261,6 +274,13 @@ def main():
                 _k = _r.get(_VS.COLUMN, "")
                 _VS_counts[_k] = _VS_counts.get(_k, 0) + 1
             print(f"  by status: {_VS_counts}")
+
+    # 1c. Superseded coverage (ADDITIVE). See status_resolution.py.
+    if _HAVE_RESOLUTIONS:
+        raw, _n_sup = _SR.hold_superseded(raw)
+        if _n_sup:
+            print(f"Status resolutions: {_n_sup} superseded row(s) held out of "
+                  f"the feed build; {len(raw)} remain.")
 
     # 2. Clean (pre-process)
     cleaned, report, changelog = cleaner.clean(raw)
