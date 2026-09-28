@@ -193,7 +193,14 @@ def normalize_url(u):
 
 
 def known_urls():
-    """Every URL already cited anywhere in the database, normalized."""
+    """Every URL already cited anywhere in the database, normalized.
+
+    Unions every file in OPPOSITION_CANDIDATES. It used to stop at the first
+    non-empty file, the clean feed, which drops most promoted harvest rows
+    (verification holdout). Those URLs never looked known, so each nightly
+    run re-harvested and re-promoted them: master_opposition.csv grew from
+    3,611 to 4,099 exact duplicate signal_harvest_auto rows in four days.
+    """
     seen = set()
     for path in OPPOSITION_CANDIDATES:
         for r in load_csv(path):
@@ -201,8 +208,6 @@ def known_urls():
                             ("Source URL", "Sources", "Opposition Website", "Petition URL"))
             for m in re.findall(r"https?://[^\s'\"}\],]+", blob):
                 seen.add(normalize_url(m))
-        if seen:
-            break
     return seen
 
 
@@ -620,6 +625,30 @@ def _selftest_no_clobber():
         OUT_CSV, FACILITY_CSV, LOG_CSV = keep_out, keep_fac, keep_log
 
 
+def _selftest_known_urls_union():
+    """A URL cited only in the raw file (held out of the clean feed) is still
+    known, so it is never re-promoted."""
+    global OPPOSITION_CANDIDATES
+    import tempfile
+    td = tempfile.mkdtemp()
+    clean = os.path.join(td, "master_opposition_clean.csv")
+    raw = os.path.join(td, "master_opposition.csv")
+    for path, urls in ((clean, ["https://example.com/a"]),
+                       (raw, ["https://example.com/a", "https://example.com/held-out"])):
+        with open(path, "w", newline="", encoding="utf-8") as fh:
+            w = csv.writer(fh)
+            w.writerow(["Incident", "Source URL"])
+            for u in urls:
+                w.writerow(["x", u])
+    keep = OPPOSITION_CANDIDATES
+    OPPOSITION_CANDIDATES = [clean, raw]
+    try:
+        k = known_urls()
+        return "example.com/a" in k and "example.com/held-out" in k
+    finally:
+        OPPOSITION_CANDIDATES = keep
+
+
 def selftest():
     ok = True
 
@@ -627,6 +656,10 @@ def selftest():
         nonlocal ok
         print(("PASS  " if cond else "FAIL  ") + msg)
         ok = ok and cond
+
+    expect(_selftest_known_urls_union(),
+           "known_urls unions the clean feed and the raw file, so a row held "
+           "out of the clean feed is not re-promoted")
 
     expect(normalize_url("https://WWW.Example.com/a/?utm=1#x") == "example.com/a",
            "url normalization strips scheme, www, query, fragment, trailing slash")
