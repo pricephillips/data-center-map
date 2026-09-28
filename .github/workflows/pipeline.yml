@@ -157,6 +157,10 @@ jobs:
           python operations_summary.py --selftest
           echo "County model selection-rule self-tests:"
           python county_policy_model.py --selftest
+          # Adaptive feature search (added 2026-09-28): expanded county pool
+          # and the promotion rule county_policy_model.py reads.
+          python county_features.py --selftest
+          python feature_search.py --selftest
           echo "Layer audit self-tests:"
           python layer_audit.py --selftest
           echo "Facility registry self-tests:"
@@ -275,7 +279,12 @@ jobs:
         if: steps.project_resolution.outcome == 'success'
         continue-on-error: true
         run: |
-          python county_aggregator.py && python county_policy_model.py
+          # county_features.py regenerates the expanded pool from the fresh
+          # aggregate so promoted variables (data/feature_search_promotions.json,
+          # written weekly by feature-search.yml) are scored on current data.
+          # It never changes the label and an absent promotions file leaves
+          # the model on its registered ten-variable pool.
+          python county_aggregator.py && python county_features.py && python county_policy_model.py
           # Conformal + Venn-Abers intervals on the county model. Additive:
           # rebuilds the selected spec from the metrics JSON and never selects
           # its own. A failure here must not take down the county scores, so
@@ -480,6 +489,7 @@ jobs:
             git add data/county_aggregate.csv data/county_aggregate_manifest.json \
                     data/county_policy_scores.csv data/county_policy_intervals.csv data/county_policy_intervals.md data/county_policy_metrics.json \
                     data/county_model_spec_history.csv \
+                    data/county_features_expanded.csv data/county_features_catalog.json \
                     data/county_policy_report.md 2>/dev/null || true
           fi
           # Staged separately from the county layer even though it is gated on
