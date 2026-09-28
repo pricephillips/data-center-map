@@ -1,0 +1,83 @@
+name: Adaptive Feature Search
+
+# Ranks the expanded county variable pool against the enacted-restriction,
+# moratorium and opposition-conversion targets, updates the filtered variable
+# weights, and writes the promotion list county_policy_model.py reads.
+#
+# Why separate from pipeline.yml: pipeline.yml has a 10-minute budget shared
+# by every layer, and the search costs about two minutes of CPU. Weights are
+# filtered across runs, so a weekly cadence is the right one anyway: a daily
+# run on near-identical data would add observations that are not independent.
+# The search skips itself when nothing it reads has changed.
+#
+# How promotions reach production: this workflow commits
+# data/feature_search_promotions.json; the next pipeline.yml run (daily cron
+# at 06:40 UTC, or any push) regenerates the expanded features and fits the
+# county model with the promoted variables in its candidate pool. The model's
+# own sign-stability rule and the calibration gate still decide what ships.
+
+on:
+  push:
+    paths:
+      - 'feature_search.py'
+      - 'county_features.py'
+      - 'configs/feature_search.json'
+      - 'configs/feature_plugins.json'
+      - 'data/features/*.csv'
+  schedule:
+    - cron: '20 8 * * 1'      # Mondays 08:20 UTC, after retrain.yml (07:00)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: feature-search
+  cancel-in-progress: false
+
+jobs:
+  search:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout data-center-map
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pandas numpy scipy "scikit-learn>=1.2"
+
+      - name: Self-tests (BLOCKING)
+        run: |
+          python county_features.py --selftest
+          python feature_search.py --selftest
+          python county_policy_model.py --selftest
+
+      - name: Build expanded county features
+        run: python county_features.py
+
+      - name: Feature search + weight update
+        run: python feature_search.py
+
+      - name: Commit search artifacts
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/county_features_expanded.csv data/county_features_catalog.json \
+                  data/feature_search_metrics.json data/feature_search_ranking.csv \
+                  data/feature_search_weights.json data/feature_search_weight_history.csv \
+                  data/feature_search_promotions.json data/feature_search_report.md \
+                  2>/dev/null || true
+          git diff --staged --quiet && echo "No changes to commit" && exit 0
+          git commit -m "Feature search + weight update [skip ci]"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && break
+            if [ "$i" = "3" ]; then echo "Push failed after 3 attempts"; exit 1; fi
+            echo "Push attempt $i failed (another workflow moved the branch); retrying in 10s"
+            git rebase --abort 2>/dev/null || true
+            sleep 10
+          done
