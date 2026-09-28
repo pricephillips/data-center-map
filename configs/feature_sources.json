@@ -1,0 +1,66 @@
+{
+  "_comment": [
+    "Acquisition settings for fetch_county_features.py. Each source writes one",
+    "fips-keyed CSV under data/features/, registered for the adaptive feature",
+    "search in configs/feature_plugins.json. A source that fails (network,",
+    "schema drift, missing secret) writes nothing and is recorded in",
+    "data/features/features_manifest.json; the plugin loader in",
+    "county_features.py skips a missing file, so a failed source never breaks",
+    "the county step. URLs are lists: the first that answers is used.",
+    "",
+    "Zoning regime has no national county-level source. The National Zoning",
+    "Atlas covers a minority of jurisdictions, unevenly by state, and would",
+    "enter the search as a detection-biased variable. It is not built."
+  ],
+  "sources": {
+    "grid_generation": {
+      "enabled": true,
+      "out": "data/features/grid_generation.csv",
+      "pudl_release": "v2025.2.0",
+      "table": "out_eia__yearly_generators",
+      "base_urls": ["https://s3.us-west-2.amazonaws.com/pudl.catalyst.coop"],
+      "license": "CC-BY-4.0 (Catalyst Cooperative PUDL; EIA-860)"
+    },
+    "retail_price": {
+      "enabled": true,
+      "out": "data/features/retail_price.csv",
+      "pudl_release": "v2025.2.0",
+      "sales_table": "core_eia861__yearly_sales",
+      "territory_table": "core_eia861__yearly_service_territory",
+      "base_urls": ["https://s3.us-west-2.amazonaws.com/pudl.catalyst.coop"],
+      "license": "CC-BY-4.0 (Catalyst Cooperative PUDL; EIA-861)"
+    },
+    "water_use": {
+      "enabled": true,
+      "out": "data/features/water_use.csv",
+      "urls": [
+        "https://water.usgs.gov/watuse/data/2015/usco2015v2.0.csv",
+        "https://www.sciencebase.gov/catalog/file/get/5af3311be4b0da30c1b245d8?name=usco2015v2.0.csv"
+      ],
+      "vintage": "2015",
+      "license": "public domain (USGS Estimated Use of Water in the United States, county data 2015)"
+    },
+    "drought": {
+      "enabled": true,
+      "out": "data/features/drought.csv",
+      "url_template": "https://usdmdataservices.unl.edu/api/CountyStatistics/GetDroughtSeverityStatisticsByAreaPercent?aoi={aoi}&startdate={start}&enddate={end}&statisticsType=1",
+      "start": "1/1/2020",
+      "end": "12/31/2024",
+      "d2_week_threshold_pct": 50,
+      "min_weeks": 150,
+      "license": "U.S. Drought Monitor (NDMC, USDA, NOAA), public"
+    },
+    "farmland": {
+      "enabled": true,
+      "out": "data/features/farmland.csv",
+      "api": "https://quickstats.nass.usda.gov/api/api_GET/",
+      "key_env": "NASS_API_KEY",
+      "year": 2022,
+      "series": {
+        "farm_acres": "FARM OPERATIONS - ACRES OPERATED",
+        "cropland_acres": "AG LAND, CROPLAND - ACRES"
+      },
+      "license": "public domain (USDA NASS Census of Agriculture)"
+    }
+  }
+}

@@ -17,5 +17,158 @@
     "   \"plg_retail_price\", \"label\": \"average retail electricity price\",",
     "   \"tier\": 1, \"transform\": \"identity\", \"leakage_class\": \"none\"}}}"
   ],
-  "plugins": []
+  "plugins": [
+    {
+      "file": "data/features/grid_generation.csv",
+      "key": "fips",
+      "enabled": true,
+      "source": "PUDL out_eia__yearly_generators (EIA-860), latest report year; fetch_county_features.py",
+      "columns": {
+        "gen_capacity_mw": {
+          "name": "plg_gen_capacity",
+          "label": "operating generating capacity, MW, log",
+          "tier": 1,
+          "transform": "log1p",
+          "leakage_class": "none"
+        },
+        "gen_fossil_share": {
+          "name": "plg_gen_fossil_share",
+          "label": "fossil share of operating capacity",
+          "tier": 1,
+          "transform": "identity",
+          "leakage_class": "none"
+        },
+        "gen_renewable_share": {
+          "name": "plg_gen_renewable_share",
+          "label": "wind, solar and hydro share of operating capacity",
+          "tier": 1,
+          "transform": "identity",
+          "leakage_class": "none"
+        },
+        "planned_capacity_mw": {
+          "name": "plg_planned_capacity",
+          "label": "planned generating capacity, MW, log",
+          "tier": 1,
+          "transform": "log1p",
+          "leakage_class": "none"
+        },
+        "planned_renewable_mw": {
+          "name": "plg_planned_renewable",
+          "label": "planned renewable and storage capacity, MW, log",
+          "tier": 1,
+          "transform": "log1p",
+          "leakage_class": "none"
+        },
+        "retiring_capacity_mw": {
+          "name": "plg_retiring_capacity",
+          "label": "capacity with planned retirement within 5 years, MW, log",
+          "tier": 1,
+          "transform": "log1p",
+          "leakage_class": "none"
+        }
+      }
+    },
+    {
+      "file": "data/features/retail_price.csv",
+      "key": "fips",
+      "enabled": true,
+      "source": "PUDL core_eia861__yearly_sales + service territory (EIA-861); fetch_county_features.py",
+      "columns": {
+        "price_com_cents": {
+          "name": "plg_price_commercial",
+          "label": "commercial retail price of bundled utilities serving the county, cents/kWh",
+          "tier": 1,
+          "transform": "identity",
+          "leakage_class": "none"
+        },
+        "price_ind_cents": {
+          "name": "plg_price_industrial",
+          "label": "industrial retail price of bundled utilities serving the county, cents/kWh",
+          "tier": 1,
+          "transform": "identity",
+          "leakage_class": "none"
+        },
+        "state_price_ind_cents": {
+          "name": "plg_state_price_industrial",
+          "label": "statewide industrial retail price, cents/kWh",
+          "tier": 1,
+          "transform": "identity",
+          "leakage_class": "none"
+        }
+      }
+    },
+    {
+      "file": "data/features/water_use.csv",
+      "key": "fips",
+      "enabled": true,
+      "source": "USGS county water use 2015; fetch_county_features.py",
+      "columns": {
+        "fw_withdrawal_per_sqmi": {
+          "name": "plg_water_withdrawal_density",
+          "label": "freshwater withdrawals per sq mi, Mgal/d, log",
+          "tier": 1,
+          "transform": "log1p",
+          "leakage_class": "none"
+        },
+        "gw_share": {
+          "name": "plg_water_groundwater_share",
+          "label": "groundwater share of freshwater withdrawals",
+          "tier": 1,
+          "transform": "identity",
+          "leakage_class": "none"
+        },
+        "irrigation_share": {
+          "name": "plg_water_irrigation_share",
+          "label": "irrigation share of freshwater withdrawals",
+          "tier": 1,
+          "transform": "identity",
+          "leakage_class": "none"
+        }
+      }
+    },
+    {
+      "file": "data/features/drought.csv",
+      "key": "fips",
+      "enabled": true,
+      "source": "U.S. Drought Monitor county statistics 2020-2024; fetch_county_features.py",
+      "columns": {
+        "drought_d1_mean_pct": {
+          "name": "plg_drought_d1_mean",
+          "label": "mean pct of county area in moderate drought or worse (D1+), 2020-2024",
+          "tier": 1,
+          "transform": "identity",
+          "leakage_class": "none"
+        },
+        "drought_d2_weeks_share": {
+          "name": "plg_drought_d2_weeks",
+          "label": "share of weeks with half the county in severe drought or worse (D2+), 2020-2024",
+          "tier": 1,
+          "transform": "identity",
+          "leakage_class": "none"
+        }
+      }
+    },
+    {
+      "file": "data/features/farmland.csv",
+      "key": "fips",
+      "enabled": true,
+      "source": "USDA NASS Census of Agriculture 2022; fetch_county_features.py",
+      "columns": {
+        "farmland_share": {
+          "name": "plg_farmland_share",
+          "label": "land in farms, share of county land area",
+          "tier": 1,
+          "transform": "identity",
+          "leakage_class": "none"
+        },
+        "cropland_share": {
+          "name": "plg_cropland_share",
+          "label": "cropland, share of county land area",
+          "tier": 1,
+          "transform": "identity",
+          "leakage_class": "none"
+        }
+      }
+    }
+  ]
 }
