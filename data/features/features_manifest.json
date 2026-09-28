@@ -44,52 +44,41 @@
       "status": "ok"
     },
     "grid_generation": {
-      "attempted": "2026-09-28T21:45:33Z",
-      "built": "2026-09-28T21:45:33Z",
+      "attempted": "2026-09-28T21:56:22Z",
+      "built": "2026-09-28T21:56:22Z",
       "coverage": {
-        "gen_capacity_mw": 2899,
-        "gen_fossil_share": 1987,
-        "gen_nuclear_mw": 2899,
-        "gen_renewable_share": 1987,
-        "planned_capacity_mw": 2899,
-        "planned_gas_mw": 2899,
-        "planned_renewable_mw": 2899,
+        "gen_capacity_mw": 3135,
+        "gen_fossil_share": 2188,
+        "gen_nuclear_mw": 3135,
+        "gen_renewable_share": 2188,
+        "planned_capacity_mw": 3135,
+        "planned_gas_mw": 3135,
+        "planned_renewable_mw": 3135,
         "report_year": 3144,
-        "retiring_capacity_mw": 2899
+        "retiring_capacity_mw": 3135
       },
       "file": "data/features/grid_generation.csv",
       "info": {
         "blank_states": [
-          "CT",
-          "DC",
-          "IL",
-          "VA"
+          "CT"
         ],
+        "geo_note": [],
+        "placed_by_coordinates_mw": 39464.1,
         "report_year": 2024,
         "resolved": {
           "capacity": "capacity_mw",
           "county": "county",
           "fuel": "energy_source_code_1",
+          "lat": "latitude",
+          "lon": "longitude",
           "plant": "plant_id_eia",
           "retirement": "planned_generator_retirement_date",
           "state": "state",
           "status": "operational_status",
           "year": "report_date"
         },
-        "unmatched_mw": 57342.0,
+        "unmatched_mw": 17877.9,
         "unmatched_top": [
-          [
-            "IL|None",
-            7814.7
-          ],
-          [
-            "VA|None",
-            5741.5
-          ],
-          [
-            "PA|None",
-            3604.8
-          ],
           [
             "CT|New Haven",
             3411.2
@@ -99,16 +88,12 @@
             3300.7
           ],
           [
-            "TX|None",
-            2948.4
+            "VA|None",
+            2654.0
           ],
           [
             "CT|Fairfield",
             2451.9
-          ],
-          [
-            "CA|None",
-            2090.2
           ],
           [
             "CT|Middlesex",
@@ -116,33 +101,49 @@
           ],
           [
             "MD|None",
-            1817.4
+            970.0
           ],
           [
-            "NY|None",
-            1244.4
+            "CT|Hartford",
+            939.8
+          ],
+          [
+            "CT|None",
+            880.1
+          ],
+          [
+            "CT|Windham",
+            363.5
+          ],
+          [
+            "NE|None",
+            230.0
           ],
           [
             "AZ|None",
-            1128.5
+            200.0
           ],
           [
-            "FL|None",
-            1080.1
+            "CT|Litchfield",
+            177.8
           ],
           [
-            "OK|None",
-            1069.3
+            "GA|None",
+            128.0
           ],
           [
-            "IN|None",
-            1050.8
+            "AK|Valdez Cordova",
+            68.4
+          ],
+          [
+            "AK|None",
+            39.8
           ]
         ]
       },
       "license": "CC-BY-4.0 (Catalyst Cooperative PUDL; EIA-860)",
       "rows": 3144,
-      "sha256": "a2740171f22b9b0f2ec92d01c88f4690a006853ab9d08872146713ca0b3f33ef",
+      "sha256": "a1cdafb14ff56004718c75ce82d8f01ed1842752ac6b105dbbb642ad5be934a3",
       "status": "ok"
     },
     "retail_price": {
