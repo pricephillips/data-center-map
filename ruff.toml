@@ -1,0 +1,5 @@
+# Blocking set only (spec 004, research D6). The default set is report-only in CI.
+extend-exclude = [".specify", "node_modules"]
+
+[lint]
+select = ["E9", "F63", "F7", "F82"]

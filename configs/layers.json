@@ -72,7 +72,8 @@
         "data/manual_additions.csv",
         "data/manual_corrections.csv",
         "data/manual_records_report.csv",
-        "data/manual_removed_rows.csv"
+        "data/manual_removed_rows.csv",
+        "data/status_resolutions.csv"
       ]
     },
     "D": {
@@ -144,6 +145,7 @@
         "data/decision_date_worklist.csv",
         "data/decision_date_recovery_candidates.csv",
         "data/announce_date_worklist.csv",
+        "data/status_resolution_worklist.csv",
         "date_recovery_report.csv",
         "data/date_recovery_*.md",
         "data/negative_audit_*.csv",
@@ -225,7 +227,8 @@
         "data/feature_search_weights.json",
         "data/feature_search_weight_history.csv",
         "data/feature_search_promotions.json",
-        "data/feature_search_report.md"
+        "data/feature_search_report.md",
+        "data/master_diff_summary.md"
       ]
     }
   },
@@ -245,7 +248,8 @@
   },
   "declared_crossings": {
     "signal_harvest.py": "Layers A and C. One GDELT call returns both facility-lifecycle articles and opposition coverage, and splitting the network call in two would double the quota cost to separate what a single classifier can route. The module routes, it never merges: a row lands in exactly one layer's file, with the opposition side winning any tie, and neither file is a source of record.",
-    "census_gap_candidates.py": "Layers C and D. This is the gap-closure promotion path: a Layer D census gap becomes a Layer C opposition record. The crossing is the point of the module and it is gated (complete, dated, sourced, dedup-guarded, census-corroborated), appends only, and writes every promote, hold and block decision to data/gap_promotion_report.csv."
+    "census_gap_candidates.py": "Layers C and D. This is the gap-closure promotion path: a Layer D census gap becomes a Layer C opposition record. The crossing is the point of the module and it is gated (complete, dated, sourced, dedup-guarded, census-corroborated), appends only, and writes every promote, hold and block decision to data/gap_promotion_report.csv.",
+    "status_resolution.py": "Layers C and E. The scan proposes only: it writes data/status_resolution_worklist.csv (Layer E) and changes nothing in Layer C. --apply writes master_opposition.csv (Layer C), but only from data/status_resolutions.csv, the reviewer-confirmed file that names the evidence URL and confirmation date for each change; a headline never changes a status by itself. It is idempotent, matches rows on normalized Source URL, and deletes nothing (superseded rows stay in master and are held out of the clean feed by hold_superseded). Declared 2026-09-28 with the module."
   },
   "not_regenerable": {
     "_comment": [

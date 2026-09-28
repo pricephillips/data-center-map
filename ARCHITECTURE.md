@@ -167,7 +167,7 @@ Recorded opposition events and the entities that produce them.
 | | |
 |---|---|
 | Key | `opp_id`, joined to `project_id` through `data/project_links.csv` and nothing else |
-| Files | `master_opposition.csv`, `master_opposition_clean.csv`, `change_log.csv`, `quarantine.json`, `group_registry.csv`, the review queues, `data/signal_*` |
+| Files | `master_opposition.csv`, `master_opposition_clean.csv`, `change_log.csv`, `quarantine.json`, `group_registry.csv`, the review queues, `data/signal_*`, `data/status_resolutions.csv` (reviewer-confirmed status changes, hand maintained, applied by `status_resolution.py --apply`) |
 | Writers | `scripts/build_master_csv.py`, `clean_opposition_data.py`, `build_clean_feed.py`, `signal_harvest.py`, `promote_signal_candidates.py`, `census_gap_candidates.py` |
 | Source of record | `master_opposition.csv`, whose filename never changes |
 
@@ -272,7 +272,7 @@ worklists, reports.
 | | |
 |---|---|
 | Key | Inherits whatever it was derived from |
-| Files | `data/baseline_*`, `data/matched_controls.csv`, every model artifact, every audit output, every worklist, `docs/*.md`, `headline_metrics.md` |
+| Files | `data/baseline_*`, `data/matched_controls.csv`, every model artifact, every audit output, every worklist (including `data/status_resolution_worklist.csv` from `status_resolution.py`), `data/master_diff_summary.md` (sole writer `master_diff.py`), `docs/*.md`, `headline_metrics.md` |
 | Writers | One module each, listed in `configs/layers.json` |
 | Sources of record | None, by definition |
 

@@ -1,0 +1,12 @@
+# Mirrors leak_audit.LEAK_RE. scripts/precommit_gates.py vale-sync fails if
+# the two drift apart.
+extends: existence
+message: "'%s' is scorekeeping vocabulary; use the outcome ladder in README.md."
+level: error
+ignorecase: true
+tokens:
+  - win
+  - wins
+  - loss
+  - losses
+  - lost

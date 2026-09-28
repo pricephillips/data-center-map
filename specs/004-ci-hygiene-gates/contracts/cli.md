@@ -31,14 +31,15 @@ The selftest must cover:
 ## `master_diff.py` (new)
 
 ```
-python master_diff.py [--base REV] [--out data/master_diff_summary.md]
+python master_diff.py [--base REV]
 python master_diff.py --selftest
 ```
 
 - `--base` defaults to `HEAD~1`.
 - It reads `master_opposition.csv` and `master_opposition_clean.csv` at `--base`
   via `git show`, and from the working tree.
-- It writes only `--out` (FR-006).
+- It writes only `data/master_diff_summary.md` (FR-006). The path is a module
+  constant, not a flag, so `layer_audit.py` can resolve the write.
 - Exit 0 on success, including the "no prior revision" and "no changes" states.
   Exit 1 only when a CSV cannot be parsed.
 - The selftest uses two inline fixture frames that differ in one

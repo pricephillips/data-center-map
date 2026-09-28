@@ -1,0 +1,38 @@
+# Local Constitution Check gates (spec 004, US1). Every hook is a system hook
+# that calls a script in this repo; nothing is fetched from a remote hook repo.
+# One-time setup: pipx install pre-commit && pre-commit install
+repos:
+  - repo: local
+    hooks:
+      - id: csv-lf
+        name: CSV line endings (no new CRLF; rewrites to LF)
+        entry: python scripts/precommit_gates.py crlf --fix
+        language: system
+        files: \.csv$
+      - id: deliverable-emdash
+        name: No em-dashes in deliverables
+        entry: python scripts/precommit_gates.py emdash
+        language: system
+        files: ^(headline_metrics\.md|docs/.*_report.*\.md|deliverables/.*\.md)$
+      - id: leak-audit
+        name: Leak audit (blocking tier)
+        entry: python leak_audit.py --tier blocking
+        language: system
+        files: \.(py|md|html|csv|json|ya?ml)$
+        pass_filenames: false
+      - id: node-check
+        name: node --check on touched JS and inline scripts
+        entry: python scripts/precommit_gates.py nodecheck
+        language: system
+        files: \.(js|html)$
+      - id: layer-audit
+        name: Layer audit (strict, writes nothing)
+        entry: python layer_audit.py --strict --no-write
+        language: system
+        files: \.py$|^configs/layers\.json$
+        pass_filenames: false
+      - id: touched-selftest
+        name: --selftest on touched modules
+        entry: python scripts/precommit_gates.py selftest
+        language: system
+        files: \.py$

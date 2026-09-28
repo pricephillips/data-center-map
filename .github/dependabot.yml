@@ -1,0 +1,19 @@
+# Weekly, grouped: at most one PR per ecosystem per week (spec 004, FR-008).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      all:
+        patterns: ["*"]
+  - package-ecosystem: pip
+    directory: /requirements
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      all:
+        patterns: ["*"]
