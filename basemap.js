@@ -26,6 +26,9 @@
 (function (global) {
   'use strict';
 
+  var ESRI_ATTRIBUTION = 'Powered by <a href="https://www.esri.com">Esri</a> | ' +
+    'Esri, HERE, Garmin, &copy; OpenStreetMap contributors, and the GIS user community';
+
   var PROVIDERS = {
     // Keyless. Esri's dark canvas is the closest match to the palette the
     // pages were designed against. Note the {z}/{y}/{x} order, which is not
@@ -33,14 +36,18 @@
     esri_dark: {
       url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/' +
            'World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
-      attribution: 'Tiles &copy; Esri',
+      // Esri requires 'Powered by Esri' plus the service's own copyright text
+      // (copyrightText on the MapServer endpoint).
+      attribution: ESRI_ATTRIBUTION,
       maxZoom: 16,
       subdomains: []
     },
     esri_light: {
       url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/' +
            'World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
-      attribution: 'Tiles &copy; Esri',
+      // Esri requires 'Powered by Esri' plus the service's own copyright text
+      // (copyrightText on the MapServer endpoint).
+      attribution: ESRI_ATTRIBUTION,
       maxZoom: 16,
       subdomains: []
     },
