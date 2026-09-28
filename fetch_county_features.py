@@ -326,6 +326,8 @@ def build_grid(rows, frame, report_year, source) -> list:
 
 GEN_CANDS = {
     "fips": ["county_id_fips", "county_fips", "fips_county"],
+    "county": ["county"],
+    "state": ["state", "plant_state"],
     "capacity": ["capacity_mw", "summer_capacity_mw"],
     "fuel": ["energy_source_code_1", "fuel_type_code_pudl", "energy_source_code",
              "technology_description"],
@@ -339,16 +341,39 @@ GEN_CANDS = {
 
 def src_grid(cfg, frame, tmpdir):
     path = pudl_parquet(cfg, cfg["table"], tmpdir)
-    gen, m = iter_parquet(path, GEN_CANDS, ("fips", "capacity", "fuel", "status", "year"))
+    gen, m = iter_parquet(path, GEN_CANDS, ("capacity", "fuel", "status", "year"))
+    if "fips" not in m and not ("county" in m and "state" in m):
+        raise SourceError("schema drift: no county_id_fips and no county + state columns")
+    import fetch_pudl as FP
+    by_name = FP.load_fips_by_county_key()
+    unmatched = defaultdict(float)
+
+    def with_fips(rows):
+        for r in rows:
+            f = norm_fips(r.get("fips"))
+            if not f:
+                f = by_name.get(FP.norm_county_key(r.get("county"), r.get("state")), "")
+            if not f:
+                unmatched[f"{r.get('state')}|{r.get('county')}"] += fnum(r.get("capacity")) or 0.0
+            yield {**r, "fips": f}
+
     yr = max((year_of(r["year"]) or 0) for r in gen())
     if yr < 2015:
         raise SourceError(f"implausible latest report year {yr}")
-    rows = build_grid((r for r in gen() if year_of(r["year"]) == yr), frame, yr,
+    rows = build_grid(with_fips(r for r in gen() if year_of(r["year"]) == yr), frame, yr,
                       f"PUDL {cfg['pudl_release']} {cfg['table']} ({cfg['license']})")
     tot = sum(r["gen_capacity_mw"] for r in rows)
+    lost = sum(unmatched.values())
+    top = sorted(unmatched.items(), key=lambda kv: -kv[1])[:15]
     if not 5e5 < tot < 3e6:
-        raise SourceError(f"implausible national operating capacity {tot:.0f} MW")
-    return OUT_GRID, GEN_COLS, rows, {"report_year": yr, "resolved": m}
+        raise SourceError(f"implausible national operating capacity {tot:.0f} MW; "
+                          f"unmatched {lost:.0f} MW, largest: {top[:5]}")
+    if lost > 0.05 * (tot + lost):
+        raise SourceError(f"{lost:.0f} MW ({lost / (tot + lost):.1%}) could not be placed "
+                          f"in a county; largest: {top[:5]}")
+    return OUT_GRID, GEN_COLS, rows, {"report_year": yr, "resolved": m,
+                                      "unmatched_mw": round(lost, 1),
+                                      "unmatched_top": [[k, round(v, 1)] for k, v in top]}
 
 
 # --------------------------------------------------------------------------
@@ -522,15 +547,26 @@ DROUGHT_COLS = ["fips", "drought_d1_mean_pct", "drought_d2_weeks_share",
                 "weeks", "window", "source"]
 
 
+def ci(r, *names):
+    """Case-insensitive field lookup; the USDM API has served both PascalCase
+    (MapDate, FIPS, D1) and camelCase (mapDate, fips, d1) field names."""
+    low = {str(k).lower(): v for k, v in r.items()}
+    for n in names:
+        v = low.get(n.lower())
+        if v not in (None, ""):
+            return v
+    return None
+
+
 def build_drought(recs, frame, window, threshold, min_weeks, source) -> list:
     """recs: USDM cumulative statistics rows (D1 = pct area in D1 or worse)."""
     wk = defaultdict(dict)
     for r in recs:
-        f = norm_fips(r.get("FIPS") or r.get("fips"))
+        f = norm_fips(ci(r, "FIPS", "countyFips", "county_fips"))
         if f not in frame:
             continue
-        d = str(r.get("MapDate") or r.get("mapDate") or r.get("ValidStart") or "")[:10]
-        d1, d2 = fnum(r.get("D1")), fnum(r.get("D2"))
+        d = str(ci(r, "MapDate", "ValidStart", "validStart") or "")[:10]
+        d1, d2 = fnum(ci(r, "D1")), fnum(ci(r, "D2"))
         if d and d1 is not None and d2 is not None:
             wk[f][d] = (d1, d2)
     out = []
@@ -562,21 +598,35 @@ def parse_usdm(raw: bytes) -> list:
 
 
 def src_drought(cfg, frame, tmpdir):
-    recs, errs = [], []
+    recs, errs, empty = [], [], []
+    start = urllib.parse.quote(cfg["start"], safe="")
+    end = urllib.parse.quote(cfg["end"], safe="")
     for st in sorted({v["state"] for v in frame.values() if v["state"]}):
-        url = cfg["url_template"].format(aoi=st, start=urllib.parse.quote(cfg["start"], safe=""),
-                                         end=urllib.parse.quote(cfg["end"], safe=""))
-        try:
-            recs.extend(parse_usdm(http_get(url, headers={"Accept": "application/json"}, timeout=180)))
-        except (SourceError, ValueError) as exc:
-            errs.append(f"{st}: {exc}")
+        got = []
+        # State abbreviation first, then the 2-digit state FIPS code.
+        for aoi in (st, STATE_FIPS.get(st, "")):
+            if not aoi:
+                continue
+            url = cfg["url_template"].format(aoi=aoi, start=start, end=end)
+            try:
+                got = parse_usdm(http_get(url, headers={"Accept": "application/json"}, timeout=180))
+            except (SourceError, ValueError) as exc:
+                errs.append(f"{st}/{aoi}: {exc}")
+                got = []
+            if got:
+                break
+        if not got:
+            empty.append(st)
+        recs.extend(got)
     window = f"{cfg['start']} to {cfg['end']}"
     rows = build_drought(recs, frame, window, cfg["d2_week_threshold_pct"],
                          cfg["min_weeks"], f"{cfg['license']}")
     hit = sum(1 for r in rows if r["drought_d1_mean_pct"] != "")
     if hit < 0.8 * len(frame):
+        sample = recs[0] if recs else {}
         raise SourceError(f"only {hit} of {len(frame)} counties with {cfg['min_weeks']}+ weeks; "
-                          f"state errors: {errs[:5]}")
+                          f"{len(recs)} records; states with no records: {empty[:10]}; "
+                          f"sample record: {str(sample)[:300]}; errors: {errs[:3]}")
     return OUT_DROUGHT, DROUGHT_COLS, rows, {"state_errors": errs, "records": len(recs)}
 
 
@@ -781,6 +831,10 @@ def selftest() -> int:
     check("drought too few weeks blank", d["19003"]["drought_d1_mean_pct"] == "")
     check("usdm json list parsed", len(parse_usdm(b'[{"FIPS":"19001","D1":1,"D2":0}]')) == 1)
     check("usdm csv parsed", len(parse_usdm(b"FIPS,D1,D2\n19001,1,0\n")) == 1)
+    camel = [{"fips": "19001", "mapDate": f"2020-01-{i + 1:02d}T00:00:00", "d1": 20, "d2": 0}
+             for i in range(3)]
+    dc = {r["fips"]: r for r in build_drought(camel, frame, "w", 50, 3, "t")}
+    check("drought camelCase fields", dc["19001"]["drought_d1_mean_pct"] == 20)
 
     # farmland
     farm = nass_by_fips([
