@@ -3,63 +3,87 @@
 Run date: 2026-09-28
 Compared against: 2026-09-27
 
-Sites screened: 394 | tier changes: 21 | composite moves of 3 points or more: 42 | newly screened: 0
+Sites screened: 394 | tier changes: 45 | composite moves of 3 points or more: 155 | newly screened: 0
 
 ## Tier changes
 
 | Site | County, State | From | To | Composite change |
 | :-- | :-- | :-- | :-- | --: |
-| Childersburg Data Center | Talladega County, AL | Guarded | Low | -1.1 |
-| Granger Data Center | St. Joseph County, IN | Elevated | Guarded | -0.6 |
-| Bates Mill No. 3. Data Center | Androscoggin County, ME | Low | Guarded | +1.5 |
-| Atmosphere Dickerson Data Center | Montgomery County, MD | High | Elevated | -3.8 |
-| Project Cumulus | St. Charles County, MO | Guarded | Elevated | +2.9 |
-| Prism Capital Partners Nutley Site | Essex County, NJ | Elevated | Guarded | -4.7 |
-| Greensboro Dream Center | Guilford County, NC | Low | Guarded | +10.9 |
-| Project Cosmos | Union County, OH | Guarded | Elevated | +1.6 |
-| Strata Expanse AI Center of Excellence | Lawrence County, OH | Low | Guarded | +7.1 |
-| Mt. Orab Mega Site | Brown County, OH | Guarded | Low | -1.4 |
-| Google Franklin Furnace Data Center | Scioto County, OH | Low | Guarded | +6.1 |
-| Cipher Mining's "Ulysses" | Union County, OH | Guarded | Elevated | +1.5 |
-| CoreWeave Lancaster | Lancaster County, PA | Low | Guarded | +3.5 |
-| Dauphin Highlands Golf Course sold for Data Center | Dauphin County, PA | Guarded | Elevated | +0.5 |
-| Tobyhanna Township / Blakeslee Data Center | Monroe County, PA | High | Elevated | -0.7 |
-| Nebius Butler Township Data Center | Schuylkill County, PA | Guarded | Elevated | +1.8 |
-| CleanSpark Mountain City Bitcoin Mine | Johnson County, TN | Low | Guarded | +7.0 |
-| Alpha Technologies Huntington | Cabell County, WV | Guarded | Low | -0.9 |
-| Rubix Data Center | Greenup County, KY | Low | Guarded | +8.8 |
-| PowerHouse Carrollton | Carroll County, KY | Guarded | Low | -0.7 |
-| Terra Nexus Custer Avenue Data Center | Cumberland, NC | Elevated | Guarded | -2.1 |
+| Wallingford Data Center | South Central Connecticut Planning Region, CT | Low | Guarded | +6.5 |
+| Bristol Technology Center | Naugatuck Valley Planning Region, CT | Low | Guarded | +5.5 |
+| Granger Data Center | St. Joseph County, IN | Elevated | Guarded | -2.3 |
+| Tract Altoona | Polk County, IA | Low | Guarded | +6.5 |
+| Project Cannoli | Wayne County, MI | Elevated | High | +8.3 |
+| New Brunswick Data Center | Middlesex County, NJ | Elevated | High | +7.0 |
+| Greensboro Dream Center | Guilford County, NC | Low | Guarded | +9.3 |
+| AWS Hillard Campus | Franklin County, OH | Elevated | High | +7.2 |
+| Google Lockbourne | Franklin County, OH | Elevated | High | +7.1 |
+| Project Cosmos | Union County, OH | Guarded | Elevated | +3.5 |
+| Strata Expanse AI Center of Excellence | Lawrence County, OH | Low | Guarded | +7.3 |
+| Google Franklin Furnace Data Center | Scioto County, OH | Low | Guarded | +7.1 |
+| Cipher Mining's "Ulysses" | Union County, OH | Guarded | Elevated | +3.4 |
+| Project Hazelnut | Luzerne County, PA | High | Elevated | -3.5 |
+| Wildcat Ridge AI Data Center | Lackawanna County, PA | High | Elevated | -3.0 |
+| Project Gravity | Lackawanna County, PA | High | Elevated | -3.0 |
+| Blakely AI Data Center | Lackawanna County, PA | High | Elevated | -3.0 |
+| Project Boson | Lackawanna County, PA | High | Elevated | -3.0 |
+| Jessup Sunnyside Data Center | Lackawanna County, PA | High | Elevated | -3.0 |
+| Archbald I LLC Data Center Campuses | Lackawanna County, PA | High | Elevated | -3.0 |
+| Dickson City Data Centers | Lackawanna County, PA | High | Elevated | -3.1 |
+| West Hazleton Data Center | Luzerne County, PA | High | Elevated | -3.4 |
+| Ransom Township Data Center | Lackawanna County, PA | High | Elevated | -3.1 |
+| Tobyhanna Township / Blakeslee Data Center | Monroe County, PA | High | Elevated | -3.2 |
+| Project Green Mountain | Lackawanna County, PA | High | Elevated | -3.0 |
+| Conewago Township Data Center Land Considerations | York County, PA | Elevated | Guarded | -3.7 |
+| Switch Data Center at Former Pitt Race Complex | Beaver County, PA | Elevated | Guarded | -5.7 |
+| Allenwood Data Center | Union County, PA | Guarded | Low | -3.4 |
+| Newton Township Data Center | Lackawanna County, PA | High | Elevated | -3.1 |
+| Project Triboro | Lackawanna County, PA | High | Elevated | -3.0 |
+| Muncy Data Center | Lycoming County, PA | Guarded | Low | -1.1 |
+| PNK Valley View Data Center | Lackawanna County, PA | High | Elevated | -3.0 |
+| Mudiita Ransom Township Data Center | Lackawanna County, PA | High | Elevated | -3.0 |
+| TECfusions “Keystone Connect” AI Campus | Westmoreland County, PA | Guarded | Low | -1.5 |
+| 4-3 Salem Township | Luzerne County, PA | High | Elevated | -3.5 |
+| Lower Mount Bethel Technology Center | Northampton County, PA | Elevated | Guarded | -2.7 |
+| Jessup Breaker Street Data Center | Lackawanna County, PA | High | Elevated | -3.0 |
+| East Manchester Farmland to Data Center Initiative Interest | York County, PA | Elevated | Guarded | -3.7 |
+| CleanSpark Mountain City Bitcoin Mine | Johnson County, TN | Low | Guarded | +6.4 |
+| Alpha Technologies Huntington | Cabell County, WV | Guarded | Low | -2.2 |
+| Holtec Decommissioning International | Westchester County, NY | Low | Guarded | +2.9 |
+| Slate Belt Data Centers | Northampton County, PA | Elevated | Guarded | -2.7 |
+| Data Centric LLC Allenwood | Union County, PA | Guarded | Low | -3.4 |
+| Rubix Data Center | Greenup County, KY | Low | Guarded | +8.5 |
+| Terra Nexus Custer Avenue Data Center | Cumberland, NC | Elevated | Guarded | -5.4 |
 
 ## Largest composite moves
 
 | Site | County, State | Tier | Composite | Change |
 | :-- | :-- | :-- | :-- | --: |
-| Greensboro Dream Center | Guilford County, NC | Guarded | 44.2 | +10.9 |
-| ExoticRidge Bitcoin Mine | Hawkins County, TN | Low | 27.5 | +9.9 |
-| Muskie Data Campus | Carter County, KY | Low | 37.3 | +9.7 |
-| Rubix Data Center | Greenup County, KY | Guarded | 41.9 | +8.8 |
-| Franklin–Simpson Data Storage and Service Center | Simpson County, KY | Guarded | 58.7 | +8.6 |
-| VoltCore Bitcoin Mine | Morgan County, AL | Guarded | 48.1 | +7.7 |
-| Rowan County Data Center | Rowan County, NC | Guarded | 50.4 | +7.7 |
-| Natelli Vance County Data Center | Vance, NC | Low | 33.8 | +7.7 |
-| AWS Wilmington Data Center | Clinton County, OH | Guarded | 53.1 | +7.5 |
-| Strata Expanse AI Center of Excellence | Lawrence County, OH | Guarded | 45.1 | +7.1 |
-| Meta Gallatin | Sumner County, TN | Guarded | 48.5 | +7.1 |
-| CleanSpark Mountain City Bitcoin Mine | Johnson County, TN | Guarded | 43.0 | +7.0 |
-| DartPoints Former Lexmark Data Center Redevelopment | Fayette County, KY | Guarded | 54.4 | +6.8 |
-| Project Sail Data Center | Coweta, GA | Elevated | 78.2 | +6.4 |
-| Google Franklin Furnace Data Center | Scioto County, OH | Guarded | 44.2 | +6.1 |
-| DC Blox Nashville | Davidson County, TN | Guarded | 54.9 | +5.7 |
-| xAI MACROHARDRR | DeSoto County, MS | Guarded | 53.8 | +4.8 |
-| Prism Capital Partners Nutley Site | Essex County, NJ | Guarded | 61.5 | -4.7 |
-| Decennial Group Akron | Fulton County, IN | Guarded | 49.8 | +4.6 |
-| Princeton Nurseries Data Center | Middlesex County, NJ | Elevated | 73.0 | -4.6 |
-| New Brunswick Data Center | Middlesex County, NJ | Elevated | 77.7 | -4.5 |
-| Simple Mining Cascade | Dubuque County, IA | Guarded | 40.0 | -4.4 |
-| Starkville Crypto Mine | Oktibbeha County, MS | Low | 14.4 | -4.4 |
-| Amazon Ridgeland | Madison County, MS | Guarded | 47.3 | -4.3 |
-| Amazon Madison Mega Site | Madison County, MS | Guarded | 47.3 | -4.3 |
+| Natelli Vance County Data Center | Vance, NC | Low | 36.2 | +10.1 |
+| Meta Gallatin | Sumner County, TN | Guarded | 51.2 | +9.8 |
+| ExoticRidge Bitcoin Mine | Hawkins County, TN | Low | 27.0 | +9.4 |
+| Greensboro Dream Center | Guilford County, NC | Guarded | 42.6 | +9.3 |
+| Muskie Data Campus | Carter County, KY | Low | 36.6 | +9.0 |
+| Rubix Data Center | Greenup County, KY | Guarded | 41.6 | +8.5 |
+| Franklin–Simpson Data Storage and Service Center | Simpson County, KY | Guarded | 58.4 | +8.3 |
+| Project Cannoli | Wayne County, MI | High | 86.9 | +8.3 |
+| DC Blox Nashville | Davidson County, TN | Guarded | 57.4 | +8.2 |
+| Strata Expanse AI Center of Excellence | Lawrence County, OH | Guarded | 45.3 | +7.3 |
+| Project Fighting Pike | Williams County, ND | Low | 24.1 | -7.2 |
+| Atlas Power Williston | Williams County, ND | Low | 24.1 | -7.2 |
+| Nakota Data Campus | Williams County, ND | Low | 24.1 | -7.2 |
+| AWS Hillard Campus | Franklin County, OH | High | 86.6 | +7.2 |
+| Google Lockbourne | Franklin County, OH | High | 85.6 | +7.1 |
+| Google Franklin Furnace Data Center | Scioto County, OH | Guarded | 45.2 | +7.1 |
+| Princeton Nurseries Data Center | Middlesex County, NJ | Elevated | 84.6 | +7.0 |
+| New Brunswick Data Center | Middlesex County, NJ | High | 89.2 | +7.0 |
+| DartPoints Former Lexmark Data Center Redevelopment | Fayette County, KY | Guarded | 54.5 | +6.9 |
+| AWS Wilmington Data Center | Clinton County, OH | Guarded | 52.4 | +6.8 |
+| Edged Des Moines | Polk County, IA | Low | 28.8 | +6.7 |
+| Project Alluvion | Polk County, IA | Low | 28.8 | +6.7 |
+| Project Ginger East | Polk County, IA | Low | 28.8 | +6.7 |
+| Wallingford Data Center | South Central Connecticut Planning Region, CT | Guarded | 43.9 | +6.5 |
+| Tract Altoona | Polk County, IA | Guarded | 41.7 | +6.5 |
 
 ## Reading this report
 
