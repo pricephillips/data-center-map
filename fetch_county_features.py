@@ -128,6 +128,26 @@ def norm_fips(v) -> str:
     return s.zfill(5)
 
 
+_COUNTY_SUFFIX = (" city and borough", " census area", " municipality", " borough",
+                  " parish", " county")
+
+
+def county_key(county, state) -> str:
+    """'ST|name' join key tolerant of case, punctuation, spacing and Saint/St.
+    ('Miami Dade' and 'Miami-Dade', 'St. Louis' and 'Saint Louis' agree)."""
+    c = str(county or "").strip().lower()
+    if not c or c in ("none", "nan"):
+        return ""
+    for suf in _COUNTY_SUFFIX:
+        if c.endswith(suf):
+            c = c[: -len(suf)]
+            break
+    c = c.replace("saint ", "st ").replace("sainte ", "ste ")
+    c = "".join(ch for ch in c if ch.isalnum())
+    s = str(state or "").strip().upper()
+    return f"{s}|{c}" if c and s else ""
+
+
 def rnd(x, k=4):
     return "" if x is None else round(x, k)
 
@@ -334,6 +354,7 @@ GEN_CANDS = {
     "status": ["operational_status", "operational_status_code",
                "operational_status_pudl"],
     "year": ["report_date", "report_year"],
+    "plant": ["plant_id_eia"],
     "retirement": ["planned_generator_retirement_date", "planned_retirement_date",
                    "planned_retirement_year"],
 }
@@ -344,17 +365,48 @@ def src_grid(cfg, frame, tmpdir):
     gen, m = iter_parquet(path, GEN_CANDS, ("capacity", "fuel", "status", "year"))
     if "fips" not in m and not ("county" in m and "state" in m):
         raise SourceError("schema drift: no county_id_fips and no county + state columns")
-    import fetch_pudl as FP
-    by_name = FP.load_fips_by_county_key()
+    # County placement, in order: the row's own FIPS; the plant's FIPS or
+    # county from any other report year (EIA leaves county blank on some
+    # rows); then a county-name match against the frame. A state where more
+    # than 10% of capacity still cannot be placed (Connecticut: EIA reports
+    # the pre-2022 counties, the frame uses planning regions) is left BLANK
+    # for every county rather than written as zero, because a zero there
+    # would be false.
+    by_name = {}
+    with open(AGG_CSV, newline="", encoding="utf-8-sig") as fh:
+        for a in csv.DictReader(fh):
+            k = county_key(a.get("county_name", "").split(",")[0], a.get("state"))
+            if k:
+                by_name[k] = norm_fips(a.get("fips"))
+    plant_geo = {}
+    if "plant" in m:
+        for r in gen():
+            pid = r.get("plant")
+            if pid is None:
+                continue
+            f = norm_fips(r.get("fips"))
+            if f or r.get("county"):
+                plant_geo[str(pid)] = (f, r.get("county"), r.get("state"))
     unmatched = defaultdict(float)
+    placed_state = defaultdict(float)
+    unplaced_state = defaultdict(float)
 
     def with_fips(rows):
         for r in rows:
+            cap = fnum(r.get("capacity")) or 0.0
             f = norm_fips(r.get("fips"))
+            county, state = r.get("county"), r.get("state")
+            if not f and not county and str(r.get("plant")) in plant_geo:
+                f, county, state = plant_geo[str(r.get("plant"))]
+                f = norm_fips(f)
             if not f:
-                f = by_name.get(FP.norm_county_key(r.get("county"), r.get("state")), "")
-            if not f:
-                unmatched[f"{r.get('state')}|{r.get('county')}"] += fnum(r.get("capacity")) or 0.0
+                f = by_name.get(county_key(county, state), "")
+            st = str(state or "").strip().upper()
+            if f:
+                placed_state[st] += cap
+            else:
+                unmatched[f"{state}|{county}"] += cap
+                unplaced_state[st] += cap
             yield {**r, "fips": f}
 
     yr = max((year_of(r["year"]) or 0) for r in gen())
@@ -362,7 +414,14 @@ def src_grid(cfg, frame, tmpdir):
         raise SourceError(f"implausible latest report year {yr}")
     rows = build_grid(with_fips(r for r in gen() if year_of(r["year"]) == yr), frame, yr,
                       f"PUDL {cfg['pudl_release']} {cfg['table']} ({cfg['license']})")
-    tot = sum(r["gen_capacity_mw"] for r in rows)
+    blank_states = sorted(st for st, u in unplaced_state.items()
+                          if st and u > 0.10 * (u + placed_state.get(st, 0.0)))
+    for r in rows:
+        if frame[r["fips"]]["state"] in blank_states:
+            for c in GEN_COLS:
+                if c not in ("fips", "report_year", "source"):
+                    r[c] = ""
+    tot = sum(r["gen_capacity_mw"] for r in rows if r["gen_capacity_mw"] != "")
     lost = sum(unmatched.values())
     top = sorted(unmatched.items(), key=lambda kv: -kv[1])[:15]
     if not 5e5 < tot < 3e6:
@@ -373,6 +432,7 @@ def src_grid(cfg, frame, tmpdir):
                           f"in a county; largest: {top[:5]}")
     return OUT_GRID, GEN_COLS, rows, {"report_year": yr, "resolved": m,
                                       "unmatched_mw": round(lost, 1),
+                                      "blank_states": blank_states,
                                       "unmatched_top": [[k, round(v, 1)] for k, v in top]}
 
 
@@ -767,6 +827,9 @@ def selftest() -> int:
     check("fnum dashes are None", fnum("--") is None)
     check("norm_fips pads", norm_fips("1001") == "01001" and norm_fips("19001.0") == "19001")
     check("share clipped", share(3, 2) == 1.0 and share(1, 0) is None)
+    check("county key hyphen", county_key("Miami Dade", "FL") == county_key("Miami-Dade County", "FL"))
+    check("county key saint", county_key("St. Louis", "MO") == county_key("Saint Louis County", "MO"))
+    check("county key null", county_key(None, "IL") == "" and county_key("None", "IL") == "")
 
     # grid
     g = build_grid([

@@ -1,8 +1,8 @@
 {
   "generated": "2026-09-28",
   "config_hash": "f0b5407174a3",
-  "features_hash": "5ede9c3b02d5",
-  "n_pool": 57,
+  "features_hash": "c68511e4badf",
+  "n_pool": 73,
   "targets": {
     "restrict": {
       "target": "restrict",
@@ -12,7 +12,7 @@
       "n_frame": 3144,
       "n_positive": 460,
       "base_rate": 0.1463,
-      "n_candidates": 54,
+      "n_candidates": 70,
       "dropped": {
         "opp_pre_ordinance_activity": "varies in only 3 positive counties",
         "opp_pre_property_values": "varies in only 1 positive counties",
@@ -20,14 +20,14 @@
       },
       "held_out_auc": {
         "gbm_all_candidates": {
-          "p10": 0.8991,
-          "p50": 0.923,
-          "p90": 0.9509
+          "p10": 0.8982,
+          "p50": 0.9126,
+          "p90": 0.9477
         },
         "l2_logistic_all_candidates": {
-          "p10": 0.7638,
-          "p50": 0.7842,
-          "p90": 0.8369
+          "p10": 0.761,
+          "p50": 0.7811,
+          "p90": 0.8271
         }
       },
       "cv": {
@@ -49,15 +49,15 @@
           "0.005": 0,
           "0.01": 3.46,
           "0.02": 5.43,
-          "0.05": 11.19,
-          "0.1": 20.52,
-          "0.3": 35.26
+          "0.05": 13.15,
+          "0.1": 25.88,
+          "0.3": 45.22
         },
         "mean_selected_at_weakest_penalty_used": 5.43,
-        "expected_false_selections_bound": 1.092
+        "expected_false_selections_bound": 0.842
       },
       "status": "OK",
-      "n_admitted": 12,
+      "n_admitted": 10,
       "weights_updated": true,
       "drift_flags": []
     },
@@ -69,18 +69,18 @@
       "n_frame": 3144,
       "n_positive": 460,
       "base_rate": 0.1463,
-      "n_candidates": 26,
+      "n_candidates": 42,
       "dropped": {},
       "held_out_auc": {
         "gbm_all_candidates": {
           "p10": 0.7611,
-          "p50": 0.777,
-          "p90": 0.8121
+          "p50": 0.7863,
+          "p90": 0.8155
         },
         "l2_logistic_all_candidates": {
-          "p10": 0.7148,
-          "p50": 0.7445,
-          "p90": 0.7599
+          "p10": 0.7207,
+          "p50": 0.7494,
+          "p90": 0.7698
         }
       },
       "cv": {
@@ -101,16 +101,16 @@
           "0.003": 0,
           "0.005": 0,
           "0.01": 2.17,
-          "0.02": 4.58,
-          "0.05": 7.88,
-          "0.1": 11.07,
-          "0.3": 16.53
+          "0.02": 4.66,
+          "0.05": 11.4,
+          "0.1": 17.41,
+          "0.3": 27.75
         },
-        "mean_selected_at_weakest_penalty_used": 4.58,
-        "expected_false_selections_bound": 1.614
+        "mean_selected_at_weakest_penalty_used": 4.66,
+        "expected_false_selections_bound": 1.034
       },
       "status": "OK",
-      "n_admitted": 17,
+      "n_admitted": 23,
       "weights_updated": true,
       "drift_flags": []
     },
@@ -122,7 +122,7 @@
       "n_frame": 3144,
       "n_positive": 383,
       "base_rate": 0.1218,
-      "n_candidates": 53,
+      "n_candidates": 69,
       "dropped": {
         "opp_pre_withdrawals": "varies in only 4 positive counties",
         "opp_pre_ordinance_activity": "varies in only 0 positive counties",
@@ -131,14 +131,14 @@
       },
       "held_out_auc": {
         "gbm_all_candidates": {
-          "p10": 0.8895,
-          "p50": 0.9167,
-          "p90": 0.9408
+          "p10": 0.8826,
+          "p50": 0.9002,
+          "p90": 0.9341
         },
         "l2_logistic_all_candidates": {
-          "p10": 0.7336,
-          "p50": 0.7782,
-          "p90": 0.8083
+          "p10": 0.7251,
+          "p50": 0.7773,
+          "p90": 0.8034
         }
       },
       "cv": {
@@ -160,15 +160,15 @@
           "0.005": 0,
           "0.01": 2.13,
           "0.02": 3.87,
-          "0.05": 11.2,
-          "0.1": 20.32,
-          "0.3": 34.55
+          "0.05": 12.4,
+          "0.1": 24.5,
+          "0.3": 44.07
         },
         "mean_selected_at_weakest_penalty_used": 3.87,
-        "expected_false_selections_bound": 0.565
+        "expected_false_selections_bound": 0.434
       },
       "status": "OK",
-      "n_admitted": 11,
+      "n_admitted": 10,
       "weights_updated": true,
       "drift_flags": []
     },
@@ -180,7 +180,7 @@
       "n_frame": 255,
       "n_positive": 61,
       "base_rate": 0.2392,
-      "n_candidates": 54,
+      "n_candidates": 70,
       "dropped": {
         "opp_pre_ordinance_activity": "varies in only 3 positive counties",
         "opp_pre_property_values": "varies in only 1 positive counties",
@@ -188,14 +188,14 @@
       },
       "held_out_auc": {
         "gbm_all_candidates": {
-          "p10": 0.5299,
-          "p50": 0.6453,
-          "p90": 0.7308
+          "p10": 0.5021,
+          "p50": 0.6239,
+          "p90": 0.7179
         },
         "l2_logistic_all_candidates": {
-          "p10": 0.5449,
-          "p50": 0.6688,
-          "p90": 0.7429
+          "p10": 0.5085,
+          "p50": 0.6496,
+          "p90": 0.7227
         }
       },
       "cv": {
@@ -219,15 +219,15 @@
           "0.005": 0,
           "0.01": 0,
           "0.02": 0,
-          "0.05": 0.33,
-          "0.1": 4.25,
-          "0.3": 16.77
+          "0.05": 0.37,
+          "0.1": 4.64,
+          "0.3": 19.87
         },
-        "mean_selected_at_weakest_penalty_used": 4.25,
-        "expected_false_selections_bound": 0.669
+        "mean_selected_at_weakest_penalty_used": 4.64,
+        "expected_false_selections_bound": 0.615
       },
       "status": "OK",
-      "n_admitted": 3,
+      "n_admitted": 6,
       "weights_updated": true,
       "drift_flags": []
     }
