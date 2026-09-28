@@ -50,6 +50,10 @@ name: Build Clean Feed
 
 on:
   push:
+    # Dependabot branches only touch action versions. Running here would commit
+    # regenerated data onto the PR branch and make it conflict with main.
+    branches-ignore:
+      - 'dependabot/**'
     paths:
       # Data inputs.
       - 'master_opposition.csv'

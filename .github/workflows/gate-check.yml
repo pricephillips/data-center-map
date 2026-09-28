@@ -31,6 +31,10 @@ name: Gate Check (landmark + emergence)
 
 on:
   push:
+    # Dependabot branches only touch action versions. Running here would commit
+    # regenerated data onto the PR branch and make it conflict with main.
+    branches-ignore:
+      - 'dependabot/**'
     paths:
       # Inputs that can actually open a gate.
       - 'data/project_decision_dates.csv'
