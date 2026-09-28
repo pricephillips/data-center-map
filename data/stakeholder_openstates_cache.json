@@ -1,6 +1,6 @@
 {
  "https://v3.openstates.org/bills?jurisdiction=az&identifier=HB+4009&include=sponsorships&per_page=20&sort=updated_desc": {
-  "fetched": "2026-09-11T16:10:29.500043+00:00",
+  "fetched": "2026-09-28T17:37:32.345268+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -61,7 +61,7 @@
   }
  },
  "https://v3.openstates.org/bills?jurisdiction=ca&identifier=AB+1577&include=sponsorships&per_page=20&sort=updated_desc": {
-  "fetched": "2026-09-11T16:10:33.417717+00:00",
+  "fetched": "2026-09-28T17:37:45.405082+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -94,8 +94,8 @@
       "id": "ocd-jurisdiction/country:us/state:ca/government",
       "name": "California"
      },
-     "latest_action_date": "2026-09-04",
-     "latest_action_description": "Enrolled and presented to the Governor at 4 p.m.",
+     "latest_action_date": "2026-09-21",
+     "latest_action_description": "Chaptered by Secretary of State - Chapter 434, Statutes of 2026.",
      "latest_passage_date": "2026-08-26",
      "openstates_url": "https://openstates.org/ca/bills/20252026/AB1577/",
      "session": "20252026",
@@ -124,7 +124,7 @@
       "reporting"
      ],
      "title": "Data centers: reporting.",
-     "updated_at": "2026-09-05T09:37:35.004342+00:00"
+     "updated_at": "2026-09-22T09:06:01.900318+00:00"
     },
     {
      "classification": [
@@ -1680,7 +1680,7 @@
   }
  },
  "https://v3.openstates.org/bills?jurisdiction=ga&identifier=SB+410&include=sponsorships&per_page=20&sort=updated_desc": {
-  "fetched": "2026-09-11T16:10:35.714083+00:00",
+  "fetched": "2026-09-28T17:37:58.247074+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -4266,7 +4266,7 @@
   }
  },
  "https://v3.openstates.org/bills?jurisdiction=ks&identifier=SB+98&include=sponsorships&per_page=20&sort=updated_desc": {
-  "fetched": "2026-09-11T16:11:02.083773+00:00",
+  "fetched": "2026-09-28T17:38:23.856555+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -5298,7 +5298,7 @@
   }
  },
  "https://v3.openstates.org/bills?jurisdiction=mi&identifier=SB+1018&include=sponsorships&per_page=20&sort=updated_desc": {
-  "fetched": "2026-09-11T16:11:04.227184+00:00",
+  "fetched": "2026-09-28T17:38:36.911890+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -5608,7 +5608,7 @@
   }
  },
  "https://v3.openstates.org/bills?jurisdiction=ne&identifier=LB+1261&include=sponsorships&per_page=20&sort=updated_desc": {
-  "fetched": "2026-09-11T16:11:06.325524+00:00",
+  "fetched": "2026-09-28T17:38:49.840679+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -6586,8 +6586,893 @@
    ]
   }
  },
+ "https://v3.openstates.org/bills?jurisdiction=nj&identifier=A+796&include=sponsorships&per_page=20&sort=updated_desc": {
+  "fetched": "2026-09-28T17:39:03.140374+00:00",
+  "payload": {
+   "pagination": {
+    "max_page": 1,
+    "page": 1,
+    "per_page": 20,
+    "total_items": 6
+   },
+   "results": [
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2026-02-06T14:26:22.470835+00:00",
+     "extras": {},
+     "first_action_date": "2026-01-13T05:00:00+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/68d34c4f-e59d-42a2-bcfe-fbf7f8cc8f15",
+      "name": "Assembly"
+     },
+     "id": "ocd-bill/06f6c441-f600-4577-babf-dfebd3f0648e",
+     "identifier": "A 796",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:nj/government",
+      "name": "New Jersey"
+     },
+     "latest_action_date": "2026-07-07T04:00:00+00:00",
+     "latest_action_description": "Approved P.L.2026, c.32.",
+     "latest_passage_date": "2026-06-30T04:00:00+00:00",
+     "openstates_url": "https://openstates.org/nj/bills/222/A796/",
+     "session": "222",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "46475600-bd15-48e3-9e7e-12532c049806",
+       "name": "Bailey, David, Jr.",
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "cee29012-2d4d-46ef-86aa-99183a850d32",
+       "name": "Danielsen, Joe",
+       "person": {
+        "current_role": {
+         "district": "17",
+         "division_id": "ocd-division/country:us/state:nj/sldl:17",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/03acbfd3-a81b-4461-aff4-db7ecf5e8e48",
+        "name": "Joe Danielsen",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "27fe0cfd-bff0-49a4-b555-02bd0d4b2491",
+       "name": "Calabrese, Clinton",
+       "person": {
+        "current_role": {
+         "district": "36",
+         "division_id": "ocd-division/country:us/state:nj/sldl:36",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/5475b510-25ec-4354-abb5-f1f03c3ea2c3",
+        "name": "Clinton Calabrese",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "0fcc1228-acea-4cf5-b867-a70733295e5d",
+       "name": "Pintor Marin, Eliana",
+       "person": {
+        "current_role": {
+         "district": "29",
+         "division_id": "ocd-division/country:us/state:nj/sldl:29",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/6056438b-65d3-4db4-b0ad-c367074bd47e",
+        "name": "Eliana Pintor Marin",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "da925492-bb1f-46fd-ac89-88e8ba4fdb19",
+       "name": "Burzichelli, John J.",
+       "person": {
+        "current_role": {
+         "district": "3",
+         "division_id": "ocd-division/country:us/state:nj/sldu:3",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/1b726d76-851a-487b-a6e6-42ee4fa5c050",
+        "name": "John Burzichelli",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "8b488b69-37b6-4763-8349-58da27ad29e8",
+       "name": "McKeon, John F.",
+       "person": {
+        "current_role": {
+         "district": "27",
+         "division_id": "ocd-division/country:us/state:nj/sldu:27",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/1fec06e0-00df-4d84-8c9a-18e80a6f29e2",
+        "name": "John McKeon",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "37a26eb3-7657-4472-b42d-34dbf3346239",
+       "name": "Donlon, Margie, M.D.",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "10701189-cf57-4484-a0dc-abc5dc099ba1",
+       "name": "Speight, Shanique",
+       "person": {
+        "current_role": {
+         "district": "29",
+         "division_id": "ocd-division/country:us/state:nj/sldl:29",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/304c7552-b833-4b9c-b125-39030b8376ff",
+        "name": "Shanique Speight",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "4741ff7b-503c-451f-93a7-13045c08acc7",
+       "name": "Peterpaul, Luanne M., Esq.",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "1644af74-1ce5-479d-aae5-c2c2d8214414",
+       "name": "Venezia, Michael",
+       "person": {
+        "current_role": {
+         "district": "34",
+         "division_id": "ocd-division/country:us/state:nj/sldl:34",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/96eb992c-0f0c-4db5-b146-76349604f4d3",
+        "name": "Mike Venezia",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "1ab3b987-9597-4b86-b2f1-2e74a68c37bd",
+       "name": "Karabinchak, Robert J.",
+       "person": {
+        "current_role": {
+         "district": "18",
+         "division_id": "ocd-division/country:us/state:nj/sldl:18",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/d6732f77-1c72-4ee6-8d52-5c9b79987976",
+        "name": "Robert Karabinchak",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "0090f040-1863-44cf-85f0-175c1132e69a",
+       "name": "Bagolie, Rosaura",
+       "person": {
+        "current_role": {
+         "district": "27",
+         "division_id": "ocd-division/country:us/state:nj/sldl:27",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/f152f2d6-e4ff-4958-996d-532c310ddef1",
+        "name": "Rosy Bagolie",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "e3232178-4c73-458c-bd16-da83b44e2911",
+       "name": "Singh, Balvir",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "395bdd1d-19f7-40bb-9dce-4bbd83074c92",
+       "name": "Reynolds-Jackson, Verlina",
+       "person": {
+        "current_role": {
+         "district": "15",
+         "division_id": "ocd-division/country:us/state:nj/sldl:15",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/b432ec8c-f914-47dc-addd-740dfc95daaf",
+        "name": "Verlina Reynolds-Jackson",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "da887852-72d4-4c84-90f7-16c06c35fc94",
+       "name": "Bhalla, Ravi S.",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "42b7adb5-3ff0-4aa9-bdd0-0b8fc51697f9",
+       "name": "Brennan, Katie",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "d43de49d-f1fe-4ea0-971f-b215a8c67beb",
+       "name": "Moen, William F., Jr.",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "13ef1dbd-8da8-45f3-abd0-1597b2a4b2b2",
+       "name": "Macurdy, Andrew",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "6df62da7-8ca5-44b3-ae66-9704bb8df94c",
+       "name": "Tully, Chris",
+       "person": {
+        "current_role": {
+         "district": "38",
+         "division_id": "ocd-division/country:us/state:nj/sldl:38",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/934c3022-709b-4768-b2df-635d25579128",
+        "name": "Chris Tully",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "f30fdf5d-6b18-456a-bb9a-ec3698127277",
+       "name": "Swain, Lisa",
+       "person": {
+        "current_role": {
+         "district": "38",
+         "division_id": "ocd-division/country:us/state:nj/sldl:38",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/28b4c7d2-d1c3-4735-b321-0f348ec27299",
+        "name": "Lisa Swain",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "9c2099ad-1864-4c18-86d0-113acc208e8e",
+       "name": "Turner, Shirley K.",
+       "person": {
+        "current_role": {
+         "district": "15",
+         "division_id": "ocd-division/country:us/state:nj/sldu:15",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/26eb8b3c-59a5-49ca-841c-13a569444994",
+        "name": "Shirley Turner",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "d322e21d-8c5f-477a-9aef-2a71fbf20cb1",
+       "name": "Beach, James",
+       "person": {
+        "current_role": {
+         "district": "6",
+         "division_id": "ocd-division/country:us/state:nj/sldu:6",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/87714b2b-1868-4d3f-aa3f-a3d25db0fbc6",
+        "name": "Jim Beach",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "e53f290a-9576-46fb-9c51-8406389268a4",
+       "name": "Moriarty, Paul D.",
+       "person": {
+        "current_role": {
+         "district": "4",
+         "division_id": "ocd-division/country:us/state:nj/sldu:4",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/f15f8b7e-96ee-41e8-b59c-b277927985c0",
+        "name": "Paul Moriarty",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "edd38c12-068e-4d40-a8d0-a291a3f43c15",
+       "name": "Diegnan, Patrick J., Jr.",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "819baae8-1cee-4441-adf4-fdd9b7f3b036",
+       "name": "Singleton, Troy",
+       "person": {
+        "current_role": {
+         "district": "7",
+         "division_id": "ocd-division/country:us/state:nj/sldu:7",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/a1c9ec59-4127-4973-b100-f35c30bb817c",
+        "name": "Troy Singleton",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "0b9fe113-b8d3-413e-a0d8-634b9e927246",
+       "name": "Mukherji, Raj",
+       "person": {
+        "current_role": {
+         "district": "32",
+         "division_id": "ocd-division/country:us/state:nj/sldu:32",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/fe8bf5e4-85ed-423b-b2d8-301f29d3faea",
+        "name": "Raj Mukherji",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "ffa940f3-d52f-41fd-ba08-38384e667cf6",
+       "name": "Cryan, Joseph P.",
+       "person": {
+        "current_role": {
+         "district": "20",
+         "division_id": "ocd-division/country:us/state:nj/sldu:20",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/5dcef6ac-7dbe-4c65-a53b-670c89a615e7",
+        "name": "Joe Cryan",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "8ab8ec80-ba1f-4201-bc1f-abb159484b8d",
+       "name": "Greenstein, Linda R.",
+       "person": {
+        "current_role": {
+         "district": "14",
+         "division_id": "ocd-division/country:us/state:nj/sldu:14",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/27646653-40e2-4c79-b608-0f2edcaa0322",
+        "name": "Linda Greenstein",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "e7e13421-517e-49da-993e-bcd33eb2667b",
+       "name": "McKnight, Angela V.",
+       "person": {
+        "current_role": {
+         "district": "31",
+         "division_id": "ocd-division/country:us/state:nj/sldu:31",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/d8c826c4-95c7-465b-8448-1f05495bfc45",
+        "name": "Angela McKnight",
+        "party": "Democratic"
+       },
+       "primary": false
+      }
+     ],
+     "subject": [],
+     "title": "Requires electric public utilities to develop and apply special rules for certain data centers to protect non-data center customers from increased costs.**",
+     "updated_at": "2026-09-24T15:15:12.774332+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2024-01-12T06:49:09.754526+00:00",
+     "extras": {},
+     "first_action_date": "2024-01-09T05:00:00+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/68d34c4f-e59d-42a2-bcfe-fbf7f8cc8f15",
+      "name": "Assembly"
+     },
+     "id": "ocd-bill/dab6f06e-8284-41f8-9c51-fde6065795ab",
+     "identifier": "A 796",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:nj/government",
+      "name": "New Jersey"
+     },
+     "latest_action_date": "2024-01-09T05:00:00+00:00",
+     "latest_action_description": "Introduced in the Assembly, Referred to Assembly State and Local Government Committee",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/nj/bills/221/A796/",
+     "session": "221",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "b9b2c733-8493-4906-8401-3206e0d4c095",
+       "name": "McGuckin, Gregory P.",
+       "person": {
+        "current_role": {
+         "district": "10",
+         "division_id": "ocd-division/country:us/state:nj/sldl:10",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/2ac520a3-ae36-4936-a9c3-6842401b6c83",
+        "name": "Greg McGuckin",
+        "party": "Republican"
+       },
+       "primary": true
+      }
+     ],
+     "subject": [
+      "PUB EMP BENE"
+     ],
+     "title": "Limits certain unused sick leave pay and vacation leave carry-forward for public officers and employees.",
+     "updated_at": "2024-10-08T08:59:29.384995+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2022-01-12T00:03:22.398838+00:00",
+     "extras": {},
+     "first_action_date": "2022-01-11T05:00:00+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/68d34c4f-e59d-42a2-bcfe-fbf7f8cc8f15",
+      "name": "Assembly"
+     },
+     "id": "ocd-bill/87f69b2c-9a4c-4f84-af0c-0f75224176c6",
+     "identifier": "A 796",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:nj/government",
+      "name": "New Jersey"
+     },
+     "latest_action_date": "2022-01-11T05:00:00+00:00",
+     "latest_action_description": "Introduced in the Assembly, Referred to Assembly Health Committee",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/nj/bills/220/A796/",
+     "session": "220",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "097f3c59-4d3f-4a20-8af1-c88a9ec25c7f",
+       "name": "Timberlake, Britnee N.",
+       "person": {
+        "current_role": {
+         "district": "34",
+         "division_id": "ocd-division/country:us/state:nj/sldu:34",
+         "org_classification": "upper",
+         "title": "Senator"
+        },
+        "id": "ocd-person/707e3027-d06f-4346-8c11-3ff1becbe725",
+        "name": "Britnee Timberlake",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "003ca074-5c76-44fd-a27f-790dbd62a03a",
+       "name": "Lampitt, Pamela R.",
+       "person": {
+        "id": "ocd-person/279cf9a8-0a51-45cd-b79f-b174f6f1cbc0",
+        "name": "Pam Lampitt",
+        "party": "Democratic"
+       },
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "b6ef22b6-3f1a-4ff9-b819-09c8213c95da",
+       "name": "Murphy, Carol A.",
+       "person": {
+        "current_role": {
+         "district": "7",
+         "division_id": "ocd-division/country:us/state:nj/sldl:7",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/c33b5f2b-0494-414f-aa84-d2286ae46095",
+        "name": "Carol Murphy",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "c6f8270f-8031-456c-9dd0-327f5471590d",
+       "name": "Reynolds-Jackson, Verlina",
+       "person": {
+        "current_role": {
+         "district": "15",
+         "division_id": "ocd-division/country:us/state:nj/sldl:15",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/b432ec8c-f914-47dc-addd-740dfc95daaf",
+        "name": "Verlina Reynolds-Jackson",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "dfb8c84f-06f9-4349-93b6-e2b0f7fdf7de",
+       "name": "Speight, Shanique",
+       "person": {
+        "current_role": {
+         "district": "29",
+         "division_id": "ocd-division/country:us/state:nj/sldl:29",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/304c7552-b833-4b9c-b125-39030b8376ff",
+        "name": "Shanique Speight",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "ab24a144-5cad-492a-8159-75ffeaac7fd3",
+       "name": "Tucker, Cleopatra G.",
+       "person": {
+        "current_role": {
+         "district": "28",
+         "division_id": "ocd-division/country:us/state:nj/sldl:28",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/c5469bd6-29bd-4054-9ac0-3577d17422d4",
+        "name": "Cleopatra Tucker",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "fd7797c8-d628-48ff-9060-f03b3c4ee1de",
+       "name": "Mosquera, Gabriela M.",
+       "person": {
+        "id": "ocd-person/b74b5f86-8982-4852-a2da-c1007a991156",
+        "name": "Gabriela M. Mosquera",
+        "party": "Democratic"
+       },
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "1943d114-652c-4414-952f-dc41c1d17b60",
+       "name": "Jaffer, Sadaf F.",
+       "primary": false
+      }
+     ],
+     "subject": [
+      "HEALTH FAC",
+      "HUMAN SVCS"
+     ],
+     "title": "\"Listening to Mothers Survey Act\"; requires DOH to establish survey to evaluate and improve maternity care access and services.",
+     "updated_at": "2023-11-21T00:10:41.426476+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2020-01-15T04:03:24.641152+00:00",
+     "extras": {},
+     "first_action_date": "2020-01-14T05:00:00+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/68d34c4f-e59d-42a2-bcfe-fbf7f8cc8f15",
+      "name": "Assembly"
+     },
+     "id": "ocd-bill/7c73b2b0-1b86-4417-b1f4-ca34e9283570",
+     "identifier": "A 796",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:nj/government",
+      "name": "New Jersey"
+     },
+     "latest_action_date": "2020-01-14T05:00:00+00:00",
+     "latest_action_description": "Introduced in the Assembly, Referred to Assembly Health Committee",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/nj/bills/219/A796/",
+     "session": "219",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "4ac7d990-a65e-4c83-b6bd-9b8e4aec96e2",
+       "name": "Verrelli, Anthony S.",
+       "person": {
+        "current_role": {
+         "district": "15",
+         "division_id": "ocd-division/country:us/state:nj/sldl:15",
+         "org_classification": "lower",
+         "title": "Assembly Member"
+        },
+        "id": "ocd-person/c6d61a12-eeb5-4400-943d-68a81b0728f0",
+        "name": "Anthony Verrelli",
+        "party": "Democratic"
+       },
+       "primary": true
+      }
+     ],
+     "subject": [
+      "DRUG ABUSE",
+      "PHARMACEUTIC"
+     ],
+     "title": "Requires licensure of pain management clinics, establishes process to identify abnormal drug usage and prescribing practices, modifies requirements for opioid prescriptions and medication-assisted treatment, authorizes use of non-opioid advance directives",
+     "updated_at": "2021-11-10T18:06:43.131487+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2018-01-12T04:03:16.470814+00:00",
+     "extras": {},
+     "first_action_date": "2018-01-09T05:00:00+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/68d34c4f-e59d-42a2-bcfe-fbf7f8cc8f15",
+      "name": "Assembly"
+     },
+     "id": "ocd-bill/6a92633d-ad6f-4506-94d1-bcaf2c98dff1",
+     "identifier": "A 796",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:nj/government",
+      "name": "New Jersey"
+     },
+     "latest_action_date": "2018-01-09T05:00:00+00:00",
+     "latest_action_description": "Introduced in the Assembly, Referred to Assembly Law and Public Safety Committee",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/nj/bills/218/A796/",
+     "session": "218",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "eb249d1f-49b6-4752-92de-216b4be6e27b",
+       "name": "Andrzejczak, Bob",
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "848dd880-d41a-4266-a165-c49541485a96",
+       "name": "Land, R. Bruce",
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "f77e160e-9759-487e-8f54-b393e0a8a0d0",
+       "name": "Milam, Matthew W.",
+       "primary": true
+      }
+     ],
+     "subject": [
+      "DISABLED",
+      "MV REGULATIO"
+     ],
+     "title": "Eliminates three year renewal requirement for disability parking identification cards and placards.",
+     "updated_at": "2020-04-29T00:36:41.037541+00:00"
+    },
+    {
+     "classification": [
+      "bill"
+     ],
+     "created_at": "2017-06-30T04:04:20.844782+00:00",
+     "extras": {},
+     "first_action_date": "2016-01-27T05:00:00+00:00",
+     "from_organization": {
+      "classification": "lower",
+      "id": "ocd-organization/68d34c4f-e59d-42a2-bcfe-fbf7f8cc8f15",
+      "name": "Assembly"
+     },
+     "id": "ocd-bill/56867d7e-24e9-484f-86a1-95c5c7cb8917",
+     "identifier": "A 796",
+     "jurisdiction": {
+      "classification": "state",
+      "id": "ocd-jurisdiction/country:us/state:nj/government",
+      "name": "New Jersey"
+     },
+     "latest_action_date": "2018-01-08T05:00:00+00:00",
+     "latest_action_description": "Substituted by S1651 (1R)",
+     "latest_passage_date": "",
+     "openstates_url": "https://openstates.org/nj/bills/217/A796/",
+     "session": "217",
+     "sponsorships": [
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "b03d2801-dbc0-465e-be73-b1cb1bef233f",
+       "name": "Land, R. Bruce",
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "4b64fd71-9147-4098-98e1-f0f73297c30c",
+       "name": "Andrzejczak, Bob",
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "6aa5ca8e-16fd-4553-bb25-23155913ce38",
+       "name": "O'Scanlon, Declan J.",
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "1aa2752b-da96-4d0f-b9da-35235ad1357f",
+       "name": "Bramnick, Jon M.",
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "2b2c4f35-f1f5-4f0a-868d-f425a964496c",
+       "name": "Johnson, Gordon M.",
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "7d29e0ea-f3fc-4c84-bfdc-d6730c9c4dc0",
+       "name": "Vainieri Huttle, Valerie",
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "8a908a86-30ae-4dfb-9b18-6351e27c7ed8",
+       "name": "Space, Parker",
+       "primary": true
+      },
+      {
+       "classification": "primary",
+       "entity_type": "person",
+       "id": "6c37f87d-b89a-43a1-a82a-acf54979da80",
+       "name": "Sumter, Shavonda E.",
+       "primary": true
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "a14ce07e-7877-4322-bf50-f82e9e692e49",
+       "name": "Barclay, Arthur",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "0caec2e1-3dde-47a0-a996-86754597702f",
+       "name": "Peterson, Erik",
+       "primary": false
+      },
+      {
+       "classification": "cosponsor",
+       "entity_type": "person",
+       "id": "d0e35eb1-bdd7-4651-9fc4-9c5b81736dbb",
+       "name": "DeAngelo, Wayne P.",
+       "primary": false
+      }
+     ],
+     "subject": [
+      "CORRECTIONS",
+      "POLICE"
+     ],
+     "title": "Retitles State correction officer as State correctional police officer; clarifies law enforcement powers.",
+     "updated_at": "2020-04-29T00:34:47.300545+00:00"
+    }
+   ]
+  }
+ },
  "https://v3.openstates.org/bills?jurisdiction=oh&identifier=HB+96&include=sponsorships&per_page=20&sort=updated_desc": {
-  "fetched": "2026-09-11T16:11:11.895711+00:00",
+  "fetched": "2026-09-28T17:39:22.426383+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -8149,7 +9034,7 @@
   }
  },
  "https://v3.openstates.org/bills?jurisdiction=or&identifier=HB+4084&include=sponsorships&per_page=20&sort=updated_desc": {
-  "fetched": "2026-09-11T16:13:29.458926+00:00",
+  "fetched": "2026-09-28T17:39:35.804871+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -11358,7 +12243,7 @@
   }
  },
  "https://v3.openstates.org/bills?jurisdiction=tn&identifier=HB+1847&include=sponsorships&per_page=20&sort=updated_desc": {
-  "fetched": "2026-09-11T16:12:03.297362+00:00",
+  "fetched": "2026-09-28T17:39:55.505133+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -11664,7 +12549,7 @@
   }
  },
  "https://v3.openstates.org/bills?jurisdiction=va&identifier=SB+94&include=sponsorships&per_page=20&sort=updated_desc": {
-  "fetched": "2026-09-11T16:12:06.558173+00:00",
+  "fetched": "2026-09-28T17:40:37.171407+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -11994,7 +12879,7 @@
   }
  },
  "https://v3.openstates.org/bills?jurisdiction=wa&identifier=SB+6231&include=sponsorships&per_page=20&sort=updated_desc": {
-  "fetched": "2026-09-11T16:12:08.540030+00:00",
+  "fetched": "2026-09-28T17:40:47.768761+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -12424,7 +13309,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=az&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:10:28.037838+00:00",
+  "fetched": "2026-09-28T17:37:25.609153+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -12545,7 +13430,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=ca&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:10:32.831731+00:00",
+  "fetched": "2026-09-28T17:37:38.377608+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -12666,7 +13551,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=ga&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:10:34.777167+00:00",
+  "fetched": "2026-09-28T17:37:51.389974+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -12833,7 +13718,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=ia&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:10:36.870668+00:00",
+  "fetched": "2026-09-28T17:38:04.370169+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -12992,7 +13877,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=il&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:10:38.418630+00:00",
+  "fetched": "2026-09-28T17:38:10.827330+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -13113,7 +13998,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=ks&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:13:16.168243+00:00",
+  "fetched": "2026-09-28T17:38:17.508426+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -13270,7 +14155,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=mi&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:11:03.008929+00:00",
+  "fetched": "2026-09-28T17:38:30.608353+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -13427,7 +14312,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=ne&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:11:05.412373+00:00",
+  "fetched": "2026-09-28T17:38:43.337402+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -13584,7 +14469,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=nj&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:11:07.538371+00:00",
+  "fetched": "2026-09-28T17:38:56.833502+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -13669,7 +14554,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=nv&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:11:09.632121+00:00",
+  "fetched": "2026-09-28T17:39:09.301874+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -13826,7 +14711,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=oh&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:11:10.862777+00:00",
+  "fetched": "2026-09-28T17:39:15.813159+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -13983,7 +14868,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=or&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:13:22.423912+00:00",
+  "fetched": "2026-09-28T17:39:28.805141+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -14106,7 +14991,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=pa&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:12:00.713787+00:00",
+  "fetched": "2026-09-28T17:39:42.081947+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -14268,7 +15153,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=tn&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:12:01.876825+00:00",
+  "fetched": "2026-09-28T17:39:48.604170+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -14353,7 +15238,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=tx&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:12:04.031789+00:00",
+  "fetched": "2026-09-28T17:40:01.615578+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -14510,7 +15395,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=va&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:12:05.285855+00:00",
+  "fetched": "2026-09-28T17:40:32.884685+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -14595,7 +15480,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=wa&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:12:07.322653+00:00",
+  "fetched": "2026-09-28T17:40:44.632777+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
@@ -14752,7 +15637,7 @@
   }
  },
  "https://v3.openstates.org/people?jurisdiction=wy&org_classification=executive&include=offices&per_page=20": {
-  "fetched": "2026-09-11T16:12:09.558093+00:00",
+  "fetched": "2026-09-28T17:40:52.963259+00:00",
   "payload": {
    "pagination": {
     "max_page": 1,
