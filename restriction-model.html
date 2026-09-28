@@ -419,7 +419,8 @@ function parseIntervalsCsv(text) {
     const lo = parseFloat(c[idx.va_p_lower]);
     const hi = parseFloat(c[idx.va_p_upper]);
     if (fips.length !== 5 || !Number.isFinite(lo) || !Number.isFinite(hi)) continue;
-    out[fips] = { lo, hi, width: hi - lo };
+    const sc = idx.calibrated_score !== undefined ? parseFloat(c[idx.calibrated_score]) : NaN;
+    out[fips] = { lo, hi, width: hi - lo, score: Number.isFinite(sc) ? sc : null };
   }
   return Object.keys(out).length ? out : null;
 }
@@ -428,12 +429,22 @@ function intervalSummary(intervals) {
   const widths = Object.values(intervals).map(v => v.width).sort((a, b) => a - b);
   if (!widths.length) return null;
   const at = q => widths[Math.min(widths.length - 1, Math.floor(q * widths.length))];
+  const med = at(0.5);
+  // A typical county for the worked example: the one whose interval width is
+  // closest to the median, ties broken by FIPS so the example is stable
+  // between loads.
+  let example = null;
+  Object.entries(intervals).filter(([, v]) => v.score !== null && v.score !== undefined)
+    .sort((a, b) => Math.abs(a[1].width - med) - Math.abs(b[1].width - med) || a[0].localeCompare(b[0]))
+    .slice(0, 1).forEach(([f, v]) => { example = { fips: f, ...v }; });
   return {
     counties: widths.length,
-    median: at(0.5),
+    median: med,
     p90: at(0.9),
     max: widths[widths.length - 1],
-    wide: widths.filter(w => w > 0.10).length
+    wide: widths.filter(w => w > 0.10).length,
+    narrow: widths.filter(w => w < 0.05).length,
+    example
   };
 }
 
@@ -696,22 +707,81 @@ function renderIntervalCard(summary) {
     el.style.display = 'none';
     return;
   }
+  const pts = x => (x * 100).toFixed(1);
+  const info = (label, body) =>
+    '<details class="more"><summary aria-label="' + label + '" title="' + label + '">i</summary>' +
+    '<div style="font-size:12px;line-height:1.5;color:#c6cfda;font-weight:400">' + body + '</div></details>';
+  const tile = (value, label, help) =>
+    '<div class="kpi"><b>' + value + '</b><span>' + label + ' ' + info('About: ' + label, help) + '</span></div>';
+
+  // Worked example: a number line from 0 to the top of the example's range
+  // (rounded up), showing the range as a band and the score as a dot.
+  let exampleHtml = '';
+  const ex = summary.example;
+  if (ex) {
+    const top = Math.min(1, Math.max(0.2, Math.ceil((ex.hi + 0.05) * 10) / 10));
+    const x = v => (Math.max(0, Math.min(v, top)) / top * 100).toFixed(2) + '%';
+    const ticks = [0, top / 2, top].map(t => '<span>' + Math.round(t * 100) + '%</span>').join('');
+    exampleHtml =
+      '<div style="background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin:12px 0">' +
+      '<div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Reading one county</div>' +
+      '<p style="margin:0 0 10px">A typical county on the map scores <strong>' + pts(ex.score) + '%</strong>, ' +
+      'with a range of <strong>' + pts(ex.lo) + '% to ' + pts(ex.hi) + '%</strong>. Read that as: of every 100 ' +
+      'counties with a profile like this one, somewhere between about ' + Math.round(ex.lo * 100) + ' and ' +
+      Math.round(ex.hi * 100) + ' have enacted a data center restriction, and ' + pts(ex.score) +
+      '% is the best single estimate inside that range.</p>' +
+      '<div role="img" aria-label="Score ' + pts(ex.score) + ' percent, range ' + pts(ex.lo) + ' to ' + pts(ex.hi) + ' percent" ' +
+      'style="position:relative;height:18px;margin:4px 0 2px">' +
+      '<div style="position:absolute;left:0;right:0;top:8px;height:2px;background:var(--border);border-radius:1px"></div>' +
+      '<div style="position:absolute;top:3px;height:12px;border-radius:4px;background:rgba(79,152,163,.45);' +
+      'border:1px solid var(--tier1);left:' + x(ex.lo) + ';width:calc(' + x(ex.hi) + ' - ' + x(ex.lo) + ')"></div>' +
+      '<div style="position:absolute;top:2px;width:14px;height:14px;margin-left:-7px;border-radius:50%;' +
+      'background:var(--text);border:2px solid var(--panel2);left:' + x(ex.score) + '"></div></div>' +
+      '<div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted)">' + ticks + '</div>' +
+      '<div style="display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:6px">' +
+      '<span><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--text);vertical-align:-1px;margin-right:5px"></i>Score (best estimate)</span>' +
+      '<span><i style="display:inline-block;width:16px;height:8px;border-radius:3px;background:rgba(79,152,163,.45);border:1px solid var(--tier1);vertical-align:0;margin-right:5px"></i>Range (how sure the model is)</span></div>' +
+      '</div>';
+  }
+
   el.style.display = '';
   el.innerHTML =
-    '<h1>How sure is the score</h1>' +
-    '<p>Every county carries a Venn-Abers probability interval beside its point ' +
-    'score, computed over the same folds and seed as the model. The interval is ' +
-    'the conservative envelope across folds, always contains the point, and is ' +
-    'distribution-free. Wide intervals mark counties where the ' +
-    'enacted-restriction evidence is thinnest for the profile.</p>' +
+    '<h1>How sure is the score ' + info('How the range is calculated',
+      'The range is a <strong>Venn-Abers interval</strong>: a published statistical method that turns a model score ' +
+      'into a lower and upper probability using only how the model performed on counties it was not trained on. It ' +
+      'makes no assumption about the shape of the data (it is “distribution-free”). We compute it over the same ' +
+      'validation splits as the score itself and keep the widest result across those splits, so the range is ' +
+      'deliberately cautious and always contains the score.') + '</h1>' +
+    '<p>Every county on the map has a score and a <strong>range</strong>. The score is the model’s single ' +
+    'best estimate of how likely a county with that profile is to have enacted a data center restriction. ' +
+    'The range shows how firmly the data supports that estimate. A narrow range means the model has seen many ' +
+    'similar counties with a clear record; a wide range means counties like this one are rare, or their ' +
+    'records point in different directions.</p>' +
+    exampleHtml +
     '<div class="kpis">' +
-    '<div class="kpi"><b>' + fmtPct(summary.median) + '</b><span>Median interval width</span></div>' +
-    '<div class="kpi"><b>' + fmtPct(summary.p90) + '</b><span>90th percentile width</span></div>' +
-    '<div class="kpi"><b>' + fmtPct(summary.max) + '</b><span>Widest interval</span></div>' +
-    '<div class="kpi"><b>' + summary.wide.toLocaleString() + '</b><span>Counties wider than 10 points</span></div>' +
+    tile(pts(summary.median) + ' pts', 'Typical range width',
+      'Half of all counties have a range narrower than this, half wider. Widths are in percentage points: a range ' +
+      'from 15% to 22% is 7 points wide.') +
+    tile(pts(summary.p90) + ' pts', 'Wide end (90th percentile)',
+      'Nine in ten counties have a range narrower than this. Counties beyond it are the least settled on the map.') +
+    tile(pts(summary.max) + ' pts', 'Widest range',
+      'The single least certain county. Very wide ranges usually belong to counties with an unusual profile that ' +
+      'few other counties share.') +
+    tile(summary.wide.toLocaleString() + ' of ' + summary.counties.toLocaleString(), 'Counties wider than 10 points',
+      'Counties where the range spans more than 10 percentage points. For these, the score alone would overstate ' +
+      'how precisely we know the county’s position; cite the range.') +
     '</div>' +
-    '<p class="sub">Hover any county on the map to see its own interval. ' +
-    'Quote the interval, never the point alone.</p>';
+    '<h2 style="margin-top:12px">How to use it</h2>' +
+    '<ul>' +
+    '<li><strong>Hover any county</strong> on the map above to see its own score and range.</li>' +
+    '<li><strong>Quote the range, not the score alone.</strong> ' +
+    (ex ? 'Write “between ' + Math.round(ex.lo * 100) + '% and ' + Math.round(ex.hi * 100) +
+          '%” rather than “' + Math.round(ex.score * 100) + '%”.' : '') + '</li>' +
+    '<li><strong>Compare counties by overlap.</strong> If two counties’ ranges overlap heavily, the data cannot ' +
+    'reliably say one is higher than the other, even if their scores differ.</li>' +
+    '<li><strong>A wide range is not a warning sign.</strong> It says the evidence is thin for that kind of county, ' +
+    'not that restriction is more or less likely.</li>' +
+    '</ul>';
 }
 
 async function buildScoreMap() {
