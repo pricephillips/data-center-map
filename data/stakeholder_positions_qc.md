@@ -6,7 +6,7 @@ Every published row is an act on the record with the URL it came from. No positi
 
 ## Published
 
-- Position rows: **29,952**
+- Position rows: **29,958**
 - People with a record: **2,811**
 - Roll-call votes read: **29,606**
 - Roll-call votes withheld by the subject gate: **322**
@@ -14,7 +14,7 @@ Every published row is an act on the record with the URL it came from. No positi
 | evidence class | rows |
 | --- | --- |
 | roll_call_vote | 29,284 |
-| governing_body_action | 613 |
+| governing_body_action | 619 |
 | stated_priority | 43 |
 | bill_sponsorship | 12 |
 
@@ -28,7 +28,7 @@ Every published row is an act on the record with the URL it came from. No positi
 | `opposed_restriction` | 1,182 |
 | `supported_industry_incentive` | 1,056 |
 | `supported_disclosure` | 952 |
-| `governing_body_action` | 613 |
+| `governing_body_action` | 619 |
 | `opposed_industry_incentive` | 469 |
 | `opposed_disclosure` | 157 |
 | `stated_priority` | 43 |
