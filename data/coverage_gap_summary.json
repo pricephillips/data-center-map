@@ -79,11 +79,11 @@
     },
     "IA": {
       "census_in_scope": 30,
-      "covered_confirmed": 8,
-      "covered_unconfirmed": 22,
-      "missing": 0,
-      "recall_confirmed": 0.267,
-      "recall_any": 1.0,
+      "covered_confirmed": 9,
+      "covered_unconfirmed": 20,
+      "missing": 1,
+      "recall_confirmed": 0.3,
+      "recall_any": 0.967,
       "label_false_negatives": 1,
       "unjoined_frame": 0,
       "label_positive_no_tracker_record": 0
@@ -156,12 +156,12 @@
     },
     "MI": {
       "census_in_scope": 2,
-      "covered_confirmed": 0,
-      "covered_unconfirmed": 2,
+      "covered_confirmed": 1,
+      "covered_unconfirmed": 1,
       "missing": 0,
-      "recall_confirmed": 0.0,
+      "recall_confirmed": 0.5,
       "recall_any": 1.0,
-      "label_false_negatives": 2,
+      "label_false_negatives": 1,
       "unjoined_frame": 0,
       "label_positive_no_tracker_record": 0
     },
@@ -354,10 +354,10 @@
     },
     "WI": {
       "census_in_scope": 16,
-      "covered_confirmed": 4,
-      "covered_unconfirmed": 12,
+      "covered_confirmed": 5,
+      "covered_unconfirmed": 11,
       "missing": 0,
-      "recall_confirmed": 0.25,
+      "recall_confirmed": 0.312,
       "recall_any": 1.0,
       "label_false_negatives": 2,
       "unjoined_frame": 0,
@@ -366,8 +366,8 @@
   },
   "national": {
     "census_in_scope": 302,
-    "recall_any": 0.997,
-    "label_false_negatives": 26,
+    "recall_any": 0.993,
+    "label_false_negatives": 25,
     "unjoined_frame": 0,
     "label_positive_no_tracker_record": 0
   },

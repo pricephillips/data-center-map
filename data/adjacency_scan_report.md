@@ -6,16 +6,16 @@ Adjacency is a search prompt, never evidence. Nothing in this queue is a finding
 
 ## Counts
 
-- Seed counties (enacted, tracker label or external census): 506
+- Seed counties (enacted, tracker label or external census): 508
 - Seeds carrying no usable date: 14 (an undated seed cannot raise a fresh trigger)
-- Candidate counties adjacent to a seed: 1198
-- Priority 1, non-terminal record plus fresh trigger: 44
-- Priority 2, fresh trigger with pressure: 192
-- Priority 3, standing cluster: 337
-- Priority 4, background: 625
-- Cross-state candidates (the Walker/Hamilton shape): 238
-- Small-jurisdiction candidates (population under 100,000): 950
-- Candidates with no automated agenda route: 1193
+- Candidate counties adjacent to a seed: 1202
+- Priority 1, non-terminal record plus fresh trigger: 46
+- Priority 2, fresh trigger with pressure: 193
+- Priority 3, standing cluster: 336
+- Priority 4, background: 627
+- Cross-state candidates (the Walker/Hamilton shape): 239
+- Small-jurisdiction candidates (population under 100,000): 951
+- Candidates with no automated agenda route: 1197
 
 Small jurisdiction is a detection-difficulty tier, not a risk factor. Population stands in for whether a county has a newsroom that ingestion can see; it never enters a model.
 
@@ -35,6 +35,7 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 | 1 | KY | Warren County | 6 | Logan County, KY (2026-07-28) | 62 | 1 | 0 | no | ambiguous |
 | 1 | FL | Volusia County | 4 | Marion County, FL (2026-09-15) | 13 | 1 | 0 | no | unprobed |
 | 1 | MN | Washington County | 4 | St. Croix County, WI (2026-09-01) | 27 | 1 | 0 | no | unprobed |
+| 1 | WI | Rock County | 4 | Jefferson County, WI (2026-08-12) | 47 | 1 | 0 | no | none |
 | 1 | IN | St. Joseph County | 4 | Cass County, MI (2026-05-12) | 139 | 1 | 4 | no | none |
 | 1 | OH | Portage County | 3 | Trumbull County, OH (2026-09-11) | 17 | 1 | 0 | no | none |
 | 1 | KY | Jefferson County | 3 | Clark County, IN (2026-08-31) | 28 | 1 | 3 | no | ambiguous |
@@ -42,7 +43,6 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 | 1 | IL | Bureau County | 3 | Lee County, IL (2026-08-20) | 39 | 1 | 0 | yes | none |
 | 1 | NJ | Gloucester County | 3 | Camden County, NJ (2026-07-28) | 62 | 1 | 3 | no | none |
 | 1 | NE | Lincoln County | 3 | Logan County, NE (2026-07-16) | 74 | 1 | 0 | yes | ambiguous |
-| 1 | WI | Rock County | 3 | Green County, WI (2026-07-14) | 76 | 1 | 0 | no | none |
 | 1 | MD | Harford County | 2 | Baltimore County, MD (2026-09-23) | 5 | 1 | 0 | no | none |
 | 1 | OH | Ashtabula County | 2 | Trumbull County, OH (2026-09-11) | 17 | 1 | 0 | yes | unprobed |
 | 1 | KS | Miami County | 2 | Franklin County, KS (2026-09-02) | 26 | 1 | 0 | yes | ambiguous |
@@ -60,16 +60,16 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 | 1 | FL | Highlands County | 1 | DeSoto County, FL (2026-07-28) | 62 | 1 | 0 | no | unprobed |
 | 1 | TX | Colorado County | 1 | Austin County, TX (2026-07-27) | 63 | 1 | 0 | yes | unprobed |
 | 1 | NM | Doña Ana County | 1 | Sierra County, NM (2026-07-21) | 69 | 1 | 1 | no | none |
+| 1 | NC | Pender County | 1 | Brunswick County, NC (2026-07-16) | 74 | 1 | 0 | yes | unprobed |
+| 1 | SC | Horry County | 1 | Brunswick County, NC (2026-07-16) | 74 | 1 | 1 | no | none |
 | 1 | MI | Keweenaw County | 1 | Houghton County, MI (2026-07-09) | 81 | 1 | 0 | yes | none |
-| 1 | SC | McCormick County | 1 | Greenwood County, SC (2026-07-07) | 83 | 1 | 0 | yes | none |
-| 1 | TX | Falls County | 1 | Bell County, TX (2026-07-02) | 88 | 1 | 0 | yes | none |
 
 ## Priorities 1 to 3 by state
 
 | State | Counties |
 |---|---|
 | GA | 34 |
-| NC | 32 |
+| NC | 33 |
 | TN | 30 |
 | WI | 30 |
 | OH | 29 |
@@ -78,7 +78,7 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 | KY | 24 |
 | VA | 23 |
 | FL | 22 |
-| SC | 21 |
+| SC | 22 |
 | IA | 20 |
 | PA | 19 |
 | MO | 18 |

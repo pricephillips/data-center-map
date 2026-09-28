@@ -1,4 +1,5 @@
 finding,subject,layer,detail,reason
+undeclared_file,data/research_routine_log.csv,,no writing module found; hand maintained or retired,
 undeclared_file,data/status_resolution_worklist.csv,,status_resolution.py,
 undeclared_file,data/status_resolutions.csv,,no writing module found; hand maintained or retired,
 multi_writer_declared,data/signal_candidates.csv,C,"promote_signal_candidates.py, signal_harvest.py","A handoff, not shared ownership. signal_harvest.py writes the queue; promote_signal_candidates.py consumes it and rewrites what remains, so the file holds exactly the rows the gate did not promote. The two never write concurrently: the promoter runs after the harvester in the same workflow."

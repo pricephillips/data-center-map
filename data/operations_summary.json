@@ -3,12 +3,12 @@
   "coverage": {
     "national": {
       "census_in_scope": 302,
-      "recall_any": 0.997,
-      "label_false_negatives": 26,
+      "recall_any": 0.993,
+      "label_false_negatives": 25,
       "unjoined_frame": 0,
       "label_positive_no_tracker_record": 0,
-      "recall_confirmed": 0.308,
-      "missing": 1
+      "recall_confirmed": 0.318,
+      "missing": 2
     },
     "states": [
       {
@@ -60,16 +60,6 @@
         "recall_any": 1.0,
         "recall_confirmed": 0.0,
         "label_false_negatives": 0
-      },
-      {
-        "state": "MI",
-        "census_in_scope": 2,
-        "covered_confirmed": 0,
-        "covered_unconfirmed": 2,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.0,
-        "label_false_negatives": 2
       },
       {
         "state": "AL",
@@ -162,26 +152,6 @@
         "label_false_negatives": 3
       },
       {
-        "state": "WI",
-        "census_in_scope": 16,
-        "covered_confirmed": 4,
-        "covered_unconfirmed": 12,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.25,
-        "label_false_negatives": 2
-      },
-      {
-        "state": "IA",
-        "census_in_scope": 30,
-        "covered_confirmed": 8,
-        "covered_unconfirmed": 22,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.267,
-        "label_false_negatives": 1
-      },
-      {
         "state": "NE",
         "census_in_scope": 11,
         "covered_confirmed": 3,
@@ -209,6 +179,26 @@
         "missing": 0,
         "recall_any": 1.0,
         "recall_confirmed": 0.286,
+        "label_false_negatives": 2
+      },
+      {
+        "state": "IA",
+        "census_in_scope": 30,
+        "covered_confirmed": 9,
+        "covered_unconfirmed": 20,
+        "missing": 1,
+        "recall_any": 0.967,
+        "recall_confirmed": 0.3,
+        "label_false_negatives": 1
+      },
+      {
+        "state": "WI",
+        "census_in_scope": 16,
+        "covered_confirmed": 5,
+        "covered_unconfirmed": 11,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.312,
         "label_false_negatives": 2
       },
       {
@@ -282,6 +272,16 @@
         "label_false_negatives": 0
       },
       {
+        "state": "MI",
+        "census_in_scope": 2,
+        "covered_confirmed": 1,
+        "covered_unconfirmed": 1,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.5,
+        "label_false_negatives": 1
+      },
+      {
         "state": "OH",
         "census_in_scope": 2,
         "covered_confirmed": 1,
@@ -346,14 +346,20 @@
   },
   "promotions": {
     "census_gaps": {
-      "decisions": 136,
+      "decisions": 137,
       "by_action": {
-        "promoted": 131,
+        "promoted": 132,
         "held": 5
       },
       "first_run": "2025-06",
       "last_run": "2026-09-22",
       "recent": [
+        {
+          "date": "2026-07-31",
+          "action": "promoted",
+          "what": "IA Iowa County moratorium",
+          "reason": ""
+        },
         {
           "date": "2026-09-01",
           "action": "promoted",
@@ -394,12 +400,6 @@
           "date": "2026-08-11",
           "action": "promoted",
           "what": "WA Yakima County moratorium",
-          "reason": ""
-        },
-        {
-          "date": "2026-08-18",
-          "action": "promoted",
-          "what": "WA Skamania County moratorium",
           "reason": ""
         }
       ]
@@ -542,18 +542,18 @@
   },
   "worklists": {
     "national_restriction": {
-      "rows": 26,
+      "rows": 25,
       "by_task_class": {
-        "reconcile_label": 25,
-        "ingest_missing": 1
+        "reconcile_label": 23,
+        "ingest_missing": 2
       },
-      "priority_1": 25
+      "priority_1": 23
     },
     "stale_pending": {
-      "scoped": 375,
-      "stale": 292,
-      "priority_1_label_moving": 28,
-      "counties_in_priority_1": 27,
+      "scoped": 372,
+      "stale": 289,
+      "priority_1_label_moving": 25,
+      "counties_in_priority_1": 25,
       "as_of": "2026-09-28"
     },
     "decision_dates": {

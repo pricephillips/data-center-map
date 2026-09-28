@@ -797,7 +797,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 19009,"Audubon County, Iowa",IA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 19011,"Benton County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19013,"Black Hawk County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
-19015,"Boone County, Iowa",IA,asserted_restrictive,B,meeting_portal,meeting_portal|restriction_census,proceeding,0,1,0,2026-09-28,0,complete,2026-09-09,https://boonecounty.iowa.gov/files/meetings/2026-09-09_minutes_4873.pdf,,0
+19015,"Boone County, Iowa",IA,asserted_restrictive,A,meeting_portal|restriction_census,meeting_portal|restriction_census,proceeding|secondary,0,2,0,2026-09-28,0,complete,2026-09-09,https://boonecounty.iowa.gov/files/meetings/2026-09-09_minutes_4873.pdf,,0
 19017,"Bremer County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
 19019,"Buchanan County, Iowa",IA,asserted_restrictive,D,,restriction_census,,0,0,0,,,never_probed,,,label_positive_circular_support,1
 19021,"Buena Vista County, Iowa",IA,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1252,7 +1252,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 26035,"Clare County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 26037,"Clinton County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 26039,"Crawford County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
-26041,"Delta County, Michigan",MI,unverified,D,restriction_census,restriction_census,,0,1,0,2026-09-28,0,complete,2026-07-21,"moratorium-nation:mi-delta-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",label_negative_source_hit,1
+26041,"Delta County, Michigan",MI,asserted_restrictive,B,restriction_census,restriction_census,secondary,0,1,0,2026-09-28,0,complete,2026-07-21,"moratorium-nation:mi-delta-county-2026 (CC-BY-4.0, github.com/mjbommar/moratorium-data-2026)",,0
 26043,"Dickinson County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 26045,"Eaton County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 26047,"Emmet County, Michigan",MI,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -1900,7 +1900,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 37013,"Beaufort County, North Carolina",NC,unverified,D,,restriction_census,,0,0,0,,,never_probed,,,,1
 37015,"Bertie County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37017,"Bladen County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
-37019,"Brunswick County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
+37019,"Brunswick County, North Carolina",NC,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 37021,"Buncombe County, North Carolina",NC,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 37023,"Burke County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
 37025,"Cabarrus County, North Carolina",NC,unverified,U,,,,0,0,0,,,never_probed,,,,1
@@ -3075,7 +3075,7 @@ fips,county_name,state,label_state,evidence_grade,families_checked,families_cove
 55049,"Iowa County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55051,"Iron County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55053,"Jackson County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
-55055,"Jefferson County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
+55055,"Jefferson County, Wisconsin",WI,asserted_restrictive,U,,,,0,0,0,,,never_probed,,,label_positive_no_support,1
 55057,"Juneau County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55059,"Kenosha County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
 55061,"Kewaunee County, Wisconsin",WI,unverified,U,,,,0,0,0,,,never_probed,,,,1
