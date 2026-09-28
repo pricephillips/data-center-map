@@ -1,0 +1,241 @@
+{
+  "generated": "2026-09-28",
+  "config_hash": "f0b5407174a3",
+  "features_hash": "5ede9c3b02d5",
+  "n_pool": 57,
+  "targets": {
+    "restrict": {
+      "target": "restrict",
+      "description": "county has ever enacted a restrictive instrument (moratorium, zoning restriction, ban)",
+      "label": "has_enacted_restrictive",
+      "frame": "all",
+      "n_frame": 3144,
+      "n_positive": 460,
+      "base_rate": 0.1463,
+      "n_candidates": 54,
+      "dropped": {
+        "opp_pre_ordinance_activity": "varies in only 3 positive counties",
+        "opp_pre_property_values": "varies in only 1 positive counties",
+        "opp_pre_traffic": "varies in only 1 positive counties"
+      },
+      "held_out_auc": {
+        "gbm_all_candidates": {
+          "p10": 0.8991,
+          "p50": 0.923,
+          "p90": 0.9509
+        },
+        "l2_logistic_all_candidates": {
+          "p10": 0.7638,
+          "p50": 0.7842,
+          "p90": 0.8369
+        }
+      },
+      "cv": {
+        "splits": 5,
+        "repeats": 3,
+        "seed": 7
+      },
+      "stability_selection": {
+        "n_half_sample_fits": 100,
+        "threshold": 0.75,
+        "penalties_used": [
+          0.003,
+          0.005,
+          0.01,
+          0.02
+        ],
+        "mean_selected_per_penalty": {
+          "0.003": 0,
+          "0.005": 0,
+          "0.01": 3.46,
+          "0.02": 5.43,
+          "0.05": 11.19,
+          "0.1": 20.52,
+          "0.3": 35.26
+        },
+        "mean_selected_at_weakest_penalty_used": 5.43,
+        "expected_false_selections_bound": 1.092
+      },
+      "status": "OK",
+      "n_admitted": 12,
+      "weights_updated": true,
+      "drift_flags": []
+    },
+    "restrict_profile": {
+      "target": "restrict_profile",
+      "description": "same outcome, county profile variables only (no outcome-derived information of any kind); the weights a client-facing score may use",
+      "label": "has_enacted_restrictive",
+      "frame": "all",
+      "n_frame": 3144,
+      "n_positive": 460,
+      "base_rate": 0.1463,
+      "n_candidates": 26,
+      "dropped": {},
+      "held_out_auc": {
+        "gbm_all_candidates": {
+          "p10": 0.7611,
+          "p50": 0.777,
+          "p90": 0.8121
+        },
+        "l2_logistic_all_candidates": {
+          "p10": 0.7148,
+          "p50": 0.7445,
+          "p90": 0.7599
+        }
+      },
+      "cv": {
+        "splits": 5,
+        "repeats": 3,
+        "seed": 7
+      },
+      "stability_selection": {
+        "n_half_sample_fits": 100,
+        "threshold": 0.75,
+        "penalties_used": [
+          0.003,
+          0.005,
+          0.01,
+          0.02
+        ],
+        "mean_selected_per_penalty": {
+          "0.003": 0,
+          "0.005": 0,
+          "0.01": 2.17,
+          "0.02": 4.58,
+          "0.05": 7.88,
+          "0.1": 11.07,
+          "0.3": 16.53
+        },
+        "mean_selected_at_weakest_penalty_used": 4.58,
+        "expected_false_selections_bound": 1.614
+      },
+      "status": "OK",
+      "n_admitted": 17,
+      "weights_updated": true,
+      "drift_flags": []
+    },
+    "moratorium": {
+      "target": "moratorium",
+      "description": "county has ever enacted a moratorium specifically",
+      "label": "has_enacted_moratorium",
+      "frame": "all",
+      "n_frame": 3144,
+      "n_positive": 383,
+      "base_rate": 0.1218,
+      "n_candidates": 53,
+      "dropped": {
+        "opp_pre_withdrawals": "varies in only 4 positive counties",
+        "opp_pre_ordinance_activity": "varies in only 0 positive counties",
+        "opp_pre_property_values": "varies in only 0 positive counties",
+        "opp_pre_traffic": "varies in only 1 positive counties"
+      },
+      "held_out_auc": {
+        "gbm_all_candidates": {
+          "p10": 0.8895,
+          "p50": 0.9167,
+          "p90": 0.9408
+        },
+        "l2_logistic_all_candidates": {
+          "p10": 0.7336,
+          "p50": 0.7782,
+          "p90": 0.8083
+        }
+      },
+      "cv": {
+        "splits": 5,
+        "repeats": 3,
+        "seed": 7
+      },
+      "stability_selection": {
+        "n_half_sample_fits": 100,
+        "threshold": 0.75,
+        "penalties_used": [
+          0.003,
+          0.005,
+          0.01,
+          0.02
+        ],
+        "mean_selected_per_penalty": {
+          "0.003": 0,
+          "0.005": 0,
+          "0.01": 2.13,
+          "0.02": 3.87,
+          "0.05": 11.2,
+          "0.1": 20.32,
+          "0.3": 34.55
+        },
+        "mean_selected_at_weakest_penalty_used": 3.87,
+        "expected_false_selections_bound": 0.565
+      },
+      "status": "OK",
+      "n_admitted": 11,
+      "weights_updated": true,
+      "drift_flags": []
+    },
+    "conversion": {
+      "target": "conversion",
+      "description": "among counties with recorded local opposition before any enactment, which went on to enact a restriction",
+      "label": "has_enacted_restrictive",
+      "frame": "in_conversion_frame",
+      "n_frame": 255,
+      "n_positive": 61,
+      "base_rate": 0.2392,
+      "n_candidates": 54,
+      "dropped": {
+        "opp_pre_ordinance_activity": "varies in only 3 positive counties",
+        "opp_pre_property_values": "varies in only 1 positive counties",
+        "opp_pre_traffic": "varies in only 1 positive counties"
+      },
+      "held_out_auc": {
+        "gbm_all_candidates": {
+          "p10": 0.5299,
+          "p50": 0.6453,
+          "p90": 0.7308
+        },
+        "l2_logistic_all_candidates": {
+          "p10": 0.5449,
+          "p50": 0.6688,
+          "p90": 0.7429
+        }
+      },
+      "cv": {
+        "splits": 5,
+        "repeats": 3,
+        "seed": 7
+      },
+      "stability_selection": {
+        "n_half_sample_fits": 100,
+        "threshold": 0.75,
+        "penalties_used": [
+          0.003,
+          0.005,
+          0.01,
+          0.02,
+          0.05,
+          0.1
+        ],
+        "mean_selected_per_penalty": {
+          "0.003": 0,
+          "0.005": 0,
+          "0.01": 0,
+          "0.02": 0,
+          "0.05": 0.33,
+          "0.1": 4.25,
+          "0.3": 16.77
+        },
+        "mean_selected_at_weakest_penalty_used": 4.25,
+        "expected_false_selections_bound": 0.669
+      },
+      "status": "OK",
+      "n_admitted": 3,
+      "weights_updated": true,
+      "drift_flags": []
+    }
+  },
+  "promotion": {
+    "target": "restrict_profile",
+    "promoted": [
+      "projects_since_2024"
+    ]
+  }
+}

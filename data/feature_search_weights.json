@@ -1,0 +1,835 @@
+{
+  "targets": {
+    "restrict": {
+      "inputs_hash": "5ede9c3b02d5-f0b5407174a3",
+      "updated": "2026-09-28",
+      "n_frame": 3144,
+      "n_positive": 460,
+      "features": {
+        "margin_2024": {
+          "mean": 0.0004988652900153508,
+          "var": 7.171770933443845e-08
+        },
+        "existing_dc_count": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "n_projects_tracked": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "state_legislation_events": {
+          "mean": 0.0036406886599282488,
+          "var": 2.0590181951397013e-06
+        },
+        "land_sqmi": {
+          "mean": 0.003290571883288391,
+          "var": 9.015335700813275e-07
+        },
+        "median_hh_income": {
+          "mean": 0.003573456427179321,
+          "var": 1.7763378792531084e-06
+        },
+        "pop_density_sqmi": {
+          "mean": 2.51686846212433e-05,
+          "var": 9.999755507197006e-09
+        },
+        "pct_bachelors_plus": {
+          "mean": 0.00020409404956812482,
+          "var": 6.144742883566407e-07
+        },
+        "population": {
+          "mean": 0.05247151426291918,
+          "var": 2.5518805131669517e-05
+        },
+        "margin_2016": {
+          "mean": 0.001629942317917986,
+          "var": 7.66907962660197e-07
+        },
+        "margin_shift": {
+          "mean": 0.0,
+          "var": 1.0668952614308996e-06
+        },
+        "competitiveness": {
+          "mean": 0.00017646446130391841,
+          "var": 9.999755507197006e-09
+        },
+        "swing_magnitude": {
+          "mean": 0.0,
+          "var": 1.4514665571694196e-07
+        },
+        "dc_per_100k": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "dc_per_1k_sqmi": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "dc_sqft_total": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "proposed_mw_total": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "proposed_mw_max": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "proposed_mw_per_capita": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "projects_since_2024": {
+          "mean": 0.0012020572800608535,
+          "var": 2.773852691296318e-07
+        },
+        "hyperscale_projects": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "projects_per_100k": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_events": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_lawsuits": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_public_comment": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_withdrawals": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_groups": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_projects": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_petition_max": {
+          "mean": 0.0,
+          "var": 1.5647307997340045e-08
+        },
+        "opp_pre_online_org": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_severity_mean": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_hyperscaler": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_contested_mw": {
+          "mean": 0.0,
+          "var": 2.5552122994135564e-07
+        },
+        "opp_pre_contested_acres": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_span_days": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_water": {
+          "mean": 0.00014964891454935427,
+          "var": 2.4975395832999905e-08
+        },
+        "opp_pre_noise": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_grid_energy": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_farmland": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_ratepayer": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_tax_incentive": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_environmental": {
+          "mean": 2.698770816771872e-07,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_transparency": {
+          "mean": 0.0,
+          "var": 1.777820521068352e-08
+        },
+        "opp_pre_air_quality": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_anti_ai": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_zoning": {
+          "mean": 0.0,
+          "var": 2.6342945535167475e-08
+        },
+        "opp_pre_community_impact": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "nbr_existing_dc": {
+          "mean": 9.660397614273804e-06,
+          "var": 2.3555676862241426e-07
+        },
+        "nbr_projects": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "nbr_proposed_mw": {
+          "mean": 0.0001487913965083862,
+          "var": 5.980490800463778e-08
+        },
+        "nbr_opp_pre_events": {
+          "mean": 0.0,
+          "var": 2.1054455470158885e-07
+        },
+        "nbr_restrict_share": {
+          "mean": 0.005250604807256189,
+          "var": 7.695376020264854e-06
+        },
+        "state_restrict_rate_loo": {
+          "mean": 0.2026082133685186,
+          "var": 3.963645890662932e-05
+        },
+        "state_projects_loo": {
+          "mean": 0.01217593670495187,
+          "var": 5.641518070257429e-06
+        }
+      },
+      "weights": {
+        "state_restrict_rate_loo": 0.707077,
+        "population": 0.183119,
+        "state_projects_loo": 0.042492,
+        "nbr_restrict_share": 0.018324,
+        "state_legislation_events": 0.012706,
+        "median_hh_income": 0.012471,
+        "land_sqmi": 0.011484,
+        "margin_2016": 0.005688,
+        "projects_since_2024": 0.004195,
+        "margin_2024": 0.001741,
+        "competitiveness": 0.000616,
+        "pop_density_sqmi": 8.8e-05
+      }
+    },
+    "restrict_profile": {
+      "inputs_hash": "5ede9c3b02d5-f0b5407174a3",
+      "updated": "2026-09-28",
+      "n_frame": 3144,
+      "n_positive": 460,
+      "features": {
+        "margin_2024": {
+          "mean": 0.0033947801718609205,
+          "var": 5.98802025822622e-07
+        },
+        "existing_dc_count": {
+          "mean": 3.879581032065173e-05,
+          "var": 9.999755507197006e-09
+        },
+        "n_projects_tracked": {
+          "mean": 0.0004567951764681877,
+          "var": 2.0655807650128533e-08
+        },
+        "state_legislation_events": {
+          "mean": 0.009163890723192833,
+          "var": 1.6178820341775405e-06
+        },
+        "land_sqmi": {
+          "mean": 0.00891245675359271,
+          "var": 4.875661818828606e-06
+        },
+        "median_hh_income": {
+          "mean": 0.02004818281659687,
+          "var": 1.0948524589712425e-05
+        },
+        "pop_density_sqmi": {
+          "mean": 0.02815958993897106,
+          "var": 4.893081472786027e-06
+        },
+        "pct_bachelors_plus": {
+          "mean": 0.0013283519868200289,
+          "var": 1.896320165434e-06
+        },
+        "population": {
+          "mean": 0.08062228245717311,
+          "var": 4.446251975919198e-05
+        },
+        "margin_2016": {
+          "mean": 0.0058288446536968325,
+          "var": 1.7704048221740055e-06
+        },
+        "margin_shift": {
+          "mean": 0.007559272612642678,
+          "var": 1.400462452858605e-05
+        },
+        "competitiveness": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "swing_magnitude": {
+          "mean": 0.0001929772893871093,
+          "var": 2.091794247499083e-06
+        },
+        "dc_per_100k": {
+          "mean": 0.00029891040906844914,
+          "var": 9.999755507197006e-09
+        },
+        "dc_per_1k_sqmi": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "dc_sqft_total": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "proposed_mw_total": {
+          "mean": 0.0001352774448808958,
+          "var": 3.747925696454124e-08
+        },
+        "proposed_mw_max": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "proposed_mw_per_capita": {
+          "mean": 0.0003212249757074827,
+          "var": 2.1141877481581764e-07
+        },
+        "projects_since_2024": {
+          "mean": 0.006571245675293919,
+          "var": 3.965382688715507e-06
+        },
+        "hyperscale_projects": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "projects_per_100k": {
+          "mean": 0.004291483606967839,
+          "var": 1.8312219417521028e-06
+        },
+        "nbr_existing_dc": {
+          "mean": 0.0,
+          "var": 2.5522579100666633e-07
+        },
+        "nbr_projects": {
+          "mean": 0.0,
+          "var": 2.5522579100666633e-07
+        },
+        "nbr_proposed_mw": {
+          "mean": 0.0009171543519902185,
+          "var": 8.249829967591977e-07
+        },
+        "state_projects_loo": {
+          "mean": 0.03748087978600152,
+          "var": 1.5617185861093083e-05
+        }
+      },
+      "weights": {
+        "population": 0.378815,
+        "state_projects_loo": 0.176109,
+        "pop_density_sqmi": 0.132312,
+        "median_hh_income": 0.094199,
+        "state_legislation_events": 0.043058,
+        "land_sqmi": 0.041876,
+        "margin_shift": 0.035518,
+        "projects_since_2024": 0.030876,
+        "margin_2016": 0.027388,
+        "projects_per_100k": 0.020164,
+        "margin_2024": 0.015951,
+        "n_projects_tracked": 0.002146,
+        "dc_per_100k": 0.001404,
+        "existing_dc_count": 0.000182
+      }
+    },
+    "moratorium": {
+      "inputs_hash": "5ede9c3b02d5-f0b5407174a3",
+      "updated": "2026-09-28",
+      "n_frame": 3144,
+      "n_positive": 383,
+      "features": {
+        "margin_2024": {
+          "mean": 0.0011627346456181767,
+          "var": 5.040663861937348e-07
+        },
+        "existing_dc_count": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "n_projects_tracked": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "state_legislation_events": {
+          "mean": 0.0022281660450137655,
+          "var": 6.110584185158131e-07
+        },
+        "land_sqmi": {
+          "mean": 0.0026018366495167648,
+          "var": 1.1374847386394627e-06
+        },
+        "median_hh_income": {
+          "mean": 0.0021064045334978697,
+          "var": 1.3593393627025267e-06
+        },
+        "pop_density_sqmi": {
+          "mean": 0.0008646852475889585,
+          "var": 9.999755507197006e-09
+        },
+        "pct_bachelors_plus": {
+          "mean": 0.0020448831355186184,
+          "var": 9.64948846892454e-07
+        },
+        "population": {
+          "mean": 0.042634652834146934,
+          "var": 1.062164829864049e-05
+        },
+        "margin_2016": {
+          "mean": 0.0010828454957466948,
+          "var": 4.3710756002995926e-07
+        },
+        "margin_shift": {
+          "mean": 0.00041304771592868503,
+          "var": 3.6483050116816355e-07
+        },
+        "competitiveness": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "swing_magnitude": {
+          "mean": 0.0,
+          "var": 2.1726974026729585e-07
+        },
+        "dc_per_100k": {
+          "mean": 9.897187454502144e-05,
+          "var": 4.138207261700366e-08
+        },
+        "dc_per_1k_sqmi": {
+          "mean": 0.00032989077016882883,
+          "var": 4.602290196620611e-07
+        },
+        "dc_sqft_total": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "proposed_mw_total": {
+          "mean": 0.0003299613190586117,
+          "var": 3.24226237542129e-08
+        },
+        "proposed_mw_max": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "proposed_mw_per_capita": {
+          "mean": 0.00020516152055149547,
+          "var": 1.2534089546700877e-08
+        },
+        "projects_since_2024": {
+          "mean": 0.0008423914334013691,
+          "var": 4.2818661285669036e-07
+        },
+        "hyperscale_projects": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "projects_per_100k": {
+          "mean": 2.1129443734765736e-05,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_events": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_lawsuits": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_public_comment": {
+          "mean": 0.0009027544325478375,
+          "var": 1.1584360229234654e-06
+        },
+        "opp_pre_groups": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_projects": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_petition_max": {
+          "mean": 0.0,
+          "var": 6.058025707096082e-08
+        },
+        "opp_pre_online_org": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_severity_mean": {
+          "mean": 5.341912625482705e-05,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_hyperscaler": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_contested_mw": {
+          "mean": 0.0,
+          "var": 9.519245400226207e-08
+        },
+        "opp_pre_contested_acres": {
+          "mean": 0.0001795522106943116,
+          "var": 4.5701558916355526e-08
+        },
+        "opp_pre_span_days": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_water": {
+          "mean": 0.0006072438015538526,
+          "var": 3.129990679857522e-07
+        },
+        "opp_pre_noise": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_grid_energy": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_farmland": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_ratepayer": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_tax_incentive": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_environmental": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_transparency": {
+          "mean": 0.0,
+          "var": 7.349573971305091e-08
+        },
+        "opp_pre_air_quality": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_anti_ai": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_zoning": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_community_impact": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "nbr_existing_dc": {
+          "mean": 0.00016923267952634582,
+          "var": 2.417268582675639e-07
+        },
+        "nbr_projects": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "nbr_proposed_mw": {
+          "mean": 0.0008915448552274499,
+          "var": 4.219587197381545e-07
+        },
+        "nbr_opp_pre_events": {
+          "mean": 0.0006997704225308152,
+          "var": 3.110999710803323e-07
+        },
+        "nbr_restrict_share": {
+          "mean": 0.008631236702086308,
+          "var": 4.026789683971908e-06
+        },
+        "state_restrict_rate_loo": {
+          "mean": 0.19588382906990198,
+          "var": 8.088888745328937e-05
+        },
+        "state_projects_loo": {
+          "mean": 0.01615863713559264,
+          "var": 5.288840064744546e-06
+        }
+      },
+      "weights": {
+        "state_restrict_rate_loo": 0.715716,
+        "population": 0.155777,
+        "state_projects_loo": 0.05904,
+        "nbr_restrict_share": 0.031537,
+        "land_sqmi": 0.009507,
+        "state_legislation_events": 0.008141,
+        "median_hh_income": 0.007696,
+        "pct_bachelors_plus": 0.007472,
+        "pop_density_sqmi": 0.003159,
+        "proposed_mw_total": 0.001206,
+        "proposed_mw_per_capita": 0.00075
+      }
+    },
+    "conversion": {
+      "inputs_hash": "5ede9c3b02d5-f0b5407174a3",
+      "updated": "2026-09-28",
+      "n_frame": 255,
+      "n_positive": 61,
+      "features": {
+        "margin_2024": {
+          "mean": 0.0007002750670844823,
+          "var": 0.00011604218117239094
+        },
+        "existing_dc_count": {
+          "mean": 0.0,
+          "var": 7.197922655094608e-07
+        },
+        "n_projects_tracked": {
+          "mean": 0.0,
+          "var": 9.342043755119953e-06
+        },
+        "state_legislation_events": {
+          "mean": 0.0,
+          "var": 3.041820571589515e-06
+        },
+        "land_sqmi": {
+          "mean": 0.004336829300461272,
+          "var": 0.00010078669428469359
+        },
+        "median_hh_income": {
+          "mean": 0.0,
+          "var": 6.673156213578473e-05
+        },
+        "pop_density_sqmi": {
+          "mean": 0.007999687405968951,
+          "var": 4.410716008682861e-06
+        },
+        "pct_bachelors_plus": {
+          "mean": 0.0,
+          "var": 5.070924985740299e-05
+        },
+        "population": {
+          "mean": 0.03837466551515889,
+          "var": 0.00017700927253399144
+        },
+        "margin_2016": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "margin_shift": {
+          "mean": 0.0,
+          "var": 4.917762407148511e-05
+        },
+        "competitiveness": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "swing_magnitude": {
+          "mean": 0.0,
+          "var": 6.433185553527918e-05
+        },
+        "dc_per_100k": {
+          "mean": 0.0,
+          "var": 7.197922655094608e-07
+        },
+        "dc_per_1k_sqmi": {
+          "mean": 0.0,
+          "var": 7.197922655094608e-07
+        },
+        "dc_sqft_total": {
+          "mean": 0.0,
+          "var": 7.197922655094608e-07
+        },
+        "proposed_mw_total": {
+          "mean": 0.0,
+          "var": 2.2852799127140202e-07
+        },
+        "proposed_mw_max": {
+          "mean": 0.0,
+          "var": 2.2852799127140202e-07
+        },
+        "proposed_mw_per_capita": {
+          "mean": 0.0,
+          "var": 2.2852799127140202e-07
+        },
+        "projects_since_2024": {
+          "mean": 0.0022636440784292756,
+          "var": 9.364846288069227e-06
+        },
+        "hyperscale_projects": {
+          "mean": 0.0,
+          "var": 2.2852799127140202e-07
+        },
+        "projects_per_100k": {
+          "mean": 0.0,
+          "var": 9.342043755119953e-06
+        },
+        "opp_pre_events": {
+          "mean": 0.0,
+          "var": 4.677567140034567e-07
+        },
+        "opp_pre_lawsuits": {
+          "mean": 0.0,
+          "var": 1.0623172045331753e-07
+        },
+        "opp_pre_public_comment": {
+          "mean": 0.0,
+          "var": 6.666427131651617e-06
+        },
+        "opp_pre_withdrawals": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_groups": {
+          "mean": 0.01411888406564553,
+          "var": 4.3516801043749624e-05
+        },
+        "opp_pre_projects": {
+          "mean": 0.0,
+          "var": 4.677567140034567e-07
+        },
+        "opp_pre_petition_max": {
+          "mean": 0.00800600370910836,
+          "var": 2.651020133006378e-05
+        },
+        "opp_pre_online_org": {
+          "mean": 0.0,
+          "var": 6.727819899862728e-06
+        },
+        "opp_pre_severity_mean": {
+          "mean": 0.0005827160887618975,
+          "var": 1.3138069264673348e-07
+        },
+        "opp_pre_hyperscaler": {
+          "mean": 0.0,
+          "var": 9.041409233168845e-06
+        },
+        "opp_pre_contested_mw": {
+          "mean": 0.0,
+          "var": 3.242624205169837e-05
+        },
+        "opp_pre_contested_acres": {
+          "mean": 0.0,
+          "var": 2.4128864904186143e-05
+        },
+        "opp_pre_span_days": {
+          "mean": 0.0,
+          "var": 4.677567140034567e-07
+        },
+        "opp_pre_water": {
+          "mean": 0.0,
+          "var": 4.675238900366923e-06
+        },
+        "opp_pre_noise": {
+          "mean": 0.0,
+          "var": 6.03780193094038e-06
+        },
+        "opp_pre_grid_energy": {
+          "mean": 0.0,
+          "var": 1.65631050558089e-06
+        },
+        "opp_pre_farmland": {
+          "mean": 0.0,
+          "var": 2.421983341841797e-05
+        },
+        "opp_pre_ratepayer": {
+          "mean": 0.0,
+          "var": 2.191423230264844e-08
+        },
+        "opp_pre_tax_incentive": {
+          "mean": 0.0008292916216790431,
+          "var": 2.2334488475930742e-05
+        },
+        "opp_pre_environmental": {
+          "mean": 0.000828029475169549,
+          "var": 4.24183062876895e-06
+        },
+        "opp_pre_transparency": {
+          "mean": 0.0,
+          "var": 7.458953401738923e-06
+        },
+        "opp_pre_air_quality": {
+          "mean": 0.0,
+          "var": 6.687658003276586e-06
+        },
+        "opp_pre_anti_ai": {
+          "mean": 0.0,
+          "var": 9.999755507197006e-09
+        },
+        "opp_pre_zoning": {
+          "mean": 0.0005082993116348687,
+          "var": 3.6058840056148624e-06
+        },
+        "opp_pre_community_impact": {
+          "mean": 0.005093256848333357,
+          "var": 2.1375157982481834e-05
+        },
+        "nbr_existing_dc": {
+          "mean": 0.0,
+          "var": 1.304090690612031e-05
+        },
+        "nbr_projects": {
+          "mean": 0.0,
+          "var": 1.304090690612031e-05
+        },
+        "nbr_proposed_mw": {
+          "mean": 0.0,
+          "var": 3.817321170654947e-06
+        },
+        "nbr_opp_pre_events": {
+          "mean": 0.0,
+          "var": 2.5796452616833683e-05
+        },
+        "nbr_restrict_share": {
+          "mean": 0.0,
+          "var": 7.36469957241999e-06
+        },
+        "state_restrict_rate_loo": {
+          "mean": 0.0,
+          "var": 5.268823790091219e-05
+        },
+        "state_projects_loo": {
+          "mean": 0.0,
+          "var": 1.576820078845346e-05
+        }
+      },
+      "weights": {
+        "population": 0.634363,
+        "opp_pre_groups": 0.233396,
+        "pop_density_sqmi": 0.132241
+      }
+    }
+  },
+  "generated": "2026-09-28",
+  "config_hash": "f0b5407174a3",
+  "note": "filtered held-out importance per variable (AUC units) and normalized weights over admitted variables. Internal."
+}

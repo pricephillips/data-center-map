@@ -23,7 +23,13 @@
     "restricted_without_enactment_date": 2
   },
   "undated_records_excluded_from_window": 0,
-  "plugins": [],
+  "plugins": [
+    "data/features/grid_generation.csv: missing or empty, skipped",
+    "data/features/retail_price.csv: missing or empty, skipped",
+    "data/features/water_use.csv: missing or empty, skipped",
+    "data/features/drought.csv: missing or empty, skipped",
+    "data/features/farmland.csv: missing or empty, skipped"
+  ],
   "content_hash": "5ede9c3b02d5",
   "features": {
     "margin_2024": {
