@@ -17,3 +17,11 @@ updates:
     groups:
       all:
         patterns: ["*"]
+    # Every workflow runs CPython 3.11. numpy 2.5 and scipy 1.18 require 3.12,
+    # so requirements/ci.txt could not install and the pipeline would fail at
+    # "Install dependencies". Lift this when the workflows move to 3.12.
+    ignore:
+      - dependency-name: numpy
+        versions: [">=2.5"]
+      - dependency-name: scipy
+        versions: [">=1.18"]

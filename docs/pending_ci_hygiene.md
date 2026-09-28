@@ -3,6 +3,20 @@
 `docs/pending_ci_hygiene.patch` holds every `.github/workflows/` change for
 spec 004. It is written, linted and verified to apply cleanly to `main`.
 
+Rebuilt 2026-09-28 against `main` at `b3e06f6`, after the Dependabot branch
+guard (`b0213fd`) and the commit-step fix landed in `pipeline.yml`. The only
+conflict was the hand-kept selftest list, which this patch replaces with
+discovery. Discovery was checked against that list first: all 39 of its
+modules are found, including the four the Legistar and status follow-up work
+added. The rebuilt file keeps the branch guard, `actions: write`, the
+`pipeline-${{ github.ref }}` concurrency group, `timeout-minutes: 20` and the
+conflict resolver loop.
+
+Dependabot's pip PR bumped `numpy` to 2.5.3 and `scipy` to 1.18.1. Both need
+CPython 3.12, and every workflow runs 3.11, so `requirements/ci.txt` did not
+install. The pins are back at 2.4.6 and 1.17.1, and `.github/dependabot.yml`
+ignores those two lines until the workflows move to 3.12.
+
 Everything else in spec 004 is already committed:
 
 - the pre-commit gates;
@@ -57,8 +71,8 @@ Everything below was run on the patched tree:
   and would need a credential rewrite.
 - A workflow with an undefined `inputs.nope` fails actionlint with its file and
   line.
-- `pytest tests/test_selftests.py` passes 71 of 71 modules, and reports 28 of 99
-  modules without a selftest.
+- `pytest tests/test_selftests.py` passes 73 of 73 modules, and reports 28 of 101
+  modules without a selftest (rebuild; 71 of 99 when first built).
 - The 39 modules the old hand list ran are all found by discovery.
   `qc/qc_pipeline.py` is included; the list named it through a `cd qc`
   fallback.
@@ -70,7 +84,7 @@ Everything below was run on the patched tree:
 1. **Workflow Lint**: both jobs appear. actionlint is green; the zizmor summary
    lists the `artipacked` findings.
 2. **Build Clean Feed**:
-   - The job summary has a "Selftest coverage" section (71 modules; 28
+   - The job summary has a "Selftest coverage" section (73 modules; 28
      untested), a ruff report and a Vale section.
    - `data/master_diff_summary.md` is committed, and names the rows that
      changed since the previous commit.
