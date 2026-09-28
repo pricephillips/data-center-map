@@ -12,6 +12,7 @@ month-name-15-2026, 15-march-2026.
 
 from __future__ import annotations
 
+import argparse
 import csv
 import os
 import re
@@ -136,7 +137,150 @@ def apply_recovery(records: list[dict], outdir: str = "out") -> dict:
             "still_missing": missing, "report": path}
 
 
+def _load_decision_worklist(path: str) -> list[dict]:
+    with open(path, newline="", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
+def _build_url_index(opposition_path: str) -> dict[str, list[str]]:
+    index: dict[str, list[str]] = {}
+    with open(opposition_path, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            key = str(row.get("Project Name", "") or "").lower().strip()
+            url = str(row.get("Source URL", "") or "").strip()
+            if key and url:
+                index.setdefault(key, [])
+                if url not in index[key]:
+                    index[key].append(url)
+    return index
+
+
+def _precision(method: str, date: str) -> int:
+    if not date:
+        return 0
+    if method.endswith("_midyear"):
+        return 1
+    if method.endswith("_midmonth"):
+        return 2
+    return 3
+
+
+def run_decision_dates(worklist_path: str, opposition_path: str, out_path: str) -> dict:
+    worklist = _load_decision_worklist(worklist_path)
+    url_index = _build_url_index(opposition_path)
+    fieldnames = ["project_id", "project_name", "state", "lifecycle_outcome",
+                  "recovered_date", "method", "source_url", "year_only"]
+    rows_out = []
+    n_recovered = n_no_url = n_no_match = n_year_only = 0
+
+    for w in worklist:
+        key = str(w.get("project_name", "") or "").lower().strip()
+        urls = url_index.get(key, [])
+
+        best_date, best_method, best_url, best_prec = "", "", "", 0
+        for url in urls:
+            date, method = recover_from_url(url)
+            prec = _precision(method, date)
+            if prec > best_prec:
+                best_date, best_method, best_url, best_prec = date, method, url, prec
+
+        if not urls:
+            best_method = "no_source_url"
+            n_no_url += 1
+        elif not best_date:
+            best_method = "no_pattern_match"
+            n_no_match += 1
+        else:
+            n_recovered += 1
+            if best_method.endswith("_midyear"):
+                n_year_only += 1
+
+        year_only = "true" if best_method.endswith("_midyear") else "false"
+        rows_out.append({
+            "project_id": w.get("project_id", ""),
+            "project_name": w.get("project_name", ""),
+            "state": w.get("state", ""),
+            "lifecycle_outcome": w.get("lifecycle_outcome", ""),
+            "recovered_date": best_date,
+            "method": best_method,
+            "source_url": best_url,
+            "year_only": year_only,
+        })
+
+    with open(out_path, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=fieldnames)
+        w.writeheader()
+        w.writerows(rows_out)
+
+    return {"total": len(rows_out), "recovered": n_recovered,
+            "no_source_url": n_no_url, "no_pattern_match": n_no_match,
+            "year_only": n_year_only}
+
+
+def selftest() -> int:
+    checks = []
+
+    def check(label, ok):
+        checks.append((label, ok))
+        print(f"{'PASS' if ok else 'FAIL'}  {label}")
+
+    check("ymd_path: /2024/03/15/ -> 2024-03-15",
+          recover_from_url("https://example.com/news/2024/03/15/story") == ("2024-03-15", "ymd_path"))
+
+    check("iso_in_url: 2023-07-04 in body -> 2023-07-04",
+          recover_from_url("https://city.gov/docs/decision-2023-07-04.pdf") == ("2023-07-04", "iso_in_url"))
+
+    check("compact: 20221105 in segment -> 2022-11-05",
+          recover_from_url("https://example.com/release_20221105_final") == ("2022-11-05", "compact"))
+
+    check("ym_path_midmonth: /2025/06/ -> 2025-06-15",
+          recover_from_url("https://example.com/2025/06/") == ("2025-06-15", "ym_path_midmonth"))
+
+    check("monthname: march-15-2023 -> 2023-03-15",
+          recover_from_url("https://example.com/march-15-2023-hearing") == ("2023-03-15", "monthname"))
+
+    check("dmonthname: 15-march-2023 -> 2023-03-15",
+          recover_from_url("https://example.com/15-march-2023-vote") == ("2023-03-15", "dmonthname"))
+
+    check("year_only_midyear: /2021/ -> 2021-07-01",
+          recover_from_url("https://example.com/projects/2021/final-approval") == ("2021-07-01", "year_only_midyear"))
+
+    check("no match: plain URL -> empty",
+          recover_from_url("https://example.com/meeting-notes") == ("", ""))
+
+    check("empty url -> empty",
+          recover_from_url("") == ("", ""))
+
+    check("year_only flag true when method ends in _midyear",
+          ("true" if "year_only_midyear".endswith("_midyear") else "false") == "true")
+
+    check("year_only flag false for ymd_path method",
+          ("true" if "ymd_path".endswith("_midyear") else "false") == "false")
+
+    n_ok = sum(1 for _, ok in checks if ok)
+    print(f"\n{n_ok}/{len(checks)} checks passed")
+    return 0 if n_ok == len(checks) else 1
+
+
 if __name__ == "__main__":
-    src = sys.argv[1] if len(sys.argv) > 1 else "master_opposition_clean.csv"
-    rows = list(csv.DictReader(open(src, newline="", encoding="utf-8")))
+    parser = argparse.ArgumentParser(description="Date recovery for opposition events and decision-date worklist")
+    parser.add_argument("--input", default="master_opposition_clean.csv",
+                        help="Input CSV for opposition-event date recovery (default: master_opposition_clean.csv)")
+    parser.add_argument("--decision-dates", action="store_true",
+                        help="Run offline recovery against the decision-date worklist")
+    parser.add_argument("--selftest", action="store_true",
+                        help="Run self-tests (no network, no file I/O)")
+    args = parser.parse_args()
+
+    if args.selftest:
+        raise SystemExit(selftest())
+    if args.decision_dates:
+        result = run_decision_dates(
+            "data/decision_date_worklist.csv",
+            "master_opposition.csv",
+            "data/decision_date_recovery_candidates.csv",
+        )
+        print(result)
+        raise SystemExit(0)
+    rows = list(csv.DictReader(open(args.input, newline="", encoding="utf-8")))
     print(apply_recovery(rows))

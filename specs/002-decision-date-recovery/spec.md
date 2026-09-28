@@ -21,7 +21,7 @@ A maintainer runs `python3 date_recovery.py --decision-dates` (or equivalent ent
 **Acceptance Scenarios**:
 
 1. **Given** a project in the worklist has at least one opposition event in `master_opposition.csv` whose `Source URL` matches a URL date pattern, **When** offline recovery runs, **Then** the candidate file contains a row for that project with `recovered_date`, `method`, and `source_url` populated.
-2. **Given** a project's source URLs contain no parseable date pattern, **When** offline recovery runs, **Then** no candidate row is written for that project (no imputation, no placeholder).
+2. **Given** a project's source URLs contain no parseable date pattern, **When** offline recovery runs, **Then** the project appears in the candidates file with `recovered_date` blank, `method="no_pattern_match"`, and no date imputed — the row is present so the reviewer has a complete 48-row tally.
 3. **Given** the candidate file already contains a project's entry, **When** a maintainer reviews and approves it, **Then** the date is appended to `project_decision_dates.csv` with `decision_date`, `decision_date_source`, `source_url`, and `note` filled in — the manual step is explicit and reversible.
 4. **Given** a candidate date is year-precision only (e.g., "2025"), **When** a maintainer reviews it, **Then** the candidate is flagged as year-only and excluded from `project_decision_dates.csv` (constitution rule: year-precision dates are excluded from the time axis rather than floored).
 
@@ -73,7 +73,7 @@ After the recovered dates are entered into `project_decision_dates.csv` and the 
 
 - **FR-001**: `date_recovery.py` MUST accept a `--decision-dates` flag (or equivalent CLI argument) that reads `data/decision_date_worklist.csv` and cross-references `master_opposition.csv` to collect source URLs for the listed projects.
 - **FR-002**: For each project, the module MUST apply the existing offline URL-pattern engine (`recover_from_url()`) to all matching source URLs and select the most day-precise result.
-- **FR-003**: The module MUST write candidates to `data/decision_date_recovery_candidates.csv` with columns: `project_id`, `project_name`, `state`, `lifecycle_outcome`, `recovered_date`, `method`, `source_url`. It MUST NOT write to or modify `project_decision_dates.csv` automatically.
+- **FR-003**: The module MUST write candidates to `data/decision_date_recovery_candidates.csv` with columns: `project_id`, `project_name`, `state`, `lifecycle_outcome`, `recovered_date`, `method`, `source_url`, `year_only`. It MUST NOT write to or modify `project_decision_dates.csv` automatically.
 - **FR-004**: Year-precision candidates (`method` ends in `_midyear`) MUST be flagged in the candidates file with a `year_only: true` marker so a reviewer can exclude them before adoption.
 - **FR-005**: The module MUST ship a `--selftest` entry point (no network, no file I/O) that exercises `recover_from_url()` with inline fixtures covering every pattern type, and exits 0 when all pass and 1 when any fail.
 - **FR-006**: `project_decision_dates.csv` MUST only be written to by the maintainer's manual adopt step, never by the automated recovery run. The adopt step validates that each row has non-empty `decision_date`, `decision_date_source`, and `source_url` before appending.
