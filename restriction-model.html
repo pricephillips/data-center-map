@@ -125,6 +125,39 @@ details.card[open] summary { margin-bottom:6px }
 .footer { color:var(--muted); font-size:11px; margin-top:6px }
 a { color:#5aa9e6 }
 @media (max-width:560px){ body{padding:12px} .kpi b{font-size:17px} }
+/* "How our model has changed over time". Series colours are the validated
+   dark-mode categorical slots 1-5 in fixed order (checked against --panel:
+   adjacent CVD dE >= 8.4, normal-vision dE >= 19.3, all >= 3:1). Colour
+   follows the variable, assigned once from the latest update, so a row
+   never repaints when the mix shifts. Identity is never colour alone: a
+   legend is always shown and the latest row carries direct labels. */
+#model-evolution { --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181;
+  --s-other:#56606e }
+.evo-sub { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin:16px 0 8px }
+.evo-legend { display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12px; color:#c6cfda; margin:4px 0 10px }
+.evo-legend i { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:6px; vertical-align:-1px }
+.evo-row { display:grid; grid-template-columns:86px 1fr; gap:10px; align-items:center; margin:6px 0 }
+.evo-date { font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums }
+.evo-bar { display:flex; gap:2px; height:22px }
+.evo-seg { height:100%; min-width:2px; cursor:default; position:relative; outline:none }
+.evo-seg:first-child { border-radius:4px 0 0 4px } .evo-seg:last-child { border-radius:0 4px 4px 0 }
+.evo-seg:only-child { border-radius:4px }
+.evo-seg:hover, .evo-seg:focus-visible { filter:brightness(1.25) }
+.evo-seg span { position:absolute; left:6px; top:50%; transform:translateY(-50%); font-size:11px;
+  font-weight:600; color:#0f1218; white-space:nowrap; overflow:hidden; max-width:calc(100% - 8px); pointer-events:none }
+.evo-axis { display:grid; grid-template-columns:86px 1fr; gap:10px; font-size:10.5px; color:var(--muted) }
+.evo-axis div:last-child { display:flex; justify-content:space-between }
+#evo-tip { position:fixed; z-index:1000; pointer-events:none; display:none; background:var(--panel2);
+  border:1px solid var(--border); border-radius:6px; padding:7px 9px; font-size:12px; color:var(--text);
+  max-width:260px; line-height:1.4 }
+#evo-tip small { color:var(--muted); display:block }
+.evo-matrix { border-collapse:collapse; font-size:12px }
+.evo-matrix th { font-weight:500; color:var(--muted); padding:3px 6px; white-space:nowrap; font-size:11px }
+.evo-matrix td { padding:3px 6px; text-align:center }
+.evo-matrix td:first-child { text-align:left; color:#c6cfda; white-space:nowrap }
+.evo-matrix td:first-child, .evo-matrix th:first-child { position:sticky; left:0; background:var(--panel); z-index:1 }
+.evo-dot { display:inline-block; width:10px; height:10px; border-radius:50%; border:1.5px solid var(--s1) }
+.evo-dot.on { background:var(--s1) }
 .undrawable-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
 .undrawable-table th,.undrawable-table td{padding:5px 8px;border-bottom:1px solid #2c3544;text-align:left}
 .undrawable-table th{color:#94a3b8;font-weight:600}
@@ -191,6 +224,8 @@ forecasts opposition to a specific project.
     </div>
   </div>
 </div>
+<div class="card" id="model-evolution" style="display:none"></div>
+<div id="evo-tip" role="tooltip"></div>
 <div class="card" id="spec-history" style="display:none"></div>
 <div class="card" id="intervals" style="display:none"></div>
 <div class="card" id="undrawable" style="display:none"></div>
@@ -224,6 +259,10 @@ const INTERVAL_URLS = [RAW + '/data/county_policy_intervals.csv', './data/county
 // and the coefficient evidence behind the move. Optional: without it the page
 // still shows the current specification, just not how it got there.
 const SPEC_HISTORY_URLS = [RAW + '/data/county_model_spec_history.csv', './data/county_model_spec_history.csv'];
+// Variable weights over time, written weekly by feature_search.py. Optional:
+// without them the evolution card shows only the published-variable timeline.
+const WEIGHT_HISTORY_URLS = [RAW + '/data/feature_search_weight_history.csv', './data/feature_search_weight_history.csv'];
+const RANKING_URLS = [RAW + '/data/feature_search_ranking.csv', './data/feature_search_ranking.csv'];
 // Plotly's county GeoJSON: feature.id is the 5-digit county FIPS. Two
 // independent origins for the same file, because one source here is a single
 // point of failure with an outsized blast radius -- a 3.2 MB cross-origin
@@ -486,6 +525,158 @@ function renderSpecHistory(metrics, historyText) {
       : '<p class="sub">No specification changes on record yet. The first ' +
         'run writes the opening entry; after that a row appears only when ' +
         'the variable set actually moves.</p>');
+}
+
+// ── How our model has changed over time ─────────────────────────────────────
+// Two views of one question. (1) Weight mix: for each weekly update, the share
+// of the model's held-out predictive signal carried by each county profile
+// variable (feature_search.py, target restrict_profile: no variable built from
+// any county's restriction record). Weights are filtered across updates, so a
+// single noisy week cannot swing them. (2) Which variables the published score
+// used on each date its variable set changed (county_model_spec_history.csv).
+// Neither view is causal; both describe what the model leans on.
+const EVO_TARGET = 'restrict_profile';
+const EVO_SLOTS = 5;
+const EVO_LABELS = {
+  population: 'Population', pop_density_sqmi: 'Population density',
+  median_hh_income: 'Household income', pct_bachelors_plus: 'College degree share',
+  margin_2024: '2024 presidential margin', margin_shift: 'Shift in margin, 2016 to 2024',
+  margin_2016: '2016 presidential margin', existing_dc_count: 'Existing data centers',
+  n_projects_tracked: 'Data center projects tracked', land_sqmi: 'Land area',
+  state_legislation_events: 'State legislative activity',
+  state_projects_loo: 'Project activity elsewhere in the state',
+  projects_per_100k: 'Projects per resident', projects_since_2024: 'Projects announced since 2024',
+  proposed_mw_total: 'Proposed megawatts', nbr_proposed_mw: 'Proposed megawatts in neighbouring counties',
+  competitiveness: 'Closeness of 2024 race', swing_magnitude: 'Size of 2016 to 2024 swing'
+};
+
+function evoLabel(v, rankLabels) {
+  if (EVO_LABELS[v]) return EVO_LABELS[v];
+  const l = rankLabels[v];
+  return l ? l.charAt(0).toUpperCase() + l.slice(1) : v;
+}
+
+function renderModelEvolution(weightText, rankingText, specText) {
+  const el = document.getElementById('model-evolution');
+  if (!el) return;
+  const hist = weightText ? parseHistoryCsv(weightText).filter(r => r.target === EVO_TARGET) : [];
+  const spec = specText ? parseHistoryCsv(specText) : [];
+  if (!hist.length && !spec.length) { el.style.display = 'none'; return; }
+  const rankLabels = {};
+  if (rankingText) parseHistoryCsv(rankingText).forEach(r => { if (r.feature) rankLabels[r.feature] = r.label; });
+
+  let html = '<h1>How our model has changed over time</h1>' +
+    '<p>The model is not a fixed formula. Every week it re-measures how much each county ' +
+    'characteristic helps it recognise counties that have enacted a data center restriction, ' +
+    'testing only on counties it did not learn from, and the weights below shift as new ' +
+    'restrictions and projects enter the data. Changes are smoothed, so one unusual week cannot ' +
+    'move a weight far on its own. A larger share means the model leans on that characteristic ' +
+    'more; it does not mean the characteristic causes restrictions.</p>';
+
+  if (hist.length) {
+    const dates = [...new Set(hist.map(r => r.run_date))].sort();
+    const latest = dates[dates.length - 1];
+    const byDate = {};
+    hist.forEach(r => { (byDate[r.run_date] = byDate[r.run_date] || {})[r.feature] = +r.weight || 0; });
+    // Colour follows the variable: slots assigned once, by the latest update.
+    const order = Object.entries(byDate[latest]).filter(([, w]) => w > 0)
+      .sort((a, b) => b[1] - a[1]).map(([f]) => f);
+    const named = order.slice(0, EVO_SLOTS);
+    const slot = {}; named.forEach((f, i) => { slot[f] = 'var(--s' + (i + 1) + ')'; });
+    const segsFor = d => {
+      const w = byDate[d] || {};
+      const segs = named.map(f => ({ f, label: evoLabel(f, rankLabels), w: w[f] || 0, color: slot[f] }));
+      const others = Object.entries(w).filter(([f, x]) => !slot[f] && x > 0);
+      const other = others.reduce((a, [, x]) => a + x, 0);
+      if (other > 0) segs.push({ f: '_other', label: 'All other characteristics (' + others.length + ')',
+                                 w: other, color: 'var(--s-other)' });
+      return segs.filter(s => s.w > 0);
+    };
+    html += '<div class="evo-sub">Share of predictive weight, by weekly update</div>' +
+      '<div class="evo-legend">' + named.map(f => '<span><i style="background:' + slot[f] + '"></i>' +
+        escHtml(evoLabel(f, rankLabels)) + '</span>').join('') +
+      '<span><i style="background:var(--s-other)"></i>All other characteristics</span></div>';
+    dates.slice().reverse().forEach(d => {
+      const isLatest = d === latest;
+      html += '<div class="evo-row"><div class="evo-date">' + escHtml(d) + '</div><div class="evo-bar">' +
+        segsFor(d).map(s => {
+          const pct = (s.w * 100);
+          const tip = escHtml(s.label) + '|' + pct.toFixed(1) + '% of weight|' + escHtml(d);
+          const lab = isLatest && s.f !== '_other' && pct >= 9 ? '<span>' + escHtml(s.label) + '</span>' : '';
+          return '<div class="evo-seg" tabindex="0" data-tip="' + tip + '" aria-label="' +
+            escHtml(s.label) + ', ' + pct.toFixed(1) + ' percent, ' + escHtml(d) +
+            '" style="flex:' + s.w.toFixed(5) + ' 1 0;background:' + s.color + '">' + lab + '</div>';
+        }).join('') + '</div></div>';
+    });
+    html += '<div class="evo-axis"><div></div><div><span>0%</span><span>50%</span><span>100%</span></div></div>';
+    if (dates.length === 1) {
+      html += '<p class="sub" style="margin-top:8px">Weight tracking began ' + escHtml(latest) +
+        '. Each weekly update adds a row above, so the drift between characteristics becomes ' +
+        'visible over the coming weeks.</p>';
+    }
+    // Table view: the same numbers, readable without colour.
+    const rows = order.map(f => '<tr><td>' + escHtml(evoLabel(f, rankLabels)) + '</td>' +
+      dates.map(d => '<td style="text-align:right">' +
+        (((byDate[d] || {})[f] || 0) * 100).toFixed(1) + '%</td>').join('') + '</tr>').join('');
+    html += '<details style="margin-top:8px"><summary class="sub" style="cursor:pointer;margin:0">' +
+      'Show as a table</summary><div style="overflow-x:auto"><table><thead><tr><th>Characteristic</th>' +
+      dates.map(d => '<th style="text-align:right">' + escHtml(d) + '</th>').join('') +
+      '</tr></thead><tbody>' + rows + '</tbody></table></div></details>';
+  }
+
+  if (spec.length) {
+    // One column per date: when the set moved twice in a day, the later
+    // entry is what stood at the end of that day.
+    const lastOfDay = {};
+    spec.forEach(r => { lastOfDay[r.run_date] = r; });
+    const days = Object.keys(lastOfDay).sort().map(d => lastOfDay[d]);
+    const sdates = days.map(r => r.run_date);
+    const sets = days.map(r => new Set(varList(r.variables)));
+    const allVars = [...new Set(days.flatMap(r => varList(r.variables)))];
+    // Most persistent first, so the stable core reads at the top.
+    allVars.sort((a, b) => sets.filter(s => s.has(b)).length - sets.filter(s => s.has(a)).length
+                          || evoLabel(a, rankLabels).localeCompare(evoLabel(b, rankLabels)));
+    html += '<div class="evo-sub">Characteristics used in the published score</div>' +
+      '<p style="margin-top:0">The published county score keeps a characteristic only while its ' +
+      'direction holds steady across every validation test. Each column is a date the set changed; ' +
+      'a filled dot means the characteristic was in the score from that date.</p>' +
+      '<div style="overflow-x:auto"><table class="evo-matrix"><thead><tr><th></th>' +
+      sdates.map(d => '<th>' + escHtml(d.slice(5)) + '</th>').join('') + '</tr></thead><tbody>' +
+      allVars.map(v => '<tr><td>' + escHtml(evoLabel(v, rankLabels)) + '</td>' +
+        sets.map((s, i) => '<td><span class="evo-dot' + (s.has(v) ? ' on' : '') + '" role="img" aria-label="' +
+          (s.has(v) ? 'in the score' : 'not in the score') + ' from ' + escHtml(sdates[i]) + '"></span></td>').join('') +
+        '</tr>').join('') + '</tbody></table></div>' +
+      '<p class="sub" style="margin-top:6px">Column dates are month-day, ' + escHtml(sdates[0].slice(0, 4)) +
+      '. Filled: in the score. Hollow: not in the score.</p>';
+  }
+
+  el.innerHTML = html;
+  el.style.display = '';
+  // Direct labels only where they fit whole; a clipped name is worse than
+  // none, and the legend and tooltip always carry the identity.
+  el.querySelectorAll('.evo-seg span').forEach(sp => {
+    if (sp.scrollWidth > sp.clientWidth + 1) sp.remove();
+  });
+  // On a narrow screen the matrix scrolls; open it on the latest dates.
+  el.querySelectorAll('.evo-matrix').forEach(t => {
+    const wrap = t.parentElement; if (wrap) wrap.scrollLeft = wrap.scrollWidth;
+  });
+
+  const tipEl = document.getElementById('evo-tip');
+  const show = (seg, x, y) => {
+    const [label, val, d] = (seg.dataset.tip || '').split('|');
+    tipEl.innerHTML = '<b>' + label + '</b><br>' + val + '<small>update of ' + d + '</small>';
+    tipEl.style.display = 'block';
+    const r = tipEl.getBoundingClientRect();
+    tipEl.style.left = Math.min(x + 12, window.innerWidth - r.width - 8) + 'px';
+    tipEl.style.top = Math.max(8, y - r.height - 10) + 'px';
+  };
+  el.querySelectorAll('.evo-seg').forEach(seg => {
+    seg.addEventListener('mousemove', e => show(seg, e.clientX, e.clientY));
+    seg.addEventListener('mouseleave', () => { tipEl.style.display = 'none'; });
+    seg.addEventListener('focus', () => { const b = seg.getBoundingClientRect(); show(seg, b.left, b.top); });
+    seg.addEventListener('blur', () => { tipEl.style.display = 'none'; });
+  });
 }
 
 // Distinct name on purpose: this page already declares an esc() further
@@ -974,10 +1165,12 @@ function mdToHtml(md) {
 
 (async () => {
   buildScoreMap();
-  const [metrics, report, specHistory] = await Promise.all([
+  const [metrics, report, specHistory, weightHistory, ranking] = await Promise.all([
     fetchFirst(METRIC_URLS, true),
     fetchFirst(REPORT_URLS, false),
-    fetchFirst(SPEC_HISTORY_URLS, false)
+    fetchFirst(SPEC_HISTORY_URLS, false),
+    fetchFirst(WEIGHT_HISTORY_URLS, false),
+    fetchFirst(RANKING_URLS, false)
   ]);
 
   const failures = [];
@@ -986,6 +1179,9 @@ function mdToHtml(md) {
   // Rendered from the metrics alone if the history file is absent, so a page
   // load never depends on a file that only exists once the model has run.
   renderSpecHistory(metrics, specHistory);
+  // Optional and self-contained: a failure here must never take the page down.
+  try { renderModelEvolution(weightHistory, ranking, specHistory); }
+  catch (e) { const ev = document.getElementById('model-evolution'); if (ev) ev.style.display = 'none'; }
 
   if (report) {
     // The report opens with an auto-generation note and a disclaimer that
