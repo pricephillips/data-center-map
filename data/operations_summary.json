@@ -4,10 +4,10 @@
     "national": {
       "census_in_scope": 302,
       "recall_any": 0.997,
-      "label_false_negatives": 34,
+      "label_false_negatives": 26,
       "unjoined_frame": 0,
       "label_positive_no_tracker_record": 0,
-      "recall_confirmed": 0.272,
+      "recall_confirmed": 0.308,
       "missing": 1
     },
     "states": [
@@ -82,16 +82,6 @@
         "label_false_negatives": 0
       },
       {
-        "state": "AZ",
-        "census_in_scope": 1,
-        "covered_confirmed": 0,
-        "covered_unconfirmed": 1,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.0,
-        "label_false_negatives": 1
-      },
-      {
         "state": "PA",
         "census_in_scope": 1,
         "covered_confirmed": 0,
@@ -122,26 +112,6 @@
         "label_false_negatives": 0
       },
       {
-        "state": "KS",
-        "census_in_scope": 16,
-        "covered_confirmed": 2,
-        "covered_unconfirmed": 14,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.125,
-        "label_false_negatives": 2
-      },
-      {
-        "state": "SC",
-        "census_in_scope": 14,
-        "covered_confirmed": 2,
-        "covered_unconfirmed": 12,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.143,
-        "label_false_negatives": 3
-      },
-      {
         "state": "IL",
         "census_in_scope": 7,
         "covered_confirmed": 1,
@@ -162,24 +132,14 @@
         "label_false_negatives": 0
       },
       {
-        "state": "FL",
+        "state": "KS",
         "census_in_scope": 16,
         "covered_confirmed": 3,
         "covered_unconfirmed": 13,
         "missing": 0,
         "recall_any": 1.0,
         "recall_confirmed": 0.188,
-        "label_false_negatives": 4
-      },
-      {
-        "state": "WI",
-        "census_in_scope": 16,
-        "covered_confirmed": 3,
-        "covered_unconfirmed": 13,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.188,
-        "label_false_negatives": 2
+        "label_false_negatives": 1
       },
       {
         "state": "KY",
@@ -192,24 +152,34 @@
         "label_false_negatives": 1
       },
       {
-        "state": "MD",
-        "census_in_scope": 14,
-        "covered_confirmed": 3,
-        "covered_unconfirmed": 11,
+        "state": "FL",
+        "census_in_scope": 16,
+        "covered_confirmed": 4,
+        "covered_unconfirmed": 12,
         "missing": 0,
         "recall_any": 1.0,
-        "recall_confirmed": 0.214,
-        "label_false_negatives": 1
+        "recall_confirmed": 0.25,
+        "label_false_negatives": 3
+      },
+      {
+        "state": "WI",
+        "census_in_scope": 16,
+        "covered_confirmed": 4,
+        "covered_unconfirmed": 12,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.25,
+        "label_false_negatives": 2
       },
       {
         "state": "IA",
         "census_in_scope": 30,
-        "covered_confirmed": 7,
-        "covered_unconfirmed": 23,
+        "covered_confirmed": 8,
+        "covered_unconfirmed": 22,
         "missing": 0,
         "recall_any": 1.0,
-        "recall_confirmed": 0.233,
-        "label_false_negatives": 2
+        "recall_confirmed": 0.267,
+        "label_false_negatives": 1
       },
       {
         "state": "NE",
@@ -222,34 +192,34 @@
         "label_false_negatives": 1
       },
       {
-        "state": "MN",
-        "census_in_scope": 7,
-        "covered_confirmed": 2,
-        "covered_unconfirmed": 5,
+        "state": "MD",
+        "census_in_scope": 14,
+        "covered_confirmed": 4,
+        "covered_unconfirmed": 10,
         "missing": 0,
         "recall_any": 1.0,
         "recall_confirmed": 0.286,
-        "label_false_negatives": 1
+        "label_false_negatives": 0
+      },
+      {
+        "state": "SC",
+        "census_in_scope": 14,
+        "covered_confirmed": 4,
+        "covered_unconfirmed": 10,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.286,
+        "label_false_negatives": 2
       },
       {
         "state": "GA",
         "census_in_scope": 36,
-        "covered_confirmed": 13,
-        "covered_unconfirmed": 23,
+        "covered_confirmed": 14,
+        "covered_unconfirmed": 22,
         "missing": 0,
         "recall_any": 1.0,
-        "recall_confirmed": 0.361,
+        "recall_confirmed": 0.389,
         "label_false_negatives": 2
-      },
-      {
-        "state": "NC",
-        "census_in_scope": 24,
-        "covered_confirmed": 9,
-        "covered_unconfirmed": 14,
-        "missing": 1,
-        "recall_any": 0.958,
-        "recall_confirmed": 0.375,
-        "label_false_negatives": 5
       },
       {
         "state": "CA",
@@ -262,6 +232,16 @@
         "label_false_negatives": 0
       },
       {
+        "state": "NC",
+        "census_in_scope": 24,
+        "covered_confirmed": 10,
+        "covered_unconfirmed": 13,
+        "missing": 1,
+        "recall_any": 0.958,
+        "recall_confirmed": 0.417,
+        "label_false_negatives": 4
+      },
+      {
         "state": "IN",
         "census_in_scope": 19,
         "covered_confirmed": 8,
@@ -270,6 +250,16 @@
         "recall_any": 1.0,
         "recall_confirmed": 0.421,
         "label_false_negatives": 1
+      },
+      {
+        "state": "MN",
+        "census_in_scope": 7,
+        "covered_confirmed": 3,
+        "covered_unconfirmed": 4,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.429,
+        "label_false_negatives": 0
       },
       {
         "state": "ND",
@@ -329,6 +319,16 @@
         "missing": 0,
         "recall_any": 1.0,
         "recall_confirmed": 0.667,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "AZ",
+        "census_in_scope": 1,
+        "covered_confirmed": 1,
+        "covered_unconfirmed": 0,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 1.0,
         "label_false_negatives": 0
       },
       {
@@ -542,15 +542,15 @@
   },
   "worklists": {
     "national_restriction": {
-      "rows": 34,
+      "rows": 26,
       "by_task_class": {
-        "reconcile_label": 33,
+        "reconcile_label": 25,
         "ingest_missing": 1
       },
-      "priority_1": 33
+      "priority_1": 25
     },
     "stale_pending": {
-      "scoped": 376,
+      "scoped": 375,
       "stale": 292,
       "priority_1_label_moving": 28,
       "counties_in_priority_1": 27,

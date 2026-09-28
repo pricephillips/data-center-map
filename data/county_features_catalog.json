@@ -1,7 +1,7 @@
 {
   "generated": "2026-09-28",
   "n_counties": 3144,
-  "n_features": 65,
+  "n_features": 73,
   "families": {
     "base": 9,
     "political": 4,
@@ -9,34 +9,40 @@
     "pipeline": 6,
     "opposition": 28,
     "spatial": 7,
-    "plugin": 8
+    "plugin": 16
   },
   "leakage_classes": {
-    "none": 34,
+    "none": 42,
     "pre_outcome": 29,
     "neighbor_outcome": 2
   },
   "labels": {
-    "has_enacted_restrictive": 460,
-    "has_enacted_moratorium": 383,
-    "in_conversion_frame": 255,
-    "conversion_frame_positive": 61,
-    "restricted_without_enactment_date": 2
+    "has_enacted_restrictive": 480,
+    "has_enacted_moratorium": 401,
+    "in_conversion_frame": 253,
+    "conversion_frame_positive": 66,
+    "restricted_without_enactment_date": 4
   },
   "undated_records_excluded_from_window": 0,
   "plugins": [
-    "data/features/grid_generation.csv: missing or empty, skipped",
+    "plg_gen_capacity: 2899 of 3144 counties populated",
+    "plg_gen_fossil_share: 1987 of 3144 counties populated",
+    "plg_gen_renewable_share: 1987 of 3144 counties populated",
+    "plg_planned_capacity: 2899 of 3144 counties populated",
+    "plg_planned_renewable: 2899 of 3144 counties populated",
+    "plg_retiring_capacity: 2899 of 3144 counties populated",
     "plg_price_commercial: 3097 of 3144 counties populated",
     "plg_price_industrial: 3074 of 3144 counties populated",
     "plg_state_price_industrial: 3144 of 3144 counties populated",
     "plg_water_withdrawal_density: 3133 of 3144 counties populated",
     "plg_water_groundwater_share: 3127 of 3144 counties populated",
     "plg_water_irrigation_share: 3127 of 3144 counties populated",
-    "data/features/drought.csv: missing or empty, skipped",
+    "plg_drought_d1_mean: 3144 of 3144 counties populated",
+    "plg_drought_d2_weeks: 3144 of 3144 counties populated",
     "plg_farmland_share: 3050 of 3144 counties populated",
     "plg_cropland_share: 3046 of 3144 counties populated"
   ],
-  "content_hash": "37f1f082dcab",
+  "content_hash": "268c745935d7",
   "features": {
     "margin_2024": {
       "family": "base",
@@ -494,6 +500,54 @@
       "source": "data/county_aggregate.csv",
       "transform_applied": true
     },
+    "plg_gen_capacity": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "operating generating capacity, MW, log",
+      "source": "data/features/grid_generation.csv",
+      "transform_applied": true
+    },
+    "plg_gen_fossil_share": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "fossil share of operating capacity",
+      "source": "data/features/grid_generation.csv",
+      "transform_applied": true
+    },
+    "plg_gen_renewable_share": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "wind, solar and hydro share of operating capacity",
+      "source": "data/features/grid_generation.csv",
+      "transform_applied": true
+    },
+    "plg_planned_capacity": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "planned generating capacity, MW, log",
+      "source": "data/features/grid_generation.csv",
+      "transform_applied": true
+    },
+    "plg_planned_renewable": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "planned renewable and storage capacity, MW, log",
+      "source": "data/features/grid_generation.csv",
+      "transform_applied": true
+    },
+    "plg_retiring_capacity": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "capacity with planned retirement within 5 years, MW, log",
+      "source": "data/features/grid_generation.csv",
+      "transform_applied": true
+    },
     "plg_price_commercial": {
       "family": "plugin",
       "tier": 1,
@@ -540,6 +594,22 @@
       "leakage_class": "none",
       "label": "irrigation share of freshwater withdrawals",
       "source": "data/features/water_use.csv",
+      "transform_applied": true
+    },
+    "plg_drought_d1_mean": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "mean pct of county area in moderate drought or worse (D1+), 2020-2024",
+      "source": "data/features/drought.csv",
+      "transform_applied": true
+    },
+    "plg_drought_d2_weeks": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "share of weeks with half the county in severe drought or worse (D2+), 2020-2024",
+      "source": "data/features/drought.csv",
       "transform_applied": true
     },
     "plg_farmland_share": {

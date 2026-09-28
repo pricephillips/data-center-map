@@ -6,13 +6,13 @@ Age is a prompt to re-verify, not evidence that anything changed. Nothing in thi
 
 ## Counts
 
-- Non-terminal county records in scope: 376
+- Non-terminal county records in scope: 375
 - Past threshold (priorities 1 to 3): 292
 - Priority 1, label-moving: 28 across 27 counties
-- Label-moving rows at any priority, early warning included: 51 across 49 counties
+- Label-moving rows at any priority, early warning included: 50 across 48 counties
 - Priority 2, grade only: 218
 - Priority 3, non-restrictive: 46
-- Priority 4, early warning: 84
+- Priority 4, early warning: 83
 - Excluded, statewide (owned by bill_sync.py): 188
 - Excluded, undated (owned by the date worklists): 11
 
