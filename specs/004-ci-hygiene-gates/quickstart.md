@@ -37,8 +37,9 @@ Apply the patch first with `git apply docs/pending_ci_hygiene.patch`.
 
 ## US3: selftests via pytest
 
-1. `pytest tests/test_selftests.py -q`. **Expect**: 67 passed, and the summary
-   line `selftests: 67 modules; untested: 28 of 95`.
+1. `pytest tests/test_selftests.py -q`. **Expect**: 69 passed (67 on `main`
+   today plus `scripts/precommit_gates.py` and `master_diff.py`), and the summary
+   line `selftests: 69 modules; untested: 28 of 97`.
 2. `pytest tests/test_selftests.py -q -k integration_audit`. **Expect**: 1
    passed.
 3. Temporarily make a module's selftest `sys.exit(1)`. **Expect**: that case
