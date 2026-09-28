@@ -10,9 +10,9 @@ Frame: 3222 counties. Generated 2026-09-28. Freshness window 180 days, recheck c
 
 | State of the claim | Counties | Share |
 |---|---:|---:|
-| asserted_restrictive | 483 | 15.0 pct |
+| asserted_restrictive | 484 | 15.0 pct |
 | asserted_clear | 0 | 0.0 pct |
-| unverified | 2739 | 85.0 pct |
+| unverified | 2738 | 85.0 pct |
 
 `asserted_clear` requires grade A or B: at least one independent family checked the county and found nothing, within the freshness window. Everything else is `unverified`, which is an honest statement that the county has not been checked, not a claim that it is restricted.
 
@@ -28,9 +28,9 @@ Frame: 3222 counties. Generated 2026-09-28. Freshness window 180 days, recheck c
 
 ## Conflicts
 
-- `label_negative_source_hit`: **25**. The county is recorded as clear and a registered source reports a restriction. Each one is a false negative in the county model's target variable.
+- `label_negative_source_hit`: **24**. The county is recorded as clear and a registered source reports a restriction. Each one is a false negative in the county model's target variable.
 - `label_negative_upstream_hit`: **36**. The county is recorded as clear and an UNREVIEWED upstream row asserts a restriction. A candidate false negative: it needs a person to confirm the instrument before it can move a label, and it is counted separately from the confirmed ones above for that reason.
-- `label_positive_circular_support`: **123**. The county is recorded as restrictive only through rows promoted from the census, so the census cannot also corroborate it. Needs a primary_law or proceeding source.
+- `label_positive_circular_support`: **124**. The county is recorded as restrictive only through rows promoted from the census, so the census cannot also corroborate it. Needs a primary_law or proceeding source.
 - `label_positive_no_support`: **187**. The county is recorded as restrictive and no reviewed source corroborates it. Not necessarily wrong, since the tracker sees local records a compilation does not, and worth a second reading.
 
 Full rows: `data/restriction_evidence_conflicts.csv`. Neither direction is reconciled by this module; resolving one is a records decision.
@@ -51,7 +51,7 @@ Full rows: `data/restriction_evidence_conflicts.csv`. Neither direction is recon
 | FL | 67 | 0 | 4 | 0 | 21 | 42 | 0 | 50 | 19 |
 | GA | 159 | 0 | 25 | 0 | 19 | 115 | 0 | 113 | 28 |
 | HI | 5 | 0 | 0 | 0 | 0 | 5 | 0 | 5 | 0 |
-| IA | 99 | 1 | 20 | 0 | 14 | 64 | 0 | 69 | 13 |
+| IA | 99 | 1 | 20 | 0 | 14 | 64 | 0 | 68 | 13 |
 | ID | 44 | 0 | 2 | 0 | 1 | 41 | 0 | 41 | 2 |
 | IL | 102 | 0 | 3 | 0 | 7 | 92 | 0 | 86 | 13 |
 | IN | 92 | 0 | 11 | 0 | 12 | 69 | 0 | 68 | 16 |

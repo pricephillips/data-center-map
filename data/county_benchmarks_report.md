@@ -9,11 +9,11 @@ Reference profiles for the county comparison layer. Every figure is a summary ov
 | group | counties | description |
 | --- | --- | --- |
 | `national` | 3,222 | All counties in the frame |
-| `restrictive` | 483 | Counties with an enacted restrictive action on record |
-| `non_restrictive` | 2,739 | Counties with no enacted restriction on record |
+| `restrictive` | 484 | Counties with an enacted restrictive action on record |
+| `non_restrictive` | 2,738 | Counties with no enacted restriction on record |
 | `dc_present` | 251 | Counties with a data center on record |
 | `dc_absent` | 2,971 | Counties with no data center on record |
-| `tracked_activity` | 806 | Counties with at least one tracked opposition event |
+| `tracked_activity` | 807 | Counties with at least one tracked opposition event |
 | `state:XX` | varies | 52 state groups, one per state in the frame |
 
 ## The comparison that matters
@@ -22,15 +22,15 @@ Median values for the three groups a county page reads against.
 
 | metric | all counties | enacted a restriction | no restriction |
 | --- | --- | --- | --- |
-| Restriction resemblance score | 0.1101 | 0.1880 | 0.1019 |
+| Restriction resemblance score | 0.1106 | 0.1847 | 0.1023 |
 | Opposition events | 0 | 1 | 0 |
-| Opposition events per 100k residents | 0.000 | 2.178 | 0.000 |
+| Opposition events per 100k residents | 0.000 | 2.183 | 0.000 |
 | Data center records in the atlas | 0 | 0 | 0 |
-| Population | 25967 | 69329 | 22123 |
-| Population density (per sq mi) | 46.58 | 121.76 | 39.44 |
-| Median household income | 63162 | 68830 | 62093 |
-| Bachelor's degree or higher (%) | 21.53 | 26.41 | 20.95 |
-| 2024 presidential margin | -0.4197 | -0.2496 | -0.4440 |
+| Population | 25967 | 68964 | 22138 |
+| Population density (per sq mi) | 46.58 | 121.46 | 39.47 |
+| Median household income | 63162 | 68896 | 62072 |
+| Bachelor's degree or higher (%) | 21.53 | 26.38 | 20.95 |
+| 2024 presidential margin | -0.4197 | -0.2496 | -0.4441 |
 
 ## Peer matching
 
