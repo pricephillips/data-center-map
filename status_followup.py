@@ -120,7 +120,18 @@ STATE_NAMES = {
 }
 
 # Newsroom verbs the shared FINAL pattern does not carry.
-FINAL_EXTRA = re.compile(r"\b(oks?|okays?|okayed|puts?|places?|placed)\b", re.I)
+FINAL_EXTRA = re.compile(
+    r"\b(oks?|okays?|okayed)\b|"
+    r"\b(puts?|places?|placed)\s+(an?\s+)?([\w-]+\s+){0,2}"
+    r"(moratori\w*|pause|ban|halt|freeze)\b", re.I)
+# Headline wording the shared NOT_FINAL pattern misses, found in the first
+# live run (2026-09-28): a resolution "calling for" a pause, a moratorium "put
+# on hold", a council that "takes a pass on" one, a "delay for" one, opinion
+# pieces, and recommending bodies whose vote is not the adoption.
+NOT_FINAL_EXTRA = re.compile(
+    r"\b(calling|on hold|takes? a pass|pass(es)? on|delay\w*|postpone\w*|"
+    r"opinion|editorial|letters?|planning (commission|board)|committee|"
+    r"recommend\w*)\b", re.I)
 EXTENDED = re.compile(r"\bextend(s|ed)?\b", re.I)
 BAN_WORDS = re.compile(r"\b(ban|bans|banned|prohibit\w*)\b", re.I)
 PAREN = re.compile(r"\s*\([^)]*\)")
@@ -157,7 +168,8 @@ def is_adoption_headline(title: str, place: str) -> bool:
     t = title or ""
     if place.lower() not in t.lower():
         return False
-    if not SR.INSTRUMENT.search(t) or SR.NOT_FINAL.search(t):
+    if (not SR.INSTRUMENT.search(t) or SR.NOT_FINAL.search(t)
+            or NOT_FINAL_EXTRA.search(t)):
         return False
     return bool(SR.FINAL.search(t) or FINAL_EXTRA.search(t))
 
@@ -316,6 +328,9 @@ def run(master: list[dict], done: set, cache: dict, fetcher, today: dt.date,
             try:
                 items = fetcher(q)
                 consecutive_errors = 0
+                # Only headlines naming an instrument can ever match, so only
+                # those are kept; the cache is committed on every build.
+                items = [i for i in items if SR.INSTRUMENT.search(i.get("title", ""))]
                 cache[q] = {"fetched": today.isoformat(), "items": items}
                 entry = cache[q]
                 stats["fetched"] += 1
@@ -372,6 +387,26 @@ def selftest() -> int:
         "Delta County could pause data centers", "Delta County"), False)
     check("headline initial", is_adoption_headline(
         "Delta County gives initial approval to moratorium", "Delta County"), False)
+    # Real headlines from the first live run.
+    for title, place, want in [
+        ("City-County Council passes unanimous resolution calling for a pause on "
+         "data center development in Indianapolis", "Indianapolis", False),
+        ("Indianapolis data center moratorium put on hold", "Indianapolis", False),
+        ("Fayetteville Approves 4-Month Delay for Data Center Moratorium",
+         "Fayetteville", False),
+        ("Fayetteville council takes a pass on a data center moratorium | Opinion",
+         "Fayetteville", False),
+        ("Cass County Planning Commission approves moratorium on data center "
+         "development", "Cass County", False),
+        ("Warrick county puts pause on data center development", "Warrick County", True),
+        ("Pima County supervisors impose 120-day moratorium on data center projects",
+         "Pima County", True),
+        ("Oshkosh Common Council passes temporary moratorium on data centers",
+         "Oshkosh", True),
+        ("'No-brainer': Harford County Council unanimously votes to ban data "
+         "centers in all zoning districts", "Harford County", True),
+    ]:
+        check(f"live headline: {title[:40]}", is_adoption_headline(title, place), want)
     check("headline other place", is_adoption_headline(
         "Marquette County passes data center moratorium", "Delta County"), False)
 
