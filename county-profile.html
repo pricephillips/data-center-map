@@ -187,7 +187,7 @@ tr:last-child td { border-bottom:none }
 footer { color:var(--muted); font-size:11px; border-top:1px solid var(--border); padding-top:12px;
   margin-top:26px; line-height:1.7 }
 </style>
-<script src="./data-notices.js"></script>
+<script src="./data-notices.js" data-notices="census,nass,pudl,im3,osm,epoch,moratorium"></script>
 </head>
 <body>
 
@@ -399,13 +399,6 @@ function esc(s) {
 }
 
 /* --------------------------- normalising -------------------------- */
-
-/* Clickable (i) listing the third-party notices for the numbers in a section.
- * data-notices.js holds the registry; if it failed to load, the section
- * renders without the (i) and the floating notices button is also absent. */
-function dn_info(ids, label) {
-  return (window.DataNotices && window.DataNotices.inline) ? window.DataNotices.inline(ids, label) : '';
-}
 
 var COUNTY_SUFFIX = /\s+(county|parish|borough|census area|city and borough|municipality|municipio)$/;
 
@@ -1803,7 +1796,7 @@ function render(slice) {
   html += provenance_section(slice);
 
   /* ---- predictive ---- */
-  html += '<section><h3>Model outlook' + dn_info(['census', 'elections', 'pudl', 'usgs', 'usdm', 'nass'], 'Sources of the county variables the score can draw on') + '</h3>';
+  html += '<section><h3>Model outlook</h3>';
   if (s) {
     var pct = c.national_pct;
     var lo = iv ? num(iv.va_p_lower) : null, hi = iv ? num(iv.va_p_upper) : null;
@@ -1958,7 +1951,7 @@ function render(slice) {
   }
 
   /* ---- demographics ---- */
-  html += '<section><h3>Demographics and politics' + dn_info(['census', 'elections']) + '</h3><div class="kpis">' +
+  html += '<section><h3>Demographics and politics</h3><div class="kpis">' +
     kpi('Population', fmt_int(a.population), 'ACS') +
     kpi('Population density', fmt_num(a.pop_density_sqmi, 1), 'per sq mi') +
     kpi('Median household income', fmt_money(a.median_hh_income)) +
@@ -2082,7 +2075,7 @@ function render(slice) {
       }, 'No proposals recorded in this county.') + '</section>';
 
   /* ---- facilities ---- */
-  html += '<section><h3>Facility registry' + count_label(slice.facilities.length) + dn_info(['im3', 'osm']) + '</h3>' +
+  html += '<section><h3>Facility registry' + count_label(slice.facilities.length) + '</h3>' +
     table(['Facility', 'Operator', 'Status', 'MW', 'Sq ft', 'First seen', 'Last seen', 'Evidence'],
       slice.facilities, function (r) {
         return ['<span class="clip">' + esc(r.name) + '</span>', esc(r.operator), esc(r.status),
@@ -2129,7 +2122,7 @@ function render(slice) {
 
   /* ---- state legislation ---- */
   html += '<section><h3>State legislation in ' + esc(c.state_abbr) +
-    count_label(slice.bills.length) + dn_info(['openstates']) + '</h3>' +
+    count_label(slice.bills.length) + '</h3>' +
     '<div class="sub">Statewide, not county-specific: these bills set the ceiling a local ' +
     'decision operates under. "Stage" is the furthest point reached; follow the OpenStates ' +
     'link for roll calls and full text.</div>' +

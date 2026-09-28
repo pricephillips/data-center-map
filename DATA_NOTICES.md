@@ -1,8 +1,18 @@
 # Third-party data notices
 
-This repository republishes or derives from the third-party datasets below. The
-in-app notices come from `data-notices.js`, which is the single registry for
-them; this file covers obligations that attach to the files themselves.
+This repository republishes or derives from the third-party datasets below.
+Only notices a provider's terms or licence require are shown in the app:
+
+- `county-profile.html`: the (i) button (via `data-notices.js`) carries the
+  Census Bureau API and NASS API notices for the whole application, plus the
+  PUDL, IM3 Atlas, OpenStreetMap, Epoch AI and Moratorium Nation attributions.
+- `index.html`, `developments-dashboard.html`: IM3 Atlas / OpenStreetMap (ODbL)
+  and Epoch AI (CC-BY) credit lines on the page.
+- Every map with Esri tiles: "Powered by Esri" and the service credit in the
+  map's attribution control (`basemap.js`).
+
+Courtesy credits (Drought Monitor, USGS, Open States, GDELT, tonmcg) are
+recorded here only.
 
 | File(s) | Source | Licence | Obligation |
 |---|---|---|---|
@@ -15,6 +25,7 @@ them; this file covers obligations that attach to the files themselves.
 | `data/features/farmland.csv` | USDA NASS Quick Stats API | Public domain; API terms | "This product uses the NASS API but is not endorsed or certified by NASS." |
 | `data/features/drought.csv` | U.S. Drought Monitor (NDMC, USDA, NOAA) | Public | Citation requested: NDMC, USDA and NOAA. |
 | `data/features/water_use.csv` | USGS county water use, 2015 | Public domain | Credit requested. |
+| `data/external_restriction_census*.csv` (Moratorium Nation rows) | Bommarito, Michael J. (2026), Moratorium Nation: U.S. Infrastructure Moratorium Data (https://github.com/mjbommar/moratorium-data-2026) | CC-BY-4.0 | Credit the author, dataset and licence. |
 | `data/bill_*` | Open States (Plural) | Public domain dedication | Attribution appreciated, not required. |
 
 ## MIT notice for US_County_Level_Election_Results_08-24
