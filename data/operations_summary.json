@@ -3,12 +3,12 @@
   "coverage": {
     "national": {
       "census_in_scope": 302,
-      "recall_any": 0.993,
-      "label_false_negatives": 25,
+      "recall_any": 0.997,
+      "label_false_negatives": 24,
       "unjoined_frame": 0,
       "label_positive_no_tracker_record": 0,
       "recall_confirmed": 0.318,
-      "missing": 2
+      "missing": 1
     },
     "states": [
       {
@@ -185,11 +185,11 @@
         "state": "IA",
         "census_in_scope": 30,
         "covered_confirmed": 9,
-        "covered_unconfirmed": 20,
-        "missing": 1,
-        "recall_any": 0.967,
+        "covered_unconfirmed": 21,
+        "missing": 0,
+        "recall_any": 1.0,
         "recall_confirmed": 0.3,
-        "label_false_negatives": 1
+        "label_false_negatives": 0
       },
       {
         "state": "WI",
@@ -542,10 +542,10 @@
   },
   "worklists": {
     "national_restriction": {
-      "rows": 25,
+      "rows": 24,
       "by_task_class": {
         "reconcile_label": 23,
-        "ingest_missing": 2
+        "ingest_missing": 1
       },
       "priority_1": 23
     },

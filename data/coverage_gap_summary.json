@@ -80,11 +80,11 @@
     "IA": {
       "census_in_scope": 30,
       "covered_confirmed": 9,
-      "covered_unconfirmed": 20,
-      "missing": 1,
+      "covered_unconfirmed": 21,
+      "missing": 0,
       "recall_confirmed": 0.3,
-      "recall_any": 0.967,
-      "label_false_negatives": 1,
+      "recall_any": 1.0,
+      "label_false_negatives": 0,
       "unjoined_frame": 0,
       "label_positive_no_tracker_record": 0
     },
@@ -366,8 +366,8 @@
   },
   "national": {
     "census_in_scope": 302,
-    "recall_any": 0.993,
-    "label_false_negatives": 25,
+    "recall_any": 0.997,
+    "label_false_negatives": 24,
     "unjoined_frame": 0,
     "label_positive_no_tracker_record": 0
   },
