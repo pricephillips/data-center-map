@@ -21,16 +21,16 @@ Frame: 3222 counties. Generated 2026-09-28. Freshness window 180 days, recheck c
 | Grade | Meaning | Counties | Share |
 |---|---|---:|---:|
 | A | Two or more distinct independence classes agree, all within the freshness window. | 0 | 0.0 pct |
-| B | One independence class, within the freshness window; or two or more but at least one is stale. | 148 | 4.6 pct |
+| B | One independence class, within the freshness window; or two or more but at least one is stale. | 170 | 5.3 pct |
 | C | Probed, but coverage was partial or a source was unreachable. | 0 | 0.0 pct |
-| D | A registered source family covers this county and it has not been probed yet. | 60 | 1.9 pct |
-| U | No registered source family covers this county. Unverified, and reported as such. | 3014 | 93.5 pct |
+| D | A registered source family covers this county and it has not been probed yet. | 213 | 6.6 pct |
+| U | No registered source family covers this county. Unverified, and reported as such. | 2839 | 88.1 pct |
 
 ## Conflicts
 
-- `label_negative_source_hit`: **8**. The county is recorded as clear and a registered source reports a restriction. Each one is a false negative in the county model's target variable.
-- `label_negative_upstream_hit`: **27**. The county is recorded as clear and an UNREVIEWED upstream row asserts a restriction. A candidate false negative: it needs a person to confirm the instrument before it can move a label, and it is counted separately from the confirmed ones above for that reason.
-- `label_positive_no_support`: **211**. The county is recorded as restrictive and no reviewed source corroborates it. Not necessarily wrong, since the tracker sees local records a compilation does not, and worth a second reading.
+- `label_negative_source_hit`: **135**. The county is recorded as clear and a registered source reports a restriction. Each one is a false negative in the county model's target variable.
+- `label_negative_upstream_hit`: **38**. The county is recorded as clear and an UNREVIEWED upstream row asserts a restriction. A candidate false negative: it needs a person to confirm the instrument before it can move a label, and it is counted separately from the confirmed ones above for that reason.
+- `label_positive_no_support`: **189**. The county is recorded as restrictive and no reviewed source corroborates it. Not necessarily wrong, since the tracker sees local records a compilation does not, and worth a second reading.
 
 Full rows: `data/restriction_evidence_conflicts.csv`. Neither direction is reconciled by this module; resolving one is a records decision.
 
@@ -39,55 +39,55 @@ Full rows: `data/restriction_evidence_conflicts.csv`. Neither direction is recon
 | State | Counties | A | B | C | D | U | Clear | Unverified | Conflicts |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | AK | 30 | 0 | 0 | 0 | 0 | 30 | 0 | 29 | 1 |
-| AL | 67 | 0 | 0 | 0 | 0 | 67 | 0 | 64 | 3 |
-| AR | 75 | 0 | 0 | 0 | 2 | 73 | 0 | 72 | 4 |
-| AZ | 15 | 0 | 0 | 0 | 0 | 15 | 0 | 13 | 2 |
-| CA | 58 | 0 | 1 | 0 | 0 | 57 | 0 | 54 | 3 |
-| CO | 64 | 0 | 4 | 0 | 2 | 58 | 0 | 56 | 5 |
+| AL | 67 | 0 | 0 | 0 | 1 | 66 | 0 | 64 | 4 |
+| AR | 75 | 0 | 0 | 0 | 4 | 71 | 0 | 72 | 6 |
+| AZ | 15 | 0 | 0 | 0 | 1 | 14 | 0 | 13 | 3 |
+| CA | 58 | 0 | 2 | 0 | 4 | 52 | 0 | 54 | 5 |
+| CO | 64 | 0 | 4 | 0 | 6 | 54 | 0 | 56 | 9 |
 | CT | 9 | 0 | 0 | 0 | 0 | 9 | 0 | 9 | 0 |
 | DC | 1 | 0 | 0 | 0 | 0 | 1 | 0 | 1 | 0 |
 | DE | 3 | 0 | 0 | 0 | 0 | 3 | 0 | 2 | 1 |
-| FL | 67 | 0 | 3 | 0 | 6 | 58 | 0 | 63 | 7 |
-| GA | 159 | 0 | 24 | 0 | 7 | 128 | 0 | 120 | 18 |
+| FL | 67 | 0 | 3 | 0 | 22 | 42 | 0 | 63 | 18 |
+| GA | 159 | 0 | 28 | 0 | 16 | 115 | 0 | 120 | 25 |
 | HI | 5 | 0 | 0 | 0 | 0 | 5 | 0 | 5 | 0 |
-| IA | 99 | 0 | 20 | 0 | 5 | 74 | 0 | 76 | 7 |
-| ID | 44 | 0 | 1 | 0 | 0 | 43 | 0 | 42 | 1 |
-| IL | 102 | 0 | 2 | 0 | 0 | 100 | 0 | 92 | 8 |
-| IN | 92 | 0 | 15 | 0 | 3 | 74 | 0 | 72 | 7 |
-| KS | 105 | 0 | 10 | 0 | 0 | 95 | 0 | 92 | 3 |
-| KY | 120 | 0 | 7 | 0 | 4 | 109 | 0 | 105 | 10 |
-| LA | 64 | 0 | 0 | 0 | 1 | 63 | 0 | 62 | 3 |
+| IA | 99 | 0 | 22 | 0 | 13 | 64 | 0 | 76 | 12 |
+| ID | 44 | 0 | 1 | 0 | 2 | 41 | 0 | 42 | 3 |
+| IL | 102 | 0 | 3 | 0 | 7 | 92 | 0 | 92 | 12 |
+| IN | 92 | 0 | 15 | 0 | 8 | 69 | 0 | 72 | 12 |
+| KS | 105 | 0 | 11 | 0 | 6 | 88 | 0 | 92 | 8 |
+| KY | 120 | 0 | 8 | 0 | 17 | 95 | 0 | 105 | 19 |
+| LA | 64 | 0 | 0 | 0 | 0 | 64 | 0 | 62 | 2 |
 | MA | 14 | 0 | 0 | 0 | 0 | 14 | 0 | 11 | 3 |
-| MD | 24 | 0 | 5 | 0 | 2 | 17 | 0 | 17 | 2 |
+| MD | 24 | 0 | 7 | 0 | 9 | 8 | 0 | 17 | 7 |
 | ME | 16 | 0 | 0 | 0 | 0 | 16 | 0 | 11 | 5 |
 | MI | 83 | 0 | 0 | 0 | 2 | 81 | 0 | 63 | 22 |
-| MN | 87 | 0 | 2 | 0 | 0 | 85 | 0 | 79 | 6 |
-| MO | 115 | 0 | 3 | 0 | 2 | 110 | 0 | 108 | 5 |
+| MN | 87 | 0 | 3 | 0 | 4 | 80 | 0 | 79 | 9 |
+| MO | 115 | 0 | 3 | 0 | 6 | 106 | 0 | 108 | 9 |
 | MS | 82 | 0 | 0 | 0 | 0 | 82 | 0 | 81 | 1 |
-| MT | 56 | 0 | 1 | 0 | 0 | 55 | 0 | 55 | 0 |
-| NC | 100 | 0 | 10 | 0 | 6 | 84 | 0 | 80 | 13 |
+| MT | 56 | 0 | 1 | 0 | 1 | 54 | 0 | 55 | 0 |
+| NC | 100 | 0 | 12 | 0 | 16 | 72 | 0 | 80 | 20 |
 | ND | 53 | 0 | 6 | 0 | 0 | 47 | 0 | 47 | 0 |
-| NE | 93 | 0 | 4 | 0 | 1 | 88 | 0 | 87 | 2 |
+| NE | 93 | 0 | 5 | 0 | 13 | 75 | 0 | 87 | 12 |
 | NH | 10 | 0 | 0 | 0 | 0 | 10 | 0 | 10 | 0 |
 | NJ | 21 | 0 | 0 | 0 | 0 | 21 | 0 | 13 | 8 |
-| NM | 33 | 0 | 2 | 0 | 1 | 30 | 0 | 30 | 1 |
-| NV | 17 | 0 | 2 | 0 | 0 | 15 | 0 | 14 | 1 |
+| NM | 33 | 0 | 2 | 0 | 3 | 28 | 0 | 30 | 3 |
+| NV | 17 | 0 | 2 | 0 | 1 | 14 | 0 | 14 | 2 |
 | NY | 62 | 0 | 0 | 0 | 0 | 62 | 0 | 57 | 5 |
-| OH | 88 | 0 | 1 | 0 | 0 | 87 | 0 | 61 | 26 |
+| OH | 88 | 0 | 1 | 0 | 1 | 86 | 0 | 61 | 27 |
 | OK | 77 | 0 | 0 | 0 | 0 | 77 | 0 | 73 | 4 |
-| OR | 36 | 0 | 0 | 0 | 0 | 36 | 0 | 36 | 0 |
+| OR | 36 | 0 | 0 | 0 | 1 | 35 | 0 | 36 | 0 |
 | PA | 67 | 0 | 0 | 0 | 2 | 65 | 0 | 55 | 14 |
 | PR | 78 | 0 | 0 | 0 | 0 | 78 | 0 | 78 | 0 |
 | RI | 5 | 0 | 0 | 0 | 0 | 5 | 0 | 5 | 0 |
-| SC | 46 | 0 | 3 | 0 | 3 | 40 | 0 | 41 | 3 |
+| SC | 46 | 0 | 4 | 0 | 11 | 31 | 0 | 41 | 11 |
 | SD | 66 | 0 | 0 | 0 | 1 | 65 | 0 | 66 | 1 |
-| TN | 95 | 0 | 10 | 0 | 4 | 81 | 0 | 78 | 9 |
-| TX | 254 | 0 | 1 | 0 | 1 | 252 | 0 | 248 | 5 |
-| UT | 29 | 0 | 4 | 0 | 1 | 24 | 0 | 24 | 1 |
-| VA | 133 | 0 | 1 | 0 | 0 | 132 | 0 | 121 | 11 |
+| TN | 95 | 0 | 10 | 0 | 15 | 70 | 0 | 78 | 16 |
+| TX | 254 | 0 | 1 | 0 | 2 | 251 | 0 | 248 | 7 |
+| UT | 29 | 0 | 5 | 0 | 1 | 23 | 0 | 24 | 1 |
+| VA | 133 | 0 | 2 | 0 | 0 | 131 | 0 | 121 | 10 |
 | VT | 14 | 0 | 0 | 0 | 0 | 14 | 0 | 13 | 1 |
-| WA | 39 | 0 | 1 | 0 | 1 | 37 | 0 | 33 | 6 |
-| WI | 72 | 0 | 5 | 0 | 3 | 64 | 0 | 62 | 7 |
+| WA | 39 | 0 | 1 | 0 | 7 | 31 | 0 | 33 | 12 |
+| WI | 72 | 0 | 8 | 0 | 10 | 54 | 0 | 62 | 11 |
 | WV | 55 | 0 | 0 | 0 | 0 | 55 | 0 | 54 | 1 |
 | WY | 23 | 0 | 0 | 0 | 0 | 23 | 0 | 23 | 0 |
 

@@ -6,16 +6,16 @@ Adjacency is a search prompt, never evidence. Nothing in this queue is a finding
 
 ## Counts
 
-- Seed counties (enacted, tracker label or external census): 367
-- Seeds carrying no usable date: 4 (an undated seed cannot raise a fresh trigger)
-- Candidate counties adjacent to a seed: 1056
-- Priority 1, non-terminal record plus fresh trigger: 43
-- Priority 2, fresh trigger with pressure: 123
-- Priority 3, standing cluster: 245
-- Priority 4, background: 645
-- Cross-state candidates (the Walker/Hamilton shape): 200
-- Small-jurisdiction candidates (population under 100,000): 839
-- Candidates with no automated agenda route: 1053
+- Seed counties (enacted, tracker label or external census): 494
+- Seeds carrying no usable date: 12 (an undated seed cannot raise a fresh trigger)
+- Candidate counties adjacent to a seed: 1172
+- Priority 1, non-terminal record plus fresh trigger: 42
+- Priority 2, fresh trigger with pressure: 191
+- Priority 3, standing cluster: 325
+- Priority 4, background: 614
+- Cross-state candidates (the Walker/Hamilton shape): 235
+- Small-jurisdiction candidates (population under 100,000): 931
+- Candidates with no automated agenda route: 1167
 
 Small jurisdiction is a detection-difficulty tier, not a risk factor. Population stands in for whether a county has a newsroom that ingestion can see; it never enters a model.
 
@@ -23,94 +23,95 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 
 | P | State | County | Enacted nbrs | Nearest enactment | Days | Non-terminal rows | Projects | Small | Agenda route |
 |---|---|---|---|---|---|---|---|---|---|
-| 1 | AZ | Pima County | 2 | Maricopa County, AZ (2026-07-06) | 84 | 3 | 1 | no | none |
+| 1 | VA | Prince William County | 4 | Loudoun County, VA (2026-09-16) | 12 | 3 | 63 | no | none |
+| 1 | ID | Power County | 1 | Bannock County, ID (2026-07-30) | 60 | 3 | 0 | yes | unprobed |
 | 1 | PA | Lehigh County | 4 | Montgomery County, PA (2026-07-27) | 63 | 2 | 5 | no | none |
+| 1 | FL | Polk County | 3 | Lake County, FL (2026-09-08) | 20 | 2 | 1 | no | none |
 | 1 | MO | St. Louis County | 3 | St. Charles County, MO (2026-07-14) | 76 | 2 | 1 | no | ambiguous |
-| 1 | IL | Jersey County | 2 | St. Charles County, MO (2026-07-14) | 76 | 2 | 0 | yes | unprobed |
-| 1 | MN | Nicollet County | 2 | Blue Earth County, MN (2026-07-13) | 77 | 2 | 0 | yes | none |
-| 1 | NJ | Salem County | 2 | Cumberland County, NJ (2026-05-19) | 132 | 2 | 0 | yes | unprobed |
+| 1 | MN | Nicollet County | 2 | Blue Earth County, MN (2026-08-25) | 34 | 2 | 0 | yes | none |
+| 1 | IL | Jersey County | 2 | St. Charles County, MO (2026-07-14) | 76 | 2 | 0 | yes | none |
+| 1 | NJ | Salem County | 2 | Cumberland County, NJ (2026-05-19) | 132 | 2 | 0 | yes | granicus |
 | 1 | IN | Elkhart County | 2 | Cass County, MI (2026-05-12) | 139 | 2 | 1 | no | none |
+| 1 | WI | Eau Claire County | 1 | Chippewa County, WI (2026-08-11) | 48 | 2 | 0 | no | unprobed |
 | 1 | NC | Stokes County | 1 | Surry County, NC (2026-07-21) | 69 | 2 | 1 | yes | none |
-| 1 | MD | Calvert County | 1 | Prince George's County, MD (2026-07-07) | 83 | 2 | 0 | yes | none |
-| 1 | WI | Winnebago County | 1 | Outagamie County, WI (2026-07-07) | 83 | 2 | 0 | no | ambiguous |
-| 1 | KY | Warren County | 4 | Barren County, KY (2026-07-20) | 70 | 1 | 0 | no | ambiguous |
-| 1 | NC | Harnett County | 4 | Lee County, NC (2026-07-16) | 74 | 1 | 0 | no | none |
+| 1 | KY | Warren County | 6 | Logan County, KY (2026-07-28) | 62 | 1 | 0 | no | ambiguous |
+| 1 | FL | Volusia County | 4 | Marion County, FL (2026-09-15) | 13 | 1 | 0 | no | unprobed |
 | 1 | IN | St. Joseph County | 4 | Cass County, MI (2026-05-12) | 139 | 1 | 4 | no | none |
 | 1 | OH | Portage County | 3 | Trumbull County, OH (2026-09-11) | 17 | 1 | 0 | no | none |
+| 1 | FL | Jackson County | 3 | Washington County, FL (2026-08-20) | 39 | 1 | 0 | yes | ambiguous |
+| 1 | IL | Bureau County | 3 | Lee County, IL (2026-08-20) | 39 | 1 | 0 | yes | none |
 | 1 | NJ | Gloucester County | 3 | Camden County, NJ (2026-07-28) | 62 | 1 | 3 | no | none |
+| 1 | NE | Lincoln County | 3 | Logan County, NE (2026-07-16) | 74 | 1 | 0 | yes | ambiguous |
 | 1 | WI | Rock County | 3 | Green County, WI (2026-07-14) | 76 | 1 | 0 | no | none |
 | 1 | MD | Harford County | 2 | Baltimore County, MD (2026-09-23) | 5 | 1 | 0 | no | none |
+| 1 | KS | Miami County | 2 | Franklin County, KS (2026-09-02) | 26 | 1 | 0 | yes | ambiguous |
+| 1 | IL | Peoria County | 2 | Woodford County, IL (2026-08-18) | 41 | 1 | 0 | no | none |
 | 1 | VA | Orange County | 2 | Spotsylvania County, VA (2026-08-12) | 47 | 1 | 0 | yes | ambiguous |
-| 1 | NE | Lincoln County | 2 | Logan County, NE (2026-07-16) | 74 | 1 | 0 | yes | ambiguous |
-| 1 | KS | Leavenworth County | 2 | Douglas County, KS (2026-07-14) | 76 | 1 | 0 | yes | none |
-| 1 | IA | Emmet County | 2 | Palo Alto County, IA (2026-07-08) | 82 | 1 | 0 | yes | ambiguous |
+| 1 | NV | Eureka County | 2 | White Pine County, NV (2026-07-22) | 68 | 1 | 0 | yes | none |
 | 1 | KY | Jefferson County | 2 | Floyd County, IN (2026-07-08) | 82 | 1 | 3 | no | ambiguous |
 | 1 | WI | Sheboygan County | 2 | Manitowoc County, WI (2026-04-28) | 153 | 1 | 0 | no | none |
 | 1 | IN | Allen County | 2 | DeKalb County, IN (2026-04-13) | 168 | 1 | 1 | no | ambiguous |
-| 1 | GA | Lee County | 1 | Dougherty County, GA (2026-09-02) | 26 | 1 | 0 | yes | ambiguous |
-| 1 | NC | Yadkin County | 1 | Surry County, NC (2026-07-21) | 69 | 1 | 0 | yes | none |
-| 1 | KS | Shawnee County | 1 | Douglas County, KS (2026-07-14) | 76 | 1 | 0 | no | none |
+| 1 | MN | St. Louis County | 1 | Carlton County, MN (2026-08-24) | 35 | 1 | 1 | no | ambiguous |
+| 1 | FL | Highlands County | 1 | DeSoto County, FL (2026-07-28) | 62 | 1 | 0 | no | unprobed |
+| 1 | TX | Colorado County | 1 | Austin County, TX (2026-07-27) | 63 | 1 | 0 | yes | unprobed |
+| 1 | NM | Doña Ana County | 1 | Sierra County, NM (2026-07-21) | 69 | 1 | 1 | no | none |
+| 1 | FL | Wakulla County | 1 | Franklin County, FL (2026-07-15) | 75 | 1 | 0 | yes | unprobed |
+| 1 | FL | Pinellas County | 1 | Pasco County, FL (2026-07-14) | 76 | 1 | 0 | no | unprobed |
 | 1 | AL | Tuscaloosa County | 1 | Jefferson County, AL (2026-07-13) | 77 | 1 | 0 | no | none |
-| 1 | SC | Chester County | 1 | York County, SC (2026-07-13) | 77 | 1 | 0 | yes | ambiguous |
 | 1 | MI | Keweenaw County | 1 | Houghton County, MI (2026-07-09) | 81 | 1 | 0 | yes | none |
 | 1 | SC | McCormick County | 1 | Greenwood County, SC (2026-07-07) | 83 | 1 | 0 | yes | none |
-| 1 | SC | Orangeburg County | 1 | Colleton County, SC (2026-07-07) | 83 | 1 | 0 | yes | none |
 | 1 | TX | Falls County | 1 | Bell County, TX (2026-07-02) | 88 | 1 | 0 | yes | none |
 | 1 | NJ | Hudson County | 1 | Union County, NJ (2026-06-16) | 104 | 1 | 16 | no | none |
-| 1 | KS | Miami County | 1 | Johnson County, KS (2026-06-11) | 109 | 1 | 0 | yes | ambiguous |
-| 1 | TN | Moore County | 1 | Coffee County, TN (2026-06-09) | 111 | 1 | 0 | yes | none |
 | 1 | NV | Clark County | 1 | Nye County, NV (2026-06-02) | 118 | 1 | 23 | no | ambiguous |
-| 1 | NV | Eureka County | 1 | Nye County, NV (2026-06-02) | 118 | 1 | 0 | yes | unprobed |
-| 1 | IN | Warrick County | 1 | Daviess County, KY (2026-05-28) | 123 | 1 | 0 | yes | none |
-| 1 | FL | Levy County | 1 | Citrus County, FL (2026-05-26) | 125 | 1 | 0 | yes | none |
 
 ## Priorities 1 to 3 by state
 
 | State | Counties |
 |---|---|
+| GA | 34 |
+| NC | 32 |
+| TN | 30 |
+| WI | 30 |
+| IN | 27 |
 | OH | 27 |
-| TN | 27 |
-| GA | 26 |
-| IN | 25 |
-| NC | 22 |
-| VA | 21 |
-| IL | 17 |
-| KY | 17 |
+| IL | 24 |
+| VA | 23 |
+| KY | 21 |
+| SC | 21 |
+| IA | 20 |
+| FL | 19 |
+| MO | 18 |
+| KS | 17 |
+| MN | 17 |
 | PA | 17 |
-| WI | 17 |
-| IA | 12 |
-| SC | 12 |
-| MI | 11 |
-| CO | 10 |
-| KS | 10 |
-| MN | 10 |
+| MI | 12 |
+| CO | 11 |
+| NE | 11 |
+| UT | 11 |
+| CA | 10 |
+| TX | 10 |
+| AL | 9 |
 | NJ | 9 |
+| NM | 9 |
 | NV | 9 |
-| MO | 8 |
-| AL | 7 |
+| WA | 9 |
+| AR | 8 |
+| ID | 7 |
+| MD | 7 |
 | ME | 7 |
-| NE | 7 |
 | NY | 7 |
-| TX | 7 |
-| UT | 7 |
-| CA | 6 |
-| MD | 6 |
-| AR | 5 |
-| NM | 5 |
+| AZ | 5 |
 | OK | 5 |
-| AZ | 4 |
-| FL | 4 |
-| WA | 4 |
 | WV | 4 |
 | MA | 3 |
 | MS | 3 |
 | NH | 3 |
-| ID | 2 |
+| OR | 3 |
+| DE | 2 |
 | ND | 2 |
 | SD | 2 |
 | DC | 1 |
 | MT | 1 |
-| OR | 1 |
 | WY | 1 |
 
 ## Local meeting ingestion

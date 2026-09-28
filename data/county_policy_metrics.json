@@ -27,6 +27,8 @@
     "stability_cost": 0.0,
     "stability_cost_note": "median AUC given up by requiring every coefficient to hold its sign across all folds. Reported, not used as a veto; a gap beyond 0.05 is a hard stop.",
     "stability_cost_alarm": 0.05,
+    "promoted_candidates": [],
+    "promotions_source": null,
     "changed_this_run": false,
     "entered": [],
     "left": [],

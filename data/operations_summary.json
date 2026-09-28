@@ -2,54 +2,94 @@
   "generated": "2026-09-28",
   "coverage": {
     "national": {
-      "census_in_scope": 154,
-      "recall_any": 0.994,
-      "label_false_negatives": 8,
+      "census_in_scope": 302,
+      "recall_any": 0.662,
+      "label_false_negatives": 135,
       "unjoined_frame": 0,
       "label_positive_no_tracker_record": 0,
-      "recall_confirmed": 0.429,
-      "missing": 1
+      "recall_confirmed": 0.272,
+      "missing": 102
     },
     "states": [
       {
+        "state": "WA",
+        "census_in_scope": 8,
+        "covered_confirmed": 0,
+        "covered_unconfirmed": 3,
+        "missing": 5,
+        "recall_any": 0.375,
+        "recall_confirmed": 0.0,
+        "label_false_negatives": 7
+      },
+      {
         "state": "CO",
-        "census_in_scope": 4,
+        "census_in_scope": 7,
         "covered_confirmed": 0,
         "covered_unconfirmed": 4,
-        "missing": 0,
-        "recall_any": 1.0,
+        "missing": 3,
+        "recall_any": 0.571,
         "recall_confirmed": 0.0,
-        "label_false_negatives": 0
+        "label_false_negatives": 3
+      },
+      {
+        "state": "ID",
+        "census_in_scope": 3,
+        "covered_confirmed": 0,
+        "covered_unconfirmed": 2,
+        "missing": 1,
+        "recall_any": 0.667,
+        "recall_confirmed": 0.0,
+        "label_false_negatives": 2
       },
       {
         "state": "NV",
-        "census_in_scope": 2,
+        "census_in_scope": 3,
         "covered_confirmed": 0,
         "covered_unconfirmed": 2,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.0,
-        "label_false_negatives": 0
-      },
-      {
-        "state": "WA",
-        "census_in_scope": 2,
-        "covered_confirmed": 0,
-        "covered_unconfirmed": 2,
-        "missing": 0,
-        "recall_any": 1.0,
+        "missing": 1,
+        "recall_any": 0.667,
         "recall_confirmed": 0.0,
         "label_false_negatives": 1
       },
       {
-        "state": "ID",
+        "state": "AR",
+        "census_in_scope": 2,
+        "covered_confirmed": 0,
+        "covered_unconfirmed": 0,
+        "missing": 2,
+        "recall_any": 0.0,
+        "recall_confirmed": 0.0,
+        "label_false_negatives": 2
+      },
+      {
+        "state": "MI",
+        "census_in_scope": 2,
+        "covered_confirmed": 0,
+        "covered_unconfirmed": 2,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.0,
+        "label_false_negatives": 2
+      },
+      {
+        "state": "AL",
+        "census_in_scope": 1,
+        "covered_confirmed": 0,
+        "covered_unconfirmed": 0,
+        "missing": 1,
+        "recall_any": 0.0,
+        "recall_confirmed": 0.0,
+        "label_false_negatives": 1
+      },
+      {
+        "state": "AZ",
         "census_in_scope": 1,
         "covered_confirmed": 0,
         "covered_unconfirmed": 1,
         "missing": 0,
         "recall_any": 1.0,
         "recall_confirmed": 0.0,
-        "label_false_negatives": 0
+        "label_false_negatives": 1
       },
       {
         "state": "PA",
@@ -72,94 +112,164 @@
         "label_false_negatives": 1
       },
       {
-        "state": "KS",
-        "census_in_scope": 10,
-        "covered_confirmed": 1,
-        "covered_unconfirmed": 9,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.1,
-        "label_false_negatives": 0
-      },
-      {
-        "state": "WI",
-        "census_in_scope": 6,
-        "covered_confirmed": 1,
-        "covered_unconfirmed": 5,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.167,
+        "state": "TX",
+        "census_in_scope": 1,
+        "covered_confirmed": 0,
+        "covered_unconfirmed": 0,
+        "missing": 1,
+        "recall_any": 0.0,
+        "recall_confirmed": 0.0,
         "label_false_negatives": 1
       },
       {
-        "state": "KY",
-        "census_in_scope": 7,
+        "state": "KS",
+        "census_in_scope": 16,
         "covered_confirmed": 2,
-        "covered_unconfirmed": 5,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.286,
-        "label_false_negatives": 0
-      },
-      {
-        "state": "IA",
-        "census_in_scope": 20,
-        "covered_confirmed": 6,
-        "covered_unconfirmed": 14,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.3,
-        "label_false_negatives": 0
-      },
-      {
-        "state": "MO",
-        "census_in_scope": 3,
-        "covered_confirmed": 1,
-        "covered_unconfirmed": 2,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.333,
-        "label_false_negatives": 0
+        "covered_unconfirmed": 11,
+        "missing": 3,
+        "recall_any": 0.812,
+        "recall_confirmed": 0.125,
+        "label_false_negatives": 5
       },
       {
         "state": "SC",
-        "census_in_scope": 3,
+        "census_in_scope": 14,
+        "covered_confirmed": 2,
+        "covered_unconfirmed": 5,
+        "missing": 7,
+        "recall_any": 0.5,
+        "recall_confirmed": 0.143,
+        "label_false_negatives": 10
+      },
+      {
+        "state": "IL",
+        "census_in_scope": 7,
+        "covered_confirmed": 1,
+        "covered_unconfirmed": 1,
+        "missing": 5,
+        "recall_any": 0.286,
+        "recall_confirmed": 0.143,
+        "label_false_negatives": 5
+      },
+      {
+        "state": "MO",
+        "census_in_scope": 7,
         "covered_confirmed": 1,
         "covered_unconfirmed": 2,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.333,
-        "label_false_negatives": 0
+        "missing": 4,
+        "recall_any": 0.429,
+        "recall_confirmed": 0.143,
+        "label_false_negatives": 4
+      },
+      {
+        "state": "FL",
+        "census_in_scope": 16,
+        "covered_confirmed": 3,
+        "covered_unconfirmed": 4,
+        "missing": 9,
+        "recall_any": 0.438,
+        "recall_confirmed": 0.188,
+        "label_false_negatives": 13
+      },
+      {
+        "state": "WI",
+        "census_in_scope": 16,
+        "covered_confirmed": 3,
+        "covered_unconfirmed": 7,
+        "missing": 6,
+        "recall_any": 0.625,
+        "recall_confirmed": 0.188,
+        "label_false_negatives": 8
+      },
+      {
+        "state": "KY",
+        "census_in_scope": 14,
+        "covered_confirmed": 3,
+        "covered_unconfirmed": 6,
+        "missing": 5,
+        "recall_any": 0.643,
+        "recall_confirmed": 0.214,
+        "label_false_negatives": 6
       },
       {
         "state": "MD",
-        "census_in_scope": 5,
-        "covered_confirmed": 2,
+        "census_in_scope": 14,
+        "covered_confirmed": 3,
+        "covered_unconfirmed": 5,
+        "missing": 6,
+        "recall_any": 0.571,
+        "recall_confirmed": 0.214,
+        "label_false_negatives": 7
+      },
+      {
+        "state": "IA",
+        "census_in_scope": 30,
+        "covered_confirmed": 7,
+        "covered_unconfirmed": 17,
+        "missing": 6,
+        "recall_any": 0.8,
+        "recall_confirmed": 0.233,
+        "label_false_negatives": 8
+      },
+      {
+        "state": "NE",
+        "census_in_scope": 11,
+        "covered_confirmed": 3,
         "covered_unconfirmed": 3,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.4,
-        "label_false_negatives": 0
+        "missing": 5,
+        "recall_any": 0.545,
+        "recall_confirmed": 0.273,
+        "label_false_negatives": 6
+      },
+      {
+        "state": "MN",
+        "census_in_scope": 7,
+        "covered_confirmed": 2,
+        "covered_unconfirmed": 2,
+        "missing": 3,
+        "recall_any": 0.571,
+        "recall_confirmed": 0.286,
+        "label_false_negatives": 4
       },
       {
         "state": "GA",
+        "census_in_scope": 36,
+        "covered_confirmed": 13,
+        "covered_unconfirmed": 16,
+        "missing": 7,
+        "recall_any": 0.806,
+        "recall_confirmed": 0.361,
+        "label_false_negatives": 9
+      },
+      {
+        "state": "NC",
         "census_in_scope": 24,
-        "covered_confirmed": 10,
-        "covered_unconfirmed": 14,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.417,
-        "label_false_negatives": 1
+        "covered_confirmed": 9,
+        "covered_unconfirmed": 7,
+        "missing": 8,
+        "recall_any": 0.667,
+        "recall_confirmed": 0.375,
+        "label_false_negatives": 12
+      },
+      {
+        "state": "CA",
+        "census_in_scope": 5,
+        "covered_confirmed": 2,
+        "covered_unconfirmed": 0,
+        "missing": 3,
+        "recall_any": 0.4,
+        "recall_confirmed": 0.4,
+        "label_false_negatives": 3
       },
       {
         "state": "IN",
-        "census_in_scope": 16,
+        "census_in_scope": 19,
         "covered_confirmed": 8,
         "covered_unconfirmed": 8,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.5,
-        "label_false_negatives": 1
+        "missing": 3,
+        "recall_any": 0.842,
+        "recall_confirmed": 0.421,
+        "label_false_negatives": 4
       },
       {
         "state": "ND",
@@ -172,117 +282,57 @@
         "label_false_negatives": 0
       },
       {
-        "state": "NE",
-        "census_in_scope": 4,
-        "covered_confirmed": 2,
-        "covered_unconfirmed": 2,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.5,
-        "label_false_negatives": 0
-      },
-      {
         "state": "UT",
-        "census_in_scope": 4,
-        "covered_confirmed": 2,
-        "covered_unconfirmed": 2,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.5,
-        "label_false_negatives": 0
-      },
-      {
-        "state": "IL",
-        "census_in_scope": 2,
-        "covered_confirmed": 1,
-        "covered_unconfirmed": 1,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.5,
-        "label_false_negatives": 0
-      },
-      {
-        "state": "MN",
-        "census_in_scope": 2,
-        "covered_confirmed": 1,
-        "covered_unconfirmed": 1,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.5,
-        "label_false_negatives": 0
-      },
-      {
-        "state": "NC",
-        "census_in_scope": 11,
-        "covered_confirmed": 7,
-        "covered_unconfirmed": 3,
-        "missing": 1,
-        "recall_any": 0.909,
-        "recall_confirmed": 0.636,
-        "label_false_negatives": 1
-      },
-      {
-        "state": "FL",
-        "census_in_scope": 4,
+        "census_in_scope": 6,
         "covered_confirmed": 3,
-        "covered_unconfirmed": 1,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.75,
+        "covered_unconfirmed": 2,
+        "missing": 1,
+        "recall_any": 0.833,
+        "recall_confirmed": 0.5,
         "label_false_negatives": 1
-      },
-      {
-        "state": "TN",
-        "census_in_scope": 10,
-        "covered_confirmed": 9,
-        "covered_unconfirmed": 1,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 0.9,
-        "label_false_negatives": 0
-      },
-      {
-        "state": "NM",
-        "census_in_scope": 2,
-        "covered_confirmed": 2,
-        "covered_unconfirmed": 0,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 1.0,
-        "label_false_negatives": 0
-      },
-      {
-        "state": "CA",
-        "census_in_scope": 1,
-        "covered_confirmed": 1,
-        "covered_unconfirmed": 0,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 1.0,
-        "label_false_negatives": 0
-      },
-      {
-        "state": "MT",
-        "census_in_scope": 1,
-        "covered_confirmed": 1,
-        "covered_unconfirmed": 0,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 1.0,
-        "label_false_negatives": 0
       },
       {
         "state": "OH",
-        "census_in_scope": 1,
+        "census_in_scope": 2,
         "covered_confirmed": 1,
         "covered_unconfirmed": 0,
-        "missing": 0,
-        "recall_any": 1.0,
-        "recall_confirmed": 1.0,
-        "label_false_negatives": 0
+        "missing": 1,
+        "recall_any": 0.5,
+        "recall_confirmed": 0.5,
+        "label_false_negatives": 1
       },
       {
         "state": "VA",
+        "census_in_scope": 2,
+        "covered_confirmed": 1,
+        "covered_unconfirmed": 1,
+        "missing": 0,
+        "recall_any": 1.0,
+        "recall_confirmed": 0.5,
+        "label_false_negatives": 0
+      },
+      {
+        "state": "TN",
+        "census_in_scope": 16,
+        "covered_confirmed": 9,
+        "covered_unconfirmed": 2,
+        "missing": 5,
+        "recall_any": 0.688,
+        "recall_confirmed": 0.562,
+        "label_false_negatives": 6
+      },
+      {
+        "state": "NM",
+        "census_in_scope": 3,
+        "covered_confirmed": 2,
+        "covered_unconfirmed": 0,
+        "missing": 1,
+        "recall_any": 0.667,
+        "recall_confirmed": 0.667,
+        "label_false_negatives": 1
+      },
+      {
+        "state": "MT",
         "census_in_scope": 1,
         "covered_confirmed": 1,
         "covered_unconfirmed": 0,
@@ -296,60 +346,60 @@
   },
   "promotions": {
     "census_gaps": {
-      "decisions": 35,
+      "decisions": 136,
       "by_action": {
-        "promoted": 30,
+        "promoted": 131,
         "held": 5
       },
-      "first_run": "2026-05-04",
-      "last_run": "2026-07-28",
+      "first_run": "2025-06",
+      "last_run": "2026-09-22",
       "recent": [
         {
-          "date": "2026-07-21",
+          "date": "2026-09-01",
           "action": "promoted",
-          "what": "WI Monroe County moratorium",
+          "what": "WI St. Croix County moratorium",
           "reason": ""
         },
         {
-          "date": "2026-07-14",
+          "date": "2026-08",
           "action": "promoted",
-          "what": "WI Green County moratorium",
+          "what": "WI Sawyer County moratorium",
           "reason": ""
         },
         {
-          "date": "2026-06-01",
+          "date": "2026-08-18",
           "action": "promoted",
-          "what": "WA Skagit County moratorium",
+          "what": "WI Polk County moratorium",
           "reason": ""
         },
         {
-          "date": "2026-07-08",
+          "date": "2026-08-18",
           "action": "promoted",
-          "what": "UT Wayne County moratorium",
+          "what": "WI Oneida County moratorium",
           "reason": ""
         },
         {
-          "date": "2026-06-15",
+          "date": "2026-05-26",
           "action": "promoted",
-          "what": "TN Cumberland County moratorium",
+          "what": "WI Door County moratorium",
           "reason": ""
         },
         {
-          "date": "2026-06-01",
+          "date": "2026-08-11",
           "action": "promoted",
-          "what": "SC Chesterfield County moratorium",
+          "what": "WI Chippewa County moratorium",
           "reason": ""
         },
         {
-          "date": "2026-05-19",
+          "date": "2026-08-11",
           "action": "promoted",
-          "what": "ND Barnes County moratorium",
+          "what": "WA Yakima County moratorium",
           "reason": ""
         },
         {
-          "date": "2026-05-18",
+          "date": "2026-08-18",
           "action": "promoted",
-          "what": "NC Pasquotank County moratorium",
+          "what": "WA Skamania County moratorium",
           "reason": ""
         }
       ]
@@ -415,15 +465,23 @@
     }
   },
   "calibration": {
-    "runs": 16,
+    "runs": 17,
     "by_verdict": {
-      "PROMOTE": 15,
+      "PROMOTE": 16,
       "HOLD": 1
     },
-    "last_verdict": "HOLD",
-    "last_run": "2026-09-18",
+    "last_verdict": "PROMOTE",
+    "last_run": "2026-09-28",
     "current_streak": 1,
     "recent": [
+      {
+        "timestamp": "2026-09-28",
+        "model": "outcome_model",
+        "n": "84",
+        "ece": "0.0672",
+        "brier_skill_score": "0.3304",
+        "verdict": "PROMOTE"
+      },
       {
         "timestamp": "2026-09-18",
         "model": "outcome_model",
@@ -479,25 +537,17 @@
         "ece": "0.0726",
         "brier_skill_score": "0.2068",
         "verdict": "PROMOTE"
-      },
-      {
-        "timestamp": "2026-08-17",
-        "model": "outcome_model",
-        "n": "88",
-        "ece": "0.1389",
-        "brier_skill_score": "0.1651",
-        "verdict": "PROMOTE"
       }
     ]
   },
   "worklists": {
     "national_restriction": {
-      "rows": 8,
+      "rows": 135,
       "by_task_class": {
-        "reconcile_label": 7,
-        "ingest_missing": 1
+        "ingest_missing": 102,
+        "reconcile_label": 33
       },
-      "priority_1": 7
+      "priority_1": 33
     },
     "stale_pending": {
       "scoped": 355,
@@ -557,20 +607,20 @@
     },
     "emergence": {
       "status": "LOCKED",
-      "random_coverage": 0.01948051948051948,
+      "random_coverage": 0.011834319526627219,
       "strata": [
         {
           "stratum": "random",
-          "frame_n": "154",
-          "n_coded": "3",
-          "coverage": "0.01948051948051948",
-          "undet_share": "0.3333333333333333"
+          "frame_n": "169",
+          "n_coded": "2",
+          "coverage": "0.011834319526627219",
+          "undet_share": "0.5"
         },
         {
           "stratum": "purposive",
-          "frame_n": "17",
-          "n_coded": "1",
-          "coverage": "0.058823529411764705",
+          "frame_n": "22",
+          "n_coded": "0",
+          "coverage": "0.0",
           "undet_share": "0.0"
         }
       ]
@@ -798,8 +848,8 @@
     },
     "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
     "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
-    "decisions_newly_recorded": 101,
-    "decisions_unchanged_since_last_run": 1278
+    "decisions_newly_recorded": 100,
+    "decisions_unchanged_since_last_run": 1279
   },
   "note": "Every figure here is read from an audit trail the pipeline writes on its own runs. A missing input becomes a null section rather than a zero: an operations page that invents a number is worse than one with a gap in it."
 }
