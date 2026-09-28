@@ -62,6 +62,10 @@ on:
       - 'data/county_votes.json'
       - 'data/county_fips_lookup.json'
       - 'data/external_restriction_census.csv'
+      # Reviewer-confirmed status resolutions and county evidence research
+      # (2026-09-28). An edit to either must re-run the build that applies it.
+      - 'data/status_resolutions.csv'
+      - 'data/restriction_verification_worklist.csv'
       - 'configs/audit_frames.json'
       - 'configs/frames/*.csv'
       # Every configs/*.json, not just the frame registry. Source configs
@@ -137,6 +141,9 @@ jobs:
           python census_gap_candidates.py --selftest
           echo "Restriction evidence ledger self-tests:"
           python restriction_evidence.py --selftest
+          echo "Status resolution + verification worklist self-tests:"
+          python status_resolution.py --selftest
+          python restriction_verification_worklist.py --selftest
           # Offline as of 2026-09-15. This self-test used to make a live call
           # to the upstream census repo, so it could not sit in a blocking
           # gate: an upstream outage would have read as a code failure and
@@ -200,6 +207,17 @@ jobs:
           python subframe_audit.py --selftest
           echo "Local meeting feed self-tests (watchlist union):"
           python local_meeting_feed.py --selftest
+
+      - name: Apply confirmed status resolutions
+        run: |
+          # 2026-09-28. Harvested rows enter as pending and nothing moved them
+          # when the vote happened, so adopted restrictions (Palm Beach, Levy,
+          # Wakulla, Pinellas Park) never reached the county label. Applies the
+          # reviewer-confirmed data/status_resolutions.csv to master in place.
+          # Idempotent, so it runs every build and master does not need to be
+          # committed for the fix to hold. Superseded rows are held out inside
+          # build_clean_feed.py, not deleted.
+          python status_resolution.py --apply
 
       - name: Run pipeline (clean -> gate -> clean feed)
         run: python build_clean_feed.py --in master_opposition.csv --out master_opposition_clean.csv
@@ -357,7 +375,19 @@ jobs:
           # Reporting only, and additive. It writes its own files, it never
           # writes master_opposition.csv or the county aggregate, and no model
           # reads a grade. Its absence must never fail the build.
+          #
+          # 2026-09-28: restriction_probe.py --import was the only working path
+          # for primary_law / proceeding evidence and nothing called it, so the
+          # probe cache never existed and no county could rise above what the
+          # census alone supports. Completed rows of the verification worklist
+          # are exported as the import file and loaded here, before grading.
+          if [ -s data/restriction_probe_import.csv ]; then
+            python restriction_probe.py --import data/restriction_probe_import.csv
+          fi
           python restriction_evidence.py
+          # Rebuild the research queue from this run's grades (merge-preserving
+          # on fips) and re-export completed rows for the next build.
+          python restriction_verification_worklist.py || true
 
       - name: Detection layer (staleness, adjacency re-scan, frame audits)
         id: detection
@@ -369,6 +399,9 @@ jobs:
           # census-enacted county with no tracker record still radiates
           # diffusion pressure onto its neighbours.
           python stale_pending_audit.py
+          # Same-week complement to the 120-day staleness trigger: pending rows
+          # whose own headline reports a completed adoption. Proposes only.
+          python status_resolution.py || true
           # County borders do not move. The adjacency table is built once and
           # committed; a rebuild only happens if the file is missing, so the
           # daily run never re-fetches the 3 MB county geojson.
@@ -541,6 +574,9 @@ jobs:
           # is staged with the rest and never rewritten.
           if [ "${{ steps.evidence.outcome }}" = "success" ]; then
             git add data/restriction_evidence.csv \
+                    data/restriction_probe_cache.json data/restriction_probe_log.csv \
+                    data/restriction_verification_worklist.csv \
+                    data/restriction_probe_import.csv \
                     data/restriction_evidence_conflicts.csv \
                     data/restriction_evidence_history.csv \
                     data/restriction_evidence_report.md 2>/dev/null || true
@@ -551,6 +587,7 @@ jobs:
           # adjacency table is committed so the geojson is never re-fetched.
           if [ "${{ steps.detection.outcome }}" = "success" ]; then
             git add data/stale_pending_worklist.csv \
+                    data/status_resolution_worklist.csv \
                     data/stale_pending_summary.json \
                     data/stale_pending_report.md \
                     data/county_adjacency.csv \
