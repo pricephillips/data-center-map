@@ -44,32 +44,39 @@
       "status": "ok"
     },
     "grid_generation": {
-      "attempted": "2026-09-28T21:32:45Z",
-      "built": "2026-09-28T21:32:45Z",
+      "attempted": "2026-09-28T21:45:33Z",
+      "built": "2026-09-28T21:45:33Z",
       "coverage": {
-        "gen_capacity_mw": 3144,
-        "gen_fossil_share": 2139,
-        "gen_nuclear_mw": 3144,
-        "gen_renewable_share": 2139,
-        "planned_capacity_mw": 3144,
-        "planned_gas_mw": 3144,
-        "planned_renewable_mw": 3144,
+        "gen_capacity_mw": 2899,
+        "gen_fossil_share": 1987,
+        "gen_nuclear_mw": 2899,
+        "gen_renewable_share": 1987,
+        "planned_capacity_mw": 2899,
+        "planned_gas_mw": 2899,
+        "planned_renewable_mw": 2899,
         "report_year": 3144,
-        "retiring_capacity_mw": 3144
+        "retiring_capacity_mw": 2899
       },
       "file": "data/features/grid_generation.csv",
       "info": {
+        "blank_states": [
+          "CT",
+          "DC",
+          "IL",
+          "VA"
+        ],
         "report_year": 2024,
         "resolved": {
           "capacity": "capacity_mw",
           "county": "county",
           "fuel": "energy_source_code_1",
+          "plant": "plant_id_eia",
           "retirement": "planned_generator_retirement_date",
           "state": "state",
           "status": "operational_status",
           "year": "report_date"
         },
-        "unmatched_mw": 62927.1,
+        "unmatched_mw": 57342.0,
         "unmatched_top": [
           [
             "IL|None",
@@ -78,10 +85,6 @@
           [
             "VA|None",
             5741.5
-          ],
-          [
-            "FL|Miami Dade",
-            4229.6
           ],
           [
             "PA|None",
@@ -130,12 +133,16 @@
           [
             "OK|None",
             1069.3
+          ],
+          [
+            "IN|None",
+            1050.8
           ]
         ]
       },
       "license": "CC-BY-4.0 (Catalyst Cooperative PUDL; EIA-860)",
       "rows": 3144,
-      "sha256": "15e7b5f19f93ae471da1ad0a793d50cef8c5e208a785667047157a6cf94fa471",
+      "sha256": "a2740171f22b9b0f2ec92d01c88f4690a006853ab9d08872146713ca0b3f33ef",
       "status": "ok"
     },
     "retail_price": {
