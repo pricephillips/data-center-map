@@ -3,9 +3,23 @@
   "note": "county profile variables for the adaptive feature search; all leakage class none; zoning regime not built (no national source)",
   "sources": {
     "drought": {
-      "attempted": "2026-09-28T20:55:00Z",
-      "error": "SourceError: only 0 of 3144 counties with 150+ weeks; state errors: []",
-      "status": "failed"
+      "attempted": "2026-09-28T21:32:45Z",
+      "built": "2026-09-28T21:32:45Z",
+      "coverage": {
+        "drought_d1_mean_pct": 3144,
+        "drought_d2_weeks_share": 3144,
+        "weeks": 3144,
+        "window": 3144
+      },
+      "file": "data/features/drought.csv",
+      "info": {
+        "records": 823728,
+        "state_errors": []
+      },
+      "license": "U.S. Drought Monitor (NDMC, USDA, NOAA), public",
+      "rows": 3144,
+      "sha256": "6e119e2d2be63ee171acba5fc0d2d772b577eeb9e85d87f6d9cbad54f3bb3ecc",
+      "status": "ok"
     },
     "farmland": {
       "attempted": "2026-09-28T20:55:00Z",
@@ -30,9 +44,99 @@
       "status": "ok"
     },
     "grid_generation": {
-      "attempted": "2026-09-28T20:55:00Z",
-      "error": "SourceError: schema drift: missing ['fips']; columns present: ['associated_combined_heat_power', 'bga_source', 'bypass_heat_recovery', 'can_burn_multiple_fuels', 'can_cofire_fuels', 'can_switch_oil_gas', 'capacity_factor', 'capacity_mw', 'carbon_capture', 'city', 'county', 'current_planned_generator_operating_date', 'data_maturity', 'deliver_power_transgrid', 'distributed_generation', 'duct_burners', 'energy_source_1_transport_1', 'energy_source_1_transport_2', 'energy_source_1_transport_3', 'energy_source_2_transport_1', 'energy_source_2_transport_2', 'energy_source_2_transport_3', 'energy_source_code_1', 'energy_source_code_2', 'energy_source_code_3', 'energy_source_code_4', 'energy_source_code_5', 'energy_source_code_6', 'energy_storage_capacity_mwh', 'ferc_qualifying_facility', 'fluidi",
-      "status": "failed"
+      "attempted": "2026-09-28T21:32:45Z",
+      "built": "2026-09-28T21:32:45Z",
+      "coverage": {
+        "gen_capacity_mw": 3144,
+        "gen_fossil_share": 2139,
+        "gen_nuclear_mw": 3144,
+        "gen_renewable_share": 2139,
+        "planned_capacity_mw": 3144,
+        "planned_gas_mw": 3144,
+        "planned_renewable_mw": 3144,
+        "report_year": 3144,
+        "retiring_capacity_mw": 3144
+      },
+      "file": "data/features/grid_generation.csv",
+      "info": {
+        "report_year": 2024,
+        "resolved": {
+          "capacity": "capacity_mw",
+          "county": "county",
+          "fuel": "energy_source_code_1",
+          "retirement": "planned_generator_retirement_date",
+          "state": "state",
+          "status": "operational_status",
+          "year": "report_date"
+        },
+        "unmatched_mw": 62927.1,
+        "unmatched_top": [
+          [
+            "IL|None",
+            7814.7
+          ],
+          [
+            "VA|None",
+            5741.5
+          ],
+          [
+            "FL|Miami Dade",
+            4229.6
+          ],
+          [
+            "PA|None",
+            3604.8
+          ],
+          [
+            "CT|New Haven",
+            3411.2
+          ],
+          [
+            "CT|New London",
+            3300.7
+          ],
+          [
+            "TX|None",
+            2948.4
+          ],
+          [
+            "CT|Fairfield",
+            2451.9
+          ],
+          [
+            "CA|None",
+            2090.2
+          ],
+          [
+            "CT|Middlesex",
+            2008.6
+          ],
+          [
+            "MD|None",
+            1817.4
+          ],
+          [
+            "NY|None",
+            1244.4
+          ],
+          [
+            "AZ|None",
+            1128.5
+          ],
+          [
+            "FL|None",
+            1080.1
+          ],
+          [
+            "OK|None",
+            1069.3
+          ]
+        ]
+      },
+      "license": "CC-BY-4.0 (Catalyst Cooperative PUDL; EIA-860)",
+      "rows": 3144,
+      "sha256": "15e7b5f19f93ae471da1ad0a793d50cef8c5e208a785667047157a6cf94fa471",
+      "status": "ok"
     },
     "retail_price": {
       "attempted": "2026-09-28T20:55:00Z",
