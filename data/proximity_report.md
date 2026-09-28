@@ -1,7 +1,7 @@
 # Proximity analysis
 Coordinates: 1574 incidents; dated: 1560.
 
-**Contagion:** 698/1560 incidents (44.7%) arose within 50 miles of an enacted block from the prior 365 days, vs. 44.3% (sd 0.7pp) under a 50-permutation date-shuffled null (z = +0.6; |z| < 2 means no evidence of spatial contagion beyond baseline geography). Rows in contagion_rows.csv.
+**Contagion:** 699/1560 incidents (44.8%) arose within 50 miles of an enacted block from the prior 365 days, vs. 44.4% (sd 0.7pp) under a 50-permutation date-shuffled null (z = +0.6; |z| < 2 means no evidence of spatial contagion beyond baseline geography). Rows in contagion_rows.csv.
 
 **Clustering:** median nearest-neighbor distance 4.4 miles; 951/1574 incidents (60%) have another incident within 8 miles.
 

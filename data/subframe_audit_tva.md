@@ -25,8 +25,8 @@ PROVISIONAL FRAME. The recall figures below are a proxy over an expanded county 
 | ingest_missing_census_enacted | 1 |
 | reverify_stale_nonterminal_restrictive | 54 |
 | confirm_unconfirmed_coverage | 35 |
-| check_adjacent_enactment | 63 |
-| covered | 73 |
+| check_adjacent_enactment | 64 |
+| covered | 72 |
 
 Unresolved priority-1 items (ingest, reconcile, re-verify): 55
 
@@ -65,7 +65,7 @@ Only counties carrying a signal are listed below.
 | reverify_stale_nonterminal_restrictive | KY | Meade County | active | covered_confirmed | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | KY | Oldham County | extended | covered_confirmed | 1 | 2 | 2 | - |
 | reverify_stale_nonterminal_restrictive | KY | Scott County | extended | covered_unconfirmed | 1 | 2 | 1 | - |
-| reverify_stale_nonterminal_restrictive | NC | Brunswick County | - | - | 0 | 3 | 2 | - |
+| reverify_stale_nonterminal_restrictive | NC | Brunswick County | - | - | 1 | 2 | 2 | - |
 | reverify_stale_nonterminal_restrictive | NC | Buncombe County | - | - | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | NC | Chatham County | active | covered_unconfirmed | 1 | 2 | 2 | - |
 | reverify_stale_nonterminal_restrictive | NC | Cleveland County | - | - | 1 | 1 | 1 | - |
