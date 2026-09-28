@@ -1,9 +1,9 @@
 # Proximity analysis
-Coordinates: 1576 incidents; dated: 1562.
+Coordinates: 1574 incidents; dated: 1560.
 
-**Contagion:** 700/1562 incidents (44.8%) arose within 50 miles of an enacted block from the prior 365 days, vs. 44.2% (sd 0.9pp) under a 50-permutation date-shuffled null (z = +0.8; |z| < 2 means no evidence of spatial contagion beyond baseline geography). Rows in contagion_rows.csv.
+**Contagion:** 698/1560 incidents (44.7%) arose within 50 miles of an enacted block from the prior 365 days, vs. 44.3% (sd 0.7pp) under a 50-permutation date-shuffled null (z = +0.6; |z| < 2 means no evidence of spatial contagion beyond baseline geography). Rows in contagion_rows.csv.
 
-**Clustering:** median nearest-neighbor distance 4.3 miles; 953/1576 incidents (60%) have another incident within 8 miles.
+**Clustering:** median nearest-neighbor distance 4.4 miles; 951/1574 incidents (60%) have another incident within 8 miles.
 
 **Density (incidents per 1,000 sq mi, covered states):** NJ 5.98 (n=44), MD 3.81 (n=37), VA 2.23 (n=88), OH 2.23 (n=91), PA 1.99 (n=89), MI 1.72 (n=97), IN 1.70 (n=61), GA 1.53 (n=88), TN 1.48 (n=61), WI 1.44 (n=78)
 
