@@ -1,17 +1,18 @@
 {
   "generated": "2026-09-28",
   "n_counties": 3144,
-  "n_features": 57,
+  "n_features": 65,
   "families": {
     "base": 9,
     "political": 4,
     "dc_exposure": 3,
     "pipeline": 6,
     "opposition": 28,
-    "spatial": 7
+    "spatial": 7,
+    "plugin": 8
   },
   "leakage_classes": {
-    "none": 26,
+    "none": 34,
     "pre_outcome": 29,
     "neighbor_outcome": 2
   },
@@ -25,12 +26,17 @@
   "undated_records_excluded_from_window": 0,
   "plugins": [
     "data/features/grid_generation.csv: missing or empty, skipped",
-    "data/features/retail_price.csv: missing or empty, skipped",
-    "data/features/water_use.csv: missing or empty, skipped",
+    "plg_price_commercial: 3097 of 3144 counties populated",
+    "plg_price_industrial: 3074 of 3144 counties populated",
+    "plg_state_price_industrial: 3144 of 3144 counties populated",
+    "plg_water_withdrawal_density: 3133 of 3144 counties populated",
+    "plg_water_groundwater_share: 3127 of 3144 counties populated",
+    "plg_water_irrigation_share: 3127 of 3144 counties populated",
     "data/features/drought.csv: missing or empty, skipped",
-    "data/features/farmland.csv: missing or empty, skipped"
+    "plg_farmland_share: 3050 of 3144 counties populated",
+    "plg_cropland_share: 3046 of 3144 counties populated"
   ],
-  "content_hash": "5ede9c3b02d5",
+  "content_hash": "37f1f082dcab",
   "features": {
     "margin_2024": {
       "family": "base",
@@ -486,6 +492,70 @@
       "leakage_class": "none",
       "label": "same-state mean tracked projects (log), this county excluded",
       "source": "data/county_aggregate.csv",
+      "transform_applied": true
+    },
+    "plg_price_commercial": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "commercial retail price of bundled utilities serving the county, cents/kWh",
+      "source": "data/features/retail_price.csv",
+      "transform_applied": true
+    },
+    "plg_price_industrial": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "industrial retail price of bundled utilities serving the county, cents/kWh",
+      "source": "data/features/retail_price.csv",
+      "transform_applied": true
+    },
+    "plg_state_price_industrial": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "statewide industrial retail price, cents/kWh",
+      "source": "data/features/retail_price.csv",
+      "transform_applied": true
+    },
+    "plg_water_withdrawal_density": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "freshwater withdrawals per sq mi, Mgal/d, log",
+      "source": "data/features/water_use.csv",
+      "transform_applied": true
+    },
+    "plg_water_groundwater_share": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "groundwater share of freshwater withdrawals",
+      "source": "data/features/water_use.csv",
+      "transform_applied": true
+    },
+    "plg_water_irrigation_share": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "irrigation share of freshwater withdrawals",
+      "source": "data/features/water_use.csv",
+      "transform_applied": true
+    },
+    "plg_farmland_share": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "land in farms, share of county land area",
+      "source": "data/features/farmland.csv",
+      "transform_applied": true
+    },
+    "plg_cropland_share": {
+      "family": "plugin",
+      "tier": 1,
+      "leakage_class": "none",
+      "label": "cropland, share of county land area",
+      "source": "data/features/farmland.csv",
       "transform_applied": true
     }
   }
