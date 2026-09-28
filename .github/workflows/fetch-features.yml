@@ -1,0 +1,106 @@
+name: Fetch county plugin features
+
+# Reference-data acquisition for the adaptive feature search. Writes
+# data/features/*.csv and data/features/features_manifest.json only; the files
+# are registered in configs/feature_plugins.json, so county_features.py picks
+# them up with no code change. A failed source writes nothing and the plugin
+# loader skips a missing file, so this workflow can fail without affecting the
+# map, the dashboard, the clean feed, the county model or the Iowa sync.
+#
+# Secrets: NASS_API_KEY (free, quickstats.nass.usda.gov/api) for farmland.
+# Without it the farmland source is skipped and recorded in the manifest.
+#
+# Commits made with GITHUB_TOKEN do not fire push triggers, so this workflow
+# dispatches feature-search.yml itself after a data change.
+
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "Comma-separated sources (blank = all): grid_generation,retail_price,water_use,drought,farmland"
+        required: false
+        default: ""
+  schedule:
+    # Quarterly on the 5th at 08:35 UTC, after fetch-pudl.yml (3rd).
+    - cron: "35 8 5 1,4,7,10 *"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: fetch-features
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install parquet reader
+        run: pip install pyarrow
+
+      - name: Self-test (BLOCKING)
+        run: python fetch_county_features.py --selftest
+
+      - name: Fetch and build
+        env:
+          NASS_API_KEY: ${{ secrets.NASS_API_KEY }}
+          ONLY: ${{ github.event.inputs.only }}
+        run: |
+          if [ -n "$ONLY" ]; then
+            python fetch_county_features.py --only "$ONLY"
+          else
+            python fetch_county_features.py
+          fi
+
+      - name: Manifest summary
+        if: always()
+        run: |
+          python - <<'EOF'
+          import json
+          try:
+              m = json.load(open("data/features/features_manifest.json"))
+          except Exception as e:
+              print("no manifest:", e); raise SystemExit(0)
+          for k, v in sorted(m.get("sources", {}).items()):
+              print(f"{k:16s} {v.get('status'):7s} rows={v.get('rows', '')} {v.get('error', '')[:160]}")
+          EOF
+
+      - name: Commit reference files
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/features/*.csv data/features/features_manifest.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "County plugin features (EIA via PUDL CC-BY-4.0, USGS, USDM, USDA NASS) [reference data] [skip ci]"
+          for i in 1 2 3; do
+            if git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push; then
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            echo "Push attempt $i failed, retrying in 10s"
+            git rebase --abort 2>/dev/null || true
+            sleep 10
+          done
+          echo "Push failed after 3 attempts"
+          exit 1
+
+      - name: Dispatch feature search
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run feature-search.yml --ref "$GITHUB_REF_NAME"
