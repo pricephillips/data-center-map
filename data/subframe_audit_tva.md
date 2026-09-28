@@ -16,7 +16,7 @@ PROVISIONAL FRAME. The recall figures below are a proxy over an expanded county 
 
 - Census counties with an in-scope enacted instrument: 93
 - Covered by any tracker restrictive record: 92 (recall 0.989)
-- Covered with a terminal confirmation: 35 (recall 0.376)
+- Covered with a terminal confirmation: 37 (recall 0.398)
 
 ## Actions
 
@@ -24,8 +24,8 @@ PROVISIONAL FRAME. The recall figures below are a proxy over an expanded county 
 |---|---|
 | ingest_missing_census_enacted | 1 |
 | reverify_stale_nonterminal_restrictive | 54 |
-| confirm_unconfirmed_coverage | 36 |
-| check_adjacent_enactment | 62 |
+| confirm_unconfirmed_coverage | 35 |
+| check_adjacent_enactment | 64 |
 | covered | 72 |
 
 Unresolved priority-1 items (ingest, reconcile, re-verify): 55
@@ -52,7 +52,7 @@ Only counties carrying a signal are listed below.
 | reverify_stale_nonterminal_restrictive | GA | Hart County | active | covered_unconfirmed | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Henry County | - | - | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Lamar County | active | covered_unconfirmed | 1 | 1 | 1 | - |
-| reverify_stale_nonterminal_restrictive | GA | Lowndes County | active | covered_unconfirmed | 1 | 1 | 1 | - |
+| reverify_stale_nonterminal_restrictive | GA | Lowndes County | active | covered_confirmed | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Meriwether County | extended | covered_unconfirmed | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Pike County | active | covered_unconfirmed | 1 | 2 | 1 | - |
 | reverify_stale_nonterminal_restrictive | GA | Polk County | active | covered_unconfirmed | 1 | 1 | 1 | - |
@@ -64,8 +64,8 @@ Only counties carrying a signal are listed below.
 | reverify_stale_nonterminal_restrictive | KY | Jefferson County | - | - | 0 | 1 | 1 | 1 |
 | reverify_stale_nonterminal_restrictive | KY | Meade County | active | covered_confirmed | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | KY | Oldham County | extended | covered_confirmed | 1 | 2 | 2 | - |
-| reverify_stale_nonterminal_restrictive | KY | Scott County | extended | covered_unconfirmed | 1 | 1 | 1 | - |
-| reverify_stale_nonterminal_restrictive | NC | Brunswick County | - | - | 0 | 3 | 2 | - |
+| reverify_stale_nonterminal_restrictive | KY | Scott County | extended | covered_unconfirmed | 1 | 2 | 1 | - |
+| reverify_stale_nonterminal_restrictive | NC | Brunswick County | - | - | 1 | 2 | 2 | - |
 | reverify_stale_nonterminal_restrictive | NC | Buncombe County | - | - | 1 | 1 | 1 | - |
 | reverify_stale_nonterminal_restrictive | NC | Chatham County | active | covered_unconfirmed | 1 | 2 | 2 | - |
 | reverify_stale_nonterminal_restrictive | NC | Cleveland County | - | - | 1 | 1 | 1 | - |

@@ -6,13 +6,13 @@ Age is a prompt to re-verify, not evidence that anything changed. Nothing in thi
 
 ## Counts
 
-- Non-terminal county records in scope: 376
-- Past threshold (priorities 1 to 3): 292
-- Priority 1, label-moving: 28 across 27 counties
-- Label-moving rows at any priority, early warning included: 51 across 49 counties
+- Non-terminal county records in scope: 372
+- Past threshold (priorities 1 to 3): 289
+- Priority 1, label-moving: 25 across 25 counties
+- Label-moving rows at any priority, early warning included: 47 across 46 counties
 - Priority 2, grade only: 218
 - Priority 3, non-restrictive: 46
-- Priority 4, early warning: 84
+- Priority 4, early warning: 83
 - Excluded, statewide (owned by bill_sync.py): 188
 - Excluded, undated (owned by the date worklists): 11
 
@@ -39,7 +39,6 @@ Age is a prompt to re-verify, not evidence that anything changed. Nothing in thi
 | VA | Albemarle County | 2025-10-01 | 362 | conditional_zoning | mixed | https://www.crozetgazette.com/2025/10/03/county-supervisors-consider-data-center-regulations/ |
 | KS | Miami County | 2026-02-18 | 222 | moratorium | pending | https://www.kshb.com/news/local-news/kansas/miami-county/rural-miami-county-kansas-residents-respond-to-1-billion-data-center-proposal |
 | TN | Moore County | 2026-03-01 | 211 | moratorium | pending | https://mcobserver.news/news/metro-council-to-consider-data-center-moratorium/ |
-| MI | Delta County | 2026-03-03 | 209 | moratorium | pending | https://www.uppermichiganssource.com/2026/03/03/delta-county-could-prevent-data-center-development-year/ |
 | MI | Huron County | 2026-04-01 | 180 | moratorium | pending | https://writing.strisker.com/data-centers-daily-notes-april-2-2026/ |
 | OH | Portage County | 2026-04-10 | 171 | moratorium | pending | https://theportager.com/ravenna-city-council-rushes-to-block-potential-data-center-proposal |
 | IN | DeKalb County | 2026-04-14 | 167 | moratorium | pending | https://www.kpcnews.com/thestar/article_a68d5dcb-09aa-46bf-9158-a17661e990e6.html |
@@ -50,26 +49,27 @@ Age is a prompt to re-verify, not evidence that anything changed. Nothing in thi
 | MD | Harford | 2026-05-07 | 144 | ban | pending | https://www.baltimoresun.com/2026/05/07/cassilly-proposes-permanent-data-center-ban/ |
 | FL | Polk County | 2026-02-25 | 215 | conditional_zoning | pending | https://www.fox13news.com/news/residents-fort-meade-protest-proposed-data-center-developers-respond-questions |
 | NY | Dutchess | 2026-05-08 | 143 | moratorium | pending | https://midhudsonnews.com/2026/05/08/rumors-of-proposed-data-center-are-premature/ |
-| NC | Brunswick County | 2026-02-27 | 213 | conditional_zoning | pending | https://portcitydaily.com/latest-news/2026/02/27/leland-braces-for-ai-surge-with-strict-proposed-data-center-rules/ |
 | NJ | Sussex | 2026-05-10 | 141 | moratorium | blocked_unverified | https://newjersey.news12.com/2026/05/10/andover-plans-ban-on-ai-data-centers-after-tense-meeting-and-viral-video/5ouXiKxrUSaKWwCIz4Fflg |
 | KY | Jefferson | 2026-05-11 | 140 | moratorium | pending | https://louisvilleky.gov/news/councilwoman-chappell-reintroduces-temporary-moratorium-data-centers |
 | TX | Somervell County | 2026-05-11 | 140 | moratorium | pending | https://www.keranews.org/energy-environment/2026-05-12/oppose-expand-votes-in-2-north-texas-communities-highlight-a-divide-over-data-center-growth |
 | TX | Bexar County | 2026-03-05 | 207 | conditional_zoning | pending | https://www.swunion.org/blog/data-center-rebellion-convening-2026 |
-| NC | Brunswick County | 2026-05-14 | 137 | moratorium | pending | https://www.wect.com/2026/05/14/data-center-moratorium-proposed-boiling-spring-lakes/ |
 | FL | DeSoto County | 2026-05-19 | 132 | moratorium | mixed | https://thebradentontimes.com/stories/developers-push-massive-data-center-complex-in-desoto-county-amid-backlash,198154 |
+| TX | Kaufman County | 2026-03-17 | 195 | conditional_zoning | pending | https://www.inforney.com/local-news/forney-proposes-new-rules-for-data-centers/article_51ff32ba-83f3-44aa-91c1-73c022a88384.html |
+| FL | Jackson County | 2026-05-26 | 125 | moratorium | blocked_unverified | https://www.wctv.tv/2026/05/26/jackson-county-commissioners-vote-moratorium-ai-data-centers/ |
+| NY | Suffolk County | 2026-05-29 | 122 | moratorium | pending | https://pix11.com/news/local-news/long-island/long-island-town-approves-moratorium-on-data-center-after-public-pushback/ |
 
 ## Stale rows by state (priorities 1 to 3)
 
 | State | Rows |
 |---|---|
-| MI | 41 |
+| MI | 40 |
 | OH | 25 |
 | GA | 20 |
 | PA | 20 |
 | NC | 18 |
 | TN | 18 |
 | IA | 13 |
-| WI | 12 |
+| WI | 11 |
 | VA | 10 |
 | IN | 9 |
 | KS | 9 |
@@ -79,9 +79,9 @@ Age is a prompt to re-verify, not evidence that anything changed. Nothing in thi
 | MN | 7 |
 | CO | 6 |
 | NY | 6 |
-| CA | 5 |
 | IL | 5 |
 | AL | 4 |
+| CA | 4 |
 | FL | 4 |
 | MO | 4 |
 | AZ | 3 |
