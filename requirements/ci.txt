@@ -42,7 +42,7 @@ narwhals==2.26.0
     # via
     #   formulaic
     #   scikit-learn
-numpy==2.5.3
+numpy==2.4.6
     # via
     #   -r ci.in
     #   autograd
@@ -87,7 +87,7 @@ scikit-learn==1.9.1
     # via
     #   -r ci.in
     #   mapie
-scipy==1.18.1
+scipy==1.17.1
     # via
     #   -r ci.in
     #   autograd-gamma
