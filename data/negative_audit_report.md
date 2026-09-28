@@ -8,7 +8,7 @@ Generated 2026-09-28. Frame design registered 2026-07-23 (module docstring): cen
 - Coded: 2 (1%)
 - Remaining: 189
 
-## Coding mix (coded rows)
+## Coding mix (interim descriptives — 1% of random stratum coded; 167 rows remaining)
 
 | coding | n | share of coded |
 |---|---|---|
@@ -17,6 +17,8 @@ Generated 2026-09-28. Frame design registered 2026-07-23 (module docstring): cen
 | undeterminable | 1 | 50% |
 
 Interpretation rules: emergence-rate statements use verified_opposition / (verified_opposition + verified_none) and must always report the undeterminable count alongside, since undeterminable rows are not missing at random (they skew toward low-footprint projects). No emergence model trains until coverage of the frame is complete; partial-coverage rates are interim descriptives only.
+
+Emergence rate withheld: random-stratum coverage at 1% (threshold: 80%). Rate will appear when coding reaches 80% of 169 random-stratum rows.
 
 ## Coding validation problems
 

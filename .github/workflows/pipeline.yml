@@ -182,6 +182,7 @@ jobs:
           python proximity_analysis.py --selftest
           python link_disagreement_audit.py --selftest
           python date_recovery.py --selftest
+          python negative_audit.py --selftest
           python scripts/scrape-trackdatacenters-proposals.py --selftest
           python scripts/check_inline_js.py --selftest
           # A syntax error in a page loader takes a client-visible surface

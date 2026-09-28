@@ -86,6 +86,7 @@ Not wired into CI. Run from repo root:  python3 negative_audit.py
 
 from __future__ import annotations
 
+import argparse
 import csv
 import os
 import random
@@ -103,6 +104,7 @@ CODINGS_CSV = P("data", "negative_audit_codings.csv")
 OUT_REPORT = P("data", "negative_audit_report.md")
 
 RANDOM_STATE = 20260723
+COVERAGE_THRESHOLD = 0.80
 FRAME_SOURCES = {"proposals_unopposed", "ai_centers"}
 VALID_CODINGS = {"verified_opposition", "verified_none", "undeterminable"}
 
@@ -169,6 +171,88 @@ def validate_codings(codings, frame_ids):
     return ok, problems
 
 
+def next_batch(n: int) -> int:
+    if n <= 0:
+        print("--next requires a positive integer N")
+        return 1
+    worklist = load_csv(OUT_WORKLIST)
+    if not worklist:
+        print("ERROR: data/negative_audit_worklist.csv missing — run python3 negative_audit.py first")
+        return 1
+    frame_ids = {r["universe_id"] for r in worklist}
+    random_stratum = [r for r in worklist if r.get("lifecycle_outcome") != "blocked_confirmed"]
+    random_ids = {r["universe_id"] for r in random_stratum}
+    codings_raw = load_csv(CODINGS_CSV)
+    accepted, _ = validate_codings(codings_raw, frame_ids) if codings_raw else ([], [])
+    coded_ids = {c["universe_id"] for c in accepted}
+    uncoded = [r for r in random_stratum if r["universe_id"] not in coded_ids]
+    if not uncoded:
+        n_blocked_uncoded = sum(
+            1 for r in worklist
+            if r.get("lifecycle_outcome") == "blocked_confirmed"
+            and r["universe_id"] not in coded_ids
+        )
+        print(f"Random stratum complete ({len(random_stratum)} rows coded). "
+              f"{n_blocked_uncoded} blocked_confirmed rows remain uncoded.")
+        return 0
+    batch = uncoded[:n]
+    lines = []
+    for r in batch:
+        lines.append(f"[{r['audit_order']}] {r['name']} ({r['state']}, {r['county']}) "
+                     f"[{r['lifecycle_outcome']}]")
+        lines.append(f"Search: {r['search_protocol']}")
+    print("\n\n".join(lines))
+    return 0
+
+
+def selftest() -> int:
+    checks = []
+
+    def check(label, ok):
+        checks.append((label, ok))
+        print(f"{'PASS' if ok else 'FAIL'}  {label}")
+
+    fake_ids = {"prj_test"}
+    base = {"universe_id": "prj_test", "evidence_url": "", "detectability_url": "",
+            "queries_run": "1", "notes": "", "coded_by": "tester", "coded_date": "2026-01-01"}
+
+    row_no_coded_by = dict(base, coded_by="", coding="verified_opposition", evidence_url="https://x.com")
+    ok, _ = validate_codings([row_no_coded_by], fake_ids)
+    check("validate_codings: row without coded_by is rejected", ok == [])
+
+    row_vn_no_url = dict(base, coding="verified_none", detectability_url="")
+    ok, _ = validate_codings([row_vn_no_url], fake_ids)
+    check("validate_codings: verified_none without detectability_url is rejected", ok == [])
+
+    row_valid_vo = dict(base, coding="verified_opposition", evidence_url="https://example.com")
+    ok, _ = validate_codings([row_valid_vo], fake_ids)
+    check("validate_codings: valid verified_opposition row is accepted", len(ok) == 1)
+
+    wl = ([{"universe_id": f"prj_b{i}", "lifecycle_outcome": "blocked_confirmed"} for i in range(3)]
+          + [{"universe_id": f"prj_r{i}", "lifecycle_outcome": "advanced_confirmed"} for i in range(5)])
+    random_stratum = [r for r in wl if r["lifecycle_outcome"] != "blocked_confirmed"]
+    check("next_batch queue: only random-stratum rows returned",
+          len(random_stratum) == 5 and all(r["lifecycle_outcome"] != "blocked_confirmed"
+                                           for r in random_stratum))
+
+    coded_ids = {"prj_r0", "prj_r1"}
+    uncoded = [r for r in random_stratum if r["universe_id"] not in coded_ids]
+    check("next_batch queue: coded rows excluded", len(uncoded) == 3)
+
+    check("coverage gate: 79% is below threshold", 79 / 100 < COVERAGE_THRESHOLD)
+    check("coverage gate: 80% meets threshold", 80 / 100 >= COVERAGE_THRESHOLD)
+    check("coverage gate: 100% meets threshold", 100 / 100 >= COVERAGE_THRESHOLD)
+    check("COVERAGE_THRESHOLD is 0.80", COVERAGE_THRESHOLD == 0.80)
+
+    sample = "[23] Sample Project (VA, fairfax) [advanced_confirmed]\nSearch: foo bar baz"
+    leak_rx = re.compile(r"\b(win|wins|loss|losses|lost)\b", re.I)
+    check("--next output passes leak-audit regex", leak_rx.search(sample) is None)
+
+    n_ok = sum(1 for _, ok in checks if ok)
+    print(f"\n{n_ok}/{len(checks)} checks passed")
+    return 0 if n_ok == len(checks) else 1
+
+
 def main() -> int:
     if not os.path.exists(UNIVERSE_CSV):
         print("ERROR: data/baseline_universe.csv missing — run the control chain first")
@@ -197,6 +281,13 @@ def main() -> int:
         ok, problems = validate_codings(codings_raw, frame_ids)
     codings = {c["universe_id"]: c for c in ok}  # most recent row per id takes precedence
 
+    random_stratum_ids = {r["universe_id"] for r in frame
+                          if r.get("lifecycle_outcome") != "blocked_confirmed"}
+    n_random_total = len(random_stratum_ids)
+    n_random_coded = sum(1 for uid in codings if uid in random_stratum_ids)
+    random_coverage = n_random_coded / n_random_total if n_random_total > 0 else 0.0
+    below_threshold = random_coverage < COVERAGE_THRESHOLD
+
     mix = Counter(c["coding"] for c in codings.values())
     n_frame, n_coded = len(frame), len(codings)
 
@@ -222,7 +313,13 @@ def main() -> int:
     w(f"- Remaining: {n_frame - n_coded}")
     w("")
     if mix:
-        w("## Coding mix (coded rows)")
+        pct = int(random_coverage * 100)
+        n_remaining = n_random_total - n_random_coded
+        if below_threshold:
+            w(f"## Coding mix (interim descriptives — {pct}% of random stratum coded; "
+              f"{n_remaining} rows remaining)")
+        else:
+            w("## Coding mix (coded rows)")
         w("")
         w("| coding | n | share of coded |")
         w("|---|---|---|")
@@ -238,6 +335,23 @@ def main() -> int:
           "of the frame is complete; partial-coverage rates are interim "
           "descriptives only.")
         w("")
+        if below_threshold:
+            w(f"Emergence rate withheld: random-stratum coverage at {pct}% "
+              f"(threshold: {int(COVERAGE_THRESHOLD * 100)}%). "
+              f"Rate will appear when coding reaches "
+              f"{int(COVERAGE_THRESHOLD * 100)}% of {n_random_total} "
+              f"random-stratum rows.")
+            w("")
+        else:
+            vo = mix.get("verified_opposition", 0)
+            vn = mix.get("verified_none", 0)
+            und = mix.get("undeterminable", 0)
+            denom = vo + vn
+            rate = vo / denom if denom > 0 else 0.0
+            w(f"Emergence rate: {vo} / ({vo} + {vn}) = {rate:.1%} "
+              f"({und} undeterminable rows excluded from denominator, "
+              f"not missing at random).")
+            w("")
     if problems:
         w("## Coding validation problems")
         w("")
@@ -265,4 +379,18 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Verified-negative audit: worklist generation, report, and coding queue")
+    parser.add_argument("--next", type=int, metavar="N",
+                        help="Print the next N uncoded random-stratum rows")
+    parser.add_argument("--selftest", action="store_true",
+                        help="Run self-tests (no network, no file I/O)")
+    args = parser.parse_args()
+    if args.selftest:
+        raise SystemExit(selftest())
+    if args.next is not None:
+        if args.next <= 0:
+            print("--next requires a positive integer N")
+            raise SystemExit(1)
+        raise SystemExit(next_batch(args.next))
     sys.exit(main())
