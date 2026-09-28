@@ -1,0 +1,2144 @@
+{
+  "_comment": "Tool integration registry. Source of truth for which external tools the platform adopts. integration_audit.py validates this file. Hand-edited; no process writes it.",
+  "version": "2026-09-28",
+  "license_policy": {
+    "allowed": [
+      "MIT",
+      "BSD-2-Clause",
+      "BSD-3-Clause",
+      "Apache-2.0",
+      "ISC",
+      "MPL-2.0",
+      "LGPL-2.1",
+      "public-domain",
+      "CC-BY-4.0",
+      "CC0-1.0",
+      "Unlicense",
+      "free-api-tos",
+      "free-api-key",
+      "free-github-service",
+      "open reference",
+      "n/a",
+      "MIT (tiles: ODbL OSM data)",
+      "GPL-2.0-cli",
+      "CC0-or-verify",
+      "free-tier-service"
+    ],
+    "blocked": [
+      "GPL-2.0",
+      "GPL-3.0",
+      "AGPL-3.0",
+      "SSPL",
+      "BUSL",
+      "non-commercial"
+    ],
+    "import_rule": "The repo carries no LICENSE file, so it is all-rights-reserved and client products may ship privately. GPL and AGPL code may not be imported by repo code. GPL or AGPL programs may run as separate command-line tools (subprocess), since that does not combine them with repo code."
+  },
+  "sessions": {
+    "0": "agent setup, no repo change",
+    "1": "004 CI hygiene and gates",
+    "2": "005 data quality schemas",
+    "3": "006 source durability and dedupe",
+    "4": "007 coverage expansion",
+    "5": "008 model robustness",
+    "6": "009 map geometry and frontend",
+    "7": "010 deliverable generation",
+    "8": "011 client product foundation"
+  },
+  "tools": [
+    {
+      "id": "uv",
+      "name": "uv",
+      "kind": "cli",
+      "version": ">=0.8",
+      "license": "Apache-2.0",
+      "status": "selected",
+      "tier": 1,
+      "spec": "004",
+      "session": 1,
+      "runs_in": "ci",
+      "target": [
+        ".github/workflows/*.yml"
+      ],
+      "reason": "Faster, cached installs in all 19 workflows; one pinned requirements lock per job family.",
+      "risk_notes": "",
+      "source_url": "https://github.com/astral-sh/uv",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "ruff",
+      "name": "ruff",
+      "kind": "cli",
+      "version": ">=0.13",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "004",
+      "session": 1,
+      "runs_in": "ci",
+      "target": [
+        "*.py",
+        "qc/*.py",
+        "scripts/*.py"
+      ],
+      "reason": "Blocking only on syntax and undefined-name rules (E9,F63,F7,F82); style rules report-only.",
+      "risk_notes": "",
+      "source_url": "https://github.com/astral-sh/ruff",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "actionlint",
+      "name": "actionlint",
+      "kind": "cli",
+      "version": ">=1.7",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "004",
+      "session": 1,
+      "runs_in": "ci",
+      "target": [
+        ".github/workflows/*.yml"
+      ],
+      "reason": "Catches expression, trigger and shell errors across 19 workflows before push.",
+      "risk_notes": "",
+      "source_url": "https://github.com/rhysd/actionlint",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "zizmor",
+      "name": "zizmor",
+      "kind": "cli",
+      "version": ">=1.0",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "004",
+      "session": 1,
+      "runs_in": "ci",
+      "target": [
+        ".github/workflows/*.yml"
+      ],
+      "reason": "Workflow security audit: token scope (IOWA_DISPATCH_TOKEN, NASS_API_KEY), template injection, unpinned actions.",
+      "risk_notes": "",
+      "source_url": "https://github.com/zizmorcore/zizmor",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "pre-commit",
+      "name": "pre-commit",
+      "kind": "python",
+      "version": ">=4.0",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "004",
+      "session": 1,
+      "runs_in": "local",
+      "target": [
+        ".pre-commit-config.yaml"
+      ],
+      "reason": "Runs the constitution gates (LF, em-dash, leak audit blocking, node --check) on Price's machine before each commit.",
+      "risk_notes": "",
+      "source_url": "https://github.com/pre-commit/pre-commit",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "pytest",
+      "name": "pytest",
+      "kind": "python",
+      "version": ">=8.4",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "004",
+      "session": 1,
+      "runs_in": "ci",
+      "target": [
+        "tests/test_selftests.py"
+      ],
+      "reason": "One parameterized runner over every module --selftest; reports selftest coverage (19 of 53 modules) as a number.",
+      "risk_notes": "",
+      "source_url": "https://github.com/pytest-dev/pytest",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "vale",
+      "name": "Vale",
+      "kind": "cli",
+      "version": ">=3.12",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "004",
+      "session": 1,
+      "runs_in": "ci",
+      "target": [
+        ".vale.ini",
+        "styles/Hawthorn/*.yml"
+      ],
+      "reason": "Prose linter with Hawthorn rules: no em-dashes, scorekeeping blocklist, causal phrasing, undefined statistical terms.",
+      "risk_notes": "Complements leak_audit.py; leak_audit stays the blocking vocabulary gate.",
+      "source_url": "https://github.com/vale-cli/vale",
+      "products": [
+        "static_report",
+        "active_db"
+      ]
+    },
+    {
+      "id": "daff",
+      "name": "daff",
+      "kind": "python",
+      "version": ">=1.4",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "004",
+      "session": 1,
+      "runs_in": "ci",
+      "target": [
+        "data/master_diff_summary.md"
+      ],
+      "reason": "Row and cell diff of master_opposition.csv per pipeline run, so outcome changes are reviewable.",
+      "risk_notes": "",
+      "source_url": "https://github.com/paulfitz/daff",
+      "products": [
+        "platform",
+        "active_db"
+      ]
+    },
+    {
+      "id": "dependabot",
+      "name": "Dependabot",
+      "kind": "service",
+      "version": "n/a",
+      "license": "free-github-service",
+      "status": "selected",
+      "tier": 1,
+      "spec": "004",
+      "session": 1,
+      "runs_in": "ci",
+      "target": [
+        ".github/dependabot.yml"
+      ],
+      "reason": "Version updates for pinned Actions and Python deps; replaces pip-audit and gitleaks (GitHub secret scanning already covers public repos).",
+      "risk_notes": "",
+      "source_url": "https://docs.github.com/en/code-security/dependabot",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "pandera",
+      "name": "Pandera",
+      "kind": "python",
+      "version": ">=0.33,<0.34",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "005",
+      "session": 2,
+      "runs_in": "ci",
+      "target": [
+        "qc/schemas.py",
+        "qc/qc_pipeline.py"
+      ],
+      "reason": "Declarative schemas for master_opposition_clean.csv and county_policy_scores.csv: outcome enums, normalized State, 5-digit FIPS, lat/lon bounds, boolean coercion.",
+      "risk_notes": "Report-only for one week, then blocking.",
+      "source_url": "https://github.com/unionai-oss/pandera",
+      "products": [
+        "platform",
+        "active_db"
+      ]
+    },
+    {
+      "id": "inhouse-state-normalizer",
+      "name": "normalize_state (in-house)",
+      "kind": "in_house",
+      "version": "n/a",
+      "license": "n/a",
+      "status": "selected",
+      "tier": 1,
+      "spec": "005",
+      "session": 2,
+      "runs_in": "ci",
+      "target": [
+        "schema_adapter.py"
+      ],
+      "reason": "51-entry map plus variants; chosen over the us package to avoid a dependency for a static table.",
+      "risk_notes": "",
+      "source_url": "n/a",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "inhouse-coverage-delta",
+      "name": "column coverage delta gate (in-house)",
+      "kind": "in_house",
+      "version": "n/a",
+      "license": "n/a",
+      "status": "selected",
+      "tier": 1,
+      "spec": "005",
+      "session": 2,
+      "runs_in": "ci",
+      "target": [
+        "qc/coverage_delta.py"
+      ],
+      "reason": "Fails when a column's non-null count drops more than a set share versus the last snapshot; would have caught capacity_mw 123 to 3. Chosen over PyOD.",
+      "risk_notes": "",
+      "source_url": "n/a",
+      "products": [
+        "platform",
+        "active_db"
+      ]
+    },
+    {
+      "id": "inhouse-label-disagreement",
+      "name": "out-of-fold label disagreement audit (in-house)",
+      "kind": "in_house",
+      "version": "n/a",
+      "license": "n/a",
+      "status": "selected",
+      "tier": 1,
+      "spec": "005",
+      "session": 2,
+      "runs_in": "ci",
+      "target": [
+        "label_disagreement_audit.py"
+      ],
+      "reason": "Flags county labels whose cross-fit probability strongly contradicts the label (confident-learning style). Chosen over cleanlab (AGPL).",
+      "risk_notes": "",
+      "source_url": "n/a",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "wayback",
+      "name": "Internet Archive Save Page Now 2 and CDX APIs",
+      "kind": "api",
+      "version": "n/a",
+      "license": "free-api-tos",
+      "status": "selected",
+      "tier": 1,
+      "spec": "006",
+      "session": 3,
+      "runs_in": "ci",
+      "target": [
+        "source_archive.py",
+        "data/source_archive.csv"
+      ],
+      "reason": "Archives every Source URL; worklists and deliverables cite a durable snapshot when the original rots.",
+      "risk_notes": "Rate limited; nightly capped batch; free archive.org keys raise limits.",
+      "source_url": "https://archive.org/help/wayback_api.php",
+      "products": [
+        "platform",
+        "static_report",
+        "active_db"
+      ]
+    },
+    {
+      "id": "trafilatura",
+      "name": "trafilatura",
+      "kind": "python",
+      "version": ">=2.2,<3",
+      "license": "Apache-2.0",
+      "status": "selected",
+      "tier": 1,
+      "spec": "006",
+      "session": 3,
+      "runs_in": "ci",
+      "target": [
+        "signal_harvest.py",
+        "untagged_triage.py"
+      ],
+      "reason": "Main text and publication date from candidate articles; date hints feed date_recovery worklists, never auto-applied.",
+      "risk_notes": "",
+      "source_url": "https://github.com/adbar/trafilatura",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "datasketch",
+      "name": "datasketch",
+      "kind": "python",
+      "version": ">=2.0,<3",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "006",
+      "session": 3,
+      "runs_in": "ci",
+      "target": [
+        "signal_harvest.py"
+      ],
+      "reason": "MinHash LSH near-duplicate clustering so syndicated coverage of one hearing is one candidate event.",
+      "risk_notes": "",
+      "source_url": "https://github.com/ekzhu/datasketch",
+      "products": [
+        "platform",
+        "active_db"
+      ]
+    },
+    {
+      "id": "civic-scraper",
+      "name": "civic-scraper",
+      "kind": "python",
+      "version": ">=1.1,<2",
+      "license": "Apache-2.0",
+      "status": "selected",
+      "tier": 1,
+      "spec": "007",
+      "session": 4,
+      "runs_in": "ci",
+      "target": [
+        "local_meeting_feed.py"
+      ],
+      "reason": "Maintained CivicPlus, Legistar, Granicus and PrimeGov adapters to raise jurisdiction resolution above the current handful of 808.",
+      "risk_notes": "",
+      "source_url": "https://github.com/biglocalnews/civic-scraper",
+      "products": [
+        "platform",
+        "active_db"
+      ]
+    },
+    {
+      "id": "ocrmypdf",
+      "name": "OCRmyPDF",
+      "kind": "python",
+      "version": ">=17",
+      "license": "MPL-2.0",
+      "status": "selected",
+      "tier": 1,
+      "spec": "007",
+      "session": 4,
+      "runs_in": "ci",
+      "target": [
+        "local_meeting_feed.py"
+      ],
+      "reason": "OCR layer for scanned agenda and minutes PDFs before the existing pdfplumber keyword pass. Chosen over Docling (model weight in CI).",
+      "risk_notes": "Needs apt tesseract-ocr and ghostscript in the job.",
+      "source_url": "https://github.com/ocrmypdf/OCRmyPDF",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "congress-gov-api",
+      "name": "Congress.gov API v3",
+      "kind": "api",
+      "version": "v3",
+      "license": "free-api-key",
+      "status": "selected",
+      "tier": 1,
+      "spec": "007",
+      "session": 4,
+      "runs_in": "ci",
+      "target": [
+        "bill_sync.py"
+      ],
+      "reason": "Covers the 43 federal legislative records bill_sync skips; federal stays outside the state ladder.",
+      "risk_notes": "Needs CONGRESS_API_KEY secret.",
+      "source_url": "https://api.congress.gov/",
+      "products": [
+        "platform",
+        "active_db"
+      ]
+    },
+    {
+      "id": "epoch-dc",
+      "name": "Epoch AI Frontier Data Centers",
+      "kind": "dataset",
+      "version": "snapshot-dated",
+      "license": "CC-BY-4.0",
+      "status": "selected",
+      "tier": 1,
+      "spec": "007",
+      "session": 4,
+      "runs_in": "ci",
+      "target": [
+        "data/baseline_dated_external.csv (via permit_ingest.py config)"
+      ],
+      "reason": "Project-level campuses with dates and power; baseline and announced-date cross-check.",
+      "risk_notes": "Frontier-only sample, biased to very large campuses; attribution required.",
+      "source_url": "https://epoch.ai/data/data-centers-documentation",
+      "products": [
+        "platform",
+        "static_report"
+      ]
+    },
+    {
+      "id": "langextract",
+      "name": "LangExtract",
+      "kind": "python",
+      "version": ">=1.7,<2",
+      "license": "Apache-2.0",
+      "status": "selected",
+      "tier": 1,
+      "spec": "007",
+      "session": 4,
+      "runs_in": "local",
+      "target": [
+        "scripts/agenda_extract.py"
+      ],
+      "reason": "Source-grounded extraction (character offsets) from agenda text into candidate rows; runs locally on Ollama, never in CI, output is a worklist.",
+      "risk_notes": "Model output is a draft; every field must carry its offset or it is dropped.",
+      "source_url": "https://github.com/google/langextract",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "firthmodels",
+      "name": "firthmodels",
+      "kind": "python",
+      "version": ">=0.8,<1",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "008",
+      "session": 5,
+      "runs_in": "ci",
+      "target": [
+        "outcome_model.py",
+        "landmark_model.py"
+      ],
+      "reason": "Firth-penalized logistic as a candidate estimator for the rare blocked class (26 blocked, separation risk). firthlogist rejected: no Python 3.11 support, unmaintained since 2022.",
+      "risk_notes": "",
+      "source_url": "https://github.com/jzluo/firthmodels",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "netcal",
+      "name": "netcal",
+      "kind": "python",
+      "version": ">=1.4,<2",
+      "license": "Apache-2.0",
+      "status": "selected",
+      "tier": 1,
+      "spec": "008",
+      "session": 5,
+      "runs_in": "ci",
+      "target": [
+        "calibration_gate.py"
+      ],
+      "reason": "ECE/MCE and reliability-diagram bins added to the gate report; gate criteria unchanged until reviewed. relplot rejected: unclear license string.",
+      "risk_notes": "",
+      "source_url": "https://github.com/EFS-OpenSource/calibration-framework",
+      "products": [
+        "platform",
+        "static_report"
+      ]
+    },
+    {
+      "id": "pysal-esda",
+      "name": "esda + libpysal",
+      "kind": "python",
+      "version": ">=2.6",
+      "license": "BSD-3-Clause",
+      "status": "selected",
+      "tier": 1,
+      "spec": "008",
+      "session": 5,
+      "runs_in": "ci",
+      "target": [
+        "county_policy_model.py (diagnostics only)"
+      ],
+      "reason": "Moran's I on county residuals and a state-grouped CV check that the AUC is not carried by same-state diffusion.",
+      "risk_notes": "Current releases need Python 3.12; plan decides between a 3.12 job and an older pin.",
+      "source_url": "https://github.com/pysal/esda",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "interpret",
+      "name": "InterpretML (EBM)",
+      "kind": "python",
+      "version": ">=0.7,<0.8",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "008",
+      "session": 5,
+      "runs_in": "ci",
+      "target": [
+        "feature_search.py"
+      ],
+      "reason": "Glassbox challenger with exact per-variable shape functions for client-readable charts; promotes only through calibration_gate.py.",
+      "risk_notes": "",
+      "source_url": "https://github.com/interpretml/interpret",
+      "products": [
+        "platform",
+        "static_report"
+      ]
+    },
+    {
+      "id": "skops",
+      "name": "skops",
+      "kind": "python",
+      "version": ">=0.16,<1",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "008",
+      "session": 5,
+      "runs_in": "ci",
+      "target": [
+        "calibration_gate.py"
+      ],
+      "reason": "Model card per promoted model (data window, spec, metrics, gate result); safe persistence format.",
+      "risk_notes": "",
+      "source_url": "https://github.com/skops-dev/skops",
+      "products": [
+        "platform",
+        "static_report"
+      ]
+    },
+    {
+      "id": "census-cb-counties",
+      "name": "Census cartographic boundary counties 2024 (1:5m)",
+      "kind": "dataset",
+      "version": "2024",
+      "license": "public-domain",
+      "status": "selected",
+      "tier": 1,
+      "spec": "009",
+      "session": 6,
+      "runs_in": "ci",
+      "target": [
+        "acquire-geo-sources.yml",
+        "data/geo/counties_2024.topojson"
+      ],
+      "reason": "Current county geometry. The plotly geojson now used lacks 13 scored counties (9 Connecticut planning regions, 3 Alaska, Oglala Lakota SD).",
+      "risk_notes": "",
+      "source_url": "https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html",
+      "products": [
+        "platform",
+        "static_report",
+        "active_db"
+      ]
+    },
+    {
+      "id": "mapshaper",
+      "name": "mapshaper",
+      "kind": "npm",
+      "version": ">=0.7",
+      "license": "MPL-2.0",
+      "status": "selected",
+      "tier": 1,
+      "spec": "009",
+      "session": 6,
+      "runs_in": "ci",
+      "target": [
+        "acquire-geo-sources.yml"
+      ],
+      "reason": "Build-time simplify and convert to TopoJSON; commits a small file into the repo instead of a 3.2 MB third-party fetch.",
+      "risk_notes": "",
+      "source_url": "https://github.com/mbloch/mapshaper",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "topojson-client",
+      "name": "topojson-client",
+      "kind": "npm",
+      "version": "3.1.0",
+      "license": "ISC",
+      "status": "selected",
+      "tier": 1,
+      "spec": "009",
+      "session": 6,
+      "runs_in": "browser",
+      "target": [
+        "opposition-map.html",
+        "restriction-model.html",
+        "county-profile.html"
+      ],
+      "reason": "Decodes the committed TopoJSON in the browser (stable, tiny).",
+      "risk_notes": "",
+      "source_url": "https://github.com/topojson/topojson-client",
+      "products": [
+        "platform",
+        "active_db"
+      ]
+    },
+    {
+      "id": "maplibre-gl",
+      "name": "MapLibre GL JS",
+      "kind": "npm",
+      "version": ">=6.11,<7",
+      "license": "BSD-3-Clause",
+      "status": "selected",
+      "tier": 1,
+      "spec": "009",
+      "session": 6,
+      "runs_in": "browser",
+      "target": [
+        "basemap.js"
+      ],
+      "reason": "Vector basemap renderer under the existing Leaflet layers.",
+      "risk_notes": "",
+      "source_url": "https://github.com/maplibre/maplibre-gl-js",
+      "products": [
+        "platform",
+        "active_db"
+      ]
+    },
+    {
+      "id": "maplibre-gl-leaflet",
+      "name": "maplibre-gl-leaflet",
+      "kind": "npm",
+      "version": ">=0.1.4",
+      "license": "ISC",
+      "status": "selected",
+      "tier": 1,
+      "spec": "009",
+      "session": 6,
+      "runs_in": "browser",
+      "target": [
+        "basemap.js"
+      ],
+      "reason": "Binding that keeps every Leaflet page and plugin as is.",
+      "risk_notes": "",
+      "source_url": "https://github.com/maplibre/maplibre-gl-leaflet",
+      "products": [
+        "platform",
+        "active_db"
+      ]
+    },
+    {
+      "id": "openfreemap",
+      "name": "OpenFreeMap",
+      "kind": "service",
+      "version": "n/a",
+      "license": "MIT (tiles: ODbL OSM data)",
+      "status": "selected",
+      "tier": 1,
+      "spec": "009",
+      "session": 6,
+      "runs_in": "browser",
+      "target": [
+        "basemap.js"
+      ],
+      "reason": "Free vector tiles, no key, no usage cap. Replaces Esri World Gray Canvas and OSM raster tiles, whose terms are a risk for client-facing commercial use.",
+      "risk_notes": "Keep current basemap as fallback in the chain.",
+      "source_url": "https://openfreemap.org/",
+      "products": [
+        "platform",
+        "static_report",
+        "active_db"
+      ]
+    },
+    {
+      "id": "tabulator",
+      "name": "Tabulator",
+      "kind": "npm",
+      "version": ">=6.5,<7",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "009",
+      "session": 6,
+      "runs_in": "browser",
+      "target": [
+        "developments-dashboard.html",
+        "positions-dashboard.html",
+        "data-operations.html"
+      ],
+      "reason": "Sortable, filterable, CSV-exportable tables.",
+      "risk_notes": "",
+      "source_url": "https://github.com/olifolkerts/tabulator",
+      "products": [
+        "platform",
+        "active_db"
+      ]
+    },
+    {
+      "id": "playwright",
+      "name": "Playwright",
+      "kind": "npm",
+      "version": ">=1.63",
+      "license": "Apache-2.0",
+      "status": "selected",
+      "tier": 1,
+      "spec": "009",
+      "session": 6,
+      "runs_in": "ci",
+      "target": [
+        ".github/workflows/ui-check.yml",
+        "tests/ui/*.spec.js"
+      ],
+      "reason": "Smoke tests on every HTML/JS push: no error banner, markers present, county polygons at least 3,144. Closes the CI-inert UI gap.",
+      "risk_notes": "",
+      "source_url": "https://github.com/microsoft/playwright",
+      "products": [
+        "platform",
+        "active_db"
+      ]
+    },
+    {
+      "id": "axe-core",
+      "name": "@axe-core/playwright",
+      "kind": "npm",
+      "version": ">=4.13",
+      "license": "MPL-2.0",
+      "status": "selected",
+      "tier": 1,
+      "spec": "009",
+      "session": 6,
+      "runs_in": "ci",
+      "target": [
+        "tests/ui/*.spec.js"
+      ],
+      "reason": "Accessibility check inside the same smoke tests; Lighthouse CI rejected as redundant.",
+      "risk_notes": "",
+      "source_url": "https://github.com/dequelabs/axe-core-npm",
+      "products": [
+        "platform",
+        "active_db"
+      ]
+    },
+    {
+      "id": "inhouse-time-slider",
+      "name": "date range slider (in-house)",
+      "kind": "in_house",
+      "version": "n/a",
+      "license": "n/a",
+      "status": "selected",
+      "tier": 1,
+      "spec": "009",
+      "session": 6,
+      "runs_in": "browser",
+      "target": [
+        "opposition-map.html",
+        "legend-filter.js"
+      ],
+      "reason": "Filter pins by date with a range input. Chosen over Leaflet.TimeDimension (last release 2019).",
+      "risk_notes": "",
+      "source_url": "n/a",
+      "products": [
+        "platform",
+        "active_db"
+      ]
+    },
+    {
+      "id": "inhouse-sidebar",
+      "name": "detail side panel (in-house)",
+      "kind": "in_house",
+      "version": "n/a",
+      "license": "n/a",
+      "status": "selected",
+      "tier": 1,
+      "spec": "009",
+      "session": 6,
+      "runs_in": "browser",
+      "target": [
+        "opposition-map.html"
+      ],
+      "reason": "County and project detail panel. Chosen over leaflet-sidebar-v2 (last release 2020).",
+      "risk_notes": "",
+      "source_url": "n/a",
+      "products": [
+        "platform",
+        "active_db"
+      ]
+    },
+    {
+      "id": "docxtpl",
+      "name": "docxtpl",
+      "kind": "python",
+      "version": ">=0.20,<0.21",
+      "license": "LGPL-2.1",
+      "status": "selected",
+      "tier": 1,
+      "spec": "010",
+      "session": 7,
+      "runs_in": "local",
+      "target": [
+        "scripts/render_location_report.py",
+        "templates/location_report.docx"
+      ],
+      "reason": "Fills the Vantage location report template from county data; used unmodified as a library.",
+      "risk_notes": "Output still passes validate.py --original.",
+      "source_url": "https://github.com/elapouya/python-docx-template",
+      "products": [
+        "static_report"
+      ]
+    },
+    {
+      "id": "weasyprint",
+      "name": "WeasyPrint",
+      "kind": "python",
+      "version": ">=70,<71",
+      "license": "BSD-3-Clause",
+      "status": "selected",
+      "tier": 1,
+      "spec": "010",
+      "session": 7,
+      "runs_in": "ci",
+      "target": [
+        "scripts/render_county_pdf.py"
+      ],
+      "reason": "County profile PDFs from county-profile.html content.",
+      "risk_notes": "Needs apt pango libraries in the job.",
+      "source_url": "https://github.com/Kozea/WeasyPrint",
+      "products": [
+        "static_report"
+      ]
+    },
+    {
+      "id": "great-tables",
+      "name": "Great Tables",
+      "kind": "python",
+      "version": ">=1.0,<2",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "010",
+      "session": 7,
+      "runs_in": "local",
+      "target": [
+        "scripts/render_county_pdf.py",
+        "scripts/render_location_report.py"
+      ],
+      "reason": "Publication-grade tables for PDFs and HTML briefs.",
+      "risk_notes": "",
+      "source_url": "https://github.com/posit-dev/great-tables",
+      "products": [
+        "static_report"
+      ]
+    },
+    {
+      "id": "urban-style",
+      "name": "Urban Institute Data Visualization Style Guide",
+      "kind": "reference",
+      "version": "n/a",
+      "license": "open reference",
+      "status": "selected",
+      "tier": 1,
+      "spec": "010",
+      "session": 7,
+      "runs_in": "reference",
+      "target": [
+        "viz-palette.js (review only)"
+      ],
+      "reason": "Chart standard for policy audiences; reference only, viz-palette.js stays canonical.",
+      "risk_notes": "",
+      "source_url": "https://urbaninstitute.github.io/graphics-styleguide/",
+      "products": [
+        "static_report",
+        "active_db"
+      ]
+    },
+    {
+      "id": "github-mcp",
+      "name": "GitHub MCP server",
+      "kind": "mcp",
+      "version": "latest",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "agent",
+      "session": 0,
+      "runs_in": "agent",
+      "target": [
+        "session setup"
+      ],
+      "reason": "Read Actions run logs and manifests directly instead of pulling tarballs to debug CI.",
+      "risk_notes": "",
+      "source_url": "https://github.com/github/github-mcp-server",
+      "products": [
+        "internal"
+      ]
+    },
+    {
+      "id": "census-mcp",
+      "name": "U.S. Census Bureau Data API MCP",
+      "kind": "mcp",
+      "version": "latest",
+      "license": "public-domain",
+      "status": "selected",
+      "tier": 1,
+      "spec": "agent",
+      "session": 0,
+      "runs_in": "agent",
+      "target": [
+        "session setup"
+      ],
+      "reason": "Official ACS queries in session; the sandbox cannot reach api.census.gov directly.",
+      "risk_notes": "",
+      "source_url": "https://github.com/uscensusbureau/us-census-bureau-data-api-mcp",
+      "products": [
+        "internal"
+      ]
+    },
+    {
+      "id": "ast-grep",
+      "name": "ast-grep",
+      "kind": "cli",
+      "version": ">=0.39",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "agent",
+      "session": 0,
+      "runs_in": "agent",
+      "target": [
+        "session setup"
+      ],
+      "reason": "Structural search and edit across ~100 modules; smaller diffs and fewer tokens than whole-file reads.",
+      "risk_notes": "",
+      "source_url": "https://github.com/ast-grep/ast-grep",
+      "products": [
+        "internal"
+      ]
+    },
+    {
+      "id": "duckdb-cli",
+      "name": "DuckDB CLI",
+      "kind": "cli",
+      "version": ">=1.4",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "agent",
+      "session": 0,
+      "runs_in": "agent",
+      "target": [
+        "session setup"
+      ],
+      "reason": "SQL re-derivation of deliverable statistics against the live CSV (Principle VI) without loading rows into context. Not a pipeline dependency.",
+      "risk_notes": "",
+      "source_url": "https://github.com/duckdb/duckdb",
+      "products": [
+        "internal",
+        "static_report"
+      ]
+    },
+    {
+      "id": "bambi",
+      "name": "Bambi / PyMC",
+      "kind": "python",
+      "license": "MIT / Apache-2.0",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A client question needs state-level partial pooling, or Python 3.12 is adopted pipeline-wide.",
+      "reason": "Hierarchical logistic; heavy install, slow in CI.",
+      "source_url": "https://github.com/bambinos/bambi"
+    },
+    {
+      "id": "crepes",
+      "name": "crepes",
+      "kind": "python",
+      "license": "BSD-3-Clause",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "Class-conditional interval coverage is requested for the enacted class.",
+      "reason": "Mondrian conformal as a follow-up to the documented LAC zero-coverage finding.",
+      "source_url": "https://github.com/henrikbostrom/crepes"
+    },
+    {
+      "id": "setfit",
+      "name": "SetFit",
+      "kind": "python",
+      "license": "Apache-2.0",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "GDELT candidate volume exceeds what reviewers can triage weekly.",
+      "reason": "Few-shot relevance classifier; brings torch into CI.",
+      "source_url": "https://github.com/huggingface/setfit"
+    },
+    {
+      "id": "media-cloud",
+      "name": "Media Cloud",
+      "kind": "api",
+      "license": "free account",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A GDELT recall audit is scheduled.",
+      "reason": "Second news index for recall cross-checks.",
+      "source_url": "https://www.mediacloud.org/"
+    },
+    {
+      "id": "whisper-pilot",
+      "name": "faster-whisper + yt-dlp",
+      "kind": "python",
+      "license": "MIT / Unlicense",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A named county posts meetings only as video and matters to a client.",
+      "reason": "Transcription is compute-heavy; pilot per county, run locally.",
+      "source_url": "https://github.com/SYSTRAN/faster-whisper"
+    },
+    {
+      "id": "osm-power",
+      "name": "OSM power features via Overpass",
+      "kind": "api",
+      "license": "ODbL",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "The feature search needs a grid-proximity plugin.",
+      "reason": "Distance to 230 kV+ substations as a county or site variable; replaces discontinued HIFLD Open.",
+      "source_url": "https://wiki.openstreetmap.org/wiki/Power"
+    },
+    {
+      "id": "aqueduct",
+      "name": "WRI Aqueduct 4.0",
+      "kind": "dataset",
+      "license": "CC-BY-4.0",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "The drought source keeps failing in fetch-features.yml.",
+      "reason": "Water stress fallback; needs zonal stats from catchments to counties.",
+      "source_url": "https://github.com/wri/Aqueduct40"
+    },
+    {
+      "id": "edgartools",
+      "name": "edgartools",
+      "kind": "python",
+      "license": "MIT",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "Announced-date recovery needs company filings.",
+      "reason": "Company-level, not project-level; useful only for date hints.",
+      "source_url": "https://github.com/dgunning/edgartools"
+    },
+    {
+      "id": "turf",
+      "name": "Turf.js",
+      "kind": "npm",
+      "license": "MIT",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "Site reports need radius queries on the map.",
+      "reason": "Client-side within-distance queries.",
+      "source_url": "https://github.com/Turfjs/turf"
+    },
+    {
+      "id": "duckdb-wasm",
+      "name": "DuckDB-WASM",
+      "kind": "npm",
+      "license": "MIT",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "Browser tables outgrow Tabulator's in-memory filtering.",
+      "reason": "In-browser SQL over Parquet.",
+      "source_url": "https://github.com/duckdb/duckdb-wasm"
+    },
+    {
+      "id": "usaddress",
+      "name": "usaddress",
+      "kind": "python",
+      "license": "MIT",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "Geocode misses traced to unparsed Address strings.",
+      "reason": "Address parsing before the Census Geocoder ladder.",
+      "source_url": "https://github.com/datamade/usaddress"
+    },
+    {
+      "id": "juriscraper",
+      "name": "Juriscraper",
+      "kind": "python",
+      "license": "BSD-2-Clause",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "dispute_watch.py needs state trial courts that CourtListener search lacks.",
+      "reason": "State court scrapers.",
+      "source_url": "https://github.com/freelawproject/juriscraper"
+    },
+    {
+      "id": "ruptures",
+      "name": "ruptures",
+      "kind": "python",
+      "license": "BSD-2-Clause",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "The newsletter adds a surge or outlook section.",
+      "reason": "Changepoints in state event rates; descriptive only.",
+      "source_url": "https://github.com/deepcharles/ruptures"
+    },
+    {
+      "id": "data-commons-mcp",
+      "name": "Data Commons MCP",
+      "kind": "mcp",
+      "license": "Apache-2.0",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "Scouting new county plugin variables.",
+      "reason": "Agent-side statistics lookup.",
+      "source_url": "https://pypi.org/project/datacommons-mcp/"
+    },
+    {
+      "id": "polars",
+      "name": "Polars",
+      "status": "eliminated",
+      "category": "redundant-existing",
+      "reason": "Data is 3.5 MB; pandas plus stdlib already fast enough."
+    },
+    {
+      "id": "ibis",
+      "name": "Ibis",
+      "status": "eliminated",
+      "category": "redundant-existing",
+      "reason": "No multi-backend need."
+    },
+    {
+      "id": "sqlmesh",
+      "name": "SQLMesh",
+      "status": "eliminated",
+      "category": "principle-conflict",
+      "reason": "Same as dbt."
+    },
+    {
+      "id": "hamilton",
+      "name": "Hamilton",
+      "status": "eliminated",
+      "category": "principle-conflict",
+      "reason": "Same as dbt; layers.json already declares lineage."
+    },
+    {
+      "id": "great-expectations",
+      "name": "Great Expectations",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "Pandera chosen; lighter and code-first."
+    },
+    {
+      "id": "soda",
+      "name": "Soda Core",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "Pandera chosen."
+    },
+    {
+      "id": "scrapy",
+      "name": "Scrapy / scrapy-playwright",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "civic-scraper plus existing adapters cover the portals."
+    },
+    {
+      "id": "city-scrapers",
+      "name": "City Scrapers",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "civic-scraper covers the same platforms as a library."
+    },
+    {
+      "id": "crawl4ai",
+      "name": "Crawl4AI",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "trafilatura covers article text."
+    },
+    {
+      "id": "newspaper4k",
+      "name": "newspaper4k",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "trafilatura covers text and dates."
+    },
+    {
+      "id": "feedparser",
+      "name": "feedparser / selectolax",
+      "status": "eliminated",
+      "category": "redundant-existing",
+      "reason": "local_meeting_feed.py already parses RSS and Granicus HTML."
+    },
+    {
+      "id": "requests-cache",
+      "name": "requests-cache / hishel",
+      "status": "eliminated",
+      "category": "redundant-existing",
+      "reason": "Modules use stdlib urllib with manifest skip logic."
+    },
+    {
+      "id": "markitdown",
+      "name": "MarkItDown / unstructured / Camelot",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "pdfplumber plus OCRmyPDF chosen."
+    },
+    {
+      "id": "council-data-project",
+      "name": "Council Data Project",
+      "status": "eliminated",
+      "category": "cost-infra",
+      "reason": "Full deployment stack (GCP); deferred whisper pilot covers the need."
+    },
+    {
+      "id": "bluesky",
+      "name": "Bluesky firehose",
+      "status": "eliminated",
+      "category": "defensibility-risk",
+      "reason": "Unverifiable and detection-biased. Local opposition groups organize mainly on Facebook, which has no free research access, so coverage would be thin and skewed."
+    },
+    {
+      "id": "common-crawl",
+      "name": "Common Crawl CC-NEWS",
+      "status": "eliminated",
+      "category": "cost-infra",
+      "reason": "Terabyte-scale backfill for marginal gain."
+    },
+    {
+      "id": "fed-rules",
+      "name": "GovInfo / Regulations.gov",
+      "status": "eliminated",
+      "category": "out-of-scope",
+      "reason": "Federal Register API (deferred) covers the rulemaking need; these add bulk text without a product use."
+    },
+    {
+      "id": "gridstatus",
+      "name": "gridstatus as baseline",
+      "status": "eliminated",
+      "category": "defensibility-risk",
+      "reason": "Generation queues are power plants, not data centers. Site-context use is deferred separately."
+    },
+    {
+      "id": "lbnl-baseline",
+      "name": "LBNL Queued Up as baseline",
+      "status": "eliminated",
+      "category": "defensibility-risk",
+      "reason": "Same category error; cost-layer use already scoped in the memo."
+    },
+    {
+      "id": "hifld",
+      "name": "HIFLD Open",
+      "status": "eliminated",
+      "category": "maintenance-risk",
+      "reason": "Discontinued in 2025."
+    },
+    {
+      "id": "already-built-plugins",
+      "name": "NASS, EIA price, USGS water, Drought Monitor, PUDL generation",
+      "status": "eliminated",
+      "category": "already-built",
+      "reason": "Shipped in fetch_county_features.py on 2026-09-28."
+    },
+    {
+      "id": "cleanlab",
+      "name": "cleanlab",
+      "status": "eliminated",
+      "category": "license-risk",
+      "reason": "AGPL-3.0; in-house out-of-fold disagreement audit does the same job at this scale."
+    },
+    {
+      "id": "sentence-transformers",
+      "name": "sentence-transformers / GLiNER / spaCy",
+      "status": "eliminated",
+      "category": "cost-infra",
+      "reason": "MinHash covers dedupe and LangExtract covers extraction; BERTopic is deferred separately for the newsletter."
+    },
+    {
+      "id": "annotation-apps",
+      "name": "Argilla / Label Studio / doccano / Baserow / Streamlit / Metabase / Rill / Superset",
+      "status": "eliminated",
+      "category": "cost-infra",
+      "reason": "Hosting burden. Datasette covers read-only client databases and Grist (deferred) covers editable ones; the negative audit already has --next tooling (spec 003)."
+    },
+    {
+      "id": "llm-frameworks",
+      "name": "Instructor / Outlines / BAML / DSPy / Snorkel / promptfoo / LiteLLM",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "LangExtract chosen as the single extraction layer."
+    },
+    {
+      "id": "llm-infra",
+      "name": "Langfuse / Opik / LLMLingua / vector stores",
+      "status": "eliminated",
+      "category": "out-of-scope",
+      "reason": "No production LLM stage in the pipeline."
+    },
+    {
+      "id": "toon",
+      "name": "TOON",
+      "status": "eliminated",
+      "category": "redundant-existing",
+      "reason": "For flat tables CSV is already as compact; the gain applies to nested JSON the platform does not send."
+    },
+    {
+      "id": "repomix",
+      "name": "Repomix / code2prompt / gitingest / Serena",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "ast-grep plus targeted reads chosen; whole-repo packing costs more tokens than it saves."
+    },
+    {
+      "id": "superpowers",
+      "name": "obra/superpowers",
+      "status": "eliminated",
+      "category": "redundant-existing",
+      "reason": "Spec Kit v1.0.12 already governs the development workflow."
+    },
+    {
+      "id": "gbm-libs",
+      "name": "XGBoost / LightGBM / CatBoost / NGBoost / pyGAM",
+      "status": "eliminated",
+      "category": "redundant-existing",
+      "reason": "sklearn HistGradientBoosting already in feature_search; EBM chosen for glassbox shapes."
+    },
+    {
+      "id": "stats-extra",
+      "name": "statsmodels / PyFixest / glum / numpyro / ArviZ / Optuna / shapiq",
+      "status": "eliminated",
+      "category": "redundant-existing",
+      "reason": "Registered grid search with repeated CV already exists; firthmodels supplies intervals for the rare class."
+    },
+    {
+      "id": "mlops",
+      "name": "MLflow / DVC / whylogs / deepchecks / PiML / ydata-profiling",
+      "status": "eliminated",
+      "category": "redundant-existing",
+      "reason": "Snapshot manifest, calibration_history.csv and skops cards cover governance; deepchecks is AGPL."
+    },
+    {
+      "id": "spatial-extra",
+      "name": "mgwr / spopt / tobler / h3",
+      "status": "eliminated",
+      "category": "defensibility-risk",
+      "reason": "Overfits at county n with 327 positives; esda diagnostics only. osmnx is deferred separately for site reports."
+    },
+    {
+      "id": "scikit-survival",
+      "name": "scikit-survival",
+      "status": "eliminated",
+      "category": "license-risk",
+      "reason": "GPL-3.0; lifelines already covers survival."
+    },
+    {
+      "id": "addfips",
+      "name": "addfips",
+      "status": "eliminated",
+      "category": "license-risk",
+      "reason": "GPL-3.0; gazetteer.py already maps county names to FIPS."
+    },
+    {
+      "id": "us-pkg",
+      "name": "us",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "In-house normalizer for a static 51-row table."
+    },
+    {
+      "id": "pyod",
+      "name": "PyOD",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "In-house coverage-delta and robust-z checks on three numeric columns."
+    },
+    {
+      "id": "relplot",
+      "name": "relplot",
+      "status": "eliminated",
+      "category": "license-risk",
+      "reason": "License string is a copyright line only; netcal chosen."
+    },
+    {
+      "id": "firthlogist",
+      "name": "firthlogist",
+      "status": "eliminated",
+      "category": "maintenance-risk",
+      "reason": "No Python 3.11 support; last release 2022; firthmodels chosen."
+    },
+    {
+      "id": "forecast",
+      "name": "statsforecast",
+      "status": "eliminated",
+      "category": "out-of-scope",
+      "reason": "Forecasting event volume invites forward claims the platform does not make."
+    },
+    {
+      "id": "scoringrules",
+      "name": "scoringrules",
+      "status": "eliminated",
+      "category": "out-of-scope",
+      "reason": "No probabilistic delay forecast exists (attributable delay is gated)."
+    },
+    {
+      "id": "frontend-stacks",
+      "name": "Evidence / Datasette Lite / Mosaic / kepler.gl / deck.gl",
+      "status": "eliminated",
+      "category": "redundant-existing",
+      "reason": "Observable Framework (deferred) is the single static-app path and Datasette the database path; Datasette Lite would make client data public."
+    },
+    {
+      "id": "maplibre-migration",
+      "name": "Full MapLibre rewrite / protomaps-leaflet / Leaflet.VectorGrid",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "The MapLibre-Leaflet binding gives vector rendering without rewriting pages; PMTiles is deferred for large layers. VectorGrid is stale."
+    },
+    {
+      "id": "leaflet-stale",
+      "name": "Leaflet.TimeDimension / leaflet-sidebar-v2",
+      "status": "eliminated",
+      "category": "maintenance-risk",
+      "reason": "Last releases 2019 and 2020; in-house equivalents chosen."
+    },
+    {
+      "id": "leaflet-heat",
+      "name": "Leaflet.heat",
+      "status": "eliminated",
+      "category": "defensibility-risk",
+      "reason": "Density maps visually overstate detection-biased coverage."
+    },
+    {
+      "id": "us-atlas",
+      "name": "us-atlas",
+      "status": "eliminated",
+      "category": "defensibility-risk",
+      "reason": "Pre-2022 county geometry repeats the Connecticut FIPS failure."
+    },
+    {
+      "id": "chart-swap",
+      "name": "ECharts / uPlot / Observable Plot / Altair / plotnine",
+      "status": "eliminated",
+      "category": "redundant-existing",
+      "reason": "Chart.js stays; no chart the pages need is missing."
+    },
+    {
+      "id": "ui-kits",
+      "name": "Alpine.js / Web Awesome / Lucide / MiniSearch / Fuse.js",
+      "status": "eliminated",
+      "category": "redundant-existing",
+      "reason": "Plain HTML with shared JS modules covers it; Pagefind is deferred for archive search."
+    },
+    {
+      "id": "design-systems",
+      "name": "USWDS / GOV.UK Frontend / Primer / Carbon / Radix / IBM Plex",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "viz-palette.js plus Georgia is the house system; Urban guide kept as reference."
+    },
+    {
+      "id": "pym",
+      "name": "Pym.js",
+      "status": "eliminated",
+      "category": "maintenance-risk",
+      "reason": "Unmaintained, and iframe-resizer v5 is GPL. Client portal embeds use an in-house postMessage height script (about 30 lines) when needed."
+    },
+    {
+      "id": "lighthouse",
+      "name": "Lighthouse CI / pa11y-ci",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "axe-core inside Playwright chosen."
+    },
+    {
+      "id": "ops-alerts",
+      "name": "ntfy",
+      "status": "eliminated",
+      "category": "redundant-existing",
+      "reason": "Apprise sends to ntfy and every other channel; Healthchecks is deferred."
+    },
+    {
+      "id": "sec-extra",
+      "name": "gitleaks / pip-audit / act",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "GitHub secret scanning and Dependabot are free and native."
+    },
+    {
+      "id": "csv-cli",
+      "name": "qsv / csvkit",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "DuckDB CLI and sqlite-utils cover it."
+    },
+    {
+      "id": "docs-gen",
+      "name": "Typst / Paged.js / Kaleido / marimo",
+      "status": "eliminated",
+      "category": "redundant-selected",
+      "reason": "docxtpl, Pandoc, WeasyPrint and Altair/vl-convert cover Word, PDF and chart export; Quarto is deferred."
+    },
+    {
+      "id": "newsletter",
+      "name": "TimelineJS / StoryMapJS",
+      "status": "eliminated",
+      "category": "out-of-scope",
+      "reason": "Slow maintenance and Google Sheets coupling; vis-timeline (deferred) covers timelines."
+    },
+    {
+      "id": "research-tools",
+      "name": "Zotero / Hypothes.is",
+      "status": "eliminated",
+      "category": "redundant-existing",
+      "reason": "Source URLs live in the CSV with archive snapshots."
+    },
+    {
+      "id": "tabpfn",
+      "name": "TabPFN",
+      "status": "eliminated",
+      "category": "principle-conflict",
+      "reason": "Deep learning is barred; newer versions restrict licensing."
+    },
+    {
+      "id": "causal",
+      "name": "DoWhy / EconML / DiCE",
+      "status": "eliminated",
+      "category": "principle-conflict",
+      "reason": "Causal and counterfactual framing is barred client-side."
+    },
+    {
+      "id": "openfreemap-alt",
+      "name": "Esri World Gray Canvas / OSM raster tiles (current)",
+      "status": "eliminated",
+      "category": "license-risk",
+      "reason": "Esri basemap terms and the OSM tile usage policy are risks for commercial client use; replaced by OpenFreeMap."
+    },
+    {
+      "id": "medsl-county-returns",
+      "name": "MIT Election Data and Science Lab county presidential returns 2000-2024",
+      "kind": "dataset",
+      "version": "2000-2024 release",
+      "license": "CC0-or-verify",
+      "status": "selected",
+      "tier": 1,
+      "spec": "005",
+      "session": 2,
+      "runs_in": "ci",
+      "target": [
+        "fetch_county_features.py",
+        "data/features/political.csv"
+      ],
+      "reason": "Replaces county_votes.json, which the 2026-09-28 notices audit found was scraped from Townhall and Fox News and is not authoritative. A documented academic source makes the political variables defensible in client reports.",
+      "risk_notes": "Confirm Dataverse license terms at download; keep county_votes.json until parity is checked.",
+      "source_url": "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/VOQCHQ",
+      "products": [
+        "platform",
+        "static_report"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "altair-vlconvert",
+      "name": "Altair + vl-convert",
+      "kind": "python",
+      "version": "altair>=6.3,<7; vl-convert-python>=1.9",
+      "license": "BSD-3-Clause",
+      "status": "selected",
+      "tier": 1,
+      "spec": "010",
+      "session": 7,
+      "runs_in": "ci",
+      "target": [
+        "scripts/charts.py"
+      ],
+      "reason": "One chart definition rendered as interactive Vega-Lite on web pages and as PNG or SVG in Word and PDF, with no browser in CI. Keeps the same chart consistent across static reports and client portals.",
+      "risk_notes": "",
+      "source_url": "https://github.com/vega/altair",
+      "products": [
+        "static_report",
+        "active_db"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "pandoc",
+      "name": "Pandoc",
+      "kind": "cli",
+      "version": ">=3.5",
+      "license": "GPL-2.0-cli",
+      "status": "selected",
+      "tier": 1,
+      "spec": "010",
+      "session": 7,
+      "runs_in": "local",
+      "target": [
+        "scripts/md_to_docx.sh",
+        "templates/reference.docx"
+      ],
+      "reason": "Converts markdown briefs (county static reports, research memos) to branded Word through a reference template. Run as a separate program, so the GPL does not attach to repo code.",
+      "risk_notes": "CLI only; never linked or imported.",
+      "source_url": "https://github.com/jgm/pandoc",
+      "products": [
+        "static_report"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "datasette",
+      "name": "Datasette",
+      "kind": "python",
+      "version": ">=0.65,<1",
+      "license": "Apache-2.0",
+      "status": "selected",
+      "tier": 1,
+      "spec": "011",
+      "session": 8,
+      "runs_in": "ci",
+      "target": [
+        "scripts/build_client_db.py",
+        "clients/<client>/"
+      ],
+      "reason": "Read-only client databases with faceted browsing, full-text search, and CSV and JSON endpoints, built per client from the clean feed plus that client's watchlist config. This is the core of the active database product.",
+      "risk_notes": "Hosting and access control come from the deferred Cloudflare Access entry or a small container host; never expose group-level outcome columns.",
+      "source_url": "https://github.com/simonw/datasette",
+      "products": [
+        "active_db"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "sqlite-utils",
+      "name": "sqlite-utils",
+      "kind": "python",
+      "version": ">=4.2,<5",
+      "license": "Apache-2.0",
+      "status": "selected",
+      "tier": 1,
+      "spec": "011",
+      "session": 8,
+      "runs_in": "ci",
+      "target": [
+        "scripts/build_client_db.py"
+      ],
+      "reason": "Builds each client SQLite from CSVs with typed columns, foreign keys and FTS in a few lines.",
+      "risk_notes": "",
+      "source_url": "https://github.com/simonw/sqlite-utils",
+      "products": [
+        "active_db"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "frictionless",
+      "name": "Frictionless Data Package",
+      "kind": "python",
+      "version": ">=5.19,<6",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "011",
+      "session": 8,
+      "runs_in": "ci",
+      "target": [
+        "scripts/build_client_db.py",
+        "clients/<client>/datapackage.json"
+      ],
+      "reason": "Every client export ships a datapackage.json with schema, field definitions, sources and required attributions (Census, CC-BY, ODbL), then passes frictionless validate. It is a defensible, self-describing data product.",
+      "risk_notes": "",
+      "source_url": "https://github.com/frictionlessdata/frictionless-py",
+      "products": [
+        "active_db",
+        "static_report"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "apprise",
+      "name": "Apprise",
+      "kind": "python",
+      "version": ">=2.0,<3",
+      "license": "BSD-2-Clause",
+      "status": "selected",
+      "tier": 1,
+      "spec": "011",
+      "session": 8,
+      "runs_in": "ci",
+      "target": [
+        "scripts/client_alerts.py"
+      ],
+      "reason": "Library, no server: sends per-client watchlist alerts (new event, status change, hearing scheduled) to email, Slack or Teams from Actions.",
+      "risk_notes": "Alerts carry only verified or clearly labeled candidate items; vocabulary passes the leak audit.",
+      "source_url": "https://github.com/caronc/apprise",
+      "products": [
+        "active_db"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "observable-framework",
+      "name": "Observable Framework",
+      "kind": "npm",
+      "license": "ISC",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A client portal needs richer interactivity than the Leaflet pages give, built from Python data loaders.",
+      "reason": "Static data apps that can reuse pipeline modules as data loaders; one template, many client builds. Chosen over Evidence as the single static-app framework. Release pace slowed in 2026, so re-check maintenance at trigger time.",
+      "source_url": "https://github.com/observablehq/framework",
+      "products": [
+        "active_db",
+        "static_report"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "quarto",
+      "name": "Quarto",
+      "kind": "cli",
+      "license": "MIT",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "One report must ship as Word, PDF and web from a single source.",
+      "reason": "Multi-format rendering with inline computed values (Principle VI).",
+      "source_url": "https://github.com/quarto-dev/quarto-cli",
+      "products": [
+        "static_report"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "mjml",
+      "name": "MJML",
+      "kind": "npm",
+      "license": "MIT",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "Client alert digests are sent outside HubSpot.",
+      "reason": "Responsive email templates for per-client digests.",
+      "source_url": "https://github.com/mjmlio/mjml",
+      "products": [
+        "active_db"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "pagefind",
+      "name": "Pagefind",
+      "kind": "npm",
+      "license": "MIT",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A client report archive or portal passes about 50 pages.",
+      "reason": "Static full-text search, no server.",
+      "source_url": "https://github.com/CloudCannon/pagefind",
+      "products": [
+        "active_db",
+        "static_report"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "grist",
+      "name": "Grist (grist-core)",
+      "kind": "service",
+      "license": "Apache-2.0",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A client needs to edit or annotate records (their own sites, internal notes) inside the database.",
+      "reason": "Spreadsheet-database with per-user access rules; self-host or hosted free tier.",
+      "source_url": "https://github.com/gristlabs/grist-core",
+      "products": [
+        "active_db"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "dbt-duckdb",
+      "name": "dbt-core + dbt-duckdb",
+      "kind": "python",
+      "license": "Apache-2.0",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "More than about five client databases need divergent views of the clean feed.",
+      "reason": "A downstream-only product layer of SQL views per client, tested and documented; never replaces the pipeline.",
+      "source_url": "https://github.com/duckdb/dbt-duckdb",
+      "products": [
+        "active_db"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "federal-register",
+      "name": "Federal Register API",
+      "kind": "api",
+      "license": "public-domain",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A client asks for federal large-load or co-location rulemaking tracking.",
+      "reason": "No key needed; FERC and DOE rulemaking for a developer-facing policy product. Outside the opposition tracker itself.",
+      "source_url": "https://www.federalregister.gov/developers/documentation/api/v1",
+      "products": [
+        "active_db",
+        "static_report"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "gridstatus-context",
+      "name": "gridstatus (site context only)",
+      "kind": "python",
+      "license": "BSD-3-Clause",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A site report needs grid context (wholesale prices, load forecasts, nearby generation queue).",
+      "reason": "Descriptive context for site reports; never a baseline or a model denominator.",
+      "source_url": "https://github.com/gridstatus/gridstatus",
+      "products": [
+        "static_report"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "ercot-context",
+      "name": "ERCOT large-load reports (context only)",
+      "kind": "dataset",
+      "license": "public",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A Texas site report.",
+      "reason": "Zonal large-load queue context; aggregate only, never a baseline.",
+      "source_url": "https://www.ercot.com/services/rq/large-load-integration",
+      "products": [
+        "static_report"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "zoning-atlas-context",
+      "name": "National Zoning Atlas (site context only)",
+      "kind": "dataset",
+      "license": "free download",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A site report falls in a mapped jurisdiction.",
+      "reason": "Descriptive zoning context in reports; never a model feature (detection bias).",
+      "source_url": "https://www.zoningatlas.org/",
+      "products": [
+        "static_report"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "qcew-context",
+      "name": "BLS QCEW NAICS 518210 (context only)",
+      "kind": "api",
+      "license": "public-domain",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A report needs local data center employment context.",
+      "reason": "Suppression noted inline; never a model feature.",
+      "source_url": "https://www.bls.gov/cew/",
+      "products": [
+        "static_report"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "osmnx",
+      "name": "osmnx",
+      "kind": "python",
+      "license": "MIT",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "Site reports add a proximity section (residences, schools, roads near the parcel).",
+      "reason": "Residential proximity is a core site risk question for developer clients.",
+      "source_url": "https://github.com/gboeing/osmnx",
+      "products": [
+        "static_report",
+        "active_db"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "bertopic",
+      "name": "BERTopic",
+      "kind": "python",
+      "license": "MIT",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "The newsletter adds an emerging-concerns section.",
+      "reason": "Topic discovery beyond fixed is_* tags; runs locally, descriptive only.",
+      "source_url": "https://github.com/MaartenGr/BERTopic",
+      "products": [
+        "static_report"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "pmtiles",
+      "name": "PMTiles + tippecanoe",
+      "kind": "cli",
+      "license": "BSD-3-Clause / BSD-2-Clause",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A map layer passes about 5 MB (parcels, transmission lines, client site layers).",
+      "reason": "Static vector tiles on any host; works with the MapLibre binding already selected.",
+      "source_url": "https://github.com/protomaps/PMTiles",
+      "products": [
+        "active_db",
+        "platform"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "perspective",
+      "name": "Perspective",
+      "kind": "npm",
+      "license": "Apache-2.0",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "Client analysts want pivoting inside their portal.",
+      "reason": "WASM pivot grid over client data.",
+      "source_url": "https://github.com/finos/perspective",
+      "products": [
+        "active_db"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "healthchecks",
+      "name": "Healthchecks",
+      "kind": "service",
+      "license": "BSD-3-Clause",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "An active database client is promised a freshness level.",
+      "reason": "Alerts when a scheduled refresh fails to run.",
+      "source_url": "https://github.com/healthchecks/healthchecks",
+      "products": [
+        "active_db"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "changedetection",
+      "name": "changedetection.io",
+      "kind": "service",
+      "license": "Apache-2.0",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "The first active database client names jurisdictions whose pages have no API.",
+      "reason": "Watches specific county and PUC pages per client watchlist; self-host container.",
+      "source_url": "https://github.com/dgtlmoon/changedetection.io",
+      "products": [
+        "active_db"
+      ]
+    },
+    {
+      "id": "vis-timeline",
+      "name": "vis-timeline",
+      "kind": "npm",
+      "license": "Apache-2.0 OR MIT",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "Project lifecycle timelines go into client case studies or portals.",
+      "reason": "Interactive lifecycle timelines for project-lifecycles.html and case studies.",
+      "source_url": "https://github.com/visjs/vis-timeline",
+      "products": [
+        "static_report",
+        "active_db"
+      ]
+    },
+    {
+      "id": "cloudflare-access",
+      "name": "Cloudflare Pages + Access (free plan)",
+      "kind": "service",
+      "license": "free-tier-service",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "The first private client portal or database.",
+      "reason": "Private hosting with email-based login for client portals; GitHub Pages cannot restrict access. Free plan user limit reported at 50; confirm at signup.",
+      "source_url": "https://www.cloudflare.com/plans/zero-trust-services/",
+      "products": [
+        "active_db"
+      ]
+    },
+    {
+      "id": "dlt",
+      "name": "dlt",
+      "kind": "python",
+      "license": "Apache-2.0",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A client supplies a recurring feed (site lists, CRM exports) that must be loaded into their database.",
+      "reason": "Schema-evolving incremental loads into SQLite or DuckDB, downstream of the pipeline only.",
+      "source_url": "https://github.com/dlt-hub/dlt",
+      "products": [
+        "active_db"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "docling",
+      "name": "Docling",
+      "kind": "python",
+      "license": "MIT",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "Building the ordinance terms database (setbacks, noise limits, water and acreage caps as structured fields).",
+      "reason": "Best-in-class layout and table extraction from ordinance PDFs; run locally, not in CI.",
+      "source_url": "https://github.com/docling-project/docling",
+      "products": [
+        "static_report",
+        "active_db"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "archivebox",
+      "name": "ArchiveBox (with SingleFile as CLI)",
+      "kind": "service",
+      "license": "MIT (SingleFile runs as CLI only)",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A client deliverable needs firm-held evidentiary copies, or Wayback coverage or availability fails.",
+      "reason": "Local WARC and single-file copies of sources.",
+      "source_url": "https://github.com/ArchiveBox/ArchiveBox",
+      "products": [
+        "static_report",
+        "active_db"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "legiscan",
+      "name": "LegiScan API",
+      "kind": "api",
+      "license": "free-api-key",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A state bill tracking product launches, or Open States status disagreements pile up.",
+      "reason": "Independent status cross-check for client-facing bill tables (Principle III).",
+      "source_url": "https://legiscan.com/legiscan",
+      "products": [
+        "active_db"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "fema-nri",
+      "name": "FEMA National Risk Index",
+      "kind": "dataset",
+      "license": "public-domain",
+      "status": "deferred",
+      "tier": 2,
+      "trigger": "A site report adds a physical risk section.",
+      "reason": "County hazard context developers expect; not a model feature.",
+      "source_url": "https://hazards.fema.gov/nri/",
+      "products": [
+        "static_report"
+      ],
+      "reinstated": "2026-09-28 pass 4"
+    }
+  ],
+  "product_lines": {
+    "platform": "core pipeline, models, national map",
+    "static_report": "passive deliverables: location reports, county profile PDFs, briefs, newsletter content",
+    "active_db": "actively updated custom client databases: watchlists, alerts, filtered portals, exports",
+    "internal": "analyst tooling only"
+  }
+}
