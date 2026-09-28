@@ -1,0 +1,107 @@
+name: Adaptive Feature Search
+
+# Ranks the expanded county variable pool against the enacted-restriction,
+# moratorium and opposition-conversion targets, updates the filtered variable
+# weights, and writes the promotion list county_policy_model.py reads.
+#
+# Why separate from pipeline.yml: pipeline.yml has a 10-minute budget shared
+# by every layer, and the search costs about two minutes of CPU. Weights are
+# filtered across runs, so a weekly cadence is the right one anyway: a daily
+# run on near-identical data would add observations that are not independent.
+# The search skips itself when nothing it reads has changed.
+#
+# How promotions reach production: this workflow commits
+# data/feature_search_promotions.json; the next pipeline.yml run (daily cron
+# at 06:40 UTC, or any push) regenerates the expanded features and fits the
+# county model with the promoted variables in its candidate pool. The model's
+# own sign-stability rule and the calibration gate still decide what ships.
+
+on:
+  push:
+    paths:
+      - 'feature_search.py'
+      - 'county_features.py'
+      - 'configs/feature_search.json'
+      - 'configs/feature_plugins.json'
+      - 'data/features/*.csv'
+  schedule:
+    - cron: '20 8 * * 1'      # Mondays 08:20 UTC, after retrain.yml (07:00)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: feature-search
+  cancel-in-progress: false
+
+jobs:
+  search:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      # Check out the branch TIP, not the triggering SHA. A queued run (the
+      # concurrency group serializes runs) otherwise starts from the commit
+      # that triggered it and misses artifacts an earlier run already pushed,
+      # which is what produced the add/add conflicts on 2026-09-28.
+      - name: Checkout data-center-map
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pandas numpy scipy "scikit-learn>=1.2"
+
+      - name: Self-tests (BLOCKING)
+        run: |
+          python county_features.py --selftest
+          python feature_search.py --selftest
+          python county_policy_model.py --selftest
+
+      - name: Build expanded county features
+        run: python county_features.py
+
+      - name: Feature search + weight update
+        run: python feature_search.py
+
+      # Every file committed here is regenerated from inputs, and the weight
+      # history is append-only with the filter state carried in the weights
+      # file. A text rebase of those files is never correct: when another
+      # workflow moves the branch, this step resets to the new tip and re-runs the
+      # search there, so the history row and filter update are computed
+      # against the latest state. On unchanged inputs the search skips itself,
+      # so a re-run after a concurrent identical run commits nothing.
+      - name: Commit search artifacts
+        run: |
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          B="$GITHUB_REF_NAME"
+          stage() {
+            # county_features_* are pipeline.yml's to commit (it regenerates
+            # them on every run); committing them here too made two workflows
+            # write the same files. They are rebuilt here only as search input.
+            git add data/feature_search_metrics.json data/feature_search_ranking.csv \
+                    data/feature_search_weights.json data/feature_search_weight_history.csv \
+                    data/feature_search_promotions.json data/feature_search_report.md \
+                    2>/dev/null || true
+          }
+          for i in 1 2 3 4; do
+            stage
+            if git diff --staged --quiet; then echo "No changes to commit"; exit 0; fi
+            git commit -q -m "Feature search + weight update [skip ci]"
+            if git push origin "HEAD:$B"; then echo "Pushed on attempt $i"; exit 0; fi
+            echo "Push attempt $i rejected (branch moved); re-running the search on the new tip"
+            sleep $((5 * i))
+            git fetch -q origin "$B"
+            git reset -q --hard "origin/$B"
+            python county_features.py
+            python feature_search.py
+          done
+          echo "Push failed after 4 attempts"
+          exit 1
