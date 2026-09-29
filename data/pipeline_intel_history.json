@@ -1,0 +1,548 @@
+{
+ "_generated": "2026-09-29",
+ "_note": "seen dates are when the source changed: an upper bound on when the underlying change happened, never the date itself.",
+ "panel_start": "2026-04-23",
+ "panel_end": "2026-09-25",
+ "n_snapshots": 47,
+ "baseline_projects": 246,
+ "projects_ever_seen": 404,
+ "projects_present_now": 396,
+ "event_counts": {
+  "first_seen": 158,
+  "phase_change": 50,
+  "field_change": 926,
+  "moved": 11,
+  "removed": 17,
+  "reappeared": 9,
+  "source_reclassified": 32
+ },
+ "field_change_counts": {
+  "size_acres": 500,
+  "companies": 75,
+  "capacity_mw": 295,
+  "name": 56
+ },
+ "phase_transitions": [
+  {
+   "from": "proposed",
+   "to": "rejected",
+   "n": 6
+  },
+  {
+   "from": "proposed",
+   "to": "approved",
+   "n": 5
+  },
+  {
+   "from": "proposed",
+   "to": "preliminary",
+   "n": 5
+  },
+  {
+   "from": "preliminary",
+   "to": "proposed",
+   "n": 4
+  },
+  {
+   "from": "proposed",
+   "to": "construction",
+   "n": 4
+  },
+  {
+   "from": "approved",
+   "to": "construction",
+   "n": 3
+  },
+  {
+   "from": "construction",
+   "to": "expansion",
+   "n": 3
+  },
+  {
+   "from": "delayed",
+   "to": "rejected",
+   "n": 3
+  },
+  {
+   "from": "proposed",
+   "to": "delayed",
+   "n": 3
+  },
+  {
+   "from": "proposed",
+   "to": "withdrawn",
+   "n": 2
+  },
+  {
+   "from": "approved",
+   "to": "proposed",
+   "n": 2
+  },
+  {
+   "from": "operational",
+   "to": "construction",
+   "n": 1
+  },
+  {
+   "from": "approved",
+   "to": "preliminary",
+   "n": 1
+  },
+  {
+   "from": "withdrawn",
+   "to": "proposed",
+   "n": 1
+  },
+  {
+   "from": "confirmed",
+   "to": "approved",
+   "n": 1
+  },
+  {
+   "from": "preliminary",
+   "to": "withdrawn",
+   "n": 1
+  },
+  {
+   "from": "(blank)",
+   "to": "proposed",
+   "n": 1
+  },
+  {
+   "from": "rejected",
+   "to": "withdrawn",
+   "n": 1
+  },
+  {
+   "from": "preliminary",
+   "to": "approved",
+   "n": 1
+  },
+  {
+   "from": "preliminary",
+   "to": "rejected",
+   "n": 1
+  },
+  {
+   "from": "construction",
+   "to": "operational",
+   "n": 1
+  }
+ ],
+ "weekly": [
+  {
+   "week": "2026-04-20",
+   "first_seen": 5,
+   "phase_change": 1
+  },
+  {
+   "week": "2026-04-27",
+   "field_change": 18,
+   "first_seen": 8,
+   "phase_change": 6,
+   "moved": 1,
+   "removed": 4
+  },
+  {
+   "week": "2026-05-04",
+   "field_change": 14,
+   "phase_change": 4,
+   "moved": 1,
+   "first_seen": 11,
+   "removed": 1
+  },
+  {
+   "week": "2026-05-11",
+   "phase_change": 1,
+   "field_change": 2,
+   "first_seen": 21
+  },
+  {
+   "week": "2026-05-18",
+   "field_change": 19,
+   "first_seen": 9,
+   "moved": 7,
+   "phase_change": 6
+  },
+  {
+   "week": "2026-06-01",
+   "field_change": 2,
+   "first_seen": 13,
+   "phase_change": 3,
+   "removed": 1
+  },
+  {
+   "week": "2026-06-08",
+   "field_change": 9,
+   "phase_change": 2,
+   "first_seen": 1
+  },
+  {
+   "week": "2026-06-15",
+   "phase_change": 2,
+   "first_seen": 12
+  },
+  {
+   "week": "2026-06-22",
+   "field_change": 5,
+   "first_seen": 1
+  },
+  {
+   "week": "2026-06-29",
+   "field_change": 7,
+   "phase_change": 2,
+   "removed": 1
+  },
+  {
+   "week": "2026-07-06",
+   "first_seen": 9,
+   "removed": 9
+  },
+  {
+   "week": "2026-07-13",
+   "phase_change": 2,
+   "reappeared": 9,
+   "first_seen": 4
+  },
+  {
+   "week": "2026-07-27",
+   "first_seen": 2
+  },
+  {
+   "week": "2026-08-03",
+   "field_change": 1
+  },
+  {
+   "week": "2026-08-10",
+   "field_change": 6,
+   "phase_change": 1,
+   "first_seen": 1
+  },
+  {
+   "week": "2026-08-17",
+   "field_change": 10,
+   "phase_change": 4,
+   "first_seen": 2
+  },
+  {
+   "week": "2026-09-07",
+   "field_change": 338,
+   "phase_change": 1,
+   "first_seen": 1
+  },
+  {
+   "week": "2026-09-14",
+   "field_change": 367,
+   "phase_change": 4,
+   "first_seen": 14
+  },
+  {
+   "week": "2026-09-21",
+   "field_change": 128,
+   "first_seen": 44,
+   "source_reclassified": 32,
+   "phase_change": 11,
+   "removed": 1,
+   "moved": 2
+  }
+ ],
+ "degraded_snapshots": [
+  {
+   "snapshot": "2026-09-10",
+   "commit": "e71c8d936d",
+   "fields": [
+    {
+     "field": "capacity_mw",
+     "prior": 123,
+     "now": 3
+    },
+    {
+     "field": "size_acres",
+     "prior": 224,
+     "now": 7
+    }
+   ],
+   "partial_fetch": false,
+   "rows": 338,
+   "prior_rows": 338
+  }
+ ],
+ "source_renumberings": [
+  {
+   "snapshot": "2026-05-01",
+   "prev_snapshot": "2026-04-29",
+   "ids_changed": 250,
+   "rows": 255
+  },
+  {
+   "snapshot": "2026-05-21",
+   "prev_snapshot": "2026-05-16",
+   "ids_changed": 282,
+   "rows": 293
+  },
+  {
+   "snapshot": "2026-07-02",
+   "prev_snapshot": "2026-06-24",
+   "ids_changed": 50,
+   "rows": 320
+  },
+  {
+   "snapshot": "2026-09-17",
+   "prev_snapshot": "2026-09-14",
+   "ids_changed": 321,
+   "rows": 353
+  },
+  {
+   "snapshot": "2026-09-22",
+   "prev_snapshot": "2026-09-17",
+   "ids_changed": 325,
+   "rows": 370
+  }
+ ],
+ "source_reclassifications": [
+  {
+   "snapshot": "2026-09-22",
+   "from": "approved",
+   "to": "proposed",
+   "n": 32,
+   "prior_population": 34
+  }
+ ],
+ "snapshots": [
+  {
+   "snapshot": "2026-04-23",
+   "commit": "0a8155c8d8",
+   "rows": 246
+  },
+  {
+   "snapshot": "2026-04-24",
+   "commit": "66adb43eda",
+   "rows": 247
+  },
+  {
+   "snapshot": "2026-04-25",
+   "commit": "620573bf78",
+   "rows": 247
+  },
+  {
+   "snapshot": "2026-04-26",
+   "commit": "de18493cd9",
+   "rows": 251
+  },
+  {
+   "snapshot": "2026-04-27",
+   "commit": "6198bc1ea5",
+   "rows": 252
+  },
+  {
+   "snapshot": "2026-04-29",
+   "commit": "2b74705fe9",
+   "rows": 254
+  },
+  {
+   "snapshot": "2026-05-01",
+   "commit": "0e5006de10",
+   "rows": 255
+  },
+  {
+   "snapshot": "2026-05-04",
+   "commit": "4f4771806b",
+   "rows": 256
+  },
+  {
+   "snapshot": "2026-05-07",
+   "commit": "21e5ba826a",
+   "rows": 263
+  },
+  {
+   "snapshot": "2026-05-10",
+   "commit": "db8f83b1c2",
+   "rows": 265
+  },
+  {
+   "snapshot": "2026-05-16",
+   "commit": "4aa7cbb2c4",
+   "rows": 286
+  },
+  {
+   "snapshot": "2026-05-21",
+   "commit": "f7dd1ebd9c",
+   "rows": 293
+  },
+  {
+   "snapshot": "2026-05-22",
+   "commit": "02e29d467c",
+   "rows": 293
+  },
+  {
+   "snapshot": "2026-05-23",
+   "commit": "00f08f48ed",
+   "rows": 293
+  },
+  {
+   "snapshot": "2026-05-24",
+   "commit": "695dd55287",
+   "rows": 295
+  },
+  {
+   "snapshot": "2026-06-03",
+   "commit": "85420aa421",
+   "rows": 299
+  },
+  {
+   "snapshot": "2026-06-04",
+   "commit": "112e3aa9e9",
+   "rows": 304
+  },
+  {
+   "snapshot": "2026-06-05",
+   "commit": "4145fdf594",
+   "rows": 305
+  },
+  {
+   "snapshot": "2026-06-06",
+   "commit": "a481524880",
+   "rows": 307
+  },
+  {
+   "snapshot": "2026-06-11",
+   "commit": "99e0659d1c",
+   "rows": 308
+  },
+  {
+   "snapshot": "2026-06-18",
+   "commit": "57ff626d96",
+   "rows": 318
+  },
+  {
+   "snapshot": "2026-06-21",
+   "commit": "6c58eab79e",
+   "rows": 320
+  },
+  {
+   "snapshot": "2026-06-24",
+   "commit": "8c7e82a7be",
+   "rows": 321
+  },
+  {
+   "snapshot": "2026-07-02",
+   "commit": "d45af370b2",
+   "rows": 320
+  },
+  {
+   "snapshot": "2026-07-10",
+   "commit": "7fbe754aa0",
+   "rows": 329
+  },
+  {
+   "snapshot": "2026-07-11",
+   "commit": "30f57e3339",
+   "rows": 320
+  },
+  {
+   "snapshot": "2026-07-12",
+   "commit": "f2dcbb6fdb",
+   "rows": 320
+  },
+  {
+   "snapshot": "2026-07-13",
+   "commit": "1c5c81b2e6",
+   "rows": 331
+  },
+  {
+   "snapshot": "2026-07-14",
+   "commit": "4e14578a8c",
+   "rows": 332
+  },
+  {
+   "snapshot": "2026-07-15",
+   "commit": "db04ff6470",
+   "rows": 332
+  },
+  {
+   "snapshot": "2026-07-16",
+   "commit": "d3c7834b82",
+   "rows": 332
+  },
+  {
+   "snapshot": "2026-07-17",
+   "commit": "ab8354f01d",
+   "rows": 332
+  },
+  {
+   "snapshot": "2026-07-18",
+   "commit": "68570b6bf5",
+   "rows": 333
+  },
+  {
+   "snapshot": "2026-07-29",
+   "commit": "b2e4e8d363",
+   "rows": 335
+  },
+  {
+   "snapshot": "2026-08-06",
+   "commit": "ad8305fd85",
+   "rows": 335
+  },
+  {
+   "snapshot": "2026-08-10",
+   "commit": "38f03c0257",
+   "rows": 335
+  },
+  {
+   "snapshot": "2026-08-12",
+   "commit": "e6bf178a64",
+   "rows": 336
+  },
+  {
+   "snapshot": "2026-08-17",
+   "commit": "94be8e96eb",
+   "rows": 338
+  },
+  {
+   "snapshot": "2026-09-02",
+   "commit": "fe70a86035",
+   "rows": 338
+  },
+  {
+   "snapshot": "2026-09-03",
+   "commit": "da8f0afb2a",
+   "rows": 338
+  },
+  {
+   "snapshot": "2026-09-10",
+   "commit": "e71c8d936d",
+   "rows": 338
+  },
+  {
+   "snapshot": "2026-09-11",
+   "commit": "b04b579a9c",
+   "rows": 339
+  },
+  {
+   "snapshot": "2026-09-14",
+   "commit": "08c8c41921",
+   "rows": 339
+  },
+  {
+   "snapshot": "2026-09-17",
+   "commit": "9e92089a9f",
+   "rows": 353
+  },
+  {
+   "snapshot": "2026-09-22",
+   "commit": "120da2506c",
+   "rows": 370
+  },
+  {
+   "snapshot": "2026-09-24",
+   "commit": "524d3df2c5",
+   "rows": 388
+  },
+  {
+   "snapshot": "2026-09-25",
+   "commit": "a5a8987e03",
+   "rows": 396
+  }
+ ]
+}

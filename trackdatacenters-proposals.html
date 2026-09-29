@@ -8,14 +8,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
-    <!-- Filter state in the URL, so a filtered view can be cited by link
-         rather than by screenshot. No map on this page. -->
+    <!-- Filter state in the URL, so a filtered view can be cited by link. -->
     <script src="./map-permalink.js"></script>
     <script>
-    // Fallback stub. If map-permalink.js did not load (missing on the host, or a
-    // cached 404 during a deploy), every page below would otherwise throw a
-    // ReferenceError on its first MapPermalink call and abort its whole inline
-    // script, rendering blank. This degrades that to "no permalink" instead.
+    // Fallback stub: if map-permalink.js fails to load, degrade to "no
+    // permalink" instead of a ReferenceError that blanks the page.
     window.MapPermalink = window.MapPermalink || (function () {
       var noop = function () {
         return { set: function () {}, get: function () {}, update: function () {},
@@ -30,481 +27,628 @@
       };
     })();
     </script>
+    <!--
+      2026-09-28: rebuilt from a sortable list into the pipeline analytics
+      page. Reads data/pipeline_intel_enriched.csv (one joined row per project,
+      written by proposal_enrichment.py) and data/pipeline_intel_metrics.json
+      (source health, recent changes, review queues). Every chart is computed
+      from the filtered rows, so a filter narrows the charts, the KPIs and the
+      table together. If the enriched file is unavailable the page falls back
+      to data/proposals.csv and says so; the analytic columns are then blank.
+    -->
     <style>
       :root {
         --bg: #0b0c10;
-        --bg-elevated: #13151f;
-        --bg-softer: #191b26;
+        --surface-1: #13151f;
+        --surface-2: #191b26;
         --border-subtle: rgba(255,255,255,0.08);
-        --text: #f5f5f7;
+        --grid: rgba(255,255,255,0.07);
+        --text-primary: #f5f5f7;
+        --text-secondary: #c3c6d4;
         --text-muted: #a0a4b8;
         --accent: #35a0ff;
-        --accent-soft: rgba(53,160,255,0.12);
-        --danger: #ff4b6a;
+        /* categorical, dark steps (validated vs #13151f: CVD 9.4, NV 20.9) */
+        --s-pending: #3987e5;
+        --s-advancing: #199e70;
+        --s-blocked: #d95926;
+        /* sequential blue, dark ordinal range 600 -> 250 */
+        --q1: #184f95; --q2: #1c5cab; --q3: #256abf; --q4: #2a78d6; --q5: #3987e5;
+        --q6: #5598e7; --q7: #6da7ec; --q8: #86b6ef;
+        --warn-bg: rgba(237,161,0,0.10);
+        --warn-border: rgba(237,161,0,0.45);
         --radius: 10px;
         --radius-pill: 999px;
-        --shadow-soft: 0 18px 45px rgba(0,0,0,0.45);
       }
       * { box-sizing: border-box; }
-      html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
+      html, body { margin: 0; padding: 0; }
+      body {
         font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-        background: radial-gradient(circle at top, #15192a, #05060a 55%, #000 100%);
-        color: var(--text);
+        background: radial-gradient(circle at top, #15192a, #05060a 55%, #000 100%) fixed;
+        background-color: var(--bg);
+        color: var(--text-primary);
+        font-variant-numeric: tabular-nums;
       }
-      body { display: flex; flex-direction: column; }
-      .app-shell {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 24px 16px 40px;
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-      }
-      header {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-      }
-      .title-block { display: flex; flex-direction: column; gap: 4px; }
-      h1 {
-        font-size: 1.4rem;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        margin: 0;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .subtitle, .meta-note { font-size: 0.86rem; color: var(--text-muted); }
-      .meta-note { font-size: 0.75rem; }
-      .controls-row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 10px;
-      }
-      .search-input {
-        flex: 1 1 220px;
-        min-width: 0;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 10px;
-        border-radius: var(--radius-pill);
-        border: 1px solid var(--border-subtle);
-        background: rgba(9,11,20,0.85);
-        color: var(--text);
-        box-shadow: 0 0 0 1px rgba(255,255,255,0.02);
-      }
-      .search-input input {
-        border: none;
-        outline: none;
-        background: transparent;
-        color: inherit;
-        width: 100%;
-        font-size: 0.86rem;
-      }
-      .search-input input::placeholder { color: var(--text-muted); }
-      .filter-row, .chips-row { display: flex; flex-wrap: wrap; gap: 8px; }
-      .chips-row { gap: 6px; font-size: 0.78rem; }
-      .select {
-        min-width: 120px;
-        max-width: 180px;
-        padding: 4px 10px;
-        border-radius: var(--radius-pill);
-        border: 1px solid var(--border-subtle);
-        background: rgba(10,12,23,0.9);
-        color: var(--text);
-        font-size: 0.82rem;
-      }
-      .chip {
-        padding: 4px 10px;
-        border-radius: var(--radius-pill);
-        border: 1px solid transparent;
-        background: rgba(255,255,255,0.02);
-        color: var(--text-muted);
-        cursor: pointer;
-        transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
-      }
-      .chip[data-active="true"] {
-        background: var(--accent-soft);
-        border-color: var(--accent);
-        color: var(--accent);
-      }
-      .chip:hover, .btn-ghost:hover { background: rgba(255,255,255,0.06); }
-      .kpi-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 10px;
-      }
-      .kpi-card {
-        border-radius: var(--radius);
-        background: radial-gradient(circle at top left, #20263a 0, #111320 40%, #0a0b12 100%);
-        border: 1px solid rgba(255,255,255,0.06);
-        padding: 10px 12px;
-        box-shadow: var(--shadow-soft);
-      }
-      .kpi-label {
-        font-size: 0.72rem;
-        letter-spacing: 0.09em;
-        text-transform: uppercase;
-        color: var(--text-muted);
-        margin-bottom: 4px;
-      }
-      .kpi-value { font-size: 1.05rem; font-weight: 600; }
-      .kpi-meta { font-size: 0.75rem; color: var(--text-muted); }
-      .table-shell {
-        margin-top: 10px;
-        border-radius: 14px;
-        border: 1px solid rgba(255,255,255,0.08);
-        background: rgba(10,12,22,0.98);
-        backdrop-filter: blur(20px);
-        box-shadow: 0 22px 55px rgba(0,0,0,0.7);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-      }
-      .table-header-bar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px 12px;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
-        background: linear-gradient(90deg, rgba(22,26,44,0.9), rgba(15,18,32,0.9));
-      }
-      .table-header-bar .left { font-size: 0.8rem; color: var(--text-muted); }
-      .btn-ghost {
-        border-radius: var(--radius-pill);
-        border: 1px solid rgba(255,255,255,0.14);
-        background: transparent;
-        color: var(--text);
-        font-size: 0.78rem;
-        padding: 4px 10px;
-        cursor: pointer;
-      }
-      .table-wrapper { max-height: 60vh; overflow: auto; }
+      .app-shell { max-width: 1240px; margin: 0 auto; padding: 24px 16px 48px;
+                   display: flex; flex-direction: column; gap: 16px; }
+      header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
+      h1 { font-size: 1.35rem; letter-spacing: 0.04em; text-transform: uppercase; margin: 0; }
+      h2 { font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 2px;
+           color: var(--text-secondary); font-weight: 600; }
+      .sub { font-size: 0.86rem; color: var(--text-muted); margin-top: 4px; }
+      .meta-note { font-size: 0.75rem; color: var(--text-muted); }
+      .banner { border: 1px solid var(--warn-border); background: var(--warn-bg); border-radius: var(--radius);
+                padding: 10px 14px; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45; }
+      .banner b { color: var(--text-primary); }
+      .banner[hidden] { display: none; }
+      .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      .search { flex: 1 1 220px; min-width: 0; padding: 7px 12px; border-radius: var(--radius-pill);
+                border: 1px solid var(--border-subtle); background: rgba(9,11,20,0.85); color: inherit;
+                font: inherit; font-size: 0.86rem; }
+      select, .btn { padding: 6px 10px; border-radius: var(--radius-pill); border: 1px solid var(--border-subtle);
+                     background: rgba(9,11,20,0.9); color: var(--text-primary); font: inherit; font-size: 0.8rem;
+                     max-width: 180px; cursor: pointer; }
+      .btn:hover, select:hover { border-color: rgba(255,255,255,0.22); }
+      .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+      .kpi { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius);
+             padding: 12px 14px; }
+      .kpi .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+      .kpi .value { font-size: 1.6rem; font-weight: 600; margin-top: 4px; }
+      .kpi .meta { font-size: 0.74rem; color: var(--text-muted); margin-top: 2px; line-height: 1.35; }
+      .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 12px; }
+      .card { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius);
+              padding: 14px; min-width: 0; }
+      .card .note { font-size: 0.74rem; color: var(--text-muted); margin: 2px 0 10px; line-height: 1.4; }
+      .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px; }
+      .legend span { display: inline-flex; align-items: center; gap: 6px; }
+      .legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+      svg { display: block; width: 100%; overflow: visible; }
+      svg text { fill: var(--text-secondary); font-size: 11px; font-family: inherit; }
+      svg .val { fill: var(--text-primary); font-weight: 500; }
+      svg .muted { fill: var(--text-muted); }
+      svg .hit { fill: transparent; cursor: default; }
+      svg .hit:hover + g rect, svg rect.bar:hover { filter: brightness(1.15); }
+      #tip { position: fixed; pointer-events: none; background: #0d0f17; border: 1px solid rgba(255,255,255,0.18);
+             border-radius: 8px; padding: 8px 10px; font-size: 0.76rem; color: var(--text-primary); z-index: 20;
+             max-width: 280px; line-height: 1.45; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; }
+      #tip .t { font-weight: 600; margin-bottom: 2px; }
+      #tip .m { color: var(--text-muted); }
+      .feed { list-style: none; margin: 0; padding: 0; max-height: 300px; overflow: auto; font-size: 0.8rem; }
+      .feed li { padding: 6px 0; border-bottom: 1px solid var(--border-subtle); display: grid;
+                 grid-template-columns: 78px 1fr; gap: 8px; }
+      .feed .d { color: var(--text-muted); }
+      .feed .e { color: var(--text-secondary); }
+      .pill { display: inline-block; padding: 1px 8px; border-radius: var(--radius-pill); font-size: 0.72rem;
+              border: 1px solid var(--border-subtle); color: var(--text-secondary); white-space: nowrap; }
+      .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+      .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; font-size: 0.8rem; }
+      .stats div { background: var(--surface-2); border-radius: 8px; padding: 8px 10px; }
+      .stats b { display: block; font-size: 1.1rem; font-weight: 600; }
+      .stats span { color: var(--text-muted); font-size: 0.72rem; }
+      .table-shell { background: var(--surface-1); border: 1px solid var(--border-subtle); border-radius: var(--radius); overflow: hidden; }
+      .table-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px;
+                   padding: 10px 14px; border-bottom: 1px solid var(--border-subtle); font-size: 0.8rem; color: var(--text-muted); }
+      .table-wrap { max-height: 560px; overflow: auto; }
       table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-      thead {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-        background: linear-gradient(180deg, #16192b, #111320);
-      }
-      th, td {
-        padding: 7px 10px;
-        text-align: left;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-      }
-      th {
-        font-size: 0.75rem;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--text-muted);
-        cursor: pointer;
-        white-space: nowrap;
-      }
-      th.sortable::after { content: ' ·'; opacity: 0.4; }
-      th[data-sort-dir="asc"]::after { content: ' ▲'; opacity: 0.9; }
-      th[data-sort-dir="desc"]::after { content: ' ▼'; opacity: 0.9; }
-      tbody tr:hover { background: rgba(255,255,255,0.032); }
-      tbody tr:nth-child(even) { background: rgba(255,255,255,0.01); }
-      .pill-phase {
-        padding: 2px 8px;
-        border-radius: var(--radius-pill);
-        font-size: 0.72rem;
-        border: 1px solid rgba(255,255,255,0.12);
-        background: rgba(255,255,255,0.03);
-      }
-      .pill-phase[data-phase="proposed"] { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
-      .pill-phase[data-phase="approved"] { border-color: #4ade80; color: #4ade80; background: rgba(74,222,128,0.12); }
-      .pill-phase[data-phase="construction"] { border-color: #facc15; color: #facc15; background: rgba(250,204,21,0.15); }
-      .pill-phase[data-phase="operational"] { border-color: #22c55e; color: #22c55e; background: rgba(34,197,94,0.16); }
-      .pill-phase[data-phase="rejected"],
-      .pill-phase[data-phase="withdrawn"] { border-color: var(--danger); color: var(--danger); background: rgba(255,75,106,0.16); }
-      .tag-state, .td-right { font-variant-numeric: tabular-nums; }
-      .tag-state { color: var(--text-muted); }
-      .td-right { text-align: right; }
-      .no-results {
-        padding: 16px;
-        text-align: center;
-        font-size: 0.85rem;
-        color: var(--text-muted);
-      }
-      @media (max-width: 768px) {
-        .app-shell { padding-inline: 12px; }
-        .table-shell { border-radius: 10px; }
-        th:nth-child(6), td:nth-child(6),
-        th:nth-child(7), td:nth-child(7),
-        th:nth-child(8), td:nth-child(8) { display: none; }
+      th, td { padding: 7px 10px; text-align: left; border-bottom: 1px solid var(--border-subtle); vertical-align: top; }
+      th { position: sticky; top: 0; background: #151827; color: var(--text-muted); font-weight: 600; font-size: 0.72rem;
+           text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer; user-select: none; white-space: nowrap; }
+      th[data-dir="asc"]::after { content: " ▲"; } th[data-dir="desc"]::after { content: " ▼"; }
+      td.r { text-align: right; white-space: nowrap; }
+      td .sm { color: var(--text-muted); font-size: 0.72rem; }
+      tr:hover td { background: rgba(255,255,255,0.025); }
+      .empty { padding: 20px; text-align: center; color: var(--text-muted); }
+      details summary { cursor: pointer; font-size: 0.8rem; color: var(--text-secondary); }
+      @media (max-width: 640px) {
+        .grid2 { grid-template-columns: 1fr; }
+        .hide-sm { display: none; }
       }
     </style>
   </head>
   <body>
     <div class="app-shell">
       <header>
-        <div class="title-block">
+        <div>
           <h1>Data Center Proposals</h1>
-          <div class="subtitle">Announced and proposed U.S. data center developments.</div>
+          <div class="sub">Proposed and under-construction U.S. data centers, joined to grid, community, county and history context.</div>
         </div>
-        <div class="meta-note" id="metaLastUpdated">Loading CSV on GitHub Pages</div>
+        <div class="meta-note" id="loadNote">Loading…</div>
       </header>
 
-      <div class="controls-row">
-        <div class="search-input">
-          <span style="font-size:0.8rem;opacity:0.7;">🔎</span>
-          <input id="search" type="search" placeholder="Search name, state, company, county" />
-        </div>
-        <button class="btn-ghost" id="btnReset">Clear filters</button>
+      <div class="banner" id="healthBanner" hidden></div>
+
+      <div class="controls">
+        <input id="search" class="search" type="search" placeholder="Search name, developer, county, utility" aria-label="Search" />
+        <select id="fState" aria-label="State"><option value="">State: all</option></select>
+        <select id="fRegion" aria-label="Grid region"><option value="">Grid region: all</option></select>
+        <select id="fStage" aria-label="Stage">
+          <option value="">Stage: all</option><option value="pending">Pending</option>
+          <option value="advancing">Advancing</option><option value="blocked">Blocked</option>
+        </select>
+        <select id="fOpp" aria-label="Opposition">
+          <option value="">Opposition: any</option><option value="yes">With recorded opposition</option>
+          <option value="no">None recorded</option>
+        </select>
+        <select id="fTier" aria-label="Screen tier"><option value="">Screen tier: all</option></select>
+        <button class="btn" id="btnReset" type="button">Clear</button>
       </div>
 
-      <div class="filter-row">
-        <select id="filterState" class="select"><option value="">State: All</option></select>
-        <select id="filterPhase" class="select"><option value="">Phase: All</option></select>
-        <select id="filterType" class="select"><option value="">Type: All</option></select>
+      <div class="kpis">
+        <div class="kpi"><div class="label">Projects</div><div class="value" id="kProjects">–</div><div class="meta" id="kProjectsM"></div></div>
+        <div class="kpi"><div class="label">Reported capacity</div><div class="value" id="kMw">–</div><div class="meta" id="kMwM"></div></div>
+        <div class="kpi"><div class="label">Blocked, of decided</div><div class="value" id="kBlock">–</div><div class="meta" id="kBlockM"></div></div>
+        <div class="kpi"><div class="label">With recorded opposition</div><div class="value" id="kOpp">–</div><div class="meta" id="kOppM"></div></div>
+        <div class="kpi"><div class="label">Single-source projects</div><div class="value" id="kSingle">–</div><div class="meta" id="kSingleM"></div></div>
       </div>
 
-      <div class="chips-row" id="phaseChips"></div>
+      <div class="grid2">
+        <section class="card">
+          <h2>Pipeline by phase</h2>
+          <div class="note">Projects at each phase, colored by stage. Hover a bar for MW.</div>
+          <div class="legend" id="lgStage"></div>
+          <svg id="chPhase" role="img" aria-label="Projects by phase"></svg>
+        </section>
+        <section class="card">
+          <h2>Grid region</h2>
+          <div class="note" id="noteRegion">Which RTO or utility region would have to serve the load. Basis per project is in the table.</div>
+          <div class="legend" id="lgStage2"></div>
+          <svg id="chRegion" role="img" aria-label="Projects by grid region and stage"></svg>
+        </section>
+        <section class="card">
+          <h2>Outcomes among decided projects</h2>
+          <div class="note">Share <code>blocked_confirmed</code> among projects with a verified terminal outcome. Observed shares with their counts, not effects.</div>
+          <svg id="chOutcome" role="img" aria-label="Block share by slice"></svg>
+        </section>
+        <section class="card">
+          <h2>Announcements by quarter</h2>
+          <div class="note">By announced date (month precision or better). The latest quarter is partial.</div>
+          <svg id="chQuarter" role="img" aria-label="Announcements by quarter"></svg>
+        </section>
+        <section class="card">
+          <h2>Most active developers</h2>
+          <div class="note">Lead company on two or more projects in view, colored by stage.</div>
+          <svg id="chDev" role="img" aria-label="Projects by developer"></svg>
+        </section>
+        <section class="card">
+          <h2>County restriction resemblance</h2>
+          <div class="note">Projects by the decile of their county's calibrated enacted-restriction score (county model). Resemblance, not project risk.</div>
+          <svg id="chDecile" role="img" aria-label="Projects by county restriction decile"></svg>
+        </section>
+      </div>
 
-      <div class="kpi-grid">
-        <div class="kpi-card"><div class="kpi-label">Proposals</div><div class="kpi-value" id="kpiCount">-</div><div class="kpi-meta" id="kpiCountMeta">Filtered / total</div></div>
-        <div class="kpi-card"><div class="kpi-label">Nameplate capacity (MW)</div><div class="kpi-value" id="kpiMw">-</div><div class="kpi-meta">Sum of capacity_mw where present</div></div>
-        <div class="kpi-card"><div class="kpi-label">Estimated jobs (total)</div><div class="kpi-value" id="kpiJobs">-</div><div class="kpi-meta">jobsTotal where present</div></div>
-        <div class="kpi-card"><div class="kpi-label">States represented</div><div class="kpi-value" id="kpiStates">-</div><div class="kpi-meta">Unique states in filtered view</div></div>
+      <div class="grid2">
+        <section class="card">
+          <h2>Changes in the last 30 days</h2>
+          <div class="note">From the nightly snapshot history. Dates are when the source changed, an upper bound on when the change happened.</div>
+          <ul class="feed" id="feed"><li class="empty">No history loaded.</li></ul>
+        </section>
+        <section class="card">
+          <h2>Inputs and review queues</h2>
+          <div class="note">Independent signals behind each project, and what is waiting for a person. A dash means that input has not run yet.</div>
+          <div class="stats" id="queueStats"></div>
+          <details style="margin-top:12px"><summary>Column coverage</summary><div class="stats" id="coverage" style="margin-top:8px"></div></details>
+        </section>
       </div>
 
       <section class="table-shell">
-        <div class="table-header-bar">
-          <div class="left" id="tableSummary">Loading proposals, parsing CSV, please wait</div>
-          <button class="btn-ghost" id="btnDownload">Download CSV</button>
+        <div class="table-bar">
+          <div id="tableSummary">–</div>
+          <div style="display:flex;gap:8px">
+            <button class="btn" id="btnCopy" type="button">Copy link</button>
+            <button class="btn" id="btnDownload" type="button">Download enriched CSV</button>
+          </div>
         </div>
-        <div class="table-wrapper">
+        <div class="table-wrap">
           <table>
-            <thead>
-              <tr>
-                <th class="sortable" data-col="name">Name</th>
-                <th class="sortable" data-col="state">State</th>
-                <th class="sortable" data-col="phase">Phase</th>
-                <th class="sortable" data-col="capacity_mw">MW</th>
-                <th class="sortable" data-col="jobsTotal">Jobs</th>
-                <th class="sortable" data-col="companies">Companies</th>
-                <th class="sortable" data-col="counties">County</th>
-                <th class="sortable" data-col="date">Date</th>
-              </tr>
-            </thead>
-            <tbody id="tbody"></tbody>
+            <thead><tr>
+              <th data-col="name">Project</th>
+              <th data-col="state">State</th>
+              <th data-col="grid_region" class="hide-sm">Region</th>
+              <th data-col="phase">Phase</th>
+              <th data-col="_mw" data-num="1">MW</th>
+              <th data-col="n_opposition_events" data-num="1">Opp. events</th>
+              <th data-col="screen_tier" class="hide-sm">Screen tier</th>
+              <th data-col="county_restriction_decile" data-num="1" class="hide-sm">County decile</th>
+              <th data-col="corroboration_count" data-num="1" class="hide-sm">Sources</th>
+              <th data-col="days_in_phase" data-num="1" class="hide-sm">Days in phase</th>
+            </tr></thead>
+            <tbody id="tbody"><tr><td colspan="10" class="empty">Loading…</td></tr></tbody>
           </table>
         </div>
       </section>
+      <div class="meta-note" id="footNote"></div>
     </div>
+    <div id="tip" role="tooltip"></div>
 
     <script>
-      const state = { allRows: [], filteredRows: [], sortCol: 'date', sortDir: 'desc', totals: { totalCount: 0 } };
-      const safeNumber = v => { const n = parseFloat(v); return Number.isFinite(n) ? n : 0; };
-      const formatInt = v => Number(v || 0).toLocaleString('en-US');
-      const formatMw = v => !v ? '0' : (v >= 1000 ? ((v/1000).toFixed(1).replace(/\.0$/, '') + 'k') : formatInt(Math.round(v)));
+    (function () {
+      'use strict';
+      const RAW = 'https://raw.githubusercontent.com/pricephillips/data-center-map/main';
+      const ENRICHED = [RAW + '/data/pipeline_intel_enriched.csv', './data/pipeline_intel_enriched.csv'];
+      const FALLBACK = [RAW + '/data/proposals.csv', './data/proposals.csv'];
+      const METRICS = [RAW + '/data/pipeline_intel_metrics.json', './data/pipeline_intel_metrics.json'];
+      const PHASES = ['preliminary', 'proposed', 'delayed', 'approved', 'construction', 'expansion', 'operational', 'withdrawn', 'rejected'];
+      const STAGES = ['pending', 'advancing', 'blocked'];
+      const STAGE_LABEL = { pending: 'Pending', advancing: 'Advancing', blocked: 'Blocked' };
+      const TIERS = ['Low', 'Guarded', 'Moderate', 'Elevated', 'High'];
+      const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      const COLOR = { pending: css('--s-pending'), advancing: css('--s-advancing'), blocked: css('--s-blocked') };
+      const S = { rows: [], view: [], metrics: null, enriched: true, sortCol: 'n_opposition_events', sortDir: 'desc' };
 
-      function computeTotals(rows) {
-        const states = new Set();
-        let totalMw = 0, totalJobs = 0;
-        for (const r of rows) {
-          if (r.state) states.add(r.state);
-          totalMw += safeNumber(r.capacity_mw);
-          totalJobs += safeNumber(r.jobsTotal);
-        }
-        return { totalCount: rows.length, totalMw, totalJobs, statesCount: states.size };
+      const num = v => { const n = parseFloat(String(v ?? '').replace(/,/g, '')); return Number.isFinite(n) ? n : null; };
+      const fmt = v => v == null ? '–' : Math.round(v).toLocaleString('en-US');
+      const fmtMw = v => v == null ? '–' : v >= 1000 ? (v / 1000).toFixed(1).replace(/\.0$/, '') + ' GW' : Math.round(v) + ' MW';
+      const pct = (k, n) => n ? Math.round(100 * k / n) + '%' : '–';
+      const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+      const stageOf = p => { p = String(p || '').toLowerCase();
+        return ['withdrawn', 'rejected'].includes(p) ? 'blocked'
+             : ['approved', 'construction', 'expansion', 'operational'].includes(p) ? 'advancing' : 'pending'; };
+      const hasOpp = r => (num(r.n_opposition_events) || 0) > 0;
+
+      // ---------------------------------------------------------------- loading
+      function parseFirst(urls, done) {
+        let i = 0;
+        (function next() {
+          if (i >= urls.length) return done(null);
+          Papa.parse(urls[i++], { download: true, header: true, skipEmptyLines: true,
+            complete: r => (r && r.data && r.data.length ? done(r.data) : next()), error: next });
+        })();
+      }
+      async function fetchFirst(urls) {
+        for (const u of urls) { try { const r = await fetch(u, { cache: 'no-cache' }); if (r.ok) return await r.json(); } catch (e) {} }
+        return null;
+      }
+      function normalizeFallback(rows) {
+        const AB = { 'Alabama':'AL','Alaska':'AK','Arizona':'AZ','Arkansas':'AR','California':'CA','Colorado':'CO','Connecticut':'CT','Delaware':'DE','Florida':'FL','Georgia':'GA','Hawaii':'HI','Idaho':'ID','Illinois':'IL','Indiana':'IN','Iowa':'IA','Kansas':'KS','Kentucky':'KY','Louisiana':'LA','Maine':'ME','Maryland':'MD','Massachusetts':'MA','Michigan':'MI','Minnesota':'MN','Mississippi':'MS','Missouri':'MO','Montana':'MT','Nebraska':'NE','Nevada':'NV','New Hampshire':'NH','New Jersey':'NJ','New Mexico':'NM','New York':'NY','North Carolina':'NC','North Dakota':'ND','Ohio':'OH','Oklahoma':'OK','Oregon':'OR','Pennsylvania':'PA','Rhode Island':'RI','South Carolina':'SC','South Dakota':'SD','Tennessee':'TN','Texas':'TX','Utah':'UT','Vermont':'VT','Virginia':'VA','Washington':'WA','West Virginia':'WV','Wisconsin':'WI','Wyoming':'WY' };
+        return rows.map(r => ({ project_id: 'prj_' + r.id, name: r.name, state: AB[r.state] || r.state,
+          county: (r.counties || '').split(';')[0], phase: r.phase, stage_group: stageOf(r.phase),
+          developer: (r.companies || '').split(';')[0].trim(), companies: r.companies,
+          capacity_mw: r.capacity_mw, capacity_basis: num(r.capacity_mw) ? 'reported' : 'unknown',
+          size_acres: r.size_acres, announced_date: r.date, corroboration_count: 1 }));
       }
 
-      function renderKpis() {
-        const t = state.totals;
-        document.getElementById('kpiCount').textContent = formatInt(t.totalCount);
-        document.getElementById('kpiCountMeta').textContent = `${formatInt(t.totalCount)} filtered of ${formatInt(state.allRows.length)} total proposals`;
-        document.getElementById('kpiMw').textContent = formatMw(t.totalMw);
-        document.getElementById('kpiJobs').textContent = formatInt(Math.round(t.totalJobs));
-        document.getElementById('kpiStates').textContent = formatInt(t.statesCount);
-        document.getElementById('tableSummary').textContent = `${formatInt(t.totalCount)} proposals · ${formatMw(t.totalMw)} MW · ${formatInt(t.statesCount)} states`;
+      // ---------------------------------------------------------------- tooltip
+      const tip = document.getElementById('tip');
+      function showTip(ev, html) {
+        tip.innerHTML = html; tip.style.display = 'block';
+        const pad = 14, w = tip.offsetWidth, h = tip.offsetHeight;
+        let x = ev.clientX + pad, y = ev.clientY + pad;
+        if (x + w > innerWidth - 8) x = ev.clientX - w - pad;
+        if (y + h > innerHeight - 8) y = ev.clientY - h - pad;
+        tip.style.left = x + 'px'; tip.style.top = y + 'px';
+      }
+      const hideTip = () => { tip.style.display = 'none'; };
+      function bindTip(el, html) {
+        el.addEventListener('mousemove', e => showTip(e, html));
+        el.addEventListener('mouseleave', hideTip);
       }
 
-      function renderTable() {
-        const tbody = document.getElementById('tbody');
-        tbody.innerHTML = '';
-        if (!state.filteredRows.length) {
-          tbody.innerHTML = '<tr><td colspan="8" class="no-results">No proposals match the current filters.</td></tr>';
-          return;
-        }
-        const frag = document.createDocumentFragment();
-        for (const r of state.filteredRows) {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${r.name || ''}</td>
-            <td><span class="tag-state">${r.state || ''}</span></td>
-            <td><span class="pill-phase" data-phase="${(r.phase || '').toLowerCase()}">${r.phase || '-'}</span></td>
-            <td class="td-right">${r.capacity_mw ? formatInt(Math.round(safeNumber(r.capacity_mw))) : ''}</td>
-            <td class="td-right">${r.jobsTotal ? formatInt(Math.round(safeNumber(r.jobsTotal))) : ''}</td>
-            <td>${r.companies || ''}</td>
-            <td>${r.counties || ''}</td>
-            <td>${r.date || ''}</td>`;
-          frag.appendChild(tr);
-        }
-        tbody.appendChild(frag);
+      // ---------------------------------------------------------------- svg helpers
+      const NS = 'http://www.w3.org/2000/svg';
+      function el(tag, attrs, parent) {
+        const e = document.createElementNS(NS, tag);
+        for (const k in attrs) e.setAttribute(k, attrs[k]);
+        if (parent) parent.appendChild(e);
+        return e;
+      }
+      function txt(parent, x, y, s, cls, anchor) {
+        const t = el('text', { x, y, class: cls || '', 'text-anchor': anchor || 'start', 'dominant-baseline': 'middle' }, parent);
+        t.textContent = s; return t;
+      }
+      // Rounded on the data end only (4px), square at the baseline.
+      function hbarPath(x, y, w, h, roundEnd) {
+        const r = Math.min(4, w / 2, h / 2);
+        if (!roundEnd || w < 1) return `M${x},${y}h${Math.max(0, w)}v${h}h${-Math.max(0, w)}z`;
+        return `M${x},${y}h${w - r}a${r},${r} 0 0 1 ${r},${r}v${h - 2 * r}a${r},${r} 0 0 1 ${-r},${r}h${-(w - r)}z`;
+      }
+      function vbarPath(x, y, w, h) {
+        const r = Math.min(4, w / 2, h);
+        if (h < 1) return '';
+        return `M${x},${y + h}v${-(h - r)}a${r},${r} 0 0 1 ${r},${-r}h${w - 2 * r}a${r},${r} 0 0 1 ${r},${r}v${h - r}z`;
+      }
+      function legend(id) {
+        document.getElementById(id).innerHTML = STAGES.map(s =>
+          `<span><i style="background:${COLOR[s]}"></i>${STAGE_LABEL[s]}</span>`).join('');
       }
 
-      const PERMA = MapPermalink.attachControls({
-        controls: [
-          { id: 'search',      key: 'q' },
-          { id: 'filterState', key: 'state' },
-          { id: 'filterPhase', key: 'phase' },
-          { id: 'filterType',  key: 'type' }
-        ],
-        onRestore() { applyFilters(); }
-      });
-
-      function applyFilters() {
-        const q = document.getElementById('search').value.trim().toLowerCase();
-        const stateSel = document.getElementById('filterState').value;
-        const phaseSel = document.getElementById('filterPhase').value;
-        const typeSel = document.getElementById('filterType').value;
-        let rows = state.allRows.slice();
-        if (stateSel) rows = rows.filter(r => r.state === stateSel);
-        if (phaseSel) rows = rows.filter(r => r.phase === phaseSel);
-        if (typeSel) rows = rows.filter(r => r.type === typeSel);
-        if (q) {
-          rows = rows.filter(r => `${r.name || ''} ${r.state || ''} ${r.companies || ''} ${r.counties || ''}`.toLowerCase().includes(q));
-        }
-        rows.sort((a, b) => {
-          const col = state.sortCol;
-          const dir = state.sortDir === 'asc' ? 1 : -1;
-          if (col === 'capacity_mw' || col === 'jobsTotal') return (safeNumber(a[col]) - safeNumber(b[col])) * dir;
-          const av = String(a[col] || '').toLowerCase();
-          const bv = String(b[col] || '').toLowerCase();
-          return av < bv ? -1 * dir : av > bv ? 1 * dir : 0;
+      // Horizontal stacked bars. items: [{label, parts:{stage:n}, tip}]
+      function stackedBars(svgId, items, opts = {}) {
+        const svg = document.getElementById(svgId);
+        svg.innerHTML = '';
+        const W = svg.clientWidth || 520, labelW = opts.labelW || 118, rowH = 24, barH = 14, right = 44;
+        const H = Math.max(rowH, items.length * rowH) + 6;
+        svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('height', H);
+        if (!items.length) { txt(svg, 0, 12, 'Nothing in view.', 'muted'); return; }
+        const max = Math.max(...items.map(i => STAGES.reduce((a, s) => a + (i.parts[s] || 0), 0)), 1);
+        const sx = v => (W - labelW - right) * v / max;
+        items.forEach((it, i) => {
+          const y = i * rowH + (rowH - barH) / 2;
+          txt(svg, labelW - 8, y + barH / 2, it.label.length > 20 ? it.label.slice(0, 19) + '…' : it.label, '', 'end');
+          let x = labelW; const total = STAGES.reduce((a, s) => a + (it.parts[s] || 0), 0);
+          const segs = STAGES.filter(s => it.parts[s]);
+          segs.forEach((s, j) => {
+            const w = sx(it.parts[s]);
+            const gap = j < segs.length - 1 ? 2 : 0;
+            el('path', { d: hbarPath(x, y, Math.max(0, w - gap), barH, j === segs.length - 1), fill: COLOR[s], class: 'bar' }, svg);
+            x += w;
+          });
+          txt(svg, x + 6, y + barH / 2, fmt(total), 'val');
+          const hit = el('rect', { x: 0, y: i * rowH, width: W, height: rowH, class: 'hit' }, svg);
+          bindTip(hit, it.tip || `<div class="t">${esc(it.label)}</div>${STAGES.map(s => `${STAGE_LABEL[s]}: ${it.parts[s] || 0}`).join('<br>')}`);
         });
-        state.filteredRows = rows;
-        state.totals = computeTotals(rows);
-        renderTable();
-        renderKpis();
       }
 
-      function populateFilters(rows) {
-        const unique = key => Array.from(new Set(rows.map(r => r[key]).filter(Boolean))).sort();
-        for (const [id, items] of [['filterState', unique('state')], ['filterPhase', unique('phase')], ['filterType', unique('type')]]) {
-          const select = document.getElementById(id);
-          for (const item of items) {
-            const opt = document.createElement('option');
-            opt.value = item;
-            opt.textContent = item;
-            select.appendChild(opt);
+      function columns(svgId, items, colorFn, opts = {}) {
+        const svg = document.getElementById(svgId);
+        svg.innerHTML = '';
+        const W = svg.clientWidth || 520, H = 180, top = 16, bottom = 24, left = 28;
+        svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('height', H);
+        if (!items.length) { txt(svg, 0, 12, 'Nothing in view.', 'muted'); return; }
+        const max = Math.max(...items.map(i => i.value), 1);
+        const ticks = niceTicks(max);
+        const plotH = H - top - bottom, sy = v => plotH * v / ticks[ticks.length - 1];
+        ticks.forEach(t => {
+          const y = top + plotH - sy(t);
+          el('line', { x1: left, x2: W, y1: y, y2: y, stroke: css('--grid') }, svg);
+          txt(svg, left - 6, y, fmt(t), 'muted', 'end');
+        });
+        const slot = (W - left) / items.length, bw = Math.max(4, Math.min(34, slot - 4));
+        const every = Math.ceil(items.length / Math.floor((W - left) / 46));
+        items.forEach((it, i) => {
+          const x = left + i * slot + (slot - bw) / 2, h = sy(it.value), y = top + plotH - h;
+          el('path', { d: vbarPath(x, y, bw, h), fill: colorFn(it, i), class: 'bar' }, svg);
+          if (i % every === 0 || i === items.length - 1) txt(svg, x + bw / 2, H - 10, it.label, 'muted', 'middle');
+          if (opts.labelMax && it.value === max) txt(svg, x + bw / 2, y - 8, fmt(it.value), 'val', 'middle');
+          const hit = el('rect', { x: left + i * slot, y: top, width: slot, height: plotH, class: 'hit' }, svg);
+          bindTip(hit, it.tip || `<div class="t">${esc(it.label)}</div>${fmt(it.value)} projects`);
+        });
+      }
+      function niceTicks(max) {
+        const step = Math.pow(10, Math.floor(Math.log10(max))) * ([1, 2, 5, 10].find(m => max / (Math.pow(10, Math.floor(Math.log10(max))) * m) <= 5) || 10);
+        const out = []; for (let v = 0; v <= max + step * 0.001; v += step) out.push(v);
+        if (out[out.length - 1] < max) out.push(out[out.length - 1] + step);
+        return out;
+      }
+
+      // Block share: one row per slice, bar = share, label = k of n.
+      function shareBars(svgId, items) {
+        const svg = document.getElementById(svgId);
+        svg.innerHTML = '';
+        const W = svg.clientWidth || 520, labelW = 170, rowH = 26, barH = 12, right = 92;
+        const H = items.length * rowH + 22;
+        svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('height', H);
+        const sx = v => (W - labelW - right) * v;
+        [0, 0.5, 1].forEach(t => {
+          const x = labelW + sx(t);
+          el('line', { x1: x, x2: x, y1: 0, y2: H - 18, stroke: css('--grid') }, svg);
+          txt(svg, x, H - 8, Math.round(t * 100) + '%', 'muted', 'middle');
+        });
+        items.forEach((it, i) => {
+          const y = i * rowH + (rowH - barH) / 2;
+          txt(svg, labelW - 8, y + barH / 2, it.label, '', 'end');
+          if (it.n) {
+            el('path', { d: hbarPath(labelW, y, sx(it.k / it.n), barH, true), fill: COLOR.blocked, class: 'bar' }, svg);
+            txt(svg, labelW + sx(it.k / it.n) + 6, y + barH / 2, `${pct(it.k, it.n)}  ${it.k} of ${it.n}`, 'val');
+          } else {
+            txt(svg, labelW, y + barH / 2, 'no decided projects', 'muted');
           }
+          const hit = el('rect', { x: 0, y: i * rowH, width: W, height: rowH, class: 'hit' }, svg);
+          bindTip(hit, `<div class="t">${esc(it.label)}</div>${it.k} blocked of ${it.n} decided<div class="m">${esc(it.note || '')}</div>`);
+        });
+      }
+
+      // ---------------------------------------------------------------- render
+      function render() {
+        const v = S.view;
+        // Constitution I: decided = a terminal lifecycle outcome, never a raw phase.
+        const decided = v.filter(r => r.outcome_group === 'blocked' || r.outcome_group === 'advanced');
+        const blocked = v.filter(r => r.outcome_group === 'blocked');
+        const mwRows = v.filter(r => num(r.capacity_mw));
+        const mw = mwRows.reduce((a, r) => a + num(r.capacity_mw), 0);
+        const estLo = v.reduce((a, r) => a + (num(r.capacity_mw_est_low) || 0), 0);
+        const estHi = v.reduce((a, r) => a + (num(r.capacity_mw_est_high) || 0), 0);
+        const estN = v.filter(r => r.capacity_basis === 'estimate_from_acreage').length;
+        const opp = v.filter(hasOpp);
+        const single = v.filter(r => (num(r.corroboration_count) || 1) <= 1);
+        const $ = id => document.getElementById(id);
+        $('kProjects').textContent = fmt(v.length);
+        $('kProjectsM').textContent = `${new Set(v.map(r => r.state)).size} states · ${v.filter(r => r.stage_group === 'pending').length} pending`;
+        $('kMw').textContent = fmtMw(mw);
+        $('kMwM').textContent = `${mwRows.length} of ${v.length} report MW` + (estN ? ` · ${estN} more by acreage: est. ${fmtMw(estLo)}–${fmtMw(estHi)}, not included` : '');
+        $('kBlock').textContent = pct(blocked.length, decided.length);
+        $('kBlockM').textContent = S.enriched ? `${blocked.length} blocked_confirmed of ${decided.length} with a verified terminal outcome` : 'needs the enriched feed';
+        $('kOpp').textContent = fmt(opp.length);
+        $('kOppM').textContent = `${pct(opp.length, v.length)} of projects in view` + (S.enriched ? '' : ' (enriched file unavailable)');
+        $('kSingle').textContent = fmt(single.length);
+        $('kSingleM').textContent = 'Only the tracker lists them: no permit, news, generation or local record yet';
+
+        // phase
+        const byPhase = {};
+        v.forEach(r => { const p = (r.phase || '(blank)').toLowerCase(); (byPhase[p] ||= []).push(r); });
+        const phases = Object.keys(byPhase).sort((a, b) => (PHASES.indexOf(a) + 99) % 108 - (PHASES.indexOf(b) + 99) % 108);
+        stackedBars('chPhase', phases.map(p => {
+          const rs = byPhase[p], parts = {}; parts[stageOf(p)] = rs.length;
+          const m = rs.reduce((a, r) => a + (num(r.capacity_mw) || 0), 0), mn = rs.filter(r => num(r.capacity_mw)).length;
+          const rc = rs.filter(r => r.source_reclassified_from).length;
+          return { label: p, parts, tip: `<div class="t">${esc(p)}</div>${rs.length} projects<br>${fmtMw(m)} reported (${mn} report MW)` +
+            (rc ? `<div class="m">${rc} read "${esc(p)}" because the source folded "approved" into it on 2026-09-22</div>` : '') };
+        }), { labelW: 96 });
+
+        // region
+        const byReg = {};
+        v.forEach(r => { const k = r.grid_region || '(unassigned)'; (byReg[k] ||= []).push(r); });
+        stackedBars('chRegion', Object.entries(byReg).sort((a, b) => b[1].length - a[1].length).map(([k, rs]) => {
+          const parts = {}; rs.forEach(r => parts[r.stage_group] = (parts[r.stage_group] || 0) + 1);
+          const bases = {}; rs.forEach(r => bases[r.grid_region_basis || 'none'] = (bases[r.grid_region_basis || 'none'] || 0) + 1);
+          const m = rs.reduce((a, r) => a + (num(r.capacity_mw) || 0), 0);
+          return { label: k, parts, tip: `<div class="t">${esc(k)}</div>${rs.length} projects · ${fmtMw(m)} reported<br>` +
+            STAGES.map(s => `${STAGE_LABEL[s]}: ${parts[s] || 0}`).join(' · ') +
+            `<div class="m">Basis: ${Object.entries(bases).map(([b, n]) => `${esc(b)} ${n}`).join(', ')}</div>` };
+        }), { labelW: 140 });
+
+        // outcomes
+        const slice = (label, f, note) => { const d = decided.filter(f); return { label, n: d.length, k: d.filter(r => r.outcome_group === 'blocked').length, note }; };
+        shareBars('chOutcome', [
+          slice('All decided', () => true, 'blocked_confirmed, of projects with a verified terminal lifecycle outcome.'),
+          slice('With recorded opposition', hasOpp, 'At least one linked opposition event.'),
+          slice('No recorded opposition', r => !hasOpp(r), 'None linked. Absence of a record is not absence of opposition.'),
+          slice('With a lawsuit', r => r.has_lawsuit === 'yes', 'Linked opposition includes litigation.'),
+          slice('County decile 8 to 10', r => (num(r.county_restriction_decile) || 0) >= 8, 'County resembles counties that enacted restrictions.'),
+          slice('Co-located generation', r => r.colocated_generation === 'yes', 'Planned gas or data-center-named plant within 5 km (EIA-860M).'),
+        ]);
+
+        // quarters
+        const q = {};
+        v.forEach(r => { const m = /^(\d{4})-(\d{1,2})/.exec(r.announced_date || ''); if (m) { const k = `${m[1]} Q${Math.floor((+m[2] - 1) / 3) + 1}`; q[k] = (q[k] || 0) + 1; } });
+        const qk = Object.keys(q).sort().slice(-16);
+        columns('chQuarter', qk.map(k => ({ label: k.replace(/^20/, "'").replace(' Q', ' Q'), value: q[k], tip: `<div class="t">${k}</div>${q[k]} projects announced` })),
+          () => COLOR.pending, { labelMax: true });
+
+        // developers
+        const byDev = {};
+        v.forEach(r => { if (r.developer && !/undisclosed|unknown|^multiple|^n\/a$/i.test(r.developer)) (byDev[r.developer] ||= []).push(r); });
+        stackedBars('chDev', Object.entries(byDev).filter(([, rs]) => rs.length >= 2).sort((a, b) => b[1].length - a[1].length).slice(0, 12).map(([k, rs]) => {
+          const parts = {}; rs.forEach(r => parts[r.stage_group] = (parts[r.stage_group] || 0) + 1);
+          const states = [...new Set(rs.map(r => r.state))].join(', ');
+          return { label: k, parts, tip: `<div class="t">${esc(k)}</div>${rs.length} projects in ${esc(states)}<br>` + STAGES.map(s => `${STAGE_LABEL[s]}: ${parts[s] || 0}`).join(' · ') };
+        }), { labelW: 150 });
+
+        // deciles
+        const dec = {}; v.forEach(r => { const d = num(r.county_restriction_decile); if (d) dec[d] = (dec[d] || 0) + 1; });
+        const ramp = ['--q1', '--q1', '--q2', '--q3', '--q4', '--q5', '--q6', '--q7', '--q8', '--q8'].map(css);
+        columns('chDecile', Array.from({ length: 10 }, (_, i) => ({ label: 'D' + (i + 1), value: dec[i + 1] || 0,
+          tip: `<div class="t">Decile ${i + 1}</div>${dec[i + 1] || 0} projects<div class="m">10 = most like counties that enacted restrictions</div>` })),
+          (it, i) => ramp[i], { labelMax: true });
+
+        renderTable();
+      }
+
+      function mwCell(r) {
+        const m = num(r.capacity_mw);
+        if (m) return fmt(m);
+        if (r.capacity_basis === 'estimate_from_acreage') return `<span class="sm" title="Estimated from ${esc(r.size_acres)} acres at the observed MW-per-acre range">~${fmt(num(r.capacity_mw_est_low))}–${fmt(num(r.capacity_mw_est_high))}</span>`;
+        if (num(r.capacity_max_mw)) return `<span class="sm">up to ${fmt(num(r.capacity_max_mw))}</span>`;
+        return '<span class="sm">–</span>';
+      }
+      function renderTable() {
+        const col = S.sortCol, dir = S.sortDir === 'asc' ? 1 : -1;
+        const numCol = document.querySelector(`th[data-col="${col}"]`)?.dataset.num;
+        const val = r => col === '_mw' ? (num(r.capacity_mw) ?? num(r.capacity_mw_est) ?? -1) : r[col];
+        const rows = S.view.slice().sort((a, b) => {
+          if (numCol) return ((num(val(a)) ?? -1) - (num(val(b)) ?? -1)) * dir;
+          return String(val(a) || '').localeCompare(String(val(b) || '')) * dir;
+        });
+        document.querySelectorAll('th[data-col]').forEach(th => th.dataset.dir = th.dataset.col === col ? S.sortDir : '');
+        const tb = document.getElementById('tbody');
+        if (!rows.length) { tb.innerHTML = '<tr><td colspan="10" class="empty">No projects match the current filters.</td></tr>'; return; }
+        tb.innerHTML = rows.map(r => `<tr>
+          <td>${esc(r.name)}<div class="sm">${esc([r.county, r.developer].filter(Boolean).join(' · '))}</div></td>
+          <td>${esc(r.state)}</td>
+          <td class="hide-sm">${esc(r.grid_region || '')}<div class="sm">${esc(r.grid_region_basis || '')}</div></td>
+          <td><span class="dot" style="background:${COLOR[r.stage_group] || COLOR.pending}"></span>${esc(r.phase || '')}${r.source_reclassified_from ? `<div class="sm">was ${esc(r.source_reclassified_from)} (source relabel)</div>` : ''}</td>
+          <td class="r">${mwCell(r)}</td>
+          <td class="r">${num(r.n_opposition_events) ? fmt(num(r.n_opposition_events)) : '<span class="sm">–</span>'}${r.has_lawsuit === 'yes' ? '<div class="sm">lawsuit</div>' : ''}</td>
+          <td class="hide-sm">${r.screen_tier ? `<span class="pill">${esc(r.screen_tier)}</span>` : ''}</td>
+          <td class="r hide-sm">${esc(r.county_restriction_decile || '')}</td>
+          <td class="r hide-sm" title="${esc(r.corroboration_signals || '')}">${esc(r.corroboration_count || '')}</td>
+          <td class="r hide-sm">${esc(r.days_in_phase || '')}</td></tr>`).join('');
+        const mw = rows.reduce((a, r) => a + (num(r.capacity_mw) || 0), 0);
+        document.getElementById('tableSummary').textContent = `${fmt(rows.length)} projects · ${fmtMw(mw)} reported · sorted by ${col.replace(/^_/, '').replace(/_/g, ' ')}`;
+      }
+
+      function renderStatic() {
+        const m = S.metrics;
+        if (!m) return;
+        const sh = m.source_health || {};
+        const notes = [];
+        if ((sh.source_renumberings || []).length) {
+          const last = sh.source_renumberings[sh.source_renumberings.length - 1];
+          notes.push(`<b>The source renumbered its project ids ${sh.source_renumberings.length} times</b> since ${esc(sh.panel_start)}, most recently on ${esc(last.snapshot)} (${last.ids_changed} ids). Hand-verified corrections are re-keyed to follow their projects; see <code>data/pipeline_intel_rekey_report.md</code>.`);
         }
-        const chipsWrap = document.getElementById('phaseChips');
-        for (const phase of unique('phase')) {
-          const chip = document.createElement('button');
-          chip.type = 'button';
-          chip.className = 'chip';
-          chip.dataset.phaseValue = phase;
-          chip.textContent = phase;
-          chip.addEventListener('click', () => {
-            const phaseSelect = document.getElementById('filterPhase');
-            phaseSelect.value = phaseSelect.value === phase ? '' : phase;
-            syncPhaseChips();
-            applyFilters();
+        (sh.source_reclassifications || []).forEach(r => notes.push(`<b>On ${esc(r.snapshot)} the source relabeled ${r.n} "${esc(r.from)}" projects as "${esc(r.to)}"</b>, a vocabulary change rather than ${r.n} reversals. They count as pending here and are marked in the table.`));
+        const b = document.getElementById('healthBanner');
+        if (notes.length) { b.innerHTML = notes.join('<br>'); b.hidden = false; }
+
+        const feed = document.getElementById('feed');
+        const ev = m.recent_changes_30d || [];
+        const label = e => e.event === 'phase_change' ? `${esc(e.from)} → <b>${esc(e.to)}</b>` : e.event === 'first_seen' ? `<b>new</b> (${esc(e.to)})` : e.event === 'removed' ? '<b>dropped by source</b>' : '<b>back in source</b>';
+        feed.innerHTML = ev.length ? ev.map(e => `<li><span class="d">${esc(e.seen_date)}</span><span class="e">${esc(e.name || e.project_id)}: ${label(e)}</span></li>`).join('') : '<li class="empty">No changes in the last 30 days.</li>';
+
+        const qd = m.queues || {}, co = m.corroboration || {}, sig = co.signals || {};
+        const stat = (v, l) => `<div><b>${v == null ? '–' : fmt(v)}</b><span>${l}</span></div>`;
+        document.getElementById('queueStats').innerHTML = [
+          stat(sig.federal_air_permit, 'projects with an EPA air permit nearby'),
+          stat(sig.news, 'projects corroborated by news this quarter'),
+          stat(sig.colocated_generation, 'with planned generation within 5 km'),
+          stat(sig.local_record, 'with a local opposition record'),
+          stat(qd.news_new_candidates, 'untracked proposals found in news, awaiting review'),
+          stat(qd.news_possible_matches, 'news items possibly about a tracked project'),
+          stat(qd.air_permits_unmatched, 'permitted data centers nobody tracks'),
+        ].join('');
+        const cov = m.coverage || {};
+        document.getElementById('coverage').innerHTML = Object.entries(cov).map(([k, x]) => stat(null, '').replace('<b>–</b>', `<b>${Math.round(x * 100)}%</b>`).replace('<span></span>', `<span>${esc(k.replace(/_/g, ' '))}</span>`)).join('');
+        document.getElementById('footNote').textContent = `Metrics generated ${m._generated}. ${m._note}`;
+      }
+
+      // ---------------------------------------------------------------- filters
+      const PERMA = MapPermalink.attachControls({
+        controls: [{ id: 'search', key: 'q' }, { id: 'fState', key: 'state' }, { id: 'fRegion', key: 'region' },
+                   { id: 'fStage', key: 'stage' }, { id: 'fOpp', key: 'opp' }, { id: 'fTier', key: 'tier' }],
+        onRestore() { apply(); }
+      });
+      function apply() {
+        const q = document.getElementById('search').value.trim().toLowerCase();
+        const f = id => document.getElementById(id).value;
+        const st = f('fState'), rg = f('fRegion'), sg = f('fStage'), op = f('fOpp'), tr = f('fTier');
+        S.view = S.rows.filter(r =>
+          (!st || r.state === st) && (!rg || r.grid_region === rg) && (!sg || r.stage_group === sg) &&
+          (!op || (op === 'yes') === hasOpp(r)) && (!tr || r.screen_tier === tr) &&
+          (!q || `${r.name} ${r.developer} ${r.companies} ${r.county} ${r.state} ${r.utilities || ''}`.toLowerCase().includes(q)));
+        render();
+      }
+      function fill(id, values) {
+        const s = document.getElementById(id);
+        values.forEach(v => { const o = document.createElement('option'); o.value = v; o.textContent = v; s.appendChild(o); });
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        const note = document.getElementById('loadNote');
+        fetchFirst(METRICS).then(m => { S.metrics = m; renderStatic(); });
+        parseFirst(ENRICHED, rows => {
+          const go = (data, enriched) => {
+            S.rows = data; S.enriched = enriched;
+            note.textContent = enriched ? `${data.length} projects · enriched feed` : `${data.length} projects · enriched feed unavailable, showing the tracker only`;
+            const uniq = k => [...new Set(data.map(r => r[k]).filter(Boolean))].sort();
+            fill('fState', uniq('state')); fill('fRegion', uniq('grid_region'));
+            fill('fTier', TIERS.filter(t => data.some(r => r.screen_tier === t)));
+            ['search'].forEach(id => document.getElementById(id).addEventListener('input', apply));
+            ['fState', 'fRegion', 'fStage', 'fOpp', 'fTier'].forEach(id => document.getElementById(id).addEventListener('change', apply));
+            document.getElementById('btnReset').addEventListener('click', () => {
+              ['search', 'fState', 'fRegion', 'fStage', 'fOpp', 'fTier'].forEach(id => document.getElementById(id).value = '');
+              apply();
+            });
+            document.getElementById('btnDownload').addEventListener('click', () => { location.href = enriched ? 'data/pipeline_intel_enriched.csv' : 'data/proposals.csv'; });
+            document.getElementById('btnCopy').addEventListener('click', () => MapPermalink.copyLink());
+            document.querySelectorAll('th[data-col]').forEach(th => th.addEventListener('click', () => {
+              S.sortDir = S.sortCol === th.dataset.col && S.sortDir === 'desc' ? 'asc' : 'desc';
+              S.sortCol = th.dataset.col; renderTable();
+            }));
+            legend('lgStage'); legend('lgStage2');
+            PERMA.restore();
+            apply();
+            let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(render, 150); });
+          };
+          if (rows) go(rows, true);
+          else parseFirst(FALLBACK, raw => {
+            if (raw) return go(normalizeFallback(raw), false);
+            note.textContent = 'Could not load proposals data.';
+            const b = document.getElementById('healthBanner');
+            b.innerHTML = '<b>Data failed to load.</b> Neither the enriched feed nor data/proposals.csv could be fetched from raw.githubusercontent.com or this site. Reload, or open the CSV directly on GitHub.';
+            b.hidden = false;
           });
-          chipsWrap.appendChild(chip);
-        }
-      }
-
-      function syncPhaseChips() {
-        const active = document.getElementById('filterPhase').value;
-        document.querySelectorAll('.chip').forEach(chip => {
-          chip.dataset.active = chip.dataset.phaseValue === active ? 'true' : 'false';
         });
-      }
-
-      function attachEvents() {
-        document.getElementById('search').addEventListener('input', applyFilters);
-        document.getElementById('filterState').addEventListener('change', applyFilters);
-        document.getElementById('filterPhase').addEventListener('change', () => { syncPhaseChips(); applyFilters(); });
-        document.getElementById('filterType').addEventListener('change', applyFilters);
-        document.getElementById('btnReset').addEventListener('click', () => {
-          document.getElementById('search').value = '';
-          document.getElementById('filterState').value = '';
-          document.getElementById('filterPhase').value = '';
-          document.getElementById('filterType').value = '';
-          syncPhaseChips();
-          applyFilters();
-        });
-        document.getElementById('btnDownload').addEventListener('click', () => window.location.href = 'data/proposals.csv');
-        document.querySelectorAll('th.sortable').forEach(th => {
-          th.addEventListener('click', () => {
-            const col = th.dataset.col;
-            state.sortDir = state.sortCol === col && state.sortDir === 'asc' ? 'desc' : 'asc';
-            state.sortCol = col;
-            document.querySelectorAll('th.sortable').forEach(el => el.removeAttribute('data-sort-dir'));
-            th.setAttribute('data-sort-dir', state.sortDir);
-            applyFilters();
-          });
-        });
-      }
-
-window.addEventListener('DOMContentLoaded', () => {
-  // Raw first, then the Pages origin. GitHub Pages sends no CORS headers, so
-  // an embedded iframe fails silently on the Pages origin; this loader was
-  // relative-only.
-  const RAW = 'https://raw.githubusercontent.com/pricephillips/data-center-map/main';
-  const PROPOSAL_URLS = [RAW + '/data/proposals.csv', './data/proposals.csv'];
-  const csvPath = 'data/proposals.csv';
-  document.getElementById('metaLastUpdated').textContent = `Loading ${csvPath}`;
-
-  function parseFirst(urls, cfg) {
-    let i = 0;
-    (function attempt() {
-      if (i >= urls.length) { cfg.complete({ data: [], errors: [] }); return; }
-      Papa.parse(urls[i++], Object.assign({}, cfg, {
-        download: true,
-        complete(res) { (res && res.data && res.data.length) ? cfg.complete(res) : attempt(); },
-        error() { attempt(); }
-      }));
+      });
+      window.addEventListener('error', e => { document.getElementById('loadNote').textContent = 'Runtime error: ' + e.message; });
     })();
-  }
-
-  parseFirst(PROPOSAL_URLS, {
-    header: true,
-    dynamicTyping: true,
-    skipEmptyLines: true,
-    complete: (results) => {
-      if (results.errors && results.errors.length) {
-        document.getElementById('metaLastUpdated').textContent =
-          `CSV parse error: ${results.errors[0].message}`;
-        console.error(results.errors);
-        return;
-      }
-
-      const data = results.data || [];
-      state.allRows = data;
-      document.getElementById('metaLastUpdated').textContent =
-        `Loaded ${data.length} rows from ${csvPath}`;
-      populateFilters(data);
-      attachEvents();
-      // Options exist now, so parked filter values can finally land.
-      PERMA.restore();
-      applyFilters();
-    },
-    error: (err) => {
-      document.getElementById('metaLastUpdated').textContent =
-        `Error loading ${csvPath}: ${err?.message || err}`;
-      console.error(err);
-    }
-  });
-});
-
-window.addEventListener('error', (event) => {
-  document.getElementById('metaLastUpdated').textContent =
-    `Runtime error: ${event.message}`;
-});
     </script>
   </body>
 </html>

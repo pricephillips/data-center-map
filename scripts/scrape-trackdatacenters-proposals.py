@@ -39,7 +39,168 @@ CSV_FIELDS = [
     "approx", "locationTbd", "locationConfidence", "moratoriumExempt",
     "info",
     "createdAt", "updatedAt",
+    # --- 2026-09-28: fields the source sent for weeks and nothing read -----
+    # Appended, never interleaved, so every reader that indexes the header
+    # by name or by position keeps working. See EXTENDED_FIELDS below.
+    "project_cost_usd", "capacity_max_mw",
+    "btm_power", "btm_power_name", "power_source", "dedicated_substation",
+    "n_generators", "cooling_source", "cooling_type",
+    "n_buildings", "facility_sqft",
+    "date_online", "date_online_max",
+    "zip", "slug", "niche", "nda",
+    "n_approvals", "n_sources", "source_urls",
+    "n_additional_sites", "has_parcel_geometry", "is_existing",
 ]
+
+# ---------------------------------------------------------------------------
+# Extended fields (2026-09-28)
+#
+# data/scraper_field_audit.md listed 29 keys under "sent by the response, read
+# by nothing" -- the source had been publishing project cost, a capacity
+# ceiling, behind-the-meter power, cooling, generator counts, building
+# footprint, expected online dates, NDA notes, approval histories and source
+# citations, and every one of them was discarded at flatten(). That is the
+# largest single input gain available to Layer B and it costs no new source.
+#
+# Scalars land as CSV columns. Nested structures (approvals, sources, notes,
+# stakeholders, power sources, additional sites, parcel geometry) go to a
+# sidecar, data/proposals_detail.json, keyed by id, because flattening a list
+# of objects into one cell loses exactly the structure (dates, types) that
+# makes them useful. The CSV carries counts and extracted URLs so the table is
+# still self-describing without the sidecar.
+#
+# Deliberately NOT aliased onto the older columns they may replace:
+#   btmPower     is tri-state ("unknown"/"true"/"false"); bringingOwnEnergy
+#                was a boolean. "unknown" has no boolean spelling, so mapping
+#                one onto the other would invent answers for every unknown row.
+#   dateOnline   is an expected online date; yearOpened was a year opened.
+#                facility_registry.graduation_candidates reads yearOpened to
+#                graduate projects whose opening year has passed, and a
+#                projected date must not graduate anything.
+# Both old columns stay absent and reported by the audit until a human
+# decides, which is the same discipline RETIRED_FIELDS records.
+#
+# media is not captured: it is image and link material with no analytic use,
+# and quoting it would drip source content into a committed artifact.
+# ---------------------------------------------------------------------------
+
+DETAIL_KEYS = ("approvals", "sources", "notes", "stakeholders", "powerSource",
+               "btmPowerName", "niche", "additionalSites", "informationSource",
+               "geojson")
+DETAIL_JSON_NAME = "proposals_detail.json"
+
+# Keys the source sends that are deliberately not captured, with the reason,
+# so the audit's "read by nothing" list shows only undecided keys.
+#   kind        constant "proposal" on this endpoint
+#   stateSlug   a slug of `state`, which is already read
+#   dateCreated a second spelling of createdAt, which is still sent and read
+#   media       image and link material; see above
+IGNORED_KEYS = ("kind", "stateSlug", "dateCreated", "media")
+
+_URL_RE = re.compile(r"https?://[^\s\"'<>|]+")
+_LABEL_KEYS = ("name", "title", "label", "type", "source", "value", "status")
+
+
+def _list_labels(value):
+    """A list of strings or objects rendered as '; '-joined labels.
+
+    Objects contribute their first recognizable label field; anything else is
+    skipped rather than str()-dumped, so a shape change yields fewer labels,
+    never a cell full of Python reprs.
+    """
+    if not isinstance(value, list):
+        return value if isinstance(value, str) else ""
+    out = []
+    for el in value:
+        if isinstance(el, str) and el.strip():
+            out.append(el.strip())
+        elif isinstance(el, dict):
+            for k in _LABEL_KEYS:
+                v = el.get(k)
+                if isinstance(v, str) and v.strip():
+                    out.append(v.strip())
+                    break
+    seen, uniq = set(), []
+    for s in out:
+        if s.lower() not in seen:
+            seen.add(s.lower())
+            uniq.append(s)
+    return "; ".join(uniq)
+
+
+def _count(value):
+    return len(value) if isinstance(value, list) else ""
+
+
+def _urls(value):
+    """Every URL anywhere inside a nested value, de-duplicated, in order."""
+    if value in (None, "", []):
+        return ""
+    found = _URL_RE.findall(json.dumps(value, ensure_ascii=False))
+    seen, out = set(), []
+    for u in found:
+        u = u.rstrip(".,);]")
+        if u not in seen:
+            seen.add(u)
+            out.append(u)
+    return " | ".join(out)
+
+
+def extended_fields(record):
+    """The 2026-09-28 columns for one API record."""
+    geo = record.get("geojson")
+    return {
+        "project_cost_usd": record.get("projectCost", ""),
+        "capacity_max_mw": record.get("capacityMaxMw", ""),
+        "btm_power": record.get("btmPower", ""),
+        "btm_power_name": _list_labels(record.get("btmPowerName")),
+        "power_source": _list_labels(record.get("powerSource")),
+        "dedicated_substation": record.get("dedicatedSubstation", ""),
+        "n_generators": record.get("numberOfGenerators", ""),
+        "cooling_source": record.get("coolingSource", ""),
+        "cooling_type": record.get("coolingType", ""),
+        "n_buildings": record.get("numberOfBuildings", ""),
+        "facility_sqft": record.get("facilitySizeSqft", ""),
+        "date_online": pick_date(record, "dateOnline"),
+        "date_online_max": pick_date(record, "dateOnlineMax"),
+        "zip": record.get("zip", ""),
+        "slug": record.get("slug", ""),
+        "niche": _list_labels(record.get("niche")),
+        "nda": (record.get("nda") or "") if not isinstance(record.get("nda"), bool)
+               else record.get("nda"),
+        "n_approvals": _count(record.get("approvals")),
+        "n_sources": _count(record.get("sources")),
+        "source_urls": _urls(record.get("sources")),
+        "n_additional_sites": _count(record.get("additionalSites")),
+        "has_parcel_geometry": (bool(geo) if isinstance(geo, (list, dict)) else ""),
+        "is_existing": record.get("isExisting", ""),
+    }
+
+
+def detail_record(record):
+    """Nested structures for the sidecar; keys the record lacks are omitted."""
+    return {k: record[k] for k in DETAIL_KEYS
+            if k in record and record[k] not in (None, "", [], {})}
+
+
+def write_detail(records, out_dir):
+    """data/proposals_detail.json: {id: {approvals, sources, ...}}, sorted."""
+    body = {}
+    for r in records:
+        d = detail_record(r)
+        if d:
+            body[str(r.get("id"))] = d
+    path = Path(out_dir) / DETAIL_JSON_NAME
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump({"_generated": date.today().isoformat(),
+                   "_source": BASE_URL,
+                   "_keys": list(DETAIL_KEYS),
+                   "projects": dict(sorted(body.items(),
+                                           key=lambda kv: (len(kv[0]), kv[0])))},
+                  fh, ensure_ascii=False, indent=1, sort_keys=False)
+        fh.write("\n")
+    return path
 
 # ---------------------------------------------------------------------------
 # Retired columns: the source stopped sending them and the reason is known.
@@ -203,6 +364,7 @@ def flatten(record):
         'info': (record.get('info') or '').replace('\n', ' '),
         'createdAt': record.get('createdAt', ''),
         'updatedAt': record.get('updatedAt', ''),
+        **extended_fields(record),
     }
 
 
@@ -246,7 +408,8 @@ def api_keys_read():
     """Top-level response keys flatten() consults, probed from flatten itself."""
     seen = set()
     flatten(_KeyProbe(seen))
-    return seen
+    # The sidecar reads its keys with `in`, which the probe cannot observe.
+    return seen | set(DETAIL_KEYS)
 
 
 # A candidate's name is not enough to act on. On 2026-09-17 the source
@@ -348,7 +511,7 @@ def field_audit(records, keys_read=None, source_keys=None, retired=None):
     gone = keys_read - observed - covered
     absent = sorted(gone - retired)
     retired_gone = sorted(gone & retired)
-    unmapped = sorted(observed - keys_read)
+    unmapped = sorted(observed - keys_read - set(IGNORED_KEYS))
     renames = {}
     for gone in absent:
         near = difflib.get_close_matches(gone, unmapped, n=3, cutoff=0.6)
@@ -559,7 +722,7 @@ def assert_field_population(rows, out_path, allow_field_loss=False):
 # The scraper is authoritative for trackdatacenters fields, but the platform
 # carries manual corrections and additions the source does not know about:
 #   - data/proposals_manual_overlay.csv : field-level corrections to scraped
-#     rows (id, field, value) — e.g. a voided approval that must not show as
+#     rows (id, field, value), e.g. a voided approval that must not show as
 #     approved, or a sourced announced-date the source lacks.
 #   - data/proposals_added.csv : projects not on trackdatacenters at all
 #     (appended verbatim).
@@ -619,6 +782,63 @@ def apply_manual_preservation(rows, out_path):
     return rows, fieldnames
 
 
+# ---------------------------------------------------------------------------
+# Id stability (2026-09-28)
+#
+# project_id is "prj_" + this source's id, and the source renumbered its whole
+# id space on 2026-09-17 and 2026-09-22. Nothing noticed: every join still
+# matched, onto the wrong project. This check does not stop the scrape -- the
+# new ids are simply what the source now uses, and refusing them would block
+# forever -- but it measures the reassignment on every run and writes it into
+# the field audit, and the workflow runs project_id_rekey.py right after, which
+# re-keys the hand-maintained files to follow their projects.
+# ---------------------------------------------------------------------------
+
+def _ident(r):
+    return (re.sub(r"[^a-z0-9]+", " ", str(r.get("name") or "").lower()).strip(),
+            str(r.get("state") or "").strip().lower())
+
+
+def id_stability(prev_rows, rows):
+    """How many ids now name a different project than on the previous run.
+
+    Counted only where the previous project still exists under ANOTHER id,
+    so an ordinary rename or a removal is never read as a renumbering.
+    """
+    if not prev_rows:
+        return {"compared": 0, "reassigned": 0, "examples": []}
+    prev = {str(r.get("id")).strip(): _ident(r) for r in prev_rows}
+    now = {str(r.get("id")).strip(): _ident(r) for r in rows}
+    now_ids_by_ident = {}
+    for i, k in now.items():
+        now_ids_by_ident.setdefault(k, []).append(i)
+    reassigned = []
+    for i, k in prev.items():
+        if i in now and now[i] != k and k in now_ids_by_ident:
+            reassigned.append((i, now_ids_by_ident[k][0], k[0]))
+    return {"compared": len(set(prev) & set(now)), "reassigned": len(reassigned),
+            "examples": reassigned[:8]}
+
+
+def append_id_stability(stab, out_dir):
+    path = Path(out_dir) / "scraper_field_audit.md"
+    lines = ["", "## Id stability", ""]
+    if not stab["compared"]:
+        lines.append("No previous run to compare against.")
+    elif not stab["reassigned"]:
+        lines.append(f"Stable: none of {stab['compared']} shared ids changed project.")
+    else:
+        lines += [f"**{stab['reassigned']} of {stab['compared']} ids now belong to a "
+                  "different project** than on the previous run, and each previous "
+                  "project is still present under a new id. The source renumbered. "
+                  "Every file keyed on prj_<id> is affected; `project_id_rekey.py` "
+                  "re-keys the hand-maintained ones.", "",
+                  "| old id | new id | project |", "|---|---|---|"]
+        lines += [f"| {a} | {b} | {n} |" for a, b, n in stab["examples"]]
+    with open(path, "a", encoding="utf-8", newline="\n") as fh:
+        fh.write("\n".join(lines) + "\n")
+
+
 def scrape(out_path: Path, allow_field_loss=False):
     all_records = []
     cursor = 0
@@ -646,11 +866,18 @@ def scrape(out_path: Path, allow_field_loss=False):
         print(f"  possible rename: {gone} -> {', '.join(near)}")
 
     rows = [flatten(r) for r in all_records]
+    stab = id_stability(previous_scraped_rows(out_path), rows)
+    append_id_stability(stab, out_path.parent)
+    print(f"id stability: {stab['reassigned']} of {stab['compared']} shared ids "
+          "changed project" + (" -- SOURCE RENUMBERED" if stab["reassigned"] else ""))
     # Before the overlay, so the guard compares mapping output to mapping
     # output, and before the write, so a collapse leaves the file untouched.
     assert_field_population(rows, out_path, allow_field_loss=allow_field_loss)
     rows, fieldnames = apply_manual_preservation(rows, out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    # After the guard, like the CSV: a blocked run leaves both untouched.
+    dp = write_detail(all_records, out_path.parent)
+    print(f"detail sidecar: {dp}")
     with open(out_path, 'w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
@@ -762,12 +989,12 @@ def selftest():
     # for whichever field the source renames next.
     renamed = [{"id": 1, "name": "A", "dateAnnounced": "2026-01-01",
                 "capacityMw": 100, "sizeAcres": 10, "dateUpdated": "x",
-                "btmPower": True, "dateOnline": "2027-01-01"}]
+                "gridTieIn": True, "commissionDate": "2027-01-01"}]
     fa = field_audit(renamed, keys)
     check("a field the source stopped sending is reported absent",
           "yearOpened" in fa["absent"] and "moratoriumExempt" in fa["absent"])
     check("a key the source sent that nothing reads is reported",
-          "btmPower" in fa["unmapped"] and "dateOnline" in fa["unmapped"])
+          "gridTieIn" in fa["unmapped"] and "commissionDate" in fa["unmapped"])
     check("a field now covered by an alias is reported neither way",
           not ({"date", "capacity_mw", "size_acres", "lastUpdated"}
                & set(fa["absent"]))
@@ -873,10 +1100,12 @@ def selftest():
     check("a key present but never populated yields no sample",
           field_samples([{"k": ""}, {"k": None}], ["k"]) == {})
 
-    fa_s = field_audit([{"id": 1, "name": "A", "coolingSource": "water",
-                         "notes": long_prose}], keys)
+    # coolingSource and notes were the examples here until 2026-09-28, when
+    # both became mapped; these stand-ins are keys nothing will ever read.
+    fa_s = field_audit([{"id": 1, "name": "A", "chillerKind": "water",
+                         "remarks": long_prose}], keys)
     check("the audit samples the keys nothing reads",
-          fa_s["samples"].get("coolingSource") == ['"water"'])
+          fa_s["samples"].get("chillerKind") == ['"water"'])
     check("the audit does not sample keys the mapping already reads",
           "name" not in fa_s["samples"])
 
@@ -945,6 +1174,73 @@ def selftest():
           "dateAnnounced" not in fa_alias["unmapped"])
     check("a field with no member present is still reported absent",
           "yearOpened" in fa_alias["absent"])
+
+    # --- extended fields (2026-09-28) ------------------------------------
+    rich = {"id": 21, "name": "R", "projectCost": 6000000000,
+            "capacityMaxMw": 1000, "btmPower": "true",
+            "btmPowerName": [{"name": "Gas turbines"}, "Gas turbines"],
+            "powerSource": [{"type": "natural gas"}, {"type": "grid"}],
+            "coolingSource": "water", "numberOfGenerators": 516,
+            "dateOnline": "2028", "dateOnlineMax": "later", "nda": True,
+            "approvals": [{"date": "2026-1-5", "body": "Council"}],
+            "sources": [{"title": "Story", "url": "https://ex.com/a"},
+                        {"url": "https://ex.com/a"}, "https://ex.com/b."],
+            "geojson": [{"type": "Feature"}], "isExisting": True,
+            "notes": [{"date": "2026-2-1", "text": "x"}],
+            "stakeholders": {"D": ["Dev Co"]}, "media": ["m"]}
+    fr = flatten(rich)
+    check("project cost is captured", fr["project_cost_usd"] == 6000000000)
+    check("the capacity ceiling is captured", fr["capacity_max_mw"] == 1000)
+    check("behind-the-meter power is kept tri-state, not coerced",
+          fr["btm_power"] == "true" and flatten({"id": 1, "btmPower": "unknown"})
+          ["btm_power"] == "unknown")
+    check("list labels come from objects and strings, de-duplicated",
+          fr["btm_power_name"] == "Gas turbines")
+    check("power sources render by label", fr["power_source"] == "natural gas; grid")
+    check("an expected online date passes the date filter", fr["date_online"] == "2028")
+    check("a non-date online ceiling is discarded", fr["date_online_max"] == "")
+    check("a boolean NDA flag survives as a boolean", fr["nda"] is True)
+    check("approval and source counts are captured",
+          fr["n_approvals"] == 1 and fr["n_sources"] == 3)
+    check("source URLs are extracted, de-duplicated and trimmed",
+          fr["source_urls"] == "https://ex.com/a | https://ex.com/b")
+    check("parcel geometry is flagged, not copied into the CSV",
+          fr["has_parcel_geometry"] is True)
+    check("an absent list yields blank counts, not zero",
+          flatten({"id": 2})["n_approvals"] == "")
+    check("every extended column is in the header",
+          all(k in CSV_FIELDS for k in extended_fields({})))
+    check("extended columns follow every original column",
+          CSV_FIELDS.index("project_cost_usd") > CSV_FIELDS.index("updatedAt"))
+    check("btmPower is not aliased onto bringingOwnEnergy",
+          fr["bringingOwnEnergy"] == "")
+    check("dateOnline is not aliased onto yearOpened", fr["yearOpened"] == "")
+    det = detail_record(rich)
+    check("the sidecar keeps nested structure",
+          det["approvals"][0]["body"] == "Council" and "stakeholders" in det)
+    check("the sidecar never carries media", "media" not in det)
+    fa_x = field_audit([rich], api_keys_read())
+    check("captured keys no longer appear as read-by-nothing",
+          not ({"projectCost", "notes", "stakeholders", "approvals"}
+               & set(fa_x["unmapped"])))
+    check("ignored keys are not reported as read-by-nothing",
+          "media" not in fa_x["unmapped"])
+    with _tf.TemporaryDirectory() as _d:
+        dpath = write_detail([rich, {"id": 22, "name": "E"}], _d)
+        dbody = json.load(open(dpath, encoding="utf-8"))
+    check("the sidecar is keyed by id and skips empty projects",
+          list(dbody["projects"]) == ["21"])
+
+    # --- id stability (the 2026-09-17 renumbering) ----------------------
+    before = [{"id": str(i), "name": f"Project {i}", "state": "Ohio"} for i in range(1, 11)]
+    shifted = [dict(r, id=str(int(r["id"]) + 3)) for r in before]
+    st = id_stability(before, shifted)
+    check("a renumbering is measured", st["reassigned"] == 7 and st["compared"] == 7)
+    check("an unchanged run is stable", id_stability(before, before)["reassigned"] == 0)
+    renamed = [dict(r) for r in before]
+    renamed[0]["name"] = "Project One Renamed"
+    check("a rename is not a renumbering", id_stability(before, renamed)["reassigned"] == 0)
+    check("no previous run compares nothing", id_stability(None, before)["compared"] == 0)
 
     n_ok = sum(1 for _, ok in checks if ok)
     print(f"\n{n_ok}/{len(checks)} checks passed")
