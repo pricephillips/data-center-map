@@ -44,8 +44,8 @@ jobs:
           # `|| true` matters: run blocks execute under `bash -e`, so a bare
           # `[ -f x ] && git add x` aborts the whole step the first time the
           # file is absent.
-          [ -f data/proposals.csv ] && git add data/proposals.csv || true
-          [ -f data/scraper_field_audit.md ] && git add data/scraper_field_audit.md || true
+          if [ -f data/proposals.csv ]; then git add data/proposals.csv; fi
+          if [ -f data/scraper_field_audit.md ]; then git add data/scraper_field_audit.md; fi
           if git diff --cached --quiet; then
             echo "Nothing to commit."
             exit 0
