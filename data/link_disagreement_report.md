@@ -38,9 +38,9 @@ of this repository and this module does not re-score.
 
 | | count |
 |---|---|
-| current rule links | 349 |
-| of those, carrying a model score | 20 (5.7 pct) |
-| of those, with no score | 329 |
+| current rule links | 356 |
+| of those, carrying a model score | 20 (5.6 pct) |
+| of those, with no score | 336 |
 
 A link created after the spike ran cannot be audited here and is counted above
 rather than passed over. As that number grows the audit covers less of the
