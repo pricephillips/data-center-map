@@ -18,6 +18,7 @@ import json
 import os
 import re
 import subprocess
+import sys
 import tempfile
 from datetime import date
 from pathlib import Path
@@ -735,28 +736,45 @@ OVERLAY_CSV = Path("data/proposals_manual_overlay.csv")
 ADDED_CSV = Path("data/proposals_added.csv")
 
 
-def apply_manual_preservation(rows, out_path):
+def overlay_translation(prev_rows, rows, data_dir):
+    """{id the overlay was written against: id that project has now}, or None.
+
+    The overlay is keyed on source ids, and the source renumbers. A row written
+    for Project Delta when it was 141 must land on Project Delta when it is
+    183, in the same run that renumbers, not after a person notices. The ids
+    are resolved on identity by project_key_map.py (from its key map once
+    initialised, and from the previous snapshot before that). None means there
+    is no previous run to translate from, and ids are taken as they stand.
+    """
+    root = str(Path(__file__).resolve().parent.parent)
+    if root not in sys.path:
+        sys.path.insert(0, root)
+    try:
+        import project_key_map
+    except ImportError:
+        print("::warning::project_key_map.py not importable; overlay ids taken as they stand")
+        return None
+    return project_key_map.id_translation(prev_rows, rows, str(data_dir))
+
+
+def apply_manual_preservation(rows, out_path, translation=None):
     """Apply field overlay + append manual projects. Returns (rows, fieldnames).
-    out_path is used only to resolve sibling data/ files when --out differs."""
+    out_path is used only to resolve sibling data/ files when --out differs.
+
+    translation: {overlay id: current id} from overlay_translation(). With a
+    translation, an overlay row whose project cannot be resolved is skipped
+    and named, never applied to whatever now holds its number."""
     base_dir = out_path.parent
     overlay_path = base_dir / OVERLAY_CSV.name
     added_path = base_dir / ADDED_CSV.name
 
     fieldnames = list(CSV_FIELDS)
 
-    # 1) field-level overlay corrections, keyed by id
-    if overlay_path.exists():
-        by_id = {r["id"]: r for r in rows}
-        applied = 0
-        with open(overlay_path, newline="", encoding="utf-8-sig") as fh:
-            for o in csv.DictReader(fh):
-                tgt = by_id.get(o["id"])
-                if tgt is not None and o["field"] in tgt:
-                    tgt[o["field"]] = o["value"]
-                    applied += 1
-        print(f"manual overlay: {applied} field correction(s) applied")
-
-    # 2) append manual-added projects (not on the source)
+    # 1) append manual-added projects (not on the source). Before the
+    #    overlay, so an overlay row can correct a manual addition too: the
+    #    Perry Village phase correction (1002) never applied while the
+    #    additions were appended after it.
+    manual_ids = set()
     if added_path.exists():
         with open(added_path, newline="", encoding="utf-8-sig") as fh:
             reader = csv.DictReader(fh)
@@ -772,8 +790,36 @@ def apply_manual_preservation(rows, out_path):
             # under one project_id.
             existing_ids = {str(r["id"]).strip() for r in rows}
             added = [r for r in reader if str(r["id"]).strip() not in existing_ids]
+        manual_ids = {str(r["id"]).strip() for r in added}
         rows.extend(added)
         print(f"manual additions: {len(added)} project(s) appended")
+
+    # 2) field-level overlay corrections, keyed by id
+    if overlay_path.exists():
+        # Keyed as text. flatten() keeps the API's int ids and DictReader
+        # yields str, so `by_id.get("183")` against {183: row} never matched:
+        # until 2026-09-28 no overlay row had ever applied to proposals.csv.
+        by_id = {str(r["id"]).strip(): r for r in rows}
+        applied, moved, skipped = 0, 0, []
+        with open(overlay_path, newline="", encoding="utf-8-sig") as fh:
+            for o in csv.DictReader(fh):
+                oid = str(o["id"]).strip()
+                # Manual-addition ids are ours and never move.
+                if translation is not None and oid not in manual_ids:
+                    if oid not in translation:
+                        skipped.append(oid)
+                        continue
+                    moved += translation[oid] != oid
+                    oid = translation[oid]
+                tgt = by_id.get(oid)
+                if tgt is not None and o["field"] in tgt:
+                    tgt[o["field"]] = o["value"]
+                    applied += 1
+        print(f"manual overlay: {applied} field correction(s) applied"
+              + (f", {moved} through a renumbered id" if moved else ""))
+        if skipped:
+            print(f"::warning::manual overlay: {len(skipped)} row(s) skipped, their "
+                  f"project could not be resolved on identity: {', '.join(skipped)}")
 
     # 3) ensure every row has every field (outcome_detail etc.)
     for r in rows:
@@ -873,7 +919,9 @@ def scrape(out_path: Path, allow_field_loss=False):
     # Before the overlay, so the guard compares mapping output to mapping
     # output, and before the write, so a collapse leaves the file untouched.
     assert_field_population(rows, out_path, allow_field_loss=allow_field_loss)
-    rows, fieldnames = apply_manual_preservation(rows, out_path)
+    translation = overlay_translation(previous_scraped_rows(out_path), rows,
+                                      out_path.parent)
+    rows, fieldnames = apply_manual_preservation(rows, out_path, translation)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     # After the guard, like the CSV: a blocked run leaves both untouched.
     dp = write_detail(all_records, out_path.parent)
@@ -1241,6 +1289,42 @@ def selftest():
     renamed[0]["name"] = "Project One Renamed"
     check("a rename is not a renumbering", id_stability(before, renamed)["reassigned"] == 0)
     check("no previous run compares nothing", id_stability(None, before)["compared"] == 0)
+
+    # --- overlay: text ids, and ids that moved (2026-09-28) ---------------
+    with _tf.TemporaryDirectory() as _d:
+        _out = Path(_d) / "proposals.csv"
+        with open(Path(_d) / "proposals_manual_overlay.csv", "w", encoding="utf-8") as fh:
+            fh.write("id,field,value,reason,source\n141,phase,proposed,voided,court\n"
+                     "341,phase,withdrawn,x,y\n")
+        api = [{"id": 141, "name": "Armory", "phase": "approved"},
+               {"id": 183, "name": "Delta", "phase": "approved"}]
+        got, _ = apply_manual_preservation([dict(r) for r in api], _out, None)
+        check("an overlay row applies to an int id from the API",
+              got[0]["phase"] == "proposed")
+        got, _ = apply_manual_preservation([dict(r) for r in api], _out,
+                                           {"141": "183"})
+        check("an overlay row follows its project to a renumbered id",
+              got[1]["phase"] == "proposed" and got[0]["phase"] == "approved")
+        check("an overlay row whose project cannot be resolved is skipped",
+              all(r["phase"] != "withdrawn" for r in got))
+        with open(Path(_d) / "proposals_added.csv", "w", encoding="utf-8") as fh:
+            fh.write("id,name,phase\n1002,Perry Village,withdrawn\n")
+        with open(Path(_d) / "proposals_manual_overlay.csv", "a", encoding="utf-8") as fh:
+            fh.write("1002,phase,proposed,tracker miscoded,record\n")
+        got, _ = apply_manual_preservation([dict(r) for r in api], _out, {"141": "183"})
+        check("an overlay row can correct a manual addition",
+              [r["phase"] for r in got if str(r["id"]) == "1002"] == ["proposed"])
+        prev = [{"id": "141", "name": "Project Delta", "state": "North Carolina",
+                 "lat": "35.1", "lon": "-80.1"}]
+        new = [{"id": 183, "name": "Project Delta", "state": "North Carolina",
+                "lat": 35.1, "lon": -80.1},
+               {"id": 141, "name": "Armory Innovation", "state": "Missouri",
+                "lat": 38.6, "lon": -90.2}]
+        tr = overlay_translation(prev, new, _d)
+        check("the translation resolves ids on identity, not number",
+              tr == {"141": "183"})
+        check("no previous run means ids are taken as they stand",
+              overlay_translation(None, new, _d) is None)
 
     n_ok = sum(1 for _, ok in checks if ok)
     print(f"\n{n_ok}/{len(checks)} checks passed")
