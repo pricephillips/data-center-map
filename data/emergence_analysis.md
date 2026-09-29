@@ -20,7 +20,7 @@ The worklist front-loads rows whose outcome is blocked_confirmed, because a proj
 | Stratum | Frame | Coded | Coverage |
 | :-- | :-- | :-- | :-- |
 | purposive (blocked_confirmed) | 22 | 8 | 36.4% |
-| random (all other frame rows) | 168 | 0 | 0.0% |
+| random (all other frame rows) | 192 | 0 | 0.0% |
 
 Note the shape of the coded set: every coded row to date falls in the purposive cell and none in the random stratum. A combined coverage figure over the whole frame would therefore overstate progress toward an emergence estimate, which depends entirely on the random stratum. Random-stratum coverage is the number that matters and it is the one in the gate table above.
 
@@ -68,8 +68,8 @@ Batches after this one should populate a `flags` column in the codings file rath
 ## Coded rows outside the frame
 
 2 coded row(s) reference a universe_id not in the current frame. This is expected when a project was later suppressed as a duplicate; the coding is retained as an audit trail and excluded from every rate above.
+- prj_116: verified_opposition
 - prj_112: verified_opposition
-- prj_20: verified_opposition
 
 ## Standing rules observed
 

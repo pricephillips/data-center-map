@@ -4,11 +4,11 @@ Generated 2026-09-29. Frame design registered 2026-07-23 (module docstring): cen
 
 ## Coverage
 
-- Frame size: 190
+- Frame size: 214
 - Coded: 8 (4%)
-- Remaining: 182
+- Remaining: 206
 
-## Coding mix (interim descriptives — 0% of random stratum coded; 168 rows remaining)
+## Coding mix (interim descriptives — 0% of random stratum coded; 192 rows remaining)
 
 | coding | n | share of coded |
 |---|---|---|
@@ -18,10 +18,10 @@ Generated 2026-09-29. Frame design registered 2026-07-23 (module docstring): cen
 
 Interpretation rules: emergence-rate statements use verified_opposition / (verified_opposition + verified_none) and must always report the undeterminable count alongside, since undeterminable rows are not missing at random (they skew toward low-footprint projects). No emergence model trains until coverage of the frame is complete; partial-coverage rates are interim descriptives only.
 
-Emergence rate withheld: random-stratum coverage at 0% (threshold: 80%). Rate will appear when coding reaches 80% of 168 random-stratum rows.
+Emergence rate withheld: random-stratum coverage at 0% (threshold: 80%). Rate will appear when coding reaches 80% of 192 random-stratum rows.
 
 ## Coding validation problems
 
+- line 7: universe_id prj_116 not in audit frame; row ignored
 - line 9: universe_id prj_112 not in audit frame; row ignored
-- line 10: universe_id prj_20 not in audit frame; row ignored
 
