@@ -87,14 +87,5 @@ jobs:
             exit 0
           fi
           git commit -m "Stakeholder registry: scheduled refresh [skip ci]"
-          for i in 1 2 3; do
-            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
-            echo "Push attempt $i failed, retrying in 10s"
-            # A worktree stuck mid-rebase fails every later pull with "already
-            # a rebase-merge directory", so the retries cannot even start
-            # without this abort.
-            git rebase --abort 2>/dev/null || true
-            sleep 10
-          done
-          echo "Push failed after 3 attempts. If branch protection is enabled on main, allow github-actions[bot] to push or merge via PR."
-          exit 1
+          # Rebase, resolve generated-file conflicts, push. See the script header.
+          bash scripts/git_push_retry.sh

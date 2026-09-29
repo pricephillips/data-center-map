@@ -90,17 +90,9 @@ jobs:
             exit 0
           fi
           git commit -m "County plugin features (EIA via PUDL CC-BY-4.0, USGS, USDM, USDA NASS) [reference data] [skip ci]"
-          for i in 1 2 3; do
-            if git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push; then
-              echo "changed=true" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-            echo "Push attempt $i failed, retrying in 10s"
-            git rebase --abort 2>/dev/null || true
-            sleep 10
-          done
-          echo "Push failed after 3 attempts"
-          exit 1
+          # Rebase, resolve generated-file conflicts, push. See the script header.
+          bash scripts/git_push_retry.sh || exit 1
+          echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Dispatch feature search
         if: steps.commit.outputs.changed == 'true'

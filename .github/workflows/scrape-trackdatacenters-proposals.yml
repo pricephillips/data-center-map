@@ -122,12 +122,8 @@ jobs:
               echo "REKEY_NEEDED=1" >> "$GITHUB_ENV"
             fi
           fi
-          for _ in 1 2 3; do
-            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
-            git rebase --abort 2>/dev/null || true
-            sleep 10
-          done
-          echo "Push failed after 3 attempts"; exit 1
+          # Rebase, resolve generated-file conflicts, push. See the script header.
+          bash scripts/git_push_retry.sh
 
       - name: Open an issue when hand-maintained rows point at the wrong project
         if: env.REKEY_NEEDED == '1'
