@@ -45,17 +45,20 @@ jobs:
       # that triggered it and misses artifacts an earlier run already pushed,
       # which is what produced the add/add conflicts on 2026-09-28.
       - name: Checkout data-center-map
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.ref_name }}
 
       - name: Set up Python
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.11"
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
       - name: Install dependencies
-        run: pip install pandas numpy scipy "scikit-learn>=1.2"
+        run: uv pip install --system -c requirements/ci.txt pandas numpy scipy "scikit-learn>=1.2"
 
       - name: Self-tests (BLOCKING)
         run: |

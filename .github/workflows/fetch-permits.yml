@@ -44,10 +44,9 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Set up Python
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
 
@@ -69,9 +68,11 @@ jobs:
 
       - name: Resolve config list (scheduled runs cover every registered source)
         id: cfg
+        env:
+          CONFIG_INPUT: ${{ github.event.inputs.config }}
         run: |
-          if [ -n "${{ github.event.inputs.config }}" ]; then
-            echo "configs=${{ github.event.inputs.config }}" >> "$GITHUB_OUTPUT"
+          if [ -n "$CONFIG_INPUT" ]; then
+            echo "configs=$CONFIG_INPUT" >> "$GITHUB_OUTPUT"
           else
             LIST=$(python fetch_permits.py --list-sources | tr '\n' ' ')
             echo "Registered sources: $LIST"
@@ -95,9 +96,11 @@ jobs:
           done
 
       - name: Discover, fetch, and ingest each source
+        env:
+          CONFIGS: ${{ steps.cfg.outputs.configs }}
         run: |
           FAILED=""
-          for NAME in ${{ steps.cfg.outputs.configs }}; do
+          for NAME in $CONFIGS; do
             CFG="configs/$NAME"
             SOURCE="$(basename "$NAME" .json)"
             echo "=== $SOURCE ==="

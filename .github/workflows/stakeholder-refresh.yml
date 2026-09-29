@@ -27,12 +27,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout data-center-map
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.11"
 
@@ -45,6 +45,7 @@ jobs:
       - name: Build registry
         env:
           OPENSTATES_API_KEY: ${{ secrets.OPENSTATES_API_KEY }}
+          CACHE_DAYS: ${{ github.event.inputs.cache_days || '14' }}
         run: |
           # Without a key the county tier still republishes and still gets
           # re-validated, which is the half of the job that catches expired
@@ -52,7 +53,7 @@ jobs:
           # leave the published registry unchecked for a week.
           if [ -n "$OPENSTATES_API_KEY" ]; then
             python stakeholder_registry.py --refresh-state \
-              --cache-days "${{ github.event.inputs.cache_days || '14' }}"
+              --cache-days "$CACHE_DAYS"
           else
             echo "::warning::OPENSTATES_API_KEY not set; county tier only."
             python stakeholder_registry.py --build

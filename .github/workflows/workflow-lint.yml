@@ -1,0 +1,51 @@
+name: Workflow Lint
+
+# Lints every workflow on change (spec 004, US2).
+#   actionlint  BLOCKING. Syntax, expressions, and shellcheck on run: blocks.
+#   zizmor      REPORT-ONLY. Security audit; findings go to the job summary.
+#               The high-severity findings were fixed when this was added
+#               (template injection, unpinned actions, workflow_run); the
+#               remaining medium ones (artipacked) are listed, not blocking.
+
+on:
+  push:
+    paths:
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - name: actionlint (with the runner's shellcheck)
+        run: uvx --from actionlint-py actionlint
+
+  zizmor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - name: zizmor (report-only)
+        run: |
+          uvx zizmor --offline --format plain .github/workflows > zizmor.txt || true
+          {
+            echo "## zizmor (report-only)"
+            echo '```'
+            cat zizmor.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

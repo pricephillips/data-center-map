@@ -88,6 +88,11 @@ on:
       - '*.py'
       - 'qc/*.py'
       - 'scripts/*.py'
+      - 'tests/**'
+      - 'requirements/ci.txt'
+      - 'ruff.toml'
+      - '.vale.ini'
+      - 'styles/**'
       - '.github/workflows/pipeline.yml'
   # Safety net: a code path that somehow escapes the filter above, or an
   # upstream data file edited outside the repo, still gets a rebuild daily.
@@ -117,99 +122,36 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout data-center-map
-        uses: actions/checkout@v7
-
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # master_diff.py compares against HEAD~1, which a depth-1 clone lacks.
+          fetch-depth: 2
       - name: Set up Python
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.11"
 
       - name: Set up Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "20"
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
       - name: Install dependencies
-        run: pip install pandas "scikit-learn>=1.2" mapie
+        run: uv pip install --system -c requirements/ci.txt pandas "scikit-learn>=1.2" mapie pytest ruff daff vale
 
       - name: Gate — run self-tests (BLOCKING; a failure stops the build)
         run: |
-          echo "Cleaner self-tests:"
-          python clean_opposition_data.py --selftest
-          echo "QC gate self-tests:"
-          python qc/qc_pipeline.py --selftest || (cd qc && python qc_pipeline.py --selftest)
-          echo "Verification status self-tests:"
-          python verification_status.py --selftest
-          echo "Untagged triage self-tests:"
-          python untagged_triage.py --selftest
-          echo "Entity splitter self-tests:"
-          python entity_split.py --selftest
-          echo "Leak audit self-tests:"
-          python leak_audit.py --selftest
-          echo "Group registry audit self-tests:"
-          python group_registry_audit.py --selftest
-          echo "Coverage audit self-tests:"
-          python coverage_audit.py --selftest
-          echo "Restriction worklist self-tests:"
-          python restriction_worklist.py --selftest
-          echo "Gap-to-candidate builder self-tests:"
-          python census_gap_candidates.py --selftest
-          echo "Restriction evidence ledger self-tests:"
-          python restriction_evidence.py --selftest
-          echo "Status resolution + verification worklist self-tests:"
-          python status_resolution.py --selftest
-          python restriction_verification_worklist.py --selftest
-          echo "Follow-up headline check + Legistar probe self-tests:"
-          python status_followup.py --selftest
-          python legistar_probe.py --selftest
-          # Offline as of 2026-09-15. This self-test used to make a live call
-          # to the upstream census repo, so it could not sit in a blocking
-          # gate: an upstream outage would have read as a code failure and
-          # stopped the whole build.
-          echo "External census refresh self-tests:"
-          python refresh_external_census.py --selftest
-          echo "Staleness audit self-tests:"
-          python stale_pending_audit.py --selftest
-          echo "County adjacency self-tests:"
-          python fetch_county_adjacency.py --selftest
-          echo "Adjacency scan self-tests:"
-          python adjacency_scan.py --selftest
-          echo "Visibility audit self-tests:"
-          python visibility_audit.py --selftest
-          echo "Facility manifest self-tests:"
-          python facility_manifest.py --selftest
-          echo "Operations summary self-tests:"
-          python operations_summary.py --selftest
-          echo "County model selection-rule self-tests:"
-          python county_policy_model.py --selftest
-          # Adaptive feature search (added 2026-09-28): expanded county pool
-          # and the promotion rule county_policy_model.py reads.
-          python county_features.py --selftest
-          python feature_search.py --selftest
-          echo "Layer audit self-tests:"
-          python layer_audit.py --selftest
-          echo "Facility registry self-tests:"
-          python facility_registry.py --selftest
-          echo "Signal harvest self-tests:"
-          python signal_harvest.py --selftest
-          # Also gated in fetch-permits.yml, where a regression would reach a
-          # live portal. Repeated here because this gate runs on every push
-          # touching a .py file and that one runs weekly: a discoverer broken
-          # on a Wednesday should not stay unnoticed until the next Tuesday.
-          # Same reason leak_audit is gated in two workflows. All three are
-          # offline and take about a second between them.
-          echo "Source discoverer self-tests:"
-          python discover_arcgis_layer.py --selftest
-          python discover_socrata_dataset.py --selftest
-          python discover_endpoint.py --selftest
-          python fetch_permits.py --selftest
-          echo "Front-end syntax gate self-tests:"
-          python proximity_analysis.py --selftest
-          python link_disagreement_audit.py --selftest
-          python date_recovery.py --selftest
-          python negative_audit.py --selftest
-          python scripts/scrape-trackdatacenters-proposals.py --selftest
-          python scripts/check_inline_js.py --selftest
+          # Every module that ships a --selftest is discovered and run by
+          # tests/test_selftests.py (spec 004), replacing the hand-kept list
+          # that had to be edited for each new module. `python -m pytest` so
+          # the selftests run on this interpreter, with the packages above.
+          echo "Lint (blocking set in ruff.toml: syntax-class errors only):"
+          ruff check .
+          echo "Module self-tests (discovered):"
+          python -m pytest tests/test_selftests.py -q
           # A syntax error in a page loader takes a client-visible surface
           # down silently, and nothing checked for one: the .js self-tests
           # existed but were in no workflow, so a broken chain could ship.
@@ -221,10 +163,12 @@ jobs:
           node map_mode_selftest.js
           node facility_freshness_selftest.js
           node basemap_selftest.js
-          echo "Frame audit self-tests:"
-          python subframe_audit.py --selftest
-          echo "Local meeting feed self-tests (watchlist union):"
-          python local_meeting_feed.py --selftest
+
+      - name: Lint report (full ruff default set, report-only)
+        if: always()
+        run: |
+          echo "## ruff (report-only)" >> "$GITHUB_STEP_SUMMARY"
+          ruff check --select E,F --exit-zero --statistics . >> "$GITHUB_STEP_SUMMARY"
 
       - name: Apply confirmed status resolutions
         run: |
@@ -239,6 +183,14 @@ jobs:
 
       - name: Run pipeline (clean -> gate -> clean feed)
         run: python build_clean_feed.py --in master_opposition.csv --out master_opposition_clean.csv
+
+      - name: Source-of-truth diff (master_diff.py -> data/master_diff_summary.md)
+        run: python master_diff.py
+
+      - name: Deliverable prose lint (Vale; errors block, warnings reported)
+        run: |
+          vale --minAlertLevel=error headline_metrics.md
+          { echo "## Vale warnings"; vale --output=line headline_metrics.md || true; } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Entity and vocabulary audits (leak audit is a GATE)
         id: audits
@@ -517,6 +469,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/master_diff_summary.md 2>/dev/null || true
           git add master_opposition_clean.csv \
                   quarantine.json qc_report.md data_quality_report.md change_log.csv \
                   review_conflicts.csv review_stale_pending.csv group_registry.csv \
@@ -713,7 +666,7 @@ jobs:
 
       - name: Trigger Iowa Notion sync
         if: success() || steps.verification.outcome == 'failure' || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure' || steps.coverage.outcome == 'failure' || steps.detection.outcome == 'failure' || steps.fips_resolution.outcome == 'failure' || steps.site_screener.outcome == 'failure'
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           # Cross-repo dispatch needs a PAT with repo scope (the default
           # GITHUB_TOKEN cannot trigger workflows in another repository).
