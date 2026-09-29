@@ -30,6 +30,13 @@ id, then classifies each facility against what the repository already knows:
 appears in ECHO for the first time is visible as new. Nothing here is a
 source of record; every row is a candidate for a human to verify.
 
+Review decisions live in data/airpermit_review.csv, a hand-maintained file
+keyed on the FRS registry id (verdict, priority, basis). This module only
+reads it: each run copies the verdict onto the matching queue row as
+review_verdict / review_priority / review_note, and sorts rows nobody has
+reviewed yet to the top of each match group, so a permit that is new to ECHO
+stands out instead of hiding among the ones already triaged.
+
 Schema tolerance
 ----------------
 ECHO's column names are resolved through candidate lists and checked at
@@ -39,6 +46,8 @@ cannot be resolved the run writes nothing and prints the keys it received.
 Output
   data/proposal_candidates_airpermits.csv
   data/proposal_candidates_airpermits_log.csv   append-only run log
+Reads
+  data/airpermit_review.csv                     hand-kept review verdicts
 
 Usage
   python fetch_air_permits.py --fetch [--states VA,OH]
@@ -67,6 +76,7 @@ OUT_CSV = os.path.join(ROOT, "data", "proposal_candidates_airpermits.csv")
 LOG_CSV = os.path.join(ROOT, "data", "proposal_candidates_airpermits_log.csv")
 PROPOSALS = os.path.join(ROOT, "data", "proposals.csv")
 FACILITIES = os.path.join(ROOT, "data", "facility_registry.csv")
+REVIEW = os.path.join(ROOT, "data", "airpermit_review.csv")
 
 ECHO = "https://echodata.epa.gov/echo/air_rest_services"
 USER_AGENT = "hawthorn-dc-tracker/1.0 (data center permit monitoring; contact repo owner)"
@@ -113,7 +123,8 @@ REQUIRED = ("name", "state", "lat", "lon")
 FIELDS = ["registry_id", "source_id", "name", "street", "city", "county", "state",
           "zip", "lat", "lon", "naics", "programs", "status", "classification",
           "found_by", "match", "match_project_id", "match_project_name", "match_km",
-          "match_facility_id", "first_seen", "last_seen", "echo_url"]
+          "match_facility_id", "first_seen", "last_seen", "echo_url",
+          "review_verdict", "review_priority", "review_note"]
 
 
 def resolve(keys) -> tuple[dict, list]:
@@ -284,9 +295,26 @@ def merge_history(rows, prior_path=OUT_CSV, today=None):
     return rows
 
 
+def apply_review(rows, path=REVIEW):
+    """Copy each hand-kept verdict onto its queue row, by registry id."""
+    verdicts = {}
+    if os.path.exists(path):
+        with open(path, newline="", encoding="utf-8-sig") as fh:
+            for r in csv.DictReader(fh):
+                if r.get("registry_id"):
+                    verdicts[r["registry_id"]] = r
+    for row in rows:
+        v = verdicts.get(row.get("registry_id", ""), {})
+        row["review_verdict"] = v.get("verdict", "")
+        row["review_priority"] = v.get("priority", "")
+        row["review_note"] = v.get("basis", "")
+    return rows
+
+
 def write(rows, path=OUT_CSV):
     order = {"unmatched": 0, "proposal_match": 1, "facility_match": 2, "no_coordinates": 3}
-    rows.sort(key=lambda r: (order.get(r["match"], 9), r.get("state", ""), r.get("name", "")))
+    rows.sort(key=lambda r: (order.get(r["match"], 9), bool(r.get("review_verdict")),
+                             r.get("state", ""), r.get("name", "")))
     with open(path, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=FIELDS, lineterminator="\n", extrasaction="ignore")
         w.writeheader()
@@ -310,7 +338,7 @@ def run(raw, states):
     rows = normalize(raw)
     projects = load_points(PROPOSALS, "id", "name", "state")
     facilities = load_points(FACILITIES, "facility_id", "name", "state")
-    rows = merge_history(classify(rows, projects, facilities))
+    rows = apply_review(merge_history(classify(rows, projects, facilities)))
     write(rows)
     log_run(rows, states)
     c = {k: sum(1 for r in rows if r["match"] == k) for k in
@@ -363,6 +391,25 @@ def selftest():
     check("first_seen is carried across runs", by["110003"]["first_seen"] == "2026-01-01")
     check("a facility seen for the first time is stamped today",
           by["110001"]["first_seen"] == "2026-09-28")
+    with tempfile.TemporaryDirectory() as d:
+        rp = os.path.join(d, "review.csv")
+        with open(rp, "w", newline="", encoding="utf-8") as fh:
+            w = csv.DictWriter(fh, fieldnames=["registry_id", "verdict", "priority", "basis"])
+            w.writeheader()
+            w.writerow({"registry_id": "110003", "verdict": "lead_untracked",
+                        "priority": "high", "basis": "operator not named"})
+        apply_review(rows, rp)
+        op = os.path.join(d, "out.csv")
+        extra = dict(by["110003"], registry_id="110009", name="AAA UNREVIEWED",
+                     review_verdict="", review_priority="", review_note="")
+        write(rows + [extra], op)
+        with open(op, newline="", encoding="utf-8") as fh:
+            unmatched = [r["registry_id"] for r in csv.DictReader(fh) if r["match"] == "unmatched"]
+    check("a hand-kept verdict is carried onto its permit",
+          by["110003"]["review_verdict"] == "lead_untracked"
+          and by["110003"]["review_priority"] == "high")
+    check("a permit with no verdict stays unreviewed", by["110001"]["review_verdict"] == "")
+    check("unreviewed permits sort ahead of reviewed ones", unmatched[:2] == ["110009", "110003"])
     try:
         normalize([{"Foo": 1}])
         check("an unresolvable schema aborts", False)
