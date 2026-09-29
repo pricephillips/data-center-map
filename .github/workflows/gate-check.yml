@@ -159,7 +159,10 @@ jobs:
                     data/audit_data_flags.csv 2>/dev/null || true
           fi
           git diff --staged --quiet || git commit -m "Gate check: refresh landmark and emergence artifacts [skip ci]"
-          git push
+          # Rebase, resolve generated-file conflicts, push. See the script header.
+          # A bare git push lost the race whenever another workflow committed
+          # to the branch first (PR #69, 2026-09-29).
+          bash scripts/git_push_retry.sh
 
       - name: Report gate status to the run summary
         if: always()
