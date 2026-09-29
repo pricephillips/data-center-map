@@ -334,24 +334,27 @@ const LIFECYCLE_URLS = [RAW + '/data/project_lifecycles.csv', './data/project_li
 // file does not exist and the pin popups show "risk band pending" rather than
 // a fabricated number. Never block the map on it.
 const PRED_URLS = [RAW + '/data/landmark_model_predictions.csv', './data/landmark_model_predictions.csv'];
-// Plotly county GeoJSON. Two independent origins for the same file, because a
-// single source here is a single point of failure with an outsized blast
-// radius: this is a 3.2 MB cross-origin request, and when it failed the page
-// silently opened in project-pins mode -- the pin layer became the whole map
-// with no county context and no explanation. jsdelivr is tried first (a CDN
-// built for this, and not subject to raw.githubusercontent's rate limiting),
-// with the raw origin as the fallback. Both send CORS headers.
-const COUNTY_GEO_URLS = [
-  'https://cdn.jsdelivr.net/gh/plotly/datasets@master/geojson-counties-fips.json',
-  'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json'
+// County geometry: data/geo/counties_2024.topojson, committed to this repo by
+// the boundaries job in acquire-geo-sources.yml (data/geo/README.md has the
+// provenance). Each geometry's id is the 5-digit county FIPS. It replaced
+// plotly's pre-2015 county GeoJSON, a 3.2 MB third-party fetch with no polygon
+// for 13 of the 3,144 scored counties; when that request failed the page
+// opened in project-pins mode, which is why the failure path below says so.
+// Same raw-first chain as every other data file here.
+const COUNTY_GEO_URLS = [RAW + '/data/geo/counties_2024.topojson', './data/geo/counties_2024.topojson'];
+// topojson-client decodes it into the FeatureCollection shape the layer code
+// expects. Pinned per configs/integrations.json; two CDNs.
+const TOPOJSON_CLIENT_URLS = [
+  'https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js',
+  'https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js'
 ];
 
 // ---------------------------------------------------------------------------
-// Boundary crosswalk, carried over verbatim from restriction-model.html. The
-// choropleth GeoJSON is a pre-2015 vintage. Pure renames keep the identical
-// boundary, so the current score paints the old polygon safely. Boundary
-// CHANGES are never painted onto ground the model was not fitted on; those
-// scores are listed, not drawn.
+// Boundary crosswalk, shared with restriction-model.html. The current geometry
+// has a polygon for every scored FIPS, so nothing in it matches these tables;
+// they stay so an older code in a data file still resolves. Pure renames keep
+// the identical boundary. Boundary CHANGES are never painted onto ground the
+// model was not fitted on.
 // ---------------------------------------------------------------------------
 const BOUNDARY_RENAMES = { '02270':'02158', '46113':'46102' };
 const BOUNDARY_RETIRED = {
@@ -394,6 +397,28 @@ async function fetchFirst(urls) {
     } catch (e) { /* try next */ }
   }
   return null;
+}
+// Loads the first topojson-client script in the chain that arrives.
+function loadTopojsonClient() {
+  return TOPOJSON_CLIENT_URLS.reduce((p, u) => p.then(ok => ok || new Promise(res => {
+    const s = document.createElement('script');
+    s.src = u;
+    s.onload = () => res(!!window.topojson);
+    s.onerror = () => res(false);
+    document.head.appendChild(s);
+  })), Promise.resolve(!!window.topojson));
+}
+// County geometry as a GeoJSON FeatureCollection, or null. A decode failure is
+// treated exactly like a failed fetch: the banner path below handles both.
+async function fetchCountyGeo() {
+  const [ok, text] = await Promise.all([loadTopojsonClient(), fetchFirst(COUNTY_GEO_URLS)]);
+  if (!ok || !text) return null;
+  try {
+    const topo = JSON.parse(text);
+    return topojson.feature(topo, topo.objects.counties);
+  } catch (e) {
+    return null;
+  }
 }
 function parseCsv(text) {
   if (!text) return [];
@@ -678,6 +703,18 @@ function drawCounties(geo) {
       });
     }
   }).addTo(map);
+  // Test-facing render summary (tests/ui): scored counties that have a polygon
+  // on this layer. SC-001 is painted == scored == 3,144.
+  const drawn = new Set();
+  geo.features.forEach(f => {
+    if (!f.geometry) return;
+    const fips = String(f.id).padStart(5, '0');
+    if (SCORES[fips]) drawn.add(fips);
+    else if (SCORES[BOUNDARY_RENAMES[fips]]) drawn.add(BOUNDARY_RENAMES[fips]);
+  });
+  const mapEl = document.getElementById('map');
+  mapEl.dataset.scoredCounties = String(Object.keys(SCORES).length);
+  mapEl.dataset.paintedCounties = String(drawn.size);
   updateCountyStats(metric, countMax);
   if (typeof syncExportButton === 'function') syncExportButton();
 }
@@ -1366,13 +1403,7 @@ function applyPendingFilters() {
   const [scoreText, countyText, propText, lifeText, predText, intervalText, geo] = await Promise.all([
     fetchFirst(SCORE_URLS), fetchFirst(COUNTY_URLS), fetchFirst(PROPOSAL_URLS),
     fetchFirst(LIFECYCLE_URLS), fetchFirst(PRED_URLS), fetchFirst(INTERVAL_URLS),
-    (async () => {
-      for (const u of COUNTY_GEO_URLS) {
-        try { const r = await fetch(u); if (r.ok) return await r.json(); }
-        catch (e) { /* try the next origin */ }
-      }
-      return null;
-    })()
+    fetchCountyGeo()
   ]);
 
   // County scores
@@ -1428,8 +1459,8 @@ function applyPendingFilters() {
     setMode(PENDING.mode === 'project' ? 'project' : 'county');
   } else {
     // County mode has nothing to draw, so the page opens on pins. This used to
-    // happen silently, which is how a transient failure on a 3.2 MB
-    // cross-origin file turned into "the pin layer took over the map". Say so.
+    // happen silently, which is how a transient failure on the old 3.2 MB
+    // cross-origin geometry file turned into "the pin layer took over the map". Say so.
     document.getElementById('mode-county').disabled = true;
     document.getElementById('mode-county').title =
       'County shading is unavailable: its boundary or score data did not load.';

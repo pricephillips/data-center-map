@@ -451,20 +451,14 @@ function navToView(center, zoom, opts) {
   else map.flyTo(center, zoom, opts);
 }
 
-// Basemap with automatic fallback: if Carto CDN is blocked, switch to OSM
-let _tileErrors = 0, _tileFellBack = false;
+// Basemap. basemap.js owns the fallback chain (OpenFreeMap vector, then Esri,
+// then OSM raster); this page only reports a switch. It used to swap to OSM
+// itself on tile errors, which now would race the module's own chain.
 const baseTiles = Basemap.dark().addTo(map);
-baseTiles.on('tileerror', () => {
-  _tileErrors++;
-  if (_tileErrors >= 3 && !_tileFellBack) {
-    _tileFellBack = true;
-    map.removeLayer(baseTiles);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom:19, updateWhenIdle:true, attribution:'© OpenStreetMap contributors'
-    }).addTo(map);
-    mapStatus('Basemap CDN unreachable from this host — switched to OpenStreetMap tiles.');
-    setTimeout(() => mapStatus(''), 5000);
-  }
+map.on('basemapfallback', e => {
+  if (!e.to) return;
+  mapStatus('Basemap unreachable from this host; switched to ' + e.to + ' tiles.');
+  setTimeout(() => mapStatus(''), 5000);
 });
 
 const clusterGroup = L.markerClusterGroup({
