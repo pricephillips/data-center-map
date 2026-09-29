@@ -23,8 +23,11 @@ differed from the plan, or found something the plan did not know:
   (research D11). The rule was not retuned to the 28.
 - **T005**: `outcome_defensibility.py` had no selftest. It now has one: grade
   closure in both directions.
-- **T003**: the one blocking leak-audit hit on `main` (EIA utility "Lost River
-  Electric Coop Inc") is a proper-noun file-plus-column exemption.
+- **T003**: superseded. While this branch was open, `main` fixed the same
+  blocking leak-audit hit (EIA utility "Lost River Electric Coop Inc") in
+  `4c3eebb` by adding `utilities` to `INHERITED_FIELDS`. On rebase, this
+  branch's file-plus-column exemption was dropped as redundant, and
+  `leak_audit.py` is unchanged from `main`.
 - **Counts**: 86 selftests discovered (81 before).
 
 **Input**: Design documents from `specs/005-data-quality-schemas/`

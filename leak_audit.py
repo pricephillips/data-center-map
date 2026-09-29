@@ -138,13 +138,6 @@ INTERNAL_QUOTES = {
     # Layer D reference index that never ships to a client.
     ("data/place_gazetteer.csv", "place"),
     ("data/place_gazetteer.csv", "place_norm"),
-    # Registered 2026-09-29 with spec 005. The utilities column carries EIA
-    # utility names transported verbatim from the service-territory table:
-    # "Lost River Electric Coop Inc" is an Idaho cooperative. Same class as
-    # the gazetteer place names above; the file is a Layer D reference table
-    # that never ships to a client, and renaming a utility would falsify the
-    # federal record the join depends on.
-    ("data/county_grid_territory.csv", "utilities"),
 }
 
 # Columns and keys copied verbatim from the source of record. The pipeline

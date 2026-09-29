@@ -119,7 +119,7 @@ research.md and neither is hidden:
 
 | Gate | Status | Notes |
 |------|--------|-------|
-| 1. `leak_audit.py --tier blocking` = 0 | **REQUIRES ACTION** | `main` has 1 blocking hit today. `data/county_grid_territory.csv`, first committed at `c6180b9` on 2026-09-29, carries the utility name "Lost River Electric Coop Inc", an EIA proper noun. The fix is a file-plus-column exemption, the same class as the gazetteer place names. The file is Layer D reference data and never ships to a client. The new reports use grade names only, with no outcome prose. |
+| 1. `leak_audit.py --tier blocking` = 0 | **REQUIRES ACTION (resolved on `main` by `4c3eebb` before merge; this branch leaves `leak_audit.py` unchanged)** | `main` has 1 blocking hit today. `data/county_grid_territory.csv`, first committed at `c6180b9` on 2026-09-29, carries the utility name "Lost River Electric Coop Inc", an EIA proper noun. The fix is a file-plus-column exemption, the same class as the gazetteer place names. The file is Layer D reference data and never ships to a client. The new reports use grade names only, with no outcome prose. |
 | 2. `layer_audit.py` = 0 undeclared | **REQUIRES ACTION** | New writers and files to declare: `qc/schema_report.md` (E), `data/schema_run_history.csv` (E), `data/coverage_delta_report.md` (E), `snapshots/coverage_profiles.csv` (already `not_a_layer: snapshots/*`), `data/label_disagreement_worklist.csv` (E), and `data/features/political*.csv` and `data/features/political_parity.md` (D). Add the ARCHITECTURE.md lines, then `layer_audit.py --write-gitattributes`. |
 | 3. `--selftest` on touched/new modules | **REQUIRES ACTION** | New selftests: `qc/schemas.py`, `qc/coverage_delta.py`, `label_disagreement_audit.py`, `qc/schema_adapter.py` (first selftest there). Extended selftests: `fetch_county_features.py` (MEDSL fixture), `outcome_defensibility.py` (grade closure), `clean_opposition_data.py` (backfill emits codes). Discovery picks up every one of them (FR-006, Principle IX). |
 | 4. `node --check` on touched JS | **N/A** | No JS touched. |
@@ -174,7 +174,7 @@ label_disagreement_audit.py         # NEW  OOF disagreement worklist with eviden
 fetch_county_features.py            # EDIT add political source, MEDSL parser, parity; selftest cases
 outcome_defensibility.py            # EDIT add OUTCOME_GRADES constant (additive) + selftest closure check
 clean_opposition_data.py            # EDIT headline State backfill writes two-letter codes
-leak_audit.py                       # EDIT one file-plus-column exemption (county_grid_territory utilities)
+leak_audit.py                       # (no change: main 4c3eebb fixed the same hit first)
 configs/data_quality.json           # NEW  mode flag, window, exceptions, thresholds, audit cutoffs
 configs/feature_sources.json        # EDIT add political source settings
 configs/layers.json                 # EDIT declare new outputs
