@@ -1,34 +1,34 @@
 diff --git a/.github/workflows/acquire-geo-sources.yml b/.github/workflows/acquire-geo-sources.yml
-index 8e337a9..730331d 100644
+index 9de9d79..fe745bd 100644
 --- a/.github/workflows/acquire-geo-sources.yml
 +++ b/.github/workflows/acquire-geo-sources.yml
 @@ -47,10 +47,9 @@ jobs:
    acquire:
      runs-on: ubuntu-latest
      steps:
--      - uses: actions/checkout@v4
+-      - uses: actions/checkout@v7
 -
-+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
++      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
        - name: Set up Python
--        uses: actions/setup-python@v5
-+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-        uses: actions/setup-python@v7
++        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: '3.12'
  
 diff --git a/.github/workflows/bill-sync.yml b/.github/workflows/bill-sync.yml
-index 3ddb806..f014118 100644
+index 9e03ea1..3a7072b 100644
 --- a/.github/workflows/bill-sync.yml
 +++ b/.github/workflows/bill-sync.yml
 @@ -26,10 +26,10 @@ jobs:
    sync:
      runs-on: ubuntu-latest
      steps:
--      - uses: actions/checkout@v4
-+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
          with:
            fetch-depth: 0
--      - uses: actions/setup-python@v5
-+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-      - uses: actions/setup-python@v7
++      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: "3.11"
  
@@ -41,21 +41,21 @@ index 3ddb806..f014118 100644
            if git diff --cached --quiet; then
              echo "No changes to commit"
 diff --git a/.github/workflows/feature-search.yml b/.github/workflows/feature-search.yml
-index 8ab2e9e..1ad9906 100644
+index 7a35441..e61c0dd 100644
 --- a/.github/workflows/feature-search.yml
 +++ b/.github/workflows/feature-search.yml
 @@ -45,17 +45,20 @@ jobs:
        # that triggered it and misses artifacts an earlier run already pushed,
        # which is what produced the add/add conflicts on 2026-09-28.
        - name: Checkout data-center-map
--        uses: actions/checkout@v4
-+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+-        uses: actions/checkout@v7
++        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
          with:
            ref: ${{ github.ref_name }}
  
        - name: Set up Python
--        uses: actions/setup-python@v5
-+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-        uses: actions/setup-python@v7
++        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: "3.11"
  
@@ -69,37 +69,37 @@ index 8ab2e9e..1ad9906 100644
        - name: Self-tests (BLOCKING)
          run: |
 diff --git a/.github/workflows/fetch-census-features.yml b/.github/workflows/fetch-census-features.yml
-index c23d7ad..154efbf 100644
+index f0627fb..ebd7dd0 100644
 --- a/.github/workflows/fetch-census-features.yml
 +++ b/.github/workflows/fetch-census-features.yml
 @@ -20,10 +20,10 @@ jobs:
    fetch:
      runs-on: ubuntu-latest
      steps:
--      - uses: actions/checkout@v4
-+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
          with:
            fetch-depth: 0
--      - uses: actions/setup-python@v5
-+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-      - uses: actions/setup-python@v7
++      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: "3.11"
        - name: Fetch ACS + Gazetteer
 diff --git a/.github/workflows/fetch-features.yml b/.github/workflows/fetch-features.yml
-index 0b9d737..ae5ddc8 100644
+index 3edd903..b931f02 100644
 --- a/.github/workflows/fetch-features.yml
 +++ b/.github/workflows/fetch-features.yml
 @@ -37,16 +37,19 @@ jobs:
      runs-on: ubuntu-latest
      timeout-minutes: 45
      steps:
--      - uses: actions/checkout@v4
-+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
          with:
            fetch-depth: 0
  
--      - uses: actions/setup-python@v5
-+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-      - uses: actions/setup-python@v7
++      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: "3.11"
  
@@ -113,19 +113,19 @@ index 0b9d737..ae5ddc8 100644
        - name: Self-test (BLOCKING)
          run: python fetch_county_features.py --selftest
 diff --git a/.github/workflows/fetch-permits.yml b/.github/workflows/fetch-permits.yml
-index 56fe7be..9235d9c 100644
+index d0e5758..9f279dc 100644
 --- a/.github/workflows/fetch-permits.yml
 +++ b/.github/workflows/fetch-permits.yml
 @@ -44,10 +44,9 @@ jobs:
    fetch:
      runs-on: ubuntu-latest
      steps:
--      - uses: actions/checkout@v4
+-      - uses: actions/checkout@v7
 -
-+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
++      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
        - name: Set up Python
--        uses: actions/setup-python@v5
-+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-        uses: actions/setup-python@v7
++        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: '3.12'
  
@@ -157,19 +157,19 @@ index 56fe7be..9235d9c 100644
              SOURCE="$(basename "$NAME" .json)"
              echo "=== $SOURCE ==="
 diff --git a/.github/workflows/fetch-pudl.yml b/.github/workflows/fetch-pudl.yml
-index 01e4557..2f751d1 100644
+index 444b2e2..0a12651 100644
 --- a/.github/workflows/fetch-pudl.yml
 +++ b/.github/workflows/fetch-pudl.yml
 @@ -37,15 +37,18 @@ jobs:
    fetch:
      runs-on: ubuntu-latest
      steps:
--      - uses: actions/checkout@v4
-+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
          with:
            fetch-depth: 0
--      - uses: actions/setup-python@v5
-+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-      - uses: actions/setup-python@v7
++      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: "3.11"
  
@@ -191,7 +191,7 @@ index 01e4557..2f751d1 100644
  
        - name: Validate output against the county frame
 diff --git a/.github/workflows/gate-check.yml b/.github/workflows/gate-check.yml
-index 765aaae..fbcc499 100644
+index 0710433..95cc302 100644
 --- a/.github/workflows/gate-check.yml
 +++ b/.github/workflows/gate-check.yml
 @@ -45,6 +45,9 @@ on:
@@ -208,12 +208,12 @@ index 765aaae..fbcc499 100644
      timeout-minutes: 15
      steps:
        - name: Checkout data-center-map
--        uses: actions/checkout@v4
+-        uses: actions/checkout@v7
 -
-+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
++        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
        - name: Set up Python
--        uses: actions/setup-python@v5
-+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-        uses: actions/setup-python@v7
++        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: "3.11"
  
@@ -259,32 +259,125 @@ index 765aaae..fbcc499 100644
  
        - name: Surface landmark failure (visible, non-blocking)
 diff --git a/.github/workflows/harden-pipeline-publishing.yml b/.github/workflows/harden-pipeline-publishing.yml
-index 843bcb7..5bc09e3 100644
+deleted file mode 100644
+index f58f7e3..0000000
 --- a/.github/workflows/harden-pipeline-publishing.yml
-+++ b/.github/workflows/harden-pipeline-publishing.yml
-@@ -11,7 +11,7 @@ jobs:
-     runs-on: ubuntu-latest
-     steps:
-       - name: Checkout main
--        uses: actions/checkout@v4
-+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-         with:
-           ref: main
-           fetch-depth: 0
++++ /dev/null
+@@ -1,100 +0,0 @@
+-name: Harden Pipeline Publishing
+-
+-on:
+-  workflow_dispatch:
+-
+-permissions:
+-  contents: write
+-
+-jobs:
+-  harden:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - name: Checkout main
+-        uses: actions/checkout@v7
+-        with:
+-          ref: main
+-          fetch-depth: 0
+-
+-      - name: Make pipeline publishing resilient
+-        shell: python
+-        run: |
+-          from pathlib import Path
+-          import sys
+-
+-          path = Path('.github/workflows/pipeline.yml')
+-          text = path.read_text(encoding='utf-8')
+-
+-          old_title = 'name: Build Clean Feed\n'
+-          new_title = 'name: Build and Publish Clean Feed\n'
+-          concurrency = (
+-              '\n# This workflow writes generated artifacts to main. Serialize workflow writers\n'
+-              '# and preserve queued runs rather than cancelling completed data work.\n'
+-              'concurrency:\n'
+-              '  group: data-center-map-generated-artifacts-main\n'
+-              '  cancel-in-progress: false\n'
+-          )
+-          checkout = '          uses: actions/checkout@v4\n'
+-          checkout_with_history = (
+-              '          uses: actions/checkout@v4\n'
+-              '          with:\n'
+-              '            fetch-depth: 0\n'
+-          )
+-          old_push = '          git push\n'
+-          new_push = '\n'.join([
+-              '          # Preserve commits that land on main after checkout. Never force-push.',
+-              '          max_push_attempts=3',
+-              '          pushed=false',
+-              '          for attempt in $(seq 1 "$max_push_attempts"); do',
+-              '            if git push origin HEAD:main; then',
+-              '              echo "Generated artifacts pushed on attempt $attempt."',
+-              '              pushed=true',
+-              '              break',
+-              '            fi',
+-              '',
+-              '            if [ "$attempt" -eq "$max_push_attempts" ]; then',
+-              '              break',
+-              '            fi',
+-              '',
+-              '            echo "Push rejected; rebasing generated commit on origin/main (attempt $attempt)."',
+-              '            git fetch --no-tags origin main',
+-              '            if ! git rebase origin/main; then',
+-              '              git rebase --abort || true',
+-              '              echo "::error::Generated artifacts conflict with newer main. No force push was attempted."',
+-              '              exit 1',
+-              '            fi',
+-              '            sleep $((attempt * 2))',
+-              '          done',
+-              '',
+-              '          if [ "$pushed" != true ]; then',
+-              '            echo "::error::Push was rejected after $max_push_attempts attempts; main was not modified."',
+-              '            exit 1',
+-              '          fi',
+-              ''
+-          ])
+-
+-          if 'group: data-center-map-generated-artifacts-main' not in text:
+-              if text.count(old_title) != 1:
+-                  sys.exit('Expected exactly one `name: Build Clean Feed` line; pipeline was not changed.')
+-              text = text.replace(old_title, new_title + concurrency, 1)
+-          elif text.count(old_title) == 1:
+-              text = text.replace(old_title, new_title, 1)
+-
+-          if checkout_with_history not in text:
+-              if text.count(checkout) != 1:
+-                  sys.exit('Expected exactly one checkout step; pipeline was not changed.')
+-              text = text.replace(checkout, checkout_with_history, 1)
+-
+-          if text.count(old_push) != 1:
+-              sys.exit('Expected exactly one plain `git push` line; pipeline was not changed.')
+-          text = text.replace(old_push, new_push, 1)
+-          path.write_text(text, encoding='utf-8')
+-
+-      - name: Commit hardened pipeline
+-        run: |
+-          git config user.name "github-actions[bot]"
+-          git config user.email "github-actions[bot]@users.noreply.github.com"
+-          git add .github/workflows/pipeline.yml
+-          git diff --cached --quiet && { echo "No change needed."; exit 0; }
+-          git commit -m "Harden clean-feed publishing workflow [skip ci]"
+-          git push origin HEAD:main
 diff --git a/.github/workflows/local-signals.yml b/.github/workflows/local-signals.yml
-index 0193c47..25e4b1c 100644
+index 7f031eb..ee2d28b 100644
 --- a/.github/workflows/local-signals.yml
 +++ b/.github/workflows/local-signals.yml
 @@ -23,10 +23,10 @@ jobs:
    signals:
      runs-on: ubuntu-latest
      steps:
--      - uses: actions/checkout@v4
-+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
          with:
            fetch-depth: 0
--      - uses: actions/setup-python@v5
-+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-      - uses: actions/setup-python@v7
++      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: "3.11"
  
@@ -297,19 +390,19 @@ index 0193c47..25e4b1c 100644
            if git diff --cached --quiet; then
              echo "No changes to commit"
 diff --git a/.github/workflows/manual-records.yml b/.github/workflows/manual-records.yml
-index e1228c0..5d0c68b 100644
+index b9539d0..3c58edd 100644
 --- a/.github/workflows/manual-records.yml
 +++ b/.github/workflows/manual-records.yml
 @@ -33,10 +33,10 @@ jobs:
      runs-on: ubuntu-latest
      timeout-minutes: 10
      steps:
--      - uses: actions/checkout@v4
-+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+-      - uses: actions/checkout@v7
++      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
          with:
            fetch-depth: 0
--      - uses: actions/setup-python@v5
-+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-      - uses: actions/setup-python@v7
++      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: "3.11"
  
@@ -317,13 +410,13 @@ index e1228c0..5d0c68b 100644
  
        - name: Rebuild the clean feed now (main only)
          if: steps.commit.outputs.committed == 'yes' && github.ref == 'refs/heads/main'
--        uses: actions/github-script@v7
-+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+-        uses: actions/github-script@v9
++        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
          with:
            script: |
              await github.rest.actions.createWorkflowDispatch({
 diff --git a/.github/workflows/pipeline.yml b/.github/workflows/pipeline.yml
-index 4e13d0d..fb0ed43 100644
+index 5039816..5479f0c 100644
 --- a/.github/workflows/pipeline.yml
 +++ b/.github/workflows/pipeline.yml
 @@ -88,6 +88,11 @@ on:
@@ -342,21 +435,21 @@ index 4e13d0d..fb0ed43 100644
      timeout-minutes: 20
      steps:
        - name: Checkout data-center-map
--        uses: actions/checkout@v4
+-        uses: actions/checkout@v7
 -
-+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
++        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 +        with:
 +          # master_diff.py compares against HEAD~1, which a depth-1 clone lacks.
 +          fetch-depth: 2
        - name: Set up Python
--        uses: actions/setup-python@v5
-+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-        uses: actions/setup-python@v7
++        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: "3.11"
  
        - name: Set up Node
--        uses: actions/setup-node@v4
-+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+-        uses: actions/setup-node@v7
++        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
          with:
            node-version: "20"
  
@@ -500,43 +593,43 @@ index 4e13d0d..fb0ed43 100644
  
        - name: Trigger Iowa Notion sync
          if: success() || steps.verification.outcome == 'failure' || steps.project_resolution.outcome == 'failure' || steps.county_layer.outcome == 'failure' || steps.coverage.outcome == 'failure' || steps.detection.outcome == 'failure' || steps.fips_resolution.outcome == 'failure' || steps.site_screener.outcome == 'failure'
--        uses: actions/github-script@v7
-+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+-        uses: actions/github-script@v9
++        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
          with:
            # Cross-repo dispatch needs a PAT with repo scope (the default
            # GITHUB_TOKEN cannot trigger workflows in another repository).
 diff --git a/.github/workflows/positions-refresh.yml b/.github/workflows/positions-refresh.yml
-index 9128c09..5302aca 100644
+index 9f378a7..343085b 100644
 --- a/.github/workflows/positions-refresh.yml
 +++ b/.github/workflows/positions-refresh.yml
 @@ -50,12 +50,12 @@ jobs:
      runs-on: ubuntu-latest
      steps:
        - name: Checkout data-center-map
--        uses: actions/checkout@v4
-+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+-        uses: actions/checkout@v7
++        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
          with:
            fetch-depth: 0
  
        - name: Set up Python
--        uses: actions/setup-python@v5
-+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-        uses: actions/setup-python@v7
++        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: "3.11"
  
 diff --git a/.github/workflows/qc.yml b/.github/workflows/qc.yml
-index 7d4c90c..f28bc03 100644
+index bab336d..e04d1ba 100644
 --- a/.github/workflows/qc.yml
 +++ b/.github/workflows/qc.yml
 @@ -22,9 +22,8 @@ jobs:
    qc:
      runs-on: ubuntu-latest
      steps:
--      - uses: actions/checkout@v4
+-      - uses: actions/checkout@v7
 -
--      - uses: actions/setup-python@v5
-+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-      - uses: actions/setup-python@v7
++      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
++      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: "3.11"
  
@@ -544,44 +637,44 @@ index 7d4c90c..f28bc03 100644
  
        - name: Upload feed and quarantine as artifacts
          if: always()
--        uses: actions/upload-artifact@v4
-+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+-        uses: actions/upload-artifact@v7
++        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
          with:
            name: qc-output
            path: |
 diff --git a/.github/workflows/refresh-external-census.yml b/.github/workflows/refresh-external-census.yml
-index d5e44a7..fd297b6 100644
+index c3f6ddb..d88626a 100644
 --- a/.github/workflows/refresh-external-census.yml
 +++ b/.github/workflows/refresh-external-census.yml
 @@ -24,12 +24,12 @@ jobs:
      runs-on: ubuntu-latest
      steps:
        - name: Checkout data-center-map
--        uses: actions/checkout@v4
-+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+-        uses: actions/checkout@v7
++        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
          with:
            fetch-depth: 0
  
        - name: Set up Python
--        uses: actions/setup-python@v5
-+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-        uses: actions/setup-python@v7
++        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: "3.11"
  
 diff --git a/.github/workflows/retrain.yml b/.github/workflows/retrain.yml
-index 23fe318..fa9368a 100644
+index 5d38a8d..6976e0c 100644
 --- a/.github/workflows/retrain.yml
 +++ b/.github/workflows/retrain.yml
 @@ -45,15 +45,17 @@ jobs:
      timeout-minutes: 15
      steps:
        - name: Checkout data-center-map
--        uses: actions/checkout@v4
+-        uses: actions/checkout@v7
 -
-+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
++        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
        - name: Set up Python
--        uses: actions/setup-python@v5
-+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-        uses: actions/setup-python@v7
++        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: "3.11"
  
@@ -595,19 +688,19 @@ index 23fe318..fa9368a 100644
        - name: Rebuild lifecycles (needed inputs for the models)
          run: python project_resolution.py
 diff --git a/.github/workflows/scrape-trackdatacenters-proposals.yml b/.github/workflows/scrape-trackdatacenters-proposals.yml
-index d36a935..215623d 100644
+index f53ea18..01c9cae 100644
 --- a/.github/workflows/scrape-trackdatacenters-proposals.yml
 +++ b/.github/workflows/scrape-trackdatacenters-proposals.yml
 @@ -13,10 +13,9 @@ jobs:
    scrape:
      runs-on: ubuntu-latest
      steps:
--      - uses: actions/checkout@v4
+-      - uses: actions/checkout@v7
 -
-+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
++      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
        - name: Set up Python
--        uses: actions/setup-python@v5
-+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-        uses: actions/setup-python@v7
++        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: '3.12'
  
@@ -624,27 +717,27 @@ index d36a935..215623d 100644
  
        - name: Notify on failure
          if: failure()
--        uses: actions/github-script@v7
-+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+-        uses: actions/github-script@v9
++        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
          with:
            script: |
              github.rest.issues.create({
 diff --git a/.github/workflows/stakeholder-refresh.yml b/.github/workflows/stakeholder-refresh.yml
-index 3f81ce4..872dfdd 100644
+index 61c5970..852ffee 100644
 --- a/.github/workflows/stakeholder-refresh.yml
 +++ b/.github/workflows/stakeholder-refresh.yml
 @@ -27,12 +27,12 @@ jobs:
      runs-on: ubuntu-latest
      steps:
        - name: Checkout data-center-map
--        uses: actions/checkout@v4
-+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+-        uses: actions/checkout@v7
++        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
          with:
            fetch-depth: 0
  
        - name: Set up Python
--        uses: actions/setup-python@v5
-+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-        uses: actions/setup-python@v7
++        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: "3.11"
  
@@ -666,7 +759,7 @@ index 3f81ce4..872dfdd 100644
              echo "::warning::OPENSTATES_API_KEY not set; county tier only."
              python stakeholder_registry.py --build
 diff --git a/.github/workflows/update-opposition-csv.yml b/.github/workflows/update-opposition-csv.yml
-index be50238..25bd19b 100644
+index a6ed83e..4bf6dcf 100644
 --- a/.github/workflows/update-opposition-csv.yml
 +++ b/.github/workflows/update-opposition-csv.yml
 @@ -1,7 +1,7 @@
@@ -682,12 +775,12 @@ index be50238..25bd19b 100644
  
      steps:
        - name: Check out repo
--        uses: actions/checkout@v4
+-        uses: actions/checkout@v7
 -
-+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
++        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
        - name: Set up Python
--        uses: actions/setup-python@v5
-+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+-        uses: actions/setup-python@v7
++        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
          with:
            python-version: '3.11'
  
@@ -704,14 +797,14 @@ index be50238..25bd19b 100644
  
        - name: Notify on failure
          if: failure()
--        uses: actions/github-script@v7
-+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+-        uses: actions/github-script@v9
++        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
          with:
            script: |
              github.rest.issues.create({
 diff --git a/.github/workflows/workflow-lint.yml b/.github/workflows/workflow-lint.yml
 new file mode 100644
-index 0000000..7a20c28
+index 0000000..3298fca
 --- /dev/null
 +++ b/.github/workflows/workflow-lint.yml
 @@ -0,0 +1,51 @@
@@ -741,7 +834,7 @@ index 0000000..7a20c28
 +    runs-on: ubuntu-latest
 +    timeout-minutes: 5
 +    steps:
-+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
++      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 +        with:
 +          persist-credentials: false
 +      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
@@ -753,7 +846,7 @@ index 0000000..7a20c28
 +    timeout-minutes: 5
 +    continue-on-error: true
 +    steps:
-+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
++      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 +        with:
 +          persist-credentials: false
 +      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
