@@ -45,8 +45,14 @@ jobs:
   intel:
     runs-on: ubuntu-latest
     steps:
+      # ref: the branch head, not the triggering commit. A workflow_run job
+      # that waits in the concurrency queue otherwise starts from the commit
+      # that triggered it and misses output an earlier run already pushed, so
+      # its whole run is discarded at the push step below. Same fix as
+      # feature-search.yml.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
 
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
