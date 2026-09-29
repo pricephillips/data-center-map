@@ -558,10 +558,10 @@
       "as_of": "2026-09-29"
     },
     "decision_dates": {
-      "open": 46
+      "open": 48
     },
     "announced_dates": {
-      "open": 17
+      "open": 15
     }
   },
   "gates": {
@@ -571,36 +571,36 @@
       "windows": [
         {
           "window_days": "30",
-          "n": "28",
-          "n_blocked": "21",
-          "n_not_blocked": "7",
-          "gate": "INFEASIBLE"
-        },
-        {
-          "window_days": "60",
-          "n": "23",
-          "n_blocked": "16",
-          "n_not_blocked": "7",
-          "gate": "INFEASIBLE"
-        },
-        {
-          "window_days": "90",
-          "n": "22",
-          "n_blocked": "16",
+          "n": "24",
+          "n_blocked": "18",
           "n_not_blocked": "6",
           "gate": "INFEASIBLE"
         },
         {
-          "window_days": "120",
-          "n": "17",
+          "window_days": "60",
+          "n": "19",
           "n_blocked": "13",
+          "n_not_blocked": "6",
+          "gate": "INFEASIBLE"
+        },
+        {
+          "window_days": "90",
+          "n": "18",
+          "n_blocked": "13",
+          "n_not_blocked": "5",
+          "gate": "INFEASIBLE"
+        },
+        {
+          "window_days": "120",
+          "n": "15",
+          "n_blocked": "11",
           "n_not_blocked": "4",
           "gate": "INFEASIBLE"
         },
         {
           "window_days": "180",
-          "n": "14",
-          "n_blocked": "10",
+          "n": "12",
+          "n_blocked": "8",
           "n_not_blocked": "4",
           "gate": "INFEASIBLE"
         }
