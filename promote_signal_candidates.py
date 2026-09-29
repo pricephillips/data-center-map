@@ -20,6 +20,14 @@ Defensibility rules:
     data/signal_promotion_report.csv with the gate's blocking reasons, so the
     audit trail survives queue rewrites.
 
+Syndicated copies (spec 006): the harvester keeps one worklist row per event
+cluster and lists the other URLs in cluster_members. When that row is
+promoted, each member is logged as action "cluster_member" (with the kept URL
+and cluster id in blocking_reasons) and not promoted. signal_harvest.known_urls
+reads those rows, so a copy is not promoted on a later night either. The
+date_hint column is never read here: a hint is for a reviewer, and the promoted
+Date stays the harvest's seen_date.
+
 Every run also removes exact duplicate signal_harvest_auto rows from master
 (dedupe_own_rows, 2026-09-29), keeping the first occurrence and recording each
 removal in the promotion report as action "duplicate_removed".
@@ -128,7 +136,17 @@ def promote(queue: list[dict], fields: list[str],
         else:
             promoted.append(row)
             report.append(_report_row(cand, "promoted", ""))
+            report.extend(_member_rows(cand))
     return promoted, kept, report
+
+
+def _member_rows(cand: dict) -> list[dict]:
+    """One cluster_member report row per syndicated copy of a promoted row."""
+    members = [m.strip() for m in (cand.get("cluster_members") or "").split(";")
+               if m.strip()]
+    why = (f"syndicated copy of {(cand.get('url') or '').strip()} "
+           f"({(cand.get('cluster_id') or '').strip()})")
+    return [_report_row(dict(cand, url=m), "cluster_member", why) for m in members]
 
 
 def append_master(rows: list[dict], master_csv: str, fields: list[str]) -> None:
@@ -314,6 +332,26 @@ def selftest() -> int:
           any(r["action"] == "duplicate" and r["title"] == dupe["title"]
               for r in report))
 
+    # Spec 006: a date hint is never copied into master, and a promoted
+    # cluster representative logs its syndicated copies.
+    hinted = dict(good, url="https://example-news.com/hinted", title="Board adopts pause",
+                  seen_date="2026-01-05", date_hint="2026-01-02", thin_text="no",
+                  cluster_id="evt_0123456789",
+                  cluster_members="https://copy-a.example/x; https://copy-b.example/y")
+    p2, _, r2 = promote([hinted], fields, known=set())
+    check("promotion ignores date_hint: Date stays the seen_date",
+          p2 and p2[0]["Date"] == "2026-01-05"
+          and "2026-01-02" not in ",".join(p2[0].values()))
+    members = [r for r in r2 if r["action"] == "cluster_member"]
+    check("a promoted cluster row logs one cluster_member row per copy",
+          [r["url"] for r in members] == ["https://copy-a.example/x", "https://copy-b.example/y"]
+          and all("syndicated copy of https://example-news.com/hinted (evt_0123456789)"
+                  == r["blocking_reasons"] for r in members))
+    check("the copies are not promoted", len(p2) == 1)
+    _, k3, r3 = promote([dict(hinted, url="", domain="")], fields, known=set())
+    check("a blocked cluster row logs no members (they stay listed on the queued row)",
+          k3 and not any(r["action"] == "cluster_member" for r in r3))
+
     already_known = promote([good], fields,
                             known={sh.normalize_url(good["url"])})
     check("url already in the database is not promoted",
@@ -334,6 +372,12 @@ def selftest() -> int:
         rewrite_queue(kept, tmp_queue)
         check("queue rewrite keeps only blocked rows",
               len(load_csv(tmp_queue)) == 1)
+        rewrite_queue([dict(no_url, date_hint="2026-01-02", cluster_id="evt_x",
+                            cluster_members="https://a.example/1")], tmp_queue)
+        back_q = load_csv(tmp_queue)
+        check("queue rewrite keeps the appended spec 006 columns",
+              back_q[0]["date_hint"] == "2026-01-02"
+              and back_q[0]["cluster_members"] == "https://a.example/1")
 
         # This previously asserted that appending the same report twice
         # doubled the rows, which encoded the duplication defect as the

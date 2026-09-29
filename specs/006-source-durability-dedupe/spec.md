@@ -4,7 +4,7 @@
 
 **Created**: 2026-09-28
 
-**Status**: Draft
+**Status**: Implemented (SC-002 met; SC-001 and SC-003 measured by CI)
 
 **Input**: Session 3 of the tool integration plan: Internet Archive Save Page Now 2 and CDX APIs, trafilatura, datasketch.
 

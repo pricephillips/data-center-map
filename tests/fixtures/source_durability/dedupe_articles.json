@@ -1,0 +1,14 @@
+{
+  "_comment": "Synthetic fixture for event_dedupe.py --selftest: two syndicated copies of one story on different domains the same day, and one unrelated story. Expected: 2 clusters.",
+  "articles": [
+    {"id": "a", "domain": "kcbd.example", "date": "2026-09-23", "state": "TX",
+     "title": "City council adopts resolution regarding large-scale data centers in Lubbock, starting process for potential moratorium - KCBD",
+     "lead": "The Lubbock City Council on Tuesday adopted a resolution that starts the process toward a potential moratorium on large-scale data centers while staff studies water use, power demand and zoning rules for the facilities across the city limits and its extraterritorial jurisdiction."},
+    {"id": "b", "domain": "fox34.example", "date": "2026-09-23", "state": "TX",
+     "title": "City council adopts resolution regarding large-scale data centers in Lubbock, starting process for potential moratorium - FOX34",
+     "lead": "The Lubbock City Council on Tuesday adopted a resolution that starts the process toward a potential moratorium on large-scale data centers while staff studies water use, power demand and zoning rules for the facilities across the city limits and its extraterritorial jurisdiction."},
+    {"id": "c", "domain": "katu.example", "date": "2026-09-22", "state": "OR",
+     "title": "Salem moratorium on new data centers could become official tonight",
+     "lead": "Salem city councilors are scheduled to take a final vote on a temporary moratorium on new data center applications, a measure proposed after residents raised questions about electricity rates and the regional grid."}
+  ]
+}

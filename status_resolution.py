@@ -33,6 +33,16 @@ What it does
                   proposed as superseded. Writes
                   data/status_resolution_worklist.csv. Proposes only.
 
+                  Syndicated copies (spec 006): pending rows that carry the
+                  same story under different outlets' URLs (one AP or
+                  group-owned article on several mastheads) are clustered by
+                  event_dedupe.py and every copy but the earliest is proposed
+                  as supersede, signal "syndicated copy", with the cluster id.
+                  Same worklist, same reviewer confirmation, same
+                  hold_superseded(); there is no second mechanism. Needs
+                  datasketch; without it the pass is skipped and the worklist
+                  is what it was.
+
   --apply         Applies data/status_resolutions.csv, the reviewer-confirmed
                   file, to master_opposition.csv. Idempotent: re-running
                   changes nothing. Rows are matched on normalized Source URL.
@@ -84,6 +94,11 @@ import re
 import sys
 from collections import defaultdict
 
+try:
+    import event_dedupe as ED
+except ImportError:                          # pragma: no cover - same repo
+    ED = None
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -100,7 +115,11 @@ RESOLUTION_FIELDS = ["source_url", "action", "status", "opposition_type",
                      "authority_level", "community_outcome", "state", "county",
                      "superseded_by", "evidence_url", "confirmed_on", "note"]
 WORKLIST_FIELDS = ["proposal", "signal", "state", "county", "date", "incident",
-                   "source_url", "group_key", "group_final_url"]
+                   "source_url", "group_key", "group_final_url",
+                   # Appended by spec 006 (FR-004); existing columns unchanged.
+                   "cluster_id", "archived_url"]
+ARCHIVE_CSV = P("data", "source_archive.csv")
+SYNDICATED = "syndicated copy"
 
 RESTRICTIVE_TYPES = {"moratorium", "zoning_restriction", "ban", "ordinance"}
 
@@ -200,7 +219,8 @@ def is_candidate(row: dict) -> bool:
 # scan
 # ---------------------------------------------------------------------------
 
-def scan(master: list[dict], resolutions: list[dict]) -> list[dict]:
+def scan(master: list[dict], resolutions: list[dict],
+         archive: dict | None = None) -> list[dict]:
     done = {normalize_url(r.get("source_url", "")) for r in resolutions}
     seen_urls = set()
     groups = defaultdict(list)
@@ -231,13 +251,65 @@ def scan(master: list[dict], resolutions: list[dict]) -> list[dict]:
                 if fd and rd and 0 <= (fd - rd).days <= SUPERSEDE_WINDOW_DAYS \
                         and normalize_url(r.get("Source URL", "")) not in done:
                     out.append(_wl("supersede", "earlier-stage coverage", r, key, f))
+    proposed = {normalize_url(r["source_url"]) for r in out}
+    out.extend(syndicated(master, done | proposed))
+    arch = archive or {}
+    for r in out:
+        r["archived_url"] = arch.get(normalize_url(r["source_url"]), "")
     out.sort(key=lambda r: (r["proposal"] != "resolve", r["state"], r["county"],
                             r["date"]))
     return out
 
 
+def syndicated(master: list[dict], skip: set) -> list[dict]:
+    """supersede proposals for syndicated copies among pending rows.
+
+    Every pending row with a Source URL (first occurrence of each normalized
+    URL) is an item: Incident as the title, domain from the URL. In each
+    event_dedupe cluster the earliest-dated row, then the first in file
+    order, is kept; the others are proposed unless already resolved or
+    already proposed by the county pass.
+    """
+    if ED is None or not ED.available():
+        return []
+    items, seen = [], set()
+    for i, r in enumerate(master):
+        if (r.get("Status") or "").strip().lower() != "pending":
+            continue
+        url = (r.get("Source URL") or "").strip()
+        u = normalize_url(url)
+        if not u or u in seen:
+            continue
+        seen.add(u)
+        items.append({"id": i, "title": r.get("Incident") or "",
+                      "date": (r.get("Date") or "").strip()[:10],
+                      "domain": ED.domain_of(url),
+                      "state": (r.get("State") or "").strip()})
+    out = []
+    for grp in ED.cluster(items):
+        if len(grp) < 2:
+            continue
+        keeper = min(grp, key=lambda i: (parse_date(master[i].get("Date", ""))
+                                         or dt.date.max, i))
+        cid = ED.cluster_id(master[keeper].get("Source URL", ""))
+        for i in sorted(grp):
+            if i == keeper or normalize_url(master[i].get("Source URL", "")) in skip:
+                continue
+            w = _wl("supersede", SYNDICATED, master[i], ("cluster", cid), master[keeper])
+            w["cluster_id"] = cid
+            out.append(w)
+    return out
+
+
+def load_archive(path: str = ARCHIVE_CSV) -> dict:
+    """normalized URL -> archived_url, from source_archive.py's output."""
+    return {normalize_url(r.get("url", "")): r.get("archived_url", "")
+            for r in read_csv(path) if r.get("archived_url")}
+
+
 def _wl(proposal, signal, row, key, final_row) -> dict:
     return {"proposal": proposal, "signal": signal,
+            "cluster_id": "", "archived_url": "",
             "state": (row.get("State") or "").strip(),
             "county": (row.get("County") or "").strip(),
             "date": (row.get("Date") or "").strip(),
@@ -457,6 +529,36 @@ def selftest() -> int:
     check("scan: resolved rows drop out",
           sum(1 for r in scan(master, ok) if r["proposal"] == "resolve"), 0)
 
+    # Spec 006: syndicated copies go through the same supersede path.
+    check("worklist: spec 006 columns appended last",
+          WORKLIST_FIELDS[-2:] + WORKLIST_FIELDS[:1], ["cluster_id", "archived_url", "proposal"])
+    title = "Martin Is Latest Florida County To Consider Moratorium On Data Centers"
+    synd = [row(title + " | NewsRadio", "2026-08-26", "https://wiod.example/m", county="Martin"),
+            row(title + " | 1290 WJNO", "2026-08-27", "https://wjno.example/m", county="Martin"),
+            row("Unrelated county zoning story about warehouses and roads", "2026-08-27",
+                "https://other.example/z", county="Martin")]
+    arch = {"wjno.example/m": "https://web.archive.org/web/20260827000000/https://wjno.example/m"}
+    before = [dict(r) for r in synd]
+    if ED is not None and ED.available():
+        wl2 = scan(synd, [], archive=arch)
+        syn = [r for r in wl2 if r["signal"] == SYNDICATED]
+        check("syndicated: the later copy is proposed as supersede",
+              [(r["proposal"], r["source_url"]) for r in syn],
+              [("supersede", "https://wjno.example/m")])
+        check("syndicated: superseded_by points at the earliest copy",
+              syn[0]["group_final_url"], "https://wiod.example/m")
+        check("syndicated: cluster id carried",
+              syn[0]["cluster_id"].startswith("evt_") and syn[0]["group_key"]
+              == "cluster|" + syn[0]["cluster_id"], True)
+        check("syndicated: archived_url looked up from the archive",
+              syn[0]["archived_url"], arch["wjno.example/m"])
+        done_res = [{"source_url": "https://wjno.example/m", "action": "supersede"}]
+        check("syndicated: an already-confirmed copy drops out",
+              [r for r in scan(synd, done_res) if r["signal"] == SYNDICATED], [])
+        check("syndicated: master is unchanged", synd, before)
+    else:
+        print("SKIP (datasketch not installed): syndicated-copy checks")
+
     # hold_superseded, when pandas is present
     try:
         import pandas as pd
@@ -517,12 +619,16 @@ def main() -> int:
             print(f"  no master row carries {u}")
         return 1 if errors else 0
 
-    wl = scan(master, resolutions)
+    wl = scan(master, resolutions, archive=load_archive())
     write_csv(wl, WORKLIST_CSV, WORKLIST_FIELDS)
     n_res = sum(1 for r in wl if r["proposal"] == "resolve")
+    n_syn = sum(1 for r in wl if r["signal"] == SYNDICATED)
     print(f"wrote {os.path.relpath(WORKLIST_CSV, HERE)}: {n_res} pending row(s) "
-          f"report a completed adoption, {len(wl) - n_res} earlier-stage row(s) "
-          f"proposed as superseded. Confirm in data/status_resolutions.csv.")
+          f"report a completed adoption, {len(wl) - n_res - n_syn} earlier-stage "
+          f"row(s) and {n_syn} syndicated copies proposed as superseded. "
+          f"Confirm in data/status_resolutions.csv.")
+    if ED is None or not ED.available():
+        print("syndicated-copy pass skipped: datasketch not installed")
     return 0
 
 

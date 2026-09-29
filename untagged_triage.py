@@ -28,9 +28,17 @@ reviewer opening the article," not "verified." Nothing here writes to
 master_opposition.csv, and nothing is promoted without a person reading the
 source.
 
+date_hint (spec 006) is the publication date article_extract.py reads from the
+resolved publisher page, with thin_text for paywalled pages. It is a HINT for
+the reviewer and never written into master_opposition.csv. --date-hints
+fetches only rows that have a resolved URL and no cached hint, up to
+--hint-limit per run; every fetch is cached in data/untagged_date_hints.csv
+(append-only), so a plain run fills the column without any network call.
+
 Usage
 -----
   python untagged_triage.py                      worklist from local fields only
+  python untagged_triage.py --date-hints         also fetch date hints (network)
   python untagged_triage.py --resolve            also resolve redirects (network)
   python untagged_triage.py --resolve --limit 25 resolve a first batch
   python untagged_triage.py --promote-template   draft rows for promote_ready
@@ -42,6 +50,7 @@ Outputs
   data/untagged_triage.md           counts, outlets, and what is recoverable
   data/untagged_resolved.csv        append-only redirect resolution cache
   data/untagged_promote_draft.csv   optional, master_opposition schema, draft
+  data/untagged_date_hints.csv      append-only date hint cache (spec 006)
 """
 
 import argparse
@@ -61,6 +70,7 @@ OUT_CSV = os.path.join(HERE, "data", "untagged_triage.csv")
 OUT_MD = os.path.join(HERE, "data", "untagged_triage.md")
 CACHE_CSV = os.path.join(HERE, "data", "untagged_resolved.csv")
 DRAFT_CSV = os.path.join(HERE, "data", "untagged_promote_draft.csv")
+HINTS_CSV = os.path.join(HERE, "data", "untagged_date_hints.csv")
 
 USER_AGENT = ("Mozilla/5.0 (compatible; hawthorn-dc-tracker/1.0; "
               "opposition monitoring)")
@@ -77,6 +87,11 @@ try:
     import signal_harvest as SH
 except ImportError:
     SH = None
+
+try:
+    import article_extract as AE
+except ImportError:
+    AE = None
 
 # Fallbacks so this module runs standalone if either import is unavailable.
 _MECHANISM_HINTS = [
@@ -312,7 +327,62 @@ FIELDS = ["rank_score", "row_key", "verification_status", "outlet",
           "headline", "suggested_mechanism", "suggested_county",
           "suggested_state", "location_confidence", "existing_coverage",
           "resolved_url", "resolved_domain", "resolve_status",
-          "promote_ready", "redirect_url"]
+          "promote_ready", "redirect_url",
+          # Appended by spec 006 (FR-004); existing columns and order unchanged.
+          "date_hint", "thin_text"]
+
+HINT_FIELDS = ["row_key", "url", "date_hint", "thin_text", "http_status", "fetched_on"]
+
+
+def load_hints(path=None):
+    path = path or HINTS_CSV
+    return {r["row_key"]: r for r in load_csv(path)} if os.path.exists(path) else {}
+
+
+def append_hints(records, path=None):
+    path = path or HINTS_CSV
+    if not records:
+        return
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    new = not os.path.exists(path)
+    with open(path, "a", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=HINT_FIELDS, extrasaction="ignore",
+                           lineterminator="\n")
+        if new:
+            w.writeheader()
+        for r in records:
+            w.writerow({k: r.get(k, "") for k in HINT_FIELDS})
+
+
+def add_date_hints(recs, fetch=False, limit=20, extract=None, path=None, today=None):
+    """Fills date_hint / thin_text from the cache; with fetch=True, extracts
+    up to `limit` uncached rows that have a resolved publisher URL. Returns the
+    number of new fetches."""
+    import datetime as _dt
+    cache = load_hints(path)
+    if fetch and extract is None and AE is not None and AE.available():
+        cfg = AE.load_config()
+        cfg["timeout_s"] = cfg.get("triage_timeout_s", cfg["timeout_s"])
+
+        def extract(url):
+            return AE.extract(url, cfg=cfg)
+    fresh = []
+    for r in recs:
+        hit = cache.get(r["row_key"])
+        if hit is None and fetch and extract is not None and r.get("resolved_url") \
+                and len(fresh) < int(limit):
+            rec = extract(r["resolved_url"])
+            hit = {"row_key": r["row_key"], "url": r["resolved_url"],
+                   "date_hint": rec.get("date_hint", ""),
+                   "thin_text": rec.get("thin_text", ""),
+                   "http_status": rec.get("http_status", ""),
+                   "fetched_on": (today or _dt.date.today()).isoformat()}
+            fresh.append(hit)
+            cache[r["row_key"]] = hit
+        r["date_hint"] = (hit or {}).get("date_hint", "")
+        r["thin_text"] = (hit or {}).get("thin_text", "")
+    append_hints(fresh, path)
+    return len(fresh)
 
 
 def rank(row):
@@ -396,6 +466,8 @@ def build(rows, resolve=False, limit=None, opener=None):
             "resolved_domain": resolved_domain,
             "resolve_status": resolve_status,
             "redirect_url": _s(r, "Source URL"),
+            "date_hint": "",
+            "thin_text": "",
         }
         rec["promote_ready"] = "yes" if (
             resolved_url and mech and conf in ("high", "medium")) else "no"
@@ -590,6 +662,39 @@ def selftest():
     check("worklist fields are complete",
           all(k in recs[0] for k in FIELDS))
 
+    # Spec 006: date hints.
+    import tempfile
+    import datetime as _dt
+    check("date_hint and thin_text are appended last",
+          FIELDS[-2:] == ["date_hint", "thin_text"] and FIELDS[0] == "rank_score"
+          and FIELDS[-3] == "redirect_url")
+    td = tempfile.mkdtemp()
+    hp = os.path.join(td, "hints.csv")
+    calls = []
+
+    def fake_extract(url):
+        calls.append(url)
+        return {"date_hint": "2026-04-02", "thin_text": "no", "http_status": "200"}
+    hrecs = [dict(recs[0], row_key="k1", resolved_url="https://publisher.example/a"),
+             dict(recs[0], row_key="k2", resolved_url=""),
+             dict(recs[0], row_key="k3", resolved_url="https://publisher.example/c")]
+    n = add_date_hints(hrecs, fetch=True, limit=1, extract=fake_extract, path=hp,
+                       today=_dt.date(2026, 9, 29))
+    check("only rows with a resolved URL are fetched, up to the limit",
+          n == 1 and calls == ["https://publisher.example/a"])
+    check("the fetched hint fills the row", hrecs[0]["date_hint"] == "2026-04-02"
+          and hrecs[1]["date_hint"] == "" and hrecs[2]["date_hint"] == "")
+    again = [dict(r) for r in hrecs]
+    add_date_hints(again, fetch=False, path=hp)
+    check("a plain run fills the hint from the cache with no fetch",
+          again[0]["date_hint"] == "2026-04-02" and len(calls) == 1)
+    add_date_hints(again, fetch=True, limit=5, extract=fake_extract, path=hp)
+    check("a cached row is never fetched twice",
+          calls == ["https://publisher.example/a", "https://publisher.example/c"])
+    raw = open(hp, "rb").read()
+    check("hint cache is append-only with LF endings",
+          b"\r\n" not in raw and raw.count(b"\n") == 3)
+
     print("selftest:", "PASS" if ok else "FAIL")
     return 0 if ok else 1
 
@@ -603,6 +708,10 @@ def main():
                     help="with --resolve, cap the number of new fetches this run")
     ap.add_argument("--promote-template", action="store_true",
                     help="write data/untagged_promote_draft.csv for promote_ready rows")
+    ap.add_argument("--date-hints", action="store_true",
+                    help="fetch publication-date hints for resolved rows (network)")
+    ap.add_argument("--hint-limit", type=int, default=None,
+                    help="with --date-hints, cap new page fetches this run")
     ap.add_argument("--selftest", action="store_true")
     a = ap.parse_args()
 
@@ -615,6 +724,12 @@ def main():
         return 1
 
     recs = build(rows, resolve=a.resolve, limit=a.limit)
+    limit = a.hint_limit
+    if limit is None:
+        limit = AE.load_config().get("triage_hint_limit", 20) if AE is not None else 20
+    if a.date_hints and (AE is None or not AE.available()):
+        print("untagged_triage: trafilatura not installed; date hints from cache only")
+    fetched = add_date_hints(recs, fetch=a.date_hints, limit=limit)
     write_worklist(recs)
     open(OUT_MD, "w", encoding="utf-8").write(render_markdown(recs))
 
@@ -628,6 +743,8 @@ def main():
           f"{sum(1 for r in recs if r['resolved_url'])}")
     print(f"  promote_ready         : "
           f"{sum(1 for r in recs if r['promote_ready'] == 'yes')}")
+    print(f"  date hints            : "
+          f"{sum(1 for r in recs if r['date_hint'])} ({fetched} fetched this run)")
     print(f"  wrote {OUT_CSV}")
     print(f"  wrote {OUT_MD}")
 

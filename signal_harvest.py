@@ -30,9 +30,28 @@ first standing intake. A row carrying both an opposition mechanism and a
 facility verb stays with opposition: the mechanism is the stronger signal and
 the reviewer needs it in the queue that gets worked.
 
+Spec 006 (2026-09-29) adds two things to the opposition worklist, both
+appended as columns so the existing schema is unchanged:
+
+  date_hint, thin_text   article_extract.py reads each candidate page (up to
+                         extract.max_fetch_per_run) for its publication date
+                         and a thin-text flag. A HINT for the reviewer: GDELT's
+                         seendate is a crawl date. promote_signal_candidates
+                         never copies it into master.
+  cluster_id,            event_dedupe.py groups syndicated copies of one story
+  cluster_members        (one AP or group-owned article on eighteen mastheads)
+                         and the worklist keeps one row per cluster, listing
+                         the other URLs. When the kept row is promoted, the
+                         promoter logs each member as "cluster_member" in
+                         data/signal_promotion_report.csv and known_urls()
+                         reads them, so a copy is not promoted the next night.
+
+Both need their package (trafilatura, datasketch). Without it the columns are
+blank and the worklist is exactly what it was before.
+
 Outputs
 -------
-  data/signal_candidates.csv    ranked opposition worklist, one row per article
+  data/signal_candidates.csv    ranked opposition worklist, one row per event
   data/facility_candidates.csv  Layer A facility signals (openings, ground
                                 breaking, announcements, expansions)
   data/signal_harvest_log.csv   append-only run log (query, window, counts)
@@ -44,7 +63,8 @@ Usage
   python signal_harvest.py --days 7 --states VA,OH,IA  # narrow by state
   python signal_harvest.py --fixture path/to/gdelt.json  # offline replay
 
-Requires network access to api.gdeltproject.org for live runs. Stdlib only.
+Requires network access to api.gdeltproject.org for live runs. Stdlib only,
+apart from the optional article_extract / event_dedupe steps above.
 """
 
 from __future__ import annotations
@@ -61,6 +81,15 @@ from datetime import date, datetime, timedelta
 
 import gazetteer
 
+try:
+    import article_extract
+except ImportError:                     # pragma: no cover - same repo
+    article_extract = None
+try:
+    import event_dedupe
+except ImportError:                     # pragma: no cover - same repo
+    event_dedupe = None
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 OPPOSITION_CANDIDATES = [
@@ -73,6 +102,8 @@ COUNTY_AGG_CSV = os.path.join(HERE, "data", "county_aggregate.csv")
 OUT_CSV = os.path.join(HERE, "data", "signal_candidates.csv")
 FACILITY_CSV = os.path.join(HERE, "data", "facility_candidates.csv")
 LOG_CSV = os.path.join(HERE, "data", "signal_harvest_log.csv")
+# Written by promote_signal_candidates.py; read here for cluster_member URLs.
+PROMOTION_REPORT = os.path.join(HERE, "data", "signal_promotion_report.csv")
 
 # Counties whose bare name is shorter than this match only in the literal
 # form "<name> County", because the bare word is ordinary English. See
@@ -200,6 +231,10 @@ def known_urls():
     (verification holdout). Those URLs never looked known, so each nightly
     run re-harvested and re-promoted them: master_opposition.csv grew from
     3,611 to 4,099 exact duplicate signal_harvest_auto rows in four days.
+
+    Also every URL the promoter logged as a cluster_member (spec 006): a
+    syndicated copy of a story already promoted is the same event, and
+    without this it would look new the next night and be promoted on its own.
     """
     seen = set()
     for path in OPPOSITION_CANDIDATES:
@@ -208,6 +243,9 @@ def known_urls():
                             ("Source URL", "Sources", "Opposition Website", "Petition URL"))
             for m in re.findall(r"https?://[^\s'\"}\],]+", blob):
                 seen.add(normalize_url(m))
+    for r in load_csv(PROMOTION_REPORT):
+        if (r.get("action") or "").strip() == "cluster_member" and r.get("url"):
+            seen.add(normalize_url(r["url"]))
     return seen
 
 
@@ -380,7 +418,9 @@ def priority(row):
 
 FIELDS = ["priority", "seen_date", "query_label", "title", "domain", "url",
           "mechanism_hint", "county", "state", "location_confidence",
-          "county_already_tracked", "harvested_on"]
+          "county_already_tracked", "harvested_on",
+          # Appended by spec 006 (FR-004); existing columns and order unchanged.
+          "date_hint", "thin_text", "cluster_id", "cluster_members"]
 
 # Layer A candidates. Deliberately not the same shape as the opposition
 # worklist: these rows describe a facility, carry no mechanism or priority
@@ -390,7 +430,65 @@ FACILITY_FIELDS = ["seen_date", "facility_signal", "title", "domain", "url",
                    "county", "state", "location_confidence", "harvested_on"]
 
 
-def harvest(days=7, state_filter=None, fixture=None, articles_by_label=None):
+def default_extractor():
+    """article_extract.extract when trafilatura is installed, else None."""
+    if article_extract is not None and article_extract.available():
+        return article_extract.extract
+    return None
+
+
+def enrich_and_cluster(rows, extract=None, max_fetch=None, dedupe_cfg=None):
+    """Adds date_hint and thin_text (when an extractor is given) and collapses
+    syndicated copies to one row per event. Returns (rows, stats).
+
+    Rows are fetched in priority order, so the cap spends itself on the rows a
+    reviewer reaches first. The lead text feeds clustering and is dropped
+    before the rows are returned: article text is never written.
+    """
+    for r in rows:
+        for f in ("date_hint", "thin_text", "cluster_id", "cluster_members"):
+            r.setdefault(f, "")
+    leads = {}
+    hints = 0
+    if extract is not None:
+        if max_fetch is None:
+            max_fetch = (article_extract.load_config().get("max_fetch_per_run", 150)
+                         if article_extract else 150)
+        for r in sorted(rows, key=lambda r: -r["priority"])[: int(max_fetch)]:
+            try:
+                rec = extract(r["url"])
+            except Exception as exc:          # one bad page never stops a harvest
+                print(f"signal_harvest: extraction failed for {r['url']} ({exc})")
+                continue
+            r["date_hint"] = rec.get("date_hint", "")
+            r["thin_text"] = rec.get("thin_text", "")
+            leads[id(r)] = rec.get("lead", "")
+            hints += bool(r["date_hint"])
+
+    copies = 0
+    if event_dedupe is not None and event_dedupe.available() and len(rows) > 1:
+        cfg = dedupe_cfg if dedupe_cfg is not None else event_dedupe.load_config()
+        items = [{"id": i, "title": r["title"], "lead": leads.get(id(r), ""),
+                  "date": r["seen_date"], "domain": r["domain"], "state": r["state"]}
+                 for i, r in enumerate(rows)]
+        kept = []
+        for grp in event_dedupe.cluster(items, cfg):
+            members = [rows[i] for i in grp]
+            if len(members) == 1:
+                kept.append(members[0])
+                continue
+            members.sort(key=lambda r: (-r["priority"], r["seen_date"] or "9999", r["url"]))
+            rep, rest = members[0], members[1:]
+            rep["cluster_id"] = event_dedupe.cluster_id(rep["url"])
+            rep["cluster_members"] = "; ".join(sorted(r["url"] for r in rest))
+            copies += len(rest)
+            kept.append(rep)
+        rows = kept
+    return rows, {"syndicated_copies": copies, "date_hints": hints}
+
+
+def harvest(days=7, state_filter=None, fixture=None, articles_by_label=None,
+            extract=None, max_fetch=None):
     seen = known_urls()
     cidx = county_index()
     # Place index. Absent file -> empty dict -> county-only behaviour, exactly
@@ -477,11 +575,13 @@ def harvest(days=7, state_filter=None, fixture=None, articles_by_label=None):
             rows.append(row)
             emitted.add(nu)
 
+    rows, extra = enrich_and_cluster(rows, extract=extract, max_fetch=max_fetch)
     rows.sort(key=lambda r: -r["priority"])
     facility_rows.sort(key=lambda r: (r["seen_date"], r["title"]), reverse=True)
     return rows, facility_rows, {"already_in_database": dupes,
                                  "filtered_out_of_scope": out_of_scope,
-                                 "facility_signals": len(facility_rows)}
+                                 "facility_signals": len(facility_rows),
+                                 **extra}
 
 
 def _existing_row_count(path):
@@ -545,6 +645,8 @@ def write_outputs(rows, facility_rows, stats, days):
           f"({stats['already_in_database']} already in the database, "
           f"{stats['filtered_out_of_scope']} outside the state filter)")
     print(f"signal_harvest: {len(facility_rows)} facility signals -> {FACILITY_CSV}")
+    print(f"signal_harvest: {stats.get('syndicated_copies', 0)} syndicated copies folded "
+          f"into cluster rows; {stats.get('date_hints', 0)} date hints")
     if leak_hits:
         print(f"signal_harvest: {len(leak_hits)} candidate headlines contain scorekeeping "
               f"vocabulary. Reword before any of that phrasing reaches a deliverable.")
@@ -569,7 +671,7 @@ def harvest_to_queue(days=7, state_filter=None, repo_root=None):
     nightly CSV build; the worst case is a stale queue.
     """
     global HERE, OPPOSITION_CANDIDATES, FIPS_LOOKUP_JSON, COUNTY_AGG_CSV
-    global OUT_CSV, FACILITY_CSV, LOG_CSV
+    global OUT_CSV, FACILITY_CSV, LOG_CSV, PROMOTION_REPORT
     if repo_root:
         HERE = os.path.abspath(repo_root)
         OPPOSITION_CANDIDATES = [os.path.join(HERE, "master_opposition_clean.csv"),
@@ -579,8 +681,10 @@ def harvest_to_queue(days=7, state_filter=None, repo_root=None):
         OUT_CSV = os.path.join(HERE, "data", "signal_candidates.csv")
         FACILITY_CSV = os.path.join(HERE, "data", "facility_candidates.csv")
         LOG_CSV = os.path.join(HERE, "data", "signal_harvest_log.csv")
+        PROMOTION_REPORT = os.path.join(HERE, "data", "signal_promotion_report.csv")
     try:
-        rows, facility_rows, stats = harvest(days=days, state_filter=state_filter)
+        rows, facility_rows, stats = harvest(days=days, state_filter=state_filter,
+                                             extract=default_extractor())
         write_outputs(rows, facility_rows, stats, days)
         return len(rows)
     except Exception as exc:
@@ -647,6 +751,29 @@ def _selftest_known_urls_union():
         return "example.com/a" in k and "example.com/held-out" in k
     finally:
         OPPOSITION_CANDIDATES = keep
+
+
+def _selftest_known_urls_cluster_members():
+    """A syndicated copy logged by the promoter is known the next night."""
+    global OPPOSITION_CANDIDATES, PROMOTION_REPORT
+    import tempfile
+    td = tempfile.mkdtemp()
+    rep = os.path.join(td, "promotion_trail.csv")
+    with open(rep, "w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh, lineterminator="\n")
+        w.writerow(["run_date", "action", "url", "title", "state", "county",
+                    "mechanism_hint", "blocking_reasons"])
+        w.writerow(["2026-09-29", "cluster_member", "https://fox34.com/lubbock", "t",
+                    "TX", "", "", "syndicated copy of https://kcbd.com/lubbock (evt_x)"])
+        w.writerow(["2026-09-29", "blocked", "https://blocked.example/x", "t",
+                    "", "", "", "SOURCE_MISSING"])
+    keep = OPPOSITION_CANDIDATES, PROMOTION_REPORT
+    OPPOSITION_CANDIDATES, PROMOTION_REPORT = [], rep
+    try:
+        k = known_urls()
+        return "fox34.com/lubbock" in k and "blocked.example/x" not in k
+    finally:
+        OPPOSITION_CANDIDATES, PROMOTION_REPORT = keep
 
 
 def selftest():
@@ -773,6 +900,58 @@ def selftest():
            "all facility candidate fields present")
     expect(stats["facility_signals"] == 1, "the run log counts routed signals")
 
+    # Spec 006: date hints and syndicated-copy clustering.
+    expect(FIELDS[-4:] == ["date_hint", "thin_text", "cluster_id", "cluster_members"]
+           and FIELDS[:12] == ["priority", "seen_date", "query_label", "title", "domain",
+                               "url", "mechanism_hint", "county", "state",
+                               "location_confidence", "county_already_tracked",
+                               "harvested_on"],
+           "the four spec 006 columns are appended; existing order unchanged")
+    fetched = []
+
+    def fake_extract(url):
+        fetched.append(url)
+        return {"date_hint": "2026-07-18", "thin_text": "no",
+                "lead": "Fairfield County supervisors voted on Tuesday to adopt a "
+                        "moratorium on new data center applications"}
+    rows_x, _, stats_x = harvest(articles_by_label=fake, extract=fake_extract)
+    expect(all(r["date_hint"] == "2026-07-18" and r["thin_text"] == "no" for r in rows_x)
+           and stats_x["date_hints"] == 2,
+           "an extractor fills date_hint and thin_text on opposition rows")
+    expect(not any("story-b" in u for u in fetched),
+           "facility-routed rows are not fetched")
+    expect(all("lead" not in r and "_lead" not in r for r in rows_x),
+           "lead text never reaches a worklist row")
+    _, _, _ = harvest(articles_by_label=fake, extract=fake_extract, max_fetch=1)
+    expect(len(fetched) == 3, "max_fetch caps the page fetches per run")
+    rows_n, _, _ = harvest(articles_by_label=fake)
+    expect(all(r["date_hint"] == "" and r["cluster_id"] == "" for r in rows_n),
+           "without an extractor the new columns are blank")
+
+    t = "Lubbock council adopts resolution starting process for potential data center moratorium"
+    synd = {"fixture": [
+        {"url": f"https://{d}/lubbock", "title": f"{t} - {d}", "domain": d,
+         "seendate": "20260923T000000Z"} for d in ("kcbd.com", "fox34.com", "msn.com")] + [
+        {"url": "https://example.com/other",
+         "title": "Pima County supervisors approve data center moratorium on new projects",
+         "domain": "example.com", "seendate": "20260923T000000Z"}]}
+    if event_dedupe is not None and event_dedupe.available():
+        rows_s, _, stats_s = harvest(articles_by_label=synd)
+        lub = [r for r in rows_s if "lubbock" in r["url"]]
+        expect(len(rows_s) == 2 and stats_s["syndicated_copies"] == 2,
+               "three syndicated copies collapse to one worklist row")
+        expect(len(lub) == 1 and lub[0]["domain"] != "msn.com"
+               and lub[0]["cluster_id"].startswith("evt_")
+               and lub[0]["cluster_members"].count("https://") == 2,
+               "the kept row is the highest priority copy and lists the others")
+        other = [r for r in rows_s if "other" in r["url"]][0]
+        expect(other["cluster_id"] == "" and other["cluster_members"] == "",
+               "an unrelated story stays a singleton with blank cluster columns")
+    else:
+        print("SKIP (datasketch not installed): syndicated-copy collapse checks")
+    expect(_selftest_known_urls_cluster_members(),
+           "known_urls includes cluster_member URLs from the promotion report")
+
     expect(_selftest_no_clobber(),
            "zero-candidate run clears neither the worklist nor the facility file")
 
@@ -786,6 +965,8 @@ def main():
     ap.add_argument("--days", type=int, default=7)
     ap.add_argument("--states", help="comma-separated two-letter codes to keep")
     ap.add_argument("--fixture", help="replay a saved GDELT JSON response instead of querying")
+    ap.add_argument("--no-extract", action="store_true",
+                    help="skip the article fetches (no date_hint, title-only clustering)")
     args = ap.parse_args()
     if args.selftest:
         sys.exit(0 if selftest() else 1)
@@ -793,7 +974,8 @@ def main():
     if args.states:
         state_filter = {s.strip().upper() for s in args.states.split(",") if s.strip()}
     rows, facility_rows, stats = harvest(days=args.days, state_filter=state_filter,
-                                         fixture=args.fixture)
+                                         fixture=args.fixture,
+                                         extract=None if args.no_extract else default_extractor())
     write_outputs(rows, facility_rows, stats, args.days)
 
 
