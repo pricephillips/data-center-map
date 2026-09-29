@@ -20,7 +20,12 @@ Defensibility rules:
     data/signal_promotion_report.csv with the gate's blocking reasons, so the
     audit trail survives queue rewrites.
 
+Every run also removes exact duplicate signal_harvest_auto rows from master
+(dedupe_own_rows, 2026-09-29), keeping the first occurrence and recording each
+removal in the promotion report as action "duplicate_removed".
+
 Run from repo root:  python3 promote_signal_candidates.py
+Dedupe only:         python3 promote_signal_candidates.py --dedupe
 Self-test:           python3 promote_signal_candidates.py --selftest
 """
 
@@ -141,6 +146,66 @@ def append_master(rows: list[dict], master_csv: str, fields: list[str]) -> None:
         w.writerows(rows)
 
 
+def dedupe_own_rows(master_csv: str) -> list[tuple[list[str], int]]:
+    """Remove exact duplicate rows of this module's own cohort from master.
+
+    Before signal_harvest.known_urls() was fixed (PR #47), the nightly run
+    re-promoted articles it had already promoted, which left 4,099 exact
+    copies of 1,126 signal_harvest_auto rows in master_opposition.csv. A copy
+    carries no information the first occurrence lacks, so the first
+    occurrence is kept and later ones are dropped. Decided 2026-09-29 (spec 005
+    follow-up, delegated by Price).
+
+    Only rows whose data_source is PROMOTED_SOURCE_TAG are touched, and only
+    when every field matches an earlier row exactly. Every other byte of the
+    file, including CRLF line endings and quoting, is preserved: records are
+    sliced from the raw text rather than re-serialized. Idempotent. Returns
+    (row, copies removed) for each duplicated record.
+    """
+    with open(master_csv, "rb") as fh:
+        text = fh.read().decode("utf-8")
+    lines = text.splitlines(keepends=True)
+    reader = csv.reader(lines)
+    try:
+        header = next(reader)
+    except StopIteration:
+        return []
+    ds = header.index("data_source") if "data_source" in header else -1
+    kept_text = lines[:reader.line_num]
+    seen: dict[tuple, int] = {}
+    removed: dict[tuple, int] = {}
+    start = reader.line_num
+    for rec in reader:
+        chunk = lines[start:reader.line_num]
+        start = reader.line_num
+        key = tuple(rec)
+        own = ds >= 0 and len(rec) > ds and rec[ds] == PROMOTED_SOURCE_TAG
+        if own and key in seen:
+            removed[key] = removed.get(key, 0) + 1
+            continue
+        seen.setdefault(key, 1)
+        kept_text.extend(chunk)
+    if removed:
+        tmp = master_csv + ".tmp"
+        with open(tmp, "wb") as fh:
+            fh.write("".join(kept_text).encode("utf-8"))
+        os.replace(tmp, master_csv)
+    return [(list(k), n) for k, n in removed.items()]
+
+
+def dedupe_report_rows(removed, header: list[str]) -> list[dict]:
+    """One audit row per duplicated record, in the promotion report."""
+    col = {name: i for i, name in enumerate(header)}
+    out = []
+    for rec, n in removed:
+        get = lambda f: rec[col[f]] if f in col and col[f] < len(rec) else ""
+        out.append({"run_date": date.today().isoformat(), "action": "duplicate_removed",
+                    "url": get("Source URL"), "title": get("Incident"), "state": get("State"),
+                    "county": get("County"), "mechanism_hint": get("Opposition Type"),
+                    "blocking_reasons": f"{n} exact copy(ies) removed from master; first occurrence kept"})
+    return out
+
+
 def rewrite_queue(kept: list[dict], queue_csv: str) -> None:
     with open(queue_csv, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=sh.FIELDS, extrasaction="ignore")
@@ -178,10 +243,21 @@ def append_report(rows: list[dict], report_csv: str) -> int:
     return len(fresh)
 
 
+def run_dedupe() -> int:
+    removed = dedupe_own_rows(MASTER_CSV)
+    n = sum(c for _, c in removed)
+    if removed:
+        append_report(dedupe_report_rows(removed, master_fieldnames(MASTER_CSV)), REPORT_CSV)
+    print(f"dedupe: removed {n} exact duplicate {PROMOTED_SOURCE_TAG} row(s) "
+          f"across {len(removed)} record(s)")
+    return 0
+
+
 def main() -> int:
     queue = load_csv(QUEUE_CSV)
     if not queue:
         print("promotion: queue is empty, nothing to do")
+        run_dedupe()
         return 0
     fields = master_fieldnames(MASTER_CSV)
     promoted, kept, report = promote(queue, fields, sh.known_urls())
@@ -191,6 +267,7 @@ def main() -> int:
     dupes = len(queue) - len(promoted) - len(kept)
     print(f"promotion: {len(queue)} queued -> {len(promoted)} promoted, "
           f"{len(kept)} blocked (stay in queue), {dupes} duplicates dropped")
+    run_dedupe()
     return 0
 
 
@@ -281,6 +358,36 @@ def selftest() -> int:
         check("only the verdicts that actually changed are recorded",
               moved == len(report) - already and already >= 1)
 
+        # Exact duplicates of the auto cohort go; everything else is untouched
+        # byte for byte, including CRLF endings and a quoted multi-line field.
+        dm = os.path.join(td, "dedupe.csv")
+        raw = ('Incident,Summary,data_source\r\n'
+               'A,"line one\r\nline two",signal_harvest_auto\r\n'
+               'B,x,datacentertracker.org\r\n'
+               'A,"line one\r\nline two",signal_harvest_auto\r\n'
+               'B,x,datacentertracker.org\r\n'
+               'A,"line one\r\nline two",signal_harvest_auto\r\n'
+               'C,y,signal_harvest_auto\r\n')
+        with open(dm, "wb") as fh:
+            fh.write(raw.encode("utf-8"))
+        removed = dedupe_own_rows(dm)
+        after = open(dm, "rb").read().decode("utf-8")
+        check("dedupe removes exact copies of the auto cohort only",
+              sum(n for _, n in removed) == 2 and after.count("A,") == 1
+              and after.count("B,x,") == 2 and "C,y," in after)
+        check("dedupe preserves every other byte",
+              after == ('Incident,Summary,data_source\r\n'
+                        'A,"line one\r\nline two",signal_harvest_auto\r\n'
+                        'B,x,datacentertracker.org\r\n'
+                        'B,x,datacentertracker.org\r\n'
+                        'C,y,signal_harvest_auto\r\n'))
+        check("dedupe is idempotent", dedupe_own_rows(dm) == [] and
+              open(dm, "rb").read().decode("utf-8") == after)
+        rep = dedupe_report_rows(removed, ["Incident", "Summary", "data_source"])
+        check("dedupe leaves an audit row per record",
+              len(rep) == 1 and rep[0]["action"] == "duplicate_removed"
+              and rep[0]["title"] == "A")
+
     print(f"selftest: {'OK' if not failures else f'{len(failures)} FAILURES'}")
     return 1 if failures else 0
 
@@ -288,4 +395,6 @@ def selftest() -> int:
 if __name__ == "__main__":
     if "--selftest" in sys.argv:
         sys.exit(selftest())
+    if "--dedupe" in sys.argv:
+        sys.exit(run_dedupe())
     sys.exit(main())
