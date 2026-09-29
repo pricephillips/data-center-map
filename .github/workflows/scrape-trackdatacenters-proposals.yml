@@ -14,13 +14,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # proposal_history.py reads every committed snapshot of
+          # data/proposals.csv; a shallow clone would see one.
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
 
       - name: Selftest
-        run: python scripts/scrape-trackdatacenters-proposals.py --selftest
+        run: |
+          python scripts/scrape-trackdatacenters-proposals.py --selftest
+          python proposal_history.py --selftest
+          python project_id_rekey.py --selftest
 
       - name: Run scraper
         id: scrape
@@ -46,6 +53,7 @@ jobs:
           # file is absent.
           if [ -f data/proposals.csv ]; then git add data/proposals.csv; fi
           if [ -f data/scraper_field_audit.md ]; then git add data/scraper_field_audit.md; fi
+          if [ -f data/proposals_detail.json ]; then git add data/proposals_detail.json; fi
           if git diff --cached --quiet; then
             echo "Nothing to commit."
             exit 0
@@ -69,12 +77,48 @@ jobs:
             MSG="chore: no upstream changes; refreshed scraper field audit"
           fi
           git commit -m "$MSG [$(date -u +%Y-%m-%dT%H:%M:%SZ)]"
+
+          # Id stability check (2026-09-28). The source renumbered its ids on
+          # 2026-09-17 and 2026-09-22 and every hand-maintained file keyed on
+          # prj_<id> silently followed the number instead of the project. The
+          # history miner needs this run's snapshot committed (it reads git),
+          # which is why it runs here, after the commit and before the push.
+          # project_id_rekey.py runs in REPORT mode: the constitution (VII)
+          # keeps automated output from rewriting hand-maintained files, so a
+          # stale key opens an issue and a person runs --apply.
+          if [ "${{ steps.scrape.outcome }}" = "success" ]; then
+            python proposal_history.py || echo "::warning::proposal_history failed"
+            python project_id_rekey.py || echo "::warning::project_id_rekey failed"
+            git add data/pipeline_intel_events.csv data/pipeline_intel_project_history.csv \
+                    data/pipeline_intel_history.json data/pipeline_intel_id_crosswalk.csv \
+                    data/pipeline_intel_id_timeline.csv \
+                    data/pipeline_intel_rekey_report.csv data/pipeline_intel_rekey_report.md 2>/dev/null || true
+            if ! git diff --cached --quiet; then
+              git commit -m "chore: proposal history + id re-key report [$(date -u +%Y-%m-%dT%H:%M:%SZ)]"
+            fi
+            if [ -f data/pipeline_intel_rekey_report.csv ] && grep -q ",rekey," data/pipeline_intel_rekey_report.csv; then
+              echo "REKEY_NEEDED=1" >> "$GITHUB_ENV"
+            fi
+          fi
           for _ in 1 2 3; do
             git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
             git rebase --abort 2>/dev/null || true
             sleep 10
           done
           echo "Push failed after 3 attempts"; exit 1
+
+      - name: Open an issue when hand-maintained rows point at the wrong project
+        if: env.REKEY_NEEDED == '1'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const title = 'Source ids moved: hand-maintained rows need re-keying';
+            const open = await github.rest.issues.listForRepo({ owner: context.repo.owner, repo: context.repo.repo, state: 'open' });
+            if (open.data.some(i => i.title === title)) return;
+            github.rest.issues.create({
+              owner: context.repo.owner, repo: context.repo.repo, title,
+              body: 'The nightly scrape found rows in the overlay, decision dates, manual links, duplicates or negative-audit codings whose source id now belongs to a different project. Review `data/pipeline_intel_rekey_report.md`, then run `python project_id_rekey.py --apply` and commit.\n\nRun: ' + `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+            });
 
       - name: Notify on failure
         if: failure()

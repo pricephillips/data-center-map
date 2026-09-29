@@ -1,0 +1,146 @@
+name: Proposals intelligence (inputs + enrichment)
+
+# The Layer B intelligence pass added 2026-09-28. Runs after the clean-feed
+# pipeline has rebuilt project_lifecycles.csv and site_screen.csv, so the
+# enrichment joins today's outputs, and on its own schedule as a fallback.
+#
+# Acquisition steps run on their own cadence and each one can fail without
+# stopping the rest: a source that is down leaves its previous file in place,
+# and proposal_enrichment.py records blank rather than stale-as-fresh when an
+# input is missing. Nothing here writes a source of record; every acquired row
+# is a candidate or reference data.
+#
+#   daily      proposal_discovery.py      news -> proposal candidates
+#   daily      proposal_history.py        nightly snapshots -> event log
+#   daily      proposal_enrichment.py     joins + pipeline metrics
+#   Mondays    fetch_air_permits.py       EPA ECHO data center air permits
+#   5th        fetch_planned_generation   EIA-860M planned plants
+#   quarterly  fetch_grid_territory.py    EIA-861 county utilities + RTO
+#
+# Each acquisition also runs whenever its output file is missing, and all of
+# them run on a manual dispatch with force_all.
+
+on:
+  workflow_run: # zizmor: ignore[dangerous-triggers] same-repo workflow; the job checks out the default branch only and uses no artifacts from the triggering run
+    workflows: ["Build Clean Feed"]
+    types: [completed]
+  schedule:
+    - cron: "15 9 * * *"
+  workflow_dispatch:
+    inputs:
+      force_all:
+        description: "Run every acquisition regardless of cadence"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: proposals-intel
+  cancel-in-progress: false
+
+jobs:
+  intel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
+      - name: Install readers for the reference fetches
+        run: uv pip install --system -c requirements/ci.txt pyarrow openpyxl
+
+      - name: Self-tests (blocking)
+        run: |
+          python proposal_history.py --selftest
+          python project_id_rekey.py --selftest
+          python proposal_discovery.py --selftest
+          python fetch_air_permits.py --selftest
+          python fetch_planned_generation.py --selftest
+          python fetch_grid_territory.py --selftest
+          python proposal_enrichment.py --selftest
+
+      - name: Decide cadence
+        id: cadence
+        env:
+          FORCE: ${{ github.event.inputs.force_all }}
+        run: |
+          DOW=$(date -u +%u); DOM=$(date -u +%d); MON=$(date -u +%m)
+          air=false; gen=false; grid=false
+          [ "$FORCE" = "true" ] && { air=true; gen=true; grid=true; }
+          [ "$DOW" = "1" ] || [ ! -f data/proposal_candidates_airpermits.csv ] && air=true
+          [ "$DOM" = "05" ] || [ ! -f data/grid_planned_generation.csv ] && gen=true
+          { [ "$DOM" = "06" ] && [[ "$MON" =~ ^(01|04|07|10)$ ]]; } || [ ! -f data/county_grid_territory.csv ] && grid=true
+          {
+            echo "air=$air"
+            echo "gen=$gen"
+            echo "grid=$grid"
+          } >> "$GITHUB_OUTPUT"
+          echo "air=$air gen=$gen grid=$grid"
+
+      - name: Grid territory (EIA-861 via PUDL)
+        if: steps.cadence.outputs.grid == 'true'
+        continue-on-error: true
+        run: python fetch_grid_territory.py --fetch
+
+      - name: Planned generation (EIA-860M)
+        if: steps.cadence.outputs.gen == 'true'
+        continue-on-error: true
+        run: python fetch_planned_generation.py --fetch
+
+      - name: Air permits (EPA ECHO)
+        if: steps.cadence.outputs.air == 'true'
+        continue-on-error: true
+        run: python fetch_air_permits.py --fetch
+
+      - name: News discovery (proposal candidates)
+        continue-on-error: true
+        run: python proposal_discovery.py --days 7
+
+      - name: Snapshot history
+        continue-on-error: true
+        run: python proposal_history.py
+
+      - name: Enrichment + pipeline metrics
+        id: enrich
+        run: python proposal_enrichment.py
+
+      - name: Commit
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/pipeline_intel_*.csv data/pipeline_intel_*.json data/pipeline_intel_*.md \
+                  data/proposal_candidates_*.csv \
+                  data/county_grid_territory.csv data/county_grid_territory_manifest.json \
+                  data/grid_planned_generation.csv data/grid_planned_generation_manifest.json \
+                  2>/dev/null || true
+          if git diff --cached --quiet; then echo "Nothing to commit."; exit 0; fi
+          git commit -m "Proposals intelligence refresh [skip ci] [$(date -u +%Y-%m-%dT%H:%M:%SZ)]"
+          for _ in 1 2 3; do
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
+            git rebase --abort 2>/dev/null || true
+            sleep 10
+          done
+          echo "Push failed after 3 attempts"; exit 1
+
+      - name: Notify on failure
+        if: failure()
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Pipeline failure: ${context.workflow}`,
+              body: `Run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+            })
