@@ -39,7 +39,7 @@
         "spec": "full_pool",
         "C": 1.0,
         "n_vars": 11,
-        "auc_median": 0.7432,
+        "auc_median": 0.7469,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -59,17 +59,17 @@
         "spec": "full_pool_minus1",
         "C": 1.0,
         "n_vars": 10,
-        "auc_median": 0.7439,
+        "auc_median": 0.7463,
         "sign_stable": false,
         "variables": [
           "margin_2024",
           "margin_shift",
           "existing_dc_count",
-          "n_projects_tracked",
           "state_legislation_events",
           "land_sqmi",
           "median_hh_income",
           "pop_density_sqmi",
+          "pct_bachelors_plus",
           "population",
           "projects_since_2024"
         ]
@@ -78,7 +78,7 @@
         "spec": "full_pool_minus2",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.7421,
+        "auc_median": 0.7468,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -96,7 +96,7 @@
         "spec": "full_pool_minus3",
         "C": 1.0,
         "n_vars": 8,
-        "auc_median": 0.7435,
+        "auc_median": 0.7476,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -113,7 +113,7 @@
         "spec": "full_pool_minus4",
         "C": 1.0,
         "n_vars": 7,
-        "auc_median": 0.7469,
+        "auc_median": 0.7472,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -129,7 +129,7 @@
         "spec": "full",
         "C": 1.0,
         "n_vars": 10,
-        "auc_median": 0.7469,
+        "auc_median": 0.747,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -166,7 +166,7 @@
         "spec": "full_minus2",
         "C": 1.0,
         "n_vars": 8,
-        "auc_median": 0.7456,
+        "auc_median": 0.7458,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -183,7 +183,7 @@
         "spec": "no_shift",
         "C": 1.0,
         "n_vars": 9,
-        "auc_median": 0.7503,
+        "auc_median": 0.7504,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -201,7 +201,7 @@
         "spec": "no_shift_minus1",
         "C": 1.0,
         "n_vars": 8,
-        "auc_median": 0.7516,
+        "auc_median": 0.7517,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -236,7 +236,7 @@
         "spec": "drop_density_minus1",
         "C": 1.0,
         "n_vars": 8,
-        "auc_median": 0.7457,
+        "auc_median": 0.7458,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -298,7 +298,7 @@
         "spec": "tier1_plus_size",
         "C": 1.0,
         "n_vars": 5,
-        "auc_median": 0.7474,
+        "auc_median": 0.7475,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -327,7 +327,7 @@
         "spec": "full_pool",
         "C": 0.3,
         "n_vars": 11,
-        "auc_median": 0.7443,
+        "auc_median": 0.7464,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -347,7 +347,7 @@
         "spec": "full_pool_minus1",
         "C": 0.3,
         "n_vars": 10,
-        "auc_median": 0.7444,
+        "auc_median": 0.7472,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -366,16 +366,16 @@
         "spec": "full_pool_minus2",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.7444,
+        "auc_median": 0.746,
         "sign_stable": false,
         "variables": [
           "margin_2024",
           "margin_shift",
           "existing_dc_count",
-          "n_projects_tracked",
           "state_legislation_events",
           "land_sqmi",
           "median_hh_income",
+          "pct_bachelors_plus",
           "population",
           "projects_since_2024"
         ]
@@ -384,12 +384,12 @@
         "spec": "full_pool_minus3",
         "C": 0.3,
         "n_vars": 8,
-        "auc_median": 0.7451,
+        "auc_median": 0.7466,
         "sign_stable": false,
         "variables": [
+          "margin_2024",
           "margin_shift",
           "existing_dc_count",
-          "n_projects_tracked",
           "state_legislation_events",
           "land_sqmi",
           "median_hh_income",
@@ -401,7 +401,7 @@
         "spec": "full_pool_minus4",
         "C": 0.3,
         "n_vars": 7,
-        "auc_median": 0.7452,
+        "auc_median": 0.7478,
         "sign_stable": false,
         "variables": [
           "margin_shift",
@@ -417,7 +417,7 @@
         "spec": "full_pool_minus5",
         "C": 0.3,
         "n_vars": 6,
-        "auc_median": 0.7468,
+        "auc_median": 0.7474,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -432,7 +432,7 @@
         "spec": "full",
         "C": 0.3,
         "n_vars": 10,
-        "auc_median": 0.7467,
+        "auc_median": 0.7468,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -469,7 +469,7 @@
         "spec": "full_minus2",
         "C": 0.3,
         "n_vars": 8,
-        "auc_median": 0.7454,
+        "auc_median": 0.7455,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -486,7 +486,7 @@
         "spec": "full_minus3",
         "C": 0.3,
         "n_vars": 7,
-        "auc_median": 0.7454,
+        "auc_median": 0.7455,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -502,7 +502,7 @@
         "spec": "no_shift",
         "C": 0.3,
         "n_vars": 9,
-        "auc_median": 0.7498,
+        "auc_median": 0.7499,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -520,7 +520,7 @@
         "spec": "no_shift_minus1",
         "C": 0.3,
         "n_vars": 8,
-        "auc_median": 0.7509,
+        "auc_median": 0.7516,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -537,7 +537,7 @@
         "spec": "no_shift_minus2",
         "C": 0.3,
         "n_vars": 7,
-        "auc_median": 0.7513,
+        "auc_median": 0.7519,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -596,7 +596,7 @@
         "spec": "promoted_on_last",
         "C": 0.3,
         "n_vars": 6,
-        "auc_median": 0.749,
+        "auc_median": 0.7492,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -611,7 +611,7 @@
         "spec": "full_pool",
         "C": 0.1,
         "n_vars": 11,
-        "auc_median": 0.7441,
+        "auc_median": 0.7472,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -631,7 +631,7 @@
         "spec": "full_pool_minus1",
         "C": 0.1,
         "n_vars": 10,
-        "auc_median": 0.7441,
+        "auc_median": 0.7472,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -650,7 +650,7 @@
         "spec": "full_pool_minus2",
         "C": 0.1,
         "n_vars": 9,
-        "auc_median": 0.7441,
+        "auc_median": 0.7474,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -668,7 +668,7 @@
         "spec": "full_pool_minus3",
         "C": 0.1,
         "n_vars": 8,
-        "auc_median": 0.7462,
+        "auc_median": 0.747,
         "sign_stable": false,
         "variables": [
           "margin_shift",
@@ -685,7 +685,7 @@
         "spec": "full_pool_minus4",
         "C": 0.1,
         "n_vars": 7,
-        "auc_median": 0.7455,
+        "auc_median": 0.7476,
         "sign_stable": false,
         "variables": [
           "margin_shift",
@@ -701,7 +701,7 @@
         "spec": "full_pool_minus5",
         "C": 0.1,
         "n_vars": 6,
-        "auc_median": 0.7464,
+        "auc_median": 0.7472,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -716,7 +716,7 @@
         "spec": "full",
         "C": 0.1,
         "n_vars": 10,
-        "auc_median": 0.7457,
+        "auc_median": 0.7458,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -753,7 +753,7 @@
         "spec": "full_minus2",
         "C": 0.1,
         "n_vars": 8,
-        "auc_median": 0.7449,
+        "auc_median": 0.745,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -770,7 +770,7 @@
         "spec": "full_minus3",
         "C": 0.1,
         "n_vars": 7,
-        "auc_median": 0.745,
+        "auc_median": 0.7451,
         "sign_stable": true,
         "variables": [
           "margin_shift",
@@ -786,7 +786,7 @@
         "spec": "no_shift",
         "C": 0.1,
         "n_vars": 9,
-        "auc_median": 0.7503,
+        "auc_median": 0.7505,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -804,7 +804,7 @@
         "spec": "no_shift_minus1",
         "C": 0.1,
         "n_vars": 8,
-        "auc_median": 0.7504,
+        "auc_median": 0.7512,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -821,7 +821,7 @@
         "spec": "no_shift_minus2",
         "C": 0.1,
         "n_vars": 7,
-        "auc_median": 0.7509,
+        "auc_median": 0.7516,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -837,7 +837,7 @@
         "spec": "drop_density",
         "C": 0.1,
         "n_vars": 9,
-        "auc_median": 0.7462,
+        "auc_median": 0.7464,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -855,7 +855,7 @@
         "spec": "drop_density_minus1",
         "C": 0.1,
         "n_vars": 8,
-        "auc_median": 0.7451,
+        "auc_median": 0.7452,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -928,7 +928,7 @@
         "spec": "promoted_on_last",
         "C": 0.1,
         "n_vars": 6,
-        "auc_median": 0.7496,
+        "auc_median": 0.7497,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -943,7 +943,7 @@
         "spec": "full_pool",
         "C": 0.03,
         "n_vars": 11,
-        "auc_median": 0.744,
+        "auc_median": 0.7467,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -963,7 +963,7 @@
         "spec": "full_pool_minus1",
         "C": 0.03,
         "n_vars": 10,
-        "auc_median": 0.7439,
+        "auc_median": 0.7468,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -982,7 +982,7 @@
         "spec": "full_pool_minus2",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.7447,
+        "auc_median": 0.748,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1000,7 +1000,7 @@
         "spec": "full",
         "C": 0.03,
         "n_vars": 10,
-        "auc_median": 0.7443,
+        "auc_median": 0.7448,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -1019,7 +1019,7 @@
         "spec": "full_minus1",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.7445,
+        "auc_median": 0.7448,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -1037,7 +1037,7 @@
         "spec": "full_minus2",
         "C": 0.03,
         "n_vars": 8,
-        "auc_median": 0.7451,
+        "auc_median": 0.7456,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1054,7 +1054,7 @@
         "spec": "no_shift",
         "C": 0.03,
         "n_vars": 9,
-        "auc_median": 0.7487,
+        "auc_median": 0.7494,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -1072,7 +1072,7 @@
         "spec": "no_shift_minus1",
         "C": 0.03,
         "n_vars": 8,
-        "auc_median": 0.7497,
+        "auc_median": 0.7504,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -1089,7 +1089,7 @@
         "spec": "no_shift_minus2",
         "C": 0.03,
         "n_vars": 7,
-        "auc_median": 0.751,
+        "auc_median": 0.7509,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1123,7 +1123,7 @@
         "spec": "drop_density_minus1",
         "C": 0.03,
         "n_vars": 8,
-        "auc_median": 0.7451,
+        "auc_median": 0.7453,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1211,7 +1211,7 @@
         "spec": "full_pool",
         "C": 0.01,
         "n_vars": 11,
-        "auc_median": 0.7435,
+        "auc_median": 0.7471,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -1231,7 +1231,7 @@
         "spec": "full_pool_minus1",
         "C": 0.01,
         "n_vars": 10,
-        "auc_median": 0.7444,
+        "auc_median": 0.7486,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -1250,7 +1250,7 @@
         "spec": "full_pool_minus2",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.745,
+        "auc_median": 0.7491,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1268,7 +1268,7 @@
         "spec": "full",
         "C": 0.01,
         "n_vars": 10,
-        "auc_median": 0.7451,
+        "auc_median": 0.7455,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -1287,7 +1287,7 @@
         "spec": "full_minus1",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.7471,
+        "auc_median": 0.7476,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -1305,7 +1305,7 @@
         "spec": "full_minus2",
         "C": 0.01,
         "n_vars": 8,
-        "auc_median": 0.7474,
+        "auc_median": 0.7481,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1322,7 +1322,7 @@
         "spec": "no_shift",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.7466,
+        "auc_median": 0.7468,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -1340,7 +1340,7 @@
         "spec": "no_shift_minus1",
         "C": 0.01,
         "n_vars": 8,
-        "auc_median": 0.7472,
+        "auc_median": 0.7478,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1357,7 +1357,7 @@
         "spec": "drop_density",
         "C": 0.01,
         "n_vars": 9,
-        "auc_median": 0.7437,
+        "auc_median": 0.7444,
         "sign_stable": false,
         "variables": [
           "margin_2024",
@@ -1375,7 +1375,7 @@
         "spec": "drop_density_minus1",
         "C": 0.01,
         "n_vars": 8,
-        "auc_median": 0.7447,
+        "auc_median": 0.7448,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1421,7 +1421,7 @@
         "spec": "tier1_plus_size",
         "C": 0.01,
         "n_vars": 5,
-        "auc_median": 0.7453,
+        "auc_median": 0.7454,
         "sign_stable": true,
         "variables": [
           "margin_2024",
@@ -1449,29 +1449,29 @@
     ]
   },
   "roc_auc": {
-    "p10": 0.7077,
+    "p10": 0.7097,
     "p50": 0.7568,
-    "p90": 0.7888
+    "p90": 0.7889
   },
   "brier": {
-    "p10": 0.1111,
+    "p10": 0.1112,
     "p50": 0.1164,
-    "p90": 0.122,
+    "p90": 0.1219,
     "base_rate_brier": 0.1302
   },
   "calibration": {
-    "raw_slope": 1.121,
-    "raw_intercept": 0.187,
+    "raw_slope": 1.122,
+    "raw_intercept": 0.188,
     "post_recalibration_slope": 0.996,
     "post_recalibration_intercept": -0.007,
-    "brier_calibrated": 0.1165,
+    "brier_calibrated": 0.1164,
     "note": "raw scores are compressed by shrinkage; the model includes a cross-fitted logistic recalibration layer. calibrated_score in the scores file is cross-fitted: no county's calibration was fit on itself. Post slope near 1 and intercept near 0 indicate the calibrated scores are honest probabilities."
   },
   "coefficients": {
     "margin_2024": {
-      "min": 0.06,
+      "min": 0.061,
       "median": 0.092,
-      "max": 0.123,
+      "max": 0.124,
       "sign_stable": true
     },
     "median_hh_income": {
@@ -1481,27 +1481,27 @@
       "sign_stable": true
     },
     "pop_density_sqmi": {
-      "min": 0.172,
-      "median": 0.221,
-      "max": 0.279,
+      "min": 0.171,
+      "median": 0.22,
+      "max": 0.277,
       "sign_stable": true
     },
     "population": {
       "min": 0.279,
       "median": 0.316,
-      "max": 0.363,
+      "max": 0.362,
       "sign_stable": true
     },
     "projects_since_2024": {
-      "min": 0.206,
-      "median": 0.238,
-      "max": 0.267,
+      "min": 0.213,
+      "median": 0.243,
+      "max": 0.274,
       "sign_stable": true
     },
     "state_legislation_events": {
       "min": -0.166,
-      "median": -0.128,
-      "max": -0.091,
+      "median": -0.127,
+      "max": -0.09,
       "sign_stable": true
     }
   },
@@ -1519,8 +1519,8 @@
       "county_votes.json": "b521eb017a7acfa5",
       "atlas.csv": "7a8c78d3ed6cea2d",
       "master_opposition.csv": "b66e47a973b5973d",
-      "baseline_universe.csv": "dbcecd8411d7ffe6",
-      "project_lifecycles.csv": "71710ec89ae7da55"
+      "baseline_universe.csv": "1a318d4b2a0986e1",
+      "project_lifecycles.csv": "7214bb4bf0364b7c"
     }
   }
 }

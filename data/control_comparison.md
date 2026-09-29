@@ -6,41 +6,41 @@ Generated 2026-09-29 by `control_comparison.py`. All figures re-derived from the
 
 ## 1. Sample composition
 
-- Opposed projects (treatment side): **232**, of which 84 decided / 148 pending
-- Eligible control pool: **1308** — proposals_unopposed: 81, ai_centers: 16, atlas: 1211
-- Excluded from control pool: **361** — county_shared_with_opposed_project: 289, within_15km_of_opposed_project: 70, no_coordinates: 2
-- Matched: **232** opposed projects × k=3 → 696 match rows
+- Opposed projects (treatment side): **208**, of which 77 decided / 131 pending
+- Eligible control pool: **1380** — proposals_unopposed: 103, ai_centers: 16, atlas: 1261
+- Excluded from control pool: **313** — county_shared_with_opposed_project: 242, within_15km_of_opposed_project: 66, no_coordinates: 5
+- Matched: **208** opposed projects × k=3 → 624 match rows
 
 ## 2. Covariate balance (opposed vs. their matched controls)
 
 Standardized mean differences across match rows. |SMD| < 0.10 = well balanced; 0.10–0.25 = moderate; > 0.25 = imbalanced.
 
-**all tiers** (696 match rows)
-- County 2024 margin: opposed mean -0.121, control mean -0.128, SMD 0.020 — well balanced (n pairs: 666)
-- log10 capacity MW: opposed mean 2.566, control mean 2.286, SMD 0.468 — IMBALANCED — down-weight or re-match (n pairs: 49; capacity is sparse outside the proposals tier)
+**all tiers** (624 match rows)
+- County 2024 margin: opposed mean -0.122, control mean -0.126, SMD 0.015 — well balanced (n pairs: 600)
+- log10 capacity MW: opposed mean 2.684, control mean 2.201, SMD 0.928 — IMBALANCED — down-weight or re-match (n pairs: 51; capacity is sparse outside the proposals tier)
 
-**proposals_unopposed** (577 match rows)
-- County 2024 margin: opposed mean -0.142, control mean -0.148, SMD 0.018 — well balanced (n pairs: 549)
-- log10 capacity MW: opposed mean 2.562, control mean 2.277, SMD 0.472 — IMBALANCED — down-weight or re-match (n pairs: 48; capacity is sparse outside the proposals tier)
+**proposals_unopposed** (487 match rows)
+- County 2024 margin: opposed mean -0.154, control mean -0.157, SMD 0.010 — well balanced (n pairs: 465)
+- log10 capacity MW: opposed mean 2.683, control mean 2.190, SMD 0.941 — IMBALANCED — down-weight or re-match (n pairs: 50; capacity is sparse outside the proposals tier)
 
 **ai_centers** (1 match rows)
 - County 2024 margin: opposed mean n/a, control mean n/a, SMD n/a — insufficient data (n pairs: 0)
 - log10 capacity MW: opposed mean 2.778, control mean 2.725, SMD n/a — insufficient data (n pairs: 1; capacity is sparse outside the proposals tier)
 
-**atlas** (118 match rows)
-- County 2024 margin: opposed mean -0.023, control mean -0.033, SMD 0.029 — well balanced (n pairs: 117)
+**atlas** (136 match rows)
+- County 2024 margin: opposed mean -0.009, control mean -0.020, SMD 0.030 — well balanced (n pairs: 135)
 - log10 capacity MW: opposed mean n/a, control mean n/a, SMD n/a — insufficient data (n pairs: 0; capacity is sparse outside the proposals tier)
 
 ## 3. Political geography (descriptive)
 
-- Opposed projects sit in counties with mean 2024 margin -0.121 (n=222); the eligible control pool mean is 0.047 (n=1278).
+- Opposed projects sit in counties with mean 2024 margin -0.122 (n=200); the eligible control pool mean is 0.044 (n=1348).
 - This is a raw compositional difference between two differently-constructed samples. It describes where tracked opposition occurs; it does not measure any political driver of opposition.
 
 ## 4. Outcomes among decided opposed projects
 
-Of **84** decided + opposed projects:
-- `advanced_confirmed`: 52 (62%)
-- `blocked_confirmed`: 32 (38%)
+Of **77** decided + opposed projects:
+- `advanced_confirmed`: 46 (60%)
+- `blocked_confirmed`: 31 (40%)
 
 `restricted_conditional` is a terminal advance carrying binding conditions (conditional-use approval, negotiated concessions, reverting rezoning); it counts on the advanced side of any advanced-vs-blocked split but is tracked separately because the conditions can carry material cost or delay.
 
@@ -48,18 +48,18 @@ Decided means terminal dispositions only; pending and mixed cases are excluded, 
 
 ## 5. Delay observables (verified decision dates only)
 
-- 21 decided+opposed projects have verified decision dates: announced-to-decision spans -176–779 days, median 111 days.
-- Announced-date precision of these rows: month: 21. Month-precision announced dates are floored to the 1st, so those delays carry up to ~30 days of error each.
-- `advanced_confirmed` (n=6): -121–779 days, median 206.
-- `blocked_confirmed` (n=3): 51–192 days, median 98.
-- `pending` (n=12): -176–562 days, median 115.
+- 24 decided+opposed projects have verified decision dates: announced-to-decision spans 6–492 days, median 99 days.
+- Announced-date precision of these rows: month: 23, day: 1. Month-precision announced dates are floored to the 1st, so those delays carry up to ~30 days of error each.
+- `advanced_confirmed` (n=3): 14–492 days, median 78.
+- `blocked_confirmed` (n=18): 6–232 days, median 98.
+- `pending` (n=3): 119–315 days, median 294.
 - These are raw spans within the opposed sample: NOT opposition-attributable delay (that requires the matched-control comparison at adequate n) and not client-facing.
 
 ## 6. Match-quality flags
 
 - `no_shared_covariates` matches (state/tier only): **18** — down-weight or manually review before any use.
-- `national_fallback` matches (no in-state pool): **374**, covering 179 opposed projects. Growing the proposals_unopposed tier is the fix.
-- Tier usage across all matches: proposals_unopposed: 577, ai_centers: 1, atlas: 118.
+- `national_fallback` matches (no in-state pool): **277**, covering 136 opposed projects. Growing the proposals_unopposed tier is the fix.
+- Tier usage across all matches: proposals_unopposed: 487, ai_centers: 1, atlas: 136.
 
 ## 7. Limitations (binding)
 
