@@ -1,63 +1,63 @@
 {
-  "generated": "2026-09-28",
-  "n": 84,
-  "n_blocked": 32,
-  "base_rate": 0.381,
+  "generated": "2026-09-29",
+  "n": 77,
+  "n_blocked": 31,
+  "base_rate": 0.4026,
   "cv": {
     "folds": 5,
     "repeats": 10
   },
   "roc_auc": {
-    "p10": 0.6808,
-    "p50": 0.8381,
-    "p90": 0.9548
+    "p10": 0.7778,
+    "p50": 0.8889,
+    "p90": 0.963
   },
   "brier": {
-    "p10": 0.0988,
-    "p50": 0.1665,
-    "p90": 0.2333,
-    "base_rate_brier": 0.2358
+    "p10": 0.0968,
+    "p50": 0.1491,
+    "p90": 0.2056,
+    "base_rate_brier": 0.2405
   },
   "top_features": [
     {
-      "name": "n_opposition_events",
-      "auc_drop": 0.0791,
-      "mean_std_coef": -0.8048
-    },
-    {
-      "name": "days_to_first_opposition",
-      "auc_drop": 0.0635,
-      "mean_std_coef": -0.7804
-    },
-    {
       "name": "mech_public_comment",
-      "auc_drop": 0.0525,
-      "mean_std_coef": -0.6135
+      "auc_drop": 0.1198,
+      "mean_std_coef": -1.0886
     },
     {
       "name": "capacity_missing",
-      "auc_drop": 0.0453,
-      "mean_std_coef": 0.6146
+      "auc_drop": 0.044,
+      "mean_std_coef": 0.5885
     },
     {
-      "name": "opposition_span_days",
-      "auc_drop": 0.0375,
-      "mean_std_coef": 0.5855
-    },
-    {
-      "name": "mech_zoning_restriction",
-      "auc_drop": 0.028,
-      "mean_std_coef": 0.4228
-    },
-    {
-      "name": "petition_signatures_log1p",
-      "auc_drop": 0.0206,
-      "mean_std_coef": 0.4439
+      "name": "days_to_first_opposition",
+      "auc_drop": 0.0399,
+      "mean_std_coef": -0.6864
     },
     {
       "name": "hyperscaler_involved",
-      "auc_drop": 0.019,
-      "mean_std_coef": -0.3297
+      "auc_drop": 0.0365,
+      "mean_std_coef": -0.5806
+    },
+    {
+      "name": "n_opposition_events",
+      "auc_drop": 0.0263,
+      "mean_std_coef": -0.4726
+    },
+    {
+      "name": "petition_signatures_log1p",
+      "auc_drop": 0.0208,
+      "mean_std_coef": 0.4998
+    },
+    {
+      "name": "mech_moratorium",
+      "auc_drop": 0.0184,
+      "mean_std_coef": -0.5139
+    },
+    {
+      "name": "log1p_prior_state_opposition",
+      "auc_drop": 0.0097,
+      "mean_std_coef": 0.3416
     }
   ],
   "feature_columns": [
