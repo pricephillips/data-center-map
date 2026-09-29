@@ -541,6 +541,26 @@
       "internal_operational",
       "Nested source fields (approvals, citations, stakeholders, parcel geometry) per project; counts reach the page via the enriched file."
     ],
+    "data/project_key_map.csv": [
+      "internal_operational",
+      "Permanent pk_ key per Layer B project and the source id it holds now."
+    ],
+    "data/project_key_aliases.csv": [
+      "internal_operational",
+      "Every source id, slug and name each permanent key has carried."
+    ],
+    "data/layer_b_anchors.csv": [
+      "internal_operational",
+      "Which permanent key each hand-maintained Layer B row was written about."
+    ],
+    "data/project_key_map_report.md": [
+      "internal_operational",
+      "What the last key-map sync moved, rewrote and held for a person."
+    ],
+    "data/facility_graduation_observations.csv": [
+      "internal_operational",
+      "When each Layer B project was first seen operating, and the basis of that date; feeds the Layer A graduation gate."
+    ],
     "data/county_grid_territory.csv": [
       "internal_operational",
       "EIA-861 county utilities and grid region (PUDL, CC-BY-4.0); reaches the page as grid_region."
