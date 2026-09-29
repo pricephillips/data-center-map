@@ -47,11 +47,31 @@ Reads
   configs/facility_sources.json, the declared snapshots
   data/facility_candidates.csv, data/proposals.csv, data/project_lifecycles.csv
   data/facility_registry.csv, for first_seen continuity
+  data/project_key_map.csv, the permanent Layer B key (project_key_map.py)
+  data/pipeline_intel_project_history.csv, to date graduations from history
 
 Writes
   data/facility_registry.csv
   data/facility_promotion_report.csv   append-only decision trail
   data/facility_registry_summary.json
+  data/facility_graduation_observations.csv
+                                       when each Layer B project was first
+                                       seen operating, keyed by permanent key
+
+Graduation (Ruling 3, 2026-09-28)
+  A Layer B project graduates when the current scrape shows it operating,
+  dated by the first observation of that phase, or on a past yearOpened
+  while the source still sends one (it stopped in September 2026, so that
+  trigger is dormant, not removed). An expected-online date (date_online)
+  never graduates anything: a projection is not a building. With neither
+  trigger a project does not graduate.
+
+  The first observation is backfilled from proposal_history.py's event log,
+  which reads every committed snapshot since 2026-04-23: a project that
+  changed into operating is dated by that change, and one already operating
+  at the first snapshot is dated "on or before 2026-04-23" and says so.
+  Observations are keyed by the permanent key, not the source id, so a
+  renumbering never resets a date.
 
 Usage
   python facility_registry.py
@@ -82,6 +102,11 @@ CANDIDATES = os.path.join(DATA, "facility_candidates.csv")
 OSM_CANDIDATES = os.path.join(DATA, "facility_candidates_osm.csv")
 PROPOSALS = os.path.join(DATA, "proposals.csv")
 REPORT = os.path.join(DATA, "facility_promotion_report.csv")
+KEY_MAP = os.path.join(DATA, "project_key_map.csv")
+PROJECT_HISTORY = os.path.join(DATA, "pipeline_intel_project_history.csv")
+OBSERVATIONS = os.path.join(DATA, "facility_graduation_observations.csv")
+OBS_FIELDS = ["pk", "project_id", "name", "state", "first_operational_seen",
+              "date_basis", "last_seen_operational"]
 SUMMARY = os.path.join(DATA, "facility_registry_summary.json")
 
 FIELDS = ["facility_id", "cluster_id", "source_id", "name", "operator",
@@ -340,14 +365,20 @@ def build_registry(config: dict, root: str = HERE,
 # candidates and the gate
 # --------------------------------------------------------------------------
 
-def graduation_candidates(proposals: list[dict]) -> list[dict]:
-    """Layer B rows that reached operating status.
+def graduation_candidates(proposals: list[dict],
+                          observations: dict | None = None) -> list[dict]:
+    """Layer B rows that reached operating status (Ruling 3).
 
     A project that is built is a facility, and until the registry existed there
-    was nowhere for it to go. Detection is mechanical: the registry's phase
-    vocabulary, plus a stated opening year in the past.
+    was nowhere for it to go. Detection is mechanical: the operating phase in
+    the current scrape, or a stated opening year in the past while the source
+    still sends one. date_online is an expected date and is never read here.
+
+    observations: {project id: observation row} from observe_graduations(),
+    which dates each operating project by its first observation.
     """
     today_year = dt.date.today().year
+    observations = observations or {}
     out = []
     for p in proposals:
         phase = (p.get("phase") or "").strip().lower()
@@ -355,6 +386,7 @@ def graduation_candidates(proposals: list[dict]) -> list[dict]:
         opened = int(year.group(1)) if year else None
         if phase not in GRADUATING_PHASES and not (opened and opened <= today_year):
             continue
+        obs = observations.get(str(p.get("id") or "").strip(), {})
         out.append({
             "stream": "layer_b_graduation",
             "name": (p.get("name") or "").strip(),
@@ -366,9 +398,62 @@ def graduation_candidates(proposals: list[dict]) -> list[dict]:
             "capacity_mw": (p.get("capacity_mw") or "").strip(),
             "signal": "operational" if phase in GRADUATING_PHASES else "opened",
             "evidence_url": (p.get("info") or "").strip(),
-            "project_id": (p.get("id") or "").strip(),
+            "project_id": str(p.get("id") or "").strip(),
+            "pk": obs.get("pk", ""),
+            "operational_since": (obs.get("first_operational_seen", "")
+                                  if phase in GRADUATING_PHASES else f"{opened}"),
+            "date_basis": (obs.get("date_basis", "")
+                           if phase in GRADUATING_PHASES else "year_opened"),
         })
     return out
+
+
+def observe_graduations(proposals: list[dict], previous: list[dict],
+                        key_map: list[dict], history: list[dict],
+                        today: str) -> list[dict]:
+    """First-observation dates for every project the scrape shows operating.
+
+    Keyed by permanent key when the key map exists (a renumbering must not
+    reset a date), else by prj_<id>. An existing observation is never moved
+    later: the earliest date is kept, and the basis records where it came from.
+      history_phase_change  first snapshot in which the phase read operating
+      history_on_or_before  operating in the first snapshot; the true date is
+                            earlier and unknown, and the value is an upper bound
+      history_first_seen    entered the source already operating; also an
+                            upper bound
+      scrape                first seen operating by this module
+    """
+    pk_of = {k["current_id"]: k["pk"] for k in key_map
+             if k.get("status") == "active"}
+    hist = {h["project_id"]: h for h in history}
+    obs = {o["pk"] or f"prj_{o['project_id']}": dict(o) for o in previous}
+    for p in proposals:
+        if (p.get("phase") or "").strip().lower() not in GRADUATING_PHASES:
+            continue
+        pid = str(p.get("id") or "").strip()
+        pk = pk_of.get(pid, "")
+        key = pk or f"prj_{pid}"
+        h = hist.get(f"prj_{pid}", {})
+        date, basis = today, "scrape"
+        if (h.get("phase") or "").lower() in GRADUATING_PHASES:
+            if h.get("n_phase_changes", "0") not in ("", "0") and h.get("phase_since"):
+                date, basis = h["phase_since"], "history_phase_change"
+            elif h.get("first_seen"):
+                date = h["first_seen"]
+                basis = ("history_on_or_before" if h.get("in_baseline") == "yes"
+                         else "history_first_seen")
+        o = obs.get(key)
+        if o is None:
+            obs[key] = {"pk": pk, "project_id": pid, "name": p.get("name", ""),
+                        "state": p.get("state", ""), "first_operational_seen": date,
+                        "date_basis": basis, "last_seen_operational": today}
+            continue
+        if date < o["first_operational_seen"]:
+            o["first_operational_seen"], o["date_basis"] = date, basis
+        o.update(pk=pk or o["pk"], project_id=pid, name=p.get("name", o["name"]),
+                 last_seen_operational=today)
+    return sorted(obs.values(), key=lambda o: (o["first_operational_seen"],
+                                                o["pk"], o["project_id"]))
 
 
 def harvest_candidates(rows: list[dict]) -> list[dict]:
@@ -610,10 +695,48 @@ def selftest() -> int:
          "state": "VA", "counties": "Loudoun", "info": "u", "yearOpened": ""},
     ])
     ids = {g["name"] for g in grads}
+    check("an expected-online date never graduates", not graduation_candidates([
+        {"id": "9", "name": "Soon", "phase": "construction", "state": "TX",
+         "yearOpened": "", "date_online": "2025-01"}]))
     check("an operational project graduates", "Built One" in ids)
     check("a past opening year graduates", "Opened One" in ids)
     check("a future opening year does not", "Future One" not in ids)
     check("a proposal does not graduate", "Proposed" not in ids)
+
+    # --- graduation dated by first observation (Ruling 3) --------------
+    km = [{"pk": "pk_00001", "current_id": "183", "status": "active"},
+          {"pk": "pk_00002", "current_id": "7", "status": "active"}]
+    hist = [{"project_id": "prj_183", "phase": "operational",
+             "phase_since": "2026-07-14", "first_seen": "2026-04-23",
+             "in_baseline": "yes", "n_phase_changes": "1"},
+            {"project_id": "prj_7", "phase": "operational", "phase_since": "",
+             "first_seen": "2026-04-23", "in_baseline": "yes"}]
+    props = [{"id": "183", "name": "Delta", "phase": "operational", "state": "NC"},
+             {"id": "7", "name": "Old", "phase": "operational", "state": "OH"},
+             {"id": "8", "name": "New", "phase": "operational", "state": "OH"},
+             {"id": "9", "name": "Plan", "phase": "proposed", "state": "OH"}]
+    obs = observe_graduations(props, [], km, hist, "2026-09-29")
+    by = {o["name"]: o for o in obs}
+    check("a phase change in history dates the graduation",
+          by["Delta"]["first_operational_seen"] == "2026-07-14"
+          and by["Delta"]["date_basis"] == "history_phase_change")
+    check("operating since the first snapshot is an upper bound, and says so",
+          by["Old"]["date_basis"] == "history_on_or_before")
+    check("with no history the first scrape observation dates it",
+          by["New"]["first_operational_seen"] == "2026-09-29"
+          and by["New"]["date_basis"] == "scrape")
+    check("a proposal is never observed", "Plan" not in by)
+    check("observations carry the permanent key", by["Delta"]["pk"] == "pk_00001")
+    km2 = [{"pk": "pk_00001", "current_id": "12", "status": "active"}]
+    props2 = [{"id": "12", "name": "Delta", "phase": "operational", "state": "NC"}]
+    obs2 = observe_graduations(props2, obs, km2, [], "2026-10-05")
+    d2 = [o for o in obs2 if o["pk"] == "pk_00001"]
+    check("a renumbering does not reset the date",
+          len(d2) == 1 and d2[0]["first_operational_seen"] == "2026-07-14"
+          and d2[0]["project_id"] == "12")
+    g = graduation_candidates(props2, {o["project_id"]: o for o in obs2})
+    check("the candidate carries its dated first observation",
+          g[0]["operational_since"] == "2026-07-14" and g[0]["pk"] == "pk_00001")
 
     harvest = harvest_candidates([
         {"state": "IA", "county": "Story", "facility_signal": "operational",
@@ -708,9 +831,14 @@ def main() -> int:
         config = json.load(fh)
 
     registry = build_registry(config)
+    proposals = read_csv(PROPOSALS)
+    observations = observe_graduations(proposals, read_csv(OBSERVATIONS),
+                                       read_csv(KEY_MAP), read_csv(PROJECT_HISTORY),
+                                       today)
+    obs_by_id = {o["project_id"]: o for o in observations}
     candidates = (harvest_candidates(read_csv(CANDIDATES))
                   + osm_candidates(read_csv(OSM_CANDIDATES))
-                  + graduation_candidates(read_csv(PROPOSALS)))
+                  + graduation_candidates(proposals, obs_by_id))
     promoted, decisions = run_gate(candidates, registry, today)
 
     if args.promote and promoted:
@@ -724,6 +852,10 @@ def main() -> int:
                 d["reason"] = "gate passed; run with --promote to apply"
 
     os.makedirs(DATA, exist_ok=True)
+    with open(OBSERVATIONS, "w", encoding="utf-8", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=OBS_FIELDS, lineterminator="\n")
+        w.writeheader()
+        w.writerows(observations)
     with open(REGISTRY, "w", encoding="utf-8", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=FIELDS, lineterminator="\n")
         w.writeheader()
