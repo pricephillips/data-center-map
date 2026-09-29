@@ -44,7 +44,9 @@
         "data/project_link_review.csv",
         "data/permit_candidates_*.csv",
         "data/ingest_scaffold_*.json",
-        "data/type_b_link_review.md"
+        "data/type_b_link_review.md",
+        "data/proposal_candidates_*.csv",
+        "data/proposals_detail.json"
       ]
     },
     "C": {
@@ -120,7 +122,11 @@
         "data/README_incentive_agreement_registry.md",
         "data/restriction_probe_cache.json",
         "data/restriction_probe_log.csv",
-        "data/legistar_discovery.json"
+        "data/legistar_discovery.json",
+        "data/county_grid_territory.csv",
+        "data/county_grid_territory_manifest.json",
+        "data/grid_planned_generation.csv",
+        "data/grid_planned_generation_manifest.json"
       ]
     },
     "E": {
@@ -232,7 +238,10 @@
         "data/feature_search_weight_history.csv",
         "data/feature_search_promotions.json",
         "data/feature_search_report.md",
-        "data/master_diff_summary.md"
+        "data/master_diff_summary.md",
+        "data/pipeline_intel_*.csv",
+        "data/pipeline_intel_*.json",
+        "data/pipeline_intel_*.md"
       ]
     }
   },
@@ -249,12 +258,14 @@
   "exempt_multi_writer": {
     "master_opposition.csv": "The source of record for Layer C, and the one file with more than one writer by design. scripts/build_master_csv.py refreshes it from upstream under the ownership rule that ended the 2026 corruption; census_gap_candidates.py and promote_signal_candidates.py append gated promotions only. All three are append-or-refresh under a stated ownership discipline, none of them rewrites another's rows, and every promotion lands in an audit trail. This exemption is the reason the rule exists elsewhere: it is the exception that had to be argued for.",
     "data/signal_candidates.csv": "A handoff, not shared ownership. signal_harvest.py writes the queue; promote_signal_candidates.py consumes it and rewrites what remains, so the file holds exactly the rows the gate did not promote. The two never write concurrently: the promoter runs after the harvester in the same workflow.",
-    "data/restriction_verification_worklist.csv": "A handoff, not shared ownership. restriction_verification_worklist.py builds the rows and preserves every reviewer column across rebuilds (merge on fips); legistar_probe.py only fills the reviewer columns of open rows it finds an adopted restriction for, and rewrites the file only on a hit. They run in sequence in one pipeline step, the probe first, so the builder always re-exports the probe's hits. Declared 2026-09-29."
+    "data/restriction_verification_worklist.csv": "A handoff, not shared ownership. restriction_verification_worklist.py builds the rows and preserves every reviewer column across rebuilds (merge on fips); legistar_probe.py only fills the reviewer columns of open rows it finds an adopted restriction for, and rewrites the file only on a hit. They run in sequence in one pipeline step, the probe first, so the builder always re-exports the probe's hits. Declared 2026-09-29.",
+    "data/project_links_manual.csv": "apply_link_suggestions.py appends auto-applied links; project_id_rekey.py rewrites only the project_id column after a source renumbering. Neither adds or removes the other's rows."
   },
   "declared_crossings": {
     "signal_harvest.py": "Layers A and C. One GDELT call returns both facility-lifecycle articles and opposition coverage, and splitting the network call in two would double the quota cost to separate what a single classifier can route. The module routes, it never merges: a row lands in exactly one layer's file, with the opposition side winning any tie, and neither file is a source of record.",
     "census_gap_candidates.py": "Layers C and D. This is the gap-closure promotion path: a Layer D census gap becomes a Layer C opposition record. The crossing is the point of the module and it is gated (complete, dated, sourced, dedup-guarded, census-corroborated), appends only, and writes every promote, hold and block decision to data/gap_promotion_report.csv.",
-    "status_resolution.py": "Layers C and E. The scan proposes only: it writes data/status_resolution_worklist.csv (Layer E) and changes nothing in Layer C. --apply writes master_opposition.csv (Layer C), but only from data/status_resolutions.csv, the reviewer-confirmed file that names the evidence URL and confirmation date for each change; a headline never changes a status by itself. It is idempotent, matches rows on normalized Source URL, and deletes nothing (superseded rows stay in master and are held out of the clean feed by hold_superseded). Declared 2026-09-28 with the module."
+    "status_resolution.py": "Layers C and E. The scan proposes only: it writes data/status_resolution_worklist.csv (Layer E) and changes nothing in Layer C. --apply writes master_opposition.csv (Layer C), but only from data/status_resolutions.csv, the reviewer-confirmed file that names the evidence URL and confirmation date for each change; a headline never changes a status by itself. It is idempotent, matches rows on normalized Source URL, and deletes nothing (superseded rows stay in master and are held out of the clean feed by hold_superseded). Declared 2026-09-28 with the module.",
+    "project_id_rekey.py": "Layers B and E. Run by a person with --apply (CI runs it report-only), it rewrites the source-id key of hand-maintained Layer B files (overlay, decision dates, manual links, duplicates, negative-audit codings) after the source renumbers, and writes its own Layer E report. It changes only the id column, only on rows whose git-blame time and text agree on the project, and writes every decision to data/pipeline_intel_rekey_report.csv. The crossing is the repair: without it the hand files follow the number instead of the project."
   },
   "not_regenerable": {
     "_comment": [

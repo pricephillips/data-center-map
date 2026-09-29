@@ -1,0 +1,1922 @@
+{
+ "_generated": "2026-09-28",
+ "_note": "Descriptive shares with their denominators. Decided means a terminal lifecycle outcome (blocked_confirmed, restricted_conditional, advanced_confirmed); block rates are observed among those, not effects. Estimated MW is an acreage-based range for projects reporting no capacity and is never added into reported totals.",
+ "totals": {
+  "projects": 396,
+  "states": 28,
+  "mw_reported": 99153,
+  "mw_reported_projects": 163,
+  "mw_est_unreported": 123545,
+  "mw_est_unreported_low": 59735,
+  "mw_est_unreported_high": 235164,
+  "mw_est_projects": 154,
+  "acres": 131922,
+  "project_cost_usd": 0,
+  "project_cost_projects": 0,
+  "decided": 142,
+  "blocked_confirmed": 53,
+  "reclassified_by_source": 31,
+  "phase_blocked": 54,
+  "phase_advancing": 89,
+  "phase_pending": 253,
+  "with_opposition": 208
+ },
+ "capacity_estimate": {
+  "mw_per_acre_median": 1.923,
+  "q25": 0.93,
+  "q75": 3.661,
+  "n": 125
+ },
+ "funnel": [
+  {
+   "phase": "preliminary",
+   "projects": 50,
+   "mw_reported": 10433,
+   "mw_reported_n": 18,
+   "mw_est_unreported": 16943,
+   "phase_pending": 50,
+   "phase_advancing": 0,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 0,
+    "k": 0,
+    "share": null
+   },
+   "with_opposition": 22
+  },
+  {
+   "phase": "proposed",
+   "projects": 189,
+   "mw_reported": 57621,
+   "mw_reported_n": 86,
+   "mw_est_unreported": 61780,
+   "phase_pending": 189,
+   "phase_advancing": 0,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 0,
+    "k": 0,
+    "share": null
+   },
+   "with_opposition": 101
+  },
+  {
+   "phase": "delayed",
+   "projects": 14,
+   "mw_reported": 3858,
+   "mw_reported_n": 7,
+   "mw_est_unreported": 3886,
+   "phase_pending": 14,
+   "phase_advancing": 0,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 0,
+    "k": 0,
+    "share": null
+   },
+   "with_opposition": 8
+  },
+  {
+   "phase": "approved",
+   "projects": 2,
+   "mw_reported": 900,
+   "mw_reported_n": 1,
+   "mw_est_unreported": 217,
+   "phase_pending": 0,
+   "phase_advancing": 2,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 2,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 2
+  },
+  {
+   "phase": "construction",
+   "projects": 60,
+   "mw_reported": 21958,
+   "mw_reported_n": 30,
+   "mw_est_unreported": 9791,
+   "phase_pending": 0,
+   "phase_advancing": 60,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 60,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 33
+  },
+  {
+   "phase": "expansion",
+   "projects": 18,
+   "mw_reported": 1403,
+   "mw_reported_n": 6,
+   "mw_est_unreported": 7081,
+   "phase_pending": 0,
+   "phase_advancing": 18,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 18,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 8
+  },
+  {
+   "phase": "operational",
+   "projects": 9,
+   "mw_reported": 772,
+   "mw_reported_n": 4,
+   "mw_est_unreported": 1046,
+   "phase_pending": 0,
+   "phase_advancing": 9,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 9,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 3
+  },
+  {
+   "phase": "withdrawn",
+   "projects": 30,
+   "mw_reported": 1868,
+   "mw_reported_n": 8,
+   "mw_est_unreported": 11774,
+   "phase_pending": 0,
+   "phase_advancing": 0,
+   "phase_blocked": 30,
+   "blocked_confirmed": 29,
+   "block_rate_decided": {
+    "n": 29,
+    "k": 29,
+    "share": 1.0
+   },
+   "with_opposition": 20
+  },
+  {
+   "phase": "rejected",
+   "projects": 24,
+   "mw_reported": 340,
+   "mw_reported_n": 3,
+   "mw_est_unreported": 11027,
+   "phase_pending": 0,
+   "phase_advancing": 0,
+   "phase_blocked": 24,
+   "blocked_confirmed": 24,
+   "block_rate_decided": {
+    "n": 24,
+    "k": 24,
+    "share": 1.0
+   },
+   "with_opposition": 11
+  }
+ ],
+ "by_region": [
+  {
+   "grid_region": "PJM",
+   "projects": 187,
+   "mw_reported": 68189,
+   "mw_reported_n": 74,
+   "mw_est_unreported": 66953,
+   "phase_pending": 127,
+   "phase_advancing": 32,
+   "phase_blocked": 28,
+   "blocked_confirmed": 28,
+   "block_rate_decided": {
+    "n": 60,
+    "k": 28,
+    "share": 0.467
+   },
+   "with_opposition": 93
+  },
+  {
+   "grid_region": "MISO",
+   "projects": 96,
+   "mw_reported": 14787,
+   "mw_reported_n": 34,
+   "mw_est_unreported": 42906,
+   "phase_pending": 60,
+   "phase_advancing": 23,
+   "phase_blocked": 13,
+   "blocked_confirmed": 12,
+   "block_rate_decided": {
+    "n": 35,
+    "k": 12,
+    "share": 0.343
+   },
+   "with_opposition": 62
+  },
+  {
+   "grid_region": "Southeast (non-RTO)",
+   "projects": 61,
+   "mw_reported": 6497,
+   "mw_reported_n": 28,
+   "mw_est_unreported": 9023,
+   "phase_pending": 27,
+   "phase_advancing": 27,
+   "phase_blocked": 7,
+   "blocked_confirmed": 7,
+   "block_rate_decided": {
+    "n": 34,
+    "k": 7,
+    "share": 0.206
+   },
+   "with_opposition": 32
+  },
+  {
+   "grid_region": "NYISO",
+   "projects": 20,
+   "mw_reported": 3751,
+   "mw_reported_n": 13,
+   "mw_est_unreported": 573,
+   "phase_pending": 18,
+   "phase_advancing": 1,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 2,
+    "k": 1,
+    "share": 0.5
+   },
+   "with_opposition": 5
+  },
+  {
+   "grid_region": "ISO-NE",
+   "projects": 16,
+   "mw_reported": 433,
+   "mw_reported_n": 5,
+   "mw_est_unreported": 2822,
+   "phase_pending": 12,
+   "phase_advancing": 0,
+   "phase_blocked": 4,
+   "blocked_confirmed": 4,
+   "block_rate_decided": {
+    "n": 4,
+    "k": 4,
+    "share": 1.0
+   },
+   "with_opposition": 7
+  },
+  {
+   "grid_region": "SPP",
+   "projects": 11,
+   "mw_reported": 2376,
+   "mw_reported_n": 7,
+   "mw_est_unreported": 962,
+   "phase_pending": 7,
+   "phase_advancing": 3,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 4,
+    "k": 1,
+    "share": 0.25
+   },
+   "with_opposition": 6
+  },
+  {
+   "grid_region": "None (islanded)",
+   "projects": 3,
+   "mw_reported": 3120,
+   "mw_reported_n": 2,
+   "mw_est_unreported": 10,
+   "phase_pending": 1,
+   "phase_advancing": 2,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 2,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 1
+  },
+  {
+   "grid_region": "Non-RTO (LG&E-KU)",
+   "projects": 2,
+   "mw_reported": 0,
+   "mw_reported_n": 0,
+   "mw_est_unreported": 296,
+   "phase_pending": 1,
+   "phase_advancing": 1,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 1,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 2
+  }
+ ],
+ "by_state": [
+  {
+   "state": "PA",
+   "projects": 91,
+   "mw_reported": 27747,
+   "mw_reported_n": 30,
+   "mw_est_unreported": 38982,
+   "phase_pending": 65,
+   "phase_advancing": 6,
+   "phase_blocked": 20,
+   "blocked_confirmed": 20,
+   "block_rate_decided": {
+    "n": 26,
+    "k": 20,
+    "share": 0.769
+   },
+   "with_opposition": 39
+  },
+  {
+   "state": "OH",
+   "projects": 41,
+   "mw_reported": 17598,
+   "mw_reported_n": 19,
+   "mw_est_unreported": 9190,
+   "phase_pending": 21,
+   "phase_advancing": 18,
+   "phase_blocked": 2,
+   "blocked_confirmed": 2,
+   "block_rate_decided": {
+    "n": 20,
+    "k": 2,
+    "share": 0.1
+   },
+   "with_opposition": 24
+  },
+  {
+   "state": "NC",
+   "projects": 31,
+   "mw_reported": 1285,
+   "mw_reported_n": 6,
+   "mw_est_unreported": 4929,
+   "phase_pending": 11,
+   "phase_advancing": 17,
+   "phase_blocked": 3,
+   "blocked_confirmed": 3,
+   "block_rate_decided": {
+    "n": 20,
+    "k": 3,
+    "share": 0.15
+   },
+   "with_opposition": 16
+  },
+  {
+   "state": "IN",
+   "projects": 26,
+   "mw_reported": 5225,
+   "mw_reported_n": 7,
+   "mw_est_unreported": 14544,
+   "phase_pending": 15,
+   "phase_advancing": 7,
+   "phase_blocked": 4,
+   "blocked_confirmed": 4,
+   "block_rate_decided": {
+    "n": 11,
+    "k": 4,
+    "share": 0.364
+   },
+   "with_opposition": 14
+  },
+  {
+   "state": "IA",
+   "projects": 21,
+   "mw_reported": 1913,
+   "mw_reported_n": 7,
+   "mw_est_unreported": 8957,
+   "phase_pending": 14,
+   "phase_advancing": 7,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 7,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 6
+  },
+  {
+   "state": "MO",
+   "projects": 20,
+   "mw_reported": 3794,
+   "mw_reported_n": 8,
+   "mw_est_unreported": 7270,
+   "phase_pending": 14,
+   "phase_advancing": 4,
+   "phase_blocked": 2,
+   "blocked_confirmed": 2,
+   "block_rate_decided": {
+    "n": 6,
+    "k": 2,
+    "share": 0.333
+   },
+   "with_opposition": 13
+  },
+  {
+   "state": "NY",
+   "projects": 20,
+   "mw_reported": 3751,
+   "mw_reported_n": 13,
+   "mw_est_unreported": 573,
+   "phase_pending": 18,
+   "phase_advancing": 1,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 2,
+    "k": 1,
+    "share": 0.5
+   },
+   "with_opposition": 5
+  },
+  {
+   "state": "MI",
+   "projects": 16,
+   "mw_reported": 3524,
+   "mw_reported_n": 5,
+   "mw_est_unreported": 11640,
+   "phase_pending": 10,
+   "phase_advancing": 1,
+   "phase_blocked": 5,
+   "blocked_confirmed": 4,
+   "block_rate_decided": {
+    "n": 5,
+    "k": 4,
+    "share": 0.8
+   },
+   "with_opposition": 15
+  },
+  {
+   "state": "KY",
+   "projects": 15,
+   "mw_reported": 7040,
+   "mw_reported_n": 7,
+   "mw_est_unreported": 5568,
+   "phase_pending": 13,
+   "phase_advancing": 1,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 2,
+    "k": 1,
+    "share": 0.5
+   },
+   "with_opposition": 8
+  },
+  {
+   "state": "TN",
+   "projects": 15,
+   "mw_reported": 885,
+   "mw_reported_n": 9,
+   "mw_est_unreported": 1306,
+   "phase_pending": 7,
+   "phase_advancing": 5,
+   "phase_blocked": 3,
+   "blocked_confirmed": 3,
+   "block_rate_decided": {
+    "n": 8,
+    "k": 3,
+    "share": 0.375
+   },
+   "with_opposition": 7
+  },
+  {
+   "state": "AL",
+   "projects": 14,
+   "mw_reported": 3427,
+   "mw_reported_n": 12,
+   "mw_est_unreported": 2788,
+   "phase_pending": 9,
+   "phase_advancing": 4,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 5,
+    "k": 1,
+    "share": 0.2
+   },
+   "with_opposition": 8
+  },
+  {
+   "state": "NJ",
+   "projects": 12,
+   "mw_reported": 554,
+   "mw_reported_n": 3,
+   "mw_est_unreported": 1073,
+   "phase_pending": 5,
+   "phase_advancing": 2,
+   "phase_blocked": 5,
+   "blocked_confirmed": 5,
+   "block_rate_decided": {
+    "n": 7,
+    "k": 5,
+    "share": 0.714
+   },
+   "with_opposition": 9
+  },
+  {
+   "state": "WV",
+   "projects": 12,
+   "mw_reported": 9356,
+   "mw_reported_n": 7,
+   "mw_est_unreported": 3942,
+   "phase_pending": 10,
+   "phase_advancing": 2,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 2,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 5
+  },
+  {
+   "state": "MS",
+   "projects": 10,
+   "mw_reported": 980,
+   "mw_reported_n": 3,
+   "mw_est_unreported": 4766,
+   "phase_pending": 4,
+   "phase_advancing": 5,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 6,
+    "k": 1,
+    "share": 0.167
+   },
+   "with_opposition": 9
+  },
+  {
+   "state": "MD",
+   "projects": 9,
+   "mw_reported": 1294,
+   "mw_reported_n": 5,
+   "mw_est_unreported": 998,
+   "phase_pending": 7,
+   "phase_advancing": 2,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 2,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 5
+  },
+  {
+   "state": "ND",
+   "projects": 8,
+   "mw_reported": 3375,
+   "mw_reported_n": 7,
+   "mw_est_unreported": 577,
+   "phase_pending": 5,
+   "phase_advancing": 3,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 3,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 4
+  },
+  {
+   "state": "AR",
+   "projects": 7,
+   "mw_reported": 1250,
+   "mw_reported_n": 4,
+   "mw_est_unreported": 906,
+   "phase_pending": 6,
+   "phase_advancing": 0,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 1,
+    "k": 1,
+    "share": 1.0
+   },
+   "with_opposition": 6
+  },
+  {
+   "state": "ME",
+   "projects": 6,
+   "mw_reported": 113,
+   "mw_reported_n": 3,
+   "mw_est_unreported": 2622,
+   "phase_pending": 4,
+   "phase_advancing": 0,
+   "phase_blocked": 2,
+   "blocked_confirmed": 2,
+   "block_rate_decided": {
+    "n": 2,
+    "k": 2,
+    "share": 1.0
+   },
+   "with_opposition": 2
+  },
+  {
+   "state": "CT",
+   "projects": 5,
+   "mw_reported": 300,
+   "mw_reported_n": 1,
+   "mw_est_unreported": 4,
+   "phase_pending": 4,
+   "phase_advancing": 0,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 1,
+    "k": 1,
+    "share": 1.0
+   },
+   "with_opposition": 1
+  },
+  {
+   "state": "DE",
+   "projects": 3,
+   "mw_reported": 1200,
+   "mw_reported_n": 1,
+   "mw_est_unreported": 2704,
+   "phase_pending": 3,
+   "phase_advancing": 0,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 0,
+    "k": 0,
+    "share": null
+   },
+   "with_opposition": 2
+  }
+ ],
+ "by_developer": [
+  {
+   "developer": "Google",
+   "projects": 15,
+   "mw_reported": 2400,
+   "mw_reported_n": 3,
+   "mw_est_unreported": 6662,
+   "phase_pending": 6,
+   "phase_advancing": 8,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 9,
+    "k": 1,
+    "share": 0.111
+   },
+   "with_opposition": 8
+  },
+  {
+   "developer": "Amazon Web Services",
+   "projects": 14,
+   "mw_reported": 2782,
+   "mw_reported_n": 2,
+   "mw_est_unreported": 11113,
+   "phase_pending": 6,
+   "phase_advancing": 8,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 8,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 11
+  },
+  {
+   "developer": "Microsoft",
+   "projects": 11,
+   "mw_reported": 1500,
+   "mw_reported_n": 4,
+   "mw_est_unreported": 5592,
+   "phase_pending": 3,
+   "phase_advancing": 8,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 8,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 2
+  },
+  {
+   "developer": "Meta",
+   "projects": 7,
+   "mw_reported": 1000,
+   "mw_reported_n": 1,
+   "mw_est_unreported": 308,
+   "phase_pending": 2,
+   "phase_advancing": 5,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 5,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 5
+  },
+  {
+   "developer": "Applied Digital",
+   "projects": 5,
+   "mw_reported": 1310,
+   "mw_reported_n": 4,
+   "mw_est_unreported": 0,
+   "phase_pending": 2,
+   "phase_advancing": 2,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 3,
+    "k": 1,
+    "share": 0.333
+   },
+   "with_opposition": 5
+  },
+  {
+   "developer": "MLP Ventures",
+   "projects": 5,
+   "mw_reported": 0,
+   "mw_reported_n": 0,
+   "mw_est_unreported": 640,
+   "phase_pending": 1,
+   "phase_advancing": 0,
+   "phase_blocked": 4,
+   "blocked_confirmed": 4,
+   "block_rate_decided": {
+    "n": 4,
+    "k": 4,
+    "share": 1.0
+   },
+   "with_opposition": 1
+  },
+  {
+   "developer": "DC BLOX",
+   "projects": 4,
+   "mw_reported": 80,
+   "mw_reported_n": 2,
+   "mw_est_unreported": 0,
+   "phase_pending": 3,
+   "phase_advancing": 1,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 1,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 2
+  },
+  {
+   "developer": "Western Hospitality Partners",
+   "projects": 4,
+   "mw_reported": 500,
+   "mw_reported_n": 1,
+   "mw_est_unreported": 952,
+   "phase_pending": 4,
+   "phase_advancing": 0,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 0,
+    "k": 0,
+    "share": null
+   },
+   "with_opposition": 2
+  },
+  {
+   "developer": "Edged",
+   "projects": 4,
+   "mw_reported": 221,
+   "mw_reported_n": 3,
+   "mw_est_unreported": 0,
+   "phase_pending": 2,
+   "phase_advancing": 2,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 2,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 1
+  },
+  {
+   "developer": "Nebius",
+   "projects": 3,
+   "mw_reported": 2300,
+   "mw_reported_n": 3,
+   "mw_est_unreported": 0,
+   "phase_pending": 2,
+   "phase_advancing": 1,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 1,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 2
+  },
+  {
+   "developer": "Cloverleaf Infrastructure",
+   "projects": 3,
+   "mw_reported": 0,
+   "mw_reported_n": 0,
+   "mw_est_unreported": 3365,
+   "phase_pending": 3,
+   "phase_advancing": 0,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 0,
+    "k": 0,
+    "share": null
+   },
+   "with_opposition": 2
+  },
+  {
+   "developer": "Metrobloks",
+   "projects": 3,
+   "mw_reported": 322,
+   "mw_reported_n": 3,
+   "mw_est_unreported": 0,
+   "phase_pending": 3,
+   "phase_advancing": 0,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 0,
+    "k": 0,
+    "share": null
+   },
+   "with_opposition": 3
+  },
+  {
+   "developer": "Tract",
+   "projects": 3,
+   "mw_reported": 0,
+   "mw_reported_n": 0,
+   "mw_est_unreported": 1413,
+   "phase_pending": 2,
+   "phase_advancing": 0,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 1,
+    "k": 1,
+    "share": 1.0
+   },
+   "with_opposition": 1
+  },
+  {
+   "developer": "TeraWulf",
+   "projects": 3,
+   "mw_reported": 1150,
+   "mw_reported_n": 3,
+   "mw_est_unreported": 0,
+   "phase_pending": 3,
+   "phase_advancing": 0,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 0,
+    "k": 0,
+    "share": null
+   },
+   "with_opposition": 3
+  },
+  {
+   "developer": "Prologis",
+   "projects": 3,
+   "mw_reported": 0,
+   "mw_reported_n": 0,
+   "mw_est_unreported": 1015,
+   "phase_pending": 3,
+   "phase_advancing": 0,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 0,
+    "k": 0,
+    "share": null
+   },
+   "with_opposition": 2
+  },
+  {
+   "developer": "Core Scientific",
+   "projects": 2,
+   "mw_reported": 16,
+   "mw_reported_n": 1,
+   "mw_est_unreported": 0,
+   "phase_pending": 0,
+   "phase_advancing": 2,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 2,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 0
+  },
+  {
+   "developer": "NE Edge Data Centers",
+   "projects": 2,
+   "mw_reported": 1800,
+   "mw_reported_n": 2,
+   "mw_est_unreported": 0,
+   "phase_pending": 1,
+   "phase_advancing": 0,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 1,
+    "k": 1,
+    "share": 1.0
+   },
+   "with_opposition": 2
+  },
+  {
+   "developer": "Surge Development",
+   "projects": 2,
+   "mw_reported": 0,
+   "mw_reported_n": 0,
+   "mw_est_unreported": 2615,
+   "phase_pending": 1,
+   "phase_advancing": 0,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 1,
+    "k": 1,
+    "share": 1.0
+   },
+   "with_opposition": 2
+  },
+  {
+   "developer": "Vantage Data Centers",
+   "projects": 2,
+   "mw_reported": 192,
+   "mw_reported_n": 1,
+   "mw_est_unreported": 0,
+   "phase_pending": 1,
+   "phase_advancing": 1,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 1,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 0
+  },
+  {
+   "developer": "American Tower Corporation",
+   "projects": 2,
+   "mw_reported": 0,
+   "mw_reported_n": 0,
+   "mw_est_unreported": 0,
+   "phase_pending": 0,
+   "phase_advancing": 1,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 2,
+    "k": 1,
+    "share": 0.5
+   },
+   "with_opposition": 1
+  },
+  {
+   "developer": "Apple",
+   "projects": 2,
+   "mw_reported": 0,
+   "mw_reported_n": 0,
+   "mw_est_unreported": 3846,
+   "phase_pending": 0,
+   "phase_advancing": 2,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 2,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 0
+  },
+  {
+   "developer": "Simple Mining",
+   "projects": 2,
+   "mw_reported": 0,
+   "mw_reported_n": 0,
+   "mw_est_unreported": 73,
+   "phase_pending": 2,
+   "phase_advancing": 0,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 0,
+    "k": 0,
+    "share": null
+   },
+   "with_opposition": 0
+  },
+  {
+   "developer": "OpenAI",
+   "projects": 2,
+   "mw_reported": 1400,
+   "mw_reported_n": 1,
+   "mw_est_unreported": 0,
+   "phase_pending": 1,
+   "phase_advancing": 1,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 1,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 2
+  },
+  {
+   "developer": "Randee LLC",
+   "projects": 2,
+   "mw_reported": 0,
+   "mw_reported_n": 0,
+   "mw_est_unreported": 4142,
+   "phase_pending": 0,
+   "phase_advancing": 0,
+   "phase_blocked": 2,
+   "blocked_confirmed": 1,
+   "block_rate_decided": {
+    "n": 1,
+    "k": 1,
+    "share": 1.0
+   },
+   "with_opposition": 1
+  },
+  {
+   "developer": "Compass Datacenters",
+   "projects": 2,
+   "mw_reported": 500,
+   "mw_reported_n": 1,
+   "mw_est_unreported": 0,
+   "phase_pending": 1,
+   "phase_advancing": 1,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 1,
+    "k": 0,
+    "share": 0.0
+   },
+   "with_opposition": 2
+  }
+ ],
+ "by_screen_tier": [
+  {
+   "screen_tier": "Low",
+   "projects": 140,
+   "mw_reported": 43841,
+   "mw_reported_n": 62,
+   "mw_est_unreported": 40114,
+   "phase_pending": 90,
+   "phase_advancing": 39,
+   "phase_blocked": 11,
+   "blocked_confirmed": 11,
+   "block_rate_decided": {
+    "n": 50,
+    "k": 11,
+    "share": 0.22
+   },
+   "with_opposition": 50
+  },
+  {
+   "screen_tier": "Guarded",
+   "projects": 133,
+   "mw_reported": 30600,
+   "mw_reported_n": 58,
+   "mw_est_unreported": 36010,
+   "phase_pending": 85,
+   "phase_advancing": 32,
+   "phase_blocked": 16,
+   "blocked_confirmed": 16,
+   "block_rate_decided": {
+    "n": 48,
+    "k": 16,
+    "share": 0.333
+   },
+   "with_opposition": 88
+  },
+  {
+   "screen_tier": "Elevated",
+   "projects": 91,
+   "mw_reported": 12437,
+   "mw_reported_n": 31,
+   "mw_est_unreported": 39212,
+   "phase_pending": 58,
+   "phase_advancing": 17,
+   "phase_blocked": 16,
+   "blocked_confirmed": 15,
+   "block_rate_decided": {
+    "n": 32,
+    "k": 15,
+    "share": 0.469
+   },
+   "with_opposition": 54
+  },
+  {
+   "screen_tier": "High",
+   "projects": 30,
+   "mw_reported": 11850,
+   "mw_reported_n": 10,
+   "mw_est_unreported": 8209,
+   "phase_pending": 18,
+   "phase_advancing": 1,
+   "phase_blocked": 11,
+   "blocked_confirmed": 11,
+   "block_rate_decided": {
+    "n": 12,
+    "k": 11,
+    "share": 0.917
+   },
+   "with_opposition": 15
+  },
+  {
+   "screen_tier": "(unknown)",
+   "projects": 2,
+   "mw_reported": 425,
+   "mw_reported_n": 2,
+   "mw_est_unreported": 0,
+   "phase_pending": 2,
+   "phase_advancing": 0,
+   "phase_blocked": 0,
+   "blocked_confirmed": 0,
+   "block_rate_decided": {
+    "n": 0,
+    "k": 0,
+    "share": null
+   },
+   "with_opposition": 1
+  }
+ ],
+ "outcomes": {
+  "block_rate_all_decided": {
+   "n": 142,
+   "k": 53,
+   "share": 0.373
+  },
+  "block_rate_with_opposition": {
+   "n": 77,
+   "k": 31,
+   "share": 0.403
+  },
+  "block_rate_without_recorded_opposition": {
+   "n": 65,
+   "k": 22,
+   "share": 0.338
+  },
+  "block_rate_with_lawsuit": {
+   "n": 14,
+   "k": 4,
+   "share": 0.286
+  },
+  "block_rate_nda_reported": {
+   "n": 0,
+   "k": 0,
+   "share": null
+  },
+  "block_rate_top3_county_deciles": {
+   "n": 139,
+   "k": 52,
+   "share": 0.374
+  },
+  "block_rate_bottom7_county_deciles": {
+   "n": 3,
+   "k": 1,
+   "share": 0.333
+  },
+  "block_rate_colocated_generation": {
+   "n": 0,
+   "k": 0,
+   "share": null
+  }
+ },
+ "announcements_by_quarter": [
+  {
+   "quarter": "2014-Q1",
+   "projects": 1
+  },
+  {
+   "quarter": "2016-Q1",
+   "projects": 1
+  },
+  {
+   "quarter": "2017-Q3",
+   "projects": 1
+  },
+  {
+   "quarter": "2020-Q1",
+   "projects": 3
+  },
+  {
+   "quarter": "2021-Q1",
+   "projects": 5
+  },
+  {
+   "quarter": "2021-Q2",
+   "projects": 1
+  },
+  {
+   "quarter": "2022-Q1",
+   "projects": 3
+  },
+  {
+   "quarter": "2022-Q3",
+   "projects": 1
+  },
+  {
+   "quarter": "2023-Q1",
+   "projects": 2
+  },
+  {
+   "quarter": "2023-Q3",
+   "projects": 2
+  },
+  {
+   "quarter": "2023-Q4",
+   "projects": 2
+  },
+  {
+   "quarter": "2024-Q1",
+   "projects": 19
+  },
+  {
+   "quarter": "2024-Q2",
+   "projects": 5
+  },
+  {
+   "quarter": "2024-Q3",
+   "projects": 1
+  },
+  {
+   "quarter": "2024-Q4",
+   "projects": 12
+  },
+  {
+   "quarter": "2025-Q1",
+   "projects": 75
+  },
+  {
+   "quarter": "2025-Q2",
+   "projects": 14
+  },
+  {
+   "quarter": "2025-Q3",
+   "projects": 32
+  },
+  {
+   "quarter": "2025-Q4",
+   "projects": 45
+  },
+  {
+   "quarter": "2026-Q1",
+   "projects": 64
+  },
+  {
+   "quarter": "2026-Q2",
+   "projects": 35
+  },
+  {
+   "quarter": "2026-Q3",
+   "projects": 7
+  }
+ ],
+ "power": {
+  "btm_power": {
+   "(not reported)": 396
+  },
+  "colocated_generation": 0,
+  "planned_gas_mw_within_16km_sum": 0,
+  "region_basis": {
+   "state_default": 258,
+   "state_split": 116,
+   "county_override": 22
+  }
+ },
+ "water": {
+  "cooling_source": {
+   "(not reported)": 396
+  },
+  "projects_in_drought_counties": 55
+ },
+ "county_risk": {
+  "projects_by_restriction_decile": {
+   "3": 3,
+   "5": 3,
+   "6": 1,
+   "7": 6,
+   "8": 20,
+   "9": 69,
+   "10": 293
+  },
+  "projects_in_top3_deciles": 382,
+  "mw_in_top3_deciles": 82567
+ },
+ "corroboration": {
+  "distribution": {
+   "1": 188,
+   "2": 208
+  },
+  "single_source_projects": 188,
+  "signals": {
+   "tracker": 396,
+   "local_record": 208
+  }
+ },
+ "coverage": {
+  "capacity_mw": 0.412,
+  "size_acres": 0.705,
+  "announced_date": 0.836,
+  "project_cost_usd": 0.0,
+  "cooling_source": 0.0,
+  "btm_power": 0.0,
+  "date_online": 0.0,
+  "fips": 0.997,
+  "grid_region": 1.0,
+  "screen_tier": 0.995,
+  "county_restriction_score": 0.997,
+  "first_seen": 0.982
+ },
+ "recent_changes_30d": [
+  {
+   "seen_date": "2026-09-25",
+   "project_id": "prj_367",
+   "name": "North Country Colocation Services",
+   "event": "first_seen",
+   "from": "",
+   "to": "expansion"
+  },
+  {
+   "seen_date": "2026-09-25",
+   "project_id": "prj_381",
+   "name": "Wilsonville Data Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-25",
+   "project_id": "prj_382",
+   "name": "Project Bluegrass",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-25",
+   "project_id": "prj_383",
+   "name": "Jenkins KY Data Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "preliminary"
+  },
+  {
+   "seen_date": "2026-09-25",
+   "project_id": "prj_384",
+   "name": "Brookfield Data Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-25",
+   "project_id": "prj_385",
+   "name": "Sphere 3D Data Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-25",
+   "project_id": "prj_389",
+   "name": "Rubix Data Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-25",
+   "project_id": "prj_390",
+   "name": "PowerHouse Carrollton",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_119",
+   "name": "Amazon Ridgeland",
+   "event": "phase_change",
+   "from": "proposed",
+   "to": "construction"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_125",
+   "name": "Amazon Madison Mega Site",
+   "event": "phase_change",
+   "from": "construction",
+   "to": "expansion"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_148",
+   "name": "Prism Capital Partners Nutley Site",
+   "event": "phase_change",
+   "from": "proposed",
+   "to": "preliminary"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_157",
+   "name": "Riverview Innovative and Technology Campus Data Center",
+   "event": "phase_change",
+   "from": "proposed",
+   "to": "delayed"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_245",
+   "name": "Zediker Station Data Center",
+   "event": "phase_change",
+   "from": "proposed",
+   "to": "preliminary"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_276",
+   "name": "Project Phoenix",
+   "event": "phase_change",
+   "from": "proposed",
+   "to": "construction"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_281",
+   "name": "Fezzik Aliquippa Data Center",
+   "event": "phase_change",
+   "from": "proposed",
+   "to": "preliminary"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_361",
+   "name": "QLevr Charlestown",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_362",
+   "name": "Joint Base McGuire-Dix-Lakehurst",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_363",
+   "name": "Tower Gate Project",
+   "event": "first_seen",
+   "from": "",
+   "to": "rejected"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_364",
+   "name": "Comcast Moorestown",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_365",
+   "name": "Brookhaven Logistics Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "preliminary"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_366",
+   "name": "Former Sears Data Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_368",
+   "name": "9Lives Niagara",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_369",
+   "name": "Tesla Dojo Supercomputer",
+   "event": "first_seen",
+   "from": "",
+   "to": "withdrawn"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_370",
+   "name": "Treetop Development Project",
+   "event": "first_seen",
+   "from": "",
+   "to": "delayed"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_372",
+   "name": "Camp Monterey Data Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_373",
+   "name": "Holtec Decommissioning International",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_374",
+   "name": "IBM Quantum Data Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_375",
+   "name": "Provident Charleston",
+   "event": "first_seen",
+   "from": "",
+   "to": "withdrawn"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_376",
+   "name": "Karis Critical",
+   "event": "first_seen",
+   "from": "",
+   "to": "preliminary"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_377",
+   "name": "Wylie Capital",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_378",
+   "name": "Slate Belt Data Centers",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_379",
+   "name": "Soltier Cryptomine",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-24",
+   "project_id": "prj_380",
+   "name": "Data Centric LLC Allenwood",
+   "event": "first_seen",
+   "from": "",
+   "to": "withdrawn"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_17",
+   "name": "EdgeConneX Sheridan",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_66",
+   "name": "Simple Mining Cascade",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_67",
+   "name": "Simple Mining Cedar Falls",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_68",
+   "name": "Edged Data Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_69",
+   "name": "Jackson County Data Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_71",
+   "name": "Karis Dubuque",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_72",
+   "name": "MidAmerican Data Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_91",
+   "name": "TeraWulf Newburg",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_92",
+   "name": "Sandy Farms Data Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_117",
+   "name": "Starkville Crypto Mine",
+   "event": "first_seen",
+   "from": "",
+   "to": "rejected"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_124",
+   "name": "Taurus Data Center Hub",
+   "event": "phase_change",
+   "from": "proposed",
+   "to": "construction"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_335",
+   "name": "xAI Colossus 2",
+   "event": "phase_change",
+   "from": "construction",
+   "to": "expansion"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_338",
+   "name": "RadiusDC Nashville I",
+   "event": "phase_change",
+   "from": "construction",
+   "to": "operational"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_345",
+   "name": "Arnold Air Force Data Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "withdrawn"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_346",
+   "name": "Hixson Data Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_347",
+   "name": "Quantum Leap",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_348",
+   "name": "Cielo Digital Clarksville",
+   "event": "first_seen",
+   "from": "",
+   "to": "withdrawn"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_349",
+   "name": "Monarch Compute Campus and Mountaineer Gigasystem",
+   "event": "phase_change",
+   "from": "proposed",
+   "to": "construction"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_354",
+   "name": "Alpha Technologies Huntington",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_358",
+   "name": "NOAA Environmental Security Computing Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_359",
+   "name": "Stokes Wheeling",
+   "event": "first_seen",
+   "from": "",
+   "to": "preliminary"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_360",
+   "name": "NETL Computational Science & Engineering Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "construction"
+  },
+  {
+   "seen_date": "2026-09-22",
+   "project_id": "prj_341",
+   "name": "Jailhouse Studios",
+   "event": "removed",
+   "from": "proposed",
+   "to": ""
+  },
+  {
+   "seen_date": "2026-09-17",
+   "project_id": "prj_7",
+   "name": "Tallassee Mill Data Center",
+   "event": "phase_change",
+   "from": "preliminary",
+   "to": "rejected"
+  },
+  {
+   "seen_date": "2026-09-17",
+   "project_id": "prj_12",
+   "name": "Beacon Mount Vernon",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-17",
+   "project_id": "prj_13",
+   "name": "VoltCore Bitcoin Mine",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  },
+  {
+   "seen_date": "2026-09-17",
+   "project_id": "prj_14",
+   "name": "Stak Energy Center",
+   "event": "first_seen",
+   "from": "",
+   "to": "proposed"
+  }
+ ],
+ "source_health": {
+  "panel_start": "2026-04-23",
+  "panel_end": "2026-09-25",
+  "n_snapshots": 47,
+  "source_renumberings": [
+   {
+    "snapshot": "2026-05-01",
+    "prev_snapshot": "2026-04-29",
+    "ids_changed": 250,
+    "rows": 255
+   },
+   {
+    "snapshot": "2026-05-21",
+    "prev_snapshot": "2026-05-16",
+    "ids_changed": 282,
+    "rows": 293
+   },
+   {
+    "snapshot": "2026-07-02",
+    "prev_snapshot": "2026-06-24",
+    "ids_changed": 50,
+    "rows": 320
+   },
+   {
+    "snapshot": "2026-09-17",
+    "prev_snapshot": "2026-09-14",
+    "ids_changed": 321,
+    "rows": 353
+   },
+   {
+    "snapshot": "2026-09-22",
+    "prev_snapshot": "2026-09-17",
+    "ids_changed": 325,
+    "rows": 370
+   }
+  ],
+  "source_reclassifications": [
+   {
+    "snapshot": "2026-09-22",
+    "from": "approved",
+    "to": "proposed",
+    "n": 32,
+    "prior_population": 34
+   }
+  ],
+  "degraded_snapshots": [
+   {
+    "snapshot": "2026-09-10",
+    "commit": "e71c8d936d",
+    "fields": [
+     {
+      "field": "capacity_mw",
+      "prior": 123,
+      "now": 3
+     },
+     {
+      "field": "size_acres",
+      "prior": 224,
+      "now": 7
+     }
+    ],
+    "partial_fetch": false,
+    "rows": 338,
+    "prior_rows": 338
+   }
+  ]
+ },
+ "queues": {
+  "news_new_candidates": 0,
+  "news_possible_matches": 0,
+  "air_permits_unmatched": 0,
+  "air_permits_matched": 0
+ }
+}

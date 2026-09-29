@@ -49,3 +49,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## Proposals intelligence sources (2026-09-28)
+
+- EPA ECHO air facility data (`data/proposal_candidates_airpermits.csv`): U.S. government work, public domain.
+- EIA Form 860M (`data/grid_planned_generation.csv`): U.S. government work, public domain.
+- EIA Form 861 via PUDL (`data/county_grid_territory.csv`): Catalyst Cooperative, CC-BY-4.0. Attribution is carried in `data/county_grid_territory_manifest.json`.
+- News discovery (`data/proposal_candidates_news.csv`) stores headlines, URLs and extracted numbers only, never article text.
+

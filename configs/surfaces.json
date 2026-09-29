@@ -496,6 +496,58 @@
     "validation_sample.csv": [
       "internal_operational",
       "QC sampling frame."
+    ],
+    "data/pipeline_intel_enriched.csv": [
+      "surfaced",
+      "Proposed Centers dashboard and map popups read it; one joined row per project from proposal_enrichment.py."
+    ],
+    "data/pipeline_intel_metrics.json": [
+      "surfaced",
+      "Proposed Centers dashboard: source health banner, 30-day change feed, review-queue counts, coverage."
+    ],
+    "data/pipeline_intel_report.md": [
+      "methodology",
+      "Readable form of the pipeline metrics, with denominators and the decided definition."
+    ],
+    "data/pipeline_intel_events.csv": [
+      "closed_via_summary",
+      "Snapshot-history event log; its last 30 days reach the dashboard through pipeline_intel_metrics.json."
+    ],
+    "data/pipeline_intel_project_history.csv": [
+      "closed_via_summary",
+      "Per-project history; first seen and days in phase reach the page through the enriched file."
+    ],
+    "data/pipeline_intel_history.json": [
+      "closed_via_summary",
+      "Renumberings, reclassifications and degraded snapshots; surfaced in the dashboard banner via the metrics file."
+    ],
+    "data/pipeline_intel_id_crosswalk.csv": [
+      "internal_operational",
+      "Source id changes detected by identity matching."
+    ],
+    "data/pipeline_intel_id_timeline.csv": [
+      "internal_operational",
+      "Which source id each project held when; the re-key tool's input."
+    ],
+    "data/pipeline_intel_rekey_report.csv": [
+      "internal_operational",
+      "Every hand-maintained row examined for a stale source id, and the verdict."
+    ],
+    "data/pipeline_intel_rekey_report.md": [
+      "internal_operational",
+      "Readable re-key report."
+    ],
+    "data/proposals_detail.json": [
+      "internal_operational",
+      "Nested source fields (approvals, citations, stakeholders, parcel geometry) per project; counts reach the page via the enriched file."
+    ],
+    "data/county_grid_territory.csv": [
+      "internal_operational",
+      "EIA-861 county utilities and grid region (PUDL, CC-BY-4.0); reaches the page as grid_region."
+    ],
+    "data/grid_planned_generation.csv": [
+      "internal_operational",
+      "EIA-860M planned plants; reaches the page as planned generation near each project."
     ]
   },
   "disposition_rules": [

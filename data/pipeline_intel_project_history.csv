@@ -1,0 +1,405 @@
+project_id,source_ids,name,state,phase,in_baseline,first_seen,last_seen,present_now,n_snapshots,n_phase_changes,phase_path,last_phase_change,prior_phase,phase_since,days_in_phase,n_field_changes,last_change
+prj_1,215 > 1,Project Nebius,Alabama,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,6,2026-09-17
+prj_2,216 > 2,Project Marvel,Alabama,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,6,2026-09-17
+prj_3,3,Meta Platforms Montgomery,Alabama,construction,no,2026-05-01,2026-09-25,yes,41,0,construction,,,2026-05-01,147,7,2026-09-22
+prj_4,218 > 4,DC BLOX Montgomery,Alabama,preliminary,yes,2026-04-23,2026-09-25,yes,47,1,approved > preliminary,2026-05-04,approved,2026-05-04,144,7,2026-09-14
+prj_5,220 > 6 > 5,DC BLOX Birmingham,Alabama,expansion,yes,2026-04-23,2026-09-25,yes,47,0,expansion,,,,,8,2026-09-14
+prj_6,221 > 7 > 6,AUBix + Core Scientific Data Center,Alabama,expansion,yes,2026-04-23,2026-09-25,yes,47,0,expansion,,,,,2,2026-09-14
+prj_7,9 > 8 > 7,Tallassee Mill Data Center,Alabama,rejected,no,2026-05-01,2026-09-25,yes,41,1,preliminary > rejected,2026-09-17,preliminary,2026-09-17,8,3,2026-09-17
+prj_8,262 > 11 > 8,Columbiana Mining Facility and Data Center,Alabama,construction,no,2026-05-07,2026-09-25,yes,39,0,construction,,,2026-05-07,141,2,2026-09-14
+prj_9,246 > 8 > 7 > 9,Childersburg Data Center,Alabama,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,3,2026-09-17
+prj_10,258 > 9 > 10,Project Red Clay,Alabama,proposed,no,2026-05-07,2026-09-25,yes,39,0,proposed,,,2026-05-07,141,2,2026-09-14
+prj_11,259 > 10 > 11,Edged Energy Prichard,Alabama,proposed,no,2026-05-07,2026-09-25,yes,39,0,proposed,,,2026-05-07,141,3,2026-09-25
+prj_12,12,Beacon Mount Vernon,Alabama,proposed,no,2026-09-17,2026-09-25,yes,4,0,proposed,,,2026-09-17,8,1,2026-09-25
+prj_13,13,VoltCore Bitcoin Mine,Alabama,proposed,no,2026-09-17,2026-09-25,yes,4,0,proposed,,,2026-09-17,8,0,
+prj_14,14,Stak Energy Center,Alaska,proposed,no,2026-09-17,2026-09-25,yes,4,0,proposed,,,2026-09-17,8,0,
+prj_15,15,Prudhoe Bay Data Center,Alaska,operational,no,2026-09-17,2026-09-25,yes,4,0,operational,,,2026-09-17,8,0,
+prj_16,340 > 16,ForgeLight Ventures Conway,Arkansas,proposed,no,2026-09-17,2026-09-25,yes,4,0,proposed,,,2026-09-17,8,0,
+prj_17,17,EdgeConneX Sheridan,Arkansas,proposed,no,2026-09-22,2026-09-25,yes,3,0,proposed,,,2026-09-22,3,0,
+prj_18,2 > 11 > 13 > 16 > 18,Project Pyramid,Arkansas,proposed,yes,2026-04-23,2026-09-25,yes,47,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,4,2026-09-22
+prj_19,3 > 12 > 14 > 17 > 19,Clarksville Data Center,Arkansas,proposed,yes,2026-04-23,2026-09-25,yes,47,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,2,2026-09-22
+prj_20,5 > 14 > 16 > 18 > 20,Vilonia Cryptomine,Arkansas,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,0,
+prj_21,1 > 10 > 12 > 19 > 21,Project Leo,Arkansas,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,6,2026-09-17
+prj_22,4 > 13 > 15 > 20 > 22,Port of Little Rock Data Center,Arkansas,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_23,6 > 15 > 17 > 21 > 23,NE Edge Groton Data Center,Connecticut,rejected,yes,2026-04-23,2026-09-25,yes,47,1,proposed > rejected,2026-09-17,proposed,2026-09-17,8,5,2026-09-17
+prj_24,7 > 16 > 18 > 22 > 24,Wallingford Data Center,Connecticut,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,0,
+prj_25,8 > 17 > 19 > 23 > 25,Bloomfield Data Center Proposal,Connecticut,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,1,2026-09-17
+prj_26,9 > 18 > 20 > 24 > 26,Trumbull Data Center Investment,Connecticut,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,0,
+prj_27,248 > 19 > 21 > 25 > 27,Bristol Technology Center,Connecticut,proposed,no,2026-04-26,2026-09-25,yes,44,0,proposed,,,2026-04-26,152,2,2026-09-17
+prj_28,10 > 20 > 22 > 26 > 28,Project Washington,Delaware,delayed,yes,2026-04-23,2026-09-25,yes,47,0,delayed,,,,,4,2026-09-14
+prj_29,11 > 21 > 23 > 27 > 29,"St. Georges Business Park Data Center / ""Frightland Project""",Delaware,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-25
+prj_30,12 > 22 > 24 > 28 > 30,Newark White Clay Creek Business Park Data Center,Delaware,delayed,yes,2026-04-23,2026-09-25,yes,47,1,proposed > delayed,2026-09-17,proposed,2026-09-17,8,5,2026-09-17
+prj_31,29 > 31,Servpac Mililani Technology Park,Hawaii,expansion,no,2026-09-17,2026-09-25,yes,4,0,expansion,,,2026-09-17,8,1,2026-09-25
+prj_32,15 > 25 > 27 > 30 > 32,Granger Data Center,Indiana,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_33,16 > 26 > 28 > 31 > 33,South Bend Data Center,Indiana,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,2,2026-09-14
+prj_34,18 > 28 > 30 > 32 > 34,Project Rainier,Indiana,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,4,2026-09-14
+prj_35,202 > 29 > 31 > 33 > 35,Martindale Indianapolis Metrobloks Data Center,Indiana,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_36,203 > 30 > 32 > 34 > 36,Surge Development Knightstown Data Center,Indiana,proposed,yes,2026-04-23,2026-09-25,yes,47,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,2,2026-09-22
+prj_37,204 > 31 > 33 > 35 > 37,Decatur Technology Park,Indiana,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_38,205 > 32 > 34 > 36 > 38,Project Louie,Indiana,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,2,2026-09-14
+prj_39,206 > 33 > 35 > 37 > 39,Hancock County MegaSite,Indiana,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,2,2026-09-14
+prj_40,208 > 35 > 37 > 38 > 40,Pittsboro Middle Township Data Center,Indiana,delayed,yes,2026-04-23,2026-09-25,yes,47,0,delayed,,,,,0,
+prj_41,209 > 36 > 38 > 39 > 41,Pike Township Data Center,Indiana,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,0,
+prj_42,210 > 37 > 39 > 40 > 42,Project Maize,Indiana,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,3,2026-09-14
+prj_43,40 > 41 > 43,Hobart Tech Park,Indiana,proposed,no,2026-05-21,2026-09-25,yes,36,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,2,2026-09-22
+prj_44,301 > 300 > 42 > 44,Microsoft La Porte Data Center,Indiana,construction,no,2026-06-04,2026-09-25,yes,31,0,construction,,,2026-06-04,113,2,2026-09-14
+prj_45,319 > 318 > 43 > 45,Project Domino,Indiana,construction,no,2026-06-21,2026-09-25,yes,26,0,construction,,,2026-06-21,96,4,2026-09-14
+prj_46,302 > 301 > 44 > 46,JPG Data Center,Indiana,proposed,no,2026-06-04,2026-09-25,yes,31,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,0,2026-09-22
+prj_47,17 > 27 > 29 > 45 > 47,Decennial Group Akron,Indiana,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,5,2026-09-25
+prj_48,207 > 34 > 36 > 46 > 48,Project Flo,Indiana,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,0,
+prj_49,303 > 302 > 47 > 49,Amazon Wheatfield,Indiana,proposed,no,2026-06-04,2026-09-25,yes,31,0,proposed,,,2026-06-04,113,2,2026-09-14
+prj_50,14 > 24 > 26 > 48 > 50,Bristol Data Center,Indiana,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,0,
+prj_51,13 > 23 > 25 > 49 > 51,Project Zodiac,Indiana,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,2,2026-09-14
+prj_52,232 > 39 > 42 > 50 > 52,Google Cedar Rapids,Iowa,proposed,yes,2026-04-23,2026-09-25,yes,47,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,0,2026-09-22
+prj_53,233 > 40 > 43 > 51 > 53,QTS Cedar Rapids,Iowa,proposed,yes,2026-04-23,2026-09-25,yes,47,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,2,2026-09-22
+prj_54,234 > 41 > 44 > 52 > 54,Meta Davenport Data Center,Iowa,proposed,yes,2026-04-23,2026-09-25,yes,47,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,0,2026-09-22
+prj_55,235 > 42 > 45 > 53 > 55,Project Ruthenium,Iowa,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,3,2026-09-22
+prj_56,237 > 44 > 47 > 54 > 56,Edged Des Moines,Iowa,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,7,2026-09-22
+prj_57,238 > 45 > 48 > 55 > 57,Project Morgan,Iowa,expansion,yes,2026-04-23,2026-09-25,yes,47,0,expansion,,,,,3,2026-09-14
+prj_58,239 > 46 > 49 > 56 > 58,Google Council Bluffs,Iowa,expansion,yes,2026-04-23,2026-09-25,yes,47,0,expansion,,,,,0,
+prj_59,240 > 47 > 50 > 57 > 59,Tract Altoona,Iowa,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,3,2026-09-14
+prj_60,242 > 49 > 52 > 58 > 60,Project Alluvion,Iowa,operational,yes,2026-04-23,2026-09-25,yes,47,0,operational,,,,,1,2026-09-22
+prj_61,243 > 50 > 53 > 59 > 61,Project Ginger West,Iowa,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,2,2026-09-22
+prj_62,244 > 51 > 54 > 60 > 62,Project Ginger East,Iowa,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,2,2026-09-22
+prj_63,245 > 52 > 55 > 61 > 63,Project Osmium,Iowa,operational,yes,2026-04-23,2026-09-25,yes,47,0,operational,,,,,3,2026-09-14
+prj_64,231 > 38 > 41 > 62 > 64,Tract Project West,Iowa,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-22
+prj_65,241 > 48 > 51 > 63 > 65,COPT Defense Properties Data Center,Iowa,proposed,yes,2026-04-23,2026-09-25,yes,47,1, > proposed,2026-06-11,,2026-06-11,106,7,2026-09-14
+prj_66,66,Simple Mining Cascade,Iowa,proposed,no,2026-09-22,2026-09-25,yes,3,0,proposed,,,2026-09-22,3,0,
+prj_67,67,Simple Mining Cedar Falls,Iowa,proposed,no,2026-09-22,2026-09-25,yes,3,0,proposed,,,2026-09-22,3,0,
+prj_68,68,Edged Data Center,Iowa,proposed,no,2026-09-22,2026-09-25,yes,3,0,proposed,,,2026-09-22,3,0,
+prj_69,69,Jackson County Data Center,Iowa,proposed,no,2026-09-22,2026-09-25,yes,3,0,proposed,,,2026-09-22,3,0,
+prj_71,71,Karis Dubuque,Iowa,proposed,no,2026-09-22,2026-09-25,yes,3,0,proposed,,,2026-09-22,3,0,
+prj_72,72,MidAmerican Data Center,Iowa,proposed,no,2026-09-22,2026-09-25,yes,3,0,proposed,,,2026-09-22,3,0,
+prj_74,236 > 43 > 46 > 64 > 74,Applied Digital Adair,Iowa,proposed,yes,2026-04-23,2026-09-25,yes,47,1,approved > proposed,2026-06-11,approved,2026-06-11,106,2,2026-09-14
+prj_75,20 > 54 > 57 > 65 > 75,Project Lincoln,Kentucky,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,3,2026-09-25
+prj_76,22 > 56 > 59 > 66 > 76,Harrodsburg Data Center,Kentucky,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,6,2026-09-25
+prj_77,263 > 60 > 67 > 77,TeraWulf Hawesville,Kentucky,proposed,no,2026-05-07,2026-09-25,yes,39,0,proposed,,,2026-05-07,141,6,2026-09-25
+prj_78,264 > 61 > 68 > 78,Project Pulse,Kentucky,rejected,no,2026-05-07,2026-09-25,yes,39,0,rejected,,,2026-05-07,141,2,2026-09-14
+prj_79,305 > 304 > 69 > 79,DartPoints Former Lexmark Data Center Redevelopment,Kentucky,preliminary,no,2026-06-05,2026-09-25,yes,30,0,preliminary,,,2026-06-05,112,0,
+prj_80,21 > 55 > 58 > 70 > 80,Franklin–Simpson Data Storage and Service Center,Kentucky,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_81,299 > 298 > 71 > 81,Maysville Data Center,Kentucky,proposed,no,2026-06-03,2026-09-25,yes,32,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,4,2026-09-22
+prj_82,307 > 306 > 72 > 82,Muskie Data Campus,Kentucky,proposed,no,2026-06-06,2026-09-25,yes,29,0,proposed,,,2026-06-06,111,4,2026-09-25
+prj_83,19 > 53 > 56 > 73 > 83,PowerHouse Louisville,Kentucky,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,6,2026-09-25
+prj_84,24 > 58 > 63 > 74 > 84,Loring Air Force Base Data Center,Maine,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_85,23 > 57 > 62 > 75 > 85,Bates Mill No. 3. Data Center,Maine,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,2,2026-09-14
+prj_86,26 > 60 > 65 > 76 > 86,Sanford Woods Industrial and Technical Campus,Maine,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_87,25 > 59 > 64 > 77 > 87,Millinocket Data Center,Maine,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,2,2026-09-14
+prj_88,78 > 88,Yankee Nuclear Power Plant Data Center,Maine,preliminary,no,2026-09-17,2026-09-25,yes,4,0,preliminary,,,2026-09-17,8,0,
+prj_89,79 > 89,DeepGreen Eastport Subsea Data Center,Maine,preliminary,no,2026-09-17,2026-09-25,yes,4,0,preliminary,,,2026-09-17,8,0,
+prj_90,27 > 61 > 66 > 80 > 90,Woodlawn Data Center,Maryland,delayed,yes,2026-04-23,2026-09-25,yes,47,0,delayed,,,,,5,2026-09-14
+prj_91,91,TeraWulf Newburg,Maryland,proposed,no,2026-09-22,2026-09-25,yes,3,0,proposed,,,2026-09-22,3,0,
+prj_92,92,Sandy Farms Data Center,Maryland,proposed,no,2026-09-22,2026-09-25,yes,3,0,proposed,,,2026-09-22,3,0,
+prj_93,28 > 62 > 67 > 81 > 93,Brightseat Tech Park Data Center Development,Maryland,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_94,30 > 64 > 69 > 82 > 94,Quantum Frederick,Maryland,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,5,2026-09-22
+prj_95,31 > 65 > 70 > 83 > 95,Piney Reach Data Center Development,Maryland,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,2,2026-09-14
+prj_96,32 > 66 > 71 > 84 > 96,Johns Hopkins Data Science and Artificial Intelligence Institute (DSAI),Maryland,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,0,
+prj_97,33 > 67 > 72 > 85 > 97,Atmosphere Dickerson Data Center,Maryland,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,5,2026-09-14
+prj_98,29 > 63 > 68 > 86 > 98,Laurel Data Center,Maryland,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_99,34 > 68 > 73 > 87 > 99,Servistar Westfield,Massachusetts,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,3,2026-09-22
+prj_100,318 > 317 > 88 > 100,Holyoke Data Center,Massachusetts,proposed,no,2026-06-18,2026-09-25,yes,27,0,proposed,,,2026-06-18,99,2,2026-09-14
+prj_101,89 > 101,Everett Docklands Data Center,Massachusetts,proposed,no,2026-09-17,2026-09-25,yes,4,0,proposed,,,2026-09-17,8,0,
+prj_102,35 > 69 > 74 > 90 > 102,Project Mitten / The Barn,Michigan,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,6,2026-09-14
+prj_103,36 > 70 > 75 > 91 > 103,Project Cannoli,Michigan,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_104,38 > 72 > 77 > 92 > 104,32 Mile Road Technical Campus,Michigan,delayed,yes,2026-04-23,2026-09-25,yes,47,0,delayed,,,,,2,2026-09-14
+prj_105,40 > 74 > 79 > 93 > 105,Microsoft Gaines Township Data Center,Michigan,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_106,41 > 75 > 80 > 94 > 106,Rocklocker Kalkaska Data Center,Michigan,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,2,2026-09-14
+prj_107,42 > 76 > 81 > 95 > 107,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,Michigan,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_108,43 > 77 > 82 > 96 > 108,Project Cherry Blossom,Michigan,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_109,44 > 78 > 83 > 97 > 109,Project Ironwood,Michigan,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_110,45 > 79 > 84 > 98 > 110,Project Flex,Michigan,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_111,46 > 80 > 85 > 99 > 111,Deep Green Lansing Data Center,Michigan,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,4,2026-09-14
+prj_112,47 > 81 > 86 > 100 > 112,Pavilion Township Data Center,Michigan,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,2,2026-09-14
+prj_113,48 > 82 > 87 > 101 > 113,Sansone York Township Data Center,Michigan,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,4,2026-09-14
+prj_114,49 > 83 > 88 > 102 > 114,Metrobloks Southfield Data Center,Michigan,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_115,39 > 73 > 78 > 103 > 115,Benton Charter Township Data Center,Michigan,delayed,yes,2026-04-23,2026-09-25,yes,47,0,delayed,,,,,2,2026-09-14
+prj_116,37 > 71 > 76 > 104 > 116,Project Splitrock,Michigan,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,2,2026-09-14
+prj_117,117,Starkville Crypto Mine,Mississippi,rejected,no,2026-09-22,2026-09-25,yes,3,0,rejected,,,2026-09-22,3,0,
+prj_118,222 > 84 > 89 > 105 > 118,Amazon Clinton,Mississippi,proposed,yes,2026-04-23,2026-09-25,yes,47,1,proposed > approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,3,2026-09-22
+prj_119,223 > 85 > 90 > 106 > 119,Amazon Ridgeland,Mississippi,construction,yes,2026-04-23,2026-09-25,yes,47,1,proposed > construction,2026-09-24,proposed,2026-09-24,1,5,2026-09-24
+prj_120,225 > 87 > 92 > 107 > 120,Project Steamboat,Mississippi,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,1,2026-09-17
+prj_121,227 > 89 > 94 > 108 > 121,Meridian Compass Data Center,Mississippi,construction,yes,2026-04-23,2026-09-25,yes,47,1,approved > construction,2026-05-07,approved,2026-05-07,141,2,2026-09-14
+prj_122,228 > 90 > 95 > 109 > 122,Clarksdale Data Center,Mississippi,preliminary,yes,2026-04-23,2026-09-25,yes,47,1,proposed > preliminary,2026-05-01,proposed,2026-05-01,147,3,2026-09-14
+prj_123,229 > 91 > 96 > 110 > 123,xAI MACROHARDRR,Mississippi,construction,yes,2026-04-23,2026-09-25,yes,47,1,approved > construction,2026-05-01,approved,2026-05-01,147,2,2026-09-14
+prj_124,226 > 88 > 93 > 111 > 124,Taurus Data Center Hub,Mississippi,construction,yes,2026-04-23,2026-09-25,yes,47,1,proposed > construction,2026-09-22,proposed,2026-09-22,3,5,2026-09-22
+prj_125,224 > 86 > 91 > 112 > 125,Amazon Madison Mega Site,Mississippi,expansion,yes,2026-04-23,2026-09-25,yes,47,1,construction > expansion,2026-09-24,construction,2026-09-24,1,4,2026-09-24
+prj_126,267 > 97 > 113 > 126,Nebius Independence Hyperscale Campus,Missouri,construction,no,2026-05-16,2026-09-25,yes,37,1,approved > construction,2026-05-22,approved,2026-05-22,126,4,2026-09-14
+prj_127,268 > 98 > 114 > 127,Project Green,Missouri,proposed,no,2026-05-16,2026-09-25,yes,37,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,2,2026-09-22
+prj_128,269 > 99 > 115 > 128,Project Spade,Missouri,proposed,no,2026-05-16,2026-09-25,yes,37,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,5,2026-09-22
+prj_129,270 > 100 > 116 > 129,Crusoe Warrenton AI Data Center,Missouri,proposed,no,2026-05-16,2026-09-25,yes,37,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,1,2026-09-22
+prj_130,272 > 102 > 117 > 130,CRG Festus Data Center,Missouri,proposed,no,2026-05-16,2026-09-25,yes,37,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,3,2026-09-22
+prj_131,275 > 105 > 118 > 131,Metrobloks Liberty Data Center Campus,Missouri,proposed,no,2026-05-16,2026-09-25,yes,37,1,confirmed > approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,5,2026-09-22
+prj_132,277 > 107 > 119 > 132,Lambda AI Factory,Missouri,proposed,no,2026-05-16,2026-09-25,yes,37,1,proposed > approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,2,2026-09-22
+prj_133,278 > 108 > 120 > 133,Jasper County Powered Data Park / Sarcoxie Data Center,Missouri,proposed,no,2026-05-16,2026-09-25,yes,37,0,proposed,,,2026-05-16,132,0,2026-05-22
+prj_134,280 > 110 > 121 > 134,Meramec Valley Technology Park,Missouri,proposed,no,2026-05-16,2026-09-25,yes,37,0,proposed,,,2026-05-16,132,3,2026-09-14
+prj_135,281 > 111 > 122 > 135,Gateway Digital Campus,Missouri,proposed,no,2026-05-16,2026-09-25,yes,37,1,proposed > approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,3,2026-09-22
+prj_136,282 > 112 > 123 > 136,Meta Kansas City Data Center,Missouri,operational,no,2026-05-16,2026-09-25,yes,37,0,operational,,,2026-05-16,132,0,
+prj_137,284 > 114 > 124 > 137,Marshfield Webster Data Center,Missouri,construction,no,2026-05-16,2026-09-25,yes,37,0,construction,,,2026-05-16,132,4,2026-09-14
+prj_138,285 > 115 > 125 > 138,Project Cumulus,Missouri,withdrawn,no,2026-05-16,2026-09-25,yes,37,0,withdrawn,,,2026-05-16,132,2,2026-09-14
+prj_139,271 > 101 > 126 > 139,Wildwood Ranch AI Data Center,Missouri,proposed,no,2026-05-16,2026-09-25,yes,37,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,6,2026-09-22
+prj_140,274 > 104 > 127 > 140,Mo Lake Development Cross Creek Data Center,Missouri,rejected,no,2026-05-16,2026-09-25,yes,37,0,rejected,,,2026-05-16,132,0,2026-05-22
+prj_141,273 > 103 > 128 > 141,Armory Innovation Data Center,Missouri,proposed,no,2026-05-16,2026-09-25,yes,37,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,2,2026-09-22
+prj_142,279 > 109 > 129 > 142,Oppidan Foristell Data Center Sites,Missouri,proposed,no,2026-05-16,2026-09-25,yes,37,0,proposed,,,2026-05-16,132,2,2026-09-14
+prj_143,276 > 106 > 130 > 143,White Cloud Acres,Missouri,proposed,no,2026-05-16,2026-09-25,yes,37,0,proposed,,,2026-05-16,132,4,2026-09-14
+prj_144,283 > 113 > 131 > 144,Project Mica,Missouri,construction,no,2026-05-16,2026-09-25,yes,37,0,construction,,,2026-05-16,132,6,2026-09-14
+prj_145,296 > 295 > 132 > 145,Nottingham Data Center,New Hampshire,withdrawn,no,2026-06-03,2026-09-25,yes,32,1,preliminary > withdrawn,2026-06-04,preliminary,2026-06-04,113,2,2026-09-14
+prj_146,50 > 92 > 116 > 133 > 146,DataOne Vineland,New Jersey,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,7,2026-09-14
+prj_147,51 > 93 > 117 > 134 > 147,Princeton Nurseries Data Center,New Jersey,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_148,52 > 94 > 118 > 135 > 148,Prism Capital Partners Nutley Site,New Jersey,preliminary,yes,2026-04-23,2026-09-25,yes,47,1,proposed > preliminary,2026-09-24,proposed,2026-09-24,1,3,2026-09-24
+prj_149,53 > 95 > 119 > 136 > 149,New Brunswick Data Center,New Jersey,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,1,2026-09-24
+prj_150,213 > 96 > 120 > 137 > 150,American Tower Mount Royal,New Jersey,withdrawn,yes,2026-04-23,2026-09-25,yes,47,1,proposed > withdrawn,2026-06-18,proposed,2026-06-18,99,2,2026-09-24
+prj_151,214 > 97 > 121 > 138 > 151,CoreWeave Kenilworth,New Jersey,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,4,2026-09-14
+prj_152,123 > 139 > 152,Monroe Township Data Center,New Jersey,rejected,no,2026-05-21,2026-09-25,yes,36,0,rejected,,,2026-05-21,127,2,2026-09-14
+prj_153,297 > 296 > 140 > 153,Andover Data Center,New Jersey,proposed,no,2026-06-03,2026-09-25,yes,32,0,proposed,,,2026-06-03,114,0,
+prj_154,122 > 141 > 154,Millville Energy & Data Center Campus,New Jersey,rejected,no,2026-05-21,2026-09-25,yes,36,0,rejected,,,2026-05-21,127,0,
+prj_155,257 > 130 > 142 > 155,Sugar Hill Portland Data Center,New York,proposed,no,2026-05-07,2026-09-25,yes,39,0,proposed,,,2026-05-07,141,2,2026-09-14
+prj_156,260 > 131 > 143 > 156,Massena Petawatt Data Center Site Advertisement,New York,preliminary,no,2026-05-07,2026-09-25,yes,39,0,preliminary,,,2026-05-07,141,5,2026-09-24
+prj_157,133 > 144 > 157,Riverview Innovative and Technology Campus Data Center,New York,delayed,no,2026-05-21,2026-09-25,yes,36,1,proposed > delayed,2026-09-24,proposed,2026-09-24,1,3,2026-09-24
+prj_158,300 > 299 > 145 > 158,Kenwood Commons,New York,proposed,no,2026-06-04,2026-09-25,yes,31,0,proposed,,,2026-06-04,113,4,2026-09-24
+prj_159,54 > 98 > 124 > 146 > 159,STAMP Data Center,New York,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,5,2026-09-24
+prj_160,261 > 132 > 147 > 160,Ilion Data Center,New York,proposed,no,2026-05-07,2026-09-25,yes,39,0,proposed,,,2026-05-07,141,2,2026-09-24
+prj_161,57 > 101 > 127 > 148 > 161,Niagara Digital Campus,New York,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,5,2026-09-24
+prj_162,247 > 103 > 129 > 149 > 162,Brookhaven National Laboratory Data Center,New York,proposed,no,2026-04-24,2026-09-25,yes,46,1,preliminary > proposed,2026-04-25,preliminary,2026-04-25,153,2,2026-09-14
+prj_163,55 > 99 > 125 > 150 > 163,Lake Hawkeye,New York,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,7,2026-09-24
+prj_164,56 > 100 > 126 > 151 > 164,Lysander Data Center,New York,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_165,58 > 102 > 128 > 152 > 165,Oneonta West End Data Center,New York,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,2,2026-09-24
+prj_166,59 > 104 > 134 > 153 > 166,Rural Hall Data Center,North Carolina,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_167,60 > 105 > 135 > 154 > 167,Person County Mega Park,North Carolina,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_168,106 > 136 > 155 > 168,Tarboro Data Center Campus,North Carolina,proposed,no,2026-05-01,2026-09-25,yes,41,0,proposed,,,2026-05-01,147,4,2026-09-14
+prj_169,63 > 108 > 138 > 156 > 169,High Point Data Center,North Carolina,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,0,
+prj_170,69 > 114 > 144 > 157 > 170,CLT20 Moores Chapel,North Carolina,proposed,yes,2026-04-23,2026-09-25,yes,47,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,0,2026-09-22
+prj_171,70 > 115 > 145 > 158 > 171,CLT10 Uptown Expansion,North Carolina,expansion,yes,2026-04-23,2026-09-25,yes,47,0,expansion,,,,,0,
+prj_172,75 > 120 > 150 > 159 > 172,Greensboro Dream Center,North Carolina,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,2,2026-09-14
+prj_173,76 > 121 > 151 > 160 > 173,Marble Data Center Campus,North Carolina,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,0,
+prj_174,78 > 123 > 153 > 161 > 174,Maiden iDataCenter Campus,North Carolina,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,1,2026-06-24
+prj_175,79 > 124 > 154 > 162 > 175,T5 Data Centers Kings Mountain,North Carolina,expansion,yes,2026-04-23,2026-09-25,yes,47,0,expansion,,,,,2,2026-09-14
+prj_176,81 > 126 > 156 > 163 > 176,Forest City Data Center Campus,North Carolina,expansion,yes,2026-04-23,2026-09-25,yes,47,0,expansion,,,,,0,
+prj_177,82 > 127 > 157 > 164 > 177,Lenoir Campus (Existing + Project Cardinal 2024),North Carolina,expansion,yes,2026-04-23,2026-09-25,yes,47,0,expansion,,,,,0,
+prj_178,83 > 128 > 158 > 165 > 178,Natelli Investments New Hill Digital Campus,North Carolina,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,2,2026-09-14
+prj_179,131 > 161 > 166 > 179,Kingsboro Data Center,North Carolina,proposed,no,2026-05-01,2026-09-25,yes,41,0,proposed,,,2026-05-01,147,4,2026-09-14
+prj_180,62 > 107 > 137 > 167 > 180,Fayetteville Data Center Campus,North Carolina,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,0,
+prj_181,64 > 109 > 139 > 168 > 181,Lenoir Data Center Expansion,North Carolina,expansion,yes,2026-04-23,2026-09-25,yes,47,0,expansion,,,,,0,
+prj_182,65 > 110 > 140 > 169 > 182,Rowan County Data Center,North Carolina,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,1,2026-09-24
+prj_183,66 > 111 > 141 > 170 > 183,Project Delta,North Carolina,proposed,yes,2026-04-23,2026-09-25,yes,47,2,approved > proposed > approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,2,2026-09-22
+prj_184,67 > 112 > 142 > 171 > 184,AWS Richmond County Campus,North Carolina,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,0,
+prj_185,68 > 113 > 143 > 172 > 185,Statesville Data Center Campus,North Carolina,proposed,yes,2026-04-23,2026-09-25,yes,47,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,0,2026-09-22
+prj_186,71 > 116 > 146 > 173 > 186,Charlotte University City Data Center,North Carolina,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,0,
+prj_187,72 > 117 > 147 > 174 > 187,5C Charlotte Data Center,North Carolina,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,0,
+prj_188,73 > 118 > 148 > 175 > 188,NC-1 Campus (Madison) Data Center,North Carolina,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,0,
+prj_189,74 > 119 > 149 > 176 > 189,Microsoft — Catawba County Campus Cluster (Lyle Creek / Boyd Farm / Hickory / Stover North),North Carolina,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,0,
+prj_190,77 > 122 > 152 > 177 > 190,Raleigh New Build Data Center,North Carolina,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,0,
+prj_191,80 > 125 > 155 > 178 > 191,American Tower RA1,North Carolina,operational,yes,2026-04-23,2026-09-25,yes,47,0,operational,,,,,0,
+prj_192,84 > 129 > 159 > 179 > 192,Tract Mooresville Technology Park,North Carolina,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,0,
+prj_193,85 > 130 > 160 > 180 > 193,Project Accelerate,North Carolina,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,0,
+prj_194,315 > 314 > 181 > 194,Project Fighting Pike,North Dakota,proposed,no,2026-06-18,2026-09-25,yes,27,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,4,2026-09-22
+prj_195,311 > 310 > 182 > 195,Polaris Forge 1,North Dakota,operational,no,2026-06-18,2026-09-25,yes,27,0,operational,,,2026-06-18,99,2,2026-09-14
+prj_196,316 > 315 > 183 > 196,Atlas Power Williston,North Dakota,operational,no,2026-06-18,2026-09-25,yes,27,0,operational,,,2026-06-18,99,4,2026-09-22
+prj_197,312 > 311 > 184 > 197,Polaris Forge 2,North Dakota,construction,no,2026-06-18,2026-09-25,yes,27,0,construction,,,2026-06-18,99,3,2026-09-17
+prj_198,314 > 313 > 185 > 198,River Run Energy Center,North Dakota,proposed,no,2026-06-18,2026-09-25,yes,27,0,proposed,,,2026-06-18,99,2,2026-09-14
+prj_199,313 > 312 > 186 > 199,Applied Digital Oliver County,North Dakota,proposed,no,2026-06-18,2026-09-25,yes,27,0,proposed,,,2026-06-18,99,2,2026-09-14
+prj_200,187 > 200,Nakota Data Campus,North Dakota,proposed,no,2026-09-17,2026-09-25,yes,4,0,proposed,,,2026-09-17,8,0,
+prj_201,188 > 201,Aurum Capital Ventures Bismarck,North Dakota,proposed,no,2026-09-17,2026-09-25,yes,4,0,proposed,,,2026-09-17,8,0,
+prj_202,88 > 133 > 163 > 189 > 202,AWS Innovation Campus New Albany,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,3,2026-09-22
+prj_203,87 > 132 > 162 > 190 > 203,Vantage New Albany Campus,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,5,2026-09-22
+prj_204,89 > 134 > 164 > 191 > 204,QTS New Albany Campus,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,3,2026-09-22
+prj_205,90 > 135 > 165 > 192 > 205,AWS Hillard Campus,Ohio,expansion,yes,2026-04-23,2026-09-25,yes,47,0,expansion,,,,,5,2026-09-17
+prj_206,91 > 136 > 166 > 193 > 206,Project Mila / Trenton Industrial Park Data Center,Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_207,92 > 137 > 167 > 194 > 207,Hamilton Data Center,Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_208,93 > 138 > 168 > 195 > 208,5C Springfield,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,6,2026-09-22
+prj_209,94 > 139 > 169 > 196 > 209,Ashville Data Center,Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_210,95 > 140 > 170 > 197 > 210,Piqua Data Center,Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,2,2026-09-22
+prj_211,96 > 141 > 171 > 198 > 211,Project Galaxy,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,0,
+prj_212,98 > 143 > 173 > 199 > 212,Van Wert Mega Site,Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_213,99 > 144 > 174 > 200 > 213,Stargate Project - Lordstown AI Data Center Campus,Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,0,
+prj_214,100 > 145 > 175 > 201 > 214,Lordstown Data Center,Ohio,delayed,yes,2026-04-23,2026-09-25,yes,47,0,delayed,,,,,4,2026-09-14
+prj_215,103 > 148 > 178 > 202 > 215,Google Lockbourne,Ohio,expansion,yes,2026-04-23,2026-09-25,yes,47,1,construction > expansion,2026-05-01,construction,2026-05-01,147,2,2026-09-14
+prj_216,106 > 150 > 180 > 203 > 216,Project Cosmos,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,2,2026-09-14
+prj_217,107 > 151 > 181 > 204 > 217,Cologix Lewis Center Data Center,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,4,2026-09-14
+prj_218,108 > 152 > 182 > 205 > 218,Strata Expanse AI Center of Excellence,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,0,
+prj_219,109 > 153 > 183 > 206 > 219,Hannibal Data Center Campus,Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_220,110 > 154 > 184 > 207 > 220,Bitdeer Clarington Data Center,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,0,
+prj_221,112 > 156 > 186 > 208 > 221,NEO-01 / Sandusky Data Center,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,4,2026-09-14
+prj_222,113 > 157 > 187 > 209 > 222,Microsoft Heath Data Center,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,2,2026-09-14
+prj_223,114 > 158 > 188 > 210 > 223,Microsoft Hebron Data Center,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,0,
+prj_224,117 > 161 > 191 > 211 > 224,Akron Data Center Expansion,Ohio,expansion,yes,2026-04-23,2026-09-25,yes,47,0,expansion,,,,,0,
+prj_225,118 > 162 > 192 > 212 > 225,AWS Wilmington Data Center,Ohio,delayed,yes,2026-04-23,2026-09-25,yes,47,0,delayed,,,,,3,2026-09-14
+prj_226,119 > 163 > 193 > 213 > 226,Mt. Orab Mega Site,Ohio,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,2,2026-09-14
+prj_227,120 > 164 > 194 > 214 > 227,J.M. Stuart Revitilization Project,Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_228,121 > 165 > 195 > 215 > 228,Killen Revitilization Project,Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_229,122 > 166 > 196 > 216 > 229,Marysville South Data Center,Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,6,2026-09-14
+prj_230,123 > 167 > 197 > 217 > 230,Buck Canyon Properties Data Center,Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,6,2026-09-14
+prj_231,250 > 168 > 198 > 218 > 231,PORTS Technology Center,Ohio,proposed,no,2026-04-26,2026-09-25,yes,44,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,2,2026-09-22
+prj_232,252 > 170 > 200 > 219 > 232,Perry Township Data Center,Ohio,proposed,no,2026-04-27,2026-09-25,yes,43,0,proposed,,,2026-04-27,151,4,2026-09-14
+prj_233,288 > 201 > 220 > 233,Morabito Slavic Village Data Center,Ohio,rejected,no,2026-05-16,2026-09-25,yes,37,0,rejected,,,2026-05-16,132,0,
+prj_234,97 > 142 > 172 > 221 > 234,Google Franklin Furnace Data Center,Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,3,2026-09-14
+prj_235,116 > 160 > 190 > 222 > 235,Urbana Data Center,Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,0,
+prj_236,251 > 169 > 199 > 223 > 236,Project BOSC,Ohio,proposed,no,2026-04-26,2026-09-25,yes,44,0,proposed,,,2026-04-26,152,0,
+prj_237,102 > 147 > 177 > 224 > 237,"Cipher Mining's ""Ulysses""",Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_238,101 > 146 > 176 > 225 > 238,Bitdeer Weathersfield Project,Ohio,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_239,105 > 149 > 179 > 226 > 239,Johnstown Cologix Data Center,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,4,2026-09-14
+prj_240,111 > 155 > 185 > 227 > 240,Meta Bowling Green Data Center,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,2,2026-09-14
+prj_241,115 > 159 > 189 > 228 > 241,Microsoft New Albany Data Center,Ohio,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,2,2026-09-14
+prj_242,142 > 189 > 220 > 229 > 242,Fairview Crossroads Data Center,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,3,2026-09-24
+prj_243,125 > 172 > 203 > 230 > 243,Project Hazelnut,Pennsylvania,rejected,yes,2026-04-23,2026-09-25,yes,47,0,rejected,,,,,2,2026-09-14
+prj_244,141 > 188 > 219 > 231 > 244,Keel Infrastructure Panther Creek,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,6,2026-09-24
+prj_245,148 > 195 > 226 > 232 > 245,Zediker Station Data Center,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,1,proposed > preliminary,2026-09-24,proposed,2026-09-24,1,3,2026-09-24
+prj_246,126 > 173 > 204 > 233 > 246,Wildcat Ridge AI Data Center,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_247,127 > 174 > 205 > 234 > 247,Project Gravity,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,3,2026-09-22
+prj_248,128 > 175 > 206 > 235 > 248,Blakely AI Data Center,Pennsylvania,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,4,2026-09-14
+prj_249,129 > 176 > 207 > 236 > 249,Project Boson,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,3,2026-09-24
+prj_250,131 > 178 > 209 > 237 > 250,Project Gold,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_251,132 > 179 > 210 > 238 > 251,Sentinel Green Fig East Whiteland,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-24
+prj_252,133 > 180 > 211 > 239 > 252,QTS Salem Data Center,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_253,134 > 181 > 212 > 240 > 253,AWS Keystone Trade Center Campus,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_254,135 > 182 > 213 > 241 > 254,CoreWeave Lancaster,Pennsylvania,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,5,2026-09-25
+prj_255,214 > 242 > 255,Allentown Warehouse Conversion Data Center,Pennsylvania,delayed,no,2026-06-04,2026-09-25,yes,31,1,proposed > delayed,2026-06-18,proposed,2026-06-18,99,3,2026-09-14
+prj_256,137 > 184 > 215 > 243 > 256,PAX – Pennsylvania Digital I,Pennsylvania,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,4,2026-09-14
+prj_257,139 > 186 > 217 > 244 > 257,Dynamo Springdale,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,7,2026-09-24
+prj_258,140 > 187 > 218 > 245 > 258,Homer City Energy + AI Campus,Pennsylvania,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,6,2026-09-17
+prj_259,143 > 190 > 221 > 246 > 259,Dauphin Highlands Golf Course sold for Data Center,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,1,2026-09-24
+prj_260,144 > 191 > 222 > 247 > 260,Hollenback Township Data Center Development Zoning Application,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,3,2026-09-14
+prj_261,145 > 192 > 223 > 248 > 261,Jessup Sunnyside Data Center,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,1,proposed > approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,3,2026-09-24
+prj_262,146 > 193 > 224 > 249 > 262,McKees Rocks Industrial Site Data Center,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,0,
+prj_263,147 > 194 > 225 > 250 > 263,Project Hummingbird,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,5,2026-09-24
+prj_264,149 > 196 > 227 > 251 > 264,Archbald I LLC Data Center Campuses,Pennsylvania,rejected,yes,2026-04-23,2026-09-25,yes,47,0,rejected,,,,,5,2026-09-14
+prj_265,150 > 197 > 228 > 252 > 265,Former Air Products Headquarters Data Center,Pennsylvania,withdrawn,yes,2026-04-23,2026-09-25,yes,47,2,delayed > rejected > withdrawn,2026-08-12,rejected,2026-08-12,44,2,2026-09-14
+prj_266,151 > 198 > 229 > 253 > 266,Pennhurst Data Center,Pennsylvania,rejected,yes,2026-04-23,2026-09-25,yes,47,1,proposed > rejected,2026-05-23,proposed,2026-05-23,125,2,2026-09-14
+prj_267,152 > 199 > 230 > 254 > 267,Conshohocken Data Center,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,1,withdrawn > proposed,2026-05-10,withdrawn,2026-05-10,138,3,2026-09-14
+prj_268,154 > 201 > 232 > 255 > 268,Dickson City Data Centers,Pennsylvania,rejected,yes,2026-04-23,2026-09-25,yes,47,1,delayed > rejected,2026-05-24,delayed,2026-05-24,124,3,2026-05-24
+prj_269,155 > 202 > 233 > 256 > 269,West Hazleton Data Center,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,0,
+prj_270,156 > 203 > 234 > 257 > 270,Sugarloaf Township Data Center,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_271,157 > 204 > 235 > 258 > 271,Linfield Data Center,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,0,
+prj_272,158 > 205 > 236 > 259 > 272,Kline Township Data Center,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_273,159 > 206 > 237 > 260 > 273,Ransom Township Data Center,Pennsylvania,rejected,yes,2026-04-23,2026-09-25,yes,47,0,rejected,,,,,2,2026-09-14
+prj_274,160 > 207 > 238 > 261 > 274,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,5,2026-09-24
+prj_275,161 > 208 > 239 > 262 > 275,Smithfield Gateway Project,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_276,162 > 209 > 240 > 263 > 276,Project Phoenix,Pennsylvania,construction,yes,2026-04-23,2026-09-25,yes,47,1,approved > proposed (reclassified from approved) > construction,2026-09-24,proposed,2026-09-24,1,6,2026-09-24
+prj_277,163 > 210 > 241 > 264 > 277,Klondike Data Center Project,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,6,2026-09-24
+prj_278,164 > 211 > 242 > 265 > 278,Project Laurel,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,5,2026-09-24
+prj_279,168 > 215 > 246 > 266 > 279,Tobyhanna Township / Blakeslee Data Center,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,2,2026-09-14
+prj_280,169 > 216 > 247 > 267 > 280,Talen Energy Rezone Request for Possible Data Center in Montour County,Pennsylvania,rejected,yes,2026-04-23,2026-09-25,yes,47,0,rejected,,,,,2,2026-09-14
+prj_281,170 > 217 > 248 > 268 > 281,Fezzik Aliquippa Data Center,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,1,proposed > preliminary,2026-09-24,proposed,2026-09-24,1,4,2026-09-24
+prj_282,172 > 219 > 250 > 269 > 282,Project Green Mountain,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_283,174 > 221 > 252 > 270 > 283,Conewago Township Data Center Land Considerations,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,2,2026-09-14
+prj_284,175 > 222 > 253 > 271 > 284,Briar Creek Township Data Center Zoning Overlay,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,3,2026-09-14
+prj_285,176 > 223 > 254 > 272 > 285,South Hanover Township Data Center,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,1,preliminary > proposed,2026-07-02,preliminary,2026-07-02,85,5,2026-09-14
+prj_286,178 > 225 > 256 > 273 > 286,Sellersville / West Rockhill Township Data Center,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,3,2026-09-14
+prj_287,180 > 227 > 258 > 274 > 287,North Coventry Township Data Center,Pennsylvania,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,2,2026-09-14
+prj_288,181 > 228 > 259 > 275 > 288,Prologis Warehouse Data Center,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,1,preliminary > approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,3,2026-09-22
+prj_289,182 > 229 > 260 > 276 > 289,Switch Data Center at Former Pitt Race Complex,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,1,preliminary > proposed,2026-07-02,preliminary,2026-07-02,85,5,2026-09-14
+prj_290,183 > 230 > 261 > 277 > 290,Allenwood Data Center,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_291,184 > 231 > 262 > 278 > 291,Fort Cherry Development District,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,3,2026-09-24
+prj_292,186 > 233 > 264 > 279 > 292,Champion Data Center Project,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,4,2026-09-24
+prj_293,211 > 234 > 265 > 280 > 293,South Annville Township Data Center,Pennsylvania,withdrawn,yes,2026-04-23,2026-09-25,yes,47,1,proposed > withdrawn,2026-05-16,proposed,2026-05-16,132,2,2026-09-14
+prj_294,212 > 235 > 266 > 281 > 294,Newton Township Data Center,Pennsylvania,rejected,yes,2026-04-23,2026-09-25,yes,47,0,rejected,,,,,2,2026-09-14
+prj_295,230 > 236 > 267 > 282 > 295,New Castle Data Center,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,1,2026-09-24
+prj_296,253 > 237 > 268 > 283 > 296,MRP Duncannon Data Center,Pennsylvania,proposed,no,2026-04-29,2026-09-25,yes,42,1,preliminary > proposed,2026-05-10,preliminary,2026-05-10,138,3,2026-09-24
+prj_297,238 > 269 > 284 > 297,Project Triboro,Pennsylvania,delayed,no,2026-05-01,2026-09-25,yes,41,0,delayed,,,2026-05-01,147,4,2026-09-14
+prj_298,265 > 270 > 285 > 298,Linde Clinton Data Center,Pennsylvania,rejected,no,2026-05-10,2026-09-25,yes,38,1,proposed > rejected,2026-09-11,proposed,2026-09-11,14,3,2026-09-14
+prj_299,286 > 272 > 271 > 286 > 299,East Brandywine Data Center,Pennsylvania,preliminary,no,2026-05-16,2026-09-25,yes,37,0,preliminary,,,2026-05-16,132,0,
+prj_300,273 > 272 > 287 > 300,Renaissance Boulevard Data Center Campus,Pennsylvania,rejected,no,2026-05-21,2026-09-25,yes,36,1,proposed > rejected,2026-08-17,proposed,2026-08-17,39,3,2026-09-14
+prj_301,274 > 273 > 288 > 301,600 River Road Data Center,Pennsylvania,rejected,no,2026-05-21,2026-09-25,yes,36,1,proposed > rejected,2026-08-17,proposed,2026-08-17,39,4,2026-09-14
+prj_302,275 > 274 > 289 > 302,3200 Horizon Drive Data Center,Pennsylvania,rejected,no,2026-05-21,2026-09-25,yes,36,1,proposed > rejected,2026-08-17,proposed,2026-08-17,39,3,2026-09-14
+prj_303,294 > 293 > 290 > 303,Quakertown Data Center Park,Pennsylvania,preliminary,no,2026-05-24,2026-09-25,yes,33,0,preliminary,,,2026-05-24,124,4,2026-09-14
+prj_304,304 > 303 > 291 > 304,Granville Data Center,Pennsylvania,proposed,no,2026-06-04,2026-09-25,yes,31,0,proposed,,,2026-06-04,113,0,
+prj_305,308 > 307 > 292 > 305,Muncy Data Center,Pennsylvania,proposed,no,2026-06-11,2026-09-25,yes,28,0,proposed,,,2026-06-11,106,0,
+prj_306,320 > 319 > 293 > 306,Gravel Pike Data Center,Pennsylvania,proposed,no,2026-06-21,2026-09-25,yes,26,0,proposed,,,2026-06-21,96,3,2026-09-14
+prj_307,321 > 320 > 294 > 307,Keel Infrastructure Sharon,Pennsylvania,expansion,no,2026-06-24,2026-09-25,yes,25,0,expansion,,,2026-06-24,93,6,2026-09-24
+prj_308,321 > 295 > 308,PNK Valley View Data Center,Pennsylvania,preliminary,no,2026-07-18,2026-09-25,yes,15,0,preliminary,,,2026-07-18,69,2,2026-09-14
+prj_309,322 > 296 > 309,Mudiita Ransom Township Data Center,Pennsylvania,withdrawn,no,2026-07-29,2026-09-25,yes,14,0,withdrawn,,,2026-07-29,58,5,2026-09-22
+prj_310,323 > 297 > 310,Nebius Butler Township Data Center,Pennsylvania,preliminary,no,2026-07-29,2026-09-25,yes,14,0,preliminary,,,2026-07-29,58,4,2026-09-14
+prj_311,325 > 298 > 311,Swedeland Discovery Center Data Center Campus,Pennsylvania,rejected,no,2026-08-17,2026-09-25,yes,10,0,rejected,,,2026-08-17,39,2,2026-09-14
+prj_312,326 > 299 > 312,Stonebridge Lawrence Data Center,Pennsylvania,rejected,no,2026-08-17,2026-09-25,yes,10,1,delayed > rejected,2026-09-17,delayed,2026-09-17,8,2,2026-09-17
+prj_313,327 > 300 > 313,North Coventry Mall Data Center,Pennsylvania,rejected,no,2026-09-11,2026-09-25,yes,6,0,rejected,,,2026-09-11,14,0,
+prj_314,153 > 200 > 231 > 301 > 314,Storage Data Center Project,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,2,2026-09-14
+prj_315,138 > 185 > 216 > 302 > 315,TECfusions “Keystone Connect” AI Campus,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,7,2026-09-24
+prj_316,185 > 232 > 263 > 303 > 316,Starpointe Data Center Project,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,3,2026-09-22
+prj_317,124 > 171 > 202 > 304 > 317,Amazon Salem Township,Pennsylvania,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,7,2026-09-24
+prj_318,317 > 316 > 305 > 318,4-3 Salem Township,Pennsylvania,preliminary,no,2026-06-18,2026-09-25,yes,27,0,preliminary,,,2026-06-18,99,5,2026-09-25
+prj_319,179 > 226 > 257 > 306 > 319,Iron City No. 1 Power Generator and Compute Center,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,1,proposed > preliminary,2026-05-01,proposed,2026-05-01,147,0,2026-05-01
+prj_320,177 > 224 > 255 > 307 > 320,Lower Mount Bethel Technology Center,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,6,2026-09-24
+prj_321,295 > 294 > 308 > 321,Cumru Titus,Pennsylvania,preliminary,no,2026-05-24,2026-09-25,yes,33,0,preliminary,,,2026-05-24,124,3,2026-09-25
+prj_322,130 > 177 > 208 > 309 > 322,Jessup Breaker Street Data Center,Pennsylvania,delayed,yes,2026-04-23,2026-09-25,yes,47,0,delayed,,,,,4,2026-09-14
+prj_323,165 > 212 > 243 > 310 > 323,Calpine Peach Bottom,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,3,2026-09-24
+prj_324,166 > 213 > 244 > 311 > 324,NorthPoint Spring Mountain Data Center,Pennsylvania,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_325,167 > 214 > 245 > 312 > 325,Penn Forest Township Data Center,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,2,2026-09-14
+prj_326,171 > 218 > 249 > 313 > 326,Dorrance Township Data Center Zoning Ordinance Challenge,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,2,2026-09-14
+prj_327,173 > 220 > 251 > 314 > 327,East Manchester Farmland to Data Center Initiative Interest,Pennsylvania,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,2,2026-09-14
+prj_328,324 > 315 > 328,Alpha Compute Data Center,Pennsylvania,preliminary,no,2026-08-12,2026-09-25,yes,11,0,preliminary,,,2026-08-12,44,2,2026-09-14
+prj_329,316 > 329,Newport Township Data Center Campus,Pennsylvania,preliminary,no,2026-09-17,2026-09-25,yes,4,0,preliminary,,,2026-09-17,8,0,
+prj_330,249 > 239 > 276 > 275 > 317 > 330,Smithfield Data Center,Rhode Island,preliminary,no,2026-04-26,2026-09-25,yes,44,0,preliminary,,,2026-04-26,152,0,
+prj_331,309 > 308 > 318 > 331,Gemini Sioux Falls Data Center,South Dakota,proposed,no,2026-06-18,2026-09-25,yes,27,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,4,2026-09-22
+prj_332,310 > 309 > 319 > 332,Sequitor Edge Rapid City,South Dakota,proposed,no,2026-06-18,2026-09-25,yes,27,0,proposed,,,2026-06-18,99,5,2026-09-17
+prj_333,320 > 333,Applied Digital Toronto,South Dakota,rejected,no,2026-09-17,2026-09-25,yes,4,0,rejected,,,2026-09-17,8,0,
+prj_334,187 > 240 > 277 > 276 > 321 > 334,xAI Colossus 1,Tennessee,operational,yes,2026-04-23,2026-09-25,yes,47,0,operational,,,,,9,2026-09-22
+prj_335,188 > 241 > 278 > 277 > 322 > 335,xAI Colossus 2,Tennessee,expansion,yes,2026-04-23,2026-09-25,yes,47,2,operational > construction > expansion,2026-09-22,construction,2026-09-22,3,6,2026-09-22
+prj_336,191 > 244 > 281 > 280 > 323 > 336,Meta Gallatin,Tennessee,expansion,yes,2026-04-23,2026-09-25,yes,47,0,expansion,,,,,6,2026-09-22
+prj_337,192 > 245 > 282 > 281 > 324 > 337,Neural Nexus Data Center,Tennessee,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_338,193 > 246 > 283 > 282 > 325 > 338,RadiusDC Nashville I,Tennessee,operational,yes,2026-04-23,2026-09-25,yes,47,1,construction > operational,2026-09-22,construction,2026-09-22,3,5,2026-09-22
+prj_339,194 > 247 > 284 > 283 > 326 > 339,5C Memphis Data Center,Tennessee,construction,yes,2026-04-23,2026-09-25,yes,47,0,construction,,,,,2,2026-09-14
+prj_340,254 > 248 > 285 > 284 > 327 > 340,Lawrenceburg / Ethridge Data Center,Tennessee,preliminary,no,2026-04-29,2026-09-25,yes,42,0,preliminary,,,2026-04-29,149,3,2026-09-14
+prj_341,298 > 297 > 328 > 341,Jailhouse Studios,Tennessee,proposed,no,2026-06-03,2026-09-25,yes,32,0,approved > proposed (reclassified from approved),2026-09-22,approved,2026-09-22,3,1,2026-09-22
+prj_342,306 > 305 > 329 > 342,DC Blox Nashville,Tennessee,proposed,no,2026-06-06,2026-09-25,yes,29,0,proposed,,,2026-06-06,111,1,2026-09-22
+prj_343,190 > 243 > 280 > 279 > 330 > 343,CleanSpark Mountain City Bitcoin Mine,Tennessee,withdrawn,yes,2026-04-23,2026-09-25,yes,47,0,withdrawn,,,,,5,2026-09-14
+prj_344,189 > 242 > 279 > 278 > 331 > 344,ExoticRidge Bitcoin Mine,Tennessee,delayed,yes,2026-04-23,2026-09-25,yes,47,0,delayed,,,,,2,2026-09-14
+prj_345,345,Arnold Air Force Data Center,Tennessee,withdrawn,no,2026-09-22,2026-09-25,yes,3,0,withdrawn,,,2026-09-22,3,0,
+prj_346,346,Hixson Data Center,Tennessee,proposed,no,2026-09-22,2026-09-25,yes,3,0,proposed,,,2026-09-22,3,1,2026-09-24
+prj_347,347,Quantum Leap,Tennessee,proposed,no,2026-09-22,2026-09-25,yes,3,0,proposed,,,2026-09-22,3,1,2026-09-24
+prj_348,348,Cielo Digital Clarksville,Tennessee,withdrawn,no,2026-09-22,2026-09-25,yes,3,0,withdrawn,,,2026-09-22,3,1,2026-09-24
+prj_349,198 > 252 > 289 > 288 > 332 > 349,Monarch Compute Campus and Mountaineer Gigasystem,West Virginia,construction,yes,2026-04-23,2026-09-25,yes,47,1,proposed > construction,2026-09-22,proposed,2026-09-22,3,5,2026-09-22
+prj_350,199 > 253 > 290 > 289 > 333 > 350,QTS Kearneysville Data Center Complex,West Virginia,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-14
+prj_351,201 > 255 > 292 > 291 > 334 > 351,Google Buffalo Data Center,West Virginia,preliminary,yes,2026-04-23,2026-09-25,yes,47,0,preliminary,,,,,2,2026-09-14
+prj_352,256 > 293 > 292 > 335 > 352,Appalachian Mega Site / Hog Lick Data Center,West Virginia,preliminary,no,2026-05-04,2026-09-25,yes,40,0,preliminary,,,2026-05-04,144,4,2026-09-14
+prj_353,195 > 249 > 286 > 285 > 336 > 353,Ridgeline Facility,West Virginia,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,2,2026-09-22
+prj_354,354,Alpha Technologies Huntington,West Virginia,proposed,no,2026-09-22,2026-09-25,yes,3,0,proposed,,,2026-09-22,3,0,
+prj_355,196 > 250 > 287 > 286 > 337 > 355,"Adams Fork Harless Data Center Energy Campus, Holden",West Virginia,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,5,2026-09-22
+prj_356,197 > 251 > 288 > 287 > 338 > 356,"Adams Fork Data Center Energy Campus, Wharncliffe",West Virginia,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,1,2026-09-22
+prj_357,200 > 254 > 291 > 290 > 339 > 357,Penzance Intelligence Center,West Virginia,proposed,yes,2026-04-23,2026-09-25,yes,47,0,proposed,,,,,4,2026-09-14
+prj_358,358,NOAA Environmental Security Computing Center,West Virginia,proposed,no,2026-09-22,2026-09-25,yes,3,0,proposed,,,2026-09-22,3,0,
+prj_359,359,Stokes Wheeling,West Virginia,preliminary,no,2026-09-22,2026-09-25,yes,3,0,preliminary,,,2026-09-22,3,0,
+prj_360,360,NETL Computational Science & Engineering Center,West Virginia,construction,no,2026-09-22,2026-09-25,yes,3,0,construction,,,2026-09-22,3,0,
+prj_361,361,QLevr Charlestown,Indiana,proposed,no,2026-09-24,2026-09-25,yes,2,0,proposed,,,2026-09-24,1,0,
+prj_362,362,Joint Base McGuire-Dix-Lakehurst,New Jersey,proposed,no,2026-09-24,2026-09-25,yes,2,0,proposed,,,2026-09-24,1,0,
+prj_363,363,Tower Gate Project,New Jersey,rejected,no,2026-09-24,2026-09-25,yes,2,0,rejected,,,2026-09-24,1,0,
+prj_364,364,Comcast Moorestown,New Jersey,proposed,no,2026-09-24,2026-09-25,yes,2,0,proposed,,,2026-09-24,1,0,
+prj_365,365,Brookhaven Logistics Center,New York,preliminary,no,2026-09-24,2026-09-25,yes,2,0,preliminary,,,2026-09-24,1,0,
+prj_366,366,Former Sears Data Center,New York,proposed,no,2026-09-24,2026-09-25,yes,2,0,proposed,,,2026-09-24,1,0,
+prj_367,367,North Country Colocation Services,New York,expansion,no,2026-09-25,2026-09-25,yes,1,0,expansion,,,2026-09-25,0,0,
+prj_368,368,9Lives Niagara,New York,proposed,no,2026-09-24,2026-09-25,yes,2,0,proposed,,,2026-09-24,1,0,
+prj_369,369,Tesla Dojo Supercomputer,New York,withdrawn,no,2026-09-24,2026-09-25,yes,2,0,withdrawn,,,2026-09-24,1,0,
+prj_370,370,Treetop Development Project,New York,delayed,no,2026-09-24,2026-09-25,yes,2,0,delayed,,,2026-09-24,1,0,
+prj_372,372,Camp Monterey Data Center,New York,proposed,no,2026-09-24,2026-09-25,yes,2,0,proposed,,,2026-09-24,1,0,
+prj_373,373,Holtec Decommissioning International,New York,proposed,no,2026-09-24,2026-09-25,yes,2,0,proposed,,,2026-09-24,1,0,
+prj_374,374,IBM Quantum Data Center,New York,proposed,no,2026-09-24,2026-09-25,yes,2,0,proposed,,,2026-09-24,1,0,
+prj_375,375,Provident Charleston,Indiana,withdrawn,no,2026-09-24,2026-09-25,yes,2,0,withdrawn,,,2026-09-24,1,0,
+prj_376,376,Karis Critical,Indiana,preliminary,no,2026-09-24,2026-09-25,yes,2,0,preliminary,,,2026-09-24,1,0,
+prj_377,377,Wylie Capital,Indiana,proposed,no,2026-09-24,2026-09-25,yes,2,0,proposed,,,2026-09-24,1,0,
+prj_378,378,Slate Belt Data Centers,Pennsylvania,proposed,no,2026-09-24,2026-09-25,yes,2,0,proposed,,,2026-09-24,1,0,
+prj_379,379,Soltier Cryptomine,Pennsylvania,proposed,no,2026-09-24,2026-09-25,yes,2,0,proposed,,,2026-09-24,1,0,
+prj_380,380,Data Centric LLC Allenwood,Pennsylvania,withdrawn,no,2026-09-24,2026-09-25,yes,2,0,withdrawn,,,2026-09-24,1,0,
+prj_381,381,Wilsonville Data Center,Alabama,proposed,no,2026-09-25,2026-09-25,yes,1,0,proposed,,,2026-09-25,0,0,
+prj_382,382,Project Bluegrass,Kentucky,proposed,no,2026-09-25,2026-09-25,yes,1,0,proposed,,,2026-09-25,0,0,
+prj_383,383,Jenkins KY Data Center,Kentucky,preliminary,no,2026-09-25,2026-09-25,yes,1,0,preliminary,,,2026-09-25,0,0,
+prj_384,384,Brookfield Data Center,Kentucky,proposed,no,2026-09-25,2026-09-25,yes,1,0,proposed,,,2026-09-25,0,0,
+prj_385,385,Sphere 3D Data Center,Kentucky,proposed,no,2026-09-25,2026-09-25,yes,1,0,proposed,,,2026-09-25,0,0,
+prj_389,389,Rubix Data Center,Kentucky,proposed,no,2026-09-25,2026-09-25,yes,1,0,proposed,,,2026-09-25,0,0,
+prj_390,390,PowerHouse Carrollton,Kentucky,proposed,no,2026-09-25,2026-09-25,yes,1,0,proposed,,,2026-09-25,0,0,
+prj_1001,1001,Harper Road Technology Park,Missouri,proposed,no,2026-07-10,2026-09-25,yes,21,0,proposed,,,2026-07-10,77,0,
+prj_1002,1002,Province Group Perry Village Data Center Campus,Ohio,withdrawn,no,2026-07-10,2026-09-25,yes,21,0,withdrawn,,,2026-07-10,77,0,
+prj_1003,1003,Meta Hyperion,Louisiana,construction,no,2026-07-10,2026-09-25,yes,21,0,construction,,,2026-07-10,77,0,
+prj_1004,1004,Prado AI Industrial Campus,Mississippi,preliminary,no,2026-07-10,2026-09-25,yes,21,0,preliminary,,,2026-07-10,77,0,
+prj_1005,1005,New Carlisle Chicago Trail Data Center (Third Site),Indiana,proposed,no,2026-07-10,2026-09-25,yes,21,0,proposed,,,2026-07-10,77,0,
+prj_1006,1006,Project Maize / Google Michigan City Data Center,Indiana,construction,no,2026-07-10,2026-09-25,yes,21,0,construction,,,2026-07-10,77,0,
+prj_1007,1007,Meta Project Everest,Louisiana,proposed,no,2026-07-10,2026-09-25,yes,21,0,proposed,,,2026-07-10,77,0,
+prj_1008,1008,Terra Nexus Custer Avenue Data Center,North Carolina,proposed,no,2026-07-10,2026-09-25,yes,21,0,proposed,,,2026-07-10,77,0,
+prj_1009,1009,PRSM Group Cumberland County Data Center,North Carolina,preliminary,no,2026-07-10,2026-09-25,yes,21,0,preliminary,,,2026-07-10,77,0,
+prj_1010,1010,Project Sail Data Center,Georgia,approved,no,2026-07-13,2026-09-25,yes,20,0,approved,,,2026-07-13,74,0,
+prj_1011,1011,Howell Township Data Center (Project Splitrock),Michigan,withdrawn,no,2026-07-13,2026-09-25,yes,20,0,withdrawn,,,2026-07-13,74,0,
+prj_1012,1012,Natelli Vance County Data Center,North Carolina,approved,no,2026-07-14,2026-09-25,yes,19,0,approved,,,2026-07-14,73,0,
+prj_5,219 > 5,DC BLOX Huntsville,Alabama,operational,yes,2026-04-23,2026-05-04,no,8,0,operational,,,,,2,2026-05-04
+prj_61,61,Kingsboro Data Center Campus,North Carolina,proposed,yes,2026-04-23,2026-04-29,no,6,0,proposed,,,,,0,
+prj_86,86,ESS Tarboro Data Center,North Carolina,withdrawn,yes,2026-04-23,2026-04-29,no,6,0,withdrawn,,,,,0,
+prj_104,104,Google South Columbus,Ohio,operational,yes,2026-04-23,2026-04-29,no,6,0,operational,,,,,0,
+prj_214,136 > 183 > 214,CloudHQ Berks 61 Hyperscale Campus,Pennsylvania,proposed,yes,2026-04-23,2026-06-03,no,16,0,proposed,,,,,0,
+prj_217,217,Meta Platforms Data Center,Alabama,construction,yes,2026-04-23,2026-04-29,no,6,0,construction,,,,,0,
+prj_271,266 > 271,Big Beaver Borough Switch Data Center,Pennsylvania,proposed,no,2026-05-10,2026-06-24,no,14,0,proposed,,,2026-05-10,138,0,
+prj_341,341,EdgeConneX Sheridan,,proposed,no,2026-09-17,2026-09-17,no,1,0,proposed,,,2026-09-17,8,0,

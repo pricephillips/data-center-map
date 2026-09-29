@@ -1,0 +1,275 @@
+{
+  "_comment": [
+    "Fallback grid-region assignment for Layer B projects, used only where the",
+    "EIA-861 county service-territory join (data/county_grid_territory.csv,",
+    "written by fetch_grid_territory.py) has no row for the county.",
+    "",
+    "Every assignment carries a basis so a reader can tell how much to trust it:",
+    "  county_override   a county named below, served by a utility whose RTO",
+    "                    membership differs from the rest of its state",
+    "  state_default     a state that sits wholly or almost wholly in one region",
+    "  state_split       a state divided between regions; the default is the",
+    "                    larger share and is a guess for any county not listed",
+    "",
+    "The overrides list only counties whose serving utility is unambiguous",
+    "(ComEd, Indiana Michigan Power, Duke Energy Kentucky, Dominion North",
+    "Carolina, Evergy, Ameren Missouri, Xcel SPS, Entergy Texas, SWEPCO, El Paso",
+    "Electric). Counties served by several utilities across a seam are left to",
+    "the EIA-861 join rather than guessed here.",
+    "",
+    "Regions: the seven ISO/RTOs by their common names, plus 'Southeast (non-RTO)'",
+    "and 'West (non-RTO)' for vertically integrated regions. Western Energy",
+    "Imbalance Market participation is not RTO membership and is not recorded."
+  ],
+  "state_default": {
+    "PJM": [
+      "DE",
+      "DC",
+      "MD",
+      "NJ",
+      "OH",
+      "PA",
+      "VA",
+      "WV"
+    ],
+    "MISO": [
+      "IA",
+      "MN",
+      "WI"
+    ],
+    "SPP": [
+      "KS",
+      "OK",
+      "NE"
+    ],
+    "ERCOT": [],
+    "NYISO": [
+      "NY"
+    ],
+    "ISO-NE": [
+      "CT",
+      "MA",
+      "ME",
+      "NH",
+      "RI",
+      "VT"
+    ],
+    "CAISO": [
+      "CA"
+    ],
+    "Southeast (non-RTO)": [
+      "AL",
+      "FL",
+      "GA",
+      "SC",
+      "TN"
+    ],
+    "West (non-RTO)": [
+      "AZ",
+      "CO",
+      "ID",
+      "NV",
+      "OR",
+      "UT",
+      "WA",
+      "WY"
+    ],
+    "None (islanded)": [
+      "AK",
+      "HI",
+      "PR"
+    ]
+  },
+  "state_split": {
+    "IL": {
+      "default": "MISO",
+      "note": "ComEd (northern IL) is PJM; Ameren Illinois is MISO"
+    },
+    "IN": {
+      "default": "MISO",
+      "note": "Indiana Michigan Power's counties are PJM; Duke Energy Indiana, AES Indiana, NIPSCO and Vectren are MISO"
+    },
+    "MI": {
+      "default": "MISO",
+      "note": "Indiana Michigan Power's southwest Michigan counties are PJM"
+    },
+    "KY": {
+      "default": "PJM",
+      "note": "EKPC, Kentucky Power and Duke Energy Kentucky are PJM; LG&E-KU is non-RTO; TVA serves the southwest; Big Rivers is MISO"
+    },
+    "NC": {
+      "default": "Southeast (non-RTO)",
+      "note": "Dominion's northeastern counties are PJM"
+    },
+    "MO": {
+      "default": "MISO",
+      "note": "Ameren Missouri is MISO; Evergy and Liberty are SPP; Associated Electric cooperatives are non-RTO"
+    },
+    "MS": {
+      "default": "MISO",
+      "note": "Entergy Mississippi and Cooperative Energy are MISO; TVA serves the north; Mississippi Power is non-RTO"
+    },
+    "ND": {
+      "default": "MISO",
+      "note": "eastern utilities are MISO; much of the west is SPP"
+    },
+    "TX": {
+      "default": "ERCOT",
+      "note": "the Panhandle (Xcel SPS) is SPP, southeast Texas (Entergy) is MISO, El Paso is West (non-RTO)"
+    },
+    "NM": {
+      "default": "West (non-RTO)",
+      "note": "eastern New Mexico (Xcel SPS) is SPP"
+    },
+    "LA": {
+      "default": "MISO",
+      "note": "SWEPCO's northwest parishes are SPP"
+    },
+    "AR": {
+      "default": "MISO",
+      "note": "SWEPCO and OG&E serve western Arkansas in SPP"
+    },
+    "SD": {
+      "default": "SPP",
+      "note": "a few eastern cooperatives are MISO"
+    },
+    "MT": {
+      "default": "West (non-RTO)",
+      "note": "northeastern Montana is MISO/SPP"
+    }
+  },
+  "county_override": {
+    "PJM": {
+      "IL": [
+        "Cook",
+        "DuPage",
+        "Lake",
+        "Will",
+        "Kane",
+        "McHenry",
+        "Kendall",
+        "Grundy",
+        "DeKalb",
+        "Kankakee",
+        "LaSalle",
+        "Boone",
+        "Winnebago",
+        "Ogle",
+        "Lee"
+      ],
+      "IN": [
+        "Allen",
+        "St. Joseph",
+        "Delaware",
+        "Grant"
+      ],
+      "MI": [
+        "Berrien",
+        "Cass",
+        "St. Joseph"
+      ],
+      "KY": [
+        "Boone",
+        "Kenton",
+        "Campbell"
+      ],
+      "NC": [
+        "Currituck",
+        "Camden",
+        "Pasquotank",
+        "Perquimans",
+        "Chowan",
+        "Gates",
+        "Hertford",
+        "Bertie",
+        "Northampton",
+        "Halifax",
+        "Dare",
+        "Tyrrell",
+        "Washington",
+        "Martin"
+      ]
+    },
+    "SPP": {
+      "MO": [
+        "Jackson",
+        "Clay",
+        "Platte",
+        "Cass",
+        "Jasper",
+        "Newton"
+      ],
+      "TX": [
+        "Potter",
+        "Randall",
+        "Armstrong",
+        "Carson",
+        "Gray",
+        "Hutchinson",
+        "Moore",
+        "Deaf Smith",
+        "Oldham",
+        "Hemphill",
+        "Ochiltree",
+        "Hansford",
+        "Sherman",
+        "Dallam",
+        "Hartley",
+        "Roberts",
+        "Lipscomb",
+        "Wheeler",
+        "Donley",
+        "Parmer",
+        "Castro",
+        "Swisher",
+        "Briscoe"
+      ],
+      "NM": [
+        "Lea",
+        "Eddy",
+        "Chaves",
+        "Roosevelt",
+        "Curry",
+        "Quay"
+      ],
+      "LA": [
+        "Caddo",
+        "Bossier",
+        "De Soto",
+        "Webster"
+      ],
+      "AR": [
+        "Benton",
+        "Washington",
+        "Sebastian",
+        "Crawford"
+      ]
+    },
+    "MISO": {
+      "MO": [
+        "St. Louis",
+        "St. Louis City",
+        "St. Charles",
+        "Jefferson",
+        "Franklin"
+      ],
+      "TX": [
+        "Jefferson",
+        "Orange",
+        "Hardin"
+      ]
+    },
+    "West (non-RTO)": {
+      "TX": [
+        "El Paso",
+        "Hudspeth"
+      ]
+    },
+    "Non-RTO (LG&E-KU)": {
+      "KY": [
+        "Jefferson",
+        "Fayette"
+      ]
+    }
+  }
+}

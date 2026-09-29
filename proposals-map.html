@@ -180,9 +180,9 @@ input:focus, select:focus { border-color:var(--accent) }
         <button class="tool-btn" onclick="zoomToResults()">Show on map →</button>
       </div>
       <div class="stats">
-        <div class="stat s-proposals"><b id="statTotal">—</b><span>Total proposals</span></div>
-        <div class="stat"><b id="statVisible">—</b><span>Visible</span></div>
-        <div class="stat"><b id="statStates">—</b><span>States</span></div>
+        <div class="stat s-proposals"><b id="statTotal">–</b><span>Total proposals</span></div>
+        <div class="stat"><b id="statVisible">–</b><span>Visible</span></div>
+        <div class="stat"><b id="statStates">–</b><span>States</span></div>
       </div>
     </div>
 
@@ -327,12 +327,35 @@ document.addEventListener('DOMContentLoaded', function () {
         <span class="p-label">State</span><span class="p-val">${esc(r.state || '')}</span>
         <span class="p-label">County</span><span class="p-val">${esc(r.counties || '')}</span>
         <span class="p-label">Phase</span><span class="p-val">${esc(r.phase || '')}</span>
-        <span class="p-label">Capacity</span><span class="p-val">${r.capacity_mw ? fmtInt(r.capacity_mw) + ' MW' : '—'}</span>
-        <span class="p-label">Jobs</span><span class="p-val">${r.jobsTotal ? fmtInt(r.jobsTotal) : '—'}</span>
+        <span class="p-label">Capacity</span><span class="p-val">${r.capacity_mw ? fmtInt(r.capacity_mw) + ' MW' : '–'}</span>
+        <span class="p-label">Jobs</span><span class="p-val">${r.jobsTotal ? fmtInt(r.jobsTotal) : '–'}</span>
         <span class="p-label">Company</span><span class="p-val">${esc(r.companies || '')}</span>
         <span class="p-label">Date</span><span class="p-val">${esc(r.date || '')}</span>
+        ${enrichedRows(r)}
       </div>
     `;
+  }
+
+  // 2026-09-28: joined context from data/pipeline_intel_enriched.csv
+  // (proposal_enrichment.py). Optional: if it does not load, popups show the
+  // tracker fields only, exactly as before.
+  let ENRICHED = {};
+  function enrichedRows(r) {
+    const x = ENRICHED['prj_' + r.id];
+    if (!x) return '';
+    const row = (l, v) => v === '' || v == null ? '' : `<span class="p-label">${l}</span><span class="p-val">${esc(v)}</span>`;
+    const est = !r.capacity_mw && x.capacity_mw_est_low ? `~${x.capacity_mw_est_low}-${x.capacity_mw_est_high} MW (est. from acreage)` : '';
+    return [
+      row('Est. capacity', est),
+      row('Grid region', x.grid_region ? `${x.grid_region} (${x.grid_region_basis})` : ''),
+      row('Opposition', x.n_opposition_events && x.n_opposition_events !== '0' ? `${x.n_opposition_events} events${x.has_lawsuit === 'yes' ? ', lawsuit' : ''}` : 'none recorded'),
+      row('Outcome', x.lifecycle_outcome),
+      row('Screen tier', x.screen_tier),
+      row('County decile', x.county_restriction_decile),
+      row('Planned gas 16 km', x.planned_gas_mw_16km && x.planned_gas_mw_16km !== '0' ? x.planned_gas_mw_16km + ' MW' : ''),
+      row('Signals', x.corroboration_signals),
+      row('Source relabel', x.source_reclassified_from ? `was ${x.source_reclassified_from}` : ''),
+    ].join('');
   }
 
   function matchesFilters(r) {
@@ -457,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function () {
     map.flyToBounds(layer.getBounds(), { padding:[30,30], maxZoom:7, duration:0.85 });
     document.getElementById('choroBack').style.display = 'block';
     document.getElementById('mapHint').textContent =
-      cnt > 0 ? `${stateName}: ${cnt} proposal${cnt === 1 ? '' : 's'} — click pins for details`
+      cnt > 0 ? `${stateName}: ${cnt} proposal${cnt === 1 ? '' : 's'}. Click pins for details`
               : `${stateName}: no proposals in dataset`;
     setTimeout(updateChoroplethVisuals, 120);
     PERMA.set('state', MapPermalink.slug(stateName));
@@ -532,7 +555,7 @@ document.addEventListener('DOMContentLoaded', function () {
               });
             }
             document.getElementById('mapHint').textContent =
-              cnt > 0 ? `${name}: ${cnt} proposal${cnt === 1 ? '' : 's'} — click to zoom`
+              cnt > 0 ? `${name}: ${cnt} proposal${cnt === 1 ? '' : 's'}. Click to zoom`
                       : `${name}: no proposals in dataset`;
           },
           mouseout: e => {
@@ -566,6 +589,14 @@ document.addEventListener('DOMContentLoaded', function () {
       }));
     })();
   }
+
+  parseFirst([RAW + '/data/pipeline_intel_enriched.csv', './data/pipeline_intel_enriched.csv'], {
+    header: true, skipEmptyLines: true,
+    complete: ({ data }) => {
+      (data || []).forEach(x => { ENRICHED[x.project_id] = x; });
+      allRows.forEach(r => r._marker && r._marker.setPopupContent(buildPopup(r)));
+    }
+  });
 
   parseFirst(PROPOSAL_URLS, {
     header:true,

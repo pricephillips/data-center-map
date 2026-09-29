@@ -160,6 +160,57 @@ not graduate. `data/facility_promotion_report.csv` carries 10 rows under
 `permit_graduations` source as live. This paragraph said "it does not exist
 yet" until 2026-09-11, which had been false since the registry shipped.
 
+#### The source id is not a stable key (2026-09-28)
+
+`project_id` is `prj_` + the TrackDataCenters id, and that id moves. The source
+renumbered its whole id space on 2026-09-17 and again on 2026-09-22, and
+partially on 2026-05-01, 2026-05-21 and 2026-07-02. Every join kept matching,
+onto a different project: overlay id 141 ("approval VOIDED") was forcing
+Armory Innovation (MO) to `proposed` when it was written for Project Delta
+(NC), and the Saline Township and Apex decision dates sat on projects in Iowa
+and New York. 190 hand-maintained rows were affected.
+
+Three pieces now handle it:
+
+| piece | what it does |
+|---|---|
+| `proposal_history.py` | matches rows across the nightly commits of `data/proposals.csv` by name, state and coordinates, never by id, and writes each project's id timeline (`data/pipeline_intel_id_timeline.csv`) and every id change (`data/pipeline_intel_id_crosswalk.csv`) |
+| `project_id_rekey.py` | resolves every hand-maintained row to the project it was written about (git blame time against the id timeline, checked against the row's own text) and re-keys it; report in `data/pipeline_intel_rekey_report.md` |
+| scraper id-stability check | measures reassigned ids on every run and writes them into `data/scraper_field_audit.md` |
+
+The scrape workflow runs both after each committed scrape; the re-key runs report-only there and opens an issue when rows need moving, and a person applies it (constitution VII).
+The durable fix, keying Layer B on a stable id minted in-repo (or on the
+source's `slug`, now captured), is a migration across every Layer B consumer
+and is left as a decision rather than done implicitly.
+
+The same history pass detects source vocabulary changes: on 2026-09-22, 32 of
+34 `approved` projects became `proposed` in one night. Those are recorded as
+`source_reclassified` rather than phase changes, surfaced in the enriched
+file's `source_reclassified_from`, and not reversed without a person.
+
+#### Layer B intelligence inputs (2026-09-28)
+
+| file | writer | layer | what |
+|---|---|---|---|
+| `data/proposals_detail.json` | the scraper | B | nested source fields: approvals, citations, stakeholders, power sources, parcel geometry |
+| `data/proposal_candidates_news.csv` | `proposal_discovery.py` | B | news articles about new or tracked proposals; candidates only |
+| `data/proposal_candidates_airpermits.csv` | `fetch_air_permits.py` | B | EPA ECHO air facilities with NAICS 518210 or a data center name, matched to projects and facilities; candidates only |
+| `data/county_grid_territory.csv` | `fetch_grid_territory.py` | D | EIA-861 county utilities, balancing authorities and grid region, via PUDL |
+| `data/grid_planned_generation.csv` | `fetch_planned_generation.py` | D | EIA-860M planned plants, aggregated to plant level |
+| `data/pipeline_intel_*` | `proposal_history.py`, `proposal_enrichment.py`, `project_id_rekey.py` | E | event log, id timeline, enriched project table, pipeline metrics, re-key report |
+
+The scraper also captures 22 columns the source had been sending and nothing
+read (project cost, capacity ceiling, behind-the-meter power, cooling,
+generator count, footprint, expected online date, NDA notes, citation URLs).
+They are appended after the original columns. `btmPower` and `dateOnline` are
+deliberately not mapped onto `bringingOwnEnergy` and `yearOpened`: the shapes
+differ, and `facility_registry.graduation_candidates` still reads
+`yearOpened`, which the source no longer sends.
+
+Grid region falls back to `configs/grid_iso_crosswalk.json` (state defaults
+and a short list of unambiguous county overrides) where the EIA-861 join has
+no row, and every project records which basis it got.
+
 ### Layer C, opposition events
 
 Recorded opposition events and the entities that produce them.
@@ -255,7 +306,7 @@ grade must arrive with the claim it qualifies, not behind it.
 Two things about grade `D` matter to anything reading this file. It is the
 fall-through for "nothing on record supports this label", so it is reached both
 by a county no source has been consulted for and by a county whose sources
-**were** consulted and returned nothing usable — a restriction census asserts
+**were** consulted and returned nothing usable: a restriction census asserts
 positives only and can never clear a county. The two are distinguishable only
 by whether `families_checked` is empty. And `U` is not a defect in the ledger:
 every probe host in `configs/restriction_evidence_sources.json` is denied by
