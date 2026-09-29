@@ -218,7 +218,7 @@ Recorded opposition events and the entities that produce them.
 | | |
 |---|---|
 | Key | `opp_id`, joined to `project_id` through `data/project_links.csv` and nothing else |
-| Files | `master_opposition.csv`, `master_opposition_clean.csv`, `change_log.csv`, `quarantine.json`, `group_registry.csv`, the review queues, `data/signal_*`, `data/status_resolutions.csv` (reviewer-confirmed status changes, hand maintained, applied by `status_resolution.py --apply`) |
+| Files | `master_opposition.csv`, `master_opposition_clean.csv`, `change_log.csv`, `quarantine.json`, `group_registry.csv`, the review queues, `data/signal_*`, `data/status_resolutions.csv` (reviewer-confirmed status changes, hand maintained, applied by `status_resolution.py --apply`; `status_resolution.py --auto-supersede` also appends syndicated-copy supersede rows without a reviewer, owner decision 2026-09-29, reversible with action `keep`; listed as not regenerable) |
 | Writers | `scripts/build_master_csv.py`, `clean_opposition_data.py`, `build_clean_feed.py`, `signal_harvest.py`, `promote_signal_candidates.py`, `census_gap_candidates.py` |
 | Source of record | `master_opposition.csv`, whose filename never changes |
 

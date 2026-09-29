@@ -1,5 +1,14 @@
 <!--
 Sync Impact Report
+Version change: 1.0.0 -> 1.1.0 (2026-09-29)
+Modified principle: VII (Additive and Backward-Compatible) gains a named,
+  owner-approved exception: syndicated-copy supersede rows are confirmed
+  automatically by status_resolution.py --auto-supersede. Reversible (rows stay
+  in master; action keep restores them) and audited in data/status_resolutions.csv.
+Templates reviewed: no template change needed.
+Follow-up TODOs: none
+
+Previous report:
 Version change: template -> 1.0.0 (initial ratification)
 Principles defined: I-IX (all new)
 Sections added: Data and Architecture Constraints; Development Workflow and Quality Gates; Governance
@@ -79,6 +88,17 @@ Features never break existing behavior or rename stable files
 behavior is unchanged. Suggestions and triage output never auto-apply; they are
 drafts for human review.
 
+Exceptions are named here, approved by the owner, and must be reversible and
+audited. Current exceptions:
+
+- Syndicated copies (2026-09-29): `status_resolution.py --auto-supersede`
+  confirms supersede for rows that republish one article under several
+  mastheads (event_dedupe clusters, spec 006). Rows stay in
+  `master_opposition.csv`; each confirmation is a row in
+  `data/status_resolutions.csv` naming the kept row, and setting its action
+  to `keep` returns the copy to the feed and stops re-proposal. Resolve and
+  earlier-stage supersede proposals still need a reviewer.
+
 ### VIII. Layer Ownership
 
 One writing process per file. No writer crosses a layer boundary undeclared.
@@ -138,4 +158,4 @@ principle, MINOR for adding one, PATCH for wording. Standing documents
 (README.md, ARCHITECTURE.md, IDENTIFIABILITY.md, PHASE_STATUS.md) remain
 authoritative for their subjects.
 
-**Version**: 1.0.0 | **Ratified**: 2026-09-28 | **Last Amended**: 2026-09-28
+**Version**: 1.1.0 | **Ratified**: 2026-09-28 | **Last Amended**: 2026-09-29

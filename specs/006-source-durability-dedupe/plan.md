@@ -222,7 +222,22 @@ unjustified violations.
 SC-002 is met on current data. SC-001 and SC-003 are pending the first CI
 runs.
 
-Deferred, with numbers:
+**Follow-up (2026-09-29, after merge)**:
+
+- **Syndicated copies are auto-confirmed.** At Price's request, the owner
+  decision item 1 below is automated. `status_resolution.py --auto-supersede`
+  runs in `pipeline.yml` before the feed build and appends one `supersede` row
+  per syndicated copy to `data/status_resolutions.csv`. The first run
+  confirmed 66 copies in 50 clusters; master grew between the 64 measured
+  earlier and this run. It is recorded as a named exception to Principle VII
+  (constitution 1.1.0) and is reversible with action `keep`.
+- **The coverage gate is on.** `data/source_archive.csv` is declared in
+  `configs/data_quality.json` under a new `optional_until_present` list:
+  skipped with a note until the first archive run commits it, then gated.
+- **`.gitattributes` is regenerated.** `layer_audit.py` now also marks
+  declared outputs that do not exist yet.
+
+Deferred at merge time (both now done in the follow-up above):
 
 - **Coverage-delta gate for `data/source_archive.csv`.**
   `qc/coverage_delta.py` exits 2 on a declared file that does not exist, so

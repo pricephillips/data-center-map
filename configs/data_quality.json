@@ -103,8 +103,15 @@
       "data/proposals.csv": {
         "*": 0.2,
         "capacity_mw": 0.2
+      },
+      "data/source_archive.csv": {
+        "url": 0.2,
+        "archived_url": 0.2
       }
     },
+    "optional_until_present": [
+      "data/source_archive.csv"
+    ],
     "robust_z": {
       "threshold": 6.0,
       "columns": {
