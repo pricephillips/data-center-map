@@ -1,7 +1,7 @@
 name: Update opposition CSV
 
 on:
-  workflow_run:
+  workflow_run: # zizmor: ignore[dangerous-triggers] same-repo workflow; the job checks out the default branch only and uses no artifacts from the triggering run
     workflows: ["Scrape TrackDataCenters proposals"]
     types: [completed]
   workflow_dispatch:
@@ -18,15 +18,17 @@ jobs:
 
     steps:
       - name: Check out repo
-        uses: actions/checkout@v7
-
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Set up Python
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.11'
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
       - name: Install dependencies
-        run: pip install requests
+        run: uv pip install --system -c requirements/ci.txt requests
 
       - name: Run CSV build
         run: python scripts/build_master_csv.py
@@ -72,7 +74,7 @@ jobs:
 
       - name: Notify on failure
         if: failure()
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             github.rest.issues.create({
