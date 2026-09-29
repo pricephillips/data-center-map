@@ -1,5 +1,5 @@
 # Source-of-truth diff
 
-Compared `02d8e7a` to `working tree`, generated 2026-09-29 00:39 UTC.
+Compared `b67bfb8` to `working tree`, generated 2026-09-29 00:57 UTC.
 
 No changes.
