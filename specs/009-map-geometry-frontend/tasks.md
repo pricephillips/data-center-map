@@ -88,8 +88,9 @@ story adds its checks to `tests/ui/` or to a node selftest.
   pages (axe `select-name`, critical).
 - T017 to T019: one inline helper per page upgrades the page's own rendered
   table, so column titles and cell text cannot drift from it.
-- T025: the workflow changes pushed; only the `configs/layers.json` and
-  ARCHITECTURE.md declaration is pending (`docs/pending_map_geometry.*`).
+- T025: the workflow changes pushed directly. The `configs/layers.json` and
+  ARCHITECTURE.md declaration was staged as `docs/pending_map_geometry.*`
+  while spec 005 ran in parallel, and applied on 2026-09-29.
 
 ## Dependencies
 
