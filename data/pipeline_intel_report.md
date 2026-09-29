@@ -4,21 +4,21 @@ Generated 2026-09-29 by `proposal_enrichment.py`. Descriptive shares with their 
 
 ## Totals
 
-- 396 projects in 28 states. By source phase: 250 pending, 93 advancing, 53 withdrawn or rejected. By verified lifecycle outcome: 145 decided, 52 blocked_confirmed.
+- 396 projects in 28 states. By source phase: 242 pending, 101 advancing, 53 withdrawn or rejected. By verified lifecycle outcome: 153 decided, 52 blocked_confirmed.
 - Reported capacity 99,153 MW across 163 projects. Another 151 report acreage but no MW; at the observed MW-per-acre range they would add 58,293 to 229,486 MW (estimate, not included above).
 - 208 projects carry recorded opposition.
-- 32 projects were relabeled "proposed" when the source folded its "approved" phase into "proposed" on 2026-09-22 (listed in `source_reclassified_from`). Under Ruling 1, 4 keep "approved" on a sourced record of a final approval (`data/project_decision_dates.csv`); the rest count as pending until such a record is added. This is a data correction: decided counts reported before the relabel included all of them.
+- 32 projects were relabeled "proposed" when the source folded its "approved" phase into "proposed" on 2026-09-22 (listed in `source_reclassified_from`). Under Ruling 1, 12 keep "approved" on in-repo evidence of a final approval (a sourced row in `data/project_decision_dates.csv`, or a linked opposition record of the approving vote); the rest count as pending, are listed as APPROVAL_EVIDENCE rows in `data/project_link_review.csv`, and are restored on the run after such evidence is committed. This is a data correction: decided counts reported before the relabel included all of them.
 
 ## Outcomes among decided projects (descriptive)
 
 | slice | blocked | decided | share |
 |---|---|---|---|
-| all decided | 52 | 145 | 36% |
-| with opposition | 30 | 80 | 38% |
+| all decided | 52 | 153 | 34% |
+| with opposition | 30 | 88 | 34% |
 | without recorded opposition | 22 | 65 | 34% |
 | with lawsuit | 4 | 15 | 27% |
 | nda reported | 0 | 0 |  |
-| top3 county deciles | 50 | 136 | 37% |
+| top3 county deciles | 50 | 144 | 35% |
 | bottom7 county deciles | 2 | 9 | 22% |
 | colocated generation | 1 | 4 | 25% |
 
@@ -26,11 +26,11 @@ Generated 2026-09-29 by `proposal_enrichment.py`. Descriptive shares with their 
 
 | region | projects | reported MW | blocked_confirmed | share of decided |
 |---|---|---|---|---|
-| PJM | 182 | 63,094 | 28 | 46% |
-| Southeast (non-RTO) | 83 | 10,355 | 11 | 26% |
-| MISO | 80 | 14,142 | 8 | 26% |
+| PJM | 182 | 63,094 | 28 | 45% |
+| Southeast (non-RTO) | 83 | 10,355 | 11 | 25% |
+| MISO | 80 | 14,142 | 8 | 24% |
 | NYISO | 20 | 3,751 | 1 | 50% |
-| SPP | 16 | 4,371 | 1 | 20% |
+| SPP | 16 | 4,371 | 1 | 14% |
 | ISO-NE | 13 | 320 | 3 | 100% |
 | None (islanded) | 2 | 3,120 | 0 | 0% |
 

@@ -1,6 +1,8 @@
 facility_id,cluster_id,source_id,name,operator,state,county,lat,lon,sqft,capacity_mw,status,evidence_url,first_seen,last_seen
 fac_6a0d4c4eff,clu_6a0d4c4eff,epoch_frontier,Stream Phoenix,,,,33.4484,-112.074,,0.0,operating,"- [Official page for the data center.](https://www.streamdatacenters.com/locations/phoenix/)
 - [Official pre-construction planning document.](https://www.streamdatacenters.com/wp-content/uploads/2026/01/SDC-Goodyear-CaseStudy-251218.pdf)",2026-08-26,2026-09-29
+fac_a3596881fc,clu_a3596881fc,osm,DC Blox Data Center,,AL,,33.500675,-86.820831,,,operating,https://www.openstreetmap.org/way/1019816009,2026-09-29,2026-09-29
+fac_d691fbeb6f,clu_d691fbeb6f,osm,1GServers,,AZ,,33.396562,-112.000164,,,operating,https://www.openstreetmap.org/way/952157194,2026-09-29,2026-09-29
 fac_fd859e71a3,clu_fd859e71a3,epoch_frontier,Microsoft Goodyear,Microsoft #confident,AZ,,33.4089905,-112.3647996,,263.0,operating,"- [Maricopa County map](https://gis.maricopa.gov/aqd/recordsviewer/#) showing PHX-10 and PHX-11 buildings owned by Microsoft
 - [Dust control permit](https://edms.maricopa.gov/aq/api/Document/AQizTh7Ek3Odb1UYnAFQc%C3%81Z0k59aCsu4%C3%890gw6xcPqnhTfYtG7scD%C3%89BewWyX4qdzXFk%C3%81xL9%C3%89VthN71ODAxZuKKeU%3D/) for project titled ""MICROSOFT CORPORATION PHX10-11 DATA CENTER OFFSITE IMPROVEMENTS""
 - [SemiAnalysis article](https://newsletter.semianalysis.com/p/microsofts-ai-strategy-deconstructed) that includes similar estimates and associates the data center with OpenAI",2026-08-26,2026-09-29
@@ -18,6 +20,7 @@ fac_762f2746d1,clu_09d4faf419,osti_im3_atlas,Meta Huntsville Data center,Meta,Al
 fac_d5bbe26203,clu_09d4faf419,osti_im3_atlas,Meta Huntsville Data center,Meta,Alabama,Madison County,34.847333791994075,-86.6269185980179,578342.0,,operating,,2026-08-26,2026-09-29
 fac_3358b46e2c,clu_3358b46e2c,osti_im3_atlas,SimpleHelix,,Alabama,Madison County,34.7454310001572,-86.69188299975418,16411.0,,operating,,2026-08-26,2026-09-29
 fac_229a5cd892,clu_229a5cd892,osti_im3_atlas,Sungard Systems International,,Alabama,Jefferson County,33.40471562419184,-86.91145719083487,665569.0,,operating,,2026-08-26,2026-09-29
+fac_55f293a0cb,clu_55f293a0cb,layer_b_graduation,Prudhoe Bay Data Center,"Far North Digital, LLC",Alaska,,70.1847756,-148.44,,120,operating,https://www.fn-digital.com/data-center,2026-09-29,2026-09-29
 fac_85685bbd9a,clu_85685bbd9a,osti_im3_atlas,AZ Labs,,Arizona,Maricopa County,33.30627197658142,-111.67170030901956,31625.0,,operating,,2026-08-26,2026-09-29
 fac_804eb1c3ba,clu_804eb1c3ba,osti_im3_atlas,Accelera Data Systems,,Arizona,Maricopa County,33.664745499999945,-112.1117142,0.0,,operating,,2026-08-26,2026-09-29
 fac_503b8d81cd,clu_503b8d81cd,osti_im3_atlas,"Alembic Computer Services, Inc.",,Arizona,Maricopa County,33.40513069999998,-111.9773353,0.0,,operating,,2026-08-26,2026-09-29
@@ -85,6 +88,14 @@ fac_c28909475d,clu_0f6bea0c7c,osti_im3_atlas,Unknown,DirecTV,Arizona,Cochise Cou
 fac_0f5b35781c,clu_0f5b35781c,osti_im3_atlas,VaultLogix,,Arizona,Maricopa County,33.62736699999998,-111.9017033,0.0,,operating,,2026-08-26,2026-09-29
 fac_332ac4c971,clu_332ac4c971,osti_im3_atlas,Searcy Information Technologies,City of Searcy,Arkansas,White County,35.2492158371357,-91.7409058590938,4580.0,,operating,,2026-08-26,2026-09-29
 fac_0d85e54afe,clu_0d85e54afe,osti_im3_atlas,TierPoint Little Rock,,Arkansas,Pulaski County,34.75623579847398,-92.44472351005184,31845.0,,operating,,2026-08-26,2026-09-29
+fac_55a1323baf,clu_55a1323baf,osm,Digital Realty,Digital Realty,CA,,37.799020,-122.282539,,,operating,https://www.openstreetmap.org/way/377378595,2026-09-29,2026-09-29
+fac_3b2c48cbd0,clu_3b2c48cbd0,osm,Equinix,Equinix,CA,,33.850752,-118.304081,,,operating,https://www.openstreetmap.org/way/409027020,2026-09-29,2026-09-29
+fac_1c4b875763,clu_1c4b875763,osm,Petadata,,CA,,37.552921,-121.980832,,,operating,https://www.openstreetmap.org/node/14081154610,2026-09-29,2026-09-29
+fac_896eceb135,clu_896eceb135,osm,CSquare - DEN2,,CO,,39.560869,-104.830724,,,operating,https://www.openstreetmap.org/way/192528287,2026-09-29,2026-09-29
+fac_fc8f4f9faa,clu_fc8f4f9faa,osm,DataBank - DEN1,DataBank,CO,,39.564310,-104.866593,,,operating,https://www.openstreetmap.org/way/82150598,2026-09-29,2026-09-29
+fac_bfb013b7c6,clu_bfb013b7c6,osm,DataBank - DEN4,DataBank,CO,,39.884519,-105.080149,,,operating,https://www.openstreetmap.org/way/295152006,2026-09-29,2026-09-29
+fac_0cde50b03e,clu_0cde50b03e,osm,EdgeConneX - DEN01,EdgeConneX,CO,,39.561313,-104.827573,,,operating,https://www.openstreetmap.org/node/14212611951,2026-09-29,2026-09-29
+fac_ab426ea574,clu_ab426ea574,osm,QTS,Quality Technology Services,CO,,39.734062,-104.707937,,,operating,https://www.openstreetmap.org/way/1273968634,2026-09-29,2026-09-29
 fac_252a7bf833,clu_252a7bf833,osti_im3_atlas,360 Spear Street Data Center,Digital Realty,California,San Francisco County,37.788991656058194,-122.390136684847,34599.0,,operating,,2026-08-26,2026-09-29
 fac_682c6805f0,clu_252a7bf833,osti_im3_atlas,365 Main Street Data Center,Digital Realty,California,San Francisco County,37.78873103633594,-122.39046904827536,39318.0,,operating,,2026-08-26,2026-09-29
 fac_4db3e52961,clu_4db3e52961,osti_im3_atlas,AT&T,,California,Los Angeles County,34.57998399250564,-118.11402444850228,17388.0,,operating,,2026-08-26,2026-09-29
@@ -289,9 +300,12 @@ fac_f3bb9d0f5f,clu_2cf58996d3,epoch_frontier,QTS Cedar Rapids,,IA,,41.9779,-91.6
 - [Article by The Gazette](https://www.thegazette.com/business/fast-start-to-cedar-rapids-data-center-projects/) featuring a rendering of Building 2 and 3.
 - [Article by Corridor Business Journal ](https://corridorbusiness.com/scope-of-qts-data-project-in-cedar-rapids-continuing-to-grow/)featuring a rendering of Buildings 1-3.
 - [Post by GLD Commercial ](https://www.gldcommercial.com/google-and-qts-data/)featuring a map with land assigned to QTS in Big Cedar Industrial Center.",2026-08-26,2026-09-29
+fac_94c15ce98a,clu_94c15ce98a,osm,"NetSource Communications, Inc",NetSource,IL,,41.810957,-88.195228,,,operating,https://www.openstreetmap.org/way/1562274525,2026-09-29,2026-09-29
+fac_fe97e0187b,clu_fe97e0187b,osm,Amazon AWS Data Center,,IN,,41.667764,-86.473056,,,operating,https://www.openstreetmap.org/way/1303947602,2026-09-29,2026-09-29
 fac_c3c423f8d5,clu_c3c423f8d5,epoch_frontier,Anthropic-Amazon New Carlisle,Amazon #confident,IN,,41.7017,-86.5186,,1092.0,operating,"- [Air Construction Permit application for the northern portion](https://drive.google.com/file/d/1BKiTFNUk2KDaUaiHG7fz0KlkNSBTHzbb/view?usp=sharing)
 - [Backup diesel generator referenced in the permit](https://www.cat.com/en_US/products/new/power-systems/electric-power/diesel-generator-sets/117341.html)
 - [Announcement of Project Rainier coming online](https://www.aboutamazon.com/news/aws/aws-project-rainier-ai-trainium-chips-compute-cluster)",2026-08-26,2026-09-29
+fac_6698abde95,clu_6698abde95,osm,DartPoints Columbus,DartPoints,IN,,39.182634,-85.896704,,,operating,https://www.openstreetmap.org/way/773684159,2026-09-29,2026-09-29
 fac_784614f109,clu_784614f109,osti_im3_atlas,Family History Center,The Church of Jesus Christ of Latter-day Saints,Idaho,Bear Lake County,42.317295842348535,-111.3042449169628,4081.0,,operating,,2026-08-26,2026-09-29
 fac_63aa5360ed,clu_63aa5360ed,osti_im3_atlas,Meta Kuna Data Center,Meta,Idaho,Ada County,43.4631412647369,-116.267507299213,15951730.0,,operating,,2026-08-26,2026-09-29
 fac_364c5f7e78,clu_364c5f7e78,osti_im3_atlas,Unknown,,Idaho,Ada County,43.46334884091311,-116.27208493714188,374271.0,,operating,,2026-08-26,2026-09-29
@@ -429,6 +443,8 @@ fac_1ab06bd323,clu_1ab06bd323,osti_im3_atlas,East Kentucky Network Datacenter,,K
 fac_165da6f096,clu_165da6f096,osti_im3_atlas,Flexential Louisville - Downtown,Flexential,Kentucky,Jefferson County,38.24249601378566,-85.73335104065765,36525.0,,operating,,2026-08-26,2026-09-29
 fac_23ab2c24f0,clu_23ab2c24f0,osti_im3_atlas,Flexential Louisville - East,Flexential,Kentucky,Jefferson County,38.277197827679295,-85.50724111669626,34794.0,,operating,,2026-08-26,2026-09-29
 fac_bf08934b29,clu_bf08934b29,osti_im3_atlas,Riot Kentucky,,Kentucky,McCracken County,37.08923909811934,-88.70305756107939,223516.0,,operating,,2026-08-26,2026-09-29
+fac_69c2a89032,clu_69c2a89032,osm,DartPoints Baton Rouge 2,DartPoints,LA,,30.453994,-91.115481,,,operating,https://www.openstreetmap.org/node/14124760832,2026-09-29,2026-09-29
+fac_ab8000fbf1,clu_ab8000fbf1,osm,DartPoints Shreveport,DartPoints,LA,,32.511017,-93.749808,,,operating,https://www.openstreetmap.org/node/14124769105,2026-09-29,2026-09-29
 fac_ae106f24a2,clu_ae106f24a2,epoch_frontier,Meta Hyperion,Meta #confident,LA,,45.5051,-122.9752,,0.0,operating,"- [Data center profile by Meta](https://datacenters.atmeta.com/richland-parish-data-center/)
 - [Entergy's application for generation and transmission resources](https://drive.google.com/file/d/1FLY13apaHy4hI8RNVk9n_nlJpwFHtBrB/view?usp=sharing)
 - [MISO update with 1.8 GW substation plan](https://drive.google.com/file/d/1D4eUHwEuirNi0g3IU_xGOti3PcC8fcXi/view?usp=sharing)",2026-08-26,2026-09-29
@@ -438,6 +454,8 @@ fac_d8940f69df,clu_d8940f69df,epa_air,AMAZON.COM LLC - DK01,Amazon Web Services,
 fac_38928756c9,clu_38928756c9,epa_air,CONGRUITY 360 LLC,Congruity360,MA,Bristol,41.70046,-71.14742,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110070254002,2026-09-29,2026-09-29
 fac_3b49eaf1ee,clu_3b49eaf1ee,epa_air,AMAZON DATA SERVICES INC LTW060,Amazon Web Services,MD,Anne Arundel,39.136691,-76.760054,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110071941591,2026-09-29,2026-09-29
 fac_112034686d,clu_112034686d,epa_air,MICROSOFT CORPORATION - YELLOW FACILITY,Microsoft,MD,Anne Arundel,39.1325223,-76.7882637,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110071958039,2026-09-29,2026-09-29
+fac_f1429f5e6e,clu_f1429f5e6e,osm,Datacenter,,ME,,46.939993,-67.905588,,,operating,https://www.openstreetmap.org/way/1534758773,2026-09-29,2026-09-29
+fac_1f0db3c01b,clu_1f0db3c01b,osm,Liberty Center One,,MI,,42.533481,-83.177489,,,operating,https://www.openstreetmap.org/relation/12901583,2026-09-29,2026-09-29
 fac_55d2147bd9,clu_55d2147bd9,epa_air,CUBE NA DATA CENTER COMPANY LLC,Cube,MO,Jackson,39.11287,-94.57684,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110015866892,2026-09-29,2026-09-29
 fac_46af692d80,clu_46af692d80,epoch_frontier,Amazon Madison Mega Site,Amazon #confident,MS,,30.4213,-87.2169,,341.0,operating,"- [Air Construction Permit](https://drive.google.com/file/d/1lhSF8TBA7fNWsN4Onj-nfL7X_-BN573r/view?usp=sharing)
 - [Backup diesel generator referenced in the permit](https://www.cat.com/en_US/products/new/power-systems/electric-power/diesel-generator-sets/117341.html)
@@ -447,6 +465,8 @@ fac_e4ef73294c,clu_e4ef73294c,epoch_frontier,Amazon Ridgeland,Amazon #confident,
 - [Permit review document](https://drive.google.com/file/d/1myQ6BYqqzcfsWwv41tufHobvA8T3qo_d/view?usp=sharing)
 - [Backup diesel generator referenced in the permit](https://www.cat.com/en_US/products/new/power-systems/electric-power/diesel-generator-sets/117341.html)
 - [New York Times article on Project Rainier](https://www.nytimes.com/2025/06/24/technology/amazon-ai-data-centers.html)",2026-08-26,2026-09-29
+fac_2414841082,clu_2414841082,osm,Amazon Web Services,Amazon Web Services,MS,,32.411934,-90.187839,,,operating,https://www.openstreetmap.org/way/1510517631,2026-09-29,2026-09-29
+fac_ca6cb6faa2,clu_ca6cb6faa2,osm,Parsec Data Management,,MT,,45.743079,-108.603014,,,operating,https://www.openstreetmap.org/node/13603878193,2026-09-29,2026-09-29
 fac_5e90313d0a,clu_5e90313d0a,osti_im3_atlas,FirstLight Data Center,FirstLight,Maine,Cumberland County,43.65783879999999,-70.26137850000002,0.0,,operating,,2026-08-26,2026-09-29
 fac_8a91c8e9f4,clu_8a91c8e9f4,osti_im3_atlas,Oxford Networks,FirstLight,Maine,Cumberland County,43.895071082625066,-69.92315054547124,55383.0,,operating,,2026-08-26,2026-09-29
 fac_444f8b7cdb,clu_444f8b7cdb,osti_im3_atlas,AiNET,,Maryland,Prince George's County,39.052822508078144,-76.92590821703205,43057.0,,operating,,2026-08-26,2026-09-29
@@ -506,22 +526,32 @@ fac_8ba7380047,clu_23b8791f4d,osti_im3_atlas,Unknown,,Missouri,Platte County,39.
 fac_9a2128aa2c,clu_23b8791f4d,osti_im3_atlas,Unknown,,Missouri,Platte County,39.30240570006526,-94.68479180000348,51140.0,,operating,,2026-08-26,2026-09-29
 fac_89ce60a6cd,clu_89ce60a6cd,osti_im3_atlas,State of Montana Data Center,State of Montana,Montana,Custer County,46.40689745786043,-105.8206447445356,8493.0,,operating,,2026-08-26,2026-09-29
 fac_9cf17dc822,clu_9cf17dc822,osti_im3_atlas,Unknown,,Montana,Granite County,46.33213162016486,-113.29267194552416,1510.0,,operating,,2026-08-26,2026-09-29
+fac_d70d1c3ecb,clu_d70d1c3ecb,osm,DartPoints Asheville,,NC,,35.488317,-82.557536,,,operating,https://www.openstreetmap.org/node/14124835505,2026-09-29,2026-09-29
 fac_2575c92f09,clu_2575c92f09,epa_air,"MICROSOFT CORPORATION, CLT04 AND CLT05",Microsoft,NC,Catawba,35.7376482,-81.207675,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110071667153,2026-09-29,2026-09-29
 fac_12f36c283e,clu_12f36c283e,epa_air,"MICROSOFT CORPORATION, CLT17",Microsoft,NC,Catawba,35.619392,-81.320751,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110071813345,2026-09-29,2026-09-29
+fac_589c193004,clu_589c193004,osm,Applied Digital,,ND,,46.974172,-96.873940,,,operating,https://www.openstreetmap.org/node/13639231258,2026-09-29,2026-09-29
 fac_4b6d1df0d9,clu_4b6d1df0d9,epa_air,AGATE LLC,Google,NE,Lancaster,40.9322075,-96.6032534,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110072102010,2026-09-29,2026-09-29
 fac_adbf5c029b,clu_adbf5c029b,epa_air,ENSONO OMAHA DATA CENTER,Ensono,NE,Douglas,41.26793,-96.09693,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110069469961,2026-09-29,2026-09-29
 fac_25ab5cac42,clu_25ab5cac42,epoch_frontier,Google Omaha,Google #confident,NE,,41.2565,-95.9345,,189.0,operating,"- [Draft basis of air permit with details of cooling towers](https://drive.google.com/file/d/1KN7o-wQOyt1UEud8wpM8PymXJF479r0n/view?usp=sharing)
 - Google’s [2025 Environmental Report](https://sustainability.google/reports/google-2025-environmental-report/)",2026-08-26,2026-09-29
 fac_070247b298,clu_070247b298,epa_air,LIGHTEDGE DATA CENTER,LightEdge,NE,Sarpy,41.15944,-96.02598,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110045866602,2026-09-29,2026-09-29
 fac_0c7b3ab75d,clu_0c7b3ab75d,epa_air,MIDLANDS DATA CENTER,Midlands Data Center,NE,Sarpy,41.13169,-96.04289,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110058407683,2026-09-29,2026-09-29
+fac_fa71ff211e,clu_fa71ff211e,osm,Scott Data Center,,NE,,41.242889,-96.016459,,,operating,https://www.openstreetmap.org/way/415686896,2026-09-29,2026-09-29
 fac_8e70369613,clu_8e70369613,epa_air,TIERPOINT DATA CENTER,TierPoint,NE,Sarpy,41.17787,-95.92689,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110058407674,2026-09-29,2026-09-29
 fac_fbc5700044,clu_fbc5700044,epa_air,"SECURED NETWORK SERVICES, INC.",Secured Network Services,NH,Grafton,44.29236,-71.79977,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110056431927,2026-09-29,2026-09-29
+fac_06cd58b76d,clu_06cd58b76d,osm,DataOne Vineland,Nebius,NJ,,39.427513,-75.016862,,,operating,https://www.openstreetmap.org/way/1553894888,2026-09-29,2026-09-29
+fac_583d9dee39,clu_583d9dee39,osm,Verizon Freehold Data Center,Verizon,NJ,,40.239226,-74.319538,,,operating,https://www.openstreetmap.org/way/1189915695,2026-09-29,2026-09-29
+fac_c63e630886,clu_c63e630886,osm,Information Systems Facility,WSMR,NM,,32.380506,-106.481066,,,operating,https://www.openstreetmap.org/way/1519367009,2026-09-29,2026-09-29
 fac_2e71a57a50,clu_2e71a57a50,epa_air,APPLE INC,Apple,NV,Washoe,39.6930352,-119.3447677,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110069565517,2026-09-29,2026-09-29
 fac_ef18306801,clu_ef18306801,epa_air,NOVVA DATA CENTERS,Novva,NV,Clark,36.271844,-115.048694,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110071941597,2026-09-29,2026-09-29
+fac_0cc35e6e17,clu_0cc35e6e17,osm,Blockfusion Niagra Falls,,NY,,43.083492,-79.002940,,,operating,https://www.openstreetmap.org/way/832656125,2026-09-29,2026-09-29
 fac_1919fb4f72,clu_1919fb4f72,epoch_frontier,Fluidstack Lake Mariner,Fluidstack #confident,NY,,43.1895,-76.2791,,68.0,operating,"- [Terawulf press release with details of Core42 lease for Buildings 1-2](https://investors.terawulf.com/news-events/press-releases/detail/99/terawulf-to-deliver-over-70-mw-of-data-center)
 - [Terawulf press release with details and timeline for Buildings 1-5](https://investors.terawulf.com/news-events/press-releases/detail/132/terawulf-reports-fourth-quarter-and-full-year-2025-results)
 - [DCD article suggesting that Fluidstack will deploy Google TPUs at Lake Mariner](https://www.datacenterdynamics.com/en/news/google-offers-its-tpus-to-ai-cloud-providers-report/)
 - [Announcement of Anthropic-Fluidstack partnership, including data center(s) in New York](https://www.anthropic.com/news/anthropic-invests-50-billion-in-american-ai-infrastructure)",2026-08-26,2026-09-29
+fac_fe3c956665,clu_fe3c956665,osm,Greenidge Power Plant and Data Center,Greenidge Generation Holdings Inc.,NY,,42.679359,-76.948581,,,operating,https://www.openstreetmap.org/way/253670255,2026-09-29,2026-09-29
+fac_e3f6a98776,clu_e3f6a98776,osm,"Landmax Data Systems, Inc",,NY,,42.997217,-77.645830,,,operating,https://www.openstreetmap.org/way/1528887658,2026-09-29,2026-09-29
+fac_a6b5c33dbc,clu_a6b5c33dbc,osm,NYGC Chateaugay,2CRSi,NY,,44.893006,-74.072881,,,operating,https://www.openstreetmap.org/way/1501825871,2026-09-29,2026-09-29
 fac_0e3c176d2b,clu_0e3c176d2b,osti_im3_atlas,1623 Farnam,News-Press & Gazette Company,Nebraska,Douglas County,41.25729103361583,-95.93784939082518,35689.0,,operating,,2026-08-26,2026-09-29
 fac_0561f8be0f,clu_0561f8be0f,osti_im3_atlas,Compute North,,Nebraska,Buffalo County,40.72592346991134,-99.03832882211478,356125.0,,operating,,2026-08-26,2026-09-29
 fac_917a5f4c8f,clu_917a5f4c8f,osti_im3_atlas,Fidelity,Fidelity,Nebraska,Sarpy County,41.16546905416773,-96.08338762268534,40714.0,,operating,,2026-08-26,2026-09-29
@@ -703,14 +733,19 @@ fac_a67a3d328e,clu_160b98298b,osti_im3_atlas,Unknown,,North Carolina,Catawba Cou
 fac_075f1b7f1e,clu_075f1b7f1e,osti_im3_atlas,Windstream Communications,,North Carolina,Durham County,35.88139699999996,-78.851552,0.0,,operating,,2026-08-26,2026-09-29
 fac_9e735537ce,clu_9e735537ce,osti_im3_atlas,iGLASS Networks,,North Carolina,Wake County,35.76675058444294,-78.7839857849851,8134.0,,operating,,2026-08-26,2026-09-29
 fac_eef571da8c,clu_eef571da8c,osti_im3_atlas,Applied Digital / Ellendale Data Center,Applied Digital,North Dakota,Dickey County,46.0135494595369,-98.57244091744636,2706037.0,,operating,,2026-08-26,2026-09-29
+fac_3474fafd7f,clu_3474fafd7f,layer_b_graduation,Atlas Power Williston,FX Solutions Inc.; Atlas Power Group; Mountrail-Williams Electric Cooperative,North Dakota,Williams County,48.14614934,-103.7725071,,240,operating,https://www.kfyrtv.com/2026/03/13/settlement-agreements-going-out-residents-by-data-center-next-williston/,2026-09-29,2026-09-29
 fac_deaa9e5268,clu_deaa9e5268,osti_im3_atlas,Dakota Carrier Network,,North Dakota,Cass County,46.81509687104177,-96.84432644156146,25931.0,,operating,,2026-08-26,2026-09-29
+fac_c6299d9dd2,clu_c6299d9dd2,layer_b_graduation,Polaris Forge 1,Applied Digital; CoreWeave; Montana-Dakota Utilities,North Dakota,Dickey County,46.01289235,-98.57186221,,400,operating,https://ir.applieddigital.com/news-events/press-releases/detail/124/2-7-billion-in-data-center-savings-new-applied-digital,2026-09-29,2026-09-29
 fac_21146dfc7f,clu_21146dfc7f,epa_air,CMH070 CAMPUS,Amazon Web Services,OH,Undetermined,40.1627861,-82.6635174,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110071854184,2026-09-29,2026-09-29
 fac_2199012db3,clu_2199012db3,epa_air,CMH071 CAMPUS,Amazon Web Services,OH,Union,40.0998354,-83.2873467,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110072134735,2026-09-29,2026-09-29
+fac_ae328d1aaa,clu_ae328d1aaa,osm,DartPoints Cincinnati,DartPoints,OH,,39.098101,-84.517850,,,operating,https://www.openstreetmap.org/node/14124831624,2026-09-29,2026-09-29
+fac_28ab99f9c3,clu_28ab99f9c3,osm,DartPoints Dublin,DartPoints,OH,,40.093300,-83.133975,,,operating,https://www.openstreetmap.org/node/14124808826,2026-09-29,2026-09-29
 fac_ea9673743b,clu_ea9673743b,epoch_frontier,Google New Albany,Google #confident,OH,,40.070051,-82.754042,,407.0,operating,"- [Draft basis of air permit for Google Omaha, a similar data center](https://drive.google.com/file/d/1KN7o-wQOyt1UEud8wpM8PymXJF479r0n/view?usp=sharing)
 - Google’s [2025 Environmental Report](https://sustainability.google/reports/google-2025-environmental-report/)",2026-08-26,2026-09-29
 fac_0404726908,clu_0404726908,epoch_frontier,Meta Prometheus,Meta #confident,OH,,33.948,-84.5499,,531.0,operating,"- [Meta blog post with details on Prometheus](https://engineering.fb.com/2025/09/29/data-infrastructure/metas-infrastructure-evolution-and-the-advent-of-ai/)
 - [New Albany Business Park land use map](https://drive.google.com/file/d/1Wb_BBVOnhu5UCQ8Q5d6iRIG9K_vigD8A/view?usp=sharing)
 - [Letter on Socrates South Power Generation Project](https://drive.google.com/file/d/1OMbFbdNGPmfSkwVWqOAK-5pOufiKQBu1/view?usp=sharing)",2026-08-26,2026-09-29
+fac_6a469aa892,clu_6a469aa892,osm,NAO 3,Meta,OH,,40.065725,-82.749118,,,operating,https://www.openstreetmap.org/way/802160675,2026-09-29,2026-09-29
 fac_a0428b6619,clu_a0428b6619,epa_air,EDGEX DATA CENTERS LLC / 4442 NEWCASTLE RD,EdgeX,OK,Oklahoma,35.426639,-97.597647,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110040506538,2026-09-29,2026-09-29
 fac_1ab24c6b2f,clu_1ab24c6b2f,epoch_frontier,Google Pryor (North),Google #confident,OK,,36.3084,-95.3168,,65.0,operating,"- [Google announces expansion of Pryor facility](https://blog.google/inside-google/company-announcements/google-american-innovation-oklahoma/)
 - [Google 2025 Environmental Report](https://sustainability.google/reports/google-2025-environmental-report/) with PUE and water use on pp.109-110
@@ -719,6 +754,17 @@ fac_0150e315a4,clu_0150e315a4,epa_air,MIDDLE MILE INFRASTRUCTURE LLC / MUSKOGEE 
 fac_064fc9dcc8,clu_064fc9dcc8,epa_air,MIDDLE MILE INFRASTRUCTURE LLC / ROLAND OK,Middle Mile Infrastructure,OK,Sequoyah,35.426975,-94.495662,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110072112069,2026-09-29,2026-09-29
 fac_8a58819479,clu_8a58819479,epa_air,MYALL LLC / PRY DATA STORAGE FACILITY,Google,OK,Mayes,36.2398,-95.33297,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110040506119,2026-09-29,2026-09-29
 fac_c487e1e1a1,clu_c487e1e1a1,epa_air,TIERPOINT LLC / TIERPOINT LLC OKLAHOMA CITY,TierPoint,OK,Oklahoma,35.51421,-97.59661,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110071272710,2026-09-29,2026-09-29
+fac_25bc33b904,clu_25bc33b904,osm,TierPoint,,OK,,36.158590,-95.988629,,,operating,https://www.openstreetmap.org/way/159959672,2026-09-29,2026-09-29
+fac_4d0307575b,clu_4d0307575b,osm,TulsaConnect,,OK,,36.153294,-95.989193,,,operating,https://www.openstreetmap.org/node/13720841436,2026-09-29,2026-09-29
+fac_2af5ab66b9,clu_2af5ab66b9,osm,Windstream,,OK,,36.148501,-95.990514,,,operating,https://www.openstreetmap.org/node/13720841437,2026-09-29,2026-09-29
+fac_83757cd62a,clu_83757cd62a,osm,Crane DC - Portland,Crane Data Centers Inc.,OR,,45.514787,-123.078828,,,operating,https://www.openstreetmap.org/way/1501805557,2026-09-29,2026-09-29
+fac_42be1fd02f,clu_42be1fd02f,osm,Date Center West - Eugene,"Data Center West, Inc.",OR,,44.050607,-123.092978,,,operating,https://www.openstreetmap.org/node/13748859030,2026-09-29,2026-09-29
+fac_d5b768fa21,clu_d5b768fa21,osm,Digital Fortress - Portland 1,"Digital Fortress, Inc",OR,,45.521257,-122.681754,,,operating,https://www.openstreetmap.org/node/13746843366,2026-09-29,2026-09-29
+fac_eff3c01535,clu_eff3c01535,osm,Digital Fortress - Portland 2,"Digital Fortress, Inc",OR,,45.476214,-122.776087,,,operating,https://www.openstreetmap.org/node/13746843367,2026-09-29,2026-09-29
+fac_13e149c13d,clu_13e149c13d,osm,OVHcloud - Hillsboro,OVHcloud,OR,,45.534059,-122.955898,,,operating,https://www.openstreetmap.org/relation/4645970,2026-09-29,2026-09-29
+fac_0377096f92,clu_0377096f92,osm,Oracle,,OR,,45.543915,-122.896479,,,operating,https://www.openstreetmap.org/way/328702401,2026-09-29,2026-09-29
+fac_069bd43783,clu_069bd43783,osm,Percheron DC,Rowan Green Data LLC,OR,,45.711318,-119.826235,,,operating,https://www.openstreetmap.org/way/1501824326,2026-09-29,2026-09-29
+fac_1bd1645ae9,clu_1bd1645ae9,osm,US Signal - OR01 Bend,US Signal,OR,,44.086105,-121.283041,,,operating,https://www.openstreetmap.org/way/653416730,2026-09-29,2026-09-29
 fac_5c485b402e,clu_24f1eb4614,osti_im3_atlas,Amazon AWS: Hilliard Data Center,Amazon Web Services us-east-2 datacenter,Ohio,Franklin County,40.05990219147888,-83.13425799033122,2578490.0,,operating,,2026-08-26,2026-09-29
 fac_88fcd19cc3,clu_09e831bb6d,osti_im3_atlas,Amazon New Albany: Jug and Beach Road,,Ohio,Licking County,40.09907370699043,-82.75147401690785,1524640.0,,operating,,2026-08-26,2026-09-29
 fac_24f1eb4614,clu_24f1eb4614,osti_im3_atlas,Amazon Web Services,Amazon Web Services,Ohio,Franklin County,40.10358662896317,-83.1997637520824,159123.0,,operating,,2026-08-26,2026-09-29
@@ -927,6 +973,9 @@ fac_cdf7bfa82d,clu_013ddc2a28,osti_im3_atlas,Unknown,Apple,Oregon,Crook County,4
 fac_cf4092c8d8,clu_013ddc2a28,osti_im3_atlas,Unknown,,Oregon,Umatilla County,45.91583189984655,-119.26751175,2605.0,,operating,,2026-08-26,2026-09-29
 fac_ef365e9bc8,clu_013ddc2a28,osti_im3_atlas,Unknown,,Oregon,Crook County,44.29489361961425,-120.8839983863009,231830.0,,operating,,2026-08-26,2026-09-29
 fac_faf7b9b26a,clu_013ddc2a28,osti_im3_atlas,Unknown,,Oregon,Umatilla County,45.915835599846574,-119.2665274,2608.0,,operating,,2026-08-26,2026-09-29
+fac_d11463c707,clu_d11463c707,osm,Amazon AWS PHL,Amazon Web Services,PA,,41.083991,-76.143375,,,operating,https://www.openstreetmap.org/way/1334234458,2026-09-29,2026-09-29
+fac_9c3fa7a383,clu_9c3fa7a383,osm,Iron City No. 1 Power Generator and Compute Center,,PA,,41.141044,-78.097405,,,operating,https://www.openstreetmap.org/node/13908533343,2026-09-29,2026-09-29
+fac_d5bbdf358d,clu_d5bbdf358d,osm,Nautilus Cryptomine,,PA,,41.082625,-76.151419,,,operating,https://www.openstreetmap.org/way/1334234454,2026-09-29,2026-09-29
 fac_5c0b70be68,clu_5c0b70be68,epa_air,TIERPOINT LLC/BETHLEHEM 2 DATA CTR,TierPoint,PA,Northampton,40.670346,-75.377118,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110071442514,2026-09-29,2026-09-29
 fac_e81c94f08c,clu_5c0b70be68,epa_air,TIERPOINT PENNSYLVANIA TWO LLC,TierPoint,PA,Northampton,40.67614,-75.37758,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110058903058,2026-09-29,2026-09-29
 fac_f9ef03ff01,clu_f9ef03ff01,osti_im3_atlas,Allentown-TekPark,,Pennsylvania,Lehigh County,40.54423619107065,-75.65431290741553,146248.0,,operating,,2026-08-26,2026-09-29
@@ -940,6 +989,10 @@ fac_1625b4b718,clu_1625b4b718,osti_im3_atlas,Terminal Commerce Building,,Pennsyl
 fac_4b378ac5f0,clu_4b378ac5f0,osti_im3_atlas,TierPoint Valley Forge,TierPoint,Pennsylvania,Montgomery County,40.12187904293604,-75.42087693876488,62375.0,,operating,,2026-08-26,2026-09-29
 fac_1f49bab97e,clu_1f49bab97e,osti_im3_atlas,Microsoft,Microsoft,Puerto Rico,Guaynabo Municipio,18.41743590000001,-66.10898950000002,0.0,,operating,,2026-08-26,2026-09-29
 fac_2f4023de2f,clu_2f4023de2f,osti_im3_atlas,Unknown,Claro,Puerto Rico,San Juan Municipio,18.446826968330527,-66.0516872147712,23137.0,,operating,,2026-08-26,2026-09-29
+fac_4b71226457,clu_4b71226457,osm,DartPoints Charleston,DartPoints,SC,,32.964894,-80.101215,,,operating,https://www.openstreetmap.org/way/648154126,2026-09-29,2026-09-29
+fac_7665c39e21,clu_7665c39e21,osm,DartPoints Columbia,DartPoints,SC,,33.987312,-81.030811,,,operating,https://www.openstreetmap.org/node/12120745596,2026-09-29,2026-09-29
+fac_47074caaed,clu_47074caaed,osm,DartPoints Greenville,DartPoints,SC,,34.807528,-82.343492,,,operating,https://www.openstreetmap.org/node/8390959153,2026-09-29,2026-09-29
+fac_48549dfc60,clu_48549dfc60,osm,DartPoints Spartanburg,DartPoints,SC,,34.996584,-82.034841,,,operating,https://www.openstreetmap.org/way/680114725,2026-09-29,2026-09-29
 fac_255ec38bb8,clu_255ec38bb8,epa_air,VALARA HOLDINGS HIGH PERFORMANCE COMPUTE CENTER,Valara Holdings,SC,Spartanburg,34.92685,-81.85119,,,under_construction,https://echo.epa.gov/detailed-facility-report?fid=110071987939,2026-09-29,2026-09-29
 fac_234744c341,clu_234744c341,osti_im3_atlas,DC BLOX Myrtle Beach Cable Landing Station,,South Carolina,Horry County,33.674583221801456,-78.94369603285817,91946.0,,operating,,2026-08-26,2026-09-29
 fac_08b7ee0dff,clu_08b7ee0dff,osti_im3_atlas,Google,Google,South Carolina,Berkeley County,33.06443480153904,-80.04606755156347,145533.0,,operating,,2026-08-26,2026-09-29
@@ -955,7 +1008,10 @@ fac_7327f60701,clu_7327f60701,osti_im3_atlas,Meta Aiken Data Center,Meta,South C
 fac_ecc015d8ea,clu_ecc015d8ea,osti_im3_atlas,Unknown,Google,South Carolina,Berkeley County,33.06202195137125,-80.03831641068669,182645.0,,operating,,2026-08-26,2026-09-29
 fac_00417b9d9c,clu_00417b9d9c,osti_im3_atlas,ADP South Dakota,,South Dakota,Minnehaha County,43.59991456599551,-96.79470699634729,243125.0,,operating,,2026-08-26,2026-09-29
 fac_8b986d5694,clu_8b986d5694,osti_im3_atlas,TierPoint Sioux Falls West Data Center,,South Dakota,Minnehaha County,43.60697077791878,-96.80919489840308,55963.0,,operating,,2026-08-26,2026-09-29
+fac_967621f3c5,clu_967621f3c5,osm,DC Blox Chattanooga,,TN,,35.031550,-85.297252,,,operating,https://www.openstreetmap.org/way/525060850,2026-09-29,2026-09-29
 fac_bc811fce01,clu_bc811fce01,epa_air,EDGECONNEX INC. (EDCNAS01),EdgeConneX,TN,Davidson,36.144952,-86.703584,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110070863193,2026-09-29,2026-09-29
+fac_d76c06158a,clu_d76c06158a,osm,Tennessee South Data Center,State of Tennessee,TN,,35.993429,-86.495826,,,operating,https://www.openstreetmap.org/way/930226814,2026-09-29,2026-09-29
+fac_6339c2a5e5,clu_6339c2a5e5,osm,Verizon Wireless,,TN,,36.282175,-86.797137,,,operating,https://www.openstreetmap.org/way/1489113575,2026-09-29,2026-09-29
 fac_f357551006,clu_f357551006,epoch_frontier,xAI Colossus 1,xAI #confident,TN,,35.0735541,-90.0873076,,425.0,operating,"- [May 2025 Electricity Provider Disclosure](https://drive.google.com/file/d/17WAFThn95X85ebzA_e19R1zYycwFzAl2/view?usp=sharing)
 - [July 2025 Permit for Gas Turbines](https://www.scribd.com/document/883601734/01156-01PC-070225-Permit)
 - [Southern Environmental Law Center Gas Permit Appeal, with additional satellite images](https://cdn.arstechnica.net/wp-content/uploads/2025/07/NAACP-and-YGGs-xAI-Air-Permit-Appeal-7-15-2025.pdf)
@@ -995,6 +1051,7 @@ fac_0d0a9aaa8c,clu_0d0a9aaa8c,osti_im3_atlas,Meta Gallatin Data Center,Meta,Tenn
 fac_54a6e2a123,clu_0d0a9aaa8c,osti_im3_atlas,Meta Gallatin Data Center,Meta,Tennessee,Sumner County,36.41186544511472,-86.36966140352041,626571.0,,operating,,2026-08-26,2026-09-29
 fac_b45d1be659,clu_0d0a9aaa8c,osti_im3_atlas,Meta Gallatin Data Center,Meta,Tennessee,Sumner County,36.40604868216981,-86.36660783519794,626683.0,,operating,,2026-08-26,2026-09-29
 fac_83b813bbde,clu_83b813bbde,osti_im3_atlas,Newrays Two LLC Mining,,Tennessee,Henry County,36.3270316008224,-88.32007315006497,85491.0,,operating,,2026-08-26,2026-09-29
+fac_51a4cdbe71,clu_51a4cdbe71,layer_b_graduation,RadiusDC Nashville I,RadiusDC,Tennessee,Davidson County,36.22227227,-86.78351657,,12,operating,https://www.datacenterdynamics.com/en/news/radiusdc-breaks-ground-on-12mw-nashville-data-center-tennessee/,2026-09-29,2026-09-29
 fac_435a71be61,clu_435a71be61,osti_im3_atlas,SPC3A,Google,Tennessee,Montgomery County,36.62430276342711,-87.25902652953205,169748.0,,operating,,2026-08-26,2026-09-29
 fac_319288f384,clu_319288f384,osti_im3_atlas,SPC4A,Google,Tennessee,Montgomery County,36.62405506342714,-87.25691732953204,169749.0,,operating,,2026-08-26,2026-09-29
 fac_a82c815833,clu_a82c815833,osti_im3_atlas,TierPoint,,Tennessee,Williamson County,35.92450968308544,-86.85568727257493,285740.0,,operating,,2026-08-26,2026-09-29
@@ -1132,6 +1189,9 @@ fac_eedddcaa86,clu_0449c1ec5f,osti_im3_atlas,Unknown,,Texas,Bexar County,29.4471
 fac_1312f85a87,clu_1312f85a87,osti_im3_atlas,VIRTBIZ,,Texas,Dallas County,32.7825463,-96.7828145,0.0,,operating,,2026-08-26,2026-09-29
 fac_8c8ed8a2e1,clu_8c8ed8a2e1,osti_im3_atlas,Valero Wiserman,Valero,Texas,Bexar County,29.47428541340784,-98.68006447609892,58304.0,,operating,,2026-08-26,2026-09-29
 fac_8e34fdc3bb,clu_8e34fdc3bb,osti_im3_atlas,Verizon Wireless Mew Building,,Texas,Tarrant County,32.97215494101558,-97.15661083483384,176383.0,,operating,,2026-08-26,2026-09-29
+fac_22050f8bdf,clu_22050f8bdf,osm,DataBank SLC3,DataBank,UT,,40.479794,-111.905923,,,operating,https://www.openstreetmap.org/way/592488661,2026-09-29,2026-09-29
+fac_b0d3e7ecfa,clu_b0d3e7ecfa,osm,FiberState Datacenter,,UT,,40.511452,-111.888255,,,operating,https://www.openstreetmap.org/way/1133047980,2026-09-29,2026-09-29
+fac_623a1cbe17,clu_623a1cbe17,osm,Verizon,,UT,,40.590814,-111.903786,,,operating,https://www.openstreetmap.org/way/943698949,2026-09-29,2026-09-29
 fac_e7a12e5c5a,clu_205de61aae,osti_im3_atlas,Ebay,,Utah,Salt Lake County,40.56409515233066,-112.05062821391914,146408.0,,operating,,2026-08-26,2026-09-29
 fac_1e626eb698,clu_1e626eb698,osti_im3_atlas,Flexential Salt Lake City - Downtown,Flexential,Utah,Salt Lake County,40.756306581410776,-111.9548376637448,63362.0,,operating,,2026-08-26,2026-09-29
 fac_649b6264fb,clu_649b6264fb,osti_im3_atlas,Flexential Salt Lake City - Fair Park,Flexential,Utah,Salt Lake County,40.76678608763819,-111.92029244663202,12565.0,,operating,,2026-08-26,2026-09-29
@@ -1154,19 +1214,34 @@ fac_cb9a9c3e17,clu_cb9a9c3e17,epa_air,AMAZON DATA SERVICES INC. IAD450-456 COSNE
 fac_9c6f667249,clu_9c6f667249,epa_air,"AMAZON DATA SERVICES INC., IAD 550 LOUISA REB",Amazon Web Services,VA,Louisa,38.049914,-77.813401,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110072129225,2026-09-29,2026-09-29
 fac_688aa046a4,clu_688aa046a4,epa_air,AMAZON DCA-50,Amazon Web Services,VA,Culpeper,38.4593,-77.85042,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110070666736,2026-09-29,2026-09-29
 fac_56c06b3e98,clu_56c06b3e98,epa_air,AMAZON DCA-54,Amazon Web Services,VA,Fairfax,38.6993531,-77.1574972,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110070832844,2026-09-29,2026-09-29
+fac_2cafe0ddca,clu_2cafe0ddca,osm,Amazon IAD-180,Amazon Web Services,VA,,38.981130,-77.494244,,,operating,https://www.openstreetmap.org/way/1560627883,2026-09-29,2026-09-29
+fac_3c1cb894bc,clu_3c1cb894bc,osm,BlackChamber Tech Park at Brambleton,BlackChamber Group,VA,,38.957386,-77.535740,,,operating,https://www.openstreetmap.org/way/1544103415,2026-09-29,2026-09-29
 fac_25393415de,clu_25393415de,epa_air,CHIRISA RICHMOND LLC,Chirisa,VA,Chesterfield,37.36206,-77.32561,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110046467658,2026-09-29,2026-09-29
 fac_06e2ed1da5,clu_06e2ed1da5,epa_air,COMPASS IAD DATACENTER,Compass Datacenters,VA,Loudoun,39.0643984,-77.603768,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110071344611,2026-09-29,2026-09-29
+fac_04d4213031,clu_04d4213031,osm,Cologix ASH2,Cologix,VA,,39.019644,-77.458110,,,under_construction,https://www.openstreetmap.org/way/1560827027,2026-09-29,2026-09-29
+fac_5979376f4d,clu_5979376f4d,osm,DC4,Quality Technology Services,VA,,37.483918,-77.247815,,,operating,https://www.openstreetmap.org/way/1493516621,2026-09-29,2026-09-29
+fac_84eab3f3ff,clu_84eab3f3ff,osm,DC5,Quality Technology Services,VA,,37.484779,-77.249109,,,operating,https://www.openstreetmap.org/way/1493516620,2026-09-29,2026-09-29
+fac_ade5ab4da3,clu_ade5ab4da3,osm,DC6,Quality Technology Services,VA,,37.485289,-77.250182,,,operating,https://www.openstreetmap.org/way/1493516619,2026-09-29,2026-09-29
 fac_278281cff8,clu_278281cff8,epa_air,DP FACILITIES INC SOUTH LLC,DP Facilities,VA,Wise,36.974728,-82.523848,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110069468757,2026-09-29,2026-09-29
+fac_e891228656,clu_e891228656,osm,Digital Realty IAD51,Digital Realty,VA,,38.737051,-77.508149,,,operating,https://www.openstreetmap.org/way/1561771300,2026-09-29,2026-09-29
+fac_23b5407b2e,clu_23b5407b2e,osm,EdgeCore AS01,EdgeCore,VA,,39.021789,-77.414703,,,operating,https://www.openstreetmap.org/way/1555352690,2026-09-29,2026-09-29
+fac_0fe80ae8ae,clu_0fe80ae8ae,osm,EdgeCore AS02,EdgeCore,VA,,38.995073,-77.445984,,,operating,https://www.openstreetmap.org/way/1544360247,2026-09-29,2026-09-29
+fac_3b9a99a45f,clu_3b9a99a45f,osm,IAD,Aligned,VA,,39.013048,-77.473094,,,operating,https://www.openstreetmap.org/way/1088241982,2026-09-29,2026-09-29
 fac_cde1e8dc5f,clu_cde1e8dc5f,epa_air,MICROSOFT - GAINESVILLE DATA CENTER - MNZ03,Microsoft,VA,Prince William,38.7298337,-77.5441627,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110072155782,2026-09-29,2026-09-29
 fac_93e7bc9fed,clu_2f038c479e,epa_air,MICROSOFT CORP - AVC17 DATACENTER,Microsoft,VA,Mecklenburg,36.6255541,-78.3448556,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110072102030,2026-09-29,2026-09-29
 fac_2f038c479e,clu_2f038c479e,epa_air,MICROSOFT CORP - LYH10 DATACENTER,Microsoft,VA,Mecklenburg,36.6255541,-78.3448556,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110072000412,2026-09-29,2026-09-29
 fac_92a0599da1,clu_92a0599da1,epa_air,MICROSOFT CORP DCS - AVC09-AVC13 DATACENTER,Microsoft,VA,Mecklenburg,36.6587619,-78.0758744,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110071407771,2026-09-29,2026-09-29
 fac_5fa86bb58e,clu_5fa86bb58e,epa_air,MICROSOFT CORPORATION - AVC DATA CENTER,Microsoft,VA,Mecklenburg,36.7391089,-78.1824484,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110071468315,2026-09-29,2026-09-29
 fac_7706552a70,clu_7706552a70,epa_air,MICROSOFT CORPORATION - AVC43 DATACENTER,Microsoft,VA,Mecklenburg,36.70821,-78.12688,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110072072125,2026-09-29,2026-09-29
+fac_b69a1faa3c,clu_b69a1faa3c,osm,Menlo Digital MD-DC1,,VA,,38.927119,-77.424073,,,operating,https://www.openstreetmap.org/way/262058094,2026-09-29,2026-09-29
+fac_9bf688ffb2,clu_9bf688ffb2,osm,PowerHouse CTP-02,PowerHouse,VA,,37.360586,-77.325687,,,operating,https://www.openstreetmap.org/way/1449347339,2026-09-29,2026-09-29
 fac_b2f5e9898a,clu_b2f5e9898a,epoch_frontier,QTS Richmond,,VA,,37.4888273,-77.24749,,854.0,operating,"- [Site 1 factsheet](https://qtsdatacenters.com/data-centers/richmond-1/)
 - [Site 2 factsheet](https://qtsdatacenters.com/data-centers/richmond-1/)
 - [Site 3 factsheet](https://q.com/data-centers/richmond-3/)
 - [Environmental permit detailing power generation](https://www.deq.virginia.gov/home/showpublisheddocument/25650/638627871515730000)",2026-08-26,2026-09-29
+fac_275861e89b,clu_275861e89b,osm,RIC1 DC2,Quality Technology Services,VA,,37.488616,-77.246210,,,operating,https://www.openstreetmap.org/node/13685576465,2026-09-29,2026-09-29
+fac_919fc7507e,clu_919fc7507e,osm,RIC2 DC1,,VA,,37.488174,-77.240062,,,operating,https://www.openstreetmap.org/way/1493516623,2026-09-29,2026-09-29
+fac_00a3ae582f,clu_00a3ae582f,osm,RIC3 DC3,Quality Technology Services,VA,,37.478510,-77.252996,,,under_construction,https://www.openstreetmap.org/way/1493516631,2026-09-29,2026-09-29
 fac_7bf311620f,clu_7bf311620f,epa_air,SENTINEL ASHBURN NEXUS,Sentinel,VA,Loudoun,38.9700316,-77.464002,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110070520838,2026-09-29,2026-09-29
 fac_e03fde5ed5,clu_e03fde5ed5,epa_air,STACK INFRASTRUCTURE - SI NVA06A LLC,STACK Infrastructure,VA,Loudoun,39.0643984,-77.603768,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110072129232,2026-09-29,2026-09-29
 fac_5e2b603d2f,clu_5e2b603d2f,epoch_frontier,STACK Infrastructure NVA02,,VA,,38.9407,-77.456,,118.0,operating,"- [Official website for NVA02, showcasing their project.](https://www.stackinfra.com/locations/americas/northern-virginia/nva02/)
@@ -1174,6 +1249,9 @@ fac_5e2b603d2f,clu_5e2b603d2f,epoch_frontier,STACK Infrastructure NVA02,,VA,,38.
 - [Air quality permit from the state of Virginia.](https://www.deq.virginia.gov/home/showpublisheddocument/25966/638633868679100000)",2026-08-26,2026-09-29
 fac_f7c185e809,clu_f7c185e809,epa_air,TECFUSIONS CLARKSVILLE LLC,TECfusions,VA,Mecklenburg,36.60181,-78.54992,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110001894040,2026-09-29,2026-09-29
 fac_bf158e6f71,clu_bf158e6f71,epa_air,"VANTAGE DATA CENTERS VA11, VA12, VA13, VA14, & VA15",Vantage,VA,Loudoun,38.9700316,-77.464002,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110070520567,2026-09-29,2026-09-29
+fac_0bf3171d17,clu_0bf3171d17,osm,Vantage VA3,Vantage Data Centers,VA,,39.077507,-77.505206,,,operating,https://www.openstreetmap.org/way/1560626428,2026-09-29,2026-09-29
+fac_04ad20766d,clu_04ad20766d,osm,Virginia Information Technologies Agency,,VA,,37.360703,-77.331806,,,operating,https://www.openstreetmap.org/way/439365340,2026-09-29,2026-09-29
+fac_9f1d252568,clu_9f1d252568,osm,Yondr Allegro South,Yondr,VA,,38.949257,-77.549801,,,operating,https://www.openstreetmap.org/way/1319637945,2026-09-29,2026-09-29
 fac_7d9fb03c46,clu_224e631f77,osti_im3_atlas,42254 THUNDERBALL DR,True North Data Solutions,Virginia,Loudoun County,39.04350173521111,-77.54087429950766,77498.0,,operating,,2026-08-26,2026-09-29
 fac_dd57491b81,clu_224e631f77,osti_im3_atlas,42255 THUNDERBALL DR,True North Data Solutions,Virginia,Loudoun County,39.04162316420013,-77.53922373708994,60458.0,,operating,,2026-08-26,2026-09-29
 fac_224e631f77,clu_224e631f77,osti_im3_atlas,42310 THUNDERBALL DR,True North Data Solutions,Virginia,Loudoun County,39.04409911181553,-77.5396744253525,78907.0,,operating,,2026-08-26,2026-09-29
@@ -1497,6 +1575,7 @@ fac_74b54438e5,clu_74b54438e5,epoch_frontier,Microsoft Fairwater Wisconsin,Micro
 - [Microsoft blog with more general information](https://blogs.microsoft.com/on-the-issues/2025/09/18/made-in-wisconsin-the-worlds-most-powerful-ai-datacenter/)
 - [Construction Permit Application for building 1](https://drive.google.com/file/d/1azyXnreQBuYEqX2oaSUgePDGCMneez5Z/view?usp=sharing)
 - [Construction Permit Application for building 3 and 4 ](https://drive.google.com/file/d/1UXsNFoXCbstOK8upixx060-LFj8beHqp/view?usp=sharing)",2026-08-26,2026-09-29
+fac_300ab05661,clu_300ab05661,osm,Alpha Federal,Alpha Innovations,WV,,38.353177,-81.696182,,,operating,https://www.openstreetmap.org/node/13546262077,2026-09-29,2026-09-29
 fac_02641354f6,clu_02641354f6,epa_air,MICROSOFT CHEYENNE DATA CENTER CYS13 & CYS14 (MICROSOFT CORP),Microsoft,WY,Laramie,41.0841207,-104.6831506,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110071537962,2026-09-29,2026-09-29
 fac_2c3c51fdb1,clu_02641354f6,epa_air,MICROSOFT CHEYENNE DATA CENTER CYS17 - CYS22 (MICROSOFT CORP),Microsoft,WY,Laramie,41.0841207,-104.6831506,,,operating,https://echo.epa.gov/detailed-facility-report?fid=110071544649,2026-09-29,2026-09-29
 fac_337c4bea89,clu_337c4bea89,osti_im3_atlas,Actapio,Actapio,Washington,Douglas County,47.40741705535317,-120.21413428085418,362519.0,,operating,,2026-08-26,2026-09-29
