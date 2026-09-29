@@ -119,11 +119,18 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/pipeline_intel_*.csv data/pipeline_intel_*.json data/pipeline_intel_*.md \
-                  data/proposal_candidates_*.csv \
-                  data/county_grid_territory.csv data/county_grid_territory_manifest.json \
-                  data/grid_planned_generation.csv data/grid_planned_generation_manifest.json \
-                  2>/dev/null || true
+          # One git add per existing file. A single git add over the whole
+          # list stages NOTHING when any path is missing, and the old
+          # 2>/dev/null || true hid it: the first live run (2026-09-29) wrote
+          # grid, air-permit, news and enrichment output and committed none of
+          # it because the EIA-860M file did not exist yet.
+          shopt -s nullglob
+          for f in data/pipeline_intel_*.csv data/pipeline_intel_*.json data/pipeline_intel_*.md \
+                   data/proposal_candidates_*.csv \
+                   data/county_grid_territory.csv data/county_grid_territory_manifest.json \
+                   data/grid_planned_generation.csv data/grid_planned_generation_manifest.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
           if git diff --cached --quiet; then echo "Nothing to commit."; exit 0; fi
           git commit -m "Proposals intelligence refresh [skip ci] [$(date -u +%Y-%m-%dT%H:%M:%SZ)]"
           for _ in 1 2 3; do
