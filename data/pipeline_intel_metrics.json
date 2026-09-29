@@ -6,19 +6,19 @@
   "states": 28,
   "mw_reported": 99153,
   "mw_reported_projects": 163,
-  "mw_est_unreported": 123545,
-  "mw_est_unreported_low": 59735,
-  "mw_est_unreported_high": 235164,
-  "mw_est_projects": 154,
+  "mw_est_unreported": 120562,
+  "mw_est_unreported_low": 58293,
+  "mw_est_unreported_high": 229486,
+  "mw_est_projects": 151,
   "acres": 131922,
-  "project_cost_usd": 0,
-  "project_cost_projects": 0,
-  "decided": 142,
-  "blocked_confirmed": 53,
+  "project_cost_usd": 414801300000,
+  "project_cost_projects": 62,
+  "decided": 141,
+  "blocked_confirmed": 52,
   "reclassified_by_source": 31,
-  "phase_blocked": 54,
+  "phase_blocked": 53,
   "phase_advancing": 89,
-  "phase_pending": 253,
+  "phase_pending": 254,
   "with_opposition": 208
  },
  "capacity_estimate": {
@@ -47,11 +47,11 @@
   },
   {
    "phase": "proposed",
-   "projects": 189,
+   "projects": 190,
    "mw_reported": 57621,
    "mw_reported_n": 86,
-   "mw_est_unreported": 61780,
-   "phase_pending": 189,
+   "mw_est_unreported": 59406,
+   "phase_pending": 190,
    "phase_advancing": 0,
    "phase_blocked": 0,
    "blocked_confirmed": 0,
@@ -60,7 +60,7 @@
     "k": 0,
     "share": null
    },
-   "with_opposition": 101
+   "with_opposition": 102
   },
   {
    "phase": "delayed",
@@ -101,7 +101,7 @@
    "projects": 60,
    "mw_reported": 21958,
    "mw_reported_n": 30,
-   "mw_est_unreported": 9791,
+   "mw_est_unreported": 9495,
    "phase_pending": 0,
    "phase_advancing": 60,
    "phase_blocked": 0,
@@ -149,20 +149,20 @@
   },
   {
    "phase": "withdrawn",
-   "projects": 30,
+   "projects": 29,
    "mw_reported": 1868,
    "mw_reported_n": 8,
-   "mw_est_unreported": 11774,
+   "mw_est_unreported": 11461,
    "phase_pending": 0,
    "phase_advancing": 0,
-   "phase_blocked": 30,
-   "blocked_confirmed": 29,
+   "phase_blocked": 29,
+   "blocked_confirmed": 28,
    "block_rate_decided": {
-    "n": 29,
-    "k": 29,
+    "n": 28,
+    "k": 28,
     "share": 1.0
    },
-   "with_opposition": 20
+   "with_opposition": 19
   },
   {
    "phase": "rejected",
@@ -188,15 +188,15 @@
    "projects": 182,
    "mw_reported": 63094,
    "mw_reported_n": 69,
-   "mw_est_unreported": 64764,
-   "phase_pending": 121,
+   "mw_est_unreported": 61785,
+   "phase_pending": 122,
    "phase_advancing": 32,
-   "phase_blocked": 29,
-   "blocked_confirmed": 29,
+   "phase_blocked": 28,
+   "blocked_confirmed": 28,
    "block_rate_decided": {
-    "n": 61,
-    "k": 29,
-    "share": 0.475
+    "n": 60,
+    "k": 28,
+    "share": 0.467
    },
    "with_opposition": 92
   },
@@ -273,7 +273,7 @@
    "projects": 13,
    "mw_reported": 320,
    "mw_reported_n": 2,
-   "mw_est_unreported": 2822,
+   "mw_est_unreported": 2818,
    "phase_pending": 10,
    "phase_advancing": 0,
    "phase_blocked": 3,
@@ -309,7 +309,7 @@
    "projects": 91,
    "mw_reported": 27747,
    "mw_reported_n": 30,
-   "mw_est_unreported": 38982,
+   "mw_est_unreported": 36299,
    "phase_pending": 65,
    "phase_advancing": 6,
    "phase_blocked": 20,
@@ -327,14 +327,14 @@
    "mw_reported": 17598,
    "mw_reported_n": 19,
    "mw_est_unreported": 9190,
-   "phase_pending": 21,
+   "phase_pending": 22,
    "phase_advancing": 18,
-   "phase_blocked": 2,
-   "blocked_confirmed": 2,
+   "phase_blocked": 1,
+   "blocked_confirmed": 1,
    "block_rate_decided": {
-    "n": 20,
-    "k": 2,
-    "share": 0.1
+    "n": 19,
+    "k": 1,
+    "share": 0.053
    },
    "with_opposition": 24
   },
@@ -445,7 +445,7 @@
    "projects": 15,
    "mw_reported": 7040,
    "mw_reported_n": 7,
-   "mw_est_unreported": 5568,
+   "mw_est_unreported": 5272,
    "phase_pending": 13,
    "phase_advancing": 1,
    "phase_blocked": 1,
@@ -615,7 +615,7 @@
    "projects": 5,
    "mw_reported": 300,
    "mw_reported_n": 1,
-   "mw_est_unreported": 4,
+   "mw_est_unreported": 0,
    "phase_pending": 4,
    "phase_advancing": 0,
    "phase_blocked": 1,
@@ -1078,15 +1078,15 @@
    "projects": 144,
    "mw_reported": 46479,
    "mw_reported_n": 65,
-   "mw_est_unreported": 37415,
-   "phase_pending": 92,
+   "mw_est_unreported": 37411,
+   "phase_pending": 93,
    "phase_advancing": 39,
-   "phase_blocked": 13,
-   "blocked_confirmed": 13,
+   "phase_blocked": 12,
+   "blocked_confirmed": 12,
    "block_rate_decided": {
-    "n": 52,
-    "k": 13,
-    "share": 0.25
+    "n": 51,
+    "k": 12,
+    "share": 0.235
    },
    "with_opposition": 51
   },
@@ -1095,7 +1095,7 @@
    "projects": 136,
    "mw_reported": 28870,
    "mw_reported_n": 55,
-   "mw_est_unreported": 43465,
+   "mw_est_unreported": 40486,
    "phase_pending": 91,
    "phase_advancing": 30,
    "phase_blocked": 15,
@@ -1161,14 +1161,14 @@
  ],
  "outcomes": {
   "block_rate_all_decided": {
-   "n": 142,
-   "k": 53,
-   "share": 0.373
+   "n": 141,
+   "k": 52,
+   "share": 0.369
   },
   "block_rate_with_opposition": {
-   "n": 77,
-   "k": 31,
-   "share": 0.403
+   "n": 76,
+   "k": 30,
+   "share": 0.395
   },
   "block_rate_without_recorded_opposition": {
    "n": 65,
@@ -1186,9 +1186,9 @@
    "share": null
   },
   "block_rate_top3_county_deciles": {
-   "n": 133,
-   "k": 51,
-   "share": 0.383
+   "n": 132,
+   "k": 50,
+   "share": 0.379
   },
   "block_rate_bottom7_county_deciles": {
    "n": 9,
@@ -1248,7 +1248,7 @@
   },
   {
    "quarter": "2024-Q1",
-   "projects": 19
+   "projects": 20
   },
   {
    "quarter": "2024-Q2",
@@ -1272,15 +1272,15 @@
   },
   {
    "quarter": "2025-Q3",
-   "projects": 32
+   "projects": 35
   },
   {
    "quarter": "2025-Q4",
-   "projects": 45
+   "projects": 44
   },
   {
    "quarter": "2026-Q1",
-   "projects": 64
+   "projects": 62
   },
   {
    "quarter": "2026-Q2",
@@ -1293,7 +1293,10 @@
  ],
  "power": {
   "btm_power": {
-   "(not reported)": 396
+   "unknown": 363,
+   "true": 20,
+   "false": 1,
+   "(not reported)": 12
   },
   "colocated_generation": 6,
   "planned_gas_mw_within_16km_sum": 20769,
@@ -1306,7 +1309,10 @@
  },
  "water": {
   "cooling_source": {
-   "(not reported)": 396
+   "water": 20,
+   "(not reported)": 371,
+   "air": 3,
+   "hybrid": 2
   },
   "projects_in_drought_counties": 55
  },
@@ -1326,15 +1332,17 @@
  },
  "corroboration": {
   "distribution": {
-   "1": 169,
-   "2": 202,
-   "3": 25
+   "1": 41,
+   "2": 155,
+   "3": 176,
+   "4": 24
   },
-  "single_source_projects": 169,
+  "single_source_projects": 41,
   "signals": {
    "tracker": 396,
    "local_record": 208,
-   "news": 12,
+   "cited_sources": 324,
+   "news": 15,
    "colocated_generation": 6,
    "federal_air_permit": 26
   }
@@ -1342,11 +1350,11 @@
  "coverage": {
   "capacity_mw": 0.412,
   "size_acres": 0.705,
-  "announced_date": 0.836,
-  "project_cost_usd": 0.0,
-  "cooling_source": 0.0,
-  "btm_power": 0.0,
-  "date_online": 0.0,
+  "announced_date": 0.838,
+  "project_cost_usd": 0.157,
+  "cooling_source": 0.063,
+  "btm_power": 0.97,
+  "date_online": 0.109,
   "fips": 0.997,
   "grid_region": 1.0,
   "screen_tier": 0.995,
@@ -1354,6 +1362,14 @@
   "first_seen": 0.982
  },
  "recent_changes_30d": [
+  {
+   "seen_date": "2026-09-29",
+   "project_id": "prj_1002",
+   "name": "Province Group Perry Village Data Center Campus",
+   "event": "phase_change",
+   "from": "withdrawn",
+   "to": "proposed"
+  },
   {
    "seen_date": "2026-09-25",
    "project_id": "prj_367",
@@ -1825,20 +1841,12 @@
    "event": "first_seen",
    "from": "",
    "to": "proposed"
-  },
-  {
-   "seen_date": "2026-09-17",
-   "project_id": "prj_14",
-   "name": "Stak Energy Center",
-   "event": "first_seen",
-   "from": "",
-   "to": "proposed"
   }
  ],
  "source_health": {
   "panel_start": "2026-04-23",
-  "panel_end": "2026-09-25",
-  "n_snapshots": 47,
+  "panel_end": "2026-09-29",
+  "n_snapshots": 48,
   "source_renumberings": [
    {
     "snapshot": "2026-05-01",
@@ -1903,8 +1911,8 @@
   ]
  },
  "queues": {
-  "news_new_candidates": 520,
-  "news_possible_matches": 20,
+  "news_new_candidates": 558,
+  "news_possible_matches": 22,
   "air_permits_unmatched": 184,
   "air_permits_matched": 32
  }

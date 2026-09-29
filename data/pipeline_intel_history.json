@@ -2,14 +2,14 @@
  "_generated": "2026-09-29",
  "_note": "seen dates are when the source changed: an upper bound on when the underlying change happened, never the date itself.",
  "panel_start": "2026-04-23",
- "panel_end": "2026-09-25",
- "n_snapshots": 47,
+ "panel_end": "2026-09-29",
+ "n_snapshots": 48,
  "baseline_projects": 246,
  "projects_ever_seen": 404,
  "projects_present_now": 396,
  "event_counts": {
   "first_seen": 158,
-  "phase_change": 50,
+  "phase_change": 51,
   "field_change": 926,
   "moved": 11,
   "removed": 17,
@@ -69,6 +69,11 @@
    "n": 3
   },
   {
+   "from": "withdrawn",
+   "to": "proposed",
+   "n": 2
+  },
+  {
    "from": "proposed",
    "to": "withdrawn",
    "n": 2
@@ -86,11 +91,6 @@
   {
    "from": "approved",
    "to": "preliminary",
-   "n": 1
-  },
-  {
-   "from": "withdrawn",
-   "to": "proposed",
    "n": 1
   },
   {
@@ -244,6 +244,10 @@
    "phase_change": 11,
    "removed": 1,
    "moved": 2
+  },
+  {
+   "week": "2026-09-28",
+   "phase_change": 1
   }
  ],
  "degraded_snapshots": [
@@ -542,6 +546,11 @@
   {
    "snapshot": "2026-09-25",
    "commit": "a5a8987e03",
+   "rows": 396
+  },
+  {
+   "snapshot": "2026-09-29",
+   "commit": "dade752e53",
    "rows": 396
   }
  ]

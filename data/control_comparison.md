@@ -6,7 +6,7 @@ Generated 2026-09-29 by `control_comparison.py`. All figures re-derived from the
 
 ## 1. Sample composition
 
-- Opposed projects (treatment side): **208**, of which 77 decided / 131 pending
+- Opposed projects (treatment side): **208**, of which 76 decided / 132 pending
 - Eligible control pool: **1380** — proposals_unopposed: 103, ai_centers: 16, atlas: 1261
 - Excluded from control pool: **313** — county_shared_with_opposed_project: 242, within_15km_of_opposed_project: 66, no_coordinates: 5
 - Matched: **208** opposed projects × k=3 → 624 match rows
@@ -38,9 +38,9 @@ Standardized mean differences across match rows. |SMD| < 0.10 = well balanced; 0
 
 ## 4. Outcomes among decided opposed projects
 
-Of **77** decided + opposed projects:
-- `advanced_confirmed`: 46 (60%)
-- `blocked_confirmed`: 31 (40%)
+Of **76** decided + opposed projects:
+- `advanced_confirmed`: 46 (61%)
+- `blocked_confirmed`: 30 (39%)
 
 `restricted_conditional` is a terminal advance carrying binding conditions (conditional-use approval, negotiated concessions, reverting rezoning); it counts on the advanced side of any advanced-vs-blocked split but is tracked separately because the conditions can carry material cost or delay.
 
@@ -48,10 +48,10 @@ Decided means terminal dispositions only; pending and mixed cases are excluded, 
 
 ## 5. Delay observables (verified decision dates only)
 
-- 24 decided+opposed projects have verified decision dates: announced-to-decision spans 6–492 days, median 99 days.
-- Announced-date precision of these rows: month: 23, day: 1. Month-precision announced dates are floored to the 1st, so those delays carry up to ~30 days of error each.
-- `advanced_confirmed` (n=3): 14–492 days, median 78.
-- `blocked_confirmed` (n=18): 6–232 days, median 98.
+- 25 decided+opposed projects have verified decision dates: announced-to-decision spans 12–492 days, median 99 days.
+- Announced-date precision of these rows: month: 22, day: 3. Month-precision announced dates are floored to the 1st, so those delays carry up to ~30 days of error each.
+- `advanced_confirmed` (n=3): 78–492 days, median 97.
+- `blocked_confirmed` (n=19): 12–232 days, median 98.
 - `pending` (n=3): 119–315 days, median 294.
 - These are raw spans within the opposed sample: NOT opposition-attributable delay (that requires the matched-control comparison at adequate n) and not client-facing.
 
