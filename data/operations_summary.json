@@ -558,10 +558,10 @@
       "as_of": "2026-09-29"
     },
     "decision_dates": {
-      "open": 48
+      "open": 46
     },
     "announced_dates": {
-      "open": 15
+      "open": 17
     }
   },
   "gates": {
@@ -571,36 +571,36 @@
       "windows": [
         {
           "window_days": "30",
-          "n": "24",
-          "n_blocked": "18",
-          "n_not_blocked": "6",
+          "n": "28",
+          "n_blocked": "21",
+          "n_not_blocked": "7",
           "gate": "INFEASIBLE"
         },
         {
           "window_days": "60",
-          "n": "19",
-          "n_blocked": "13",
-          "n_not_blocked": "6",
+          "n": "23",
+          "n_blocked": "16",
+          "n_not_blocked": "7",
           "gate": "INFEASIBLE"
         },
         {
           "window_days": "90",
-          "n": "18",
-          "n_blocked": "13",
-          "n_not_blocked": "5",
+          "n": "22",
+          "n_blocked": "16",
+          "n_not_blocked": "6",
           "gate": "INFEASIBLE"
         },
         {
           "window_days": "120",
-          "n": "15",
-          "n_blocked": "11",
+          "n": "17",
+          "n_blocked": "13",
           "n_not_blocked": "4",
           "gate": "INFEASIBLE"
         },
         {
           "window_days": "180",
-          "n": "12",
-          "n_blocked": "8",
+          "n": "14",
+          "n_blocked": "10",
           "n_not_blocked": "4",
           "gate": "INFEASIBLE"
         }
@@ -850,8 +850,8 @@
     },
     "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
     "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
-    "decisions_newly_recorded": 150,
-    "decisions_unchanged_since_last_run": 1285
+    "decisions_newly_recorded": 100,
+    "decisions_unchanged_since_last_run": 1335
   },
   "note": "Every figure here is read from an audit trail the pipeline writes on its own runs. A missing input becomes a null section rather than a zero: an operations page that invents a number is worse than one with a gap in it."
 }
