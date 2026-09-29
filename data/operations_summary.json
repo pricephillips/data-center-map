@@ -405,15 +405,28 @@
       ]
     },
     "harvested_signals": {
-      "decisions": 5598,
+      "decisions": 5740,
       "by_action": {
-        "blocked": 2296,
-        "promoted": 2184,
-        "duplicate_removed": 1118
+        "blocked": 2321,
+        "promoted": 2257,
+        "duplicate_removed": 1118,
+        "cluster_member": 44
       },
       "first_run": "2026-08-13",
       "last_run": "2026-09-29",
       "recent": [
+        {
+          "date": "2026-09-29",
+          "action": "cluster_member",
+          "what": "",
+          "reason": "syndicated copy of https://1057thehawk.com/ixp/397/p/vineland-data-center-fined/ (evt_6aaecc522e)"
+        },
+        {
+          "date": "2026-09-29",
+          "action": "promoted",
+          "what": "",
+          "reason": ""
+        },
         {
           "date": "2026-09-29",
           "action": "promoted",
@@ -424,43 +437,31 @@
           "date": "2026-09-29",
           "action": "blocked",
           "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
         },
         {
           "date": "2026-09-29",
           "action": "blocked",
           "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
+        },
+        {
+          "date": "2026-09-29",
+          "action": "promoted",
+          "what": "",
+          "reason": ""
         },
         {
           "date": "2026-09-29",
           "action": "blocked",
           "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
         },
         {
           "date": "2026-09-29",
-          "action": "blocked",
+          "action": "promoted",
           "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
-        },
-        {
-          "date": "2026-09-29",
-          "action": "blocked",
-          "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
-        },
-        {
-          "date": "2026-09-29",
-          "action": "blocked",
-          "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
-        },
-        {
-          "date": "2026-09-29",
-          "action": "blocked",
-          "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+          "reason": ""
         }
       ]
     }
@@ -671,9 +672,11 @@
       "layer": "A",
       "publisher": "Epoch AI",
       "landing_urls": [
-        "https://epoch.ai/data/data-centers"
+        "https://epoch.ai/data/data-centers",
+        "https://epoch.ai/data/data_centers/data_centers.csv",
+        "https://epoch.ai/data/data_centers/data_center_timelines.csv"
       ],
-      "license": "unconfirmed",
+      "license": "CC-BY-4.0",
       "geography": "Global; the surfaces show the United States rows.",
       "upstream_vintage": null,
       "vintage_status": "undeclared",
@@ -683,12 +686,11 @@
         "pipeline": false
       },
       "acquisition": {
-        "status": "needs_manual_pin",
-        "mechanism": "periodic re-pull, diffed into Layer A candidates",
-        "blocked_on": "A machine-readable export URL. Attribution is recorded on the Notion Complete Centers page; the export path is not.",
-        "rule": "Same as the atlas: diff into candidates, never overwrite the snapshot."
+        "status": "pipeline",
+        "mechanism": "fetch-permits.yml weekly: configs/epoch_frontier_dc.json (tabular fetch, earliest dated observation from the timelines file) then permit_ingest.py with configs/epoch_frontier_dc_ingest.json",
+        "rule": "The ai_centers.csv snapshot is never overwritten. Campuses that match a tracked project in data/project_key_map.csv are held out of the dated baseline and listed with their key in data/baseline_external_matches_epoch_frontier_dc.csv; unmatched campuses enter data/baseline_dated_external.csv as candidates with the attribution string as their source."
       },
-      "notes": "29 rows, 27 of them United States. Capital-cost and power figures are publisher estimates, not filings.",
+      "notes": "29 rows in the ai_centers.csv snapshot, 27 of them United States; the live export had 93 campuses, 77 United States, on 2026-09-29. Capital-cost and power figures are publisher estimates, not filings. Sampling limit: Epoch covers frontier-scale AI campuses only, so any use of these rows is a sample of the very largest campuses, never of data centers in general, and must say so. Deliverables that use the data carry a methodology footnote with the attribution.",
       "present": true,
       "rows": 29,
       "rows_us": 27,
@@ -846,14 +848,14 @@
     },
     "with_coordinates": 1635,
     "decisions_this_run": {
-      "blocked": 1113,
-      "held": 243,
+      "blocked": 1114,
+      "held": 244,
       "promoted": 79
     },
     "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
     "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
     "decisions_newly_recorded": 0,
-    "decisions_unchanged_since_last_run": 1231
+    "decisions_unchanged_since_last_run": 1233
   },
   "note": "Every figure here is read from an audit trail the pipeline writes on its own runs. A missing input becomes a null section rather than a zero: an operations page that invents a number is worse than one with a gap in it."
 }
