@@ -1,15 +1,45 @@
 {
   "generated": "2026-09-29",
   "n": 110,
-  "n_events": 22,
-  "n_censored": 88,
-  "events_advanced": 3,
+  "n_events": 25,
+  "n_censored": 85,
+  "events_advanced": 6,
   "events_blocked": 19,
   "excluded_year_precision": 67,
   "km_median_days_all": null,
-  "logrank_p": 0.2974173178056189,
-  "cox_fit": false,
+  "logrank_p": 0.03067172541846389,
+  "cox_fit": true,
   "cox_penalizer": 0.5,
-  "cv_concordance": null,
-  "random_state": 20260713
+  "cv_concordance": {
+    "min": 0.1702,
+    "median": 0.3548,
+    "max": 0.9074
+  },
+  "random_state": 20260713,
+  "cox_hazard_ratios": {
+    "n_opposition_events": {
+      "hr": 1.0055,
+      "ci_low": 0.893,
+      "ci_high": 1.1321,
+      "p": 0.9278
+    },
+    "has_lawsuit": {
+      "hr": 1.0733,
+      "ci_low": 0.5906,
+      "ci_high": 1.9505,
+      "p": 0.8166
+    },
+    "county_margin_2024": {
+      "hr": 1.3592,
+      "ci_low": 0.6381,
+      "ci_high": 2.8953,
+      "p": 0.4264
+    },
+    "hyperscaler_or_mechanism_moratorium": {
+      "hr": 0.9216,
+      "ci_low": 0.5838,
+      "ci_high": 1.4549,
+      "p": 0.726
+    }
+  }
 }
