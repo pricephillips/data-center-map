@@ -28,7 +28,7 @@ Columns: is_air_quality, is_anti_ai, is_community_impact, is_contract_guarantees
 79 statewide row(s) had County nulled (geocoder assigned the capital's county); 1 had a capital City cleared (neutralizes the gate's STATEWIDE_CAPITAL_SINK block). is_statewide flag set. Coordinates retained; map should render via is_statewide.
 
 **8. Geography backfill from headline (feed now matches what the gate validated)**  
-9 blank State value(s) and 12 blank County value(s) recovered from the Incident/Summary text (conservative: blanks only, never overwrites). Removes 'Unknown state' dashboard buckets for real events.
+6 blank State value(s) and 12 blank County value(s) recovered from the Incident/Summary text (conservative: blanks only, never overwrites). Removes 'Unknown state' dashboard buckets for real events.
 
 **9. Incident split into location_name + project_descriptor (new columns)**  
 683 row(s) had a parenthetical descriptor extracted; Incident left intact for backward compatibility
@@ -70,4 +70,4 @@ Every item in the original critique is now addressed in the data. What remains i
 
 ## Row-level change log
 
-360 individual value fixes recorded in `change_log.csv` (columns: row, field, before, after).
+357 individual value fixes recorded in `change_log.csv` (columns: row, field, before, after).
