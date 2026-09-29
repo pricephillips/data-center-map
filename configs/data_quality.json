@@ -70,7 +70,7 @@
           "State": "",
           "data_source": "signal_harvest_auto"
         },
-        "reason": "harvested headline named no state; the row awaits geography triage. Remove this rule to make these rows blocking (decision for Price, spec 005 research D6)"
+        "reason": "harvested headline named no state; the row awaits geography triage. Kept as an allowed exception by decision on 2026-09-29 (delegated by Price): these are unverified harvest leads held out of state-level statistics, and blocking on them would hold the gate red for rows that never reach a deliverable. Remove this rule to make them blocking"
       },
       {
         "schema": "proposals",
