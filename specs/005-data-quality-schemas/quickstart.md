@@ -12,10 +12,11 @@ python qc/schemas.py --selftest
 # The fixture run has three named failures: state_normalized (US),
 # fips_format (4-digit), outcome_grade (out of ladder).
 python qc/schemas.py --no-write
-# On current main: 0 failures and 186 allowed (131 blank-State harvest rows,
-# 55 federal US rows). This assumes the 9 full-name rows were fixed at source
-# by a rebuilt feed (see US2). Before the feed is rebuilt, the 9 rows show as
-# state_normalized failures.
+# Against the feed committed before this branch: 9 failures (the full-name
+# State rows) and 207 allowed. The allowed rows are 131 blank-State harvest
+# rows, 55 federal US rows, and 7 proposals at 0,0 x 3 checks.
+# After the pipeline rebuilds the feed with the backfill fix: 0 failures and
+# 210 allowed (134 blank-State, 55 US, 21 proposals).
 python qc/schemas.py
 # Writes qc/schema_report.md and appends to data/schema_run_history.csv.
 # Exit 0 while the effective mode is report_only.

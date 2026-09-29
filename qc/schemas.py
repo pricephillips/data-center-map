@@ -660,7 +660,7 @@ def selftest() -> int:
 
             raw = open(REPORT_MD, "rb").read()
             check("report written, LF only", raw and b"\r" not in raw)
-            check("report has no em-dash", "—".encode() not in raw)
+            check("report has no em-dash", chr(0x2014).encode() not in raw)
             check("report shows master duplicates as information", b"exact duplicate rows: 1" in raw)
             os.remove(g["SCORES_CSV"])
             check("missing input exits 2", run(write=False)[0] == 2)

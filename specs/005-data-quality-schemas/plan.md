@@ -111,7 +111,7 @@ research.md and neither is hidden:
 
 - Four new modules: `qc/schemas.py`, `qc/coverage_delta.py`, `label_disagreement_audit.py`, and the political source inside `fetch_county_features.py`.
 - Edits to `qc/schema_adapter.py`, `outcome_defensibility.py` (an additive `OUTCOME_GRADES` constant), `clean_opposition_data.py` (State backfill to codes), `leak_audit.py` (one file-plus-column exemption) and `configs/*`.
-- The current feed shows 4 failure classes (research D6): 131 blank State rows, 55 `US` rows, 9 full-name State rows, 0 coordinate failures.
+- The current feed shows 3 failure classes (research D6): 131 blank State rows, 55 `US` rows, 9 full-name State rows, and 0 coordinate failures. Implementation found 7 proposals at 0,0, which are declared by `pk`.
 
 ## Constitution Check
 

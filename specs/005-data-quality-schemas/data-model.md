@@ -70,8 +70,9 @@ the reason string of the matching exception rule, or empty.
 
 These are declared in `configs/data_quality.json` under
 `schema.allowed_exceptions`. Each rule is `{schema, check, when: {col:
-value, ...}, reason}`. A failure is *allowed* when every `when` pair matches
-its row exactly. Allowed failures are listed in the report and never count
+value, ...}, reason}`. `check` may be a list, and each `when` value may be a
+list of allowed values. A failure is *allowed* when every `when` pair matches
+its row. The proposals frame carries its `pk` as a column for this purpose. Allowed failures are listed in the report and never count
 toward `failures`.
 
 ### Run history row (`data/schema_run_history.csv`)
@@ -120,9 +121,11 @@ for the gate's internal checks. The new function is additive.
 - **Store row** (`snapshots/coverage_profiles.csv`): `date, sha256, file,
   rows, column, non_null`, one row per column.
 - **Delta finding**: `{file, column, before, after, drop_share, threshold,
-  status}`. Here `status` is `fail` when `before > 0` and `(before - after) /
-  before > threshold`. It is `warn` when a declared column is missing from
-  the current file, and `ok` otherwise.
+  status, note}`. Here `status` is `fail` when `before > 0` and `(before -
+  after) / before > threshold`, and also when a declared column with
+  `before > 0` is missing from the current file (`note = column missing`;
+  changed from `warn` during implementation, because a vanished column is
+  the worst case of the rename this gate exists for). It is `ok` otherwise.
 - **Outlier finding**: `{file, column, row_id, value, robust_z}`, review
   only.
 

@@ -38,8 +38,8 @@ Exit codes:
 
 - `0`: no declared column dropped past its threshold. Outlier flags never
   fail the run.
-- `1`: at least one `fail` finding. The failure lines name the file, the
-  column, and both counts.
+- `1`: at least one `fail` finding, including a declared column that
+  disappeared. The failure lines name the file, the column, and both counts.
 - `2`: an input file is missing.
 
 ## `label_disagreement_audit.py`

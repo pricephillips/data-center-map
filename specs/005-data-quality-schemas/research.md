@@ -111,7 +111,7 @@ Measured on 1,896 rows:
 |-------|-----:|-------------|
 | State blank | 131 | All `data_source = signal_harvest_auto`, `Scope` blank, `is_statewide = False`. The headline backfill could not place them. Declared as an allowed-exception rule (`State == ""` and `data_source == signal_harvest_auto`) and listed in the report. Removing the rule makes them blocking. **Price to confirm.** |
 | State `US` | 55 | All `Scope = federal`, `data_source = datacentertracker.org`. These are national records. Declared as an allowed-exception rule (`State == "US"` and `Scope == "federal"`). |
-| State full name | 9 | `Washington`, `Texas`, `North Dakota` (2 each); `Delaware`, `South Dakota`, `Nevada` (1 each). Source: `clean_opposition_data.py` step 6b fills blank State from `schema_adapter.extract_state()`, which returns full names. **Fixed at source**: the backfill passes the result through `normalize_state()`. |
+| State full name | 9 | `Washington`, `Texas`, `North Dakota` (2 each); `Delaware`, `South Dakota`, `Nevada` (1 each). Source: `clean_opposition_data.py` step 6b fills blank State from `schema_adapter.extract_state()`, which returns full names. **Fixed at source**, in two parts. (1) The backfill passes the result through `normalize_state()`. (2) Implementation found that 3 of the 9 were wrong states, not just the wrong form. `extract_state()` matched state names inside place names: "Washington County" (Ohio), "Delaware County" (Pennsylvania) and "Port Washington" (Wisconsin). Its phrase match now skips a name followed by County/Parish/Township/Borough/City or preceded by Port/Fort/Lake/Mount. Those 3 rows go blank and join the harvest triage exception, and the other 6 become TX, ND, SD and NV. A scratch rebuild of the feed changes exactly those 9 rows, with the QC gate's quarantine unchanged. |
 | Outcome outside grades | 0 | None. |
 | lat/lon outside U.S. or 0,0 | 0 | 321 rows have no coordinates, which is allowed (nullable). No 0,0. |
 | `is_*` token outside true/false/1/0 | 0 | All 18 `is_*` columns hold `True`/`False`. |
@@ -123,7 +123,14 @@ The frame uses the nine planning regions 09110-09190. Zero failures.
 `data/proposals.csv`: 396 rows, 32 columns, ids unique, all 396 resolve to an
 active `pk` in `data/project_key_map.csv`. State values are full names, all
 normalizable. 2 rows have no coordinates. `capacity_mw` is numeric and
-non-negative on 163 rows. Zero failures.
+non-negative on 163 rows. **Implementation found 7 rows at lat 0, lon 0.**
+They are North Carolina projects (`pk_00178`, `pk_00179`, `pk_00185`,
+`pk_00187`, `pk_00188`, `pk_00189`, `pk_00191`), all marked
+`locationConfidence = exact`. This is a source (TrackDataCenters) defect;
+`project_resolution.parse_coords` already reads 0,0 as missing. They are
+declared as an exception keyed by `pk`, not id, because the source renumbers
+(the prj_61 lesson in `control_group.py`). The rule supports a list of checks
+and a list of values for this.
 
 Duplicate rows on `master_opposition.csv`: counted and shown as information
 only. There is no uniqueness check, per the "Changes on main" note.

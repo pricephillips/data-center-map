@@ -407,7 +407,7 @@ def selftest() -> int:
             code, text = run(write=False)
             check("snapshot without a profile falls back and says so", "has no stored profile" in text)
             raw_r = open(g["REPORT"], "rb").read()
-            check("report LF only, no em-dash", b"\r" not in raw_r and "—".encode() not in raw_r)
+            check("report LF only, no em-dash", b"\r" not in raw_r and chr(0x2014).encode() not in raw_r)
             os.remove(feed)
             check("missing input exits 2", run(write=False)[0] == 2)
     finally:

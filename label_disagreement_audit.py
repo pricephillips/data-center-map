@@ -308,7 +308,7 @@ def selftest() -> int:
             raw = open(OUT_CSV, "rb").read()
             check("worklist written with the flip first", rows and rows[0]["fips"] == f"{flip:05d}")
             check("worklist header matches the contract", raw.split(b"\n")[0].decode() == ",".join(OUT_COLS))
-            check("LF only, no em-dash", b"\r" not in raw and "—".encode() not in raw)
+            check("LF only, no em-dash", b"\r" not in raw and chr(0x2014).encode() not in raw)
     finally:
         g.update(saved)
     print(f"{len(fails)} failure(s)")
