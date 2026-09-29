@@ -41,28 +41,24 @@ git apply docs/pending_ci_hygiene.patch
 git add .github/workflows && git commit -m "Apply spec 004 CI hygiene patch"
 ```
 
-Apply this patch before merging any Dependabot `github_actions` PR (PR #54,
-opened 2026-09-29, bumps checkout/setup-python to v7, github-script to v9).
-Both rewrite the same `uses:` lines, so merging the bump first makes every
-hunk here fail, and applying this patch after it would pin the actions back
-to v4/v5. Close #54 unapplied, apply this patch, then run Insights >
-Dependency graph > Dependabot > "Check for updates" so the bump arrives as
-SHA updates on top of the pins.
+Rebuilt again 2026-09-29 against `main` at `d2b403e`, after Dependabot PR #54
+moved every action to a new major (checkout v7, setup-python v7, setup-node v7,
+github-script v9, upload-artifact v7). #54 changed only `uses:` lines, so the
+patch content is unchanged except that each pin now names the commit of the
+release `main` already runs, not the older v4/v5 one. Nothing is downgraded.
 
-In the same commit, delete `.github/workflows/harden-pipeline-publishing.yml`
-(`git rm`, then drop its hunk from the patch or apply with
-`--exclude=.github/workflows/harden-pipeline-publishing.yml`). It is a
-dispatch-only job that rewrites `pipeline.yml` by string replacement. Against
+The patch also deletes `.github/workflows/harden-pipeline-publishing.yml`. That
+dispatch-only job rewrote `pipeline.yml` by string replacement; against
 today's file it exits before writing, and the concurrency group it would add
 (`data-center-map-generated-artifacts-main`) differs from the live
-`pipeline-${{ github.ref }}`, so it is dead code at best.
+`pipeline-${{ github.ref }}`.
 
 Before applying, `git apply --check docs/pending_ci_hygiene.patch` should print
 nothing. If a workflow changed on `main` since this patch was built, re-run the
 export in `specs/004-ci-hygiene-gates/tasks.md` (T031) instead of editing hunks
 by hand.
 
-## What it changes (20 files)
+## What it changes (19 workflow files, plus one deletion)
 
 | File | Change |
 |---|---|
@@ -74,7 +70,7 @@ by hand.
 | `update-opposition-csv.yml` | An inline `zizmor: ignore[dangerous-triggers]` with its reason: a same-repo `workflow_run` that checks out the default branch and uses no artifacts from the triggering run. |
 | `bill-sync.yml`, `local-signals.yml`, `fetch-pudl.yml` | Scoped `# shellcheck disable=SC2086` on `git add $EXISTING` and `python fetch_pudl.py $ARGS`. Those variables are deliberately word-split lists, so quoting them would break the step. |
 | `scrape-trackdatacenters-proposals.yml` | The unused retry loop variable is renamed to `_` (SC2034). |
-| All 19 existing workflows | Every `uses:` is pinned to a full commit SHA with its version comment (actions/checkout v4.4.0, setup-python v5.6.0, setup-node v4.4.0, github-script v7.1.0, upload-artifact v4.6.2; astral-sh/setup-uv v10.2.0 where uv is used). Dependabot keeps the SHAs current. |
+| All 18 remaining workflows | Every `uses:` is pinned to a full commit SHA with its version comment (actions/checkout v7.0.1, setup-python v7.0.0, setup-node v7.0.0, github-script v9.0.0, upload-artifact v7.0.1; astral-sh/setup-uv v10.2.0 where uv is used). Dependabot keeps the SHAs current. |
 | The 7 workflows that install packages | `pip install X` becomes `uv pip install --system -c requirements/ci.txt X`, after a `Set up uv` step. Each workflow still installs only its own packages; the constraints file only fixes versions. |
 
 ## Verified before committing

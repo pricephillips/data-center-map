@@ -46,8 +46,6 @@ import csv
 import os
 import sys
 
-import requests
-
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 try:
     import signal_harvest
@@ -294,6 +292,11 @@ def build_row(record, proposals=None):
     }
 
 def main():
+    # Imported here, not at module top: only this network fetch needs it, and
+    # --selftest runs in pipeline.yml's discovered selftest gate, which does
+    # not install requests (update-opposition-csv.yml, which runs main, does).
+    import requests
+
     existing_rows, header = load_existing_rows(OUTPUT_CSV)
     proposals = load_proposals()
 
