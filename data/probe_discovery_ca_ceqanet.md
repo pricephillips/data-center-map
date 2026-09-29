@@ -1,6 +1,6 @@
 # Endpoint probe: ca_ceqanet
 
-Probed 2026-09-22T12:37:39Z  
+Probed 2026-09-29T14:05:26Z  
 **1 of 5 probes landed on a machine-readable route (csv)**
 
 California is the largest western state by tracked facilities (112) and by recorded events (25), and every discretionary data center there files a CEQA notice, so CEQAnet is the highest-value unresolved western source. It has stayed unresolved because its API and bulk-export path are unconfirmed and confirming them needs a look from an unrestricted network. Registered 2026-09-09 as a probe rather than a fetch: nothing here can start a download, and the report only says what each URL is and which tool could take it onward.

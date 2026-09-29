@@ -1,6 +1,6 @@
 # Endpoint probe: co_puc_efilings
 
-Probed 2026-09-22T12:38:11Z  
+Probed 2026-09-29T14:05:57Z  
 **1 of 4 probes landed on a machine-readable route (csv)**
 
 Colorado PUC E-Filings, searchable from 1994 forward. Registered 2026-09-09 for item 7. Colorado matters for this project beyond its size: ten Colorado counties in data/county_aggregate.csv carry at least one recorded opposition event, and eight of the ten carry exactly one -- Denver at 3 and Logan at 2 are the only exceptions. A docket route here would deepen counties already visible at the thinnest possible margin rather than only adding new ones.
