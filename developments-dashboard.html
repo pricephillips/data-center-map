@@ -130,7 +130,25 @@ tbody td  { padding:12px 14px; font-size:13px }
 .src-tag { position:relative; cursor:help }
 .src-tag .src-tip { display:none; position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#1c2535; border:1px solid var(--border); border-radius:7px; padding:6px 10px; font-size:11px; color:var(--text); white-space:nowrap; z-index:99; pointer-events:none; font-weight:400 }
 .src-tag:hover .src-tip { display:block }
+.tab-toolbar { display:flex; justify-content:flex-end; margin:0 0 8px }
+.tab-export { background:var(--panel2, #1c242f); color:var(--text, #eef2f7); border:1px solid var(--border, #2c3544);
+  border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer }
+.tab-export:hover { border-color:var(--accent, #4f98a3) }
+.tab-host.tabulator { font-size:13px; border-radius:8px }
+.tabulator.tab-footer { border-top:0; margin-top:-1px; font-size:13px }
+.tabulator.tab-footer:empty { display:none }
+.tab-host.tabulator, .tab-host .tabulator-tableholder { background:var(--panel, #161c25) }
+.tab-host .tabulator-header, .tab-host .tabulator-header .tabulator-col { background:var(--panel2, #1c242f); color:var(--muted, #8a96a4) }
+.tab-host .tabulator-row { background:var(--panel, #161c25); color:var(--text, #eef2f7) }
+.tab-host .tabulator-row.tabulator-row-even { background:var(--panel2, #1c242f) }
+.tab-host .tabulator-row .tabulator-cell { border-right-color:var(--border, #2c3544) }
+@media (hover:hover) { .tab-host .tabulator-row.tabulator-selectable:hover { background:#243041 } }
 </style>
+<!-- Tabulator (spec 009, US3): sort, header filters and CSV export on the
+     table. Pinned per configs/integrations.json. If it does not load, the
+     page's own table stays in place. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tabulator-tables@6.5.3/dist/css/tabulator_midnight.min.css">
+<script src="https://cdn.jsdelivr.net/npm/tabulator-tables@6.5.3/dist/js/tabulator.min.js"></script>
 </head>
 <body>
 
@@ -259,6 +277,98 @@ tbody td  { padding:12px 14px; font-size:13px }
 </div>
 
 <script>
+// ── Tabulator upgrade (spec 009, US3) ─────────────────────────────────────
+// The page still renders its own escaped HTML table; when Tabulator loaded,
+// that table is hidden and re-presented with column sort, a header filter per
+// column, and "Export CSV" of the rows left after every filter. Column titles
+// and cell text are read from the rendered table, so vocabulary and column
+// names cannot drift from what the page already shows. If the CDN is
+// unreachable the plain table simply stays. Cells display their original
+// HTML; sorting, filtering and the CSV use the cell text.
+const TABLE_UPGRADES = Object.create(null);
+function upgradeTable(table, key, opts) {
+  opts = opts || {};
+  if (!window.Tabulator || !table || !table.tHead) return null;
+  const heads = Array.from(table.tHead.rows[0].cells);
+  const data = Array.from(table.tBodies[0] ? table.tBodies[0].rows : []).map(tr => {
+    const o = {};
+    Array.from(tr.cells).forEach((td, i) => {
+      // Badges marked data-noexport are display only (a source tag beside a
+      // name); they stay on screen and out of the text and the CSV.
+      const text = td.cloneNode(true);
+      text.querySelectorAll('[data-noexport]').forEach(el => el.remove());
+      o['c' + i] = text.textContent.replace(/\s+/g, ' ').trim();
+      o['h' + i] = td.innerHTML;
+    });
+    return o;
+  });
+  // A column sorts as numbers when every non-empty cell reads as one
+  // ("1,092", "$2.5B", "12%"), whatever the header markup says.
+  const NUMLIKE = /^[-+]?[$]?[\d,]*\.?\d+\s*[%BKMk]?$/;
+  const numeric = heads.map((th, i) => {
+    const vals = data.map(r => r['c' + i]).filter(v => v !== '' && v !== '\u2014');
+    return vals.length > 0 && vals.every(v => NUMLIKE.test(v));
+  });
+  const prev = TABLE_UPGRADES[key];
+  table.style.display = 'none';
+  if (prev && document.body.contains(prev.host)) {
+    prev.table.replaceData(data);
+    return prev.table;
+  }
+  const num = v => { const n = parseFloat(String(v).replace(/[^0-9.\-]/g, '')); return Number.isFinite(n) ? n : -Infinity; };
+  const columns = heads.map((th, i) => {
+    const title = th.textContent.replace(/[↑↓]/g, '').trim();
+    return {
+      title: title, field: 'c' + i,
+      sorter: numeric[i] ? (a, b) => num(a) - num(b) : 'string',
+      hozAlign: numeric[i] ? 'right' : 'left',
+      headerFilter: 'input', headerFilterPlaceholder: 'filter',
+      formatter: cell => cell.getData()['h' + i]
+    };
+  });
+  const bar = document.createElement('div');
+  bar.className = 'tab-toolbar';
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'tab-export';
+  btn.textContent = 'Export CSV';
+  bar.appendChild(btn);
+  const host = document.createElement('div');
+  host.className = 'tab-host';
+  table.parentNode.insertBefore(bar, table);
+  table.parentNode.insertBefore(host, table);
+  const tab = new Tabulator(host, {
+    data: data, columns: columns, layout: 'fitDataStretch',
+    pagination: data.length > (opts.pageSize || 50), paginationSize: opts.pageSize || 50,
+    placeholder: 'No rows match these filters'
+  });
+  tab.on('tableBuilt', () => {
+    host.querySelectorAll('.tabulator-header-filter input').forEach((el, i) => {
+      el.setAttribute('aria-label', 'Filter ' + (columns[i] ? columns[i].title : 'column'));
+    });
+    // Tabulator puts a focusable scroll holder and the pager inside its
+    // role="grid", where only rows and row groups are allowed (axe
+    // aria-required-children, critical). The holder loses its tabindex (the
+    // header filters and the pager stay in the tab order), and the pager
+    // moves to a sibling that keeps Tabulator's footer styling.
+    const holder = host.querySelector('.tabulator-tableholder');
+    if (holder) holder.removeAttribute('tabindex');
+    const footer = host.querySelector(':scope > .tabulator-footer');
+    if (footer) {
+      const wrap = document.createElement('div');
+      wrap.className = 'tabulator tab-footer';
+      host.after(wrap);
+      wrap.appendChild(footer);
+    }
+  });
+  // 'active' is every row that survives the page filters and the header
+  // filters, across all pages, in the current sort order. Tabulator joins
+  // rows with \n, so the file has LF endings.
+  btn.addEventListener('click', () => tab.download('csv', (opts.filename || key) + '.csv', {}, 'active'));
+  TABLE_UPGRADES[key] = { table: tab, host: host };
+  return tab;
+}
+
 const esc = s => String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const fmtNum = (v,d=0) => v&&!isNaN(+v) ? Number(v).toLocaleString(undefined,{maximumFractionDigits:d}) : '—';
 const COLORS = ['#4f98a3','#e67e22','#4caf50','#e74c3c','#f39c12','#9b59b6','#5aa9e6','#2ecc71','#e91e63','#ff9800','#00bcd4','#8bc34a','#ff5722','#607d8b','#9c27b0'];
@@ -395,10 +505,13 @@ function trender(){
     if(['sqft','power','capex'].includes(col)){va=+va||0;vb=+vb||0;}
     if(va<vb) return -tSortDir; if(va>vb) return tSortDir; return 0;
   });
-  const start=tPage*PAGE, end=start+PAGE;
+  // With Tabulator every filtered row goes to the table and it paginates;
+  // without it, this page's own pager slices.
+  const upgraded=!!window.Tabulator;
+  const start=upgraded?0:tPage*PAGE, end=upgraded?filtered.length:start+PAGE;
   document.getElementById('tbody').innerHTML = filtered.slice(start,end).map(r=>`
     <tr>
-      <td class="td-name">${esc(r.name||'—')}<span class="src-tag ${r.layer==='ai'?'src-ai':'src-atlas'}">${r.layer==='ai'?'EFD':'IM3'}</span></td>
+      <td class="td-name">${esc(r.name||'—')}<span class="src-tag ${r.layer==='ai'?'src-ai':'src-atlas'}" data-noexport>${r.layer==='ai'?'EFD':'IM3'}</span></td>
       <td>${r.layer==='ai'?'Epoch Frontier':'OSTI IM3'}</td>
       <td>${esc(r.state||r.country||'—')}</td>
       <td>${esc(r.operator||'—')}</td>
@@ -414,6 +527,10 @@ function trender(){
   document.getElementById('btnPrev').disabled = tPage===0;
   document.getElementById('btnNext').disabled = end>=filtered.length;
   document.getElementById('pageInfo').textContent = `${start+1}–${Math.min(end,filtered.length)} of ${filtered.length.toLocaleString()}`;
+  if (upgraded && upgradeTable(document.querySelector('.table-wrap table'), 'developments', { filename: 'developments' })) {
+    document.querySelector('.table-wrap .pagination').style.display = 'none';
+    document.getElementById('tMeta').textContent = `${filtered.length.toLocaleString()} rows`;
+  }
 }
 function tpage(dir){tPage+=dir;trender();}
 let tdt; function tdebounce(){clearTimeout(tdt);tdt=setTimeout(()=>{tPage=0;trender();},260);}
