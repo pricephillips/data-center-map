@@ -43,6 +43,17 @@ What it does
                   datasketch; without it the pass is skipped and the worklist
                   is what it was.
 
+  --auto-supersede
+                  Confirms the syndicated-copy supersede proposals without a
+                  reviewer (owner decision, 2026-09-29): appends one supersede
+                  row per copy to data/status_resolutions.csv, naming the kept
+                  row as superseded_by and evidence_url, with the cluster id in
+                  the note. Only the "syndicated copy" signal is automated;
+                  earlier-stage coverage and resolve proposals still need a
+                  reviewer. Reversible: rows stay in master, and changing the
+                  action of an auto row to "keep" returns the copy to the feed
+                  and stops it being proposed again. Needs datasketch.
+
   --apply         Applies data/status_resolutions.csv, the reviewer-confirmed
                   file, to master_opposition.csv. Idempotent: re-running
                   changes nothing. Rows are matched on normalized Source URL.
@@ -62,7 +73,9 @@ outcome" rule intact and moves the confirmation from four months to one run.
 
 data/status_resolutions.csv columns
   source_url        Source URL of the master row(s) to change (matched normalized)
-  action            resolve | supersede | correct_geo
+  action            resolve | supersede | correct_geo | keep
+                    (keep: no change; stops the row being proposed or
+                    auto-superseded again)
   status            new Status (resolve)
   opposition_type   new Opposition Type (resolve, optional)
   authority_level   new Authority Level (optional)
@@ -79,6 +92,7 @@ scorekeeping vocabulary in generated text, --selftest with no data or network.
 
 Usage
   python status_resolution.py                  scan, write the worklist
+  python status_resolution.py --auto-supersede confirm syndicated copies
   python status_resolution.py --apply          apply confirmed resolutions
   python status_resolution.py --selftest
 """
@@ -110,7 +124,8 @@ MASTER_CSV = P("master_opposition.csv")
 RESOLUTIONS_CSV = P("data", "status_resolutions.csv")
 WORKLIST_CSV = P("data", "status_resolution_worklist.csv")
 
-ACTIONS = ("resolve", "supersede", "correct_geo")
+ACTIONS = ("resolve", "supersede", "correct_geo", "keep")
+AUTO_NOTE = "auto-confirmed syndicated copy"
 RESOLUTION_FIELDS = ["source_url", "action", "status", "opposition_type",
                      "authority_level", "community_outcome", "state", "county",
                      "superseded_by", "evidence_url", "confirmed_on", "note"]
@@ -301,6 +316,47 @@ def syndicated(master: list[dict], skip: set) -> list[dict]:
     return out
 
 
+def auto_supersede_rows(master: list[dict], resolutions: list[dict],
+                        today: dt.date | None = None) -> list[dict]:
+    """status_resolutions.csv rows confirming every current syndicated-copy
+    proposal. Rows already in the file (any action, "keep" included) are
+    never proposed, so this is idempotent and a reviewer's override holds."""
+    today = today or dt.date.today()
+    done = {normalize_url(r.get("source_url", "")) for r in resolutions}
+    out = []
+    for w in syndicated(master, done):
+        out.append({"source_url": w["source_url"], "action": "supersede",
+                    "superseded_by": w["group_final_url"],
+                    "evidence_url": w["group_final_url"],
+                    "confirmed_on": today.isoformat(),
+                    "note": f"{AUTO_NOTE} ({w['cluster_id']}); "
+                            f"set action to keep to return it to the feed"})
+    return out
+
+
+def append_resolutions(rows: list[dict], path: str = RESOLUTIONS_CSV) -> int:
+    """Appends rows, keeping every existing byte and the file's own line
+    terminator. Writes the header only when the file is new."""
+    if not rows:
+        return 0
+    new = not os.path.exists(path) or os.path.getsize(path) == 0
+    term = "\n" if new else detect_terminator(path)
+    if not new:
+        with open(path, "rb") as fh:
+            fh.seek(-1, os.SEEK_END)
+            needs_nl = fh.read(1) not in (b"\n", b"\r")
+    with open(path, "a", newline="", encoding="utf-8") as fh:
+        if not new and needs_nl:
+            fh.write(term)
+        w = csv.DictWriter(fh, fieldnames=RESOLUTION_FIELDS, lineterminator=term,
+                           extrasaction="ignore")
+        if new:
+            w.writeheader()
+        for r in rows:
+            w.writerow({k: r.get(k, "") for k in RESOLUTION_FIELDS})
+    return len(rows)
+
+
 def load_archive(path: str = ARCHIVE_CSV) -> dict:
     """normalized URL -> archived_url, from source_archive.py's output."""
     return {normalize_url(r.get("url", "")): r.get("archived_url", "")
@@ -372,7 +428,7 @@ def apply(master: list[dict], resolutions: list[dict]) -> tuple[int, int, list[s
         if not targets:
             unmatched.append(res["source_url"])
             continue
-        if a == "supersede":
+        if a in ("supersede", "keep"):
             continue
         res = dict(res)
         if (a == "resolve" and not (res.get("community_outcome") or "").strip()
@@ -393,10 +449,13 @@ def apply(master: list[dict], resolutions: list[dict]) -> tuple[int, int, list[s
     return rows_changed, fields_changed, unmatched
 
 
-def superseded_urls(path: str = RESOLUTIONS_CSV) -> set:
-    rows, _ = validate(read_csv(path))
-    return {normalize_url(r["source_url"]) for r in rows
+def superseded_urls_from(rows: list[dict]) -> set:
+    return {normalize_url(r["source_url"]) for r in validate(rows)[0]
             if r["action"].strip() == "supersede"}
+
+
+def superseded_urls(path: str = RESOLUTIONS_CSV) -> set:
+    return superseded_urls_from(read_csv(path))
 
 
 def hold_superseded(df, path: str = RESOLUTIONS_CSV):
@@ -556,6 +615,41 @@ def selftest() -> int:
         check("syndicated: an already-confirmed copy drops out",
               [r for r in scan(synd, done_res) if r["signal"] == SYNDICATED], [])
         check("syndicated: master is unchanged", synd, before)
+
+        # --auto-supersede: confirms the copy, idempotently, and a keep
+        # override holds.
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            rp = os.path.join(tmp, "res.csv")
+            with open(rp, "w", newline="", encoding="utf-8") as fh:
+                fh.write(",".join(RESOLUTION_FIELDS) + "\n")
+                fh.write("https://x.example/1,resolve,passed,,,,,,,https://x.example/1,"
+                         "2026-09-28,hand row")   # no trailing newline
+            before_bytes = open(rp, "rb").read()
+            rows = auto_supersede_rows(synd, read_csv(rp), dt.date(2026, 9, 29))
+            check("auto: one supersede row for the copy",
+                  [(r["source_url"], r["action"], r["superseded_by"]) for r in rows],
+                  [("https://wjno.example/m", "supersede", "https://wiod.example/m")])
+            check("auto: appended", append_resolutions(rows, rp), 1)
+            after = open(rp, "rb").read()
+            check("auto: existing bytes kept", after.startswith(before_bytes), True)
+            ok2, errs2 = validate(read_csv(rp))
+            check("auto: rows validate", (len(ok2), errs2), (2, []))
+            check("auto: held out by hold_superseded's reader",
+                  superseded_urls(rp), {"wjno.example/m"})
+            check("auto: idempotent", auto_supersede_rows(synd, read_csv(rp)), [])
+            check("auto: no syndicated proposal once confirmed",
+                  [r for r in scan(synd, read_csv(rp)) if r["signal"] == SYNDICATED], [])
+            kept = [dict(r, action="keep") if "wjno" in r["source_url"] else r
+                    for r in read_csv(rp)]
+            check("auto: keep override validates and releases the copy",
+                  (len(validate(kept)[0]), superseded_urls_from(kept)),
+                  (2, set()))
+            check("auto: keep override is not re-proposed",
+                  auto_supersede_rows(synd, kept), [])
+            m2 = [dict(r) for r in synd]
+            apply(m2, validate(kept)[0])
+            check("auto: apply ignores keep and supersede rows", m2, synd)
     else:
         print("SKIP (datasketch not installed): syndicated-copy checks")
 
@@ -592,6 +686,9 @@ def main() -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--apply", action="store_true",
                     help="apply data/status_resolutions.csv to master_opposition.csv")
+    ap.add_argument("--auto-supersede", action="store_true",
+                    help="confirm syndicated-copy supersede proposals into "
+                         "data/status_resolutions.csv (no reviewer)")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
     if args.selftest:
@@ -608,6 +705,16 @@ def main() -> int:
     resolutions, errors = validate(read_csv(RESOLUTIONS_CSV))
     for e in errors:
         print(f"status_resolutions.csv {e}", file=sys.stderr)
+
+    if args.auto_supersede:
+        if ED is None or not ED.available():
+            print("auto-supersede skipped: datasketch not installed")
+            return 0
+        rows = auto_supersede_rows(master, read_csv(RESOLUTIONS_CSV))
+        n = append_resolutions(rows)
+        print(f"auto-supersede: {n} syndicated copies confirmed in "
+              f"{os.path.relpath(RESOLUTIONS_CSV, HERE)}")
+        return 0
 
     if args.apply:
         changed, nfields, unmatched = apply(master, resolutions)

@@ -285,6 +285,13 @@ def run(write=True, config_path=None) -> tuple[int, str]:
     for file, spec in cfg.get("files", {}).items():
         path = os.path.join(ROOT, file)
         if not os.path.exists(path):
+            # optional_until_present: a declared output whose first producing
+            # run has not happened yet (spec 006 source archive). Skipped with
+            # a note until it exists, then gated like any other file. Any
+            # other missing file is still a hard input error.
+            if file in cfg.get("optional_until_present", []):
+                notes.append(f"{file} not produced yet; gated from its first commit")
+                continue
             print(f"MISSING INPUT: {file}")
             return 2, ""
         with open(path, "rb") as fh:
@@ -410,6 +417,27 @@ def selftest() -> int:
             check("report LF only, no em-dash", b"\r" not in raw_r and chr(0x2014).encode() not in raw_r)
             os.remove(feed)
             check("missing input exits 2", run(write=False)[0] == 2)
+            with open(cfg_path, "w") as fh:
+                json.dump({"coverage_delta": {"default_threshold": 0.2,
+                                              "files": {"feed.csv": {"*": 0.2},
+                                                        "later.csv": {"*": 0.2}},
+                                              "optional_until_present": ["later.csv"],
+                                              "robust_z": {"threshold": 6, "columns": {}}}}, fh)
+            put_feed(9)
+            code, text = run(write=False)
+            check("an optional file not yet produced is skipped with a note",
+                  code == 0 and "later.csv not produced yet" in text)
+            with open(os.path.join(tmp, "later.csv"), "w", newline="\n") as fh:
+                fh.write("url,archived_url\n" + "".join(f"u{i},a{i}\n" for i in range(10)))
+            run()
+            with open(os.path.join(tmp, "later.csv"), "w", newline="\n") as fh:
+                fh.write("url,archived_url\n" + "".join(f"u{i},\n" for i in range(10)))
+            code, text = run(write=False)
+            check("once present, the optional file is gated (collapse fails)",
+                  code == 1 and "later.csv" in text)
+            os.remove(os.path.join(tmp, "later.csv"))
+            os.remove(feed)
+            check("a non-optional missing file still exits 2", run(write=False)[0] == 2)
     finally:
         g.update(saved)
     check("explicit fixture compare exits 1",
