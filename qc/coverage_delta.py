@@ -371,10 +371,10 @@ def selftest() -> int:
     saved = {k: g[k] for k in ("CONFIG", "MANIFEST", "STORE", "REPORT", "ROOT")}
     try:
         with tempfile.TemporaryDirectory() as tmp:
+            cfg_path, man_path = os.path.join(tmp, "cfg.json"), os.path.join(tmp, "manifest.csv")
             g.update(ROOT=tmp, STORE=os.path.join(tmp, "profiles.csv"),
-                     REPORT=os.path.join(tmp, "report.md"), MANIFEST=os.path.join(tmp, "manifest.csv"),
-                     CONFIG=os.path.join(tmp, "cfg.json"))
-            with open(CONFIG, "w") as fh:
+                     REPORT=os.path.join(tmp, "report.md"), MANIFEST=man_path, CONFIG=cfg_path)
+            with open(cfg_path, "w") as fh:
                 json.dump({"coverage_delta": {"default_threshold": 0.2,
                                               "files": {"feed.csv": {"*": 0.2}},
                                               "robust_z": {"threshold": 6, "columns": {}}}}, fh)
@@ -389,24 +389,24 @@ def selftest() -> int:
             code, text = run()
             check("first run: no baseline, recorded", code == 0 and "none (first profile" in text
                   and len(read_store()) == 1)
-            with open(MANIFEST, "w", newline="\n") as fh:
+            with open(man_path, "w", newline="\n") as fh:
                 fh.write(f"date,sha256,rows,file\n2026-09-01,{first['sha256']},10,feed.csv\n")
             put_feed(10)
             code, _ = run()
             check("same file again: no duplicate profile", len(read_store()) == 1)
             cur = put_feed(2)
-            with open(MANIFEST, "a", newline="\n") as fh:
+            with open(man_path, "a", newline="\n") as fh:
                 fh.write(f"2026-09-02,{cur['sha256']},10,feed.csv\n")
             code, text = run()
             check("collapse against the manifest snapshot fails (exit 1)",
                   code == 1 and "manifest snapshot 2026-09-01" in text)
             check("manifest selection skips the current sha", "FAIL (" not in text and "| mw | 10 | 2 |" in text)
             put_feed(9)
-            with open(MANIFEST, "a", newline="\n") as fh:
+            with open(man_path, "a", newline="\n") as fh:
                 fh.write("2026-09-03,ffff,10,feed.csv\n")
             code, text = run(write=False)
             check("snapshot without a profile falls back and says so", "has no stored profile" in text)
-            raw_r = open(REPORT, "rb").read()
+            raw_r = open(g["REPORT"], "rb").read()
             check("report LF only, no em-dash", b"\r" not in raw_r and "—".encode() not in raw_r)
             os.remove(feed)
             check("missing input exits 2", run(write=False)[0] == 2)
