@@ -28,7 +28,10 @@ jobs:
         uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
 
       - name: Install dependencies
-        run: uv pip install --system -c requirements/ci.txt requests
+        # trafilatura and datasketch (spec 006, FR-003): date hints and
+        # syndicated-copy clustering inside the harvest. Without them the
+        # harvest still runs and the new worklist columns stay blank.
+        run: uv pip install --system -c requirements/ci.txt requests trafilatura datasketch
 
       - name: Run CSV build
         run: python scripts/build_master_csv.py
@@ -44,6 +47,13 @@ jobs:
         # list. Every decision lands in data/signal_promotion_report.csv.
         run: python promote_signal_candidates.py
 
+      - name: Date hint agreement (SC-003 measurement, non-blocking)
+        # Scores trafilatura's date hint against the verified decision dates
+        # in data/project_decision_dates.csv. Each URL is fetched once; later
+        # runs reuse data/date_hint_agreement.csv. Reports only.
+        continue-on-error: true
+        run: python article_extract.py --measure
+
       - name: Commit changes if needed
         run: |
           git config user.name "github-actions[bot]"
@@ -58,6 +68,11 @@ jobs:
           git add data/signal_candidates.csv data/signal_harvest_log.csv \
                   data/signal_promotion_report.csv \
                   data/facility_candidates.csv 2>/dev/null || true
+          # Spec 006 SC-003 outputs. One add per path: they do not exist until
+          # the first measurement, and a missing path must not unstage others.
+          for f in data/date_hint_agreement.csv data/date_hint_agreement.md; do
+            if [ -e "$f" ]; then git add "$f"; fi
+          done
           git diff --cached --quiet || git commit -m "Update master_opposition.csv + harvest queue"
           # Rebase-retry (2026-08-25): same race hardening as fetch-permits.
           # Rebase, resolve generated-file conflicts, push. See the script header.

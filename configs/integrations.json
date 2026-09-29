@@ -362,6 +362,7 @@
       "session": 3,
       "runs_in": "ci",
       "target": [
+        "article_extract.py",
         "signal_harvest.py",
         "untagged_triage.py"
       ],
@@ -384,7 +385,9 @@
       "session": 3,
       "runs_in": "ci",
       "target": [
-        "signal_harvest.py"
+        "event_dedupe.py",
+        "signal_harvest.py",
+        "status_resolution.py"
       ],
       "reason": "MinHash LSH near-duplicate clustering so syndicated coverage of one hearing is one candidate event.",
       "risk_notes": "",

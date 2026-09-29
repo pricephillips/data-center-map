@@ -1,0 +1,50 @@
+# Config Contract: `configs/source_durability.json`
+
+This file is edited by hand; no process writes it. It is read by
+`source_archive.py`, `article_extract.py`, `event_dedupe.py`,
+`signal_harvest.py` and `untagged_triage.py`. A missing key falls back to the
+default shown.
+
+```json
+{
+  "archive": {
+    "max_lookups": 400,
+    "max_saves": 150,
+    "cdx_sleep_s": 1.0,
+    "save_sleep_s": 6.0,
+    "backoff_s": [10, 30, 90],
+    "timeout_s": 30,
+    "recheck_after_days": 1,
+    "max_attempts": 3,
+    "checkpoint_every": 25,
+    "skip_hosts": ["news.google.com"]
+  },
+  "extract": {
+    "timeout_s": 10,
+    "max_bytes": 2000000,
+    "max_fetch_per_run": 150,
+    "triage_hint_limit": 20,
+    "triage_timeout_s": 8,
+    "thin_text_chars": 500,
+    "lead_words": 60,
+    "min_date": "2010-01-01"
+  },
+  "dedupe": {
+    "threshold": 0.7,
+    "num_perm": 128,
+    "shingle_words": 5,
+    "min_title_tokens": 6,
+    "max_days_apart": 3,
+    "seed": 1
+  },
+  "measure": {
+    "sample_size": 30,
+    "agree_days": 1,
+    "target_rate": 0.8
+  }
+}
+```
+
+`dedupe.threshold` is the config value from the spec's edge case. The
+selftest pins behavior at 0.7 whatever the file says: it passes its own
+config.

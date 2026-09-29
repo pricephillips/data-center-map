@@ -1,0 +1,80 @@
+name: Archive cited sources
+
+# Spec 006, US1. Gives every URL cited in master_opposition_clean.csv a durable
+# Internet Archive snapshot: a CDX lookup for an existing 200 capture, and a
+# Save Page Now request for any URL without one. One capped batch per night;
+# the next night resumes from data/source_archive.csv, so a rate-limit stop is
+# expected behaviour and not a failure (the stop point is in the manifest).
+#
+# Writes only data/source_archive.csv and data/source_archive_manifest.json.
+# Nothing downstream is gated on it, so a failure here never affects the map,
+# the clean feed, or the Iowa sync. Standard library only: no install step.
+#
+# Keys are optional (FR-002). Without IA_S3_ACCESS_KEY / IA_S3_SECRET_KEY the
+# job runs at the anonymous Save Page Now rate.
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_lookups:
+        description: "CDX lookups this run (blank uses configs/source_durability.json)"
+        required: false
+        default: ""
+      max_saves:
+        description: "Save Page Now requests this run (blank uses the config)"
+        required: false
+        default: ""
+  schedule:
+    # Daily 10:25 UTC: after the 06:40 pipeline run refreshes the clean feed,
+    # before the 11:15 opposition CSV update.
+    - cron: "25 10 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: source-archive
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+
+      - name: Self-test (mocked CDX and Save Page Now; no network)
+        run: python source_archive.py --selftest
+
+      - name: Archive one capped batch
+        env:
+          IA_S3_ACCESS_KEY: ${{ secrets.IA_S3_ACCESS_KEY }}
+          IA_S3_SECRET_KEY: ${{ secrets.IA_S3_SECRET_KEY }}
+          MAX_LOOKUPS: ${{ github.event.inputs.max_lookups }}
+          MAX_SAVES: ${{ github.event.inputs.max_saves }}
+        run: |
+          ARGS=""
+          if [ -n "$MAX_LOOKUPS" ]; then ARGS="$ARGS --max-lookups $MAX_LOOKUPS"; fi
+          if [ -n "$MAX_SAVES" ]; then ARGS="$ARGS --max-saves $MAX_SAVES"; fi
+          # shellcheck disable=SC2086 # ARGS holds several flags; splitting is intended
+          python source_archive.py $ARGS
+
+      - name: Commit archive state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # One add per path: a combined add fails outright when one path is
+          # missing, and `|| true` would hide that nothing was staged.
+          for f in data/source_archive.csv data/source_archive_manifest.json; do
+            if [ -e "$f" ]; then git add "$f"; fi
+          done
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Source archive snapshots (Internet Archive CDX / Save Page Now) [skip ci]"
+          # Rebase, resolve generated-file conflicts, push. See the script header.
+          bash scripts/git_push_retry.sh

@@ -215,12 +215,25 @@ jobs:
         continue-on-error: true
         run: python proximity_analysis.py
 
+      # Spec 006 (FR-003). trafilatura and datasketch are installed only
+      # here, AFTER the blocking selftest gate: the discovery run above does
+      # not have them, and each module's selftest prints a SKIP line for the
+      # checks that need them. untagged_triage.py uses trafilatura for date
+      # hints; status_resolution.py (detection step) and the follow-up check
+      # run in this job too, and use datasketch for syndicated copies.
+      - name: Install harvest and triage extras (spec 006)
+        run: uv pip install --system -c requirements/ci.txt trafilatura datasketch
+
       - name: Verification status + untagged review worklist
         id: verification
         continue-on-error: true
         run: |
           python verification_status.py --report
-          python untagged_triage.py
+          # --date-hints fetches publication-date hints only for held rows
+          # with a resolved publisher URL and no cached hint (capped per run;
+          # cached in data/untagged_date_hints.csv). Hints are for reviewers
+          # and never enter master_opposition.csv.
+          python untagged_triage.py --date-hints
 
       - name: Auto-apply triage link suggestions (previous run's draft)
         id: link_autoapply
@@ -520,6 +533,11 @@ jobs:
           if [ "${{ steps.verification.outcome }}" = "success" ]; then
             git add data/verification_status_report.md data/verification_holdout.csv \
                     data/untagged_triage.csv data/untagged_triage.md 2>/dev/null || true
+            # The hint cache appears only after the first fetch; one add per
+            # path so its absence cannot unstage anything else.
+            for f in data/untagged_date_hints.csv; do
+              if [ -e "$f" ]; then git add "$f"; fi
+            done
           fi
           # County artifacts are staged ONLY on a green county step, so a
           # QC-gate or leak-audit failure can never auto-commit a degraded
