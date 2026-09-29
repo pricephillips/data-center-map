@@ -1,6 +1,6 @@
 # Untagged row triage
 
-Held rows in the worklist: 2202
+Held rows in the worklist: 2221
 
 These rows are excluded from the clean feed and from every count. They are recoverable only by resolving the redirect to a publisher article and reading it. Everything below is a suggestion derived from the headline text, not a verified field.
 
@@ -8,17 +8,17 @@ These rows are excluded from the clean feed and from every count. They are recov
 
 | confidence | rows |
 | :-- | --: |
-| high | 190 |
-| medium | 413 |
-| state_only | 141 |
+| high | 193 |
+| medium | 415 |
+| state_only | 142 |
 | low | 471 |
-| none | 987 |
+| none | 1000 |
 
 ## Mechanism hint
 
 | hint | rows |
 | :-- | --: |
-| none | 2005 |
+| none | 2024 |
 | moratorium | 186 |
 | zoning_restriction | 3 |
 | public_comment | 3 |
@@ -30,7 +30,7 @@ These rows are excluded from the clean feed and from every count. They are recov
 
 | status | rows |
 | :-- | --: |
-| not_attempted | 2202 |
+| not_attempted | 2221 |
 
 Rows ready for a reviewer to open: 0
 Rows whose county and mechanism are already covered by a sourced row: 68
@@ -39,7 +39,7 @@ Rows whose county and mechanism are already covered by a sourced row: 68
 
 | outlet | rows |
 | :-- | --: |
-| unknown | 1626 |
+| unknown | 1642 |
 | Politico | 11 |
 | Gazette | 8 |
 | Axios | 5 |
