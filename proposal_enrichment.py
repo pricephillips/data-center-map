@@ -603,10 +603,12 @@ def write_report(m, path=OUT_MD):
          f"- {t['reclassified_by_source']} projects were relabeled \"proposed\" when the source "
          "folded its \"approved\" phase into \"proposed\" on 2026-09-22 (listed in "
          f"`source_reclassified_from`). Under Ruling 1, {t.get('reclassified_restored', 0)} keep "
-         "\"approved\" on a sourced record of a final approval "
-         "(`data/project_decision_dates.csv`); the rest count as pending until such a record "
-         "is added. This is a data correction: decided counts reported before the relabel "
-         "included all of them.", "",
+         "\"approved\" on in-repo evidence of a final approval (a sourced row in "
+         "`data/project_decision_dates.csv`, or a linked opposition record of the approving "
+         "vote); the rest count as pending, are listed as APPROVAL_EVIDENCE rows in "
+         "`data/project_link_review.csv`, and are restored on the run after such evidence "
+         "is committed. This is a data correction: decided counts reported before the "
+         "relabel included all of them.", "",
          "## Outcomes among decided projects (descriptive)", "",
          "| slice | blocked | decided | share |", "|---|---|---|---|"]
     for k, v in m["outcomes"].items():
@@ -778,6 +780,25 @@ def selftest():
           and all(p["lifecycle_outcome"] == "pending" for p in (prs[1], prs[2], prs[4])))
     check("ruling 1: a project the source has since advanced is left alone",
           prs[3]["phase"] == "construction")
+
+    def _vote(status, outcome, kind="public_comment"):
+        return {"raw": {"Status": status, "Community Outcome": outcome,
+                        "Opposition Type": kind}}
+    prs = [_pr(f"prj_{i}", "proposed") for i in (20, 21, 22, 23, 24)]
+    links = [{"project": {"project_id": "prj_20"}, "event": _vote("approved", "loss")},
+             {"project": {"project_id": "prj_21"}, "event": _vote("approved", "win")},
+             {"project": {"project_id": "prj_22"},
+              "event": _vote("approved", "loss", "moratorium")},
+             {"project": {"project_id": "prj_23"}, "event": _vote("active", "loss")},
+             {"project": {"project_id": "prj_24"}, "event": _vote("approved", "loss")}]
+    dates = {"prj_24": {"decision_date_source": "Developer withdrawal after the vote"}}
+    restored, pending = PR.apply_ruling_1(
+        prs, {p["project_id"]: "approved" for p in prs}, dates, links)
+    check("ruling 1: a linked vote recorded as approved over objection keeps approved",
+          restored == ["prj_20"] and prs[0]["ruling_1_basis"] == "linked_vote")
+    check("ruling 1: a blocked vote, an approved moratorium, a live dispute, or a "
+          "recorded withdrawal is not an approval",
+          pending == ["prj_21", "prj_22", "prj_23", "prj_24"])
     inp2 = dict(inp, events=[{"project_id": "prj_7", "event_type": "source_reclassified",
                               "old_value": "approved"},
                              {"project_id": "prj_8", "event_type": "source_reclassified",

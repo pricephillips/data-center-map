@@ -38,7 +38,7 @@ import math
 import os
 import re
 import sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import date
 
 # ---------------------------------------------------------------------------
@@ -618,12 +618,34 @@ def load_manual_links(path: str) -> tuple[dict[tuple[str, str], dict], list[str]
 # phase into "proposed" on 2026-09-22; proposal_history.py records each such
 # project as a source_reclassified event. The relabel is neither reversed
 # wholesale nor accepted wholesale: a project keeps "approved" only where the
-# repo holds evidence of a final approval, which today means a sourced row in
-# data/project_decision_dates.csv describing an approval. Every other
-# reclassified project stays pending until someone records that evidence.
+# repo holds evidence of a final approval. Two kinds count, checked on every
+# run, so a project is restored the day its evidence is committed:
+#   decision_record  a sourced row in data/project_decision_dates.csv whose
+#                    source describes an approval
+#   linked_vote      a confirmed link to an opposition record whose Status is
+#                    "approved" and whose Community Outcome says the project
+#                    went ahead over the objection, on a record about the
+#                    project itself (not a moratorium, lawsuit or withdrawal,
+#                    where "approved" can name the restriction)
+# Every other reclassified project stays pending until such evidence exists.
 APPROVAL_TEXT = re.compile(r"\bapprov|\bgrant|\brezon", re.IGNORECASE)
 NOT_APPROVAL_TEXT = re.compile(r"withdr|\bden(?:y|ied|ial)|reject|void|rescind|revok",
                                re.IGNORECASE)
+VOTE_STATUS = "approved"
+VOTE_PROCEEDED = "loss"          # Community Outcome coding: the project went ahead
+NOT_A_PROJECT_VOTE = ("moratorium", "lawsuit", "project_withdrawal")
+
+
+def linked_approval(events: list[dict]) -> dict | None:
+    """The first linked opposition record that records the project's approval."""
+    for e in events:
+        raw = e.get("raw", e)
+        types = (raw.get("Opposition Type") or "").lower()
+        if ((raw.get("Status") or "").strip().lower() == VOTE_STATUS
+                and (raw.get("Community Outcome") or "").strip().lower() == VOTE_PROCEEDED
+                and not any(t in types for t in NOT_A_PROJECT_VOTE)):
+            return raw
+    return None
 
 
 def load_source_reclassified(path: str) -> dict[str, str]:
@@ -636,9 +658,15 @@ def load_source_reclassified(path: str) -> dict[str, str]:
 
 
 def apply_ruling_1(projects: list[dict], reclassified: dict[str, str],
-                   manual_dates: dict[str, dict]) -> tuple[list[str], list[str]]:
-    """Restore a relabeled project's terminal phase when a sourced decision
-    record states an approval. Returns (restored ids, ids left pending)."""
+                   manual_dates: dict[str, dict],
+                   links: list[dict] | None = None) -> tuple[list[str], list[str]]:
+    """Restore a relabeled project's terminal phase when the repo holds
+    evidence of a final approval (see the Ruling 1 note above). Sets
+    pr["ruling_1_basis"] on each restored project. Returns (restored ids,
+    ids left pending)."""
+    linked: dict[str, list[dict]] = defaultdict(list)
+    for lk in links or []:
+        linked[lk["project"]["project_id"]].append(lk["event"])
     restored, pending = [], []
     for pr in projects:
         old = reclassified.get(pr["project_id"])
@@ -646,10 +674,17 @@ def apply_ruling_1(projects: list[dict], reclassified: dict[str, str],
             continue
         md = manual_dates.get(pr["project_id"]) or {}
         text = f"{md.get('decision_date_source', '')} {md.get('note', '')}"
+        basis = ""
         if md and APPROVAL_TEXT.search(text) and not NOT_APPROVAL_TEXT.search(text):
+            basis = "decision_record"
+        elif not (md and NOT_APPROVAL_TEXT.search(text)) and linked_approval(
+                linked.get(pr["project_id"], [])):
+            basis = "linked_vote"
+        if basis:
             pr["phase"] = old
             pr["lifecycle_outcome"] = refine_outcome(
                 PHASE_TO_LIFECYCLE[old], pr["raw"].get("outcome_detail", ""))
+            pr["ruling_1_basis"] = basis
             restored.append(pr["project_id"])
         else:
             pending.append(pr["project_id"])
@@ -957,14 +992,35 @@ def main() -> int:
     for msg in link_problems + date_problems + unresolved:
         print(f"MANUAL OVERRIDE WARNING: {msg}")
     restored, still_pending = apply_ruling_1(
-        projects, load_source_reclassified(HISTORY_EVENTS), manual_dates)
+        projects, load_source_reclassified(HISTORY_EVENTS), manual_dates, links)
     if restored or still_pending:
+        basis = defaultdict(list)
+        for pr in projects:
+            if pr["project_id"] in restored:
+                basis[pr["ruling_1_basis"]].append(pr["project_id"])
         print(f"ruling 1: {len(restored)} source-relabeled project(s) keep 'approved' on "
-              f"a sourced decision record ({', '.join(restored) or 'none'}); "
-              f"{len(still_pending)} stay pending without one")
+              f"evidence of a final approval ("
+              + "; ".join(f"{k}: {', '.join(v)}" for k, v in sorted(basis.items()))
+              + f"); {len(still_pending)} stay pending without it")
 
     write_links(links, OUT_LINKS)
     date_recovery = build_lifecycles(projects, links, OUT_LIFECYCLES, manual_dates)
+    # A relabeled project still pending is waiting on one piece of evidence;
+    # listing it where link and date work already happens is what gets it
+    # found, and the next run restores it the day the evidence is committed.
+    names = {pr["project_id"]: pr for pr in projects}
+    date_recovery += [{
+        "review_type": "APPROVAL_EVIDENCE", "opp_id": "", "project_id": pid,
+        "project_name": names[pid]["name"],
+        "review_reason": "source_relabeled_approved_to_proposed",
+        "signals": "", "distance_km": "", "company_jaccard": "", "name_jaccard": "",
+        "opp_incident": "", "opp_date": "", "opp_state": names[pid]["state"],
+        "note": ("The source relabeled this project from approved to proposed on "
+                 "2026-09-22 and the repo holds no evidence of a final approval "
+                 "(Ruling 1), so it counts as pending. Add a sourced approval to "
+                 "data/project_decision_dates.csv, or link the opposition record "
+                 "of the approving vote, and the next run restores it."),
+    } for pid in still_pending]
     write_review(review, date_recovery, OUT_REVIEW)
 
     n_linked_projects = len({lk["project"]["project_id"] for lk in links})
@@ -973,9 +1029,10 @@ def main() -> int:
     print(f"projects: {len(projects)}  (decided: {decided}, pending: {len(projects) - decided})")
     print(f"opposition events: {len(events)}")
     print(f"confirmed links: {len(links)}  -> {n_linked_projects} projects with opposition")
-    n_cap = sum(1 for d in date_recovery if d["review_type"] == "CAPACITY_CONFLICT")
+    kinds = Counter(d["review_type"] for d in date_recovery)
     print(f"review candidates: {len(review)}  |  date-recovery flags: "
-          f"{len(date_recovery) - n_cap}  |  capacity conflicts: {n_cap}")
+          f"{kinds['DATE_RECOVERY']}  |  capacity conflicts: {kinds['CAPACITY_CONFLICT']}"
+          f"  |  approval evidence wanted: {kinds['APPROVAL_EVIDENCE']}")
 
     hits = leak_audit([OUT_LINKS, OUT_LIFECYCLES, OUT_REVIEW])
     if hits:

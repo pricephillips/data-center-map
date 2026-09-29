@@ -80,10 +80,28 @@ Graduation (Ruling 3, 2026-09-28)
   Observations are keyed by the permanent key, not the source id, so a
   renumbering never resets a date.
 
-Promotion is scoped by stream
-  --promote needs at least one --stream. The gate passes thousands of
-  OpenStreetMap objects, and promoting a stream is a review decision about
-  that stream, so one flag must not apply all of them at once.
+Automatic promotion (2026-09-29)
+  Every run promotes the streams in AUTO_STREAMS with no flag, because a
+  review stands in front of the gate for each:
+    layer_b_graduation, osm   auto_review(): a candidate at an existing
+                              row's coordinates (SAME_SITE_KM), or on the same
+                              campus by the clustering rule, corroborates that
+                              row instead of adding a site; cable landing and
+                              ground stations, and university buildings tagged
+                              for a server room, are not data centers
+    epa_air                   the verdicts in data/airpermit_review.csv; a held
+                              permit promotes on the run whose ECHO record
+                              first shows it operating
+  Their rows are derived, rebuilt every run from committed inputs, and keep
+  the first_seen the committed registry gave them, so they need no persisted
+  state and no workflow change. Every decision and its reason is in the
+  promotion report.
+
+Manual promotion is scoped by stream
+  --promote needs at least one --stream, and what it applies is appended to
+  data/facility_promoted.csv. Promoting a stream with no review in front of it
+  is a review decision about that stream, so one flag must not apply all of
+  them at once.
 
 Usage
   python facility_registry.py
@@ -144,6 +162,19 @@ GRADUATING_PHASES = {"operational"}
 
 CLUSTER_KM = 1.5          # two rows this close with a shared name token are one site
 
+# Streams promoted on every run, without a flag, because a review stands in
+# front of the gate for each: auto_review() for OpenStreetMap objects and Layer
+# B graduations, and the verdicts in data/airpermit_review.csv for EPA permits.
+# Their rows are derived, rebuilt each run from committed inputs, so an
+# automatic promotion needs no persisted state to survive the nightly rebuild.
+AUTO_STREAMS = ("layer_b_graduation", "osm", "epa_air")
+AUTO_REVIEWED = ("layer_b_graduation", "osm")
+SAME_SITE_KM = 0.05       # a candidate this close to a registry row is that row
+NOT_A_FACILITY = re.compile(r"cable landing|landing station|earth station|teleport",
+                            re.IGNORECASE)
+CAMPUS_OPERATOR = re.compile(r"universit|college", re.IGNORECASE)
+FACILITY_WORDS = re.compile(r"data|comput|server|hpc|colo|cloud|\bdc\b|\d", re.IGNORECASE)
+
 FORM_WORDS = {"data", "center", "centre", "campus", "facility", "llc", "inc",
               "corporation", "corp", "company", "co", "the", "and", "of"}
 
@@ -169,6 +200,18 @@ STATE_NAMES = {
     "district of columbia": "DC",
 }
 STATE_CODES = set(STATE_NAMES.values())
+
+
+def state_code(state: str) -> str:
+    """Two-letter code for a state written either way. The atlas writes
+    "Virginia" and every other source "VA". The candidate review and the
+    duplicate-name test compare codes; cluster() still compares the raw field,
+    because its single-link token rule would chain neighbouring campuses once
+    coded rows could join atlas rows (see the note in cluster())."""
+    t = (state or "").strip()
+    if len(t) == 2:
+        return t.upper()
+    return STATE_NAMES.get(t.lower(), t.upper())
 
 
 def state_from_address(address: str) -> str:
@@ -261,6 +304,12 @@ def same_site(a: dict, b: dict) -> bool:
     """
     if (a.get("state") or "").upper() != (b.get("state") or "").upper():
         return False
+    return same_campus(a, b)
+
+
+def same_campus(a: dict, b: dict) -> bool:
+    """same_site() without the state test: an identical normalized name, or a
+    shared distinctive name token within CLUSTER_KM."""
     na, nb = norm_name(a.get("name")), norm_name(b.get("name"))
     if na and na == nb:
         return True
@@ -272,7 +321,16 @@ def same_site(a: dict, b: dict) -> bool:
 
 
 def cluster(rows: list[dict]) -> None:
-    """Assign cluster_id in place. Rows in one cluster share a physical site."""
+    """Assign cluster_id in place. Rows in one cluster share a physical site.
+
+    Known limit: rows are grouped by the raw state field, so an atlas row
+    ("Virginia") never clusters with a row from a source that writes codes
+    ("VA"), and a campus in both counts twice in distinct_sites. Grouping by
+    state_code() fixes that but lets a coded row bridge neighbouring atlas
+    campuses through one shared token (Ashburn chained Aligned, CloudHQ and
+    AWS buildings into one site in a trial on 2026-09-29), so the fix waits on
+    a tighter clustering rule.
+    """
     by_state: dict[str, list[dict]] = {}
     for r in rows:
         by_state.setdefault((r.get("state") or "").upper(), []).append(r)
@@ -347,7 +405,12 @@ def rows_from_snapshot(source_id: str, rows: list[dict],
 
 
 def build_registry(config: dict, root: str = HERE,
-                   today: str | None = None) -> list[dict]:
+                   today: str | None = None,
+                   derived: list[dict] | None = None) -> list[dict]:
+    """derived: rows the automatic streams promoted this run. They are added
+    after the snapshots and the persisted promotions and before clustering,
+    because cluster() is greedy in row order: added last, a new row can join a
+    site but never reshuffles the sites the earlier rows already form."""
     today = today or dt.date.today().isoformat()
     prior = {r["facility_id"]: r for r in read_csv(os.path.join(
         root, "data", "facility_registry.csv"))}
@@ -385,6 +448,13 @@ def build_registry(config: dict, root: str = HERE,
         row["first_seen"] = row["first_seen"] or today
         row["last_seen"] = today
         rows.append(row)
+    for row in derived or []:
+        if row["facility_id"] in seen:
+            continue
+        seen.add(row["facility_id"])
+        row = dict(row, cluster_id="", last_seen=today)
+        row["first_seen"] = (prior.get(row["facility_id"]) or {}).get("first_seen") or today
+        rows.append(row)
     cluster(rows)
     rows.sort(key=lambda r: (r["state"], r["name"], r["facility_id"]))
     return rows
@@ -393,6 +463,17 @@ def build_registry(config: dict, root: str = HERE,
 # --------------------------------------------------------------------------
 # candidates and the gate
 # --------------------------------------------------------------------------
+
+def _first_url(*fields) -> str:
+    """The first http(s) URL in the given fields. The tracker's `info` column
+    is a prose description, not a link; the cited sources are in
+    `source_urls`, separated by " | "."""
+    for f in fields:
+        m = re.search(r"https?://[^\s|]+", f or "")
+        if m:
+            return m.group(0)
+    return ""
+
 
 def graduation_candidates(proposals: list[dict],
                           observations: dict | None = None) -> list[dict]:
@@ -426,7 +507,7 @@ def graduation_candidates(proposals: list[dict],
             "lon": (p.get("lon") or "").strip(),
             "capacity_mw": (p.get("capacity_mw") or "").strip(),
             "signal": "operational" if phase in GRADUATING_PHASES else "opened",
-            "evidence_url": (p.get("info") or "").strip(),
+            "evidence_url": _first_url(p.get("source_urls"), p.get("info")),
             "project_id": str(p.get("id") or "").strip(),
             "pk": obs.get("pk", ""),
             "operational_since": (obs.get("first_operational_seen", "")
@@ -596,20 +677,63 @@ def gate(candidate: dict, known_ids: set[str]) -> tuple[str, str, str]:
     return ("promoted", "", fid)
 
 
+def auto_review(candidate: dict, rows: list[dict]) -> str:
+    """The review an automatically promoted stream gets: the reason to block
+    the candidate, or "" to let it through.
+
+    Most OpenStreetMap candidates are the same buildings the atlas already
+    holds (the atlas is itself largely drawn from OpenStreetMap), often where
+    the atlas has no name. Promoting them would count each site twice, so a
+    candidate at an existing row's coordinates, or on the same campus by the
+    registry's own clustering rule, corroborates that row instead. A few
+    objects carry the data-center tag without being one: cable landing and
+    satellite ground stations, and university buildings tagged for a server
+    room.
+    """
+    name, operator = candidate.get("name", ""), candidate.get("operator", "")
+    if NOT_A_FACILITY.search(name):
+        return ("not a data center: a cable landing or ground station mapped "
+                "with a data-center tag")
+    if CAMPUS_OPERATOR.search(operator) and not FACILITY_WORDS.search(name):
+        return ("not a data center: a campus building whose tag marks a "
+                "server room")
+    st = state_code(candidate.get("state"))
+    best = None
+    for r in rows:
+        if state_code(r.get("state")) != st:
+            continue
+        d = haversine_km(candidate.get("lat"), candidate.get("lon"),
+                         r.get("lat"), r.get("lon"))
+        if d is None or d > CLUSTER_KM:
+            continue
+        if (d <= SAME_SITE_KM or same_campus(candidate, r)) and (best is None or d < best[0]):
+            best = (d, r)
+    if best:
+        d, r = best
+        return (f"same site as {r['facility_id']} ({r['name'] or 'unnamed'}, "
+                f"{round(d * 1000)} m): corroborates it, not a new facility")
+    return ""
+
+
 def run_gate(candidates: list[dict], registry: list[dict],
              today: str) -> tuple[list[dict], list[dict]]:
     """(new registry rows, decision rows). Never mutates the snapshots."""
     known = {r["facility_id"] for r in registry}
     # A candidate matching an existing row on name and state is already known
     # even when its id differs, because ids carry the source.
-    known_names = {(norm_name(r["name"]), (r["state"] or "").upper())
+    known_names = {(norm_name(r["name"]), state_code(r["state"]))
                    for r in registry if r["name"]}
+    rows = list(registry)
     promoted, decisions = [], []
     for c in candidates:
         action, reason, fid = gate(c, known)
         if action == "promoted" and (norm_name(c["name"]),
-                                     (c["state"] or "").upper()) in known_names:
+                                     state_code(c["state"])) in known_names:
             action, reason = "blocked", "already in the registry under another source"
+        if action == "promoted" and c["stream"] in AUTO_REVIEWED:
+            why = auto_review(c, rows)
+            if why:
+                action, reason = "blocked", why
         decisions.append({
             "run_date": today, "stream": c["stream"], "action": action,
             "facility_id": fid, "name": c.get("name", ""),
@@ -629,8 +753,9 @@ def run_gate(candidates: list[dict], registry: list[dict],
             "evidence_url": c["evidence_url"], "first_seen": today,
             "last_seen": today,
         })
+        rows.append(promoted[-1])
         known.add(fid)
-        known_names.add((norm_name(c["name"]), (c["state"] or "").upper()))
+        known_names.add((norm_name(c["name"]), state_code(c["state"])))
     return promoted, decisions
 
 
@@ -885,6 +1010,24 @@ def selftest() -> int:
         check("and keeps the day it was promoted",
               kept and kept[0]["first_seen"] == "2026-07-01")
 
+        # A derived row joins after every existing row and keeps first_seen.
+        with open(os.path.join(tmp, "data", "facility_registry.csv"), "w",
+                  encoding="utf-8", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=FIELDS, lineterminator="\n")
+            w.writeheader()
+            w.writerows(third + [{"facility_id": "fac_derived01", "first_seen": "2026-09-15"}])
+        derived = {f: "" for f in FIELDS}
+        derived.update(facility_id="fac_derived01", source_id="osm", name="Alpha Annex",
+                       state="VA", lat="39.001", lon="-77.5", status="operating")
+        fourth = build_registry(cfg, root=tmp, today="2026-10-02", derived=[derived])
+        by3 = {r["name"]: r for r in third}
+        by4 = {r["name"]: r for r in fourth}
+        check("a derived row is in the rebuilt registry with the first_seen it was given",
+              by4["Alpha Annex"]["first_seen"] == "2026-09-15")
+        check("it joins an existing site and leaves the other sites as they were",
+              by4["Alpha Annex"]["cluster_id"] == by4["Alpha"]["cluster_id"]
+              and by4["Beta"]["cluster_id"] == by3["Beta"]["cluster_id"])
+
     permits = [
         {"registry_id": "1", "name": "AMAZON DCA-50", "state": "VA", "county": "Culpeper",
          "lat": "38.5", "lon": "-77.8", "status": "Operating", "echo_url": "https://echo/1"},
@@ -912,6 +1055,46 @@ def selftest() -> int:
           gate(air["AMAZON DCA-50"], set())[0] == "promoted")
     check("a permit with no operating status is held",
           gate(air["QTS CLT1 CAMPUS"], set())[0] == "held")
+
+    # --- automatic review for the auto-promoted streams ----------------
+    check("a state written out and its code are the same state",
+          state_code("Virginia") == state_code("va") == "VA")
+    check("an atlas row and a coded row on one campus are one campus to the review",
+          same_campus({"name": "Alpha Park A", "state": "Virginia", "lat": "39.0", "lon": "-77.5"},
+                      {"name": "Alpha Park B", "state": "VA", "lat": "39.001", "lon": "-77.5"}))
+    check("the evidence URL is the first cited source, not the prose description",
+          _first_url("https://a.example/x | https://b.example/y", "A campus in Ohio.")
+          == "https://a.example/x" and _first_url("", "A campus in Ohio.") == "")
+    reg = [{"facility_id": "fac_atlas00001", "name": "Unknown", "state": "Virginia",
+            "county": "Loudoun", "lat": "39.0000", "lon": "-77.5000"},
+           {"facility_id": "fac_atlas00002", "name": "Beta Campus Building 1",
+            "state": "Virginia", "county": "Loudoun", "lat": "39.1000", "lon": "-77.5000"}]
+
+    def osm(name, lat, lon, operator=""):
+        return {"stream": "osm", "name": name, "operator": operator, "state": "VA",
+                "county": "", "lat": lat, "lon": lon, "signal": "operational",
+                "evidence_url": "https://osm/1"}
+    pro, dec = run_gate([osm("Gamma IAD1", "39.00001", "-77.50001"),
+                         osm("Beta Campus Building 2", "39.1050", "-77.5000"),
+                         osm("Tuckerton Cable Landing Station", "39.6", "-74.3"),
+                         osm("Old Main", "44.66", "-74.99", "Clarkson University"),
+                         osm("Delta DC1", "39.3", "-77.6"),
+                         osm("Delta DC1 Annex", "39.3002", "-77.6")], reg, "2026-09-29")
+    act = {d["name"]: (d["action"], d["reason"]) for d in dec}
+    check("an object at an existing row's coordinates corroborates it, whatever its name",
+          act["Gamma IAD1"][0] == "blocked" and "fac_atlas00001" in act["Gamma IAD1"][1])
+    check("a building on an existing campus corroborates the campus",
+          act["Beta Campus Building 2"][0] == "blocked"
+          and "fac_atlas00002" in act["Beta Campus Building 2"][1])
+    check("a cable landing station is not a data center",
+          act["Tuckerton Cable Landing Station"][1].startswith("not a data center"))
+    check("a university building with no data-center name is not a data center",
+          act["Old Main"][1].startswith("not a data center"))
+    check("a new site promotes, and a second object on it then corroborates it",
+          act["Delta DC1"][0] == "promoted" and act["Delta DC1 Annex"][0] == "blocked"
+          and [p["name"] for p in pro] == ["Delta DC1"])
+    check("the review never stands in front of a reviewed EPA verdict",
+          "epa_air" not in AUTO_REVIEWED and "epa_air" in AUTO_STREAMS)
 
     failed = [n for n, ok in checks if not ok]
     for n, ok in checks:
@@ -947,28 +1130,36 @@ def main() -> int:
                                        read_csv(KEY_MAP), read_csv(PROJECT_HISTORY),
                                        today)
     obs_by_id = {o["project_id"]: o for o in observations}
+    # Graduations go through the gate before OpenStreetMap, so a site present in
+    # both enters under the project that graduated and the map object then
+    # corroborates it.
     candidates = (harvest_candidates(read_csv(CANDIDATES))
-                  + osm_candidates(read_csv(OSM_CANDIDATES))
                   + graduation_candidates(proposals, obs_by_id)
+                  + osm_candidates(read_csv(OSM_CANDIDATES))
                   + epa_air_candidates(read_csv(AIR_PERMITS), read_csv(AIR_REVIEW)))
     promoted, decisions = run_gate(candidates, registry, today)
 
-    applied = [r for r in promoted if args.promote and r["source_id"] in args.stream]
-    applied_ids = {r["facility_id"] for r in applied}
+    # A --promote run persists what it applies. An automatic stream is applied
+    # on every run and derived afresh, keeping the first_seen it was given.
+    persisted = [r for r in promoted if args.promote and r["source_id"] in args.stream]
+    derived = [r for r in promoted
+               if r["source_id"] in AUTO_STREAMS and r not in persisted]
+    applied_ids = {r["facility_id"] for r in persisted + derived}
     for d in decisions:
         if d["action"] == "promoted" and d["facility_id"] not in applied_ids:
             d["action"] = "promotable"
             d["reason"] = "gate passed; run with --promote to apply"
-    if applied:
+    if persisted:
         exists = os.path.exists(PROMOTED)
         with open(PROMOTED, "a", encoding="utf-8", newline="") as fh:
             w = csv.DictWriter(fh, fieldnames=FIELDS, lineterminator="\n")
             if not exists:
                 w.writeheader()
-            w.writerows(applied)
-        registry.extend(applied)
-        cluster(registry)
-        registry.sort(key=lambda r: (r["state"], r["name"], r["facility_id"]))
+            w.writerows(persisted)
+    if persisted or derived:
+        # Rebuilt rather than extended, so the new rows cluster after every
+        # existing one (see build_registry).
+        registry = build_registry(config, today=today, derived=derived)
 
     os.makedirs(DATA, exist_ok=True)
     with open(OBSERVATIONS, "w", encoding="utf-8", newline="") as fh:
@@ -986,9 +1177,17 @@ def main() -> int:
     # one day. The Data Operations page reports these counts as evidence that
     # the platform maintains itself, and a count inflated by repetition
     # overstates that evidence.
+    # Keyed with facility_id, which carries the coordinates: OpenStreetMap maps
+    # several objects named "QTS" or "Meta" in one state with no county, and
+    # on name alone their decisions overwrote each other and were re-recorded
+    # every run. An exact duplicate object keeps its first decision.
+    key_fields = ("stream", "name", "state", "county", "facility_id")
+    first: dict = {}
+    for d in decisions:
+        first.setdefault(tuple(d.get(k, "") for k in key_fields), d)
     fresh, suppressed = new_decisions(
-        read_csv(REPORT), decisions,
-        key_fields=("stream", "name", "state", "county"),
+        read_csv(REPORT), list(first.values()),
+        key_fields=key_fields,
         state_fields=("action", "reason"))
     exists = os.path.exists(REPORT)
     if fresh:
