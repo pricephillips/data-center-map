@@ -1,9 +1,10 @@
 {
   "generated": "2026-09-29",
-  "rows": 1506,
-  "distinct_sites": 665,
+  "rows": 1556,
+  "distinct_sites": 704,
   "by_source": {
     "osti_im3_atlas": 1479,
+    "epa_air": 50,
     "epoch_frontier": 27
   },
   "by_state": {
@@ -18,14 +19,15 @@
     "New Jersey": 53,
     "Illinois": 50
   },
-  "with_coordinates": 1506,
+  "with_coordinates": 1556,
   "decisions_this_run": {
     "promotable": 890,
-    "blocked": 250,
-    "held": 239
+    "blocked": 251,
+    "held": 244,
+    "promoted": 50
   },
   "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
   "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
-  "decisions_newly_recorded": 100,
+  "decisions_newly_recorded": 156,
   "decisions_unchanged_since_last_run": 1279
 }

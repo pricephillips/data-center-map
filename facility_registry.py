@@ -24,10 +24,17 @@ What it does
   3. Preserves first_seen across regenerations. A derived file that resets its
      own history every run cannot answer when something appeared, which is
      most of what a registry is for.
-  4. Reads two candidate streams and gates them:
+  4. Reads the candidate streams and gates them:
        data/facility_candidates.csv        signal harvester (Layer A routing)
+       data/facility_candidates_osm.csv    OpenStreetMap objects
        Layer B graduations                 projects that reached operating
+       EPA air permits                     reviewed registry gaps (epa_air)
      Every decision is written to data/facility_promotion_report.csv.
+  5. Keeps what was promoted. A promotion is appended to
+     data/facility_promoted.csv and every rebuild reads that file back, so a
+     promoted row survives the nightly regeneration. Before this the rebuild
+     read only the snapshots: a promotion would have lasted until the next
+     run, and none had ever been applied.
 
 The gate, and why it holds most rows
 
@@ -73,9 +80,14 @@ Graduation (Ruling 3, 2026-09-28)
   Observations are keyed by the permanent key, not the source id, so a
   renumbering never resets a date.
 
+Promotion is scoped by stream
+  --promote needs at least one --stream. The gate passes thousands of
+  OpenStreetMap objects, and promoting a stream is a review decision about
+  that stream, so one flag must not apply all of them at once.
+
 Usage
   python facility_registry.py
-  python facility_registry.py --promote
+  python facility_registry.py --promote --stream epa_air
   python facility_registry.py --selftest
 """
 
@@ -100,6 +112,13 @@ SOURCES = os.path.join(HERE, "configs", "facility_sources.json")
 REGISTRY = os.path.join(DATA, "facility_registry.csv")
 CANDIDATES = os.path.join(DATA, "facility_candidates.csv")
 OSM_CANDIDATES = os.path.join(DATA, "facility_candidates_osm.csv")
+AIR_PERMITS = os.path.join(DATA, "proposal_candidates_airpermits.csv")
+AIR_REVIEW = os.path.join(DATA, "airpermit_review.csv")
+PROMOTED = os.path.join(DATA, "facility_promoted.csv")
+STREAMS = ("signal_harvest", "osm", "layer_b_graduation", "epa_air")
+# ECHO operating status -> the signal the gate reads. Anything else (planned,
+# no status in ICIS, closed) asserts no building and is held by the gate.
+AIR_SIGNALS = {"operating": "operational", "under construction": "construction_start"}
 PROPOSALS = os.path.join(DATA, "proposals.csv")
 REPORT = os.path.join(DATA, "facility_promotion_report.csv")
 KEY_MAP = os.path.join(DATA, "project_key_map.csv")
@@ -356,6 +375,16 @@ def build_registry(config: dict, root: str = HERE,
             row["first_seen"] = (was or {}).get("first_seen") or today
             row["last_seen"] = today
             rows.append(row)
+    # Promoted rows are a source like the snapshots: read back every run.
+    for row in read_csv(os.path.join(root, "data", "facility_promoted.csv")):
+        if not row.get("facility_id") or row["facility_id"] in seen:
+            continue
+        seen.add(row["facility_id"])
+        row = {f: row.get(f, "") for f in FIELDS}
+        row["cluster_id"] = ""
+        row["first_seen"] = row["first_seen"] or today
+        row["last_seen"] = today
+        rows.append(row)
     cluster(rows)
     rows.sort(key=lambda r: (r["state"], r["name"], r["facility_id"]))
     return rows
@@ -508,6 +537,38 @@ def osm_candidates(rows: list[dict]) -> list[dict]:
     return out
 
 
+def epa_air_candidates(permits: list[dict], review: list[dict]) -> list[dict]:
+    """Reviewed EPA air permits whose verdict is a registry gap.
+
+    Only a person's (or a reviewed session's) verdict in
+    data/airpermit_review.csv puts a permit here; an unreviewed permit never
+    reaches the gate. ECHO supplies a facility name, coordinates and a public
+    record URL, so these can clear the gate on their own evidence. The
+    operator comes from the review, where it was confirmed.
+    """
+    verdict = {r.get("registry_id"): r for r in review
+               if r.get("verdict") == "registry_gap_known_operator"}
+    out = []
+    for p in permits:
+        v = verdict.get(p.get("registry_id"))
+        if not v:
+            continue
+        out.append({
+            "stream": "epa_air",
+            "name": (p.get("name") or "").strip(),
+            "operator": (v.get("operator") or "").strip(),
+            "state": (p.get("state") or "").strip(),
+            "county": (p.get("county") or "").strip(),
+            "lat": (p.get("lat") or "").strip(),
+            "lon": (p.get("lon") or "").strip(),
+            "capacity_mw": "",
+            "signal": AIR_SIGNALS.get((p.get("status") or "").strip().lower(),
+                                      "no_operating_status"),
+            "evidence_url": (p.get("echo_url") or v.get("evidence_url") or "").strip(),
+        })
+    return out
+
+
 def gate(candidate: dict, known_ids: set[str]) -> tuple[str, str, str]:
     """(action, reason, facility_id). action is promoted, held or blocked."""
     signal = (candidate.get("signal") or "").strip()
@@ -562,7 +623,9 @@ def run_gate(candidates: list[dict], registry: list[dict],
             "name": c["name"], "operator": c.get("operator", ""),
             "state": c["state"], "county": c.get("county", ""),
             "lat": c.get("lat", ""), "lon": c.get("lon", ""), "sqft": "",
-            "capacity_mw": c.get("capacity_mw", ""), "status": "operating",
+            "capacity_mw": c.get("capacity_mw", ""),
+            "status": ("under_construction" if c.get("signal") == "construction_start"
+                       else "operating"),
             "evidence_url": c["evidence_url"], "first_seen": today,
             "last_seen": today,
         })
@@ -807,6 +870,49 @@ def selftest() -> int:
         check("the snapshot is never rewritten", "Alpha" in original
               and original.count("\n") == 3)
 
+        # A promotion is read back by every rebuild, keeping its first_seen.
+        with open(os.path.join(tmp, "data", "facility_promoted.csv"), "w",
+                  encoding="utf-8", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=FIELDS, lineterminator="\n")
+            w.writeheader()
+            w.writerow({"facility_id": "fac_promoted01", "source_id": "epa_air",
+                        "name": "Promoted Site", "state": "VA", "lat": "37.0",
+                        "lon": "-78.0", "status": "operating",
+                        "first_seen": "2026-07-01"})
+        third = build_registry(cfg, root=tmp, today="2026-10-01")
+        kept = [r for r in third if r["facility_id"] == "fac_promoted01"]
+        check("a promoted row survives the nightly rebuild", len(kept) == 1)
+        check("and keeps the day it was promoted",
+              kept and kept[0]["first_seen"] == "2026-07-01")
+
+    permits = [
+        {"registry_id": "1", "name": "AMAZON DCA-50", "state": "VA", "county": "Culpeper",
+         "lat": "38.5", "lon": "-77.8", "status": "Operating", "echo_url": "https://echo/1"},
+        {"registry_id": "2", "name": "QTS CLT1 CAMPUS", "state": "SC", "county": "York",
+         "lat": "34.9", "lon": "-81.0", "status": "No Operating Status In ICIS",
+         "echo_url": "https://echo/2"},
+        {"registry_id": "3", "name": "BANK DATA CENTER", "state": "VA", "county": "Henrico",
+         "lat": "37.6", "lon": "-77.5", "status": "Operating", "echo_url": "https://echo/3"},
+        {"registry_id": "4", "name": "UNREVIEWED LLC", "state": "VA", "county": "Loudoun",
+         "lat": "39.0", "lon": "-77.5", "status": "Operating", "echo_url": "https://echo/4"},
+    ]
+    review = [
+        {"registry_id": "1", "verdict": "registry_gap_known_operator",
+         "operator": "Amazon Web Services"},
+        {"registry_id": "2", "verdict": "registry_gap_known_operator", "operator": "QTS"},
+        {"registry_id": "3", "verdict": "enterprise_in_house"},
+    ]
+    air = {c["name"]: c for c in epa_air_candidates(permits, review)}
+    check("only reviewed registry gaps become candidates",
+          set(air) == {"AMAZON DCA-50", "QTS CLT1 CAMPUS"})
+    check("an EPA candidate carries the confirmed operator and its ECHO record",
+          air["AMAZON DCA-50"]["operator"] == "Amazon Web Services"
+          and air["AMAZON DCA-50"]["evidence_url"] == "https://echo/1")
+    check("an operating permit clears the gate",
+          gate(air["AMAZON DCA-50"], set())[0] == "promoted")
+    check("a permit with no operating status is held",
+          gate(air["QTS CLT1 CAMPUS"], set())[0] == "held")
+
     failed = [n for n, ok in checks if not ok]
     for n, ok in checks:
         print(f"  {'PASS' if ok else 'FAIL'}  {n}")
@@ -822,9 +928,14 @@ def main() -> int:
     ap.add_argument("--promote", action="store_true",
                     help="apply the gate and write promoted rows into the "
                          "registry; without it the gate runs and reports only")
+    ap.add_argument("--stream", action="append", choices=STREAMS, default=[],
+                    help="with --promote: the candidate stream(s) to promote")
     args = ap.parse_args()
     if args.selftest:
         return selftest()
+    if args.promote and not args.stream:
+        ap.error("--promote needs at least one --stream; promoting a stream is "
+                 "a review decision about that stream")
 
     today = dt.date.today().isoformat()
     with open(SOURCES, encoding="utf-8") as fh:
@@ -838,18 +949,26 @@ def main() -> int:
     obs_by_id = {o["project_id"]: o for o in observations}
     candidates = (harvest_candidates(read_csv(CANDIDATES))
                   + osm_candidates(read_csv(OSM_CANDIDATES))
-                  + graduation_candidates(proposals, obs_by_id))
+                  + graduation_candidates(proposals, obs_by_id)
+                  + epa_air_candidates(read_csv(AIR_PERMITS), read_csv(AIR_REVIEW)))
     promoted, decisions = run_gate(candidates, registry, today)
 
-    if args.promote and promoted:
-        registry.extend(promoted)
+    applied = [r for r in promoted if args.promote and r["source_id"] in args.stream]
+    applied_ids = {r["facility_id"] for r in applied}
+    for d in decisions:
+        if d["action"] == "promoted" and d["facility_id"] not in applied_ids:
+            d["action"] = "promotable"
+            d["reason"] = "gate passed; run with --promote to apply"
+    if applied:
+        exists = os.path.exists(PROMOTED)
+        with open(PROMOTED, "a", encoding="utf-8", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=FIELDS, lineterminator="\n")
+            if not exists:
+                w.writeheader()
+            w.writerows(applied)
+        registry.extend(applied)
         cluster(registry)
         registry.sort(key=lambda r: (r["state"], r["name"], r["facility_id"]))
-    elif promoted:
-        for d in decisions:
-            if d["action"] == "promoted":
-                d["action"] = "promotable"
-                d["reason"] = "gate passed; run with --promote to apply"
 
     os.makedirs(DATA, exist_ok=True)
     with open(OBSERVATIONS, "w", encoding="utf-8", newline="") as fh:
