@@ -29,8 +29,6 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 | 1 | PA | Lehigh County | 4 | Montgomery County, PA (2026-07-27) | 64 | 2 | 5 | no | none |
 | 1 | FL | Polk County | 3 | Lake County, FL (2026-09-08) | 21 | 2 | 1 | no | none |
 | 1 | MO | St. Louis County | 3 | St. Charles County, MO (2026-07-14) | 77 | 2 | 1 | no | ambiguous |
-| 1 | IL | Jersey County | 2 | St. Charles County, MO (2026-07-14) | 77 | 2 | 0 | yes | none |
-| 1 | FL | Martin County | 1 | Palm Beach County, FL (2026-09-24) | 5 | 2 | 0 | no | none |
 | 1 | WI | Eau Claire County | 1 | Chippewa County, WI (2026-08-11) | 49 | 2 | 0 | no | unprobed |
 | 1 | NC | Stokes County | 1 | Surry County, NC (2026-07-21) | 70 | 2 | 1 | yes | none |
 | 1 | KY | Warren County | 6 | Logan County, KY (2026-07-28) | 63 | 1 | 0 | no | ambiguous |
@@ -50,10 +48,12 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 | 1 | IL | Peoria County | 2 | Woodford County, IL (2026-08-18) | 42 | 1 | 0 | no | none |
 | 1 | VA | Orange County | 2 | Spotsylvania County, VA (2026-08-12) | 48 | 1 | 0 | yes | ambiguous |
 | 1 | NV | Eureka County | 2 | White Pine County, NV (2026-07-22) | 69 | 1 | 0 | yes | none |
+| 1 | IL | Jersey County | 2 | St. Charles County, MO (2026-07-14) | 77 | 1 | 0 | yes | none |
 | 1 | IL | Stephenson County | 2 | Green County, WI (2026-07-14) | 77 | 1 | 0 | yes | unprobed |
 | 1 | NJ | Salem County | 2 | Cumberland County, NJ (2026-05-19) | 133 | 1 | 0 | yes | granicus |
 | 1 | WI | Sheboygan County | 2 | Manitowoc County, WI (2026-04-28) | 154 | 1 | 0 | no | none |
 | 1 | IN | Allen County | 2 | DeKalb County, IN (2026-04-13) | 169 | 1 | 1 | no | ambiguous |
+| 1 | FL | Martin County | 1 | Palm Beach County, FL (2026-09-24) | 5 | 1 | 0 | no | none |
 | 1 | OR | Clackamas County | 1 | Marion County, OR (2026-09-22) | 7 | 1 | 1 | no | unprobed |
 | 1 | AL | Tuscaloosa County | 1 | Jefferson County, AL (2026-09-09) | 20 | 1 | 0 | no | none |
 | 1 | MN | St. Louis County | 1 | Carlton County, MN (2026-08-25) | 35 | 1 | 1 | no | ambiguous |
