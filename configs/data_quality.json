@@ -1,0 +1,124 @@
+{
+  "_comment": [
+    "Data quality settings for spec 005. Hand-edited; no process writes this file.",
+    "Read by qc/schemas.py, qc/coverage_delta.py and label_disagreement_audit.py.",
+    "",
+    "schema.mode is the single report-only versus blocking flag (FR-003):",
+    "  report_only  never blocks",
+    "  window       report-only until window_clean_runs consecutive clean runs",
+    "               in data/schema_run_history.csv, then blocking; the history",
+    "               records the date it switched",
+    "  blocking     blocks on any failure that no allowed_exceptions rule covers",
+    "Set switch_date (YYYY-MM-DD) when flipping to blocking by hand.",
+    "",
+    "Outcome grades and the state set are NOT declared here (FR-002): they come",
+    "from outcome_defensibility.OUTCOME_GRADES and qc/schema_adapter.STATE_ABBREV.",
+    "A new legitimate category that fails a check is an allowed_exceptions rule."
+  ],
+  "schema": {
+    "mode": "window",
+    "window_clean_runs": 7,
+    "switch_date": null,
+    "proposals_columns": [
+      "id",
+      "name",
+      "type",
+      "phase",
+      "status",
+      "state",
+      "towns",
+      "counties",
+      "address",
+      "lat",
+      "lon",
+      "size_acres",
+      "capacity_mw",
+      "scale",
+      "date",
+      "lastUpdated",
+      "yearOpened",
+      "jobsConstruction",
+      "jobsLongTerm",
+      "jobsTotal",
+      "companies",
+      "zoningAllowance",
+      "landSold",
+      "bringingOwnEnergy",
+      "approx",
+      "locationTbd",
+      "locationConfidence",
+      "moratoriumExempt",
+      "info",
+      "createdAt",
+      "updatedAt",
+      "outcome_detail"
+    ],
+    "allowed_exceptions": [
+      {
+        "schema": "clean_feed",
+        "check": "state_normalized",
+        "when": {
+          "State": "US",
+          "Scope": "federal"
+        },
+        "reason": "national records (Scope federal); no single state applies"
+      },
+      {
+        "schema": "clean_feed",
+        "check": "state_normalized",
+        "when": {
+          "State": "",
+          "data_source": "signal_harvest_auto"
+        },
+        "reason": "harvested headline named no state; the row awaits geography triage. Remove this rule to make these rows blocking (decision for Price, spec 005 research D6)"
+      },
+      {
+        "schema": "proposals",
+        "check": [
+          "lat_bounds",
+          "lon_bounds",
+          "not_null_island"
+        ],
+        "when": {
+          "pk": [
+            "pk_00178",
+            "pk_00179",
+            "pk_00185",
+            "pk_00187",
+            "pk_00188",
+            "pk_00189",
+            "pk_00191"
+          ]
+        },
+        "reason": "source (TrackDataCenters) publishes lat 0, lon 0 with locationConfidence exact for these seven North Carolina projects; project_resolution.parse_coords already reads 0,0 as missing. Fix at the source; keyed by pk because the source renumbers ids"
+      }
+    ]
+  },
+  "coverage_delta": {
+    "default_threshold": 0.2,
+    "files": {
+      "master_opposition_clean.csv": {
+        "*": 0.2
+      },
+      "data/proposals.csv": {
+        "*": 0.2,
+        "capacity_mw": 0.2
+      }
+    },
+    "robust_z": {
+      "threshold": 6.0,
+      "columns": {
+        "master_opposition_clean.csv": [
+          "Megawatts",
+          "Investment Million USD",
+          "Acreage"
+        ]
+      }
+    }
+  },
+  "label_disagreement": {
+    "positive_quantile": 0.1,
+    "negative_quantile": 0.99,
+    "max_evidence": 5
+  }
+}

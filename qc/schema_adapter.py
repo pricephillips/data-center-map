@@ -53,6 +53,64 @@ STATE_ABBREV = {
     "WI": "Wisconsin", "WY": "Wyoming", "DC": "District of Columbia",
 }
 
+# State normalizer (ADDITIVE, 2026-09-29, spec 005 US2). normalize_state() is
+# the one place a free-text State value becomes a USPS code. It never guesses:
+# national values and anything it cannot place return "" and go on the review
+# list the caller passes. It reads no coordinates, so it can never override the
+# geographic gate in state_bounds.py; a row that says Kentucky but is plotted
+# in Arkansas normalizes to KY and still fails that gate.
+_NAME_TO_CODE = {name.lower(): code for code, name in STATE_ABBREV.items()}
+STATE_VARIANTS = {
+    # AP-style and common short forms, lower-cased, periods kept
+    "ala.": "AL", "ariz.": "AZ", "ark.": "AR", "calif.": "CA", "cal.": "CA",
+    "colo.": "CO", "conn.": "CT", "del.": "DE", "fla.": "FL", "ga.": "GA",
+    "ill.": "IL", "ind.": "IN", "kan.": "KS", "kans.": "KS", "ky.": "KY",
+    "la.": "LA", "md.": "MD", "mass.": "MA", "mich.": "MI", "minn.": "MN",
+    "miss.": "MS", "mo.": "MO", "mont.": "MT", "neb.": "NE", "nebr.": "NE",
+    "nev.": "NV", "n.h.": "NH", "n.j.": "NJ", "n.m.": "NM", "n.y.": "NY",
+    "n.c.": "NC", "n.d.": "ND", "okla.": "OK", "ore.": "OR", "oreg.": "OR",
+    "pa.": "PA", "penn.": "PA", "penna.": "PA", "r.i.": "RI", "s.c.": "SC",
+    "s.d.": "SD", "tenn.": "TN", "tex.": "TX", "vt.": "VT", "va.": "VA",
+    "wash.": "WA", "w.va.": "WV", "w. va.": "WV", "wis.": "WI", "wisc.": "WI",
+    "wyo.": "WY", "d.c.": "DC", "washington dc": "DC", "washington d.c.": "DC",
+    "washington, d.c.": "DC", "washington, dc": "DC",
+}
+NOT_A_STATE = {"us", "usa", "u.s.", "u.s.a.", "united states",
+               "united states of america", "national", "federal", "nationwide"}
+_STATE_PREFIX = re.compile(r"^(commonwealth|state) of\s+", re.IGNORECASE)
+
+
+def normalize_state(value, review: list | None = None) -> str:
+    """USPS code for a State value, or "" when it cannot be placed.
+
+    Accepts codes in any case (a trailing period is allowed: "va."), full
+    names, "Commonwealth of"/"State of" prefixes and AP abbreviations. National
+    values ("US") and unknown values return "" and, when a list is passed,
+    are appended to it as (value, reason) with reason "not_a_state" or
+    "unknown". A blank value returns "" and is not a review item.
+    """
+    raw = "" if value is None else str(value)
+    v = re.sub(r"\s+", " ", raw).strip()
+    if not v:
+        return ""
+    low = v.lower()
+    if low in NOT_A_STATE:
+        if review is not None:
+            review.append((raw, "not_a_state"))
+        return ""
+    if low in STATE_VARIANTS:
+        return STATE_VARIANTS[low]
+    bare = low.rstrip(".").strip()
+    if len(bare) == 2 and bare.upper() in STATE_ABBREV:
+        return bare.upper()
+    name = _STATE_PREFIX.sub("", bare).strip()
+    if name in _NAME_TO_CODE:
+        return _NAME_TO_CODE[name]
+    if review is not None:
+        review.append((raw, "unknown"))
+    return ""
+
+
 # The dataset's native, opposition-centric outcome vocabulary.
 OUTCOME_VOCAB = {"win", "loss", "pending", "mixed"}
 
@@ -108,6 +166,8 @@ def extract_locality(text: str) -> tuple[str, str]:
 
 _FULL_STATES = {name.lower(): name for name in STATE_ABBREV.values()}
 _TRAIL_ABBR_RE = re.compile(r",\s*([A-Z]{2})\b")
+_PLACE_AFTER = re.compile(r"\s+(county|parish|township|borough|city|avenue|street|st\b)")
+_PLACE_BEFORE = re.compile(r"\b(port|fort|ft\.?|lake|mount|mt\.?)\s+$")
 _DASH_STATE_RE = re.compile(r"[-–—]\s*([A-Za-z][A-Za-z ]+?)\s*$")
 
 
@@ -125,7 +185,12 @@ def extract_state(text: str) -> str:
         return _FULL_STATES[m.group(1).strip().lower()]
     low = text.lower()
     for name in sorted(_FULL_STATES, key=len, reverse=True):   # multi-word names first
-        if re.search(r"\b" + re.escape(name) + r"\b", low):
+        for m in re.finditer(r"\b" + re.escape(name) + r"\b", low):
+            # A state name inside a place name is not the state: "Washington
+            # County", "Delaware County" and "Port Washington" (Wisconsin)
+            # were all backfilled as the state before 2026-09-29 (spec 005).
+            if _PLACE_AFTER.match(low, m.end()) or _PLACE_BEFORE.search(low, 0, m.start()):
+                continue
             return _FULL_STATES[name]
     return ""
 
@@ -190,8 +255,62 @@ def normalize_records(records: list[dict]) -> list[dict]:
     return [normalize_record(r) for r in records]
 
 
+def selftest() -> int:
+    import os
+    import sys
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    import state_bounds
+    fails = []
+
+    def check(name, cond):
+        print(("PASS " if cond else "FAIL ") + name)
+        if not cond:
+            fails.append(name)
+
+    for v in ("Virginia", "VA", "va", "va.", "Va.", "Commonwealth of Virginia",
+              " virginia ", "State of Virginia"):
+        check(f"{v!r} -> VA", normalize_state(v) == "VA")
+    check("District of Columbia -> DC", normalize_state("District of Columbia") == "DC")
+    check("D.C. -> DC", normalize_state("D.C.") == "DC")
+    check("Commonwealth of Pennsylvania -> PA",
+          normalize_state("Commonwealth of Pennsylvania") == "PA")
+    check("New  York (double space) -> NY", normalize_state("New  York") == "NY")
+    rev = []
+    check("US -> '' (never guessed)", normalize_state("US", rev) == "")
+    check("US lands on review as not_a_state", rev == [("US", "not_a_state")])
+    rev = []
+    check("Freedonia -> ''", normalize_state("Freedonia", rev) == "")
+    check("unknown value lands on review", rev == [("Freedonia", "unknown")])
+    rev = []
+    check("blank -> '' with no review item",
+          normalize_state("", rev) == "" and normalize_state(None, rev) == "" and rev == [])
+    check("Puerto Rico is not in the 51-code set", normalize_state("PR") == "")
+    check("every full name round-trips",
+          all(normalize_state(n) == c for c, n in STATE_ABBREV.items()))
+    # prj_61 (now prj_78): state Kentucky, coordinates in Clark County, Arkansas.
+    check("Kentucky -> KY", normalize_state("Kentucky") == "KY")
+    check("geographic gate still flags the KY row plotted in Arkansas",
+          state_bounds.in_state(34.0537, -93.1059, normalize_state("Kentucky")) is False)
+    check("extract_state: Texas headline", extract_state("Permit moratorium ordered on new Texas data centers") == "Texas")
+    check("extract_state: Washington County is not the state",
+          extract_state("Washington County commissioner calls for moratorium") == "")
+    check("extract_state: Port Washington is not the state",
+          extract_state("Judge dismisses lawsuit challenging Port Washington data center") == "")
+    check("extract_state: Delaware County is not the state",
+          extract_state("More Delaware County communities address data center zoning") == "")
+    check("extract_state: a later genuine mention still counts",
+          extract_state("Washington County board meets as Ohio weighs rules") == "Ohio")
+    check("extract_state: trailing code wins", extract_state("Vote in Salix, IA") == "Iowa")
+    check("normalize_record still expands codes for the gate",
+          normalize_record({"State": "WA"})["State"] == "Washington")
+    print(f"{len(fails)} failure(s)")
+    return 1 if fails else 0
+
+
 if __name__ == "__main__":
     import csv, json, sys
+    if "--selftest" in sys.argv:
+        sys.exit(selftest())
     path = sys.argv[1] if len(sys.argv) > 1 else "master_opposition.csv"
     rows = list(csv.DictReader(open(path, newline="", encoding="utf-8")))
     norm = normalize_records(rows)
