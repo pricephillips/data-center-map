@@ -170,8 +170,24 @@ jobs:
           echo "## ruff (report-only)" >> "$GITHUB_STEP_SUMMARY"
           ruff check --select E,F --exit-zero --statistics . >> "$GITHUB_STEP_SUMMARY"
 
+      # Spec 006 (FR-003). trafilatura and datasketch are installed only
+      # here, AFTER the blocking selftest gate: the discovery run above does
+      # not have them, and each module's selftest prints a SKIP line for the
+      # checks that need them. status_resolution.py --auto-supersede (next
+      # step) and the detection-step scan use datasketch for syndicated
+      # copies; untagged_triage.py uses trafilatura for date hints.
+      - name: Install harvest and triage extras (spec 006)
+        run: uv pip install --system -c requirements/ci.txt trafilatura datasketch
+
       - name: Apply confirmed status resolutions
         run: |
+          # 2026-09-29 (owner decision): syndicated copies, one article
+          # republished under several mastheads, are confirmed as supersede
+          # without a reviewer. Appends to data/status_resolutions.csv before
+          # the feed build, so hold_superseded() keeps the copies out of the
+          # clean feed in this same run. Rows stay in master; setting an auto
+          # row's action to keep returns the copy and stops re-proposal.
+          python status_resolution.py --auto-supersede
           # 2026-09-28. Harvested rows enter as pending and nothing moved them
           # when the vote happened, so adopted restrictions (Palm Beach, Levy,
           # Wakulla, Pinellas Park) never reached the county label. Applies the
@@ -214,15 +230,6 @@ jobs:
         id: proximity
         continue-on-error: true
         run: python proximity_analysis.py
-
-      # Spec 006 (FR-003). trafilatura and datasketch are installed only
-      # here, AFTER the blocking selftest gate: the discovery run above does
-      # not have them, and each module's selftest prints a SKIP line for the
-      # checks that need them. untagged_triage.py uses trafilatura for date
-      # hints; status_resolution.py (detection step) and the follow-up check
-      # run in this job too, and use datasketch for syndicated copies.
-      - name: Install harvest and triage extras (spec 006)
-        run: uv pip install --system -c requirements/ci.txt trafilatura datasketch
 
       - name: Verification status + untagged review worklist
         id: verification
@@ -506,6 +513,11 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/master_diff_summary.md 2>/dev/null || true
+          # Auto-confirmed syndicated copies (status_resolution.py
+          # --auto-supersede). One add per path, guarded.
+          for f in data/status_resolutions.csv; do
+            if [ -e "$f" ]; then git add "$f"; fi
+          done
           git add master_opposition_clean.csv \
                   quarantine.json qc_report.md data_quality_report.md change_log.csv \
                   review_conflicts.csv review_stale_pending.csv group_registry.csv \

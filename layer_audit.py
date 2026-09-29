@@ -774,15 +774,34 @@ def generated_paths(root: str = HERE, config: dict | None = None) -> list[str]:
     """
     skip = not_regenerable(config)
     wmap = write_map(root)
+    declared = declared_exact_files(config)
     out = set()
     for target in wmap:
         if has_unknown_dir(target) or "*" in target or target.endswith("/"):
             continue
         if target in skip:
             continue
-        if os.path.exists(os.path.join(root, target)):
+        # A target that is also named exactly in configs/layers.json is a
+        # declared output, so it is marked before its first producing run
+        # commits it (spec 006: the archive manifest and the date-hint
+        # report). Otherwise only paths already committed are marked, which
+        # keeps selftest temp paths out.
+        if os.path.exists(os.path.join(root, target)) or target in declared:
             out.add(target)
     return sorted(out)
+
+
+def declared_exact_files(config: dict | None = None) -> set:
+    """Non-glob file entries in configs/layers.json layer lists."""
+    if config is None:
+        with open(CONFIG, encoding="utf-8") as fh:
+            config = json.load(fh)
+    out = set()
+    for layer in (config.get("layers") or {}).values():
+        for f in layer.get("files", []):
+            if not any(c in f for c in "*?["):
+                out.add(f)
+    return out
 
 
 def render_gitattributes(paths: list[str]) -> str:
