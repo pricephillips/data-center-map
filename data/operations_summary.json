@@ -466,15 +466,23 @@
     }
   },
   "calibration": {
-    "runs": 22,
+    "runs": 23,
     "by_verdict": {
-      "PROMOTE": 21,
+      "PROMOTE": 22,
       "HOLD": 1
     },
     "last_verdict": "PROMOTE",
     "last_run": "2026-09-29",
-    "current_streak": 6,
+    "current_streak": 7,
     "recent": [
+      {
+        "timestamp": "2026-09-29",
+        "model": "outcome_model",
+        "n": "80",
+        "ece": "0.0592",
+        "brier_skill_score": "0.4117",
+        "verdict": "PROMOTE"
+      },
       {
         "timestamp": "2026-09-29",
         "model": "outcome_model",
@@ -530,14 +538,6 @@
         "ece": "0.1582",
         "brier_skill_score": "0.0382",
         "verdict": "HOLD"
-      },
-      {
-        "timestamp": "2026-09-14",
-        "model": "outcome_model",
-        "n": "88",
-        "ece": "0.1476",
-        "brier_skill_score": "0.053",
-        "verdict": "PROMOTE"
       }
     ]
   },
@@ -558,7 +558,7 @@
       "as_of": "2026-09-29"
     },
     "decision_dates": {
-      "open": 46
+      "open": 53
     },
     "announced_dates": {
       "open": 17
@@ -823,12 +823,14 @@
   ],
   "facility_registry": {
     "generated": "2026-09-29",
-    "rows": 1556,
-    "distinct_sites": 711,
+    "rows": 1635,
+    "distinct_sites": 790,
     "by_source": {
       "osti_im3_atlas": 1479,
+      "osm": 75,
       "epa_air": 50,
-      "epoch_frontier": 27
+      "epoch_frontier": 27,
+      "layer_b_graduation": 4
     },
     "by_state": {
       "Virginia": 319,
@@ -842,16 +844,16 @@
       "New Jersey": 53,
       "Illinois": 50
     },
-    "with_coordinates": 1556,
+    "with_coordinates": 1635,
     "decisions_this_run": {
-      "promotable": 890,
-      "blocked": 301,
-      "held": 244
+      "blocked": 1113,
+      "held": 243,
+      "promoted": 79
     },
     "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
     "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
-    "decisions_newly_recorded": 100,
-    "decisions_unchanged_since_last_run": 1335
+    "decisions_newly_recorded": 0,
+    "decisions_unchanged_since_last_run": 1231
   },
   "note": "Every figure here is read from an audit trail the pipeline writes on its own runs. A missing input becomes a null section rather than a zero: an operations page that invents a number is worse than one with a gap in it."
 }
