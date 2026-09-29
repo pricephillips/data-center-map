@@ -74,3 +74,8 @@ On promotion, `calibration_gate.py` writes a skops model card to `models/cards/<
 
 - Headline metric changes from new diagnostics are expected and never a reason to revert (Constitution V).
 - Model artifacts, if persisted, use the skops format, not pickle.
+
+## Changes on main since this spec (2026-09-29)
+
+- **Python 3.12 now blocks dependency updates as well.** Dependabot's pip PR moved numpy to 2.5.3 and scipy to 1.18.1, which need 3.12. They were pinned back to 2.4.6 and 1.17.1, and `.github/dependabot.yml` ignores those ranges. The 3.12 decision here also decides when those ignores come off. Moving the county job alone leaves one constraints file serving two interpreters, so the plan must either split `requirements/ci.txt` by Python version or move every workflow together.
+- **`acquire-geo-sources.yml` already runs 3.12.** It installs nothing from the constraints file today.

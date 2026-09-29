@@ -81,3 +81,9 @@ A `permit_ingest.py` config maps the Epoch AI Frontier Data Centers CSV into the
 - Price adds the `CONGRESS_API_KEY` secret (free signup at api.congress.gov).
 - Price's Mac already runs Ollama for the weekly report and can run the extraction script.
 - Epoch's CC-BY attribution is satisfied by the manifest entry plus a methodology footnote in any deliverable that uses the data.
+
+## Changes on main since this spec (2026-09-29)
+
+- **Legistar is covered.** `legistar_probe.py` (with `configs/legistar_clients.json` and `data/legistar_discovery.json`) finds county Legistar clients and records adopted moratorium matters as evidence. The civic-scraper story must use civic-scraper only for the platforms Legistar does not cover (CivicPlus, Granicus, PrimeGov), or wrap `legistar_probe.py`. It must not add a second Legistar client.
+- **Proposal discovery exists.** `proposal_discovery.py` (news), `fetch_air_permits.py` (EPA ECHO), `fetch_planned_generation.py` (EIA-860M) and `fetch_grid_territory.py` (EIA-861 via PUDL) run in `proposals-intel.yml`. Matching new proposal rows, including the Epoch rows, must use the permanent keys in `data/project_key_map.csv`, because the source renumbers `prj_` ids (190 hand rows were re-keyed on 2026-09-28).
+- These sources are registered as already-built in `configs/integrations.json`.

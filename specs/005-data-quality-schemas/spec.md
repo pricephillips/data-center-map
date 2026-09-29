@@ -90,3 +90,9 @@ An in-house `normalize_state()` in `schema_adapter.py` maps full names, abbrevia
 - Out-of-fold probabilities from `county_policy_model.py` are available or can be written as a new declared artifact without changing the model.
 - Seven clean runs is the default report-only window; Price can change it.
 - SC-003 depends on reconstructing the pre-2026-08-21 label set from git history; if it cannot be rebuilt, SC-003 becomes a synthetic flipped-label test only.
+
+## Changes on main since this spec (2026-09-29)
+
+- **Proposals data widened.** `scripts/scrape-trackdatacenters-proposals.py` now records 22 more source fields, writes `data/proposals_detail.json`, and checks id stability. `project_key_map.py` gives each project a permanent key. Any Layer B schema this spec adds must cover the new `data/proposals.csv` columns and read ids through `data/project_key_map.csv`, not `project_id` alone.
+- **New inputs to validate.** `data/status_resolutions.csv` (reviewer-confirmed status changes, applied by `status_resolution.py --apply`) and `data/status_followup_leads.csv` now feed Layer C. A schema check on `master_opposition.csv` must allow the rows those paths edit.
+- **Source-of-truth duplicates.** `master_opposition.csv` still carries 4,099 exact duplicate `signal_harvest_auto` rows, left by a harvest defect fixed in PR #47 (`signal_harvest.known_urls`). A uniqueness check will fail on them until they are removed. That removal is a decision for Price, not something this spec does silently.

@@ -67,3 +67,9 @@ A new `source_archive.py` reads every `Source URL` and `Sources` entry in the cl
 
 - archive.org Save Page Now stays free for this volume; if it restricts access, the CDX lookup half still delivers value.
 - No existing module writes an archive column; `layer_audit.py` confirms this during planning.
+
+## Changes on main since this spec (2026-09-29)
+
+- **URL-level re-promotion fixed.** PR #47 made `signal_harvest.known_urls()` read the raw file as well as the clean feed, which stopped exact duplicates being appended each run. The 4,099 already in `master_opposition.csv` remain (spec 005 note).
+- **Event-level grouping already exists for one case.** `status_resolution.py` groups same-county pending rows within 120 days and proposes earlier-stage coverage as `supersede`. `hold_superseded()` then keeps them out of the clean feed. The MinHash `cluster_id` in User Story 3 must feed or reuse that path, not build a second supersede mechanism.
+- **A Google News consumer now exists.** `status_followup.py` searches Google News RSS for later coverage of pending rows and excludes aggregators. If trafilatura is added (User Story 2), it applies there too, and its install goes in the workflow that runs the follow-up check.
