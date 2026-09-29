@@ -19,27 +19,14 @@ only writer. It downloads the Census cartographic boundary file
 before anything is committed, if any scored FIPS lacks a polygon or the file
 exceeds 1 MB.
 
-## The committed seed
+## History
 
-The Census host is not reachable from the sandbox the file was first built
-in, so the file committed on 2026-09-29 is a seed, and its manifest says so
-(`vintage: 2023`, `scale: 1:10m`). It was built from:
-
-- the Census 2023 cartographic boundary counties at 1:10m, as redistributed
-  by the npm package `@severo_bo/us-atlas-2023@4.0.0` (ISC), `counties`
-  object only, American Samoa, Guam, the Northern Mariana Islands and the
-  Virgin Islands removed (Puerto Rico kept);
-- one replacement polygon: Falls Church city, VA (51610) collapses to a
-  zero-area sliver at 1:10m, so its geometry is the Census 2016 1:500k
-  polygon (`cb_2016_us_county_500k`, from the PyPI package `plotly-geo`).
-  Its boundary has not changed since the 2014 adjustment with Fairfax
-  County, so the 2016 edition is the current boundary.
-
-It was re-encoded with `mapshaper -o format=topojson id-field=FIPS
-quantization=100000`. Every one of the 3,144 scored FIPS has a polygon,
-including the nine Connecticut planning regions (09110 to 09190), Chugach
-(02063), Copper River (02066), Kusilvak (02158) and Oglala Lakota (46102).
-
-The county set did not change between the 2023 and 2024 editions for any
-scored FIPS. The first run of the `boundaries` job replaces the seed in
-place with the 2024 1:5m build; no page change is needed.
+The first committed file (2026-09-29, from the sandbox that could not reach
+the Census host) was a seed built from the Census 2023 1:10m cartographic
+boundary, with Falls Church city, VA (51610) taken from the Census 2016
+1:500k file because it collapses at 1:10m. The `boundaries` job replaced it
+the same day with the Census 2024 1:5m build (710 KB, 3,222 features, all
+3,144 scored FIPS drawable; see the manifest). Every scored county has its
+own polygon, including the nine Connecticut planning regions (09110 to
+09190), Chugach (02063), Copper River (02066), Kusilvak (02158) and Oglala
+Lakota (46102).
