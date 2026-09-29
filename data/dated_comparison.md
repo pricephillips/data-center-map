@@ -4,8 +4,8 @@ Generated 2026-09-29 by `dated_comparison.py`. **Internal diagnostic — NOT cli
 
 ## Arms
 
-- **Opposed** (n=182): 26 verified decision events; rest right-censored at last known activity. Standard Kaplan-Meier.
-- **Control / unopposed** (n=661): zero verified decision dates exist on the control side. 45 controls are decided but undated — treated as interval-censored (decision occurred between announcement and last status update); the rest are right-censored pending. Nonparametric MLE (Turnbull) estimator.
+- **Opposed** (n=183): 27 verified decision events; rest right-censored at last known activity. Standard Kaplan-Meier.
+- **Control / unopposed** (n=662): zero verified decision dates exist on the control side. 45 controls are decided but undated — treated as interval-censored (decision occurred between announcement and last status update); the rest are right-censored pending. Nonparametric MLE (Turnbull) estimator.
 
 ## Median time to decision
 
@@ -14,7 +14,7 @@ Generated 2026-09-29 by `dated_comparison.py`. **Internal diagnostic — NOT cli
 
 ## Matched-subset comparison
 
-Same estimators, restricted to matched sets (opposed project + its state/capacity/margin-matched controls, both with usable spans): **161** opposed (23 events) vs **325** matched control spans (111 interval-censored).
+Same estimators, restricted to matched sets (opposed project + its state/capacity/margin-matched controls, both with usable spans): **162** opposed (24 events) vs **327** matched control spans (111 interval-censored).
 
 - Matched opposed median: **not reached**
 - Matched control median: **3179-4646 days** (interval-censored NPMLE band)

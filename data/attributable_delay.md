@@ -5,8 +5,8 @@ Generated 2026-09-29 by `attributable_delay.py`. **Internal — NOT client-facin
 ## Gate status
 
 - SHORT: control-side verified decision events — 0 / 10 required
-- PASS: opposed verified events within matched sets — 23 / 15 required
-- PASS: matched sets usable on both arms — 161 / 25 required
+- PASS: opposed verified events within matched sets — 24 / 15 required
+- PASS: matched sets usable on both arms — 162 / 25 required
 
 ## Verdict: **WITHHELD**
 
