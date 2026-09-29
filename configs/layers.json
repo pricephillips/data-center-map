@@ -73,7 +73,8 @@
         "data/manual_corrections.csv",
         "data/manual_records_report.csv",
         "data/manual_removed_rows.csv",
-        "data/status_resolutions.csv"
+        "data/status_resolutions.csv",
+        "data/research_routine_log.csv"
       ]
     },
     "D": {
@@ -118,7 +119,8 @@
         "data/incentive_agreement_registry.csv",
         "data/README_incentive_agreement_registry.md",
         "data/restriction_probe_cache.json",
-        "data/restriction_probe_log.csv"
+        "data/restriction_probe_log.csv",
+        "data/legistar_discovery.json"
       ]
     },
     "E": {
@@ -146,6 +148,8 @@
         "data/decision_date_recovery_candidates.csv",
         "data/announce_date_worklist.csv",
         "data/status_resolution_worklist.csv",
+        "data/status_followup_leads.csv",
+        "data/status_followup_cache.json",
         "date_recovery_report.csv",
         "data/date_recovery_*.md",
         "data/negative_audit_*.csv",
@@ -244,7 +248,8 @@
   ],
   "exempt_multi_writer": {
     "master_opposition.csv": "The source of record for Layer C, and the one file with more than one writer by design. scripts/build_master_csv.py refreshes it from upstream under the ownership rule that ended the 2026 corruption; census_gap_candidates.py and promote_signal_candidates.py append gated promotions only. All three are append-or-refresh under a stated ownership discipline, none of them rewrites another's rows, and every promotion lands in an audit trail. This exemption is the reason the rule exists elsewhere: it is the exception that had to be argued for.",
-    "data/signal_candidates.csv": "A handoff, not shared ownership. signal_harvest.py writes the queue; promote_signal_candidates.py consumes it and rewrites what remains, so the file holds exactly the rows the gate did not promote. The two never write concurrently: the promoter runs after the harvester in the same workflow."
+    "data/signal_candidates.csv": "A handoff, not shared ownership. signal_harvest.py writes the queue; promote_signal_candidates.py consumes it and rewrites what remains, so the file holds exactly the rows the gate did not promote. The two never write concurrently: the promoter runs after the harvester in the same workflow.",
+    "data/restriction_verification_worklist.csv": "A handoff, not shared ownership. restriction_verification_worklist.py builds the rows and preserves every reviewer column across rebuilds (merge on fips); legistar_probe.py only fills the reviewer columns of open rows it finds an adopted restriction for, and rewrites the file only on a hit. They run in sequence in one pipeline step, the probe first, so the builder always re-exports the probe's hits. Declared 2026-09-29."
   },
   "declared_crossings": {
     "signal_harvest.py": "Layers A and C. One GDELT call returns both facility-lifecycle articles and opposition coverage, and splitting the network call in two would double the quota cost to separate what a single classifier can route. The module routes, it never merges: a row lands in exactly one layer's file, with the opposition side winning any tie, and neither file is a source of record.",
