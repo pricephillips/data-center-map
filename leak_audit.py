@@ -126,7 +126,7 @@ INTERNAL_QUOTES = {
     # in Nebraska, and "Long Lost Lake township" is in Clearwater County,
     # Minnesota. Ten rows, all of them proper nouns naming real places.
     #
-    # Same class as the CourtListener party names above — a person called Win
+    # Same class as the CourtListener party names above: a person called Win
     # Maung is not scorekeeping vocabulary and neither is a lake in Minnesota.
     # The alternative fixes are both worse than the hit: dropping these places
     # would put holes in a geographic index whose whole job is completeness,
@@ -168,6 +168,18 @@ INHERITED_FIELDS = {
     # when every word in it came from a source, because the audit cannot tell
     # which half we wrote.
     "evidence_summary",
+    # Registered 2026-09-29 with fetch_grid_territory.py. The semicolon-joined
+    # utility names that serve a county, transported verbatim from EIA Form
+    # 861 via PUDL: "Lost River Electric Coop Inc" is a real Idaho cooperative
+    # serving three counties. It reached the audit the first time the grid
+    # fetch committed, and blocked the clean feed. Same class as the gazetteer
+    # places above, but registered by field name like vote_motion because it
+    # ships: proposal_enrichment.py carries it into
+    # data/pipeline_intel_enriched.csv, which the Proposed Centers page reads.
+    # Renaming a federal utility registration would falsify reference data.
+    # The only files with a `utilities` column are those two; elsewhere the
+    # word is a search term, not a key.
+    "utilities",
     "community outcome", "summary", "sources", "source url", "objective",
     "incident", "entity", "project name", "opposition groups", "notes",
     "what it means", "correct outcome", "message", "all_issues",
@@ -402,6 +414,14 @@ def selftest() -> int:
     eq("our own prose in a composed column still blocks",
        classify("data/stakeholder_positions.csv", "a clear win for opponents",
                 field="stance_note"), BLOCKING)
+    # --- 2026-09-29 registration (EIA-861 utility names) ---
+    eq("a transported EIA utility name is advisory",
+       classify("data/county_grid_territory.csv",
+                "Idaho Power Co; Lost River Electric Coop Inc",
+                field="utilities"), ADVISORY)
+    eq("the same name in another grid column still blocks",
+       classify("data/county_grid_territory.csv", "Lost River",
+                field="primary_region"), BLOCKING)
 
     eq("transported evidence_summary prose is advisory",
        classify("data/stakeholder_positions.csv",

@@ -63,6 +63,7 @@
         "quarantine.json",
         "qc/*.json",
         "group_registry.csv",
+        "data/group_registry.csv",
         "review_conflicts.csv",
         "review_stale_pending.csv",
         "data/signal_candidates.csv",
@@ -126,6 +127,8 @@
         "data/restriction_probe_cache.json",
         "data/restriction_probe_log.csv",
         "data/legistar_discovery.json",
+        "data/county_pudl_features.csv",
+        "data/county_pudl_manifest.json",
         "data/county_grid_territory.csv",
         "data/county_grid_territory_manifest.json",
         "data/grid_planned_generation.csv",
@@ -270,7 +273,9 @@
     "census_gap_candidates.py": "Layers C and D. This is the gap-closure promotion path: a Layer D census gap becomes a Layer C opposition record. The crossing is the point of the module and it is gated (complete, dated, sourced, dedup-guarded, census-corroborated), appends only, and writes every promote, hold and block decision to data/gap_promotion_report.csv.",
     "status_resolution.py": "Layers C and E. The scan proposes only: it writes data/status_resolution_worklist.csv (Layer E) and changes nothing in Layer C. --apply writes master_opposition.csv (Layer C), but only from data/status_resolutions.csv, the reviewer-confirmed file that names the evidence URL and confirmation date for each change; a headline never changes a status by itself. It is idempotent, matches rows on normalized Source URL, and deletes nothing (superseded rows stay in master and are held out of the clean feed by hold_superseded). Declared 2026-09-28 with the module.",
     "project_id_rekey.py": "Layers B and E. Run by a person with --apply (CI runs it report-only), it rewrites the source-id key of hand-maintained Layer B files (overlay, decision dates, manual links, duplicates, negative-audit codings) after the source renumbers, and writes its own Layer E report. It changes only the id column, only on rows whose git-blame time and text agree on the project, and writes every decision to data/pipeline_intel_rekey_report.csv. The crossing is the repair: without it the hand files follow the number instead of the project.",
-    "project_key_map.py": "Layers B and E. After every scrape it rewrites only the id cells of the hand-maintained Layer B files (overlay, decision dates, manual links, duplicates, negative-audit codings) whose project the source renumbered, matched on identity through the permanent key in data/project_key_map.csv, and writes its own Layer E report. Ambiguous matches, orphans and unknown ids are held for a person, a scrape missing more than 15% of known projects writes nothing, and a hand re-pointed row is never reverted (Ruling 5, 2026-09-28). It is the standing replacement for project_id_rekey.py's one-time repair."
+    "project_key_map.py": "Layers B and E. After every scrape it rewrites only the id cells of the hand-maintained Layer B files (overlay, decision dates, manual links, duplicates, negative-audit codings) whose project the source renumbered, matched on identity through the permanent key in data/project_key_map.csv, and writes its own Layer E report. Ambiguous matches, orphans and unknown ids are held for a person, a scrape missing more than 15% of known projects writes nothing, and a hand re-pointed row is never reverted (Ruling 5, 2026-09-28). It is the standing replacement for project_id_rekey.py's one-time repair.",
+    "clean_opposition_data.py": "Layers C and E. The cleaner writes the Layer C change log (change_log.csv, one row per edit it makes to a record) and its own Layer E diagnostics (data_quality_report.md, counts and checks over the cleaned feed) in the same pass, because the report describes exactly the edits that run made. It never writes another layer's source of record. The write was always there; the audit first saw it on 2026-09-29, when it learned to follow default output parameters.",
+    "fetch_pudl.py": "Layers D and E. The county generation features (data/county_pudl_features.csv and its manifest) are Layer D reference data beside data/county_census_features.csv; the data/_pudl_*.parquet files are its Layer E download cache, kept so a rerun does not refetch PUDL. The cache only feeds the feature build and is never read as a record. First seen by the audit 2026-09-29 (default output parameter)."
   },
   "not_regenerable": {
     "_comment": [
@@ -295,6 +300,10 @@
     "data/project_key_map.csv": "Minted keys and their first_seen dates cannot be rebuilt: a regeneration would renumber every key.",
     "data/project_key_aliases.csv": "Every id, slug and name each key has carried, accumulated run by run.",
     "data/layer_b_anchors.csv": "Which key each hand-file row was written about. Rebuilding it from today's ids would re-anchor any row a renumbering had already moved.",
-    "data/facility_graduation_observations.csv": "First-observation dates; the earliest date is kept and a scrape-dated observation cannot be recovered once history is gone."
+    "data/facility_graduation_observations.csv": "First-observation dates; the earliest date is kept and a scrape-dated observation cannot be recovered once history is gone.",
+    "data/proposal_candidates_news_log.csv": "Append-only run log. proposal_discovery.py appends one row per run (queries, articles, failures) and never rewrites it, so two branches' runs merge correctly line by line. Registered 2026-09-29 when the write map first saw it.",
+    "data/proposal_candidates_airpermits_log.csv": "Append-only run log. fetch_air_permits.py appends one row per run and never rewrites it. Registered 2026-09-29 when the write map first saw it.",
+    "data/facility_candidates_osm_log.csv": "Append-only run log. fetch_osm_facilities.py appends one row per Overpass run (states queried and failed) and never rewrites it. Registered 2026-09-29 when the write map first saw it.",
+    "data/restriction_probe_log.csv": "Append-only probe log. restriction_probe.py appends each probe attempt and never rewrites the file; it is the audit trail of what was asked of which portal. Registered 2026-09-29 when the write map first saw it."
   }
 }
