@@ -1,4 +1,11 @@
 opp_id,project_id,action,note,suggestion_confidence,corroborations,red_flags,first_pass_signals,distance_km,opp_incident,opp_date,project_name,opp_state
+opp_7c06af7ad5fe,prj_102,suggest_confirm,,medium,summary_names_company(3); date_plausible(gap 97d),,geo:9.6km; company:0.75; county,9.6,Saline Township (consent judgment with Related Digital),2025-10-15,Project Mitten / The Barn,MI
+opp_cfc60c2760ad,prj_102,suggest_confirm,,medium,summary_names_company(3); date_plausible(gap 113d),,company:0.38; county,87.5,Michigan Public Service Commission (DTE Saline data-center contract filing),2025-10-31,Project Mitten / The Barn,MI
+opp_8a10bd8bf5a5,prj_102,suggest_confirm,,medium,summary_names_company(1); date_plausible(gap 126d),,company:0.12; county,87.5,Michigan Public Service Commission (environmental groups' intervention petition),2025-11-13,Project Mitten / The Barn,MI
+opp_3f6fb05f10b2,prj_102,suggest_confirm,,medium,summary_names_company(1); date_plausible(gap 146d),,company:0.12; county,87.5,Michigan Public Service Commission (Saline data-center public hearing),2025-12-03,Project Mitten / The Barn,MI
+opp_aa731380343e,prj_102,suggest_confirm,,medium,summary_names_company(3); date_plausible(gap 162d),,geo:9.6km; company:0.75; county,9.6,Michigan EGLE (Saline data-center wetlands public hearing),2025-12-19,Project Mitten / The Barn,MI
+opp_3a104a8a65ee,prj_102,suggest_confirm,,medium,summary_names_company(1); date_plausible(gap 182d),,company:0.12; county,87.5,Michigan Public Service Commission (AG Nessel rehearing petition),2026-01-08,Project Mitten / The Barn,MI
+opp_5c32280ee09e,prj_102,suggest_confirm,,medium,summary_names_company(3); date_plausible(gap 158d),,company:0.50,87.5,Michigan Legislature (Reggie Miller data-center NDA bill),2025-12-15,Project Mitten / The Barn,MI
 opp_1898a067957a,prj_69,needs_review,,,,,geo:18.3km,18.3,Clinton County,2025-12-08,Jackson County Data Center,IA
 opp_5d1c237068fa,prj_353,needs_review,,,summary_names_company(2),,company:0.50,204.8,West Virginia (statewide),2026-01-01,Ridgeline Facility,WV
 opp_c2e1339c93eb,prj_114,needs_review,,,,,county,22.1,Oakland University (Rochester Hills),2025-06-01,Metrobloks Southfield Data Center,MI
@@ -82,7 +89,7 @@ opp_f1be2c5b7a48,prj_270,needs_review,,,summary_names_project(1/1),,geo:4.5km; c
 opp_a065459e07c5,prj_285,needs_review,,,,,geo:10.0km; county,10.0,Londonderry Township,2026-02-11,South Hanover Township Data Center,PA
 opp_11426ce2cf52,prj_225,needs_review,,,summary_names_project(2/2),,geo:2.7km; county,2.7,Wilmington (Ardent/TAC),2026-02-20,AWS Wilmington Data Center,OH
 opp_dec1643364eb,prj_226,needs_review,,,summary_names_project(3/3),,geo:8.8km; county,8.8,Brown County (statewide constitutional petition),2026-03-01,Mt. Orab Mega Site,OH
-opp_79562b44a1f8,prj_341,needs_review,,,,,geo:0.5km,0.5,Tennessee Valley Authority (affordability concerns),2026-01-01,Jailhouse Studios,TN
+opp_79562b44a1f8,prj_341,needs_review,,,date_plausible(gap -6d),,geo:0.5km,0.5,Tennessee Valley Authority (affordability concerns),2026-01-01,Jailhouse Studios,TN
 opp_c8935fdc0bfc,prj_111,needs_review,,,,,geo:5.1km; county,5.1,East Lansing,2026-03-17,Deep Green Lansing Data Center,MI
 opp_94901d924dea,prj_103,needs_review,,,summary_names_company(2),,county,34.1,Detroit,2026-03-10,Project Cannoli,MI
 opp_4724b4bc17c5,prj_50,needs_review,,,summary_names_project(1/1),,geo:4.6km; county,4.6,Elkhart County (Bristol),2024-09-01,Bristol Data Center,IN
@@ -112,13 +119,6 @@ opp_d51e905c487c,prj_338,needs_review,,,summary_names_project(1/2),,geo:6.6km; c
 opp_5ca926b64e95,prj_314,needs_review,,,,,county,28.7,Pennsylvania (Wellsboro hearing),2026-04-17,Storage Data Center Project,PA
 opp_4abdf137cfd4,prj_301,needs_review,,,,,geo:13.9km; county,13.9,Upper Gwynedd Township,2026-04-13,600 River Road Data Center,PA
 opp_ddc082118693,prj_287,needs_review,,,summary_names_project(1/1),,county,25.9,Tredyffrin Township,2026-04-21,North Coventry Township Data Center,PA
-opp_7c06af7ad5fe,prj_102,needs_review,,,summary_names_company(3),,geo:9.6km; company:0.75; county,9.6,Saline Township (consent judgment with Related Digital),2025-10-15,Project Mitten / The Barn,MI
-opp_cfc60c2760ad,prj_102,needs_review,,,summary_names_company(3),,company:0.38; county,87.5,Michigan Public Service Commission (DTE Saline data-center contract filing),2025-10-31,Project Mitten / The Barn,MI
-opp_8a10bd8bf5a5,prj_102,needs_review,,,summary_names_company(1),,company:0.12; county,87.5,Michigan Public Service Commission (environmental groups' intervention petition),2025-11-13,Project Mitten / The Barn,MI
-opp_3f6fb05f10b2,prj_102,needs_review,,,summary_names_company(1),,company:0.12; county,87.5,Michigan Public Service Commission (Saline data-center public hearing),2025-12-03,Project Mitten / The Barn,MI
-opp_aa731380343e,prj_102,needs_review,,,summary_names_company(3),,geo:9.6km; company:0.75; county,9.6,Michigan EGLE (Saline data-center wetlands public hearing),2025-12-19,Project Mitten / The Barn,MI
-opp_3a104a8a65ee,prj_102,needs_review,,,summary_names_company(1),,company:0.12; county,87.5,Michigan Public Service Commission (AG Nessel rehearing petition),2026-01-08,Project Mitten / The Barn,MI
-opp_5c32280ee09e,prj_102,needs_review,,,summary_names_company(3),,company:0.50,87.5,Michigan Legislature (Reggie Miller data-center NDA bill),2025-12-15,Project Mitten / The Barn,MI
 opp_6582785b4ac9,prj_111,needs_review,,,,,geo:0.9km,0.9,Michigan Legislature (HB 5594-5596 data-center moratorium),2026-03-03,Deep Green Lansing Data Center,MI
 opp_7b344187d414,prj_111,needs_review,,,,,geo:0.9km,0.9,Michigan House Oversight Subcommittee (data-center investigation hearing),2026-04-22,Deep Green Lansing Data Center,MI
 opp_5dc2341c2b96,prj_48,needs_review,,,,,geo:14.5km; county,14.5,Indianapolis City-County Council,2026-04-21,Project Flo,IN
@@ -234,7 +234,7 @@ opp_a66fbccceed0,prj_199,needs_review,,,,,county,,"Natural gas is cheap , so why
 opp_c6ad4d83d039,prj_71,needs_review,,,summary_names_project(1/2),,county,,Dubuque City Council passes temporary moratorium on hyperscale data centers,2026-09-22,Karis Dubuque,IA
 opp_eb66912fca5d,prj_72,needs_review,,,,,county,,Meeting concerning Woodbury County data center moratorium to be held in Moville,2026-09-21,MidAmerican Data Center,IA
 opp_124ace732901,prj_39,needs_review,,,summary_names_project(1/2),,county,,Hancock County Board Discusses a Moratorium on Data Centers,2026-09-21,Hancock County MegaSite,
-opp_7c6fed1f1280,prj_51,needs_review,,,date_plausible(gap 1009d),,county,,"Fort Wayne City Council takes some time to work on data center task force , moratorium",2026-09-23,Project Zodiac,IN
+opp_7c6fed1f1280,prj_51,needs_review,,,,,county,,"Fort Wayne City Council takes some time to work on data center task force , moratorium",2026-09-23,Project Zodiac,IN
 opp_b83c74226a67,prj_133,needs_review,,,,,county,,Jasper County pauses new data centers with one - year moratorium,2026-09-23,Jasper County Powered Data Park / Sarcoxie Data Center,
 opp_bfe6d56dc9c4,prj_194,needs_review,,,summary_names_company(1),,county,,Valley View School District lawsuit could halt Project Gravity data centers,2026-09-23,Project Fighting Pike,ND
 opp_3a2d062aca1e,prj_90,needs_review,,,,,county,,Data Center moratorium extended in Baltimore County,2026-09-23,Woodlawn Data Center,MD
@@ -250,3 +250,7 @@ opp_528d6843d422,prj_160,needs_review,,,summary_names_project(1/1),,county,,Ilio
 opp_c6c1f9ad3bd1,prj_71,needs_review,,,summary_names_project(1/2),,county,,Citizen recommendations shaping Dubuque County data center ordinance,2026-09-23,Karis Dubuque,IA
 opp_6bccc14875fa,prj_3,needs_review,,,,,county,,Future data centers to require public hearing under new rules proposed for Montgomery County,2026-09-23,Meta Platforms Montgomery,
 opp_db713ef3cf88,prj_389,needs_review,,,,,county,21.6,Greenup County moratorium,2026-07,Rubix Data Center,KY
+opp_07f9a5b684eb,prj_225,needs_review,,,summary_names_project(1/2),,county,,Ohio Supreme Court : Wilmington data center ordinance cant be added to November ballot,2026-09-28,AWS Wilmington Data Center,OH
+opp_77da2c87d1d4,prj_305,needs_review,,,summary_names_project(1/1),,county,,Appeal filed against  deemed approval  of data center in Muncy Township,2026-09-29,Muncy Data Center,PA
+opp_c004b132b9f3,prj_166,needs_review,,,,,county,,"Forsyth commissioners to discuss proposed data center moratorium , county official says",2026-09-28,Rural Hall Data Center,
+opp_d415bfe7cf6e,prj_76,needs_review,,,,,county,,Mercer County fiscal court rejects data center ordinance following pushback,2026-09-29,Harrodsburg Data Center,KY
