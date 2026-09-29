@@ -234,7 +234,7 @@ reference geography that frame is built on.
 | | |
 |---|---|
 | Key | `fips` |
-| Files | `data/external_restriction_census*`, `data/county_aggregate.csv`, `data/county_policy_*`, `data/county_model_spec_history.csv`, `data/restriction_*`, `data/bill_*` (including `data/bill_subject_overrides.csv`, hand maintained), `data/stale_pending_*`, the county reference geography |
+| Files | `data/external_restriction_census*`, `data/county_aggregate.csv`, `data/county_policy_*`, `data/county_model_spec_history.csv`, `data/restriction_*`, `data/bill_*` (including `data/bill_subject_overrides.csv`, hand maintained), `data/stale_pending_*`, the county reference geography, `data/features/*` (sole writer `fetch_county_features.py`, including the MEDSL `political.csv` and its `political_parity.*` report, spec 005) |
 | Writers | `county_aggregator.py`, `county_policy_model.py`, `county_policy_intervals.py`, `restriction_worklist.py`, `census_gap_candidates.py`, `bill_sync.py`, `stale_pending_audit.py`, `refresh_external_census.py`, `restriction_evidence.py`, the county fetchers |
 | Source of record | The tracker itself. `data/external_restriction_census.csv` is an external lower bound and a pointer, never a source of record: nothing is ingestable from it until a primary source URL is supplied |
 
@@ -323,7 +323,7 @@ worklists, reports.
 | | |
 |---|---|
 | Key | Inherits whatever it was derived from |
-| Files | `data/baseline_*`, `data/matched_controls.csv`, every model artifact, every audit output, every worklist (including `data/status_resolution_worklist.csv` from `status_resolution.py`), `data/master_diff_summary.md` (sole writer `master_diff.py`), `docs/*.md`, `headline_metrics.md` |
+| Files | `data/baseline_*`, `data/matched_controls.csv`, every model artifact, every audit output, every worklist (including `data/status_resolution_worklist.csv` from `status_resolution.py`), `data/master_diff_summary.md` (sole writer `master_diff.py`), `qc/schema_report.md` and `data/schema_run_history.csv` (sole writer `qc/schemas.py`), `data/coverage_delta_report.md` (sole writer `qc/coverage_delta.py`, which also keeps `snapshots/coverage_profiles.csv`, outside the layers like the rest of `snapshots/`), `data/label_disagreement_worklist.csv` (sole writer `label_disagreement_audit.py`), `docs/*.md`, `headline_metrics.md` |
 | Writers | One module each, listed in `configs/layers.json` |
 | Sources of record | None, by definition |
 

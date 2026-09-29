@@ -60,6 +60,16 @@ try:
 except Exception:
     _HAVE_ENRICH = False
 
+# Every value classify_record() can put in outcome_defensible (ADDITIVE,
+# 2026-09-29, spec 005). The first four are the README outcome ladder; the
+# rest are the internal grades documented above. qc/schemas.py reads this
+# tuple instead of keeping its own copy, and --selftest checks that every
+# grade literal assigned in this module is a member, so the two cannot drift.
+OUTCOME_GRADES = (
+    "advanced_confirmed", "restricted_conditional", "blocked_confirmed", "pending",
+    "blocked_unverified", "advanced_unverified", "mixed",
+)
+
 # status_clean codes that constitute terminal evidence for a block-mechanism
 # record (the action reached a disposition, not merely a proposal).
 _TERMINAL_STATUS = {"passed", "approved", "enacted", "failed", "vetoed",
@@ -257,8 +267,40 @@ def apply_defensibility(records: list[dict]) -> dict:
     return {"grades": dict(grades), "block_status": dict(blocks), "conflicts": conflicts}
 
 
+def selftest() -> int:
+    import os
+    fails = []
+
+    def check(name, cond):
+        print(("PASS " if cond else "FAIL ") + name)
+        if not cond:
+            fails.append(name)
+
+    src = open(os.path.abspath(__file__), encoding="utf-8").read()
+    body = src.split("def selftest", 1)[0]
+    assigned = set()
+    for line in body.splitlines():
+        # the value after "=" and after "else"; a literal inside a condition
+        # ("project_denial") is a mechanism, not a grade
+        if re.match(r"\s*grade\s*=", line):
+            assigned.update(re.findall(r'(?:=|else)\s*"([a-z_]+)"', line.split("#")[0]))
+    check("grade literals found", len(assigned) >= 5)
+    check("every assigned grade is in OUTCOME_GRADES",
+          assigned <= set(OUTCOME_GRADES))
+    check("every declared grade is assigned somewhere",
+          set(OUTCOME_GRADES) <= assigned)
+    check("README ladder leads the tuple",
+          OUTCOME_GRADES[:4] == ("advanced_confirmed", "restricted_conditional",
+                                 "blocked_confirmed", "pending"))
+    check("no duplicate grades", len(set(OUTCOME_GRADES)) == len(OUTCOME_GRADES))
+    print(f"{len(fails)} failure(s)")
+    return 1 if fails else 0
+
+
 if __name__ == "__main__":
     import csv, sys, json
+    if "--selftest" in sys.argv:
+        sys.exit(selftest())
     path = sys.argv[1] if len(sys.argv) > 1 else "master_opposition_clean.csv"
     rows = list(csv.DictReader(open(path, newline="", encoding="utf-8")))
     summary = apply_defensibility(rows)

@@ -252,11 +252,10 @@
       "session": 2,
       "runs_in": "ci",
       "target": [
-        "qc/schemas.py",
-        "qc/qc_pipeline.py"
+        "qc/schemas.py"
       ],
       "reason": "Declarative schemas for master_opposition_clean.csv and county_policy_scores.csv: outcome enums, normalized State, 5-digit FIPS, lat/lon bounds, boolean coercion.",
-      "risk_notes": "Report-only for one week, then blocking.",
+      "risk_notes": "Report-only until seven consecutive clean runs (configs/data_quality.json schema.mode = window), then blocking.",
       "source_url": "https://github.com/unionai-oss/pandera",
       "products": [
         "platform",
@@ -275,7 +274,7 @@
       "session": 2,
       "runs_in": "ci",
       "target": [
-        "schema_adapter.py"
+        "qc/schema_adapter.py"
       ],
       "reason": "51-entry map plus variants; chosen over the us package to avoid a dependency for a static table.",
       "risk_notes": "",

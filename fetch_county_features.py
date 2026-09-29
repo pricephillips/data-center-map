@@ -31,6 +31,18 @@ Sources (settings in configs/feature_sources.json):
                    cropland as a share of county land area. Disclosure
                    suppressed values (D) stay blank.
 
+  political       MIT Election Data and Science Lab, County Presidential
+                   Election Returns 2000-2024 (Harvard Dataverse,
+                   doi:10.7910/DVN/VOQCHQ). Two-party share, D minus R margin,
+                   total votes and votes per resident for 2016, 2020 and 2024,
+                   plus the change between cycles. Alaska (state house
+                   districts) and Connecticut (retired counties before 2024)
+                   do not map onto the county frame and carry statewide values
+                   with geo_basis = state. Writes a parity report against
+                   data/county_votes.json. Deliberately NOT registered in
+                   configs/feature_plugins.json: the choropleth and the model
+                   keep county_votes.json until parity is reviewed (spec 005).
+
 Zoning regime is not built: there is no national county-level source, and
 the partial ones would enter the search as detection-biased variables.
 
@@ -82,6 +94,10 @@ OUT_PRICE = P("data", "features", "retail_price.csv")
 OUT_WATER = P("data", "features", "water_use.csv")
 OUT_DROUGHT = P("data", "features", "drought.csv")
 OUT_FARM = P("data", "features", "farmland.csv")
+OUT_POLITICAL = P("data", "features", "political.csv")
+OUT_PARITY = P("data", "features", "political_parity.csv")
+OUT_PARITY_MD = P("data", "features", "political_parity.md")
+VOTES_JSON = P("data", "county_votes.json")
 OUT_MANIFEST = P("data", "features", "features_manifest.json")
 
 UA = {"User-Agent": "hawthorn-dc-pipeline (county reference data)"}
@@ -167,7 +183,8 @@ def load_frame(path=AGG_CSV) -> dict:
             if not f or f.startswith("72"):
                 continue
             out[f] = {"state": (r.get("state") or "").strip().upper(),
-                      "land_sqmi": fnum(r.get("land_sqmi"))}
+                      "land_sqmi": fnum(r.get("land_sqmi")),
+                      "population": fnum(r.get("population"))}
     return out
 
 
@@ -837,8 +854,239 @@ def src_farm(cfg, frame, tmpdir):
 # driver
 # --------------------------------------------------------------------------
 
+# --------------------------------------------------------------------------
+# political (MEDSL county presidential returns)
+# --------------------------------------------------------------------------
+
+# MEDSL reports a few places the county frame does not carry separately.
+MEDSL_FOLD = {"2938000": "29095",      # Kansas City MO, reported apart from Jackson County
+              "46113": "46102",        # Shannon County SD, renamed Oglala Lakota (2015)
+              "51515": "51019"}        # Bedford city VA, merged into Bedford County (2013)
+PARITY_FLAG = 0.02
+
+
+def political_cols(years) -> list:
+    cols = ["fips"]
+    for y in years:
+        cols += [f"dem_share_2p_{y}", f"margin_dr_{y}", f"total_votes_{y}",
+                 f"votes_per_pop_{y}", f"geo_basis_{y}"]
+    for a, b in zip(years, years[1:]):
+        cols += [f"dem_share_2p_chg_{a}_{b}", f"total_votes_pct_chg_{a}_{b}"]
+    return cols + ["source"]
+
+
+def medsl_fips(v) -> str:
+    s = str(v or "").strip().split(".")[0]
+    if s in MEDSL_FOLD:
+        return MEDSL_FOLD[s]
+    f = norm_fips(s)
+    return MEDSL_FOLD.get(f, f)
+
+
+def parse_medsl(recs, frame, years, fallback_states, source="") -> list:
+    """County rows from MEDSL long format.
+
+    Per county and year: TOTAL-mode rows when the county has any, otherwise
+    the sum of every mode. Total votes are the largest totalvotes on the
+    county's rows (MEDSL repeats the county total on each row). Folded places
+    (MEDSL_FOLD) are added into their frame county. Per state and year, a
+    state in fallback_states whose frame counties are not all matched gets
+    statewide values on every county (geo_basis = state); elsewhere an
+    unmatched county stays blank.
+    """
+    years = [int(y) for y in years]
+    has_total = set()
+    for r in recs:
+        if str(r.get("mode", "")).strip().upper() == "TOTAL":
+            has_total.add((str(r.get("year")).strip(), str(r.get("county_fips")).strip()))
+    votes = defaultdict(lambda: {"D": 0.0, "R": 0.0})     # (year, raw_fips)
+    totals = defaultdict(float)
+    state_of = {}
+    for r in recs:
+        try:
+            y = int(str(r.get("year")).strip())
+        except ValueError:
+            continue
+        if y not in years or "PRESIDENT" not in str(r.get("office", "")).upper():
+            continue
+        raw = str(r.get("county_fips", "")).strip()
+        mode = str(r.get("mode", "")).strip().upper()
+        if (str(y), raw) in has_total and mode != "TOTAL":
+            continue
+        party = str(r.get("party", "")).strip().upper()
+        n = fnum(r.get("candidatevotes")) or 0.0
+        if party == "DEMOCRAT":
+            votes[(y, raw)]["D"] += n
+        elif party == "REPUBLICAN":
+            votes[(y, raw)]["R"] += n
+        totals[(y, raw)] = max(totals[(y, raw)], fnum(r.get("totalvotes")) or 0.0)
+        state_of[raw] = str(r.get("state_po", "")).strip().upper()
+
+    by_county = defaultdict(lambda: {"D": 0.0, "R": 0.0, "T": 0.0})   # (year, frame fips)
+    by_state = defaultdict(lambda: {"D": 0.0, "R": 0.0, "T": 0.0})    # (year, state)
+    for (y, raw), v in votes.items():
+        f = medsl_fips(raw)
+        for bucket in ([by_county[(y, f)]] if f in frame else []) + [by_state[(y, state_of[raw])]]:
+            bucket["D"] += v["D"]
+            bucket["R"] += v["R"]
+            bucket["T"] += totals[(y, raw)]
+
+    frame_by_state = defaultdict(list)
+    for f, meta in frame.items():
+        frame_by_state[meta["state"]].append(f)
+    basis = {}
+    for y in years:
+        for stt, fs in frame_by_state.items():
+            matched = [f for f in fs if (y, f) in by_county]
+            full = len(matched) == len(fs)
+            use_state = not full and stt in fallback_states and (y, stt) in by_state
+            for f in fs:
+                basis[(y, f)] = "state" if use_state else ("county" if (y, f) in by_county else "")
+
+    def calc(v):
+        two = v["D"] + v["R"]
+        return (v["D"] / two if two > 0 else None,
+                (v["D"] - v["R"]) / v["T"] if v["T"] > 0 else None, v["T"] or None)
+
+    out = []
+    for f in sorted(frame):
+        row, share, tot = {"fips": f}, {}, {}
+        for y in years:
+            b = basis.get((y, f), "")
+            v = by_county[(y, f)] if b == "county" else by_state[(y, frame[f]["state"])] if b == "state" else None
+            s2, m, t = calc(v) if v else (None, None, None)
+            pop = frame[f].get("population")
+            share[y], tot[y] = s2, t
+            row.update({f"dem_share_2p_{y}": rnd(s2), f"margin_dr_{y}": rnd(m),
+                        f"total_votes_{y}": "" if t is None else int(round(t)),
+                        f"votes_per_pop_{y}": rnd(t / pop if t is not None and b == "county" and pop else None),
+                        f"geo_basis_{y}": b})
+        for a, b in zip(years, years[1:]):
+            row[f"dem_share_2p_chg_{a}_{b}"] = rnd(share[b] - share[a]
+                                                   if share[a] is not None and share[b] is not None else None)
+            row[f"total_votes_pct_chg_{a}_{b}"] = rnd(tot[b] / tot[a] - 1 if tot[a] and tot[b] else None)
+        row["source"] = source if any(row[f"geo_basis_{y}"] for y in years) else ""
+        out.append(row)
+    return out
+
+
+def political_parity(rows, votes, years) -> tuple[list, dict]:
+    """County-by-county comparison with data/county_votes.json (D minus R margin)."""
+    out, summary = [], {}
+    for y in years:
+        diffs = []
+        for r in rows:
+            mine = r.get(f"margin_dr_{y}")
+            theirs = (votes.get(r["fips"]) or {}).get(str(y))
+            if mine in ("", None) or theirs is None:
+                continue
+            d = abs(float(mine) - float(theirs))
+            diffs.append(d)
+            out.append({"fips": r["fips"], "year": y, "medsl_margin_dr": mine,
+                        "county_votes_margin": theirs, "abs_diff": round(d, 4),
+                        "flag": int(d > PARITY_FLAG), "geo_basis": r.get(f"geo_basis_{y}", "")})
+        diffs.sort()
+        summary[str(y)] = {"n": len(diffs),
+                           "median_abs_diff": round(diffs[len(diffs) // 2], 4) if diffs else None,
+                           "p95_abs_diff": round(diffs[int(0.95 * (len(diffs) - 1))], 4) if diffs else None,
+                           "n_flagged": sum(1 for d in diffs if d > PARITY_FLAG)}
+    return out, summary
+
+
+PARITY_COLS = ["fips", "year", "medsl_margin_dr", "county_votes_margin", "abs_diff", "flag", "geo_basis"]
+
+
+def parity_md(summary, parity, info) -> str:
+    L = ["# Political Source Parity: MEDSL vs county_votes.json", "",
+         "Generated by fetch_county_features.py (political source, spec 005). Do not edit by hand.", "",
+         f"- MEDSL: {info.get('doi', '')}, dataset version {info.get('dataset_version', '')}, "
+         f"file {info.get('file_name', '')} (id {info.get('file_id', '')}).",
+         f"- License: {info.get('license_name', '') or 'not stated'}.",
+         "- Margin is (D - R) / total votes, the sign convention of data/county_votes.json.",
+         f"- A county-year is flagged when the two margins differ by more than {PARITY_FLAG}.",
+         "- Nothing reads political.csv yet. The choropleth and the model switch only after this "
+         "report is reviewed.", "",
+         "| Year | Counties compared | Median abs diff | p95 abs diff | Flagged |",
+         "|---|---:|---:|---:|---:|"]
+    for y, s in summary.items():
+        L.append(f"| {y} | {s['n']} | {s['median_abs_diff']} | {s['p95_abs_diff']} | {s['n_flagged']} |")
+    L += ["", "## Largest differences", "", "| fips | Year | MEDSL | county_votes.json | Diff | Basis |",
+          "|---|---|---:|---:|---:|---|"]
+    for r in sorted(parity, key=lambda r: -r["abs_diff"])[:20]:
+        L.append(f"| {r['fips']} | {r['year']} | {r['medsl_margin_dr']} | {r['county_votes_margin']} | "
+                 f"{r['abs_diff']} | {r['geo_basis']} |")
+    return "\n".join(L) + "\n"
+
+
+def write_text(path, text):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(text)
+
+
+def read_delimited(raw: bytes) -> list:
+    text = raw.decode("utf-8-sig", "replace")
+    head = text.split("\n", 1)[0]
+    return list(csv.DictReader(io.StringIO(text), delimiter="\t" if head.count("\t") > head.count(",") else ","))
+
+
+def dataverse_file(cfg) -> tuple[bytes, dict]:
+    base = cfg["dataverse"].rstrip("/")
+    meta = json.loads(http_get(f"{base}/api/datasets/:persistentId/?persistentId={cfg['doi']}"))
+    ver = meta["data"]["latestVersion"]
+    pick = None
+    for f in ver.get("files", []):
+        df = f.get("dataFile", {})
+        names = f"{df.get('filename', '')} {df.get('originalFileName', '')}".lower()
+        if cfg["file_match"].lower() in names:
+            pick = df
+            break
+    if pick is None:
+        raise SourceError(f"no file matching {cfg['file_match']!r} in {cfg['doi']}")
+    raw = http_get(f"{base}/api/access/datafile/{pick['id']}?format=original")
+    lic = ver.get("license")
+    lic_name = lic.get("name", "") if isinstance(lic, dict) else str(lic or "")
+    lic_uri = lic.get("uri", "") if isinstance(lic, dict) else ""
+    md5 = pick.get("md5") or (pick.get("checksum") or {}).get("value", "")
+    info = {"doi": cfg["doi"],
+            "dataset_version": f"{ver.get('versionNumber', '')}.{ver.get('versionMinorNumber', '')}",
+            "release_time": ver.get("releaseTime", ""), "file_id": pick.get("id"),
+            "file_name": pick.get("originalFileName") or pick.get("filename", ""), "md5": md5,
+            "license_name": lic_name, "license_uri": lic_uri,
+            "terms_of_use": str(ver.get("termsOfUse", "") or "")[:800]}
+    return raw, info
+
+
+def src_political(cfg, frame, tmpdir):
+    raw, info = dataverse_file(cfg)
+    got = hashlib.md5(raw).hexdigest()
+    if info["md5"] and info["md5"] != got:
+        raise SourceError(f"md5 mismatch: Dataverse {info['md5']}, downloaded {got}")
+    info["md5"] = info["md5"] or got
+    years = [int(y) for y in cfg["years"]]
+    src = f"MEDSL county presidential returns ({cfg['doi']}, v{info['dataset_version']})"
+    rows = parse_medsl(read_delimited(raw), frame, years, set(cfg.get("state_fallback", [])), src)
+    for y in years:
+        hit = sum(1 for r in rows if r[f"geo_basis_{y}"])
+        if hit < 0.9 * len(frame):
+            raise SourceError(f"{y}: only {hit} of {len(frame)} counties matched")
+    if "CC0" not in info["license_name"].upper():
+        print(f"  WARNING: Dataverse license reads {info['license_name']!r}, not CC0; "
+              "recorded in the manifest for review")
+    try:
+        votes = json.load(open(VOTES_JSON, encoding="utf-8"))
+    except (OSError, ValueError):
+        votes = {}
+    parity, summary = political_parity(rows, votes, years)
+    info.update({"years": years, "parity": summary})
+    write_csv(OUT_PARITY, PARITY_COLS, parity)
+    write_text(OUT_PARITY_MD, parity_md(summary, parity, info))
+    return OUT_POLITICAL, political_cols(years), rows, info
+
+
 BUILDERS = {"grid_generation": src_grid, "retail_price": src_price,
-            "water_use": src_water, "drought": src_drought, "farmland": src_farm}
+            "water_use": src_water, "drought": src_drought, "farmland": src_farm,
+            "political": src_political}
 
 
 def read_manifest() -> dict:
@@ -1018,6 +1266,62 @@ def selftest() -> int:
         check("registered plugin columns exist and are leakage none", good)
     except (OSError, ValueError):
         check("plugin config readable", False)
+
+    # political (MEDSL five-county fixture)
+    pframe = {"19001": {"state": "IA", "land_sqmi": 1.0, "population": 7000.0},
+              "17001": {"state": "IL", "land_sqmi": 1.0, "population": 4000.0},
+              "29095": {"state": "MO", "land_sqmi": 1.0, "population": 6200.0},
+              "09110": {"state": "CT", "land_sqmi": 1.0, "population": 9000.0},
+              "09120": {"state": "CT", "land_sqmi": 1.0, "population": 9000.0},
+              "02013": {"state": "AK", "land_sqmi": 1.0, "population": 3000.0},
+              "02020": {"state": "AK", "land_sqmi": 1.0, "population": 3000.0}}
+    recs = read_delimited(open(P("tests", "fixtures", "medsl", "countypres_fixture.csv"), "rb").read())
+    pol = {r["fips"]: r for r in parse_medsl(recs, pframe, [2016, 2020, 2024], {"AK", "CT"}, "t")}
+    check("medsl: TOTAL-mode two-party share", pol["19001"]["dem_share_2p_2016"] == 0.25)
+    check("medsl: third party counts in the margin denominator",
+          pol["19001"]["margin_dr_2016"] == round(-2000 / 4200, 4))
+    check("medsl: modes summed when no TOTAL row",
+          pol["17001"]["dem_share_2p_2016"] == 0.5 and pol["17001"]["total_votes_2016"] == 2000)
+    check("medsl: Kansas City folded into Jackson",
+          pol["29095"]["dem_share_2p_2016"] == round(2000 / 3000, 4)
+          and pol["29095"]["total_votes_2016"] == 3100)
+    check("medsl: CT retired county year is statewide on every planning region",
+          pol["09110"]["geo_basis_2016"] == "state" and pol["09120"]["dem_share_2p_2016"] == 0.6)
+    check("medsl: CT 2024 planning regions are county basis",
+          pol["09110"]["geo_basis_2024"] == "county" and pol["09110"]["dem_share_2p_2024"] == round(2 / 3, 4)
+          and pol["09120"]["dem_share_2p_2024"] == 0.5)
+    check("medsl: AK districts give statewide values on boroughs",
+          pol["02013"]["geo_basis_2020"] == "state" and pol["02020"]["dem_share_2p_2020"] == 0.375)
+    check("medsl: statewide rows carry no per-resident figure", pol["02013"]["votes_per_pop_2016"] == "")
+    check("medsl: votes per resident", pol["19001"]["votes_per_pop_2016"] == 0.6)
+    check("medsl: change between cycles",
+          pol["19001"]["dem_share_2p_chg_2016_2020"] == 0.025
+          and pol["19001"]["dem_share_2p_chg_2020_2024"] == -0.05
+          and pol["19001"]["total_votes_pct_chg_2016_2020"] == round(4100 / 4200 - 1, 4))
+    check("medsl: out-of-set year ignored", pol["19001"]["total_votes_2016"] == 4200)
+    check("medsl: columns match the declared list",
+          set(pol["19001"]) == set(political_cols([2016, 2020, 2024])))
+    par, summ = political_parity(list(pol.values()),
+                                 {"19001": {"2016": round(-2000 / 4200, 4) + 0.01},
+                                  "17001": {"2016": 0.05}}, [2016])
+    check("parity: small gap passes, large gap flagged",
+          {r["fips"]: r["flag"] for r in par} == {"19001": 0, "17001": 1} and summ["2016"]["n_flagged"] == 1)
+    check("parity report has no em-dash", chr(0x2014) not in parity_md(summ, par, {"doi": "d"}))
+    check("medsl fold map", medsl_fips("2938000") == "29095" and medsl_fips("46113") == "46102")
+    try:
+        fcfg = json.load(open(SOURCES_CFG, encoding="utf-8"))["sources"].get("political", {})
+        check("political source configured with DOI and fallback states",
+              fcfg.get("doi") == "doi:10.7910/DVN/VOQCHQ" and set(fcfg.get("state_fallback", [])) == {"AK", "CT"})
+        plug = json.load(open(P("configs", "feature_plugins.json"), encoding="utf-8"))
+        check("political.csv is not registered as a model plugin (parity first)",
+              all("political" not in pl.get("file", "") for pl in plug.get("plugins", [])))
+    except (OSError, ValueError):
+        check("political config readable", False)
+    import inspect
+    src_code = inspect.getsource(dataverse_file)
+    check("manifest info records DOI, version, file, checksum and license",
+          all(k in src_code for k in ('"doi"', '"dataset_version"', '"file_id"', '"md5"',
+                                      '"license_name"', '"terms_of_use"')))
 
     # outputs are LF and carry no em-dash
     with tempfile.TemporaryDirectory() as tmp:

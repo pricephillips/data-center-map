@@ -133,9 +133,21 @@ jobs:
           done
           if git diff --cached --quiet; then echo "Nothing to commit."; exit 0; fi
           git commit -m "Proposals intelligence refresh [skip ci] [$(date -u +%Y-%m-%dT%H:%M:%SZ)]"
+          # Retry only when the push is rejected because main moved on files
+          # this run did not touch. A rebase CONFLICT is different: another
+          # run already committed newer output to the same generated files
+          # (they are -merge in .gitattributes, so git cannot combine them),
+          # and retrying hits the identical conflict every time. That was the
+          # 2026-09-29T01:43Z failure. In that case this run's output is
+          # stale, so drop it and let the next run regenerate from current main.
           for _ in 1 2 3; do
-            git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push && exit 0
-            git rebase --abort 2>/dev/null || true
+            git fetch origin "$GITHUB_REF_NAME"
+            if ! git rebase --autostash "origin/$GITHUB_REF_NAME"; then
+              git rebase --abort 2>/dev/null || true
+              echo "::warning::main already has newer proposals-intel output (rebase conflict on generated files). Skipping push; the next run regenerates from current main."
+              exit 0
+            fi
+            git push && exit 0
             sleep 10
           done
           echo "Push failed after 3 attempts"; exit 1
