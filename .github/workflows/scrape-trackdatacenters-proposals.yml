@@ -28,10 +28,23 @@ jobs:
           python scripts/scrape-trackdatacenters-proposals.py --selftest
           python proposal_history.py --selftest
           python project_id_rekey.py --selftest
+          python project_key_map.py --selftest
 
       - name: Run scraper
         id: scrape
         run: python scripts/scrape-trackdatacenters-proposals.py --out data/proposals.csv
+
+      # Keeps the hand-maintained Layer B files keyed to their projects
+      # (Ruling 5, 2026-09-28). Right after the scrape and before the commit,
+      # so a renumbering and the rewrite of the id cells it forces land in one
+      # commit. Rewrites only id cells whose project moved; holds ambiguous
+      # matches, orphans and unknown ids for a person; writes nothing when
+      # more than 15% of known projects vanished. A no-op until
+      # `python project_key_map.py --init` has been run and committed once.
+      - name: Sync the project key map
+        id: keymap
+        if: steps.scrape.outcome == 'success'
+        run: python project_key_map.py
 
       # if: always() is the point of this step, not a detail. The population
       # guard stops the scraper by design when a column collapses, and that is
@@ -54,6 +67,15 @@ jobs:
           if [ -f data/proposals.csv ]; then git add data/proposals.csv; fi
           if [ -f data/scraper_field_audit.md ]; then git add data/scraper_field_audit.md; fi
           if [ -f data/proposals_detail.json ]; then git add data/proposals_detail.json; fi
+          if [ "${{ steps.keymap.outcome }}" = "success" ]; then
+            for f in data/project_key_map.csv data/project_key_aliases.csv \
+                     data/layer_b_anchors.csv data/project_key_map_report.md \
+                     data/proposals_manual_overlay.csv data/project_decision_dates.csv \
+                     data/project_links_manual.csv data/project_duplicates.csv \
+                     data/negative_audit_codings.csv; do
+              if [ -f "$f" ]; then git add "$f"; fi
+            done
+          fi
           if git diff --cached --quiet; then
             echo "Nothing to commit."
             exit 0
