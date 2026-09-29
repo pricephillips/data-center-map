@@ -646,7 +646,7 @@ def clean(df):
         for idx in df.index:
             src = " ".join(str(df.at[idx, k] or "") for k in ("Incident", "Project Name", "Summary"))
             if not str(df.at[idx, "State"] or "").strip():
-                st = _A.extract_state(src)
+                st = _backfill_state(src)
                 if st:
                     df.at[idx, "State"] = st
                     log_change(idx, "State", "", st)
@@ -988,6 +988,24 @@ def write_report(report, changelog, n, path="data_quality_report.md"):
         f.write("\n".join(lines))
     print(f"  wrote {path}")
 
+def _backfill_state(text, adapter=None):
+    """State recovered from headline text, as the feed's two-letter code.
+
+    extract_state() returns a full name ("Texas"), which is the gate's
+    internal form; the feed column carries codes, and the nine full-name
+    values it held on 2026-09-29 all came from this backfill (spec 005,
+    research D6). normalize_state() converts; an adapter without it (older
+    copy) keeps the previous behavior rather than dropping the value.
+    """
+    a = adapter if adapter is not None else _A
+    if a is None:
+        return ""
+    st = a.extract_state(text)
+    if st and hasattr(a, "normalize_state"):
+        st = a.normalize_state(st) or st
+    return st
+
+
 def selftest():
     """Regression suite for the cleaner's transforms. Run: --selftest"""
     ok = True
@@ -1085,6 +1103,23 @@ def selftest():
         expect(lo.iloc[0]["status_clean"] != "passed", "e2e: committee bill not labelled 'passed'")
         expect(lo.iloc[0]["action_complete"] == False, "e2e: committee bill action_complete=False")
         expect(lo.iloc[0]["outcome_overstated"] == True, "e2e: committee+win flagged outcome_overstated")
+
+    # Headline State backfill writes the feed's two-letter code (spec 005)
+    _adapter = _A
+    if _adapter is None:
+        import importlib.util
+        import os
+        _spec = importlib.util.spec_from_file_location(
+            "_schema_adapter_selftest",
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "qc", "schema_adapter.py"))
+        _adapter = importlib.util.module_from_spec(_spec)
+        _spec.loader.exec_module(_adapter)
+    expect(_backfill_state("Wind farm zoning fight - Texas", _adapter) == "TX",
+           "backfill: headline state recovered as a two-letter code")
+    expect(_backfill_state("Council vote in Salix, IA", _adapter) == "IA",
+           "backfill: trailing code stays a code")
+    expect(_backfill_state("No place named here", _adapter) == "",
+           "backfill: nothing recovered stays blank")
 
     # project override (xAI cross-venue)
     expect(matched_override({"Incident": "Memphis xAI gas turbines", "State": "TN"}) == "xai_colossus",
