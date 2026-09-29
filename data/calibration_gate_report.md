@@ -1,6 +1,6 @@
 # Calibration Gate — Latest Verdict
 
-Run 2026-09-29T15:45:37Z on `outcome_model` out-of-fold predictions.
+Run 2026-09-29T15:44:47Z on `outcome_model` out-of-fold predictions.
 
 ## Verdict: **PROMOTE**
 

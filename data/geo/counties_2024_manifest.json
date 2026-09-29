@@ -1,15 +1,15 @@
 {
   "file": "data/geo/counties_2024.topojson",
-  "source_url": "https://registry.npmjs.org/@severo_bo/us-atlas-2023/-/us-atlas-2023-4.0.0.tgz",
-  "source_note": "Seed. Census 2023 cartographic boundary counties 1:10m (us-atlas-2023 counties-10m.json), counties object only, territories other than PR removed; 51610 Falls Church replaced by the Census 2016 1:500k polygon (plotly-geo cb_2016_us_county_500k) because it collapses at 1:10m. mapshaper 0.7.69 -o format=topojson id-field=FIPS quantization=100000. Replaced by the boundaries job with the Census 2024 1:5m build; see data/geo/README.md.",
-  "vintage": 2023,
-  "scale": "1:10m",
-  "sha256": "65e46b8f7fc1052b17be6ddcf2630624024c38bf88e9e95751eb1fe541db4223",
-  "bytes": 814906,
+  "source_url": "https://www2.census.gov/geo/tiger/GENZ2024/shp/cb_2024_us_county_5m.zip",
+  "source_note": "Census cartographic boundary counties 2024 1:5m; territories other than PR removed; mapshaper 0.7.69 -simplify keep-shapes, quantization=100000.",
+  "vintage": 2024,
+  "scale": "1:5m",
+  "sha256": "f453ddc2e4be29f24421b1966f33b824e2e630dc1614a8f66aabf301db7f245e",
+  "bytes": 710064,
   "feature_count": 3222,
   "scored_fips": 3144,
   "scored_missing": [],
   "built_at": "2026-09-29",
   "writer": "acquire-geo-sources.yml:boundaries",
-  "state": "seed"
+  "state": "built"
 }
