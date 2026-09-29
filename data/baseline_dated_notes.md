@@ -4,9 +4,9 @@ Generated 2026-09-29 by `baseline_dated.py`.
 
 ## Frame
 
-- Records with a usable time origin (day/month announced): **840** (313 internal, 527 external)
-- Opposed: 199 (8 with a verified decision date)
-- Control (unopposed): 641 (4 with a verified decision date; 37 decided but undated → censored lower bounds)
+- Records with a usable time origin (day/month announced): **843** (316 internal, 527 external)
+- Opposed: 182 (26 with a verified decision date)
+- Control (unopposed): 661 (0 with a verified decision date; 45 decided but undated → censored lower bounds)
 
 ## End-anchor kinds
 

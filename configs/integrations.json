@@ -2133,6 +2133,20 @@
         "static_report"
       ],
       "reinstated": "2026-09-28 pass 4"
+    },
+    {
+      "id": "already-built-proposals-intel",
+      "name": "EPA ECHO air permits, EIA-860M planned generation, EIA-861/PUDL utility territory, Google News RSS proposal discovery",
+      "status": "eliminated",
+      "category": "already-built",
+      "reason": "Shipped 2026-09-29 in fetch_air_permits.py, fetch_planned_generation.py, fetch_grid_territory.py and proposal_discovery.py (proposals-intel.yml; docs/passoff_2026-09-28_proposals_intelligence.md). Planned generation is spatial context near proposed projects only, never a baseline, consistent with the gridstatus elimination."
+    },
+    {
+      "id": "already-built-legistar-followup",
+      "name": "Legistar matter probe and Google News status follow-up",
+      "status": "eliminated",
+      "category": "already-built",
+      "reason": "Shipped 2026-09-28 in legistar_probe.py (configs/legistar_clients.json) and status_followup.py. Spec 007's civic-scraper work must reuse these for Legistar, not add a second Legistar path."
     }
   ],
   "product_lines": {

@@ -1,7 +1,7 @@
 {
   "generated": "2026-09-28",
   "config_hash": "f0b5407174a3",
-  "features_hash": "c52e94c07987",
+  "features_hash": "b752c42e8e84",
   "n_pool": 73,
   "targets": {
     "restrict": {
@@ -10,8 +10,8 @@
       "label": "has_enacted_restrictive",
       "frame": "all",
       "n_frame": 3144,
-      "n_positive": 480,
-      "base_rate": 0.1527,
+      "n_positive": 483,
+      "base_rate": 0.1536,
       "n_candidates": 70,
       "dropped": {
         "opp_pre_ordinance_activity": "varies in only 3 positive counties",
@@ -20,14 +20,14 @@
       },
       "held_out_auc": {
         "gbm_all_candidates": {
-          "p10": 0.9035,
-          "p50": 0.9429,
-          "p90": 0.9554
+          "p10": 0.9317,
+          "p50": 0.9486,
+          "p90": 0.9672
         },
         "l2_logistic_all_candidates": {
-          "p10": 0.7606,
-          "p50": 0.7862,
-          "p90": 0.8035
+          "p10": 0.7456,
+          "p50": 0.7905,
+          "p90": 0.8303
         }
       },
       "cv": {
@@ -47,19 +47,21 @@
         "mean_selected_per_penalty": {
           "0.003": 0,
           "0.005": 0,
-          "0.01": 3.67,
-          "0.02": 5.51,
-          "0.05": 14.57,
-          "0.1": 27.95,
-          "0.3": 46.22
+          "0.01": 3.73,
+          "0.02": 5.67,
+          "0.05": 14.51,
+          "0.1": 27.81,
+          "0.3": 46.18
         },
-        "mean_selected_at_weakest_penalty_used": 5.51,
-        "expected_false_selections_bound": 0.867
+        "mean_selected_at_weakest_penalty_used": 5.67,
+        "expected_false_selections_bound": 0.919
       },
       "status": "OK",
-      "n_admitted": 13,
+      "n_admitted": 12,
       "weights_updated": true,
-      "drift_flags": []
+      "drift_flags": [
+        "state_restrict_rate_loo"
+      ]
     },
     "restrict_profile": {
       "target": "restrict_profile",
@@ -67,20 +69,20 @@
       "label": "has_enacted_restrictive",
       "frame": "all",
       "n_frame": 3144,
-      "n_positive": 480,
-      "base_rate": 0.1527,
+      "n_positive": 483,
+      "base_rate": 0.1536,
       "n_candidates": 42,
       "dropped": {},
       "held_out_auc": {
         "gbm_all_candidates": {
-          "p10": 0.7737,
-          "p50": 0.7929,
-          "p90": 0.8138
+          "p10": 0.7571,
+          "p50": 0.7969,
+          "p90": 0.8228
         },
         "l2_logistic_all_candidates": {
-          "p10": 0.7323,
-          "p50": 0.7548,
-          "p90": 0.7786
+          "p10": 0.7219,
+          "p50": 0.755,
+          "p90": 0.8065
         }
       },
       "cv": {
@@ -100,17 +102,17 @@
         "mean_selected_per_penalty": {
           "0.003": 0,
           "0.005": 0,
-          "0.01": 2.07,
-          "0.02": 4.81,
-          "0.05": 12.21,
-          "0.1": 18.41,
-          "0.3": 27.6
+          "0.01": 2.09,
+          "0.02": 4.89,
+          "0.05": 12.36,
+          "0.1": 18.74,
+          "0.3": 27.4
         },
-        "mean_selected_at_weakest_penalty_used": 4.81,
-        "expected_false_selections_bound": 1.102
+        "mean_selected_at_weakest_penalty_used": 4.89,
+        "expected_false_selections_bound": 1.139
       },
       "status": "OK",
-      "n_admitted": 17,
+      "n_admitted": 26,
       "weights_updated": true,
       "drift_flags": []
     },
@@ -120,8 +122,8 @@
       "label": "has_enacted_moratorium",
       "frame": "all",
       "n_frame": 3144,
-      "n_positive": 401,
-      "base_rate": 0.1275,
+      "n_positive": 404,
+      "base_rate": 0.1285,
       "n_candidates": 70,
       "dropped": {
         "opp_pre_ordinance_activity": "varies in only 0 positive counties",
@@ -130,14 +132,14 @@
       },
       "held_out_auc": {
         "gbm_all_candidates": {
-          "p10": 0.8902,
-          "p50": 0.9096,
-          "p90": 0.946
+          "p10": 0.9064,
+          "p50": 0.9255,
+          "p90": 0.9501
         },
         "l2_logistic_all_candidates": {
-          "p10": 0.7418,
-          "p50": 0.7741,
-          "p90": 0.8159
+          "p10": 0.75,
+          "p50": 0.7679,
+          "p90": 0.8054
         }
       },
       "cv": {
@@ -157,17 +159,17 @@
         "mean_selected_per_penalty": {
           "0.003": 0,
           "0.005": 0,
-          "0.01": 2.54,
+          "0.01": 2.69,
           "0.02": 3.97,
-          "0.05": 13.87,
-          "0.1": 26.9,
-          "0.3": 45.26
+          "0.05": 14.21,
+          "0.1": 26.76,
+          "0.3": 45.72
         },
         "mean_selected_at_weakest_penalty_used": 3.97,
         "expected_false_selections_bound": 0.45
       },
       "status": "OK",
-      "n_admitted": 12,
+      "n_admitted": 13,
       "weights_updated": true,
       "drift_flags": []
     },
@@ -187,13 +189,13 @@
       },
       "held_out_auc": {
         "gbm_all_candidates": {
-          "p10": 0.5304,
-          "p50": 0.6215,
-          "p90": 0.6599
+          "p10": 0.5344,
+          "p50": 0.6299,
+          "p90": 0.664
         },
         "l2_logistic_all_candidates": {
           "p10": 0.5445,
-          "p50": 0.6478,
+          "p50": 0.6437,
           "p90": 0.7027
         }
       },
@@ -219,14 +221,14 @@
           "0.01": 0,
           "0.02": 0,
           "0.05": 0.47,
-          "0.1": 4.84,
-          "0.3": 20.68
+          "0.1": 4.87,
+          "0.3": 20.66
         },
-        "mean_selected_at_weakest_penalty_used": 4.84,
-        "expected_false_selections_bound": 0.669
+        "mean_selected_at_weakest_penalty_used": 4.87,
+        "expected_false_selections_bound": 0.678
       },
       "status": "OK",
-      "n_admitted": 4,
+      "n_admitted": 8,
       "weights_updated": true,
       "drift_flags": []
     }
