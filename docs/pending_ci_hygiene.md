@@ -41,6 +41,22 @@ git apply docs/pending_ci_hygiene.patch
 git add .github/workflows && git commit -m "Apply spec 004 CI hygiene patch"
 ```
 
+Apply this patch before merging any Dependabot `github_actions` PR (PR #54,
+opened 2026-09-29, bumps checkout/setup-python to v7, github-script to v9).
+Both rewrite the same `uses:` lines, so merging the bump first makes every
+hunk here fail, and applying this patch after it would pin the actions back
+to v4/v5. Close #54 unapplied, apply this patch, then run Insights >
+Dependency graph > Dependabot > "Check for updates" so the bump arrives as
+SHA updates on top of the pins.
+
+In the same commit, delete `.github/workflows/harden-pipeline-publishing.yml`
+(`git rm`, then drop its hunk from the patch or apply with
+`--exclude=.github/workflows/harden-pipeline-publishing.yml`). It is a
+dispatch-only job that rewrites `pipeline.yml` by string replacement. Against
+today's file it exits before writing, and the concurrency group it would add
+(`data-center-map-generated-artifacts-main`) differs from the live
+`pipeline-${{ github.ref }}`, so it is dead code at best.
+
 Before applying, `git apply --check docs/pending_ci_hygiene.patch` should print
 nothing. If a workflow changed on `main` since this patch was built, re-run the
 export in `specs/004-ci-hygiene-gates/tasks.md` (T031) instead of editing hunks

@@ -157,14 +157,35 @@ def _writer_helpers(tree: ast.AST) -> dict:
     return out
 
 
-def writes(source: str) -> set[str]:
-    """Paths a module writes, repo-relative where resolvable."""
+def _imported_helpers(tree: ast.AST, repo_helpers: dict) -> dict:
+    """alias -> {helper: arg index} for repo modules this module imports.
+
+    `import status_resolution as SR` followed by `SR.write_csv(rows, OUT, f)`
+    is a write to OUT, but the helper lives in the other module, so the local
+    helper scan never saw it and data/status_followup_leads.csv had no writer.
+    """
+    out: dict = {}
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for a in node.names:
+                if a.name in repo_helpers:
+                    out[a.asname or a.name] = repo_helpers[a.name]
+    return out
+
+
+def writes(source: str, repo_helpers: dict | None = None) -> set[str]:
+    """Paths a module writes, repo-relative where resolvable.
+
+    repo_helpers maps an importable repo module name to its own write helpers
+    (see _writer_helpers), so a call through an imported module counts too.
+    """
     try:
         tree = ast.parse(source)
     except SyntaxError:
         return set()
     env = _const_env(tree)
     helpers = _writer_helpers(tree)
+    foreign = _imported_helpers(tree, repo_helpers or {})
     out: set[str] = set()
     for node in ast.walk(tree):
         if not isinstance(node, ast.Call):
@@ -187,6 +208,14 @@ def writes(source: str) -> set[str]:
                 out.add(target)
         elif name in helpers:
             i = helpers[name]
+            if len(node.args) > i:
+                target = _resolve(node.args[i], env)
+                if target:
+                    out.add(target)
+        elif (isinstance(node.func, ast.Attribute)
+              and isinstance(node.func.value, ast.Name)
+              and name in foreign.get(node.func.value.id, {})):
+            i = foreign[node.func.value.id][name]
             if len(node.args) > i:
                 target = _resolve(node.args[i], env)
                 if target:
@@ -257,13 +286,25 @@ def bind_computed_writes(wmap: dict, inventory_paths) -> tuple[dict, dict]:
 def write_map(root: str = HERE) -> dict[str, list[str]]:
     """file -> modules that write it, both repo-relative."""
     out: dict[str, list[str]] = defaultdict(list)
+    sources: dict[str, str] = {}
     for pattern in MODULE_GLOBS:
         for path in sorted(glob.glob(os.path.join(root, pattern))):
-            module = os.path.relpath(path, root)
             with open(path, encoding="utf-8", errors="ignore") as fh:
-                source = fh.read()
-            for target in writes(source):
-                out[target].append(module)
+                sources[os.path.relpath(path, root)] = fh.read()
+    # Only root-level modules are importable by bare name.
+    repo_helpers: dict = {}
+    for module, source in sources.items():
+        if "/" in module.replace(os.sep, "/"):
+            continue
+        try:
+            found = _writer_helpers(ast.parse(source))
+        except SyntaxError:
+            continue
+        if found:
+            repo_helpers[module[:-3]] = found
+    for module, source in sources.items():
+        for target in writes(source, repo_helpers):
+            out[target].append(module)
     return {k: sorted(set(v)) for k, v in sorted(out.items())}
 
 
@@ -429,6 +470,15 @@ def go():
     check("a read-only path is not a write", "data/only_read.csv" not in w)
     check("follows a write helper", "data/via_helper.csv" in w)
     check("append mode counts as a write", "data/appended.csv" in w)
+    imported = writes('import os\nimport status_resolution as SR\n'
+                      'OUT = os.path.join("data", "leads.csv")\n'
+                      'SR.write_csv([], OUT, [])\n'
+                      'SR.read_csv(os.path.join("data", "in.csv"))\n',
+                      {"status_resolution": {"write_csv": 1}})
+    check("follows a write helper in an imported repo module",
+          "data/leads.csv" in imported)
+    check("a non-helper call on an imported module is not a write",
+          "data/in.csv" not in imported)
 
     check("an override idiom resolves to its default",
           "data/hist.csv" in writes('DEFAULT = "data/hist.csv"\n'
