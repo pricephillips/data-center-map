@@ -140,7 +140,7 @@ jobs:
         uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
 
       - name: Install dependencies
-        run: uv pip install --system -c requirements/ci.txt pandas "scikit-learn>=1.2" mapie pytest ruff daff vale
+        run: uv pip install --system -c requirements/ci.txt pandas "scikit-learn>=1.2" mapie pytest ruff daff vale pandera
 
       - name: Gate — run self-tests (BLOCKING; a failure stops the build)
         run: |
@@ -435,6 +435,29 @@ jobs:
           # statement about the data, not a build failure.
           python facility_manifest.py
 
+      # Spec 005. The out-of-fold scores are this run's, so the audit sits
+      # behind the county layer. A worklist only: it never blocks.
+      - name: Label disagreement audit (county labels vs out-of-fold scores)
+        id: label_disagreement
+        if: steps.county_layer.outcome == 'success'
+        continue-on-error: true
+        run: python label_disagreement_audit.py
+
+      # Spec 005. Both run after every generator, so they read this run's
+      # outputs. configs/data_quality.json schema.mode decides whether the
+      # schema blocks: in window mode it reports until seven consecutive clean
+      # runs, then blocks. The surface steps at the end turn a failure red
+      # after the feed is committed, like the other fenced steps.
+      - name: Data quality schemas (qc/schemas.py)
+        id: schemas
+        continue-on-error: true
+        run: python qc/schemas.py
+
+      - name: Coverage delta (a declared column may not collapse)
+        id: coverage_delta
+        continue-on-error: true
+        run: python qc/coverage_delta.py
+
       - name: Dataset barriers (one writer per file, no undeclared crossings)
         id: layer_audit
         continue-on-error: true
@@ -537,6 +560,13 @@ jobs:
           fi
           if [ "${{ steps.operations_summary.outcome }}" = "success" ]; then
             git add data/operations_summary.json 2>/dev/null || true
+          fi
+          # Spec 005. The schema report and run history are staged on every
+          # run, failing ones included: the history is what counts clean runs.
+          git add qc/schema_report.md data/schema_run_history.csv \
+                  data/coverage_delta_report.md snapshots/coverage_profiles.csv 2>/dev/null || true
+          if [ "${{ steps.label_disagreement.outcome }}" = "success" ]; then
+            git add data/label_disagreement_worklist.csv 2>/dev/null || true
           fi
           if [ "${{ steps.layer_audit.outcome }}" = "success" ]; then
             git add data/layer_audit.csv data/layer_audit_summary.json 2>/dev/null || true
@@ -727,4 +757,16 @@ jobs:
         if: steps.site_screener.outcome == 'failure'
         run: |
           echo "::error::site_screener.py failed (self-tests, batch scoring, or leak audit). Screener artifacts were NOT committed; the last good screen remains in place. Clean feed, county layer, and Iowa sync were unaffected."
+          exit 1
+
+      - name: Surface schema failure (blocking once the window closes)
+        if: steps.schemas.outcome == 'failure'
+        run: |
+          echo "::error::qc/schemas.py failed: a schema check failed in blocking mode, or an input was missing. See qc/schema_report.md for row ids. The feed was committed; nothing was edited."
+          exit 1
+
+      - name: Surface coverage-delta failure
+        if: steps.coverage_delta.outcome == 'failure'
+        run: |
+          echo "::error::qc/coverage_delta.py: a declared column's non-null count dropped past its threshold (see data/coverage_delta_report.md). Check the upstream scraper or feed before relying on this run's outputs."
           exit 1

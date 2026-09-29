@@ -38,10 +38,15 @@ Sources (settings in configs/feature_sources.json):
                    plus the change between cycles. Alaska (state house
                    districts) and Connecticut (retired counties before 2024)
                    do not map onto the county frame and carry statewide values
-                   with geo_basis = state. Writes a parity report against
-                   data/county_votes.json. Deliberately NOT registered in
-                   configs/feature_plugins.json: the choropleth and the model
-                   keep county_votes.json until parity is reviewed (spec 005).
+                   with geo_basis = state. Writes a parity report against the
+                   scraped margins. When the parity gate in
+                   configs/feature_sources.json passes (agreement and license
+                   criteria; switch approved by Price 2026-09-29),
+                   data/county_votes.json is rebuilt from MEDSL in its existing
+                   shape, so the choropleth, the county model and metrics
+                   switch with no code change; the scraped original is kept
+                   once as data/county_votes_legacy.json. Not registered in
+                   configs/feature_plugins.json (spec 005).
 
 Zoning regime is not built: there is no national county-level source, and
 the partial ones would enter the search as detection-biased variables.
@@ -98,6 +103,7 @@ OUT_POLITICAL = P("data", "features", "political.csv")
 OUT_PARITY = P("data", "features", "political_parity.csv")
 OUT_PARITY_MD = P("data", "features", "political_parity.md")
 VOTES_JSON = P("data", "county_votes.json")
+VOTES_LEGACY_JSON = P("data", "county_votes_legacy.json")
 OUT_MANIFEST = P("data", "features", "features_manifest.json")
 
 UA = {"User-Agent": "hawthorn-dc-pipeline (county reference data)"}
@@ -895,6 +901,13 @@ def parse_medsl(recs, frame, years, fallback_states, source="") -> list:
     unmatched county stays blank.
     """
     years = [int(y) for y in years]
+    votes, totals, state_of = medsl_votes(recs, years)
+    return _medsl_rows(votes, totals, state_of, frame, years, fallback_states, source)
+
+
+def medsl_votes(recs, years):
+    """(votes[(year, raw_fips)] = {D, R}, totals[(year, raw_fips)], state_of[raw_fips])."""
+    years = [int(y) for y in years]
     has_total = set()
     for r in recs:
         if str(r.get("mode", "")).strip().upper() == "TOTAL":
@@ -921,6 +934,10 @@ def parse_medsl(recs, frame, years, fallback_states, source="") -> list:
             votes[(y, raw)]["R"] += n
         totals[(y, raw)] = max(totals[(y, raw)], fnum(r.get("totalvotes")) or 0.0)
         state_of[raw] = str(r.get("state_po", "")).strip().upper()
+    return votes, totals, state_of
+
+
+def _medsl_rows(votes, totals, state_of, frame, years, fallback_states, source):
 
     by_county = defaultdict(lambda: {"D": 0.0, "R": 0.0, "T": 0.0})   # (year, frame fips)
     by_state = defaultdict(lambda: {"D": 0.0, "R": 0.0, "T": 0.0})    # (year, state)
@@ -1004,8 +1021,14 @@ def parity_md(summary, parity, info) -> str:
          f"- License: {info.get('license_name', '') or 'not stated'}.",
          "- Margin is (D - R) / total votes, the sign convention of data/county_votes.json.",
          f"- A county-year is flagged when the two margins differ by more than {PARITY_FLAG}.",
-         "- Nothing reads political.csv yet. The choropleth and the model switch only after this "
-         "report is reviewed.", "",
+         "- Switch rule (configs/feature_sources.json, political.promote_to_county_votes): when every "
+         "gate year passes, data/county_votes.json is rebuilt from MEDSL and the scraped original "
+         "is kept as data/county_votes_legacy.json.",
+         "- This run: " + ("data/county_votes.json rebuilt from MEDSL."
+                           if (info.get("promotion") or {}).get("promoted")
+                           else "data/county_votes.json unchanged ("
+                           + ("; ".join((info.get("promotion") or {}).get("reasons") or [])
+                              or "gate not evaluated") + ")."), "",
          "| Year | Counties compared | Median abs diff | p95 abs diff | Flagged |",
          "|---|---:|---:|---:|---:|"]
     for y, s in summary.items():
@@ -1065,7 +1088,9 @@ def src_political(cfg, frame, tmpdir):
     info["md5"] = info["md5"] or got
     years = [int(y) for y in cfg["years"]]
     src = f"MEDSL county presidential returns ({cfg['doi']}, v{info['dataset_version']})"
-    rows = parse_medsl(read_delimited(raw), frame, years, set(cfg.get("state_fallback", [])), src)
+    votes_raw, totals, state_of = medsl_votes(read_delimited(raw), years)
+    rows = _medsl_rows(votes_raw, totals, state_of, frame, years,
+                       set(cfg.get("state_fallback", [])), src)
     for y in years:
         hit = sum(1 for r in rows if r[f"geo_basis_{y}"])
         if hit < 0.9 * len(frame):
@@ -1073,15 +1098,92 @@ def src_political(cfg, frame, tmpdir):
     if "CC0" not in info["license_name"].upper():
         print(f"  WARNING: Dataverse license reads {info['license_name']!r}, not CC0; "
               "recorded in the manifest for review")
+    # Parity is always against the scraped margins: the legacy copy once a
+    # promotion has happened, so MEDSL is never compared with itself.
+    baseline = VOTES_LEGACY_JSON if os.path.exists(VOTES_LEGACY_JSON) else VOTES_JSON
     try:
-        votes = json.load(open(VOTES_JSON, encoding="utf-8"))
+        votes = json.load(open(baseline, encoding="utf-8"))
     except (OSError, ValueError):
         votes = {}
     parity, summary = political_parity(rows, votes, years)
-    info.update({"years": years, "parity": summary})
+    gcfg = cfg.get("promote_to_county_votes", {})
+    ok, why = promotion_gate(summary, info, gcfg)
+    if ok:
+        promote_county_votes(county_votes_from_medsl(rows, votes_raw, totals, years, set(votes)))
+    info.update({"years": years, "parity": summary,
+                 "parity_baseline": os.path.relpath(baseline, ROOT),
+                 "promotion": {"promoted": ok, "reasons": why, "criteria": gcfg}})
+    print(f"  county_votes.json {'rebuilt from MEDSL' if ok else 'unchanged'}"
+          + ("" if ok else f": {'; '.join(why)}"))
     write_csv(OUT_PARITY, PARITY_COLS, parity)
     write_text(OUT_PARITY_MD, parity_md(summary, parity, info))
     return OUT_POLITICAL, political_cols(years), rows, info
+
+
+def promotion_gate(summary, info, gcfg) -> tuple[bool, list]:
+    """Whether MEDSL may replace data/county_votes.json, and why not.
+
+    Approved by Price 2026-09-29 (spec 005 follow-up): the switch happens by
+    rule rather than by a person reading the parity report, and the rule is
+    strict. Every gate year must compare at least min_compared counties, with
+    a median absolute margin difference no larger than max_median_abs_diff
+    and at most max_flagged_share of counties past the 0.02 flag, and the
+    Dataverse license must name one of the accepted licenses.
+    """
+    if not gcfg.get("enabled", False):
+        return False, ["promotion disabled in configs/feature_sources.json"]
+    why = []
+    for y in gcfg.get("years", []):
+        s_ = summary.get(str(y)) or {}
+        n = s_.get("n") or 0
+        if n < gcfg["min_compared"]:
+            why.append(f"{y}: {n} counties compared, fewer than {gcfg['min_compared']}")
+            continue
+        if (s_.get("median_abs_diff") or 0) > gcfg["max_median_abs_diff"]:
+            why.append(f"{y}: median abs diff {s_['median_abs_diff']} > {gcfg['max_median_abs_diff']}")
+        share = (s_.get("n_flagged") or 0) / n
+        if share > gcfg["max_flagged_share"]:
+            why.append(f"{y}: {share:.1%} of counties flagged > {gcfg['max_flagged_share']:.0%}")
+    lic = str(info.get("license_name", "")).upper().replace("-", " ")
+    if not any(a.upper().replace("-", " ") in lic for a in gcfg.get("licenses", [])):
+        why.append(f"license {info.get('license_name', '')!r} is not one of {gcfg.get('licenses', [])}")
+    return (not why), why
+
+
+def county_votes_from_medsl(rows, votes, totals, years, legacy_keys) -> dict:
+    """data/county_votes.json in its existing shape: {fips: {"2016": margin}}.
+
+    Frame counties come from the parsed rows (county or statewide basis).
+    Keys the legacy file carried outside the frame (Alaska district codes,
+    Connecticut's retired counties) are kept only where MEDSL itself reports
+    that code, with MEDSL's value, so map coverage does not shrink and no
+    scraped value survives.
+    """
+    out = {}
+    for r in rows:
+        entry = {str(y): r[f"margin_dr_{y}"] for y in years
+                 if r.get(f"margin_dr_{y}") not in ("", None)}
+        if entry:
+            out[r["fips"]] = entry
+    for (y, raw), v in votes.items():
+        f = norm_fips(raw)
+        if not f or f not in legacy_keys or (f in out and str(y) in out[f]):
+            continue
+        t = totals.get((y, raw)) or 0
+        if t > 0:
+            out.setdefault(f, {})[str(y)] = round((v["D"] - v["R"]) / t, 4)
+    return {f: dict(sorted(out[f].items())) for f in sorted(out)}
+
+
+def promote_county_votes(new_votes: dict):
+    """Keep the scraped original once, then replace county_votes.json."""
+    if not os.path.exists(VOTES_LEGACY_JSON) and os.path.exists(VOTES_JSON):
+        with open(VOTES_JSON, "rb") as fh:
+            original = fh.read()
+        with open(VOTES_LEGACY_JSON, "wb") as fh:
+            fh.write(original)
+    with open(VOTES_JSON, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(new_votes, fh, separators=(",", ":"))
 
 
 BUILDERS = {"grid_generation": src_grid, "retail_price": src_price,
@@ -1312,11 +1414,57 @@ def selftest() -> int:
         fcfg = json.load(open(SOURCES_CFG, encoding="utf-8"))["sources"].get("political", {})
         check("political source configured with DOI and fallback states",
               fcfg.get("doi") == "doi:10.7910/DVN/VOQCHQ" and set(fcfg.get("state_fallback", [])) == {"AK", "CT"})
+        pg = fcfg.get("promote_to_county_votes", {})
+        check("promotion gate configured with strict criteria",
+              pg.get("enabled") is True and pg.get("max_median_abs_diff", 1) <= 0.01
+              and pg.get("max_flagged_share", 1) <= 0.1 and pg.get("min_compared", 0) >= 2500)
         plug = json.load(open(P("configs", "feature_plugins.json"), encoding="utf-8"))
         check("political.csv is not registered as a model plugin (parity first)",
               all("political" not in pl.get("file", "") for pl in plug.get("plugins", [])))
     except (OSError, ValueError):
         check("political config readable", False)
+    # promotion gate and the rebuilt county_votes.json
+    gcfg = {"enabled": True, "years": [2016, 2024], "min_compared": 100,
+            "max_median_abs_diff": 0.005, "max_flagged_share": 0.05, "licenses": ["CC0", "CC BY"]}
+    good = {"2016": {"n": 3000, "median_abs_diff": 0.001, "n_flagged": 30},
+            "2024": {"n": 3000, "median_abs_diff": 0.002, "n_flagged": 60}}
+    lic = {"license_name": "CC0 1.0"}
+    check("gate passes on close agreement and CC0", promotion_gate(good, lic, gcfg) == (True, []))
+    bad = dict(good, **{"2024": {"n": 3000, "median_abs_diff": 0.02, "n_flagged": 900}})
+    ok_, why = promotion_gate(bad, lic, gcfg)
+    check("gate refuses a large median gap and a high flagged share", not ok_ and len(why) == 2)
+    check("gate refuses too few counties",
+          not promotion_gate(dict(good, **{"2016": {"n": 5, "median_abs_diff": 0, "n_flagged": 0}}), lic, gcfg)[0])
+    check("gate refuses an unlisted license",
+          not promotion_gate(good, {"license_name": "All rights reserved"}, gcfg)[0])
+    check("gate off when disabled", not promotion_gate(good, lic, dict(gcfg, enabled=False))[0])
+    v_raw, tot_raw, _ = medsl_votes(recs, [2016, 2020, 2024])
+    cv = county_votes_from_medsl(list(pol.values()), v_raw, tot_raw, [2016, 2020, 2024],
+                                 legacy_keys={"09001", "02001", "99999"})
+    check("county_votes keeps its shape: fips -> {year: margin}",
+          cv["19001"] == {"2016": round(-2000 / 4200, 4), "2020": round(-1800 / 4100, 4),
+                          "2024": round(-2200 / 4050, 4)})
+    check("legacy out-of-frame keys MEDSL reports carry MEDSL values",
+          cv["09001"]["2016"] == round(1000 / 5200, 4) and "02001" in cv)
+    check("legacy keys MEDSL does not report are dropped", "99999" not in cv)
+    gl = globals()
+    saved_v = (gl["VOTES_JSON"], gl["VOTES_LEGACY_JSON"])
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            vj, lj = os.path.join(tmp, "v.json"), os.path.join(tmp, "legacy.json")
+            gl["VOTES_JSON"], gl["VOTES_LEGACY_JSON"] = vj, lj
+            with open(vj, "w") as fh:
+                fh.write('{"19001":{"2016":-0.5}}')
+            promote_county_votes(cv)
+            check("first promotion keeps the scraped original byte for byte",
+                  open(lj).read() == '{"19001":{"2016":-0.5}}' and json.load(open(vj)) == cv)
+            promote_county_votes({"19001": {"2016": 0.1}})
+            check("later promotions never overwrite the legacy copy",
+                  open(lj).read() == '{"19001":{"2016":-0.5}}')
+            check("county_votes.json written LF, compact", b"\r" not in open(vj, "rb").read())
+    finally:
+        gl["VOTES_JSON"], gl["VOTES_LEGACY_JSON"] = saved_v
+
     import inspect
     src_code = inspect.getsource(dataverse_file)
     check("manifest info records DOI, version, file, checksum and license",
