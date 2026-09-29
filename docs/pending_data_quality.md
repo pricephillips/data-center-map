@@ -1,18 +1,15 @@
-# Pending: data quality schemas and regression gates in CI (spec 005)
+# Applied: data quality schemas and regression gates in CI (spec 005)
 
-`docs/pending_data_quality.patch` holds every `.github/workflows/` change for
-spec 005. It is written, passes actionlint, and applies cleanly to the branch
-head it was built on. Per the constitution, CI changes that cannot be pushed
-from a sandbox are staged here with this note, as `pending_ci_hygiene` was for
-spec 004.
+**Applied 2026-09-29** at Price's request. The `pipeline.yml` half of
+`docs/pending_data_quality.patch` applied cleanly. The `fetch-features.yml`
+half no longer applied, because `main` had moved that step to
+`scripts/git_push_retry.sh`, so it was re-made by hand. It now also stages
+`data/county_votes.json` and `data/county_votes_legacy.json` for the approved
+MEDSL switch, with one `git add` per existing path so a missing file cannot
+stop the others from being staged. The patch file was removed once applied.
+This note stays as the record of what changed and what to check.
 
-Apply from the repo root:
-
-```bash
-git apply --check docs/pending_data_quality.patch && git apply docs/pending_data_quality.patch
-```
-
-## What it changes
+## What changed
 
 ### `pipeline.yml`
 
@@ -44,6 +41,12 @@ git apply --check docs/pending_data_quality.patch && git apply docs/pending_data
 
 - Stages `data/features/*.md`, which carries the new
   `political_parity.md`, and adds MEDSL to the commit message.
+- Stages `data/county_votes.json` and `data/county_votes_legacy.json`. They
+  change only when the MEDSL parity gate in `configs/feature_sources.json`
+  passes: every gate year compares at least 2,900 counties, the median
+  absolute margin difference is at most 0.005, at most 5 percent of counties
+  are flagged, and the license is CC0 or CC BY. The switch was approved by
+  Price on 2026-09-29.
 - The existing `data/features/*.csv` glob already covers `political.csv` and
   `political_parity.csv`.
 - `fetch_county_features.py` builds the `political` source on the next
@@ -78,5 +81,8 @@ Re-runs on identical inputs do not count toward the seven.
 - **Next `fetch-features.yml` run.** Read `data/features/political_parity.md`
   and the `political` entry in `data/features/features_manifest.json`. That
   entry holds the DOI, dataset version, md5 and the license name and terms
-  Dataverse returned. The choropleth and the model keep reading
-  `data/county_votes.json` until that review is done.
+  Dataverse returned. `sources.political.info.promotion` records whether
+  the gate passed. If it did, `data/county_votes.json` now holds MEDSL
+  margins and the next daily pipeline run carries them into the county model
+  and the choropleth. If it did not, the reasons are listed there and the
+  scraped file stays in place.

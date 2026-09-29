@@ -234,7 +234,7 @@ reference geography that frame is built on.
 | | |
 |---|---|
 | Key | `fips` |
-| Files | `data/external_restriction_census*`, `data/county_aggregate.csv`, `data/county_policy_*`, `data/county_model_spec_history.csv`, `data/restriction_*`, `data/bill_*` (including `data/bill_subject_overrides.csv`, hand maintained), `data/stale_pending_*`, the county reference geography, `data/features/*` (sole writer `fetch_county_features.py`, including the MEDSL `political.csv` and its `political_parity.*` report, spec 005) |
+| Files | `data/external_restriction_census*`, `data/county_aggregate.csv`, `data/county_policy_*`, `data/county_model_spec_history.csv`, `data/restriction_*`, `data/bill_*` (including `data/bill_subject_overrides.csv`, hand maintained), `data/stale_pending_*`, the county reference geography, `data/features/*` (sole writer `fetch_county_features.py`, including the MEDSL `political.csv` and its `political_parity.*` report, spec 005), `data/county_votes.json` (rebuilt from MEDSL by `fetch_county_features.py` when its parity gate passes; the scraped original is kept once as `data/county_votes_legacy.json`) |
 | Writers | `county_aggregator.py`, `county_policy_model.py`, `county_policy_intervals.py`, `restriction_worklist.py`, `census_gap_candidates.py`, `bill_sync.py`, `stale_pending_audit.py`, `refresh_external_census.py`, `restriction_evidence.py`, the county fetchers |
 | Source of record | The tracker itself. `data/external_restriction_census.csv` is an external lower bound and a pointer, never a source of record: nothing is ingestable from it until a primary source URL is supplied |
 
