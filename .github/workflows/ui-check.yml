@@ -1,0 +1,86 @@
+name: UI check
+
+# Playwright and axe-core smoke tests over every map and dashboard page
+# (spec 009, US5). Neither pipeline.yml nor gate-check.yml triggers on HTML or
+# JS, so before this a front-end push was CI-inert.
+#
+# Offline by construction (FR-006): tests/ui/fixtures.js serves
+# raw.githubusercontent.com/pricephillips/data-center-map/main/* from the
+# checkout and pinned CDN libraries from tests/ui/node_modules, and aborts
+# every other host, basemap tiles included (which exercises the raster
+# fallback). No third-party data host is contacted.
+#
+# Read-only: this workflow commits nothing.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.html'
+      - '**.js'
+      - 'data/geo/**'
+      - 'tests/ui/**'
+      - '.github/workflows/ui-check.yml'
+  pull_request:
+    paths:
+      - '**.html'
+      - '**.js'
+      - 'data/geo/**'
+      - 'tests/ui/**'
+      - '.github/workflows/ui-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ui-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: tests/ui
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: tests/ui/package-lock.json
+
+      - name: Install test dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        # CI only. The Claude sandbox has Chromium at /opt/pw-browsers and must
+        # never run this; playwright.config.js picks that one up when present.
+        run: npx playwright install --with-deps chromium
+
+      - name: Geometry coverage gate
+        run: node check_geometry.js --selftest && node check_geometry.js
+
+      - name: JS selftests
+        working-directory: .
+        run: |
+          for f in *_selftest.js; do
+            node "$f"
+          done
+
+      - name: Playwright
+        env:
+          CI: 'true'
+        run: npx playwright test
+
+      - name: Upload report on failure
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ui-check-results
+          path: tests/ui/test-results/
+          retention-days: 7

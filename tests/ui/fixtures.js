@@ -41,6 +41,12 @@ function localFor(u) {
 }
 
 async function fulfillFile(route, file) {
+  // jsdelivr minifies on request (chart.umd.min.js); npm ships only the
+  // unminified build for some packages.
+  if (file && !fs.existsSync(file) && /\.min\.js$/.test(file)) {
+    const plain = file.replace(/\.min\.js$/, '.js');
+    if (fs.existsSync(plain)) file = plain;
+  }
   if (!file || !fs.existsSync(file) || !fs.statSync(file).isFile()) {
     return route.fulfill({ status: 404, body: 'not found' });
   }

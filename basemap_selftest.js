@@ -122,6 +122,9 @@ new Function('window', 'globalThis', 'module', SRC)(winFull, winFull, undefined)
 const chain = winFull.Basemap.dark();
 chain.addTo(fakeMap);
 ok('chain layer starts on the vector provider', chain.provider === 'openfreemap');
+ok('chain layer carries a maxZoom for the map (markercluster needs one)',
+   chain.options && chain.options.maxZoom === winFull.Basemap.MAX_ZOOM);
+ok('chain layer sits in the tile pane', chain.options.pane === 'tilePane');
 
 setTimeout(() => {
   ok('missing MapLibre falls back to esri_dark', chain.provider === 'esri_dark' &&
@@ -136,6 +139,9 @@ setTimeout(() => {
   ok('three tile errors with none loaded switch to osm', chain.provider === 'osm' &&
      events[1] === 'esri_dark>osm:tiles');
   ok('tile errors are forwarded to page listeners', forwarded === 3);
+  ok('a raster fallback upscales past its native zoom instead of capping the map',
+     fakeMap._layers[0].cfg.maxNativeZoom === B.PROVIDERS.osm.maxZoom &&
+     fakeMap._layers[0].cfg.maxZoom === winFull.Basemap.MAX_ZOOM);
   ok('the failed layer is removed from the map',
      fakeMap._layers.length === 1 && fakeMap._layers[0].url === B.PROVIDERS.osm.url);
   const osm = fakeMap._layers[0];

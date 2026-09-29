@@ -1,6 +1,6 @@
 name: Acquire geo sources
 
-# Two acquisition jobs that need unrestricted egress and therefore cannot run
+# Acquisition jobs that need unrestricted egress and therefore cannot run
 # from a sandbox. Both write CANDIDATE or reference files only; neither one
 # touches master_opposition.csv, data/proposals.csv, or atlas.csv.
 #
@@ -20,6 +20,14 @@ name: Acquire geo sources
 #               needs_manual_pin, since the atlas is OSM-derived and Overpass
 #               is reachable where osti.gov is not.
 #
+#   boundaries  Census cartographic boundary counties (2024, 1:5m) ->
+#               data/geo/counties_2024.topojson plus its manifest, the county
+#               geometry every choropleth page draws on (spec 009). Simplified
+#               with mapshaper to stay under 1 MB, then gated by
+#               tests/ui/check_geometry.js: if any FIPS in
+#               data/county_policy_scores.csv has no polygon the job fails
+#               before committing. This job is the file's only writer.
+#
 # Weekly rather than nightly. Neither source moves fast, Overpass is a shared
 # public endpoint that should not be hit harder than the data warrants, and the
 # Census file changes once a year.
@@ -28,7 +36,7 @@ on:
   workflow_dispatch:
     inputs:
       job:
-        description: 'Which acquisition to run: gazetteer, osm, or both'
+        description: 'Which acquisition to run: gazetteer, osm, both, boundaries, or all'
         required: false
         default: 'both'
   schedule:
@@ -36,8 +44,9 @@ on:
     # the daily 06:40 UTC pipeline run.
     - cron: "30 5 * * 0"
 
+# Each job commits its own outputs, so write access is granted per job.
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: acquire-geo-sources
@@ -45,7 +54,10 @@ concurrency:
 
 jobs:
   acquire:
+    if: ${{ github.event.inputs.job != 'boundaries' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Set up Python
@@ -91,5 +103,76 @@ jobs:
             [ -f "$f" ] && git add "$f"
           done
           git diff --cached --quiet || git commit -m "Refresh place gazetteer and OSM facility candidates [skip ci]"
+          # Rebase, resolve generated-file conflicts, push. See the script header.
+          bash scripts/git_push_retry.sh
+
+  boundaries:
+    # Scheduled runs rebuild too: the Census file changes once a year, the
+    # build is deterministic, and nothing is committed unless the geometry
+    # itself changed.
+    if: ${{ github.event_name == 'schedule' || github.event.inputs.job == 'boundaries' || github.event.inputs.job == 'all' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      CB_URL: https://www2.census.gov/geo/tiger/GENZ2024/shp/cb_2024_us_county_5m.zip
+      OUT: data/geo/counties_2024.topojson
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Selftest the coverage gate
+        run: node tests/ui/check_geometry.js --selftest
+
+      - name: Download the Census cartographic boundary file
+        run: |
+          mkdir -p "$RUNNER_TEMP/cb"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/cb/cb.zip" "$CB_URL"
+          unzip -o -q "$RUNNER_TEMP/cb/cb.zip" -d "$RUNNER_TEMP/cb"
+
+      - name: Simplify and convert to TopoJSON
+        # Territories other than Puerto Rico are dropped (outside every map's
+        # frame). keep-shapes stops small county-equivalents such as Falls
+        # Church, VA from simplifying away. The simplification is stepped down
+        # until the file fits the 1 MB budget (SC-002); the coverage gate in the
+        # next step is what decides whether the result is usable.
+        run: |
+          for pct in 12 9 7 5; do
+            npx --yes mapshaper@0.7.69 -i "$RUNNER_TEMP/cb/cb_2024_us_county_5m.shp" \
+              -filter '["60","66","69","78"].indexOf(STATEFP) < 0' \
+              -simplify "${pct}%" keep-shapes \
+              -each 'name = NAME' \
+              -filter-fields GEOID,name \
+              -rename-layers counties \
+              -o "$OUT" format=topojson id-field=GEOID quantization=100000
+            node -e '
+              const fs = require("fs"); const f = process.argv[1];
+              const t = JSON.parse(fs.readFileSync(f));
+              t.objects.counties.geometries.forEach(g => { g.properties = { name: g.properties.name }; });
+              fs.writeFileSync(f, JSON.stringify(t));' "$OUT"
+            size=$(stat -c %s "$OUT")
+            echo "simplify ${pct}%: ${size} bytes"
+            [ "$size" -le 1000000 ] && break
+          done
+
+      - name: Coverage gate and manifest
+        run: |
+          node tests/ui/check_geometry.js --manifest \
+            --source-url "$CB_URL" \
+            --source-note "Census cartographic boundary counties 2024 1:5m; territories other than PR removed; mapshaper 0.7.69 -simplify keep-shapes, quantization=100000." \
+            --vintage 2024 --scale 1:5m --state built
+
+      - name: Commit what changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # The manifest carries a build date, so it only moves with the
+          # geometry; an unchanged rebuild commits nothing.
+          if git diff --quiet -- "$OUT"; then
+            git checkout -- data/geo/counties_2024_manifest.json
+            echo "Geometry unchanged."
+            exit 0
+          fi
+          git add "$OUT" data/geo/counties_2024_manifest.json
+          git commit -m "Rebuild county geometry from Census cartographic boundaries [skip ci]"
           # Rebase, resolve generated-file conflicts, push. See the script header.
           bash scripts/git_push_retry.sh

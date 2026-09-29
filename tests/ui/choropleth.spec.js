@@ -29,3 +29,17 @@ test('geometry fetch failure shows the error banner', async ({ page }) => {
   await expect(page.locator('#error-banner')).toBeVisible({ timeout: 30000 });
   await expect(page.locator('#error-banner')).toContainText('County boundary data was not reachable');
 });
+
+// SC-003 negative case: a copy of the page with its geometry URL broken must
+// trip the same banner check every page is held to in pages.spec.js.
+test('a page copy with a broken fetch URL fails the banner check', async ({ page }) => {
+  const fs = require('fs');
+  const path = require('path');
+  const { ROOT } = require('./fixtures');
+  const html = fs.readFileSync(path.join(ROOT, 'restriction-model.html'), 'utf8')
+    .split('/data/geo/counties_2024.topojson').join('/data/geo/no_such_file.topojson');
+  await page.route('**/restriction-model-broken.html', route =>
+    route.fulfill({ status: 200, contentType: 'text/html', body: html }));
+  await page.goto('/restriction-model-broken.html');
+  await expect(page.locator('#error-banner')).toBeVisible({ timeout: 30000 });
+});

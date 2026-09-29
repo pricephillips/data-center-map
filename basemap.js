@@ -117,6 +117,10 @@
     'https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js'
   ];
   var LOAD_TIMEOUT_MS = 8000;
+  // The chain's map zoom ceiling. A raster fallback with a lower native
+  // ceiling (Esri, 16) upscales its last tiles past it rather than capping
+  // the map differently depending on which provider happened to answer.
+  var MAX_ZOOM = 18;
   // Raster tiles that must fail, with none loaded, before the chain moves on.
   var RASTER_ERROR_LIMIT = 3;
 
@@ -140,6 +144,7 @@
       maxZoom: opts.maxZoom || s.maxZoom
     };
     if (s.subdomains && s.subdomains.length) config.subdomains = s.subdomains;
+    if (opts.maxNativeZoom) config.maxNativeZoom = opts.maxNativeZoom;
     if (opts.opacity !== undefined) config.opacity = opts.opacity;
     if (opts.className) config.className = opts.className;
     return L.tileLayer(s.url, config);
@@ -202,17 +207,27 @@
   function chainLayer(L, opts) {
     var Chain = L.Layer.extend({
       initialize: function () {
+        // A tile layer is what gives a Leaflet map its maxZoom, and
+        // leaflet.markercluster throws "Map has no maxZoom specified" without
+        // one. The inner layer arrives asynchronously, so the chain itself
+        // carries the zoom limit, registered the way GridLayer registers it.
+        this.options = { pane: 'tilePane', attribution: null,
+                         maxZoom: opts.maxZoom || MAX_ZOOM, minZoom: 0 };
         this.provider = null;
         this._inner = null;
         this._timer = null;
+      },
+      beforeAdd: function (map) {
+        if (map._addZoomLimit) map._addZoomLimit(this);
       },
       onAdd: function (map) {
         this._map = map;
         this._use(PROVIDER, null);
         return this;
       },
-      onRemove: function () {
+      onRemove: function (map) {
         this._clear();
+        if (map && map._removeZoomLimit) map._removeZoomLimit(this);
       },
       getAttribution: function () { return null; },
       _clear: function () {
@@ -276,7 +291,8 @@
           });
           return;
         }
-        var tiles = raster(name, { L: L, maxZoom: opts.maxZoom, opacity: opts.opacity,
+        var tiles = raster(name, { L: L, maxZoom: opts.maxZoom || MAX_ZOOM,
+                                   maxNativeZoom: s.maxZoom, opacity: opts.opacity,
                                    className: opts.className });
         var errors = 0, loaded = false;
         tiles.on('tileload', function () { loaded = true; });
@@ -312,6 +328,7 @@
     PROVIDERS: PROVIDERS,
     CHAIN: CHAIN,
     LOAD_TIMEOUT_MS: LOAD_TIMEOUT_MS,
+    MAX_ZOOM: MAX_ZOOM,
     spec: spec,
     nextProvider: nextProvider,
     raster: raster,

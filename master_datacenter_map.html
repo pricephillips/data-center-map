@@ -186,12 +186,12 @@ input:focus, select:focus { border-color:var(--atlas) }
         <input id="q" type="text" placeholder="Name, operator, state, owner…" oninput="debounce()"/>
       </div>
       <div class="row2">
-        <select id="fState"  onchange="render()"><option value="">All states</option></select>
-        <select id="fSource" onchange="render()"><option value="">Both layers</option><option value="atlas">OSTI IM3 Data</option><option value="ai">Epoch Frontier Data (Hyperscalers)</option></select>
+        <select  id="fState" aria-label="Filter by state"  onchange="render()"><option value="">All states</option></select>
+        <select  id="fSource" aria-label="Filter by data layer" onchange="render()"><option value="">Both layers</option><option value="atlas">OSTI IM3 Data</option><option value="ai">Epoch Frontier Data (Hyperscalers)</option></select>
       </div>
       <div class="row2">
-        <select id="fOwner" onchange="render()"><option value="">All owners</option></select>
-        <select id="fType"  onchange="render()"><option value="">All types</option></select>
+        <select  id="fOwner" aria-label="Filter by owner" onchange="render()"><option value="">All owners</option></select>
+        <select  id="fType" aria-label="Filter by facility type"  onchange="render()"><option value="">All types</option></select>
       </div>
       <label class="chk"><input type="checkbox" id="aiOnly" onchange="render()"/> Epoch Frontier Data (Hyperscalers) only</label>
       <div class="toolbar-row"><button class="tool-btn" onclick="resetFilters()">Reset filters</button><button class="tool-btn" onclick="zoomToResults()" class="tool-btn show-map">Show on map →</button></div>

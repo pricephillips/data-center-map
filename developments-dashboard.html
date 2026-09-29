@@ -226,10 +226,10 @@ tbody td  { padding:12px 14px; font-size:13px }
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     <input id="tq" type="text" placeholder="Search by name, company, or state…" oninput="tdebounce()"/>
   </div>
-  <select id="tf-layer"  onchange="trender()"><option value="">Both layers</option><option value="atlas">OSTI IM3</option><option value="ai">Epoch Frontier</option></select>
-  <select id="tf-state"  onchange="trender()"><option value="">All states</option></select>
-  <select id="tf-type"   onchange="trender()"><option value="">All types</option></select>
-  <select id="tf-owner"  onchange="trender()"><option value="">All owners</option></select>
+  <select  id="tf-layer" aria-label="Filter by data layer"  onchange="trender()"><option value="">Both layers</option><option value="atlas">OSTI IM3</option><option value="ai">Epoch Frontier</option></select>
+  <select  id="tf-state" aria-label="Filter by state"  onchange="trender()"><option value="">All states</option></select>
+  <select  id="tf-type" aria-label="Filter by type"   onchange="trender()"><option value="">All types</option></select>
+  <select  id="tf-owner" aria-label="Filter by owner"  onchange="trender()"><option value="">All owners</option></select>
   <button class="reset-btn" id="tResetBtn" onclick="tResetFilters()">Reset filters</button><span class="tbl-meta" id="tMeta"></span>
 </div>
 
