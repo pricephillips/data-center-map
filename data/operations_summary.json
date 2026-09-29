@@ -466,15 +466,23 @@
     }
   },
   "calibration": {
-    "runs": 21,
+    "runs": 22,
     "by_verdict": {
-      "PROMOTE": 20,
+      "PROMOTE": 21,
       "HOLD": 1
     },
     "last_verdict": "PROMOTE",
     "last_run": "2026-09-29",
-    "current_streak": 5,
+    "current_streak": 6,
     "recent": [
+      {
+        "timestamp": "2026-09-29",
+        "model": "outcome_model",
+        "n": "80",
+        "ece": "0.0592",
+        "brier_skill_score": "0.4117",
+        "verdict": "PROMOTE"
+      },
       {
         "timestamp": "2026-09-29",
         "model": "outcome_model",
@@ -530,14 +538,6 @@
         "ece": "0.1476",
         "brier_skill_score": "0.053",
         "verdict": "PROMOTE"
-      },
-      {
-        "timestamp": "2026-09-07",
-        "model": "outcome_model",
-        "n": "88",
-        "ece": "0.1034",
-        "brier_skill_score": "0.2416",
-        "verdict": "PROMOTE"
       }
     ]
   },
@@ -558,10 +558,10 @@
       "as_of": "2026-09-29"
     },
     "decision_dates": {
-      "open": 48
+      "open": 46
     },
     "announced_dates": {
-      "open": 15
+      "open": 17
     }
   },
   "gates": {
@@ -571,36 +571,36 @@
       "windows": [
         {
           "window_days": "30",
-          "n": "24",
-          "n_blocked": "18",
-          "n_not_blocked": "6",
+          "n": "28",
+          "n_blocked": "21",
+          "n_not_blocked": "7",
           "gate": "INFEASIBLE"
         },
         {
           "window_days": "60",
-          "n": "19",
-          "n_blocked": "13",
-          "n_not_blocked": "6",
+          "n": "23",
+          "n_blocked": "16",
+          "n_not_blocked": "7",
           "gate": "INFEASIBLE"
         },
         {
           "window_days": "90",
-          "n": "18",
-          "n_blocked": "13",
-          "n_not_blocked": "5",
+          "n": "22",
+          "n_blocked": "16",
+          "n_not_blocked": "6",
           "gate": "INFEASIBLE"
         },
         {
           "window_days": "120",
-          "n": "15",
-          "n_blocked": "11",
+          "n": "17",
+          "n_blocked": "13",
           "n_not_blocked": "4",
           "gate": "INFEASIBLE"
         },
         {
           "window_days": "180",
-          "n": "12",
-          "n_blocked": "8",
+          "n": "14",
+          "n_blocked": "10",
           "n_not_blocked": "4",
           "gate": "INFEASIBLE"
         }
