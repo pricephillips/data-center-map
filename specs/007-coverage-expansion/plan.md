@@ -221,6 +221,44 @@ Principle checks:
 **Post-design re-check**: every gate resolves within scope, and there are no
 unjustified violations.
 
+**Implementation status (2026-09-29)**: T001-T034 are done. All gates were
+run after merging `origin/main`:
+
+- `pre-commit run --all-files` is green;
+- `python -m pytest tests/test_selftests.py` passes (92 modules);
+- `leak_audit.py --tier blocking` reports 0;
+- `layer_audit.py --strict --no-write` reports 0 undeclared;
+- `integration_audit.py` passes;
+- `ruff check .` and actionlint are clean.
+
+The new selftests also pass with civic-scraper, pdfminer.six and OCRmyPDF
+made unimportable, which is the state of the blocking discovery run.
+
+Measured from the sandbox:
+
+- **SC-001 (sample)**: `--compare 50` resolved 2 jurisdictions without
+  civic-scraper and 5 with it. Two of the three new hits were
+  cross-state-ambiguous names (MA Franklin, WA Douglas), reached through the
+  state-qualified CivicPlus host. civic-scraper's Granicus parser raised on
+  Mendocino's feed, and the native probe resolved it, which is FR-001's
+  fallback working on real data. The full-frame number comes from the first
+  `local-signals.yml` run, which re-probes the cached misses 400 at a time.
+- **SC-002**: offline, all 43 federal records are listed. 9 carry 15 bill
+  identifiers, and 34 have none (agency, oversight or letter records), each
+  with its reason. The match count needs `CONGRESS_API_KEY` in
+  `bill-sync.yml`.
+- **SC-003**: a live run over Epoch's export gave 77 US campuses. 66 mapped;
+  11 were rejected because their address names no state. 14 of the 66 (21%)
+  match a tracked project: 10 confirmed, 4 for review. All 14 are held out of
+  the baseline. 52 are candidates. Nothing was written to repo data from the
+  sandbox: the weekly `fetch-permits.yml` run does that.
+- **SC-004**: exact-slice grounding makes 100 percent valid offsets true by
+  construction, and the selftest asserts it on the fixture. The 20-agenda
+  run is Price's, on a machine with Ollama.
+
+Owner actions: add the `CONGRESS_API_KEY` repository secret (free signup at
+api.congress.gov).
+
 ## Project Structure
 
 ### Documentation (this feature)

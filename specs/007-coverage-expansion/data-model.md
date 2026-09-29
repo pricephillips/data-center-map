@@ -22,18 +22,18 @@ State transitions:
 
 | Column | Notes |
 |--------|-------|
-| sha256 | The content hash of the PDF bytes, used as the primary key. |
-| document_url | The first URL the PDF was seen at. |
+| document_url | The row key: one row per linked document. |
+| sha256 | The content hash of the PDF bytes. It is the text-cache key, so two URLs serving the same PDF are read (and OCR'd) once. |
 | jurisdiction, state | From the feed row. |
-| text_source | `text_layer`, `ocr`, `ocr_unavailable`, `fetch_error`, `too_large` or `not_pdf`. |
+| text_source | `text_layer`, `ocr`, `ocr_unavailable`, `ocr_error`, `fetch_error`, `extractor_unavailable`, `too_large` or `not_pdf`. |
 | pages | The page count, from pdfminer.six. |
 | text_chars | Non-space characters of the cached text. |
 | keyword_hits | The total number of matches of the fixed term list. |
 | matched_terms | The distinct terms matched, joined with `; `. |
 | processed_at | UTC ISO date. |
 
-Rows with `ocr_unavailable`, `fetch_error` or `not_pdf` are retried on the
-next run. Every other status is final for that hash. The text itself is kept
+Rows with `ocr_unavailable`, `fetch_error` or `extractor_unavailable` are
+retried on the next run. Every other status is final for that URL. The text itself is kept
 at `.cache/agenda_text/<sha256>.txt`, which is gitignored and persisted by
 `actions/cache`.
 
@@ -71,7 +71,7 @@ unmatched rows only:
 | source | `Epoch AI Frontier Data Centers (CC-BY 4.0)` |
 | as_of | The run date (`--as-of`). |
 | name | `Name` |
-| state | From `Address`, by the `state_from` regex. |
+| state | From `Address`, by the `state_from` regex, then validated as a US state code or full name (`project_resolution.norm_state`). |
 | announced_date | `first_dated_observation` |
 | capacity_mw | `Current power (MW)` |
 | operator | `Owner`, with ` #confident`, ` #likely` and ` #speculative` stripped. |

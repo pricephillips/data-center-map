@@ -200,20 +200,23 @@ at `99d86b6`.
   |-------|---------|
   | name | `Name` |
   | announced_date | earliest `Date` in the timelines file for that `Data center` |
-  | state | regex `,\s*([A-Z]{2})\s+\d{5}` on `Address` |
+  | state | trailing state code or full name in `Address` (before an optional ZIP, `, USA` or `, <Name> County`), validated with `project_resolution.norm_state` |
   | capacity_mw | `Current power (MW)` |
   | operator | `Owner` (the `#confident` tags are stripped by a `strip_regex`) |
   | status | none |
   | source_url | `https://epoch.ai/data/data-centers` |
   | source | `Epoch AI Frontier Data Centers (CC-BY 4.0)` |
 
-  Non-US rows fail the state regex and go to rejects with a reason.
+  Non-US rows, and US rows whose address names no state, go to rejects
+  with a reason. A first, ZIP-only regex rejected 28 of 77 live US rows. The
+  shipped rule rejects 11, all with an empty or street-only address.
 - **Matching**: `match_projects` runs before any row is appended. Each row is
   compared with every `data/project_key_map.csv` row in the same state,
   using `project_resolution.name_tokens` and `project_resolution.jaccard`:
-  - name Jaccard of 0.60 or more with the state agreeing is `confirmed`;
-  - 0.34 or more is `review`;
-  - two confirmed keys make the row `review`.
+  - exactly one key at 0.60 or more, with the state agreeing, is
+    `confirmed`, even beside weaker keys ("Google Cedar Rapids" 1.00 beside
+    "QTS Cedar Rapids" 0.50);
+  - two keys at 0.60 or more, or only keys at 0.34 or more, is `review`.
 
   Confirmed and review rows are held out of the baseline and written to the
   matches file with the `pk`. Unmatched rows are appended. The run prints
