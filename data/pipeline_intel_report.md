@@ -1,6 +1,6 @@
 # Proposed data center pipeline: intelligence report
 
-Generated 2026-09-28 by `proposal_enrichment.py`. Descriptive shares with their denominators. Decided means a terminal lifecycle outcome (blocked_confirmed, restricted_conditional, advanced_confirmed); block rates are observed among those, not effects. Estimated MW is an acreage-based range for projects reporting no capacity and is never added into reported totals.
+Generated 2026-09-29 by `proposal_enrichment.py`. Descriptive shares with their denominators. Decided means a terminal lifecycle outcome (blocked_confirmed, restricted_conditional, advanced_confirmed); block rates are observed among those, not effects. Estimated MW is an acreage-based range for projects reporting no capacity and is never added into reported totals.
 
 ## Totals
 
@@ -18,22 +18,21 @@ Generated 2026-09-28 by `proposal_enrichment.py`. Descriptive shares with their 
 | without recorded opposition | 22 | 65 | 34% |
 | with lawsuit | 4 | 14 | 29% |
 | nda reported | 0 | 0 |  |
-| top3 county deciles | 52 | 139 | 37% |
-| bottom7 county deciles | 1 | 3 | 33% |
-| colocated generation | 0 | 0 |  |
+| top3 county deciles | 51 | 133 | 38% |
+| bottom7 county deciles | 2 | 9 | 22% |
+| colocated generation | 1 | 4 | 25% |
 
 ## By grid region
 
 | region | projects | reported MW | blocked_confirmed | share of decided |
 |---|---|---|---|---|
-| PJM | 187 | 68,189 | 28 | 47% |
-| MISO | 96 | 14,787 | 12 | 34% |
-| Southeast (non-RTO) | 61 | 6,497 | 7 | 21% |
+| PJM | 182 | 63,094 | 29 | 48% |
+| Southeast (non-RTO) | 83 | 10,355 | 11 | 27% |
+| MISO | 80 | 14,142 | 8 | 28% |
 | NYISO | 20 | 3,751 | 1 | 50% |
-| ISO-NE | 16 | 433 | 4 | 100% |
-| SPP | 11 | 2,376 | 1 | 25% |
-| None (islanded) | 3 | 3,120 | 0 | 0% |
-| Non-RTO (LG&E-KU) | 2 | 0 | 0 | 0% |
+| SPP | 16 | 4,371 | 1 | 20% |
+| ISO-NE | 13 | 320 | 3 | 100% |
+| None (islanded) | 2 | 3,120 | 0 | 0% |
 
 ## Coverage
 
