@@ -1,6 +1,6 @@
 # Landmark Diagnostics: Anchor Feasibility
 
-Generated 2026-09-28. Diagnostic record. This analysis made the case for re-anchoring the landmark at announced_date; that change was adopted in landmark_model.py on 2026-07-28, so the comparison below is the justification of a decision already taken rather than an open question. The opposition-anchor figures are reconstructed here from first_opposition_date for the record. Survivor conditioning, floors (n >= 40, blocked >= 12, not_blocked >= 12), and the registered window grid [30, 60, 90, 120, 180] are imported from that module rather than restated.
+Generated 2026-09-29. Diagnostic record. This analysis made the case for re-anchoring the landmark at announced_date; that change was adopted in landmark_model.py on 2026-07-28, so the comparison below is the justification of a decision already taken rather than an open question. The opposition-anchor figures are reconstructed here from first_opposition_date for the record. Survivor conditioning, floors (n >= 40, blocked >= 12, not_blocked >= 12), and the registered window grid [30, 60, 90, 120, 180] are imported from that module rather than restated.
 
 ## Finding
 
@@ -48,8 +48,8 @@ Announcement-to-decision gaps: median 294 days, range 78 to 779, with 0 non-posi
 | 60 | 8 | 3 | 5 | 77 | 30 | 47 | yes | 131 |
 | 90 | 7 | 3 | 4 | 75 | 29 | 46 | yes | 131 |
 | 120 | 5 | 2 | 3 | 73 | 28 | 45 | yes | 128 |
-| 180 | 5 | 2 | 3 | 71 | 26 | 45 | yes | 116 |
-| 270 (exploratory) | 4 | 1 | 3 | 64 | 22 | 42 | yes | 80 |
+| 180 | 5 | 2 | 3 | 72 | 27 | 45 | yes | 120 |
+| 270 (exploratory) | 4 | 1 | 3 | 67 | 22 | 45 | yes | 97 |
 | 365 (exploratory) | 4 | 1 | 3 | 55 | 16 | 39 | yes | 60 |
 
 Windows whose ceiling clears all three floors: 30, 60, 90, 120, 180, 270, 365. Applying the registered tie-breaking preference for the shortest window would select W = 30, but note that the registered criterion selects on cross-validated AUC among feasible windows, which cannot be evaluated until the frame actually exists. The window named here is the shortest FEASIBLE one, not a selected model.
