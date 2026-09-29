@@ -172,8 +172,8 @@ input:focus, select:focus { border-color:var(--accent) }
         <input id="q" type="text" placeholder="Search name, company, county, state…" oninput="debounceRender()"/>
       </div>
       <div class="row2">
-        <select id="fState" onchange="renderListAndMarkers()"><option value="">All states</option></select>
-        <select id="fPhase" onchange="renderListAndMarkers()"><option value="">All phases</option></select>
+        <select  id="fState" aria-label="Filter by state" onchange="renderListAndMarkers()"><option value="">All states</option></select>
+        <select  id="fPhase" aria-label="Filter by phase" onchange="renderListAndMarkers()"><option value="">All phases</option></select>
       </div>
       <div class="toolbar-row">
         <button class="tool-btn" onclick="resetFilters()">Reset filters</button>

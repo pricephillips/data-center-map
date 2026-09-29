@@ -30,6 +30,14 @@ window.Basemap = window.Basemap || { dark: function () {
 <!-- View and filter state in the URL, so a filtered view can be cited by
      link rather than by screenshot. Same-origin, same as viz-palette. -->
 <script src="./map-permalink.js"></script>
+<!-- Year-range predicate for the date slider (spec 009, US4). Same-origin. -->
+<script src="./legend-filter.js"></script>
+<script>
+// Fallback stub: without the module the slider is inert and every pin shows,
+// rather than the page throwing on its first date check.
+window.LegendFilter = window.LegendFilter || {};
+if (!window.LegendFilter.inYearRange) window.LegendFilter.inYearRange = function () { return true; };
+</script>
 <script>
 // Fallback stub. If map-permalink.js did not load (missing on the host, or a
 // cached 404 during a deploy), every page below would otherwise throw a
@@ -140,6 +148,28 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
 .leaflet-popup-tip { background:var(--panel); border:1px solid var(--border) }
 .leaflet-popup-content { margin:12px 14px; font-size:13px; line-height:1.5 }
 .pop h4 { font-size:14px; font-weight:700; margin-bottom:6px }
+/* Year range (spec 009, US4): two native range inputs, so keyboard and
+   screen-reader handling come from the browser rather than a plugin. */
+.yr { border:0; padding:0; margin:0 }
+.yr legend { display:block; font-size:11px; color:var(--muted); margin:10px 0 4px; text-transform:uppercase;
+  letter-spacing:.4px }
+.yr .yr-out { font-size:13px; color:var(--text); margin-bottom:4px }
+.yr .yr-row { display:grid; grid-template-columns:38px 1fr; align-items:center; gap:6px; font-size:12px;
+  color:var(--muted) }
+.yr input[type=range] { width:100%; accent-color:var(--accent, #4f98a3) }
+/* Detail panel (spec 009, US4): county or project detail on click, in place
+   of a popup that covered the very pins around it. */
+.detail { position:absolute; top:12px; right:12px; z-index:950; width:min(330px, calc(100% - 24px));
+  max-height:calc(100% - 70px); overflow:auto; background:var(--panel); color:var(--text);
+  border:1px solid var(--border); border-radius:10px; box-shadow:0 8px 28px rgba(0,0,0,.45);
+  padding:12px 14px; font-size:13px; line-height:1.5 }
+.detail[hidden] { display:none }
+.detail .detail-close { position:absolute; top:6px; right:6px; width:28px; height:28px; border-radius:6px;
+  background:transparent; color:var(--muted); border:1px solid transparent; font-size:18px; line-height:1;
+  cursor:pointer }
+.detail .detail-close:hover, .detail .detail-close:focus-visible { color:var(--text); border-color:var(--border) }
+.detail .pop { padding-right:22px }
+.detail:focus { outline:none }
 .pop .grid { display:grid; grid-template-columns:auto 1fr; gap:3px 10px; font-size:12px; margin:6px 0 }
 .pop .grid .k { color:var(--muted) }
 .pop .band { display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:700 }
@@ -286,6 +316,14 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
           </label>
           <label for="proj-search">Search</label>
           <input id="proj-search" type="search" placeholder="project, state or county" autocomplete="off">
+          <fieldset class="yr" id="year-range">
+            <legend>Announced</legend>
+            <div class="yr-out" id="year-out" aria-live="polite">All years</div>
+            <div class="yr-row"><label for="year-from">From</label>
+              <input type="range" id="year-from" min="2000" max="2030" step="1" value="2000"></div>
+            <div class="yr-row"><label for="year-to">To</label>
+              <input type="range" id="year-to" min="2000" max="2030" step="1" value="2030"></div>
+          </fieldset>
           <label for="proj-sort">Sort by</label>
           <select id="proj-sort">
             <option value="opp">Recorded opposition (most first)</option>
@@ -308,6 +346,10 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
   <div class="mapwrap">
     <div id="error-banner"></div>
     <div id="map"></div>
+    <aside class="detail" id="detail" aria-label="Details" tabindex="-1" hidden>
+      <button type="button" class="detail-close" id="detail-close" aria-label="Close details">&times;</button>
+      <div id="detail-body"></div>
+    </aside>
     <div class="badge" id="badge">loading</div>
     <button id="exportPng" class="export-btn" type="button"
       title="Download the county shading as a PNG">Export PNG</button>
@@ -530,6 +572,8 @@ function syncFilterKeys() {
   PERMA.set('outcomes', outcomeKey());
   PERMA.set('opp', filters.oppOnly ? '1' : null);
   PERMA.set('q', filters.search || null);
+  PERMA.set('from', filters.from === null ? null : String(filters.from));
+  PERMA.set('to', filters.to === null ? null : String(filters.to));
 }
 
 let countyLayer = null, pinCluster = null;
@@ -543,7 +587,9 @@ let mode = 'county';
 let showUnderlay = true;
 const filters = {
   outcomes: new Set(['blocked_confirmed','advanced_confirmed','pending']),
-  oppOnly: false, search: ''
+  oppOnly: false, search: '',
+  // Announced-year bounds, inclusive; null = open. Set by the year slider.
+  from: null, to: null
 };
 
 // ---------------------------------------------------------------------------
@@ -699,7 +745,8 @@ function drawCounties(geo) {
       layer.on({
         mouseover: e => e.target.setStyle({ weight:VizPalette.HOVER_STROKE.weight,
                                           color:VizPalette.HOVER_STROKE.color, dashArray:null }),
-        mouseout:  e => countyLayer.resetStyle(e.target)
+        mouseout:  e => countyLayer.resetStyle(e.target),
+        click:     () => openDetail(`<div class="pop">${countyTooltip(f)}</div>`)
       });
     }
   }).addTo(map);
@@ -767,6 +814,7 @@ function visibleProjects() {
   return PROJECTS.filter(p =>
     filters.outcomes.has(p.outcome) &&
     (!filters.oppOnly || p.nOpp > 0) &&
+    LegendFilter.inYearRange(p.announced, filters.from, filters.to) &&
     (!q || p.name.toLowerCase().includes(q) || p.state.toLowerCase().includes(q) ||
            (p.county || '').toLowerCase().includes(q))
   );
@@ -900,13 +948,11 @@ function drawPins() {
     const m = L.marker([p.lat,p.lon], { icon:pinIcon(p), pane:'pinPane' });
     m.options._outcome = p.outcome;
     m.options._pid = p.pid;
-    m.bindPopup(pinPopup(p), { maxWidth:320 });
     m.bindTooltip(
       `<b>${esc(p.name)}</b><br>${OUTCOME_LABEL[p.outcome]||p.outcome}` +
       (p.nOpp ? ` &middot; ${p.nOpp} opposition event${p.nOpp===1?'':'s'}` : ''),
       { className:'tip', direction:'top' });
-    m.on('popupopen', () => selectProject(p.pid, false));
-    m.on('popupclose', () => { if (SELECTED === p.pid) selectProject(null, false); });
+    m.on('click', () => { selectProject(p.pid, false); showProjectDetail(p); });
     MARKERS[p.pid] = m;
     pinCluster.addLayer(m);
   });
@@ -957,8 +1003,8 @@ function renderProjectList(vis) {
 }
 
 // Focus a project from the list: reveal it (markercluster has to open the
-// cluster it is inside first, or openPopup fires on a marker that is not on
-// the map), then open its popup.
+// cluster it is inside first, so the selected pin is on the map), then show
+// its detail in the side panel.
 function selectProject(pid, fly) {
   const prev = SELECTED;
   SELECTED = pid;
@@ -974,7 +1020,7 @@ function selectProject(pid, fly) {
   });
   const m = pid && MARKERS[pid];
   if (!m || !fly) return;
-  const go = () => { m.openPopup(); };
+  const go = () => { showProjectDetail(BY_ID[pid]); };
   if (pinCluster && typeof pinCluster.zoomToShowLayer === 'function') {
     pinCluster.zoomToShowLayer(m, go);
   } else {
@@ -983,10 +1029,17 @@ function selectProject(pid, fly) {
   }
 }
 
+function showProjectDetail(p) {
+  if (!p) return;
+  openDetail(pinPopup(p), () => { if (SELECTED === p.pid) selectProject(null, false); });
+}
+
 function clearFilters() {
   filters.outcomes = new Set(['blocked_confirmed','advanced_confirmed','pending']);
   filters.oppOnly = false;
   filters.search = '';
+  filters.from = null; filters.to = null;
+  syncYearInputs();
   document.querySelectorAll('#outcome-chips .chip').forEach(c => c.setAttribute('aria-pressed','true'));
   document.getElementById('opp-only').checked = false;
   document.getElementById('proj-search').value = '';
@@ -1392,8 +1445,92 @@ function applyPendingFilters() {
     filters.search = PENDING.q;
     document.getElementById('proj-search').value = PENDING.q;
   }
+  // Year bounds from a link are clamped to the years the data carries; an
+  // unparsable value is ignored rather than trusted.
+  const yf = parseInt(PENDING.from, 10), yt = parseInt(PENDING.to, 10);
+  if (Number.isFinite(yf)) filters.from = Math.min(Math.max(yf, YEAR_MIN), YEAR_MAX);
+  if (Number.isFinite(yt)) filters.to = Math.min(Math.max(yt, YEAR_MIN), YEAR_MAX);
+  if (filters.from !== null && filters.to !== null && filters.from > filters.to) {
+    [filters.from, filters.to] = [filters.to, filters.from];
+  }
+  normalizeYears();
+  syncYearInputs();
   syncFilterKeys();
 }
+
+// ---------------------------------------------------------------------------
+// Year range slider. Bounds come from the announced dates actually loaded. A
+// thumb resting on its end of the data's range means "open" on that side, so
+// the default view keeps undated projects and the link carries no from/to.
+// ---------------------------------------------------------------------------
+let YEAR_MIN = 2000, YEAR_MAX = new Date().getFullYear();
+function setupYearRange() {
+  const years = PROJECTS.map(p => LegendFilter.yearOf ? LegendFilter.yearOf(p.announced) : null)
+    .filter(y => y !== null);
+  if (years.length) { YEAR_MIN = Math.min(...years); YEAR_MAX = Math.max(...years); }
+  ['year-from', 'year-to'].forEach(id => {
+    const el = document.getElementById(id);
+    el.min = YEAR_MIN; el.max = YEAR_MAX;
+  });
+  syncYearInputs();
+}
+function normalizeYears() {
+  if (filters.from !== null && filters.from <= YEAR_MIN) filters.from = null;
+  if (filters.to !== null && filters.to >= YEAR_MAX) filters.to = null;
+}
+function syncYearInputs() {
+  const f = filters.from === null ? YEAR_MIN : filters.from;
+  const t = filters.to === null ? YEAR_MAX : filters.to;
+  document.getElementById('year-from').value = f;
+  document.getElementById('year-to').value = t;
+  document.getElementById('year-from').setAttribute('aria-valuetext', filters.from === null ? 'earliest' : String(f));
+  document.getElementById('year-to').setAttribute('aria-valuetext', filters.to === null ? 'latest' : String(t));
+  document.getElementById('year-out').textContent =
+    filters.from === null && filters.to === null ? 'All years, including undated'
+      : f === t ? String(f) : `${f} to ${t}`;
+}
+function onYearInput(which) {
+  let f = parseInt(document.getElementById('year-from').value, 10);
+  let t = parseInt(document.getElementById('year-to').value, 10);
+  // Thumbs cannot cross: the one being moved pushes the other.
+  if (f > t) { if (which === 'from') t = f; else f = t; }
+  filters.from = f; filters.to = t;
+  normalizeYears();
+  syncYearInputs();
+  syncFilterKeys();
+  drawPins();
+}
+document.getElementById('year-from').addEventListener('input', () => onYearInput('from'));
+document.getElementById('year-to').addEventListener('input', () => onYearInput('to'));
+
+// ---------------------------------------------------------------------------
+// Detail panel. County and project detail open here on click, in place of
+// Leaflet popups. Escape or the close button dismisses it and returns focus to
+// whatever opened it (a list row, or the map).
+// ---------------------------------------------------------------------------
+let DETAIL_ON_CLOSE = null, DETAIL_RETURN = null;
+function openDetail(html, onClose) {
+  const panel = document.getElementById('detail');
+  if (!panel.hidden && DETAIL_ON_CLOSE) { const f = DETAIL_ON_CLOSE; DETAIL_ON_CLOSE = null; f(); }
+  if (panel.hidden) DETAIL_RETURN = document.activeElement;
+  document.getElementById('detail-body').innerHTML = html;
+  DETAIL_ON_CLOSE = onClose || null;
+  panel.hidden = false;
+  panel.focus({ preventScroll: true });
+}
+function closeDetail() {
+  const panel = document.getElementById('detail');
+  if (panel.hidden) return;
+  panel.hidden = true;
+  const f = DETAIL_ON_CLOSE; DETAIL_ON_CLOSE = null;
+  if (f) f();
+  const back = DETAIL_RETURN; DETAIL_RETURN = null;
+  if (back && document.body.contains(back) && back.focus) back.focus({ preventScroll: true });
+}
+document.getElementById('detail-close').addEventListener('click', closeDetail);
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !document.getElementById('detail').hidden) closeDetail();
+});
 
 // ---------------------------------------------------------------------------
 // Load
@@ -1450,6 +1587,7 @@ function applyPendingFilters() {
   // Apply any parked filter and metric state before the first setMode(),
   // so the initial draw already reflects the link rather than rendering
   // the default view and then re-rendering over it.
+  setupYearRange();
   applyPendingFilters();
 
   // County context is the primary view, so it is what opens unless the link

@@ -105,7 +105,25 @@ footer { color:var(--muted); font-size:11px; border-top:1px solid var(--border);
   section { break-inside:avoid }
   a { color:#111; text-decoration:underline }
 }
+.tab-toolbar { display:flex; justify-content:flex-end; margin:0 0 8px }
+.tab-export { background:var(--panel2, #1c242f); color:var(--text, #eef2f7); border:1px solid var(--border, #2c3544);
+  border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer }
+.tab-export:hover { border-color:var(--accent, #4f98a3) }
+.tab-host.tabulator { font-size:13px; border-radius:8px }
+.tabulator.tab-footer { border-top:0; margin-top:-1px; font-size:13px }
+.tabulator.tab-footer:empty { display:none }
+.tab-host.tabulator, .tab-host .tabulator-tableholder { background:var(--panel, #161c25) }
+.tab-host .tabulator-header, .tab-host .tabulator-header .tabulator-col { background:var(--panel2, #1c242f); color:var(--muted, #8a96a4) }
+.tab-host .tabulator-row { background:var(--panel, #161c25); color:var(--text, #eef2f7) }
+.tab-host .tabulator-row.tabulator-row-even { background:var(--panel2, #1c242f) }
+.tab-host .tabulator-row .tabulator-cell { border-right-color:var(--border, #2c3544) }
+@media (hover:hover) { .tab-host .tabulator-row.tabulator-selectable:hover { background:#243041 } }
 </style>
+<!-- Tabulator (spec 009, US3): sort, header filters and CSV export on the
+     table. Pinned per configs/integrations.json. If it does not load, the
+     page's own table stays in place. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tabulator-tables@6.5.3/dist/css/tabulator_midnight.min.css">
+<script src="https://cdn.jsdelivr.net/npm/tabulator-tables@6.5.3/dist/js/tabulator.min.js"></script>
 </head>
 <body>
 
@@ -161,6 +179,98 @@ Every row carries its source. <b>Nothing here is inferred.</b>
 <div id="body"><div class="loading">Loading the position record&hellip;</div></div>
 
 <script>
+// ── Tabulator upgrade (spec 009, US3) ─────────────────────────────────────
+// The page still renders its own escaped HTML table; when Tabulator loaded,
+// that table is hidden and re-presented with column sort, a header filter per
+// column, and "Export CSV" of the rows left after every filter. Column titles
+// and cell text are read from the rendered table, so vocabulary and column
+// names cannot drift from what the page already shows. If the CDN is
+// unreachable the plain table simply stays. Cells display their original
+// HTML; sorting, filtering and the CSV use the cell text.
+const TABLE_UPGRADES = Object.create(null);
+function upgradeTable(table, key, opts) {
+  opts = opts || {};
+  if (!window.Tabulator || !table || !table.tHead) return null;
+  const heads = Array.from(table.tHead.rows[0].cells);
+  const data = Array.from(table.tBodies[0] ? table.tBodies[0].rows : []).map(tr => {
+    const o = {};
+    Array.from(tr.cells).forEach((td, i) => {
+      // Badges marked data-noexport are display only (a source tag beside a
+      // name); they stay on screen and out of the text and the CSV.
+      const text = td.cloneNode(true);
+      text.querySelectorAll('[data-noexport]').forEach(el => el.remove());
+      o['c' + i] = text.textContent.replace(/\s+/g, ' ').trim();
+      o['h' + i] = td.innerHTML;
+    });
+    return o;
+  });
+  // A column sorts as numbers when every non-empty cell reads as one
+  // ("1,092", "$2.5B", "12%"), whatever the header markup says.
+  const NUMLIKE = /^[-+]?[$]?[\d,]*\.?\d+\s*[%BKMk]?$/;
+  const numeric = heads.map((th, i) => {
+    const vals = data.map(r => r['c' + i]).filter(v => v !== '' && v !== '\u2014');
+    return vals.length > 0 && vals.every(v => NUMLIKE.test(v));
+  });
+  const prev = TABLE_UPGRADES[key];
+  table.style.display = 'none';
+  if (prev && document.body.contains(prev.host)) {
+    prev.table.replaceData(data);
+    return prev.table;
+  }
+  const num = v => { const n = parseFloat(String(v).replace(/[^0-9.\-]/g, '')); return Number.isFinite(n) ? n : -Infinity; };
+  const columns = heads.map((th, i) => {
+    const title = th.textContent.replace(/[↑↓]/g, '').trim();
+    return {
+      title: title, field: 'c' + i,
+      sorter: numeric[i] ? (a, b) => num(a) - num(b) : 'string',
+      hozAlign: numeric[i] ? 'right' : 'left',
+      headerFilter: 'input', headerFilterPlaceholder: 'filter',
+      formatter: cell => cell.getData()['h' + i]
+    };
+  });
+  const bar = document.createElement('div');
+  bar.className = 'tab-toolbar';
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'tab-export';
+  btn.textContent = 'Export CSV';
+  bar.appendChild(btn);
+  const host = document.createElement('div');
+  host.className = 'tab-host';
+  table.parentNode.insertBefore(bar, table);
+  table.parentNode.insertBefore(host, table);
+  const tab = new Tabulator(host, {
+    data: data, columns: columns, layout: 'fitDataStretch',
+    pagination: data.length > (opts.pageSize || 50), paginationSize: opts.pageSize || 50,
+    placeholder: 'No rows match these filters'
+  });
+  tab.on('tableBuilt', () => {
+    host.querySelectorAll('.tabulator-header-filter input').forEach((el, i) => {
+      el.setAttribute('aria-label', 'Filter ' + (columns[i] ? columns[i].title : 'column'));
+    });
+    // Tabulator puts a focusable scroll holder and the pager inside its
+    // role="grid", where only rows and row groups are allowed (axe
+    // aria-required-children, critical). The holder loses its tabindex (the
+    // header filters and the pager stay in the tab order), and the pager
+    // moves to a sibling that keeps Tabulator's footer styling.
+    const holder = host.querySelector('.tabulator-tableholder');
+    if (holder) holder.removeAttribute('tabindex');
+    const footer = host.querySelector(':scope > .tabulator-footer');
+    if (footer) {
+      const wrap = document.createElement('div');
+      wrap.className = 'tabulator tab-footer';
+      host.after(wrap);
+      wrap.appendChild(footer);
+    }
+  });
+  // 'active' is every row that survives the page filters and the header
+  // filters, across all pages, in the current sort order. Tabulator joins
+  // rows with \n, so the file has LF endings.
+  btn.addEventListener('click', () => tab.download('csv', (opts.filename || key) + '.csv', {}, 'active'));
+  TABLE_UPGRADES[key] = { table: tab, host: host };
+  return tab;
+}
+
 /* ------------------------------------------------------------------ *
  * National view of the position registry. Every value comes from a file
  * stakeholder_positions.py published, so the page stays correct as CI
@@ -626,6 +736,12 @@ function render() {
     new Date().toISOString().replace('T', ' ').slice(0, 16) + ' UTC.</footer>';
 
   document.getElementById('body').innerHTML = html;
+  // Each section's table, keyed by its heading, becomes a Tabulator table.
+  document.querySelectorAll('#body .tbl-wrap table').forEach(function (t, i) {
+    var h = t.closest('section') && t.closest('section').querySelector('h3');
+    var key = h ? h.firstChild.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-') : 'table-' + i;
+    upgradeTable(t, key, { filename: 'positions-' + key, pageSize: 25 });
+  });
 }
 
 function methodology() {

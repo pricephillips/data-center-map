@@ -281,12 +281,12 @@ input:focus, select:focus { border-color:#5aa9e6 }
         <input id="q" type="text" placeholder="Incident, entity, state, group…" oninput="debounce()"/>
       </div>
       <div class="row2">
-        <select id="fState"   onchange="render()"><option value="">All states</option></select>
-        <select id="fType"    onchange="render()"><option value="">All action types</option></select>
+        <select  id="fState" aria-label="Filter by state"   onchange="render()"><option value="">All states</option></select>
+        <select  id="fType" aria-label="Filter by action type"    onchange="render()"><option value="">All action types</option></select>
       </div>
       <div class="row2">
-        <select id="fOutcome" onchange="render()"><option value="">All results</option></select>
-        <select id="fIssue"   onchange="render()"><option value="">All concerns</option></select>
+        <select  id="fOutcome" aria-label="Filter by result" onchange="render()"><option value="">All results</option></select>
+        <select  id="fIssue" aria-label="Filter by concern"   onchange="render()"><option value="">All concerns</option></select>
       </div>
       <button class="filter-adv-toggle" onclick="toggleAdvFilters(this)">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>

@@ -234,28 +234,28 @@ tbody tr.ref-row:hover { opacity:1; background:#111e2a }
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     <input id="tq" type="text" placeholder="Search by location, company, or issue…" oninput="tdebounce()"/>
   </div>
-  <select id="tf-state"   onchange="trender()"><option value="">All states</option></select>
-  <select id="tf-outcome" onchange="trender()"><option value="">All outcomes</option></select>
-  <select id="tf-type"    onchange="trender()"><option value="">All action types</option></select>
-  <select id="tf-issue"   onchange="trender()"><option value="">All concerns</option></select>
+  <select  id="tf-state" aria-label="Filter by state"   onchange="trender()"><option value="">All states</option></select>
+  <select  id="tf-outcome" aria-label="Filter by outcome" onchange="trender()"><option value="">All outcomes</option></select>
+  <select  id="tf-type" aria-label="Filter by action type"    onchange="trender()"><option value="">All action types</option></select>
+  <select  id="tf-issue" aria-label="Filter by concern"   onchange="trender()"><option value="">All concerns</option></select>
 
-  <select id="tf-scope"     onchange="trender()"><option value="">Any geographic level</option><option value="local">Local</option><option value="statewide">Statewide</option><option value="federal">Federal</option></select>
-  <select id="tf-authority" onchange="trender()"><option value="">Any decision maker</option></select>
-  <select id="tf-source"  onchange="trender()"><option value="">All sources</option></select>
+  <select  id="tf-scope" aria-label="Filter by geographic level"     onchange="trender()"><option value="">Any geographic level</option><option value="local">Local</option><option value="statewide">Statewide</option><option value="federal">Federal</option></select>
+  <select  id="tf-authority" aria-label="Filter by decision maker" onchange="trender()"><option value="">Any decision maker</option></select>
+  <select  id="tf-source" aria-label="Filter by source"  onchange="trender()"><option value="">All sources</option></select>
 
-  <select id="tf-mechanism" onchange="trender()"><option value="">Any mechanism</option></select>
-  <select id="tf-block" onchange="trender()">
+  <select  id="tf-mechanism" aria-label="Filter by mechanism" onchange="trender()"><option value="">Any mechanism</option></select>
+  <select  id="tf-block" aria-label="Filter by restriction kind" onchange="trender()">
     <option value="">Block &amp; conditional</option>
     <option value="true">Blocks only (halt/ban/denial)</option>
     <option value="false">Conditional restrictions</option>
     <option value="ambiguous">Stance-ambiguous bills</option>
   </select>
-  <select id="tf-era" onchange="trender()">
+  <select  id="tf-era" aria-label="Filter by era" onchange="trender()">
     <option value="">All eras</option>
     <option value="ai_dc_era_2022plus">AI data-center era (2022+)</option>
     <option value="crypto_era_pre2022">Crypto era (pre-2022)</option>
   </select>
-  <select id="tf-ref" onchange="trender()">
+  <select  id="tf-ref" aria-label="Include or exclude reference records" onchange="trender()">
     <option value="include">All records (incl. reference)</option>
     <option value="exclude">Opposition only (excl. reference)</option>
     <option value="only">Reference docs only</option>

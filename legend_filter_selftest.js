@@ -134,5 +134,24 @@ function boot(){
   eq('legend with no tagged rows returns null', w.LegendFilter.attach(empty, {}), null);
 }
 
+// ---- year range (spec 009, US4) ----
+{ const LF = boot().LegendFilter;
+  eq('yearOf full date', LF.yearOf('2025-03-14'), 2025);
+  eq('yearOf year-month without padding', LF.yearOf('2026-1'), 2026);
+  eq('yearOf bare year', LF.yearOf('2024'), 2024);
+  eq('yearOf timestamp', LF.yearOf('2026-09-17T06:48:04.389Z'), 2026);
+  eq('yearOf empty is null', LF.yearOf(''), null);
+  eq('yearOf null is null', LF.yearOf(null), null);
+  eq('yearOf non-date is null', LF.yearOf('unknown'), null);
+  eq('yearOf five digits is null', LF.yearOf('20251'), null);
+  eq('open range keeps undated', LF.inYearRange('', null, null), true);
+  eq('bounded range drops undated', LF.inYearRange('', 2024, null), false);
+  eq('lower bound inclusive', LF.inYearRange('2025-01', 2025, null), true);
+  eq('below lower bound', LF.inYearRange('2024-12-31', 2025, null), false);
+  eq('upper bound inclusive', LF.inYearRange('2025', null, 2025), true);
+  eq('above upper bound', LF.inYearRange('2026-1', null, 2025), false);
+  eq('inside both bounds', LF.inYearRange('2025-06', 2024, 2026), true);
+}
+
 console.log('\n' + pass + ' passed, ' + fail + ' failed');
 process.exit(fail ? 1 : 0);
