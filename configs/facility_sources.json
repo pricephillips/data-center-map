@@ -55,12 +55,14 @@
       "kind": "static_snapshot",
       "publisher": "Epoch AI",
       "landing_urls": [
-        "https://epoch.ai/data/data-centers"
+        "https://epoch.ai/data/data-centers",
+        "https://epoch.ai/data/data_centers/data_centers.csv",
+        "https://epoch.ai/data/data_centers/data_center_timelines.csv"
       ],
-      "url_provenance": "Attribution recorded on the Notion Complete Centers page: 'Epoch Frontier Dataset (lacking proprietary data)'. URL not fetched; egress blocked in CI.",
+      "url_provenance": "Attribution recorded on the Notion Complete Centers page: 'Epoch Frontier Dataset (lacking proprietary data)'. Export URLs pinned 2026-09-29 (spec 007): both CSVs answered 200. The documentation page states the data is free to use, distribute and reproduce provided the source and authors are credited under the Creative Commons Attribution license.",
       "derivation": "Publisher-maintained register of frontier training sites with power and capital-cost estimates.",
       "geography": "Global; the surfaces show the United States rows.",
-      "license": "unconfirmed",
+      "license": "CC-BY-4.0",
       "upstream_vintage": null,
       "vintage_precision": null,
       "vintage_status": "undeclared",
@@ -69,13 +71,13 @@
         "mechanism": "manual snapshot",
         "pipeline": false
       },
-      "notes": "29 rows, 27 of them United States. Capital-cost and power figures are publisher estimates, not filings.",
+      "notes": "29 rows in the ai_centers.csv snapshot, 27 of them United States; the live export had 93 campuses, 77 United States, on 2026-09-29. Capital-cost and power figures are publisher estimates, not filings. Sampling limit: Epoch covers frontier-scale AI campuses only, so any use of these rows is a sample of the very largest campuses, never of data centers in general, and must say so. Deliverables that use the data carry a methodology footnote with the attribution.",
       "acquisition": {
-        "status": "needs_manual_pin",
-        "mechanism": "periodic re-pull, diffed into Layer A candidates",
-        "blocked_on": "A machine-readable export URL. Attribution is recorded on the Notion Complete Centers page; the export path is not.",
-        "rule": "Same as the atlas: diff into candidates, never overwrite the snapshot."
-      }
+        "status": "pipeline",
+        "mechanism": "fetch-permits.yml weekly: configs/epoch_frontier_dc.json (tabular fetch, earliest dated observation from the timelines file) then permit_ingest.py with configs/epoch_frontier_dc_ingest.json",
+        "rule": "The ai_centers.csv snapshot is never overwritten. Campuses that match a tracked project in data/project_key_map.csv are held out of the dated baseline and listed with their key in data/baseline_external_matches_epoch_frontier_dc.csv; unmatched campuses enter data/baseline_dated_external.csv as candidates with the attribution string as their source."
+      },
+      "attribution": "Epoch AI, Frontier Data Centers, https://epoch.ai/data/data-centers, licensed CC-BY 4.0"
     },
     {
       "source_id": "hyperscaler_footprints",

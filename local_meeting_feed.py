@@ -26,6 +26,18 @@ records that once in the discovery cache and skips it on future runs; it is
 not retried on every scheduled run per karpathy-guidelines (probing is
 read-only and cached, not repeated live each run).
 
+civic-scraper (spec 007, 2026-09-29). Discovery now asks civic-scraper's
+CivicPlus, PrimeGov and Granicus adapters first, then the native probes. It is
+imported only in the discovery layer, inside a try, and anything it raises is
+logged into the cache entry and falls back to the native probes (FR-001).
+Legistar is never asked of it; probe_legistar() here and legistar_probe.py are
+the only Legistar clients. CivicPlus hosts carry the state
+(va-powhatancounty.civicplus.com), so CivicPlus is also tried for names that
+are cross-state ambiguous. Each entry records adapter
+(civic_scraper:<platform> or native:<platform>) and civic_scraper (the library
+version tried, or "unavailable"); a cached miss that civic-scraper never saw
+is re-probed exactly once when the library is importable.
+
 Two-pass design, matching permit_ingest.py's config-not-code convention:
 
   1. Discovery (--discover): for each (state, county) pair in the feed,
@@ -50,6 +62,8 @@ entry per "STATE::County Name"):
 Usage:
   python3 local_meeting_feed.py --discover
   python3 local_meeting_feed.py --discover --redo --state VA
+  python3 local_meeting_feed.py --discover --no-civic-scraper --max-probes 100
+  python3 local_meeting_feed.py --compare 50     # with vs without civic-scraper
   python3 local_meeting_feed.py --fetch
   python3 local_meeting_feed.py --selftest
 """
@@ -385,27 +399,213 @@ def probe_granicus(county: str) -> dict | None:
 # confirmed platform, so putting the two JSON probes ahead of the HTML one
 # keeps the weakest shape test as the last resort rather than the first answer.
 PROBES = [probe_civicclerk, probe_legistar, probe_primegov, probe_granicus]
-# civicplus_rss still needs a known domain and stays override-only.
+# The native probes cannot guess a CivicPlus domain; civic-scraper below can,
+# because CivicPlus hosts every client at {state}-{name}.civicplus.com.
 
 
-def discover_one(state: str, county: str, ambiguous_names: set[str]) -> dict:
+# ---------------------------------------------------------------------------
+# civic-scraper discovery layer (spec 007, FR-001)
+#
+# civic-scraper is imported here and nowhere else, inside a try, and only for
+# the three platforms legistar_probe.py does not cover. Legistar is never asked
+# of it: the native probe_legistar() above and legistar_probe.py are the only
+# Legistar clients in the repo. Anything civic-scraper raises (import failure,
+# API drift, a parser that meets an unexpected feed) is logged into the cache
+# entry and discovery falls through to the native probes.
+#
+# A hit records the EXISTING platform name and a base URL the existing fetcher
+# understands, so --fetch never touches civic-scraper.
+# ---------------------------------------------------------------------------
+
+CIVIC_SCRAPER_LOOKBACK_DAYS = 120
+CIVIC_SCRAPER_TIMEOUT_S = 20
+# Transport failures on a guessed host mean "no such client", which is the
+# common case and not worth a log line. Anything else civic-scraper raises
+# (a parser meeting a feed it did not expect, API drift) is logged and kept
+# in the cache entry.
+QUIET_MISSES = {"ConnectionError", "ProxyError", "SSLError", "ConnectTimeout",
+                "ReadTimeout", "Timeout", "HTTPError", "TooManyRedirects"}
+
+
+def _bare_slug(county: str) -> str:
+    return slugify(strip_county_words(county))
+
+
+def _civicplus_urls(state: str, county: str) -> list[str]:
+    """{st}-{name}county, then {st}-{name}. The state is part of the host, so
+    a hit cannot be another state's client: this is the one platform that is
+    safe to try for a cross-state-ambiguous county name."""
+    st, slug = (state or "").strip().lower(), _bare_slug(county)
+    if not st or not slug:
+        return []
+    hosts = [f"{st}-{slug}county", f"{st}-{slug}"]
+    return [f"https://{h}.civicplus.com/AgendaCenter"
+            for h in dict.fromkeys(hosts)]
+
+
+def _primegov_urls(state: str, county: str) -> list[str]:
+    slug = _bare_slug(county)
+    return [f"https://{slug}.primegov.com/public/portal"] if slug else []
+
+
+def _granicus_urls(state: str, county: str) -> list[str]:
+    slug = _bare_slug(county)
+    return ([f"https://{slug}.granicus.com/ViewPublisherRSS.php?view_id=1&mode=agendas"]
+            if slug else [])
+
+
+def _host_base(url: str) -> str:
+    p = urllib.parse.urlparse(url)
+    return f"{p.scheme}://{p.netloc}"
+
+
+# name -> (civic_scraper.platforms class, candidate URLs, cached platform,
+#          state-qualified host). Order is the probe order.
+CIVIC_SCRAPER_PLATFORMS = {
+    "civicplus": ("CivicPlusSite", _civicplus_urls, "civicplus_rss", True),
+    "primegov": ("PrimeGovSite", _primegov_urls, "primegov", False),
+    "granicus": ("GranicusSite", _granicus_urls, "granicus", False),
+}
+
+
+def civic_scraper_platforms_module():
+    """civic_scraper.platforms, or None when the library is not importable.
+    Any exception on import counts as not importable."""
+    try:
+        import civic_scraper.platforms as platforms  # noqa: PLC0415
+        return platforms
+    except Exception:
+        return None
+
+
+def civic_scraper_version(lib=None) -> str | None:
+    if lib is None:
+        lib = civic_scraper_platforms_module()
+    if lib is None:
+        return None
+    try:
+        import civic_scraper  # noqa: PLC0415
+        return str(getattr(civic_scraper, "__version__", "") or "unknown")
+    except Exception:
+        return "unknown"
+
+
+def _civic_scrape(lib, name: str, url: str) -> int:
+    """Number of assets civic-scraper finds at url in the lookback window.
+    Raises whatever civic-scraper raises; the caller catches."""
+    import tempfile  # noqa: PLC0415
+    from datetime import timedelta  # noqa: PLC0415
+
+    cls_name = CIVIC_SCRAPER_PLATFORMS[name][0]
+    cls = getattr(lib, cls_name)
+    end = datetime.now(timezone.utc).date()
+    start = end - timedelta(days=CIVIC_SCRAPER_LOOKBACK_DAYS)
+    with tempfile.TemporaryDirectory() as td:
+        cache = None
+        try:
+            from civic_scraper.base.cache import Cache  # noqa: PLC0415
+            cache = Cache(td)
+        except Exception:
+            cache = None
+        site = cls(url, cache=cache) if cache is not None else cls(url)
+        if name == "civicplus":
+            assets = site.scrape(start_date=start.isoformat(),
+                                 end_date=end.isoformat(),
+                                 timeout=CIVIC_SCRAPER_TIMEOUT_S)
+        elif name == "primegov":
+            assets = site.scrape(start_date=start.strftime("%m/%d/%Y"),
+                                 end_date=end.strftime("%m/%d/%Y"),
+                                 timeout=CIVIC_SCRAPER_TIMEOUT_S)
+        else:
+            assets = site.scrape(download=False, timeout=CIVIC_SCRAPER_TIMEOUT_S)
+    return len(assets or [])
+
+
+def probe_civic_scraper(state: str, county: str, ambiguous: bool,
+                        lib=None) -> tuple[dict | None, str, list[str]]:
+    """Try civic-scraper's CivicPlus, PrimeGov and Granicus adapters.
+
+    Returns (result or None, civic-scraper version or "unavailable", errors).
+    A platform resolves only when scrape() returns at least one asset: a
+    provisioned-but-empty instance looks the same as a placeholder page. For a
+    cross-state-ambiguous name only CivicPlus is tried, because only its host
+    carries the state. Never raises."""
+    if lib is None:
+        lib = civic_scraper_platforms_module()
+    version = civic_scraper_version(lib)
+    if lib is None or version is None:
+        return None, "unavailable", []
+    errors: list[str] = []
+    for name, (_, urls_for, platform, state_qualified) in CIVIC_SCRAPER_PLATFORMS.items():
+        if ambiguous and not state_qualified:
+            continue
+        for url in urls_for(state, county):
+            time.sleep(THROTTLE_S)
+            try:
+                n = _civic_scrape(lib, name, url)
+            except Exception as e:  # noqa: BLE001 - FR-001: log, never raise
+                if type(e).__name__ in QUIET_MISSES:
+                    continue       # no such host, or it refused: a plain miss
+                errors.append(f"{name}: {type(e).__name__}")
+                print(f"  civic-scraper {name} {jur_key(state, county)}: "
+                      f"{type(e).__name__}: {str(e)[:120]} (falling back)")
+                continue
+            if n > 0:
+                return ({"platform": platform, "base_url": _host_base(url),
+                         "adapter": f"civic_scraper:{name}"}, version, errors)
+    return None, version, errors
+
+
+def needs_civic_retry(entry: dict, civic_available: bool) -> bool:
+    """A cached miss that civic-scraper has never been tried on gets exactly
+    one more probe once the library is importable. Resolved entries never do."""
+    if not civic_available:
+        return False
+    if entry.get("platform") not in ("none", "ambiguous"):
+        return False
+    return (entry.get("civic_scraper") or "unavailable") == "unavailable"
+
+
+def discover_one(state: str, county: str, ambiguous_names: set[str],
+                 use_civic_scraper: bool = True, civic_lib=None) -> dict:
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     bare = re.sub(r"\b(county|borough|parish|municipality)\b", "", county,
                   flags=re.IGNORECASE).strip().lower()
-    if bare in ambiguous_names:
+    ambiguous = bare in ambiguous_names
+
+    version, errors = "unavailable", []
+    if use_civic_scraper:
+        hit, version, errors = probe_civic_scraper(state, county, ambiguous,
+                                                   lib=civic_lib)
+        if hit:
+            hit.update({"checked_at": now, "civic_scraper": version})
+            if errors:
+                hit["civic_scraper_errors"] = "; ".join(errors)
+            return hit
+
+    def miss(platform: str) -> dict:
+        out = {"platform": platform, "base_url": "", "adapter": "none",
+               "checked_at": now, "civic_scraper": version}
+        if errors:
+            out["civic_scraper_errors"] = "; ".join(errors)
+        return out
+
+    if ambiguous:
         # This bare name is shared by another state in the roster and the
         # source APIs don't expose a state field to disambiguate a slug
         # match, so this jurisdiction is skipped rather than risking a
         # wrong-state match; only a manual override entry can cover it.
-        return {"platform": "ambiguous", "base_url": "",
-                "checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds")}
+        return miss("ambiguous")
     for probe in PROBES:
         time.sleep(THROTTLE_S)
         result = probe(county)
         if result:
-            result["checked_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+            result.update({"adapter": f"native:{result['platform']}",
+                           "checked_at": now, "civic_scraper": version})
+            if errors:
+                result["civic_scraper_errors"] = "; ".join(errors)
             return result
-    return {"platform": "none", "base_url": "",
-            "checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds")}
+    return miss("none")
 
 
 def load_json(path: str) -> dict:
@@ -421,8 +621,27 @@ def save_json(path: str, data: dict) -> None:
         json.dump(data, fh, indent=2, sort_keys=True)
 
 
-def discover(state_filter: str | None, redo: bool) -> dict:
+RESOLVED_EXCLUDE = ("none", "ambiguous")
+
+
+def adapter_counts(cache: dict) -> dict[str, int]:
+    """Resolved entries by adapter. Entries written before spec 007 carry no
+    adapter key and were all found by a native probe."""
+    out: dict[str, int] = {}
+    for v in cache.values():
+        if v.get("platform") in RESOLVED_EXCLUDE:
+            continue
+        a = v.get("adapter") or f"native:{v.get('platform')}"
+        out[a] = out.get(a, 0) + 1
+    return out
+
+
+def discover(state_filter: str | None, redo: bool,
+             use_civic_scraper: bool = True, max_probes: int = 400) -> dict:
     cache = load_json(DISCOVERY_CACHE)
+    civic_version = civic_scraper_version() if use_civic_scraper else None
+    civic_available = civic_version is not None
+    print(f"civic-scraper: {civic_version or 'not used'}")
     feed_pairs = jurisdictions_from_feed(FEED, state_filter)
     pairs = jurisdiction_frame(FEED, state_filter)
     watch_only = len(pairs) - len(set(feed_pairs))
@@ -436,17 +655,27 @@ def discover(state_filter: str | None, redo: bool) -> dict:
               f"{'y' if len(purged) == 1 else 'ies'} "
               f"(e.g. {', '.join(purged[:3])})")
 
-    checked = 0
+    checked = deferred = 0
     for state, county in pairs:
         key = jur_key(state, county)
-        if key in cache and not redo:
+        if key in cache and not redo and not needs_civic_retry(cache[key], civic_available):
             continue
-        cache[key] = discover_one(state, county, ambiguous_names)
+        if checked >= max_probes:
+            deferred += 1
+            continue
+        cache[key] = discover_one(state, county, ambiguous_names,
+                                  use_civic_scraper=civic_available)
         checked += 1
         if checked % 10 == 0:
             save_json(DISCOVERY_CACHE, cache)  # incremental: survives interruption
     save_json(DISCOVERY_CACHE, cache)
-    found = sum(1 for v in cache.values() if v.get("platform") not in ("none", "ambiguous"))
+    if deferred:
+        print(f"discovery: {deferred} jurisdictions deferred to the next run "
+              f"(--max-probes {max_probes})")
+    by_adapter = adapter_counts(cache)
+    print("resolved by adapter: " + (", ".join(
+        f"{k} {n}" for k, n in sorted(by_adapter.items())) or "none"))
+    found = sum(1 for v in cache.values() if v.get("platform") not in RESOLVED_EXCLUDE)
     skipped_ambiguous = sum(1 for v in cache.values() if v.get("platform") == "ambiguous")
     print(f"discovery frame: {len(pairs)} jurisdictions "
           f"({watch_only} from the adjacency watchlist, not in the feed)")
@@ -695,9 +924,122 @@ def selftest() -> int:
     check("clark" in ambiguous and "powhatan" not in ambiguous,
           "ambiguous_county_names flags a name shared across states, not a unique one")
 
-    result = discover_one("OH", "Clark County", ambiguous_names={"clark"})
+    result = discover_one("OH", "Clark County", ambiguous_names={"clark"},
+                          use_civic_scraper=False)
     check(result["platform"] == "ambiguous",
           "discover_one skips probing for a cross-state-ambiguous county name")
+
+    # --- civic-scraper discovery layer (spec 007) ---
+    # A fake civic_scraper.platforms: each Site class answers from a table
+    # keyed by URL, so no test touches the network or needs the package.
+    import types
+
+    def fake_lib(answers: dict):
+        lib = types.SimpleNamespace()
+        calls: list[str] = []
+
+        def site_cls(name):
+            class _Site:
+                def __init__(self, url, cache=None):
+                    self.url = url
+                    calls.append(url)
+
+                def scrape(self, *a, **k):
+                    ans = answers.get(self.url, 0)
+                    if isinstance(ans, Exception):
+                        raise ans
+                    return ["asset"] * ans
+            _Site.__name__ = name
+            return _Site
+        for cls_name, *_ in CIVIC_SCRAPER_PLATFORMS.values():
+            setattr(lib, cls_name, site_cls(cls_name))
+        lib.calls = calls
+        return lib
+
+    check(all(name != "legistar" and "legistar" not in cls.lower()
+              for name, (cls, *_rest) in CIVIC_SCRAPER_PLATFORMS.items()),
+          "civic-scraper is never asked about Legistar (legistar_probe.py covers it)")
+    check(all(plat in FETCHERS for _, _, plat, _ in CIVIC_SCRAPER_PLATFORMS.values()),
+          "every civic-scraper hit caches a platform an existing fetcher polls")
+
+    with mock.patch(f"{__name__}.time.sleep"), \
+         mock.patch(f"{__name__}.civic_scraper_version", return_value="1.1.0"), \
+         mock.patch(f"{__name__}.http_get", return_value=(404, b"")):
+        lib = fake_lib({"https://mesa.primegov.com/public/portal": 3})
+        r = discover_one("AZ", "Mesa County", set(), civic_lib=lib)
+        check(r["platform"] == "primegov" and r["adapter"] == "civic_scraper:primegov",
+              "a civic-scraper hit records adapter=civic_scraper:<platform>")
+        check(r["base_url"] == "https://mesa.primegov.com" and r["civic_scraper"] == "1.1.0",
+              "the hit caches the existing fetcher's base URL and the library version")
+        check(not needs_civic_retry(r, True),
+              "a resolved jurisdiction is not re-probed on later runs")
+
+        lib = fake_lib({"https://va-powhatancounty.civicplus.com/AgendaCenter": 2})
+        r = discover_one("VA", "Powhatan County", set(), civic_lib=lib)
+        check(r["platform"] == "civicplus_rss"
+              and r["base_url"] == "https://va-powhatancounty.civicplus.com",
+              "CivicPlus resolves on the state-qualified host and maps to civicplus_rss")
+
+        lib = fake_lib({"https://va-clarkcounty.civicplus.com/AgendaCenter": 1,
+                        "https://clark.primegov.com/public/portal": 5})
+        r = discover_one("VA", "Clark County", {"clark"}, civic_lib=lib)
+        check(r["platform"] == "civicplus_rss",
+              "an ambiguous name can resolve through CivicPlus, whose host names the state")
+        check(not any("primegov" in u or "granicus" in u for u in lib.calls),
+              "an ambiguous name never tries a slug-only platform")
+
+        lib = fake_lib({"https://ohio.primegov.com/public/portal": 0})
+        r = discover_one("OH", "Clark County", {"clark"}, civic_lib=lib)
+        check(r["platform"] == "ambiguous" and r["civic_scraper"] == "1.1.0",
+              "an ambiguous miss stays ambiguous and records that civic-scraper was tried")
+
+        class ConnectionError(Exception):  # noqa: A001 - the name is the test
+            pass
+        lib = fake_lib({"https://az-mesacounty.civicplus.com/AgendaCenter": ConnectionError(),
+                        "https://mesa.primegov.com/public/portal": ValueError("drift"),
+                        "https://mesa.granicus.com/ViewPublisherRSS.php?view_id=1&mode=agendas":
+                            KeyError("title")})
+        legistar_ok = json.dumps([{"BodyName": "Mesa County Board"}]).encode()
+        with mock.patch(f"{__name__}.http_get", return_value=(200, legistar_ok)):
+            r = discover_one("AZ", "Mesa County", set(), civic_lib=lib)
+        check(r["platform"] == "legistar" and r["adapter"] == "native:legistar",
+              "when civic-scraper raises, the native probes run and resolve")
+        check("primegov: ValueError" in r.get("civic_scraper_errors", "")
+              and "granicus: KeyError" in r.get("civic_scraper_errors", ""),
+              "the civic-scraper errors are logged in the entry, not raised")
+        check("civicplus" not in r.get("civic_scraper_errors", ""),
+              "a guessed host that does not exist is a quiet miss, not a logged error")
+
+        r = discover_one("AZ", "Mesa County", set(), civic_lib=fake_lib({}))
+        check(r["platform"] == "none" and r["adapter"] == "none",
+              "no platform anywhere records none")
+
+    with mock.patch(f"{__name__}.civic_scraper_platforms_module", return_value=None), \
+         mock.patch(f"{__name__}.time.sleep"), \
+         mock.patch(f"{__name__}.http_get", return_value=(404, b"")):
+        hit, ver, errs = probe_civic_scraper("AZ", "Mesa County", False)
+        check(hit is None and ver == "unavailable" and errs == [],
+              "an unimportable civic-scraper is a silent fallback, not an error")
+        r = discover_one("AZ", "Mesa County", set())
+        check(r["civic_scraper"] == "unavailable",
+              "an entry probed without the library is marked for one later retry")
+
+    check(needs_civic_retry({"platform": "none"}, True)
+          and needs_civic_retry({"platform": "ambiguous", "civic_scraper": "unavailable"}, True),
+          "cached misses civic-scraper never saw get one retry")
+    check(not needs_civic_retry({"platform": "none", "civic_scraper": "1.1.0"}, True),
+          "a miss civic-scraper already tried is not retried")
+    check(not needs_civic_retry({"platform": "none"}, False),
+          "no retry when the library is not importable")
+    check(adapter_counts({"a": {"platform": "legistar"},
+                          "b": {"platform": "primegov", "adapter": "civic_scraper:primegov"},
+                          "c": {"platform": "none"}})
+          == {"native:legistar": 1, "civic_scraper:primegov": 1},
+          "resolved counts split by adapter, legacy entries counted as native")
+    check(_civicplus_urls("VA", "Powhatan County")
+          == ["https://va-powhatancounty.civicplus.com/AgendaCenter",
+              "https://va-powhatan.civicplus.com/AgendaCenter"],
+          "CivicPlus candidate hosts carry the state")
 
     check(slugify("Powhatan County") == "powhatancounty", "slugify strips spaces/case")
     check(slugify("Wyandotte County, Unified Government") == "wyandottecountyunifiedgovernment",
@@ -885,6 +1227,28 @@ def selftest() -> int:
     return 0 if ok else 1
 
 
+def compare_sample(n: int, state_filter: str | None = None,
+                   civic_lib=None) -> tuple[int, int, int]:
+    """Spec 007 US1 independent test. Runs discovery on a fixed n-jurisdiction
+    sample (an even stride through the sorted frame, so every run and every
+    machine sees the same sample) with and without civic-scraper, in memory.
+    Returns (sample size, resolved without, resolved with). Writes nothing."""
+    pairs = jurisdiction_frame(FEED, state_filter)
+    stride = max(1, len(pairs) // max(1, n))
+    sample = pairs[::stride][:n]
+    ambiguous = ambiguous_county_names(FEED, jurisdiction_frame(FEED, None))
+    without = with_cs = 0
+    for state, county in sample:
+        a = discover_one(state, county, ambiguous, use_civic_scraper=False)
+        b = discover_one(state, county, ambiguous, use_civic_scraper=True,
+                         civic_lib=civic_lib)
+        without += a["platform"] not in RESOLVED_EXCLUDE
+        with_cs += b["platform"] not in RESOLVED_EXCLUDE
+        print(f"  {jur_key(state, county)}: without={a['platform']} "
+              f"with={b['platform']} ({b.get('adapter', '')})")
+    return len(sample), without, with_cs
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--discover", action="store_true",
@@ -894,6 +1258,13 @@ def main() -> int:
     ap.add_argument("--fetch", action="store_true",
                     help="pull events for cached/override jurisdictions")
     ap.add_argument("--state", help="limit to one two-letter state code")
+    ap.add_argument("--no-civic-scraper", action="store_true",
+                    help="discovery with the native probes only")
+    ap.add_argument("--max-probes", type=int, default=400,
+                    help="cap jurisdictions probed per --discover run")
+    ap.add_argument("--compare", type=int, metavar="N",
+                    help="resolved counts on a fixed N-jurisdiction sample, "
+                         "with and without civic-scraper; writes nothing")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
 
@@ -902,8 +1273,19 @@ def main() -> int:
 
     state_filter = args.state.strip().upper() if args.state else None
 
+    if args.compare:
+        if civic_scraper_version() is None:
+            print("civic-scraper is not importable; install it to compare.")
+            return 0
+        size, without, with_cs = compare_sample(args.compare, state_filter)
+        print(f"compare: {size} jurisdictions, resolved without civic-scraper "
+              f"{without}, with civic-scraper {with_cs}")
+        return 0
+
     if args.discover:
-        discover(state_filter, args.redo)
+        discover(state_filter, args.redo,
+                 use_civic_scraper=not args.no_civic_scraper,
+                 max_probes=args.max_probes)
         return 0
 
     if args.fetch:

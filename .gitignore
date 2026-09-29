@@ -1,3 +1,6 @@
 # Python bytecode caches from local pipeline runs
 __pycache__/
 *.pyc
+
+# OCR text cache (agenda_text.py); CI persists it with actions/cache
+.cache/
