@@ -1,6 +1,6 @@
 # Untagged row triage
 
-Held rows in the worklist: 6106
+Held rows in the worklist: 2202
 
 These rows are excluded from the clean feed and from every count. They are recoverable only by resolving the redirect to a publisher article and reading it. Everything below is a suggestion derived from the headline text, not a verified field.
 
@@ -8,17 +8,17 @@ These rows are excluded from the clean feed and from every count. They are recov
 
 | confidence | rows |
 | :-- | --: |
-| high | 520 |
-| medium | 1260 |
-| state_only | 364 |
-| low | 1381 |
-| none | 2581 |
+| high | 190 |
+| medium | 413 |
+| state_only | 141 |
+| low | 471 |
+| none | 987 |
 
 ## Mechanism hint
 
 | hint | rows |
 | :-- | --: |
-| none | 5909 |
+| none | 2005 |
 | moratorium | 186 |
 | zoning_restriction | 3 |
 | public_comment | 3 |
@@ -30,7 +30,7 @@ These rows are excluded from the clean feed and from every count. They are recov
 
 | status | rows |
 | :-- | --: |
-| not_attempted | 6106 |
+| not_attempted | 2202 |
 
 Rows ready for a reviewer to open: 0
 Rows whose county and mechanism are already covered by a sourced row: 68
@@ -39,20 +39,20 @@ Rows whose county and mechanism are already covered by a sourced row: 68
 
 | outlet | rows |
 | :-- | --: |
-| unknown | 5070 |
-| Gazette | 26 |
-| WSLR+Fogartyville | 24 |
-| Nevada News and Views | 21 |
-| Your Illinois News Radar » Isabel morning briefing | 18 |
-| Your Illinois News Radar » Isabel afternoon roundup | 16 |
-| Effingham Herald | 15 |
-| scale data centers | 13 |
-| backed data center proposals cause rift in Oakland | 12 |
-| center overlay | 12 |
+| unknown | 1626 |
 | Politico | 11 |
-| Statesboro Herald | 11 |
-| 26 • The Austin Chronicle | 11 |
-| plus square miles in Archbald , Upvalley for power plants | 11 |
-| election bus tour | 10 |
+| Gazette | 8 |
+| Axios | 5 |
+| Source New Mexico | 5 |
+| Broadband Breakfast | 4 |
+| Inside Climate News | 4 |
+| The National Law Review | 4 |
+| WPR | 4 |
+| Food & Water Watch | 4 |
+| WFYI | 4 |
+| Planet Detroit | 4 |
+| Fort Worth | 4 |
+| WRJN | 4 |
+| scale data centers | 4 |
 
 Outlet is parsed from the Summary suffix and needs no network call, so it is available for every row. A resolved publisher URL is required before any row is promoted.

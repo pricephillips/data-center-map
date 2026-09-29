@@ -16,9 +16,9 @@ Unit is the resolved project in data/project_lifecycles.csv, all periods pooled.
 The two rates differ because the populations differ: one project can carry several decided records, and many decided records are not yet linked to a project entity. Neither number is wrong; quoting either without its unit is.
 
 ## Political context
-- Incident share in Trump-won counties: 70% (n=1186)
+- Incident share in Trump-won counties: 71% (n=1206)
 - County base rate (share of counties Trump won): 85%
-- Relative to the share of counties Trump won (85%), tracked opposition is UNDER-represented in Trump-won counties at 70%. Quote the pair, never the share alone; an exposure denominator (where projects are proposed) is the fair comparison and siting is not uniform.
+- Relative to the share of counties Trump won (85%), tracked opposition is UNDER-represented in Trump-won counties at 71%. Quote the pair, never the share alone; an exposure denominator (where projects are proposed) is the fair comparison and siting is not uniform.
 
 ## Contested investment (floors, not totals)
 - $673B disclosed across 231 primary projects (review-flagged figures excluded)
