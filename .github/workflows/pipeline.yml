@@ -532,7 +532,8 @@ jobs:
           if [ "${{ steps.facility_manifest.outcome }}" = "success" ]; then
             git add data/facility_manifest.json data/facility_registry.csv \
                     data/facility_registry_summary.json \
-                    data/facility_promotion_report.csv 2>/dev/null || true
+                    data/facility_promotion_report.csv \
+                    data/facility_graduation_observations.csv 2>/dev/null || true
           fi
           if [ "${{ steps.operations_summary.outcome }}" = "success" ]; then
             git add data/operations_summary.json 2>/dev/null || true
