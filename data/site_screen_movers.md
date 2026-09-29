@@ -29,7 +29,7 @@ Sites screened: 394 | tier changes: 21 | composite moves of 3 points or more: 22
 | PNK Valley View Data Center | Lackawanna County, PA | High | Elevated | -0.3 |
 | Jessup Breaker Street Data Center | Lackawanna County, PA | High | Elevated | -0.3 |
 | Calpine Peach Bottom | York County, PA | Guarded | Low | -4.5 |
-| PowerHouse Carrollton | Carroll County, KY | Guarded | Low | -0.1 |
+| PowerHouse Carrollton | Carroll County, KY | Guarded | Low | -0.2 |
 
 ## Largest composite moves
 
@@ -46,17 +46,17 @@ Sites screened: 394 | tier changes: 21 | composite moves of 3 points or more: 22
 | Conewago Township Data Center Land Considerations | York County, PA | Guarded | 60.1 | -4.5 |
 | Calpine Peach Bottom | York County, PA | Low | 39.9 | -4.5 |
 | East Manchester Farmland to Data Center Initiative Interest | York County, PA | Guarded | 58.2 | -4.5 |
-| Project Green | Montgomery County, MO | Low | 19.7 | -3.8 |
-| Project Spade | Montgomery County, MO | Low | 19.7 | -3.8 |
+| Project Green | Montgomery County, MO | Low | 19.8 | -3.7 |
+| Project Spade | Montgomery County, MO | Low | 19.8 | -3.7 |
 | Harrodsburg Data Center | Mercer County, KY | Guarded | 53.1 | +3.5 |
 | Project Bluegrass | Mercer County, KY | Guarded | 53.1 | +3.5 |
 | Edged Des Moines | Polk County, IA | Low | 31.6 | +3.3 |
 | Tract Altoona | Polk County, IA | Guarded | 44.5 | +3.3 |
 | Project Alluvion | Polk County, IA | Low | 31.6 | +3.3 |
 | Project Ginger East | Polk County, IA | Low | 31.6 | +3.3 |
-| J.M. Stuart Revitilization Project | Adams County, OH | Guarded | 55.5 | -3.3 |
-| Killen Revitilization Project | Adams County, OH | Guarded | 55.5 | -3.3 |
-| Buck Canyon Properties Data Center | Adams County, OH | Guarded | 55.5 | -3.3 |
+| J.M. Stuart Revitilization Project | Adams County, OH | Guarded | 55.6 | -3.2 |
+| Killen Revitilization Project | Adams County, OH | Guarded | 55.6 | -3.2 |
+| Buck Canyon Properties Data Center | Adams County, OH | Guarded | 55.6 | -3.2 |
 
 ## Reading this report
 
