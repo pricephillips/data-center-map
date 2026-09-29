@@ -36,6 +36,16 @@
  *   on opposition-tracker come from the raw source of record and are not
  *   publishable vocabulary.
  *
+ * Year range (spec 009, US4)
+ *   yearOf(value) and inYearRange(value, lo, hi) are the date predicate for the
+ *   in-house range slider on opposition-map. They live here, beside the class
+ *   filter, so a page's pin predicate reads its date bounds from the same
+ *   module as its legend state. Pure functions; no DOM.
+ *     yearOf('2025-03-14') -> 2025; yearOf('2026-1') -> 2026; yearOf('') -> null
+ *     inYearRange(v, lo, hi): lo and hi are inclusive years, null = open.
+ *     A value with no parsable year passes only when both ends are open, so
+ *     narrowing the range never keeps an undated record it cannot place.
+ *
  * Registration
  *   2026-08-12  Initial registration. Contract, modes, and empty-set
  *               semantics as above. Selection is applied through the host
@@ -209,5 +219,23 @@
     return out;
   }
 
-  global.LegendFilter = { attach: attach, fromHashValue: fromHashValue };
+  // Leading four-digit year of an ISO-ish date string ("2025", "2026-1",
+  // "2025-03-14T..."), or null. Years outside 1900-2099 are not dates here.
+  function yearOf(value) {
+    var m = /^\s*((?:19|20)\d\d)(?:\D|$)/.exec(value == null ? '' : String(value));
+    return m ? parseInt(m[1], 10) : null;
+  }
+
+  function inYearRange(value, lo, hi) {
+    var open = (lo === null || lo === undefined) && (hi === null || hi === undefined);
+    if (open) return true;
+    var y = yearOf(value);
+    if (y === null) return false;
+    if (lo !== null && lo !== undefined && y < lo) return false;
+    if (hi !== null && hi !== undefined && y > hi) return false;
+    return true;
+  }
+
+  global.LegendFilter = { attach: attach, fromHashValue: fromHashValue,
+                          yearOf: yearOf, inYearRange: inYearRange };
 })(window);
