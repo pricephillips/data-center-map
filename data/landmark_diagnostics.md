@@ -8,13 +8,13 @@ The gate closure has been attributed to decision-date coverage. That is not the 
 
 ## 1. Opposition anchor: the ceiling is below the floor
 
-Frame inputs: 27 decided projects with a verified decision date, 46 decided projects missing one, 118 pending.
+Frame inputs: 31 decided projects with a verified decision date, 46 decided projects missing one, 114 pending.
 
 The ceiling column is the frame that would exist if every missing decision date were recovered. It is an upper bound: a project with an unknown decision date can only survive window W if its anchor is more than W days before today, since the decision must have already happened.
 
 | W | now n | now blocked | ceiling n | ceiling blocked | blocked floor met at ceiling |
 | :-- | :-- | :-- | :-- | :-- | :-- |
-| 30 | 7 | 5 | 52 | 11 | no |
+| 30 | 8 | 5 | 53 | 11 | no |
 | 60 | 5 | 3 | 50 | 9 | no |
 | 90 | 2 | 2 | 42 | 7 | no |
 | 120 | 2 | 2 | 39 | 7 | no |
@@ -24,39 +24,39 @@ The blocked arm ceiling peaks at 11 against a floor of 12. Recovering all 46 dat
 
 ## 2. Why the opposition anchor collapses
 
-Anchor-to-decision gaps across the 27 decided projects with dates: median 0 days, range -274 to 232. 17 of 27 (0.630) are non-positive, and 11 are exactly zero.
+Anchor-to-decision gaps across the 31 decided projects with dates: median 0 days, range -394 to 232. 19 of 31 (0.613) are non-positive, and 12 are exactly zero.
 
-A non-positive gap means the first recorded opposition event is dated at or after the terminal decision, so no window can contain pre-decision information and survivor conditioning removes the project from every frame. The cause is visible in the event counts: 20 of 27 decided projects have exactly one linked opposition event. Coverage is triggered by the decision, one story is recorded, and the opposition and the outcome share a date.
+A non-positive gap means the first recorded opposition event is dated at or after the terminal decision, so no window can contain pre-decision information and survivor conditioning removes the project from every frame. The cause is visible in the event counts: 23 of 31 decided projects have exactly one linked opposition event. Coverage is triggered by the decision, one story is recorded, and the opposition and the outcome share a date.
 
 This is a measurement property, not a claim that opposition began on the day of the decision. It is the same detection limit the verified-negative audit ran into from the other direction.
 
 ### The outcome-typed-event test
 
-The registered frame rules exclude project_withdrawal and permit_denial from features at every window because they encode the label. Extending that rule to the anchor is a reasonable reading, so it was tested: recomputing t0 from non-outcome-typed events only. Result at W = 30, the most favorable window: n falls from 7 to 4, and 5 decided projects lose their anchor entirely because every event linked to them is outcome-typed.
+The registered frame rules exclude project_withdrawal and permit_denial from features at every window because they encode the label. Extending that rule to the anchor is a reasonable reading, so it was tested: recomputing t0 from non-outcome-typed events only. Result at W = 30, the most favorable window: n falls from 8 to 5, and 5 decided projects lose their anchor entirely because every event linked to them is outcome-typed.
 
 So the extension makes the frame smaller, not cleaner, and the zero-gap pattern is not mostly an artifact of denial events being coded as opposition. Recommend leaving the registered rule as written. Recording the negative result matters more than the result itself: it closes off the cheap explanation.
 
 ## 3. Announcement anchor
 
-Setting t0 = announced_date. Available for 27 of 27 decided projects with decision dates, 46 of 46 on the worklist, and 118 of 118 pending.
+Setting t0 = announced_date. Available for 31 of 31 decided projects with decision dates, 46 of 46 on the worklist, and 114 of 114 pending.
 
-Announcement-to-decision gaps: median 156 days, range 12 to 492, with 0 non-positive. The anchor precedes the decision by construction, which is the property the opposition anchor lacks.
+Announcement-to-decision gaps: median 170 days, range 12 to 492, with 0 non-positive. The anchor precedes the decision by construction, which is the property the opposition anchor lacks.
 
 | W | now n | now blocked | now not_blocked | ceiling n | ceiling blocked | ceiling not_blocked | all floors met at ceiling | pending scoreable |
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
-| 30 | 24 | 21 | 3 | 70 | 27 | 43 | yes | 118 |
-| 60 | 19 | 16 | 3 | 65 | 22 | 43 | yes | 118 |
-| 90 | 18 | 16 | 2 | 63 | 21 | 42 | yes | 118 |
-| 120 | 14 | 13 | 1 | 59 | 18 | 41 | yes | 116 |
-| 180 | 11 | 10 | 1 | 56 | 15 | 41 | yes | 110 |
-| 270 (exploratory) | 6 | 5 | 1 | 51 | 10 | 41 | no | 89 |
-| 365 (exploratory) | 4 | 3 | 1 | 43 | 7 | 36 | no | 53 |
+| 30 | 28 | 21 | 7 | 74 | 27 | 47 | yes | 114 |
+| 60 | 23 | 16 | 7 | 69 | 22 | 47 | yes | 114 |
+| 90 | 22 | 16 | 6 | 67 | 21 | 46 | yes | 114 |
+| 120 | 17 | 13 | 4 | 62 | 18 | 44 | yes | 112 |
+| 180 | 14 | 10 | 4 | 59 | 15 | 44 | yes | 106 |
+| 270 (exploratory) | 8 | 5 | 3 | 53 | 10 | 43 | no | 85 |
+| 365 (exploratory) | 4 | 3 | 1 | 43 | 7 | 36 | no | 50 |
 
 Windows whose ceiling clears all three floors: 30, 60, 90, 120, 180. Applying the registered tie-breaking preference for the shortest window would select W = 30, but note that the registered criterion selects on cross-validated AUC among feasible windows, which cannot be evaluated until the frame actually exists. The window named here is the shortest FEASIBLE one, not a selected model.
 
-At W = 30 the ceiling is n = 70 with 27 blocked and 43 not blocked, and 118 of 118 pending projects would be scoreable. Making pending projects scoreable was the purpose of the landmark formulation, so that last number is the one to weigh against the recovery cost.
+At W = 30 the ceiling is n = 74 with 27 blocked and 47 not blocked, and 114 of 114 pending projects would be scoreable. Making pending projects scoreable was the purpose of the landmark formulation, so that last number is the one to weigh against the recovery cost.
 
-What binds, precisely. With zero recovery the announcement anchor at W = 30 already has 21 blocked survivors against a floor of 12, so the blocked arm is not the problem. The binding constraints are total n (24 now, floor 40) and the not_blocked arm (3 now, floor 12), and both are filled by the advanced-arm recoveries. Of the 46 worklist projects, 46 can enter the W = 30 frame once dated, 40 of them advanced. This inverts the usual recovery priority: here the advanced arm is the arm that opens the gate, so advanced-arm dates are worth as much as blocked ones for feasibility, even though blocked rows remain first for outcome-statistic integrity elsewhere.
+What binds, precisely. With zero recovery the announcement anchor at W = 30 already has 21 blocked survivors against a floor of 12, so the blocked arm is not the problem. The binding constraints are total n (28 now, floor 40) and the not_blocked arm (7 now, floor 12), and both are filled by the advanced-arm recoveries. Of the 46 worklist projects, 46 can enter the W = 30 frame once dated, 40 of them advanced. This inverts the usual recovery priority: here the advanced arm is the arm that opens the gate, so advanced-arm dates are worth as much as blocked ones for feasibility, even though blocked rows remain first for outcome-statistic integrity elsewhere.
 
 ## Recommendation
 

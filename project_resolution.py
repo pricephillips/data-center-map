@@ -64,6 +64,7 @@ OUT_REVIEW = os.environ.get("PR_OUT_REVIEW", os.path.join(ROOT, "data", "project
 MANUAL_LINKS = os.environ.get("PR_MANUAL_LINKS", os.path.join(ROOT, "data", "project_links_manual.csv"))
 MANUAL_DATES = os.environ.get("PR_MANUAL_DATES", os.path.join(ROOT, "data", "project_decision_dates.csv"))
 DUPLICATES_CSV = os.environ.get("PR_DUPLICATES", os.path.join(ROOT, "data", "project_duplicates.csv"))
+HISTORY_EVENTS = os.environ.get("PR_EVENTS", os.path.join(ROOT, "data", "pipeline_intel_events.csv"))
 
 # ---------------------------------------------------------------------------
 # Vocabulary (activity-descriptive ladder; no scorekeeping terms)
@@ -613,6 +614,48 @@ def load_manual_links(path: str) -> tuple[dict[tuple[str, str], dict], list[str]
     return out, problems
 
 
+# Ruling 1 (2026-09-22 source relabel). The source folded its "approved"
+# phase into "proposed" on 2026-09-22; proposal_history.py records each such
+# project as a source_reclassified event. The relabel is neither reversed
+# wholesale nor accepted wholesale: a project keeps "approved" only where the
+# repo holds evidence of a final approval, which today means a sourced row in
+# data/project_decision_dates.csv describing an approval. Every other
+# reclassified project stays pending until someone records that evidence.
+APPROVAL_TEXT = re.compile(r"\bapprov|\bgrant|\brezon", re.IGNORECASE)
+NOT_APPROVAL_TEXT = re.compile(r"withdr|\bden(?:y|ied|ial)|reject|void|rescind|revok",
+                               re.IGNORECASE)
+
+
+def load_source_reclassified(path: str) -> dict[str, str]:
+    """{project_id: phase the source used before relabeling it}."""
+    if not os.path.exists(path):
+        return {}
+    return {r["project_id"]: (r.get("old_value") or "").strip().lower()
+            for r in load_csv(path)
+            if r.get("event_type") == "source_reclassified" and r.get("project_id")}
+
+
+def apply_ruling_1(projects: list[dict], reclassified: dict[str, str],
+                   manual_dates: dict[str, dict]) -> tuple[list[str], list[str]]:
+    """Restore a relabeled project's terminal phase when a sourced decision
+    record states an approval. Returns (restored ids, ids left pending)."""
+    restored, pending = [], []
+    for pr in projects:
+        old = reclassified.get(pr["project_id"])
+        if old not in TERMINAL_ADVANCED or pr["phase"] not in PENDING_PHASES:
+            continue
+        md = manual_dates.get(pr["project_id"]) or {}
+        text = f"{md.get('decision_date_source', '')} {md.get('note', '')}"
+        if md and APPROVAL_TEXT.search(text) and not NOT_APPROVAL_TEXT.search(text):
+            pr["phase"] = old
+            pr["lifecycle_outcome"] = refine_outcome(
+                PHASE_TO_LIFECYCLE[old], pr["raw"].get("outcome_detail", ""))
+            restored.append(pr["project_id"])
+        else:
+            pending.append(pr["project_id"])
+    return restored, pending
+
+
 def load_manual_dates(path: str) -> tuple[dict[str, dict], list[str]]:
     """Return ({project_id: row}, problems). Dates must be full ISO days."""
     out: dict[str, dict] = {}
@@ -913,6 +956,12 @@ def main() -> int:
                                                    events, projects)
     for msg in link_problems + date_problems + unresolved:
         print(f"MANUAL OVERRIDE WARNING: {msg}")
+    restored, still_pending = apply_ruling_1(
+        projects, load_source_reclassified(HISTORY_EVENTS), manual_dates)
+    if restored or still_pending:
+        print(f"ruling 1: {len(restored)} source-relabeled project(s) keep 'approved' on "
+              f"a sourced decision record ({', '.join(restored) or 'none'}); "
+              f"{len(still_pending)} stay pending without one")
 
     write_links(links, OUT_LINKS)
     date_recovery = build_lifecycles(projects, links, OUT_LIFECYCLES, manual_dates)
