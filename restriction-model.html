@@ -263,21 +263,29 @@ const SPEC_HISTORY_URLS = [RAW + '/data/county_model_spec_history.csv', './data/
 // without them the evolution card shows only the published-variable timeline.
 const WEIGHT_HISTORY_URLS = [RAW + '/data/feature_search_weight_history.csv', './data/feature_search_weight_history.csv'];
 const RANKING_URLS = [RAW + '/data/feature_search_ranking.csv', './data/feature_search_ranking.csv'];
-// Plotly's county GeoJSON: feature.id is the 5-digit county FIPS. Two
-// independent origins for the same file, because one source here is a single
-// point of failure with an outsized blast radius -- a 3.2 MB cross-origin
-// request that this whole map is drawn on, and the request most likely to fail
-// where the page is embedded in an iframe. jsdelivr is tried first (a CDN built
-// for this, and not subject to raw.githubusercontent's rate limiting), with the
-// raw origin as the fallback. Both send CORS headers.
-const COUNTY_GEO_URLS = [
-  'https://cdn.jsdelivr.net/gh/plotly/datasets@master/geojson-counties-fips.json',
-  'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json'
+// County geometry: data/geo/counties_2024.topojson, committed to this repo by
+// the boundaries job in acquire-geo-sources.yml (Census cartographic boundary
+// file, simplified with mapshaper; data/geo/README.md has the provenance).
+// Each geometry's id is the 5-digit county FIPS. It replaced plotly's
+// pre-2015 county GeoJSON, a 3.2 MB third-party fetch that had no polygon for
+// 13 of the 3,144 scored counties (the nine Connecticut planning regions,
+// Chugach and Copper River AK, plus Kusilvak AK and Oglala Lakota SD painted
+// only through the rename crosswalk below). Same raw-first chain as every
+// other data file here, so the Notion and Simple.ink embeds keep working.
+const COUNTY_GEO_URLS = [RAW + '/data/geo/counties_2024.topojson', './data/geo/counties_2024.topojson'];
+// topojson-client decodes the TopoJSON into the same FeatureCollection shape
+// the plotly file had. Pinned per configs/integrations.json; two CDNs so one
+// outage does not take the map down.
+const TOPOJSON_CLIENT_URLS = [
+  'https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js',
+  'https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js'
 ];
 // ── Boundary vintage reconciliation ───────────────────────────────────────────
-// The county geojson above is a pre-2015 vintage, so 13 scored counties cannot
-// be drawn with it and 12 drawable polygons no longer exist as counties. The
-// two cases are not equivalent and are not treated the same way here.
+// The current geometry has a polygon for every scored FIPS, so the two tables
+// below no longer match anything in it. They are kept, inert, for two
+// reasons: a scores file that ever carries an older code still resolves, and
+// the undrawable card below the map stays a live guard (it is computed from
+// the loaded geometry, not hard-coded, and hides itself when empty).
 //
 // Pure renames keep the identical boundary, so the current score paints the old
 // polygon safely:
@@ -286,8 +294,8 @@ const BOUNDARY_RENAMES = {
   '46113': '46102'    // Shannon -> Oglala Lakota County, SD (2015, same boundary)
 };
 // Boundary changes are a different matter. Painting a score onto a polygon that
-// covers different ground would misstate where the model applies, so these are
-// left unpainted and listed below the map instead:
+// covers different ground would misstate where the model applies, so an old
+// polygon carrying one of these codes is left unpainted:
 //   09001-09015  Connecticut replaced counties with nine planning regions in
 //                2022. The regions are not unions of the old counties.
 //   02261        Valdez-Cordova split into Chugach and Copper River in 2019.
@@ -316,9 +324,9 @@ function undrawableScores(scores) {
   });
   return Object.keys(scores).filter(f => !drawn.has(f)).sort();
 }
-// county_policy_scores.csv carries FIPS only, and this page deliberately makes
-// no extra fetch just to label eleven rows, so the current geography names for
-// the undrawable set are listed here.
+// county_policy_scores.csv carries FIPS only. These were the scored FIPS the
+// old geometry could not draw; the names stay so the undrawable card can label
+// them should a geometry regression ever bring one back.
 const CURRENT_GEOGRAPHY_NAMES = {
   '09110': 'Capitol Planning Region, CT',
   '09120': 'Greater Bridgeport Planning Region, CT',
@@ -788,13 +796,7 @@ async function buildScoreMap() {
   const [scoresText, intervalsText, geo] = await Promise.all([
     fetchFirst(SCORE_URLS, false),
     fetchFirst(INTERVAL_URLS, false),
-    (async () => {
-      for (const u of COUNTY_GEO_URLS) {
-        try { const r = await fetch(u); if (r.ok) return await r.json(); }
-        catch (e) { /* try the next origin */ }
-      }
-      return null;
-    })()
+    fetchCountyGeo()
   ]);
   const scores = scoresText ? parseScoresCsv(scoresText) : null;
   const intervals = intervalsText ? parseIntervalsCsv(intervalsText) : null;
@@ -829,8 +831,15 @@ async function buildScoreMap() {
   map.attributionControl.setPrefix(false);
   map.attributionControl.addAttribution('Scores: county_policy_model.py (calibrated, out-of-fold)');
 
-  GEO_IDS = new Set((geo.features || []).map(f => String(f.id).padStart(5, '0')));
+  GEO_IDS = new Set((geo.features || []).filter(f => f.geometry)
+    .map(f => String(f.id).padStart(5, '0')));
   renderUndrawable(scores);
+  // Test-facing render summary (tests/ui): how many scored counties have a
+  // polygon to paint. SC-001 is painted == scored == 3,144.
+  const mapEl = document.getElementById('scoreMap');
+  mapEl.dataset.scoredCounties = String(Object.keys(scores).length);
+  mapEl.dataset.paintedCounties =
+    String(Object.keys(scores).length - undrawableScores(scores).length);
 
   VizPalette.injectCss();
   VizPalette.renderLegend(document.getElementById('scoreLegend'), SCALE, {
@@ -941,12 +950,36 @@ function renderUndrawable(scores) {
   host.style.display = 'block';
   host.innerHTML =
     '<h3>Scored, not drawable on this map</h3>' +
-    '<p>Scored by the model, but with no matching polygon in the boundary file, ' +
-    'which predates them: Connecticut replaced its counties with nine planning ' +
-    'regions in 2022, and Alaska split Valdez-Cordova in 2019.</p>' +
+    '<p>Scored by the model, but with no matching polygon in the county ' +
+    'boundary file this map draws on.</p>' +
     `<table class="undrawable-table"><thead><tr><th>County-equivalent</th>` +
     `<th>FIPS</th><th style="text-align:right">Enacted-restriction score</th>` +
     `</tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+// Loads the first script in the chain that arrives; resolves true once
+// window.topojson exists.
+function loadTopojsonClient() {
+  return TOPOJSON_CLIENT_URLS.reduce((p, u) => p.then(ok => ok || new Promise(res => {
+    const s = document.createElement('script');
+    s.src = u;
+    s.onload = () => res(!!window.topojson);
+    s.onerror = () => res(false);
+    document.head.appendChild(s);
+  })), Promise.resolve(!!window.topojson));
+}
+
+// County geometry as a GeoJSON FeatureCollection, or null (the caller shows
+// the banner). Decoding failures are treated exactly like a failed fetch.
+async function fetchCountyGeo() {
+  const [ok, text] = await Promise.all([loadTopojsonClient(), fetchFirst(COUNTY_GEO_URLS, false)]);
+  if (!ok || !text) return null;
+  try {
+    const topo = JSON.parse(text);
+    return topojson.feature(topo, topo.objects.counties);
+  } catch (e) {
+    return null;
+  }
 }
 
 function banner(msg) {
