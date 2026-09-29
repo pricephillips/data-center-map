@@ -83,13 +83,21 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/features/*.csv data/features/features_manifest.json 2>/dev/null || true
+          # data/features/*.md carries political_parity.md. county_votes.json
+          # changes only when the MEDSL parity gate passes (spec 005, approved
+          # 2026-09-29); the legacy copy is written once, on that first switch.
+          # One path per add: a single missing path fails the whole command,
+          # and the legacy file and parity report do not exist on every run.
+          for f in data/features/*.csv data/features/*.md data/features/features_manifest.json \
+                   data/county_votes.json data/county_votes_legacy.json; do
+            if [ -e "$f" ]; then git add "$f"; fi
+          done
           if git diff --cached --quiet; then
             echo "No changes to commit"
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          git commit -m "County plugin features (EIA via PUDL CC-BY-4.0, USGS, USDM, USDA NASS) [reference data] [skip ci]"
+          git commit -m "County plugin features (EIA via PUDL CC-BY-4.0, USGS, USDM, USDA NASS, MEDSL) [reference data] [skip ci]"
           # Rebase, resolve generated-file conflicts, push. See the script header.
           bash scripts/git_push_retry.sh || exit 1
           echo "changed=true" >> "$GITHUB_OUTPUT"
