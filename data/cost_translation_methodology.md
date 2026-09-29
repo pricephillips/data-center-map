@@ -44,7 +44,7 @@ actuals whenever available.
 
 ## Binding limitations
 
-- Delay inputs currently come from 24 projects with verified decision
+- Delay inputs currently come from 25 projects with verified decision
   dates, all with month-precision announced dates (up to ~30 days error
   each). No opposition-attributable delay exists yet — that requires the
   matched-control comparison at adequate n. Applying this layer to raw
