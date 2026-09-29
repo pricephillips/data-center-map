@@ -179,6 +179,11 @@ def aggregate(rows):
     return out
 
 
+def is_xlsx(data):
+    """An xlsx is a zip archive; anything else is an error page."""
+    return data[:4] == b"PK\x03\x04"
+
+
 def download(workdir):
     today = date.today()
     y, mth = today.year, today.month
@@ -188,13 +193,21 @@ def download(workdir):
         dest = os.path.join(workdir, name)
         try:
             req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-            with urllib.request.urlopen(req, timeout=180) as r, open(dest, "wb") as fh:
-                fh.write(r.read())
-            return dest, name
+            with urllib.request.urlopen(req, timeout=180) as r:
+                data = r.read()
+            # EIA answers a month it has not published yet with an HTML page
+            # and HTTP 200, not a 404. The first live run (2026-09-29) saved
+            # that page as the workbook and crashed in openpyxl instead of
+            # falling back a month, so only a real xlsx ends the search.
+            if is_xlsx(data):
+                with open(dest, "wb") as fh:
+                    fh.write(data)
+                return dest, name
         except Exception:
-            mth -= 1
-            if mth == 0:
-                y, mth = y - 1, 12
+            pass
+        mth -= 1
+        if mth == 0:
+            y, mth = y - 1, 12
     raise SystemExit("fetch_planned_generation: no EIA-860M workbook found in the last 8 months")
 
 
@@ -256,6 +269,34 @@ def selftest():
         check("missing required columns abort", False)
     except SystemExit:
         check("missing required columns abort", True)
+
+    # An unpublished month is an HTML page with HTTP 200: skip it, take the
+    # month before. Offline: urlopen is stubbed.
+    class _Resp:
+        def __init__(self, body):
+            self.body = body
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def read(self):
+            return self.body
+
+    this_month = MONTHS[date.today().month - 1]
+    real = urllib.request.urlopen
+    urllib.request.urlopen = lambda req, timeout=0: _Resp(
+        b"<!DOCTYPE html><html>page not found</html>" if this_month in req.full_url
+        else b"PK\x03\x04workbook")
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            _, got = download(d)
+    finally:
+        urllib.request.urlopen = real
+    check("an HTML page for an unpublished month is skipped", this_month not in got)
+    check("and the previous month's workbook is taken", got.endswith(".xlsx"))
     n = sum(checks)
     print(f"\n{n}/{len(checks)} checks passed")
     return 0 if n == len(checks) else 1
