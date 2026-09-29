@@ -62,6 +62,7 @@ OUT_JSON = os.path.join(HERE, "data", "layer_audit_summary.json")
 MODULE_GLOBS = ("*.py", "qc/*.py", "scripts/*.py")
 WRITE_CALLS = {"to_csv", "to_json", "write_text", "write_bytes"}
 PATH_HELPERS = {"P"}                       # repo-wide join-from-root idiom
+LAMBDA_KEY = "\0lambda:"                   # env key for a prefixed path lambda
 
 
 # --------------------------------------------------------------------------
@@ -98,6 +99,12 @@ def _resolve(node: ast.AST, env: dict) -> str | None:
         return "".join(parts)
     if isinstance(node, ast.Call):
         name = getattr(node.func, "attr", getattr(node.func, "id", ""))
+        prefix = env.get(LAMBDA_KEY + name) if isinstance(node.func, ast.Name) else None
+        if prefix is not None:
+            parts = [_resolve(a, env) for a in node.args]
+            if parts and all(p is not None for p in parts):
+                return "/".join(p for p in [prefix, *parts] if p)
+            return None
         if name in ("dirname", "abspath", "realpath"):
             return ""                      # repository root
         if name == "join" or name in PATH_HELPERS:
@@ -119,16 +126,76 @@ def _resolve(node: ast.AST, env: dict) -> str | None:
     return None
 
 
+def _lambda_prefix(node: ast.AST, env: dict) -> str | None:
+    """`D = lambda *p: os.path.join(ROOT, "data", *p)` is a path helper with a
+    fixed prefix. proposal_enrichment.py writes all three of its outputs
+    through one, so without this they had no writer, no -merge line and no
+    one-writer protection."""
+    if not (isinstance(node, ast.Lambda) and node.args.vararg
+            and not node.args.args and isinstance(node.body, ast.Call)):
+        return None
+    call = node.body
+    if getattr(call.func, "attr", getattr(call.func, "id", "")) != "join":
+        return None
+    *head, last = call.args or [None]
+    if not (isinstance(last, ast.Starred) and isinstance(last.value, ast.Name)
+            and last.value.id == node.args.vararg.arg):
+        return None
+    parts = [_resolve(a, env) for a in head]
+    if any(p is None for p in parts):
+        return None
+    return "/".join(p for p in parts if p)
+
+
 def _const_env(tree: ast.AST) -> dict:
     env: dict = {}
     for _ in range(2):                     # one extra pass resolves chains
         for node in ast.walk(tree):
             if (isinstance(node, ast.Assign) and len(node.targets) == 1
                     and isinstance(node.targets[0], ast.Name)):
+                name = node.targets[0].id
+                prefix = _lambda_prefix(node.value, env)
+                if prefix is not None:
+                    env[LAMBDA_KEY + name] = prefix
+                    continue
                 value = _resolve(node.value, env)
                 if value is not None:
-                    env[node.targets[0].id] = value
+                    env[name] = value
     return env
+
+
+def _default_param_writes(tree: ast.AST, env: dict) -> set[str]:
+    """`def write(rows, path=OUT_CSV): open(path, "w")`, called as write(rows).
+
+    The helper scan follows a path passed at the call site, but here the
+    caller passes nothing and the default IS the output. The news and
+    air-permit fetchers write both their candidate queue and their log this
+    way, and neither file had a writer until this."""
+    out: set[str] = set()
+    for fn in ast.walk(tree):
+        if not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
+        params = fn.args.args
+        defaults = dict(zip([a.arg for a in params[len(params) - len(fn.args.defaults):]],
+                            fn.args.defaults))
+        for sub in ast.walk(fn):
+            if not (isinstance(sub, ast.Call) and sub.args
+                    and getattr(sub.func, "attr", getattr(sub.func, "id", "")) == "open"):
+                continue
+            mode = None
+            if len(sub.args) >= 2 and isinstance(sub.args[1], ast.Constant):
+                mode = sub.args[1].value
+            for kw in sub.keywords:
+                if kw.arg == "mode" and isinstance(kw.value, ast.Constant):
+                    mode = kw.value.value
+            if not isinstance(mode, str) or ("w" not in mode and "a" not in mode):
+                continue
+            target = sub.args[0]
+            if isinstance(target, ast.Name) and target.id in defaults:
+                resolved = _resolve(defaults[target.id], env)
+                if resolved:
+                    out.add(resolved)
+    return out
 
 
 def _writer_helpers(tree: ast.AST) -> dict:
@@ -186,7 +253,7 @@ def writes(source: str, repo_helpers: dict | None = None) -> set[str]:
     env = _const_env(tree)
     helpers = _writer_helpers(tree)
     foreign = _imported_helpers(tree, repo_helpers or {})
-    out: set[str] = set()
+    out: set[str] = set(_default_param_writes(tree, env))
     for node in ast.walk(tree):
         if not isinstance(node, ast.Call):
             continue
@@ -479,6 +546,27 @@ def go():
           "data/leads.csv" in imported)
     check("a non-helper call on an imported module is not a write",
           "data/in.csv" not in imported)
+    lam = writes('import os\nROOT = os.path.dirname(os.path.abspath(__file__))\n'
+                 'D = lambda *p: os.path.join(ROOT, "data", *p)\n'
+                 'OUT = D("enriched.csv")\n'
+                 'open(OUT, "w").write("x")\n'
+                 'open(D("read.csv")).read()\n')
+    check("a prefixed path lambda resolves", "data/enriched.csv" in lam)
+    check("and a read through it is not a write", "data/read.csv" not in lam)
+    dflt = writes('import os\nROOT = os.path.dirname(os.path.abspath(__file__))\n'
+                  'OUT = os.path.join(ROOT, "data", "queue.csv")\n'
+                  'LOG = os.path.join(ROOT, "data", "queue_log.csv")\n'
+                  'IN = os.path.join(ROOT, "data", "in.csv")\n'
+                  'def write(rows, path=OUT):\n'
+                  '    open(path, "w").write("x")\n'
+                  'def log(row, path=LOG):\n'
+                  '    open(path, "a").write("x")\n'
+                  'def load(path=IN):\n'
+                  '    return open(path).read()\n'
+                  'write([])\nlog({})\n')
+    check("a default output parameter is a write", "data/queue.csv" in dflt)
+    check("an append-mode default is a write", "data/queue_log.csv" in dflt)
+    check("a read-only default is not", "data/in.csv" not in dflt)
 
     check("an override idiom resolves to its default",
           "data/hist.csv" in writes('DEFAULT = "data/hist.csv"\n'
