@@ -22,9 +22,9 @@ Median values for the three groups a county page reads against.
 
 | metric | all counties | enacted a restriction | no restriction |
 | --- | --- | --- | --- |
-| Restriction resemblance score | 0.1103 | 0.1864 | 0.1020 |
+| Restriction resemblance score | 0.1104 | 0.1870 | 0.1021 |
 | Opposition events | 0 | 1 | 0 |
-| Opposition events per 100k residents | 0.000 | 2.183 | 0.000 |
+| Opposition events per 100k residents | 0.000 | 2.176 | 0.000 |
 | Data center records in the atlas | 0 | 0 | 0 |
 | Population | 25967 | 68964 | 22138 |
 | Population density (per sq mi) | 46.58 | 121.46 | 39.47 |
