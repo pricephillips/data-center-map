@@ -77,6 +77,8 @@ import sys
 from collections import Counter, defaultdict
 from datetime import date, datetime, timezone
 
+import project_key_map as KM
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 TRACKED_PATH = "data/proposals.csv"
 ADDED_CSV = os.path.join(HERE, "data", "proposals_added.csv")
@@ -146,8 +148,7 @@ def read_snapshot(sha, path=TRACKED_PATH, cwd=HERE):
     return list(csv.DictReader(io.StringIO(body)))
 
 
-def _norm_name(s):
-    return re.sub(r"[^a-z0-9]+", " ", str(s or "").lower()).strip()
+_norm_name = KM.norm_name
 
 
 def migration_names(added_csv=ADDED_CSV):
@@ -192,15 +193,7 @@ def degraded_fields(prev_rows, rows, fields):
 
 
 def _haversine_km(a, b):
-    try:
-        lat1, lon1, lat2, lon2 = (float(x) for x in (*a, *b))
-    except (TypeError, ValueError):
-        return None
-    r = 6371.0
-    p1, p2 = math.radians(lat1), math.radians(lat2)
-    dp, dl = p2 - p1, math.radians(lon2 - lon1)
-    h = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
-    return 2 * r * math.asin(math.sqrt(h))
+    return KM.km_between({"lat": a[0], "lon": a[1]}, {"lat": b[0], "lon": b[1]})
 
 
 def _same(field, a, b):
@@ -228,12 +221,18 @@ def _same(field, a, b):
 # 17th and Armory Innovation (MO) from the 22nd. Diffing by id reads each
 # renumbering as three hundred simultaneous renames, moves and phase changes.
 #
-# So rows are matched on what the project IS, strongest evidence first:
+# So rows are matched on what the project IS. The identity matcher is the key
+# map's (project_key_map.match: slug, exact coordinates, unique name and
+# state, or the same id with an agreeing name or position), so the history
+# and the key map cannot disagree about which project a row is. Its matches
+# are labeled by the evidence that carried them:
 #   name_state   same normalized name and state, unique on both sides
-#   id_name      same id, same state, and names sharing most tokens (an
-#                ordinary rename that kept its id)
+#   id_name      same id and state, name or position agreeing (an ordinary
+#                rename that kept its id)
+#   coords       the same coordinates (or slug) under a new id
+# Two proximity passes then catch what exact matching cannot:
 #   coords       same state, within MATCH_KM and sharing a name token, or
-#                within TIGHT_KM outright
+#                within TIGHT_KM outright (a nudged pin and an edited name)
 #   id_coords    same id, same state, within MOVE_KM (renamed, not moved)
 # Anything left over is a genuinely new project. Every match records its
 # basis, and every id change it implies is written to the crosswalk.
@@ -241,39 +240,24 @@ def _same(field, a, b):
 
 MATCH_KM = 1.5
 TIGHT_KM = 0.25
-_GENERIC = {"data", "center", "centre", "campus", "project", "the", "of", "and",
-            "technology", "tech", "park", "digital", "dc", "ai", "site", "llc", "inc"}
+_jacc = KM.jaccard
 
 
-def _tokens(s):
-    return frozenset(t for t in _norm_name(s).split() if t not in _GENERIC)
-
-
-def _jacc(a, b):
-    a, b = _tokens(a), _tokens(b)
-    if not a or not b:
-        return 0.0
-    return len(a & b) / len(a | b)
+def _key_map_basis(p, r, same_id):
+    if (_norm_name(p.get("name")) == _norm_name(r.get("name"))
+            and KM.norm_state(p.get("state")) == KM.norm_state(r.get("state"))):
+        return "name_state"
+    return "id_name" if same_id else "coords"
 
 
 def match_rows(prev, cur):
     """prev, cur: {source_id: row}. Returns {cur_id: (prev_id, basis)}."""
-    out, used = {}, set()
-    key = lambda r: (_norm_name(r.get("name")), str(r.get("state", "")).strip().lower())
-    pk, ck = Counter(key(r) for r in prev.values()), Counter(key(r) for r in cur.values())
-    by_key = {key(r): i for i, r in prev.items() if pk[key(r)] == 1}
-    for cid, r in cur.items():
-        k = key(r)
-        if k[0] and ck[k] == 1 and k in by_key and by_key[k] not in used:
-            out[cid] = (by_key[k], "name_state")
-            used.add(by_key[k])
-    for cid, r in cur.items():
-        if cid in out or cid not in prev or cid in used:
-            continue
-        p = prev[cid]
-        if p.get("state") == r.get("state") and _jacc(p.get("name"), r.get("name")) >= 0.5:
-            out[cid] = (cid, "id_name")
-            used.add(cid)
+    keys = [{"pk": i, "current_id": i, "name": p.get("name", ""), "state": p.get("state", ""),
+             "lat": p.get("lat"), "lon": p.get("lon"), "slug": p.get("slug", "")}
+            for i, p in prev.items()]
+    found, _held = KM.match(keys, [dict(r, id=cid) for cid, r in cur.items()])
+    out = {cid: (i, _key_map_basis(prev[i], cur[cid], i == cid)) for cid, i in found.items()}
+    used = set(found.values())
     for cid, r in cur.items():
         if cid in out:
             continue

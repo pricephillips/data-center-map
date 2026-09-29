@@ -267,8 +267,9 @@ def enrich(inputs, today=None):
                    if n.get("outcome") == "corroborates")
     ratio = capacity_ratio(props)
     # A source vocabulary change (2026-09-22: "approved" folded into "proposed")
-    # is surfaced beside the phase, never silently reversed: whether the source
-    # meant to withdraw those approvals is a question for a person.
+    # is surfaced beside the phase, never silently reversed. Ruling 1: the
+    # phase goes back to "approved" only where project_resolution.py found a
+    # sourced record of a final approval, and the lifecycle row carries it.
     reclass = {e["project_id"]: e["old_value"] for e in inputs.get("events", [])
                if e.get("event_type") == "source_reclassified"}
 
@@ -351,15 +352,18 @@ def enrich(inputs, today=None):
         except (ValueError, TypeError):
             days_upd = ""
         dev = (r.get("companies") or "").split(";")[0].strip()
+        phase = r.get("phase", "")
+        if reclass.get(pid) and (lc or {}).get("phase") == reclass[pid]:
+            phase = lc["phase"]
         out.append({
             "project_id": pid, "name": r.get("name", ""), "state": st, "county": county,
             "fips": fips, "lat": r.get("lat", ""), "lon": r.get("lon", ""),
             "location_confidence": r.get("locationConfidence", ""),
-            "phase": r.get("phase", ""),
+            "phase": phase,
             "source_reclassified_from": (reclass.get(pid, "")
                                          if h and reclass.get(pid) and "reclassified" in h.get("phase_path", "")
                                          else ""),
-            "stage_group": stage_group(r.get("phase")),
+            "stage_group": stage_group(phase),
             "type": r.get("type", ""), "developer": dev, "companies": r.get("companies", ""),
             "capacity_mw": r.get("capacity_mw", ""), "capacity_max_mw": r.get("capacity_max_mw", ""),
             "capacity_basis": basis, "capacity_mw_est": est,
@@ -519,6 +523,8 @@ def metrics(rows, ratio, history=None, events=None, queues=None, today=None):
             "decided": sum(1 for r in rows if r["outcome_group"] in ("blocked", "advanced")),
             "blocked_confirmed": sum(1 for r in rows if r["outcome_group"] == "blocked"),
             "reclassified_by_source": sum(1 for r in rows if r.get("source_reclassified_from")),
+            "reclassified_restored": sum(1 for r in rows if r.get("source_reclassified_from")
+                                         and r["phase"] == r["source_reclassified_from"]),
             "phase_blocked": sum(1 for r in rows if r["stage_group"] == "blocked"),
             "phase_advancing": sum(1 for r in rows if r["stage_group"] == "advancing"),
             "phase_pending": sum(1 for r in rows if r["stage_group"] == "pending"),
@@ -594,9 +600,13 @@ def write_report(m, path=OUT_MD):
          f"Another {t['mw_est_projects']} report acreage but no MW; at the observed MW-per-acre "
          f"range they would add {t['mw_est_unreported_low']:,} to {t['mw_est_unreported_high']:,} MW (estimate, not included above).",
          f"- {t['with_opposition']} projects carry recorded opposition.",
-         f"- {t['reclassified_by_source']} projects read \"proposed\" only because the source "
-         "folded its \"approved\" phase into \"proposed\" on 2026-09-22; they are listed in "
-         "`source_reclassified_from` and counted as pending until a person decides.", "",
+         f"- {t['reclassified_by_source']} projects were relabeled \"proposed\" when the source "
+         "folded its \"approved\" phase into \"proposed\" on 2026-09-22 (listed in "
+         f"`source_reclassified_from`). Under Ruling 1, {t.get('reclassified_restored', 0)} keep "
+         "\"approved\" on a sourced record of a final approval "
+         "(`data/project_decision_dates.csv`); the rest count as pending until such a record "
+         "is added. This is a data correction: decided counts reported before the relabel "
+         "included all of them.", "",
          "## Outcomes among decided projects (descriptive)", "",
          "| slice | blocked | decided | share |", "|---|---|---|---|"]
     for k, v in m["outcomes"].items():
@@ -747,6 +757,50 @@ def selftest():
     check("an unverified outcome is undecided", by["prj_5"]["outcome_group"] == "undecided")
     check("the funnel is ordered by stage", [f["phase"] for f in m["funnel"]][:2] == ["proposed", "construction"])
     check("coverage is reported per column", 0 < m["coverage"]["capacity_mw"] < 1)
+    # Ruling 1: keep "approved" only on in-repo evidence of a final approval.
+    import project_resolution as PR
+
+    def _pr(pid, phase):
+        return {"project_id": pid, "phase": phase, "raw": {},
+                "lifecycle_outcome": PR.PHASE_TO_LIFECYCLE[phase]}
+    prs = [_pr("prj_10", "proposed"), _pr("prj_11", "proposed"), _pr("prj_12", "proposed"),
+           _pr("prj_13", "construction"), _pr("prj_14", "proposed")]
+    dates = {"prj_10": {"decision_date_source": "County board 3-2 rezoning approval vote"},
+             "prj_12": {"decision_date_source": "Developer withdrawal before the vote"},
+             "prj_14": {"decision_date_source": "Approval voided by court for defective notice"}}
+    rc = {p: "approved" for p in ("prj_10", "prj_11", "prj_12", "prj_13", "prj_14")}
+    restored, pending = PR.apply_ruling_1(prs, rc, dates)
+    check("ruling 1: a relabeled project with a sourced approval keeps approved",
+          restored == ["prj_10"] and prs[0]["phase"] == "approved"
+          and prs[0]["lifecycle_outcome"] == "advanced_confirmed")
+    check("ruling 1: no decision record, a withdrawal or a voided approval stays pending",
+          pending == ["prj_11", "prj_12", "prj_14"]
+          and all(p["lifecycle_outcome"] == "pending" for p in (prs[1], prs[2], prs[4])))
+    check("ruling 1: a project the source has since advanced is left alone",
+          prs[3]["phase"] == "construction")
+    inp2 = dict(inp, events=[{"project_id": "prj_7", "event_type": "source_reclassified",
+                              "old_value": "approved"},
+                             {"project_id": "prj_8", "event_type": "source_reclassified",
+                              "old_value": "approved"}],
+                history=[{"project_id": f"prj_{i}", "name": f"Project {i}",
+                          "phase_path": "approved > proposed (reclassified from approved)"}
+                         for i in (7, 8)],
+                lifecycles=inp["lifecycles"] + [
+                    {"project_id": "prj_7", "project_name": "Project 7", "phase": "approved",
+                     "lifecycle_outcome": "advanced_confirmed"},
+                    {"project_id": "prj_8", "project_name": "Project 8", "phase": "proposed",
+                     "lifecycle_outcome": "pending"}])
+    rows2, ratio2 = enrich(inp2, today="2026-09-28")
+    by2 = {r["project_id"]: r for r in rows2}
+    t2 = metrics(rows2, ratio2, today="2026-09-28")["totals"]
+    check("ruling 1: enrichment shows the restored phase and counts it decided",
+          by2["prj_7"]["phase"] == "approved" and by2["prj_7"]["stage_group"] == "advancing"
+          and by2["prj_7"]["outcome_group"] == "advanced")
+    check("ruling 1: an unevidenced relabel stays proposed and undecided",
+          by2["prj_8"]["phase"] == "proposed" and by2["prj_8"]["outcome_group"] == "undecided")
+    check("ruling 1: the report counts relabeled and restored projects",
+          t2["reclassified_by_source"] == 2 and t2["reclassified_restored"] == 1
+          and t2["decided"] == m["totals"]["decided"] + 1)
     check("same_project tolerates a suffix", same_project("Project Sail", "Project Sail Phase 2"))
     check("same_project rejects a different project", not same_project("Project Delta", "Armory Innovation Data Center"))
     k = sum(checks)
