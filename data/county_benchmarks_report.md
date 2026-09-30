@@ -1,6 +1,6 @@
 # County benchmark reference
 
-Generated 2026-09-29.
+Generated 2026-09-30.
 
 Reference profiles for the county comparison layer. Every figure is a summary over the county frame in `data/county_aggregate.csv` joined to the published policy scores. Nothing here is an estimate; these are descriptions of groups that exist.
 
@@ -13,7 +13,7 @@ Reference profiles for the county comparison layer. Every figure is a summary ov
 | `non_restrictive` | 2,738 | Counties with no enacted restriction on record |
 | `dc_present` | 251 | Counties with a data center on record |
 | `dc_absent` | 2,971 | Counties with no data center on record |
-| `tracked_activity` | 808 | Counties with at least one tracked opposition event |
+| `tracked_activity` | 810 | Counties with at least one tracked opposition event |
 | `state:XX` | varies | 52 state groups, one per state in the frame |
 
 ## The comparison that matters
@@ -24,7 +24,7 @@ Median values for the three groups a county page reads against.
 | --- | --- | --- | --- |
 | Restriction resemblance score | 0.1104 | 0.1870 | 0.1021 |
 | Opposition events | 0 | 1 | 0 |
-| Opposition events per 100k residents | 0.000 | 2.176 | 0.000 |
+| Opposition events per 100k residents | 0.000 | 2.183 | 0.000 |
 | Data center records in the atlas | 0 | 0 | 0 |
 | Population | 25967 | 68964 | 22138 |
 | Population density (per sq mi) | 46.58 | 121.46 | 39.47 |

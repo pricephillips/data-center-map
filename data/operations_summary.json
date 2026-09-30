@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-29",
+  "generated": "2026-09-30",
   "coverage": {
     "national": {
       "census_in_scope": 302,
@@ -405,15 +405,28 @@
       ]
     },
     "harvested_signals": {
-      "decisions": 5598,
+      "decisions": 5740,
       "by_action": {
-        "blocked": 2296,
-        "promoted": 2184,
-        "duplicate_removed": 1118
+        "blocked": 2321,
+        "promoted": 2257,
+        "duplicate_removed": 1118,
+        "cluster_member": 44
       },
       "first_run": "2026-08-13",
       "last_run": "2026-09-29",
       "recent": [
+        {
+          "date": "2026-09-29",
+          "action": "cluster_member",
+          "what": "",
+          "reason": "syndicated copy of https://1057thehawk.com/ixp/397/p/vineland-data-center-fined/ (evt_6aaecc522e)"
+        },
+        {
+          "date": "2026-09-29",
+          "action": "promoted",
+          "what": "",
+          "reason": ""
+        },
         {
           "date": "2026-09-29",
           "action": "promoted",
@@ -424,43 +437,31 @@
           "date": "2026-09-29",
           "action": "blocked",
           "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
         },
         {
           "date": "2026-09-29",
           "action": "blocked",
           "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
+        },
+        {
+          "date": "2026-09-29",
+          "action": "promoted",
+          "what": "",
+          "reason": ""
         },
         {
           "date": "2026-09-29",
           "action": "blocked",
           "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+          "reason": "UNPLACEABLE: Project record has no county, city, or coordinates; it cannot be placed."
         },
         {
           "date": "2026-09-29",
-          "action": "blocked",
+          "action": "promoted",
           "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
-        },
-        {
-          "date": "2026-09-29",
-          "action": "blocked",
-          "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
-        },
-        {
-          "date": "2026-09-29",
-          "action": "blocked",
-          "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
-        },
-        {
-          "date": "2026-09-29",
-          "action": "blocked",
-          "what": "",
-          "reason": "DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged."
+          "reason": ""
         }
       ]
     }
@@ -551,11 +552,11 @@
       "priority_1": 23
     },
     "stale_pending": {
-      "scoped": 376,
-      "stale": 291,
-      "priority_1_label_moving": 25,
-      "counties_in_priority_1": 25,
-      "as_of": "2026-09-29"
+      "scoped": 377,
+      "stale": 296,
+      "priority_1_label_moving": 27,
+      "counties_in_priority_1": 26,
+      "as_of": "2026-09-30"
     },
     "decision_dates": {
       "open": 53
@@ -661,7 +662,7 @@
       "rows_us": null,
       "sha256_12": "7a8c78d3ed6c",
       "repo_last_changed": "2026-08-26",
-      "days_since_repo_change": 34
+      "days_since_repo_change": 35
     },
     {
       "source_id": "epoch_frontier",
@@ -694,7 +695,7 @@
       "rows_us": 27,
       "sha256_12": "62e41f7d669e",
       "repo_last_changed": "2026-08-26",
-      "days_since_repo_change": 34
+      "days_since_repo_change": 35
     },
     {
       "source_id": "hyperscaler_footprints",
@@ -822,7 +823,7 @@
     }
   ],
   "facility_registry": {
-    "generated": "2026-09-29",
+    "generated": "2026-09-30",
     "rows": 1635,
     "distinct_sites": 790,
     "by_source": {
@@ -846,14 +847,14 @@
     },
     "with_coordinates": 1635,
     "decisions_this_run": {
-      "blocked": 1113,
-      "held": 243,
+      "blocked": 1114,
+      "held": 244,
       "promoted": 79
     },
     "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
     "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
     "decisions_newly_recorded": 0,
-    "decisions_unchanged_since_last_run": 1231
+    "decisions_unchanged_since_last_run": 1233
   },
   "note": "Every figure here is read from an audit trail the pipeline writes on its own runs. A missing input becomes a null section rather than a zero: an operations page that invents a number is worse than one with a gap in it."
 }
