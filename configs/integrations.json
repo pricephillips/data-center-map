@@ -431,11 +431,32 @@
       "session": 4,
       "runs_in": "ci",
       "target": [
-        "local_meeting_feed.py"
+        "agenda_text.py"
       ],
-      "reason": "OCR layer for scanned agenda and minutes PDFs before the existing pdfplumber keyword pass. Chosen over Docling (model weight in CI).",
-      "risk_notes": "Needs apt tesseract-ocr and ghostscript in the job.",
+      "reason": "OCR layer for scanned agenda and minutes PDFs before the keyword pass over local_meeting_feed.py's agenda links. Chosen over Docling (model weight in CI). Spec 007 put the pass in agenda_text.py: no module read agenda PDFs before, so the pdfplumber pass this entry named did not exist.",
+      "risk_notes": "Needs apt tesseract-ocr and ghostscript in the job; agenda_text.py refuses to OCR without both and its selftest fails a workflow that runs it without installing them.",
       "source_url": "https://github.com/ocrmypdf/OCRmyPDF",
+      "products": [
+        "platform"
+      ]
+    },
+    {
+      "id": "pdfminer-six",
+      "name": "pdfminer.six",
+      "kind": "python",
+      "version": ">=20231228",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "007",
+      "session": 4,
+      "runs_in": "ci",
+      "target": [
+        "agenda_text.py"
+      ],
+      "reason": "Text-layer extraction that decides whether a PDF needs OCR, and the text for the keyword pass. Already a dependency of OCRmyPDF and the engine pdfplumber wraps, so it adds no install.",
+      "risk_notes": "",
+      "source_url": "https://github.com/pdfminer/pdfminer.six",
       "products": [
         "platform"
       ]

@@ -39,13 +39,18 @@ jobs:
       - name: Build offline worklist
         run: python bill_sync.py --extract
 
-      - name: Resolve against Open States
+      - name: Resolve against Open States, then Congress.gov
+        # The federal pass (spec 007) runs after the state pass and reads
+        # CONGRESS_API_KEY. Without that key it is skipped and recorded in
+        # data/bill_sync_federal.csv and the report; the step still passes.
         env:
           OPENSTATES_API_KEY: ${{ secrets.OPENSTATES_API_KEY }}
+          CONGRESS_API_KEY: ${{ secrets.CONGRESS_API_KEY }}
           LIMIT: ${{ github.event.inputs.limit }}
         run: |
           if [ -z "$OPENSTATES_API_KEY" ]; then
-            echo "OPENSTATES_API_KEY not set; offline worklist only."
+            echo "OPENSTATES_API_KEY not set; state lookup skipped, federal pass only."
+            python bill_sync.py --federal
             exit 0
           fi
           if [ -n "$LIMIT" ]; then
@@ -58,14 +63,16 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # --extract always writes bill_sync_worklist.csv; the other four
+          # --extract always writes bill_sync_worklist.csv and
+          # bill_sync_federal.csv; the other four
           # files only exist after a successful --resolve run (i.e. when
           # OPENSTATES_API_KEY is set). Only add files that actually exist,
           # or `git add` fails on a missing pathspec before we ever reach
           # the "nothing to commit" check.
           FILES="data/bill_sync_worklist.csv data/bill_sync_matches.csv \
                   data/bill_status_review.csv data/bill_sync_report.md \
-                  data/bill_sync_cache.json data/bill_sync_votes.csv"
+                  data/bill_sync_cache.json data/bill_sync_votes.csv \
+                  data/bill_sync_federal.csv"
           EXISTING=""
           for f in $FILES; do
             [ -f "$f" ] && EXISTING="$EXISTING $f"

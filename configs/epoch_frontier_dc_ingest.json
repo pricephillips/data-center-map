@@ -1,0 +1,36 @@
+{
+  "_comment": [
+    "Column map for data/permit_candidates_epoch_frontier_dc.csv (spec 007,",
+    "US4). No Epoch-specific code: every key below is a generic permit_ingest.py",
+    "option. state_from pulls the state out of the street address; strip_regex",
+    "drops Epoch's confidence tags from the owner; match_projects holds any",
+    "campus that matches a tracked project (data/project_key_map.csv) out of",
+    "the baseline, so a tracked project, possibly an opposed one, never enters",
+    "it a second time as an unopposed comparable.",
+    "state_from accepts a two-letter code or a full state name at the end of the address, before an optional ZIP, ', USA' or ', <Name> County'; a capture that names no US state (a street suffix like NW) is rejected, never guessed."
+  ],
+  "source": "Epoch AI Frontier Data Centers (CC-BY 4.0)",
+  "as_of": "2026-09-29",
+  "default_source_url": "https://epoch.ai/data/data-centers",
+  "columns": {
+    "name": "Name",
+    "announced_date": "first_dated_observation",
+    "capacity_mw": "Current power (MW)",
+    "operator": "Owner"
+  },
+  "state_from": {
+    "column": "Address",
+    "regex": "(?:^|[,\\s])\\s*([A-Z]{2}|[A-Z][a-z]+(?:\\s[A-Z][a-z]+)?)(?:,?\\s+\\d{5}(?:-\\d{4})?)?\\s*(?:,\\s*(?:USA|United States|[A-Za-z ]+County))?\\s*$"
+  },
+  "strip_regex": {
+    "operator": "\\s*#\\w+"
+  },
+  "match_projects": {
+    "key_map": "data/project_key_map.csv",
+    "strong": 0.6,
+    "soft": 0.34
+  },
+  "terminal_statuses": [],
+  "attribution": "Epoch AI, Frontier Data Centers, https://epoch.ai/data/data-centers, licensed CC-BY 4.0",
+  "sampling_note": "Epoch covers frontier-scale AI campuses only (about 90 worldwide). Rows are a sample of the very largest campuses, never of data centers in general; any comparison using them must say so. announced_date is Epoch's earliest dated observation of the site, a bound on the announcement."
+}

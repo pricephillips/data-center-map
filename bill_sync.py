@@ -17,7 +17,9 @@ Reads existing files, writes only NEW files:
   data/bill_status_review.csv   the disagreement worklist a human reviews
   data/bill_sync_report.md      run summary
   data/bill_sync_cache.json     raw API responses, so steady-state runs make
-                                near-zero API calls
+                                near-zero API calls (federal keys US:<congress>:...)
+  data/bill_sync_federal.csv    every federal record: Congress.gov match or
+                                the reason it has none (spec 007)
 
 Stage discipline is the same ladder qc/legislative_outcome.py enforces, keyed
 here off Open States' machine-coded action classifications instead of prose
@@ -34,6 +36,8 @@ Modes:
   python3 bill_sync.py --resolve           live: query the API, classify, and
                                            write matches + review worklist
   python3 bill_sync.py --resolve --limit 25   cap API lookups for a first pass
+  python3 bill_sync.py --federal           federal pass only (Congress.gov),
+                                           replaces only venue=federal review rows
   python3 bill_sync.py --selftest          fixture tests, no network, no deps
 
 Requires for --resolve: the OPENSTATES_API_KEY environment variable (free key
@@ -45,9 +49,16 @@ client throttles to 1.1s between calls and the cache means a bill is fetched
 once and refreshed only when --refresh-days has elapsed (default 7).
 
 Scope notes:
-  - State legislation only. Open States' local-ordinance coverage is nil and
-    its congressional coverage is not relied on; records with State == US are
-    written to the worklist with lookup_status federal_skip.
+  - Open States covers state legislation only here. Its local-ordinance
+    coverage is nil and its congressional coverage is not relied on; records
+    with State == US keep lookup_status federal_skip in the worklist and go
+    to the federal pass instead.
+  - Federal pass (spec 007): federal identifiers (H.R., S., H.Res., S.J.Res.
+    and the rest) are looked up on Congress.gov v3 with CONGRESS_API_KEY,
+    classified onto the same ladder, and written to
+    data/bill_sync_federal.csv (one row per federal record, matched or with
+    the reason it is not) and to bill_status_review.csv with venue=federal.
+    Without the key the pass is skipped, recorded, and the exit code is 0.
   - Identifier extraction requires a known bill prefix plus digits. NY and NJ
     single-letter formats (S731, A796) are recognized only for those two
     states, where that is the chamber convention, to avoid false positives
@@ -449,6 +460,338 @@ def lookup_bill(state: str, identifier: str, year: int | None,
 
 
 # ---------------------------------------------------------------------------
+# Federal pass: Congress.gov API v3 (spec 007, US3)
+#
+# Open States' congressional coverage is not relied on, so the records with
+# State == US were skipped outright. Congress.gov is the source of record for
+# federal bills. The same discipline applies: actions are mapped onto the
+# STAGES ladder above, terminal first, so a bill that passed one chamber is
+# Pending however far it has travelled. A bill whose Congress has ended with
+# no terminal action is flagged possible_sine_die for a person, never coded
+# dead, exactly as the state pass treats a stale bill.
+# ---------------------------------------------------------------------------
+
+CONGRESS_API = "https://api.congress.gov/v3"
+CONGRESS_THROTTLE_S = 0.8          # 5,000 requests/hour per key
+OUT_FEDERAL = os.path.join(DATA, "bill_sync_federal.csv")
+
+# Prefix letters are matched case-sensitively and "S" may not follow a letter
+# or a dot, so "U.S. 50" and "Subpart 5" are not Senate bills.
+_FED_RE = re.compile(
+    r"(?<![A-Za-z.])"
+    r"(H\.?\s?(?i:con)\.?\s?(?i:res)|S\.?\s?(?i:con)\.?\s?(?i:res)"
+    r"|H\.?\s?J\.?\s?(?i:res)|S\.?\s?J\.?\s?(?i:res)"
+    r"|H\.?\s?(?i:res)|S\.?\s?(?i:res)|H\.?\s?R|S)"
+    r"\.?\s?(\d{1,5})\b")
+FEDERAL_TYPES = {
+    # code: (label, congress.gov URL slug)
+    "hr": ("H.R.", "house-bill"),
+    "s": ("S.", "senate-bill"),
+    "hres": ("H.Res.", "house-resolution"),
+    "sres": ("S.Res.", "senate-resolution"),
+    "hjres": ("H.J.Res.", "house-joint-resolution"),
+    "sjres": ("S.J.Res.", "senate-joint-resolution"),
+    "hconres": ("H.Con.Res.", "house-concurrent-resolution"),
+    "sconres": ("S.Con.Res.", "senate-concurrent-resolution"),
+}
+_AGENCY_RE = re.compile(
+    r"\b(EPA|FERC|DOE|NERC|BLM|EIA|CEQ|NIST|CAISI|Army|Department|Commission|"
+    r"Agency|Bureau|Administration|rule|rulemaking|directive|letter|probe|"
+    r"inquiry|report)\b", re.IGNORECASE)
+
+
+def extract_federal_ids(text: str) -> list[tuple[str, str, int]]:
+    """[(label, congress.gov type code, number)], order-preserving, deduped."""
+    out, seen = [], set()
+    for prefix, num in _FED_RE.findall(text or ""):
+        code = re.sub(r"[.\s]", "", prefix).lower()
+        if code not in FEDERAL_TYPES:
+            continue
+        key = (code, int(num))
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append((f"{FEDERAL_TYPES[code][0]} {int(num)}", code, int(num)))
+    return out
+
+
+def congress_for_year(year: int) -> int:
+    return (year - 1789) // 2 + 1
+
+
+def _ordinal(n: int) -> str:
+    suffix = "th" if 10 <= n % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+    return f"{n}{suffix}"
+
+
+def congress_url(congress: int, code: str, number: int) -> str:
+    return (f"https://www.congress.gov/bill/{_ordinal(congress)}-congress/"
+            f"{FEDERAL_TYPES[code][1]}/{number}")
+
+
+_FED_AMENDMENT_RE = re.compile(r"\b(amdt|amendment|motion to (table|proceed|recommit))\b",
+                               re.IGNORECASE)
+
+
+def classify_federal_actions(actions: list[dict]) -> tuple[str, str, str]:
+    """Congress.gov actions -> (stage, stage_date, evidence) on the STAGES
+    ladder. Terminal actions outrank milestones; chamber passage is counted
+    per distinct chamber. Amendment and procedural-motion actions are ignored
+    for passage and failure, since "S.Amdt. 12 not agreed to" says nothing
+    about the bill's own fate."""
+    best_stage, best_date, best_ev = "", "", ""
+
+    def consider(stage, when, ev):
+        nonlocal best_stage, best_date, best_ev
+        if not best_stage or STAGE_PRIORITY[stage] < STAGE_PRIORITY[best_stage]:
+            best_stage, best_date, best_ev = stage, when, ev
+
+    passed, override = {}, set()
+    for a in actions or []:
+        typ = a.get("type") or ""
+        text = a.get("text") or ""
+        low = text.lower()
+        when = (a.get("actionDate") or "")[:10]
+        ev = f"{typ}: {text[:120]}"
+        procedural = bool(_FED_AMENDMENT_RE.search(text))
+        if typ == "BecameLaw" or re.search(r"became (public|private) law", low):
+            consider("Signed into law", when, ev)
+        if typ == "Veto" or re.search(r"\b(pocket )?vetoed by (the )?president", low):
+            consider("Vetoed", when, ev)
+        m = re.search(r"passed over veto.*in (house|senate)|(house|senate).*passed over veto", low)
+        if m:
+            override.add(m.group(1) or m.group(2))
+        if not procedural:
+            m = re.search(r"passed/agreed to in (house|senate)", low)
+            if m:
+                ch = m.group(1)
+                passed[ch] = max(passed.get(ch, ""), when)
+            if re.search(r"failed of passage|failed/not agreed to in (house|senate)", low):
+                consider("Failed floor vote", when, ev)
+        if re.search(r"ordered to be reported|reported by (the )?committee|reported \(amended\)|"
+                     r"reported to (the )?(house|senate)|reported with an amendment", low):
+            consider("Passed committee only", when, ev)
+        if typ == "IntroReferral" or low.startswith("introduced"):
+            consider("Introduced", when, ev)
+
+    if len(override) >= 2 and best_stage == "Vetoed":
+        best_stage, best_ev = "Signed into law", "veto overridden in both chambers"
+
+    if len(passed) >= 2:
+        if not best_stage or STAGE_PRIORITY["Passed both chambers"] < STAGE_PRIORITY[best_stage]:
+            best_stage, best_date = "Passed both chambers", max(passed.values())
+            best_ev = "passed/agreed to in House and Senate"
+    elif len(passed) == 1:
+        if not best_stage or STAGE_PRIORITY["Passed one chamber"] < STAGE_PRIORITY[best_stage]:
+            ch, d = next(iter(passed.items()))
+            best_stage, best_date = "Passed one chamber", d
+            best_ev = f"passed/agreed to in {ch.title()} only"
+
+    return best_stage or "Introduced", best_date, best_ev or "no classified actions"
+
+
+_last_congress_call = [0.0]
+
+
+def congress_get(path: str, api_key: str) -> dict:
+    """GET a Congress.gov v3 path. The key goes in a header, never the URL,
+    so it cannot leak into a log line or an error message."""
+    wait = CONGRESS_THROTTLE_S - (time.time() - _last_congress_call[0])
+    if wait > 0:
+        time.sleep(wait)
+    sep = "&" if "?" in path else "?"
+    req = urllib.request.Request(f"{CONGRESS_API}{path}{sep}format=json",
+                                 headers={"X-Api-Key": api_key,
+                                          "User-Agent": "hawthorn-bill-sync/1.0"})
+    _last_congress_call[0] = time.time()
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        return json.load(resp)
+
+
+def lookup_federal_bill(congress: int, code: str, number: int, cache: Cache,
+                        api_key: str, refresh_days: int,
+                        getter=congress_get) -> dict:
+    """Bill plus actions from Congress.gov, classified. Cached under
+    US:<congress>:<type>:<number> in the same cache file as the state pass."""
+    key = f"US:{congress}:{code}:{number}"
+    hit = cache.get(key, refresh_days)
+    if hit is not None:
+        return {"from_cache": True, **hit["payload"]}
+    base = f"/bill/{congress}/{code}/{number}"
+    try:
+        bill = (getter(base, api_key) or {}).get("bill") or {}
+        actions = (getter(f"{base}/actions?limit=250", api_key) or {}).get("actions") or []
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            payload = {"lookup_status": "not_found"}
+            cache.put(key, payload, terminal=False)
+            return payload
+        return {"lookup_status": f"http_{exc.code}"}
+    except (urllib.error.URLError, TimeoutError) as exc:
+        return {"lookup_status": f"network_error:{type(exc).__name__}"}
+    if not bill:
+        payload = {"lookup_status": "not_found"}
+        cache.put(key, payload, terminal=False)
+        return payload
+    stage, stage_date, ev = classify_federal_actions(actions)
+    payload = {
+        "lookup_status": "matched", "congress": congress, "bill_type": code,
+        "bill_number": number, "title": (bill.get("title") or "")[:600],
+        "latest_action_date": ((bill.get("latestAction") or {}).get("actionDate") or "")[:10],
+        "stage": stage, "stage_date": stage_date, "stage_evidence": ev,
+        "correct_outcome": STAGE_OUTCOME[stage],
+        "congress_url": congress_url(congress, code, number),
+        "n_actions": len(actions),
+    }
+    cache.put(key, payload, terminal=stage in TERMINAL_STAGES)
+    return payload
+
+
+TERMINAL_STAGES = ("Signed into law", "Vetoed", "Failed floor vote",
+                   "Died in committee", "Withdrawn")
+
+FEDERAL_COLS = ["opp_id", "identifier", "congress", "bill_type", "bill_number",
+                "lookup_status", "unmatched_reason", "title", "stage",
+                "stage_date", "stage_evidence", "correct_outcome",
+                "latest_action_date", "congress_url", "recorded_status",
+                "incident", "date"]
+
+
+def _no_id_reason(w: dict) -> str:
+    reason = "no federal bill identifier in record text"
+    if w.get("_agency"):
+        reason += "; agency or oversight action, not a bill"
+    return reason
+
+
+def resolve_federal(worklist: list[dict], api_key: str, cache: Cache | None,
+                    refresh_days: int, today: str | None = None,
+                    getter=congress_get) -> tuple[list[dict], list[dict], dict]:
+    """(federal rows, review rows, stats). Every federal record gets at least
+    one row: matched, or unmatched with a reason (SC-002). Without an API key
+    the pass is skipped and recorded, never failed."""
+    today = today or date.today().isoformat()
+    current = congress_for_year(int(today[:4]))
+    fed = [w for w in worklist if w["lookup_status"] == "federal_skip"]
+    rows, review = [], []
+    stats = {"records": len(fed), "matched": 0, "not_found": 0, "no_bill_id": 0,
+             "errors": 0, "skipped_no_key": 0, "api_calls": 0, "cache_hits": 0}
+    for w in fed:
+        base = {"opp_id": w["opp_id"], "recorded_status": w["recorded_status"],
+                "incident": w["incident"], "date": w["date"]}
+        ids = w.get("_federal_ids") or []
+        if not ids:
+            stats["no_bill_id"] += 1
+            rows.append({**base, "lookup_status": "no_bill_id",
+                         "unmatched_reason": _no_id_reason(w)})
+            continue
+        year = int(w["record_year"]) if str(w.get("record_year") or "").isdigit() else int(today[:4])
+        for label, code, number in ids:
+            congress = congress_for_year(year)
+            row = {**base, "identifier": label, "congress": congress,
+                   "bill_type": code, "bill_number": number}
+            if not api_key:
+                stats["skipped_no_key"] += 1
+                rows.append({**row, "lookup_status": "skipped_no_key",
+                             "unmatched_reason": "CONGRESS_API_KEY not set; federal pass skipped"})
+                continue
+            res = lookup_federal_bill(congress, code, number, cache, api_key,
+                                      refresh_days, getter)
+            if res.get("lookup_status") == "not_found":
+                # A record dated early in a Congress can cite the previous one.
+                res = lookup_federal_bill(congress - 1, code, number, cache,
+                                          api_key, refresh_days, getter)
+            stats["cache_hits" if res.get("from_cache") else "api_calls"] += 1
+            status = res.get("lookup_status", "error")
+            row.update({k: res.get(k, row.get(k, "")) for k in
+                        ("congress", "title", "stage", "stage_date", "stage_evidence",
+                         "correct_outcome", "latest_action_date", "congress_url")})
+            row["lookup_status"] = status.split(":")[0]
+            if status != "matched":
+                stats["not_found" if status == "not_found" else "errors"] += 1
+                row["unmatched_reason"] = (
+                    f"{label} not found in the {_ordinal(congress)} or "
+                    f"{_ordinal(congress - 1)} Congress" if status == "not_found"
+                    else f"lookup failed ({status}); retried next run")
+                rows.append(row)
+                continue
+            stats["matched"] += 1
+            rows.append(row)
+            recorded_norm = normalize_recorded(w["recorded_status"])
+            flag, sev = disagreement(recorded_norm, res["correct_outcome"], res["stage"])
+            ended = int(res.get("congress") or congress) < current
+            possible_sine_die = "yes" if ended and res["correct_outcome"] == "Pending" else ""
+            if possible_sine_die and not flag:
+                flag, sev = "possible_sine_die_unconfirmed", "LOW"
+            if flag:
+                review.append({
+                    "severity": sev, "flag": flag, "opp_id": w["opp_id"],
+                    "state": "US", "identifier": label,
+                    "recorded_status": w["recorded_status"],
+                    "recorded_normalized": recorded_norm, "stage": res["stage"],
+                    "correct_outcome": res["correct_outcome"],
+                    "stage_date": res.get("stage_date", ""),
+                    "stage_evidence": res.get("stage_evidence", ""),
+                    "possible_sine_die": possible_sine_die,
+                    "openstates_url": res.get("congress_url", ""),
+                    "incident": w["incident"], "date": w["date"],
+                    "note": "", "venue": "federal",
+                })
+    if cache is not None and api_key:
+        cache.save()
+    return rows, review, stats
+
+
+def merge_review(existing: list[dict], new: list[dict], venue: str) -> list[dict]:
+    """Replace one venue's rows in the review worklist and keep the other's.
+    Rows written before the venue column existed are state rows."""
+    kept = [dict(r, venue=(r.get("venue") or "state")) for r in existing
+            if (r.get("venue") or "state") != venue]
+    out = kept + [dict(r, venue=venue) for r in new]
+    sev_order = {"HIGH": 0, "MEDIUM": 1, "LOW": 2}
+    out.sort(key=lambda r: (sev_order.get(r.get("severity"), 3), r.get("venue", ""),
+                            r.get("state", ""), r.get("identifier", "")))
+    return out
+
+
+def federal_report_lines(rows: list[dict], stats: dict) -> list[str]:
+    from collections import Counter
+    L = ["## Federal bills (Congress.gov)", ""]
+    if stats.get("skipped_no_key"):
+        L.append("CONGRESS_API_KEY is not set, so the federal lookup was skipped "
+                 "this run. State sync is unaffected. Records without a bill "
+                 "identifier are still listed with their reason.")
+        L.append("")
+    L.append(f"- Federal legislative records: {stats['records']}")
+    L.append(f"- Matched: {stats['matched']}, not found: {stats['not_found']}, "
+             f"no bill identifier: {stats['no_bill_id']}, skipped (no key): "
+             f"{stats['skipped_no_key']}, errors: {stats['errors']}")
+    L.append(f"- API calls: {stats['api_calls']}, cache hits: {stats['cache_hits']}")
+    stages = Counter(r["stage"] for r in rows if r.get("stage"))
+    if stages:
+        L += ["", "| Stage reached | Bills |", "| :-- | :-- |"]
+        L += [f"| {s} | {n} |" for s, n in sorted(stages.items(), key=lambda x: -x[1])]
+    L += ["", "Every federal record is in data/bill_sync_federal.csv, matched or "
+          "with the reason it is not. Stages follow the same ladder as the state "
+          "pass: passage in one chamber is Pending.", ""]
+    return L
+
+
+def upsert_report_section(path: str, lines: list[str]) -> None:
+    head = "## Federal bills (Congress.gov)"
+    text = ""
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+    if head in text:
+        text = text[:text.index(head)].rstrip("\n") + "\n"
+    if not text:
+        text = "# Bill sync report\n"
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(text.rstrip("\n") + "\n\n" + "\n".join(lines).rstrip("\n") + "\n")
+
+
+# ---------------------------------------------------------------------------
 # Worklist build (offline)
 # ---------------------------------------------------------------------------
 
@@ -478,7 +821,12 @@ def build_worklist() -> list[dict]:
             status = "no_bill_id"
         else:
             status = "ready"
+        fed_blob = " ".join([_s(r, "Incident"), _s(r, "Project Name"),
+                             _s(r, "Summary")])
         out.append({
+            # Not written to the worklist CSV; read by resolve_federal().
+            "_federal_ids": extract_federal_ids(fed_blob) if state == "US" else [],
+            "_agency": bool(_AGENCY_RE.search(fed_blob)) if state == "US" else False,
             "opp_id": opp_event_id(r),
             "state": state,
             "bill_identifiers": "; ".join(idents),
@@ -495,7 +843,7 @@ def build_worklist() -> list[dict]:
 def write_csv(path: str, rows: list[dict], cols: list[str]):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=cols)
+        w = csv.DictWriter(fh, fieldnames=cols, lineterminator="\n")
         w.writeheader()
         for r in rows:
             w.writerow({c: r.get(c, "") for c in cols})
@@ -514,7 +862,8 @@ VOTE_COLS = ["opp_id", "state", "identifier", "chamber", "vote_date",
 REVIEW_COLS = ["severity", "flag", "opp_id", "state", "identifier",
                "recorded_status", "recorded_normalized", "stage",
                "correct_outcome", "stage_date", "stage_evidence",
-               "possible_sine_die", "openstates_url", "incident", "date", "note"]
+               "possible_sine_die", "openstates_url", "incident", "date", "note",
+               "venue"]   # appended by spec 007: state | federal
 
 
 # ---------------------------------------------------------------------------
@@ -604,7 +953,7 @@ def resolve(limit: int | None, refresh_days: int) -> tuple[list[dict], list[dict
                         "possible_sine_die": possible_sine_die,
                         "openstates_url": res.get("openstates_url", ""),
                         "incident": w["incident"], "date": w["date"],
-                        "note": "",
+                        "note": "", "venue": "state",
                     })
 
     sev_order = {"HIGH": 0, "MEDIUM": 1, "LOW": 2}
@@ -760,6 +1109,123 @@ def selftest() -> int:
     check(classify_votes([]) == [], "classify_votes handles no vote events")
     check(classify_votes(None) == [], "classify_votes handles missing votes key")
 
+    # --- federal pass (spec 007, US3) ---
+    check([i[0] for i in extract_federal_ids(
+        "United States (H.R. 8037); companion H.R.9442; S.4213; HR 7977")]
+          == ["H.R. 8037", "H.R. 9442", "S. 4213", "H.R. 7977"],
+          "federal ids in dotted, compact and spaced forms")
+    check(extract_federal_ids("H.J.Res. 12 and S.Con.Res. 3 and H.Res. 5")
+          == [("H.J.Res. 12", "hjres", 12), ("S.Con.Res. 3", "sconres", 3),
+              ("H.Res. 5", "hres", 5)], "resolution types map to Congress.gov codes")
+    check(extract_federal_ids("U.S. 50 corridor, NSPS Subpart 5, SB 123, section 403") == [],
+          "U.S., Subpart, state bill and section numbers are not federal bills")
+    check(congress_for_year(2026) == 119 and congress_for_year(2025) == 119
+          and congress_for_year(2024) == 118, "Congress number from year")
+    check(congress_url(119, "hr", 8037)
+          == "https://www.congress.gov/bill/119th-congress/house-bill/8037",
+          "congress.gov bill URL")
+
+    fx = os.path.join(ROOT, "tests", "fixtures", "coverage_expansion")
+
+    def load_fx(name):
+        with open(os.path.join(fx, name), encoding="utf-8") as fh:
+            return json.load(fh)
+
+    one = load_fx("congress_actions_one_chamber.json")["actions"]
+    signed = load_fx("congress_actions_signed.json")["actions"]
+    st, sd, _ = classify_federal_actions(one)
+    check(st == "Passed one chamber" and STAGE_OUTCOME[st] == "Pending" and sd == "2026-06-09",
+          "a bill that passed one chamber codes as Pending, not enacted")
+    st, _, _ = classify_federal_actions(signed)
+    check(st == "Signed into law", "Became Public Law is terminal and outranks passage")
+    st, _, _ = classify_federal_actions(
+        one + [{"type": "Veto", "text": "Vetoed by President.", "actionDate": "2026-07-01"}])
+    check(st == "Vetoed", "a veto outranks chamber passage")
+    st, _, _ = classify_federal_actions(
+        [{"type": "Floor", "text": "S.Amdt.12 Amendment SA 12 not agreed to in Senate by "
+          "Yea-Nay Vote. Failed/not agreed to in Senate.", "actionDate": "2026-05-01"},
+         {"type": "IntroReferral", "text": "Introduced in Senate", "actionDate": "2026-04-01"}])
+    check(st == "Introduced", "a failed amendment is not a failed bill")
+    st, _, _ = classify_federal_actions(
+        [{"type": "Committee", "text": "Ordered to be Reported in the Nature of a Substitute.",
+          "actionDate": "2026-05-01"}])
+    check(st == "Passed committee only" and STAGE_OUTCOME[st] == "Pending",
+          "committee report is a milestone (HF2690 rule)")
+
+    bill = load_fx("congress_bill.json")
+
+    def fake_getter(path, key):
+        if path.endswith("/actions?limit=250"):
+            return {"actions": one}
+        if path.startswith("/bill/119/hr/7977"):
+            return bill
+        raise urllib.error.HTTPError(path, 404, "not found", {}, None)
+
+    wl = [{"lookup_status": "federal_skip", "opp_id": "opp_a", "recorded_status": "passed",
+           "incident": "US House (H.R. 7977)", "date": "2026-03-18", "record_year": 2026,
+           "_federal_ids": extract_federal_ids("H.R. 7977"), "_agency": False},
+          {"lookup_status": "federal_skip", "opp_id": "opp_b", "recorded_status": "active",
+           "incident": "EPA", "date": "2026-04-16", "record_year": 2026,
+           "_federal_ids": [], "_agency": True},
+          {"lookup_status": "ready", "opp_id": "opp_state"}]
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        cache = Cache(os.path.join(td, "c.json"))
+        rows, rev, stt = resolve_federal(wl, "k", cache, 7, "2026-09-29", fake_getter)
+        by = {r["opp_id"]: r for r in rows}
+        check(stt["records"] == 2 and len(rows) == 2,
+              "one federal row per federal record, state records untouched")
+        check(by["opp_a"]["lookup_status"] == "matched"
+              and by["opp_a"]["correct_outcome"] == "Pending",
+              "mocked Congress.gov one-chamber bill resolves as Pending")
+        check(len(rev) == 1 and rev[0]["flag"] == "milestone_coded_as_enacted"
+              and rev[0]["venue"] == "federal",
+              "a record coded passed for a one-chamber bill is a HIGH federal review row")
+        check(by["opp_b"]["lookup_status"] == "no_bill_id"
+              and "agency or oversight action" in by["opp_b"]["unmatched_reason"],
+              "a record with no bill id is listed with its reason")
+        calls = []
+        resolve_federal(wl, "k", cache, 7, "2026-09-29",
+                        lambda p, k: calls.append(p) or fake_getter(p, k))
+        check(calls == [], "a second run is served from the bill-sync cache")
+
+        rows, rev, stt = resolve_federal(wl, "", None, 7, "2026-09-29", fake_getter)
+        check(stt["skipped_no_key"] == 1 and rev == []
+              and {r["lookup_status"] for r in rows} == {"skipped_no_key", "no_bill_id"},
+              "without CONGRESS_API_KEY the federal pass is skipped and recorded")
+
+        wl_old = [dict(wl[0], record_year=2024, _federal_ids=[("H.R. 7977", "hr", 7977)])]
+
+        def old_getter(path, key):
+            if path.startswith("/bill/118/hr/7977"):
+                return {"bill": {"title": "Old bill"}} if "actions" not in path else {"actions": one}
+            raise urllib.error.HTTPError(path, 404, "not found", {}, None)
+        rows, rev, _ = resolve_federal(wl_old, "k", Cache(os.path.join(td, "d.json")), 7,
+                                       "2026-09-29", old_getter)
+        check(rev and rev[0]["possible_sine_die"] == "yes",
+              "a Pending bill from an ended Congress is flagged possible sine die, not coded dead")
+
+    merged = merge_review([{"severity": "LOW", "state": "IA", "identifier": "HF 1"},
+                           {"severity": "HIGH", "state": "US", "identifier": "H.R. 1",
+                            "venue": "federal"}],
+                          [{"severity": "MEDIUM", "state": "US", "identifier": "S. 2"}],
+                          "federal")
+    check([(r["identifier"], r["venue"]) for r in merged]
+          == [("S. 2", "federal"), ("HF 1", "state")],
+          "merge_review replaces only the federal rows and labels legacy rows state")
+    check(REVIEW_COLS[-1] == "venue", "venue is appended to the review file, not inserted")
+
+    with tempfile.TemporaryDirectory() as td:
+        rp = os.path.join(td, "r.md")
+        with open(rp, "w", encoding="utf-8") as fh:
+            fh.write("# Bill sync report\n\nstate body\n")
+        upsert_report_section(rp, ["## Federal bills (Congress.gov)", "", "v1"])
+        upsert_report_section(rp, ["## Federal bills (Congress.gov)", "", "v2"])
+        with open(rp, encoding="utf-8") as fh:
+            body = fh.read()
+        check("state body" in body and "v2" in body and "v1" not in body,
+              "the federal report section is replaced, the state report kept")
+
     print("selftest:", "OK" if ok else "FAILED")
     return 0 if ok else 1
 
@@ -783,6 +1249,41 @@ def leak_audit(paths):
             print(f"leak audit {name}: clean")
 
 
+def read_review(path: str = OUT_REVIEW) -> list[dict]:
+    if not os.path.exists(path):
+        return []
+    with open(path, newline="", encoding="utf-8") as fh:
+        return list(csv.DictReader(fh))
+
+
+def run_federal(refresh_days: int) -> int:
+    """The federal pass on its own: data/bill_sync_federal.csv, the federal
+    rows of the review worklist (state rows kept), and the report's federal
+    section. Exit 0 whether or not CONGRESS_API_KEY is set."""
+    api_key = os.environ.get("CONGRESS_API_KEY", "").strip()
+    if not api_key:
+        print("CONGRESS_API_KEY is not set; federal lookup skipped and recorded. "
+              "State sync is unaffected.")
+    worklist = build_worklist()
+    cache = Cache(CACHE_PATH) if api_key else None
+    rows, review, stats = resolve_federal(worklist, api_key, cache, refresh_days)
+    write_csv(OUT_FEDERAL, rows, FEDERAL_COLS)
+    existing = read_review()
+    had_federal = any((r.get("venue") or "state") == "federal" for r in existing)
+    if review or (had_federal and not stats["errors"] and api_key):
+        write_csv(OUT_REVIEW, merge_review(existing, review, "federal"), REVIEW_COLS)
+    elif existing and not had_federal and "venue" not in existing[0]:
+        # First run after spec 007: label the state rows without touching them.
+        write_csv(OUT_REVIEW, merge_review(existing, [], "federal"), REVIEW_COLS)
+    upsert_report_section(OUT_REPORT, federal_report_lines(rows, stats))
+    print(f"federal: {stats['records']} records, {stats['matched']} matched, "
+          f"{stats['not_found']} not found, {stats['no_bill_id']} without a bill id, "
+          f"{stats['skipped_no_key']} skipped (no key), {stats['errors']} errors; "
+          f"{len(review)} review rows -> {os.path.relpath(OUT_FEDERAL, ROOT)}")
+    leak_audit([OUT_FEDERAL])
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--extract", action="store_true",
@@ -793,11 +1294,16 @@ def main() -> int:
                     help="cap the number of records resolved this run")
     ap.add_argument("--refresh-days", type=int, default=DEFAULT_REFRESH_DAYS,
                     help="re-fetch non-terminal bills older than this many days")
+    ap.add_argument("--federal", action="store_true",
+                    help="federal pass only (Congress.gov; CONGRESS_API_KEY)")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
 
     if args.selftest:
         return selftest()
+
+    if args.federal:
+        return run_federal(args.refresh_days)
 
     if args.extract:
         worklist = build_worklist()
@@ -808,7 +1314,17 @@ def main() -> int:
               f"{os.path.relpath(OUT_WORKLIST, ROOT)}")
         for k, n in sorted(c.items()):
             print(f"  {k}: {n}")
-        leak_audit([OUT_WORKLIST])
+        fed = [w for w in worklist if w["lookup_status"] == "federal_skip"]
+        write_csv(OUT_FEDERAL, [
+            {"opp_id": w["opp_id"], "identifier": "; ".join(i[0] for i in w["_federal_ids"]),
+             "lookup_status": "pending_lookup" if w["_federal_ids"] else "no_bill_id",
+             "unmatched_reason": "" if w["_federal_ids"] else _no_id_reason(w),
+             "recorded_status": w["recorded_status"], "incident": w["incident"],
+             "date": w["date"]} for w in fed], FEDERAL_COLS)
+        print(f"federal: {len(fed)} records, "
+              f"{sum(1 for w in fed if w['_federal_ids'])} with a bill identifier -> "
+              f"{os.path.relpath(OUT_FEDERAL, ROOT)}")
+        leak_audit([OUT_WORKLIST, OUT_FEDERAL])
         return 0
 
     if args.resolve:
@@ -829,7 +1345,7 @@ def main() -> int:
                 write_csv(OUT_VOTES, votes, VOTE_COLS)
                 write_report(matches, review, stats, partial_note)
                 leak_audit([OUT_MATCHES, OUT_REPORT])
-                return 0
+                return run_federal(args.refresh_days)
         write_csv(OUT_MATCHES, matches, MATCH_COLS)
         write_csv(OUT_REVIEW, review, REVIEW_COLS)
         write_csv(OUT_VOTES, votes, VOTE_COLS)
@@ -843,7 +1359,9 @@ def main() -> int:
         print(f"review worklist: {len(review)} rows -> "
               f"{os.path.relpath(OUT_REVIEW, ROOT)}")
         leak_audit([OUT_MATCHES, OUT_REVIEW, OUT_VOTES, OUT_REPORT])
-        return 0
+        # Federal pass after the state pass: it merges its own rows into the
+        # review worklist the state pass just wrote (spec 007, US3).
+        return run_federal(args.refresh_days)
 
     ap.print_help()
     return 0

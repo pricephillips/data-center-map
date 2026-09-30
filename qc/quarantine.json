@@ -1169,6 +1169,87 @@
   },
   {
     "record": {
+      "Incident": "New Jersey data center violations renew moratorium calls",
+      "City": "",
+      "Date": "2026-09-23",
+      "Entity": "",
+      "Location": "",
+      "Opposition Type": "moratorium",
+      "Severity": "",
+      "Source URL": "https://nj1015.com/new-jersey-data-center-fine/",
+      "State": "IL",
+      "County": "Jersey",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "pending",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "New Jersey data center violations renew moratorium calls",
+      "Sources": "https://nj1015.com/new-jersey-data-center-fine/",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "signal_harvest_auto",
+      "lat": "",
+      "lon": "",
+      "verification_status": "sourced"
+    },
+    "enrichment": {
+      "qc_mechanism": "moratorium",
+      "qc_mechanisms": [
+        "moratorium"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 4,
+      "qc_strength_label": "halt",
+      "qc_is_block": true,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "county",
+      "qc_jurisdiction_key": "illinois::jersey::county"
+    },
+    "brain": "moratorium",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "DUPLICATE",
+        "field": "Name/Date",
+        "message": "Possible duplicate of: (same name/date). Held out of the feed until merged."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
+      {
+        "severity": "MEDIUM",
+        "code": "COORD_MISSING",
+        "field": "Coordinates",
+        "message": "Local event has a locality but no coordinates; it cannot be pinned precisely."
+      },
+      {
+        "severity": "HIGH",
+        "code": "DUPLICATE",
+        "field": "Name/Date",
+        "message": "Possible duplicate of: (same name/date). Held out of the feed until merged."
+      }
+    ]
+  },
+  {
+    "record": {
       "Incident": "Dubuque City Council passes temporary moratorium on hyperscale data centers",
       "City": "",
       "Date": "2026-09-22",
@@ -1228,6 +1309,87 @@
       }
     ],
     "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "COORD_MISSING",
+        "field": "Coordinates",
+        "message": "Local event has a locality but no coordinates; it cannot be pinned precisely."
+      },
+      {
+        "severity": "HIGH",
+        "code": "DUPLICATE",
+        "field": "Name/Date",
+        "message": "Possible duplicate of: (same name/date). Held out of the feed until merged."
+      }
+    ]
+  },
+  {
+    "record": {
+      "Incident": "New Jersey data center violations renew moratorium calls",
+      "City": "",
+      "Date": "2026-09-23",
+      "Entity": "",
+      "Location": "",
+      "Opposition Type": "moratorium",
+      "Severity": "",
+      "Source URL": "https://1057thehawk.com/ixp/385/p/new-jersey-data-center-fine/",
+      "State": "IL",
+      "County": "Jersey",
+      "Scope": "",
+      "Issue Category": "",
+      "Objective": "",
+      "Authority Level": "",
+      "Status": "pending",
+      "Community Outcome": "",
+      "Hyperscaler": "",
+      "Company": "",
+      "Project Name": "",
+      "Investment Million USD": "",
+      "Megawatts": "",
+      "Acreage": "",
+      "Sponsors": "",
+      "Opposition Groups": "",
+      "Summary": "New Jersey data center violations renew moratorium calls",
+      "Sources": "https://1057thehawk.com/ixp/385/p/new-jersey-data-center-fine/",
+      "Opposition Website": "",
+      "Opposition Facebook": "",
+      "Opposition Instagram": "",
+      "Petition URL": "",
+      "Petition Signatures": "",
+      "data_source": "signal_harvest_auto",
+      "lat": "",
+      "lon": "",
+      "verification_status": "sourced"
+    },
+    "enrichment": {
+      "qc_mechanism": "moratorium",
+      "qc_mechanisms": [
+        "moratorium"
+      ],
+      "qc_concerns": "",
+      "qc_restriction_strength": 4,
+      "qc_strength_label": "halt",
+      "qc_is_block": true,
+      "qc_highlight": false,
+      "qc_jurisdiction_level": "county",
+      "qc_jurisdiction_key": "illinois::jersey::county"
+    },
+    "brain": "moratorium",
+    "reasons": [
+      {
+        "severity": "HIGH",
+        "code": "DUPLICATE",
+        "field": "Name/Date",
+        "message": "Possible duplicate of: (same name/date). Held out of the feed until merged."
+      }
+    ],
+    "all_issues": [
+      {
+        "severity": "MEDIUM",
+        "code": "OUTCOME_MISSING",
+        "field": "Outcome",
+        "message": "Outcome not yet assessed (blank)."
+      },
       {
         "severity": "MEDIUM",
         "code": "COORD_MISSING",

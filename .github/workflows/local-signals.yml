@@ -30,10 +30,25 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
+      # Spec 007. civic-scraper feeds local_meeting_feed.py discovery (US1).
+      # ocrmypdf and pdfminer.six feed agenda_text.py (US2), and
+      # tesseract-ocr and ghostscript are OCRmyPDF's engines: FR-002 allows
+      # OCR only in a workflow that installs both, and agenda_text.py's
+      # selftest fails any workflow that runs it without them.
+      - name: Install civic-scraper and the OCR stack (spec 007)
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q tesseract-ocr tesseract-ocr-eng ghostscript
+          uv pip install --system -c requirements/ci.txt civic-scraper ocrmypdf pdfminer.six
+
       - name: Self-test every scoring module
         run: |
           python political_alignment_proxy.py --selftest
           python local_meeting_feed.py --selftest
+          python agenda_text.py --selftest
           python dispute_watch.py --selftest
           python incentive_execution_risk_proxy.py --selftest
           python incentive_durability_proxy.py --selftest
@@ -48,6 +63,22 @@ jobs:
 
       - name: Fetch local meeting items
         run: python local_meeting_feed.py --fetch
+
+      # OCR text is cached by the PDF's SHA-256 in .cache/agenda_text, so a
+      # document is read (and OCR'd) once. A fresh key per run saves the
+      # grown cache; restore-keys picks up the newest earlier one.
+      - name: Restore agenda text cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .cache/agenda_text
+          key: agenda-text-${{ github.run_id }}
+          restore-keys: agenda-text-
+
+      - name: Agenda text and keyword pass (OCR for scanned PDFs)
+        # Capped per run; later runs continue where this one stopped. A
+        # per-document failure is recorded in the index, not raised.
+        continue-on-error: true
+        run: python agenda_text.py --run --max-docs 40 --max-mb 25
 
       - name: Dispute watch (candidate dockets)
         # Unauthenticated CourtListener is capped at 125 requests/day, so a
@@ -76,6 +107,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           FILES="data/political_alignment_proxy.md \
                   data/local_meeting_feed.csv \
+                  data/agenda_text_index.csv \
                   data/dispute_watch.csv \
                   data/dispute_watch_cache.json \
                   data/incentive_execution_risk_proxy.md \

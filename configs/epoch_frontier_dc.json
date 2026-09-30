@@ -1,0 +1,29 @@
+{
+  "_comment": [
+    "Epoch AI Frontier Data Centers (spec 007, US4). CC-BY 4.0: credit",
+    "'Epoch AI, Frontier Data Centers' wherever the data is used. The",
+    "attribution and the sampling limit are recorded in the source manifest",
+    "(configs/facility_sources.json, source_id epoch_frontier) and in",
+    "configs/epoch_frontier_dc_ingest.json.",
+    "",
+    "The campus file carries no date, so earliest_date_from attaches the",
+    "earliest dated observation for each campus from Epoch's timelines file.",
+    "That is the first time Epoch saw the site (often land clearing), a bound",
+    "on the announcement and never the announcement itself.",
+    "",
+    "Sampling limit: frontier-scale campuses only (about 90 worldwide). Never",
+    "a sample of data centers in general."
+  ],
+  "adapter": "tabular",
+  "source": "epoch_frontier_dc",
+  "url": "https://epoch.ai/data/data_centers/data_centers.csv",
+  "format": "csv",
+  "contains": ["United States"],
+  "earliest_date_from": {
+    "url": "https://epoch.ai/data/data_centers/data_center_timelines.csv",
+    "key": "Data center",
+    "on": "Name",
+    "date_field": "Date",
+    "as": "first_dated_observation"
+  }
+}

@@ -65,6 +65,7 @@ jobs:
           python discover_endpoint.py        --selftest
           python fetch_permits.py            --selftest
           python permit_ingest_scaffold.py   --selftest
+          python permit_ingest.py            --selftest
 
       - name: Resolve config list (scheduled runs cover every registered source)
         id: cfg
@@ -176,6 +177,10 @@ jobs:
               git add data/baseline_dated_external.csv
           [ -f data/baseline_dated_external_rejects.csv ] && \
               git add data/baseline_dated_external_rejects.csv
+          # Rows an ingest config's match_projects held out of the baseline
+          # because they match a tracked project (spec 007, Epoch).
+          ls data/baseline_external_matches_*.csv >/dev/null 2>&1 && \
+              git add data/baseline_external_matches_*.csv
           git diff --cached --quiet || git commit -m "Permit candidates fetched and ingested into dated baseline [skip ci]"
           # Rebase, resolve generated-file conflicts, push. See the script header.
           bash scripts/git_push_retry.sh

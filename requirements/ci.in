@@ -17,3 +17,12 @@ vale>=3.12
 pandera>=0.33,<0.34
 trafilatura>=2.2,<3
 datasketch>=2.0,<3
+# Spec 007 (session 4). civic-scraper is pinned below its next major version;
+# only local_meeting_feed.py's discovery layer imports it. ocrmypdf and
+# pdfminer.six are imported only by agenda_text.py. langextract is pinned here
+# so a local install is reproducible; no workflow installs it
+# (scripts/agenda_extract.py refuses to run in CI).
+civic-scraper>=1.1,<2
+ocrmypdf>=17,<18
+pdfminer.six
+langextract>=1.7,<2

@@ -44,6 +44,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import io
 import json
 import os
 import re
@@ -176,11 +177,7 @@ def fetch_tabular(cfg):
     date_fields = set(cfg.get("date_fields", []))
 
     if fmt == "csv":
-        req = urllib.request.Request(
-            cfg["url"], headers={"User-Agent": "hawthorn-baseline/1.0"})
-        with urllib.request.urlopen(req, timeout=120) as resp:
-            text = resp.read().decode("utf-8-sig", "replace")
-        rows = list(csv.DictReader(text.splitlines()))
+        rows = _read_csv_url(cfg["url"])
     elif fmt == "xlsx":
         try:
             import pandas as pd  # available in the Actions environment
@@ -203,7 +200,44 @@ def fetch_tabular(cfg):
             if df_field in r:
                 r[df_field] = coerce_date(r[df_field])
         out.append(r)
+    if cfg.get("earliest_date_from"):
+        attach_earliest_date(out, cfg["earliest_date_from"])
     return out
+
+
+def _read_csv_url(url: str) -> list[dict]:
+    """Rows of a CSV served at a plain URL. Kept as one function so the
+    selftest can stand in for the network."""
+    req = urllib.request.Request(url, headers={"User-Agent": "hawthorn-baseline/1.0"})
+    with urllib.request.urlopen(req, timeout=120) as resp:
+        text = resp.read().decode("utf-8-sig", "replace")
+    return list(csv.DictReader(io.StringIO(text, newline="")))
+
+
+def attach_earliest_date(rows: list[dict], spec: dict, reader=None) -> None:
+    """Generic config option `earliest_date_from` (spec 007): some publishers
+    keep a record's dates in a second file (one dated observation per row) and
+    none in the main one. For each main row, set spec["as"] to the earliest
+    ISO date (YYYY-MM or YYYY-MM-DD) among the second file's rows whose
+    spec["key"] equals the main row's spec["on"]. Blank when there is none;
+    a year-only value is not a date here, the same rule permit_ingest.py
+    applies, so it is never floored into one.
+
+      "earliest_date_from": {"url": ..., "key": "Data center", "on": "Name",
+                             "date_field": "Date", "as": "first_dated_observation"}
+    """
+    other = (reader or _read_csv_url)(spec["url"])
+    key, on, field, dest = spec["key"], spec["on"], spec["date_field"], spec["as"]
+    earliest: dict[str, str] = {}
+    for r in other:
+        d = str(coerce_date(r.get(field, "")) or "").strip()[:10]
+        if not re.match(r"^\d{4}-\d{2}(-\d{2})?$", d):
+            continue
+        k = (r.get(key) or "").strip()
+        if k and (k not in earliest or d < earliest[k]):
+            earliest[k] = d
+    for r in rows:
+        r[dest] = earliest.get((r.get(on) or "").strip(), "")
 
 
 def normalize_needle(s) -> str:
@@ -316,6 +350,34 @@ def selftest() -> int:
             probe_cfgs.append(name)
     ck("probe sources are never enumerated as fetchable",
        not (set(srcs) & set(probe_cfgs)))
+
+    # earliest_date_from (spec 007): Epoch keeps a campus's dates in a second
+    # file, one dated observation per row.
+    fx = os.path.join(ROOT, "tests", "fixtures", "coverage_expansion")
+
+    def fixture_reader(url):
+        name = "epoch_timelines.csv" if "timelines" in url else "epoch_data_centers.csv"
+        with open(os.path.join(fx, name), newline="", encoding="utf-8") as fh:
+            return list(csv.DictReader(fh))
+
+    main_rows = fixture_reader("campuses")
+    attach_earliest_date(main_rows, {"url": "x/timelines.csv", "key": "Data center",
+                                     "on": "Name", "date_field": "Date",
+                                     "as": "first_dated_observation"},
+                         reader=fixture_reader)
+    by_name = {r["Name"]: r["first_dated_observation"] for r in main_rows}
+    ck("earliest_date_from takes the earliest dated observation per key",
+       by_name.get("Colossus 2") == "2025-02-28")
+    ck("earliest_date_from fills every matching row and blanks none that match",
+       all(v for v in by_name.values()))
+    blank = [{"Name": "Nowhere"}]
+    attach_earliest_date(blank, {"url": "t", "key": "k", "on": "Name",
+                                 "date_field": "d", "as": "x"},
+                         reader=lambda u: [{"k": "Nowhere", "d": "2024"},
+                                           {"k": "Other", "d": "2020-01-01"}])
+    ck("a year-only observation is not floored into a date", blank[0]["x"] == "")
+    ck("the Epoch fetch config is a registered tabular source",
+       "epoch_frontier_dc.json" in srcs)
 
     ok = sum(1 for _, c in checks if c)
     for name, cond in checks:
