@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-29",
+  "generated": "2026-09-30",
   "sources": [
     {
       "source_id": "osti_im3_atlas",
@@ -34,7 +34,7 @@
       "rows_us": null,
       "sha256_12": "7a8c78d3ed6c",
       "repo_last_changed": "2026-08-26",
-      "days_since_repo_change": 34
+      "days_since_repo_change": 35
     },
     {
       "source_id": "epoch_frontier",
@@ -44,11 +44,9 @@
       "layer": "A",
       "publisher": "Epoch AI",
       "landing_urls": [
-        "https://epoch.ai/data/data-centers",
-        "https://epoch.ai/data/data_centers/data_centers.csv",
-        "https://epoch.ai/data/data_centers/data_center_timelines.csv"
+        "https://epoch.ai/data/data-centers"
       ],
-      "license": "CC-BY-4.0",
+      "license": "unconfirmed",
       "geography": "Global; the surfaces show the United States rows.",
       "upstream_vintage": null,
       "vintage_status": "undeclared",
@@ -58,17 +56,18 @@
         "pipeline": false
       },
       "acquisition": {
-        "status": "pipeline",
-        "mechanism": "fetch-permits.yml weekly: configs/epoch_frontier_dc.json (tabular fetch, earliest dated observation from the timelines file) then permit_ingest.py with configs/epoch_frontier_dc_ingest.json",
-        "rule": "The ai_centers.csv snapshot is never overwritten. Campuses that match a tracked project in data/project_key_map.csv are held out of the dated baseline and listed with their key in data/baseline_external_matches_epoch_frontier_dc.csv; unmatched campuses enter data/baseline_dated_external.csv as candidates with the attribution string as their source."
+        "status": "needs_manual_pin",
+        "mechanism": "periodic re-pull, diffed into Layer A candidates",
+        "blocked_on": "A machine-readable export URL. Attribution is recorded on the Notion Complete Centers page; the export path is not.",
+        "rule": "Same as the atlas: diff into candidates, never overwrite the snapshot."
       },
-      "notes": "29 rows in the ai_centers.csv snapshot, 27 of them United States; the live export had 93 campuses, 77 United States, on 2026-09-29. Capital-cost and power figures are publisher estimates, not filings. Sampling limit: Epoch covers frontier-scale AI campuses only, so any use of these rows is a sample of the very largest campuses, never of data centers in general, and must say so. Deliverables that use the data carry a methodology footnote with the attribution.",
+      "notes": "29 rows, 27 of them United States. Capital-cost and power figures are publisher estimates, not filings.",
       "present": true,
       "rows": 29,
       "rows_us": 27,
       "sha256_12": "62e41f7d669e",
       "repo_last_changed": "2026-08-26",
-      "days_since_repo_change": 34
+      "days_since_repo_change": 35
     },
     {
       "source_id": "hyperscaler_footprints",
@@ -200,7 +199,7 @@
     "rows": 1508,
     "sources_with_a_pipeline": 1,
     "sources_with_a_declared_vintage": 1,
-    "sources_awaiting_a_manual_pin": 4
+    "sources_awaiting_a_manual_pin": 5
   },
   "note": "repo_last_changed is when the file last changed in this repository. It is not the age of the data: a snapshot committed today can be years old upstream. Where vintage_status is undeclared, the honest reading is that the age of the data is unknown, and the surfaces say so."
 }
