@@ -8,19 +8,19 @@ The gate closure has been attributed to decision-date coverage. That is not the 
 
 ## 1. Opposition anchor: the ceiling is below the floor
 
-Frame inputs: 31 decided projects with a verified decision date, 53 decided projects missing one, 107 pending.
+Frame inputs: 31 decided projects with a verified decision date, 46 decided projects missing one, 114 pending.
 
 The ceiling column is the frame that would exist if every missing decision date were recovered. It is an upper bound: a project with an unknown decision date can only survive window W if its anchor is more than W days before today, since the decision must have already happened.
 
 | W | now n | now blocked | ceiling n | ceiling blocked | blocked floor met at ceiling |
 | :-- | :-- | :-- | :-- | :-- | :-- |
-| 30 | 8 | 5 | 60 | 11 | no |
-| 60 | 5 | 3 | 57 | 9 | no |
-| 90 | 2 | 2 | 49 | 7 | no |
-| 120 | 2 | 2 | 46 | 7 | no |
-| 180 | 2 | 2 | 42 | 7 | no |
+| 30 | 8 | 5 | 53 | 11 | no |
+| 60 | 5 | 3 | 50 | 9 | no |
+| 90 | 2 | 2 | 42 | 7 | no |
+| 120 | 2 | 2 | 39 | 7 | no |
+| 180 | 2 | 2 | 35 | 7 | no |
 
-The blocked arm ceiling peaks at 11 against a floor of 12. Recovering all 53 dates does not close that gap, because the worklist is 47 advanced and only 6 blocked. Blocked projects already carry verified decision dates at a far higher rate, which is a known structural asymmetry in this dataset, so the arm that binds is the arm recovery cannot help.
+The blocked arm ceiling peaks at 11 against a floor of 12. Recovering all 46 dates does not close that gap, because the worklist is 40 advanced and only 6 blocked. Blocked projects already carry verified decision dates at a far higher rate, which is a known structural asymmetry in this dataset, so the arm that binds is the arm recovery cannot help.
 
 ## 2. Why the opposition anchor collapses
 
@@ -38,25 +38,25 @@ So the extension makes the frame smaller, not cleaner, and the zero-gap pattern 
 
 ## 3. Announcement anchor
 
-Setting t0 = announced_date. Available for 31 of 31 decided projects with decision dates, 53 of 53 on the worklist, and 107 of 107 pending.
+Setting t0 = announced_date. Available for 31 of 31 decided projects with decision dates, 46 of 46 on the worklist, and 114 of 114 pending.
 
 Announcement-to-decision gaps: median 170 days, range 12 to 492, with 0 non-positive. The anchor precedes the decision by construction, which is the property the opposition anchor lacks.
 
 | W | now n | now blocked | now not_blocked | ceiling n | ceiling blocked | ceiling not_blocked | all floors met at ceiling | pending scoreable |
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
-| 30 | 28 | 21 | 7 | 81 | 27 | 54 | yes | 107 |
-| 60 | 23 | 16 | 7 | 76 | 22 | 54 | yes | 107 |
-| 90 | 22 | 16 | 6 | 74 | 21 | 53 | yes | 107 |
-| 120 | 17 | 13 | 4 | 69 | 18 | 51 | yes | 105 |
-| 180 | 14 | 10 | 4 | 66 | 15 | 51 | yes | 99 |
-| 270 (exploratory) | 8 | 5 | 3 | 60 | 10 | 50 | no | 78 |
-| 365 (exploratory) | 4 | 3 | 1 | 46 | 7 | 39 | no | 47 |
+| 30 | 28 | 21 | 7 | 74 | 27 | 47 | yes | 114 |
+| 60 | 23 | 16 | 7 | 69 | 22 | 47 | yes | 114 |
+| 90 | 22 | 16 | 6 | 67 | 21 | 46 | yes | 114 |
+| 120 | 17 | 13 | 4 | 62 | 18 | 44 | yes | 112 |
+| 180 | 14 | 10 | 4 | 59 | 15 | 44 | yes | 106 |
+| 270 (exploratory) | 8 | 5 | 3 | 53 | 10 | 43 | no | 85 |
+| 365 (exploratory) | 4 | 3 | 1 | 43 | 7 | 36 | no | 50 |
 
 Windows whose ceiling clears all three floors: 30, 60, 90, 120, 180. Applying the registered tie-breaking preference for the shortest window would select W = 30, but note that the registered criterion selects on cross-validated AUC among feasible windows, which cannot be evaluated until the frame actually exists. The window named here is the shortest FEASIBLE one, not a selected model.
 
-At W = 30 the ceiling is n = 81 with 27 blocked and 54 not blocked, and 107 of 107 pending projects would be scoreable. Making pending projects scoreable was the purpose of the landmark formulation, so that last number is the one to weigh against the recovery cost.
+At W = 30 the ceiling is n = 74 with 27 blocked and 47 not blocked, and 114 of 114 pending projects would be scoreable. Making pending projects scoreable was the purpose of the landmark formulation, so that last number is the one to weigh against the recovery cost.
 
-What binds, precisely. With zero recovery the announcement anchor at W = 30 already has 21 blocked survivors against a floor of 12, so the blocked arm is not the problem. The binding constraints are total n (28 now, floor 40) and the not_blocked arm (7 now, floor 12), and both are filled by the advanced-arm recoveries. Of the 53 worklist projects, 53 can enter the W = 30 frame once dated, 47 of them advanced. This inverts the usual recovery priority: here the advanced arm is the arm that opens the gate, so advanced-arm dates are worth as much as blocked ones for feasibility, even though blocked rows remain first for outcome-statistic integrity elsewhere.
+What binds, precisely. With zero recovery the announcement anchor at W = 30 already has 21 blocked survivors against a floor of 12, so the blocked arm is not the problem. The binding constraints are total n (28 now, floor 40) and the not_blocked arm (7 now, floor 12), and both are filled by the advanced-arm recoveries. Of the 46 worklist projects, 46 can enter the W = 30 frame once dated, 40 of them advanced. This inverts the usual recovery priority: here the advanced arm is the arm that opens the gate, so advanced-arm dates are worth as much as blocked ones for feasibility, even though blocked rows remain first for outcome-statistic integrity elsewhere.
 
 ## Recommendation
 
@@ -66,7 +66,7 @@ Two steps, in order. The first is done; the second is now the open task.
 
 > Landmark anchor: t0 = announced_date. Rationale: the opposition-anchored formulation registered 2026-07-23 is infeasible because the first recorded opposition event is dated at or after the terminal decision for a majority of decided projects, a detection property of news-triggered coverage rather than a coverage gap, so survivor conditioning empties every candidate frame and the blocked-arm ceiling under complete decision-date recovery sits below floor. The announcement anchor precedes the terminal decision by construction. Candidate windows, floors, survivor conditioning, selection criterion, and the no-auto-promotion rule are unchanged. Windows beyond the registered grid are not adopted without a further registration entry.
 
-**Then work the decision-date worklist.** With the announcement anchor now in place, it is no longer a housekeeping task; it is the single input that moves the gate. landmark_model.py currently reports GATE CLOSED for want of decision-date coverage, not for want of a workable anchor. data/landmark_recovery_priority.csv ranks the 53 projects by whether recovering each one actually changes a frame at the shortest feasible window.
+**Then work the decision-date worklist.** With the announcement anchor now in place, it is no longer a housekeeping task; it is the single input that moves the gate. landmark_model.py currently reports GATE CLOSED for want of decision-date coverage, not for want of a workable anchor. data/landmark_recovery_priority.csv ranks the 46 projects by whether recovering each one actually changes a frame at the shortest feasible window.
 
 What this pass does not claim: that the announcement-anchored model will be any good. Feasibility is a counting result. Discrimination, calibration, and the Phase 5 promotion gate are all downstream and none of them are prejudged here. A feasible frame is permission to fit, not evidence of fit.
 
