@@ -1,13 +1,13 @@
 # Master Opposition QC Report
 
-- Records scanned: **1971**
-- Passed to feed: **1954**
-- Blocked / quarantined: **17**
+- Records scanned: **1983**
+- Passed to feed: **1964**
+- Blocked / quarantined: **19**
 - Block threshold: CRITICAL, HIGH
 
 ## Why records were blocked (counts)
 
-- DUPLICATE: 10
+- DUPLICATE: 12
 - LEG_SOURCE_WEAK: 4
 - STATEWIDE_CAPITAL_SINK: 2
 - STUDY_SOURCE_WEAK: 1
@@ -37,4 +37,6 @@
 | Abilene, TX (Oracle/OpenAI drop flagship Stargate Abilene expansion; Meta in talks for Crusoe capacity) | project | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Douglas County Commission | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Dubuque City Council passes temporary moratorium on hyperscale data centers | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| New Jersey data center violations renew moratorium calls | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
 | Dubuque City Council passes temporary moratorium on hyperscale data centers | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
+| New Jersey data center violations renew moratorium calls | moratorium | HIGH | **HIGH** DUPLICATE: Possible duplicate of: (same name/date). Held out of the feed until merged. |
