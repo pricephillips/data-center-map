@@ -46,6 +46,8 @@ import statistics as st
 import sys
 from collections import Counter, defaultdict
 
+import fips_crosswalk
+
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -306,7 +308,22 @@ def main() -> int:
     n_opposed = Counter()
     outc = defaultdict(Counter)
     dtd = defaultdict(list)  # days announced to decision, dated decided only
-    for r in csv.DictReader(open(UNIVERSE_CSV, encoding="utf-8-sig")):
+    universe_rows = list(csv.DictReader(open(UNIVERSE_CSV, encoding="utf-8-sig")))
+    # FIPS vintage harmonization (ADDITIVE). baseline_universe.csv is the only
+    # record input keyed on FIPS (master events resolve by county name), and it
+    # carries legacy codes such as pre-2022 CT counties. Remaps 1:1 changes to
+    # the current vintage the frame uses; 1:many splits keep their original
+    # code and fall through to the name resolver exactly as before. There is
+    # no town/place column, so place_col is None. No-op until
+    # data/fips_crosswalk.csv exists.
+    df = None
+    if universe_rows and fips_crosswalk.available(P("data")):
+        import pandas as pd
+        df = fips_crosswalk.apply_to_frame(pd.DataFrame(universe_rows, dtype=str),
+                                           fips_col="fips", place_col=None,
+                                           data_dir=P("data"))
+        universe_rows = df.fillna("").to_dict("records")
+    for r in universe_rows:
         f = (r.get("fips") or "").strip().zfill(5)
         if f not in frame:
             key = (norm_county(r.get("county")), norm_state(r.get("state")))
@@ -500,6 +517,13 @@ def main() -> int:
                    (CENSUS_CSV, VOTES_JSON, ATLAS_CSV, MASTER_CSV,
                     UNIVERSE_CSV, LIFECYCLES_CSV)},
     }
+    # FIPS crosswalk status on baseline_universe rows. Report-only; unresolved
+    # rows (legacy split with no place match, or unrecognized code) do not fail.
+    if df is not None and "fips_status" in df.columns:
+        manifest["fips_status_counts"] = {
+            str(k): int(v) for k, v in df["fips_status"].value_counts().items()}
+        manifest["fips_unresolved"] = int(
+            df["fips_status"].isin(["unknown", "ambiguous_split"]).sum())
     with open(P("data", "county_aggregate_manifest.json"), "w",
               encoding="utf-8") as fh:
         json.dump(manifest, fh, indent=2)

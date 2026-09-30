@@ -1,0 +1,80 @@
+name: fetch-census-geo-ref
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 3 * *"   # monthly, 3rd @ 06:17 UTC
+  push:
+    paths:
+      - fips_crosswalk.py
+      - .github/workflows/fetch-census-geo-ref.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-census-geo-ref
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install pandas
+
+      - name: Selftest
+        run: python fips_crosswalk.py --selftest
+
+      - name: Download Census Gazetteer files
+        run: |
+          set -euo pipefail
+          GEO=data/census_geo
+          mkdir -p "$GEO"
+          BASE=https://www2.census.gov/geo/docs/maps-data/data/gazetteer
+          get() {  # year kind
+            local f="${1}_Gaz_${2}_national.zip"
+            curl -fsSL --retry 3 -o "$GEO/$f.tmp" "$BASE/${1}_Gazetteer/$f" \
+              && mv "$GEO/$f.tmp" "$GEO/$f"
+          }
+          # Legacy (pre-CT-realignment) vintage is fixed.
+          get 2020 counties
+          get 2020 cousubs
+          # Current vintage: newest year that publishes both files.
+          CUR=""
+          for Y in $(seq "$(date -u +%Y)" -1 2023); do
+            if get "$Y" counties && get "$Y" cousubs; then CUR=$Y; break; fi
+            rm -f "$GEO/${Y}_Gaz_"*
+          done
+          [ -n "$CUR" ] || { echo "No current Gazetteer vintage reachable"; exit 1; }
+          # Keep only legacy + current on disk.
+          find "$GEO" -name '*_Gaz_*_national.zip' \
+            ! -name '2020_*' ! -name "${CUR}_*" -delete
+          echo "CUR_VINTAGE=$CUR" >> "$GITHUB_ENV"
+          ls -la "$GEO"
+
+      - name: Build crosswalk
+        run: python fips_crosswalk.py build
+
+      - name: Commit (rebase-and-retry)
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/census_geo data/fips_crosswalk.csv \
+                  data/county_reference.csv data/ct_town_region.csv
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git commit -m "census geo ref: Gazetteer ${CUR_VINTAGE} crosswalk refresh [skip ci]"
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && \
+              git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((i * 10))
+          done
+          echo "push failed after retries"; exit 1
