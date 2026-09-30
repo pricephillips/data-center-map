@@ -66,6 +66,10 @@ on:
       - 'data/county_votes.json'
       - 'data/county_fips_lookup.json'
       - 'data/external_restriction_census.csv'
+      # FIPS vintage crosswalk (built by fetch-census-geo-ref.yml) and the
+      # module county_aggregator.py applies it through.
+      - 'fips_crosswalk.py'
+      - 'data/fips_crosswalk.csv'
       # Reviewer-confirmed status resolutions and county evidence research
       # (2026-09-28). An edit to either must re-run the build that applies it.
       - 'data/status_resolutions.csv'
