@@ -1,5 +1,5 @@
 {
- "_generated": "2026-09-29",
+ "_generated": "2026-10-01",
  "_source": "https://www.trackdatacenters.com",
  "_keys": [
   "approvals",
@@ -586,7 +586,7 @@
       ]
      },
      "properties": {
-      "name": "Meta Platforms Montgomery Data Center",
+      "name": "Meta Platforms Montgomery",
       "phase": "construction"
      }
     }
@@ -904,9 +904,6 @@
       "news"
      ]
     }
-   ],
-   "notes": [
-    "For long-term jobs, the referenced higher bound is used."
    ],
    "stakeholders": {
     "D": [
@@ -1609,9 +1606,6 @@
      ]
     }
    ],
-   "notes": [
-    "This proposal is expected to bring 1000s of construction jobs, however the expected value has not been announced, hence \"1000\" is used."
-   ],
    "stakeholders": {
     "O": [
      "AVAIO Digital"
@@ -2058,7 +2052,7 @@
       ]
      },
      "properties": {
-      "name": "Bristol Data Center",
+      "name": "Bristol Technology Center",
       "phase": "proposed"
      }
     }
@@ -2496,7 +2490,7 @@
       ]
      },
      "properties": {
-      "name": "St. Georges Business Park Data Center Development / Frightland Project",
+      "name": "St. Georges Business Park Data Center / \"Frightland Project\"",
       "phase": "proposed"
      }
     }
@@ -2590,7 +2584,7 @@
       ]
      },
      "properties": {
-      "name": "White Clay Creek Business Park Data Center Redevelopment",
+      "name": "Newark White Clay Creek Business Park Data Center",
       "phase": "delayed"
      }
     }
@@ -2732,6 +2726,9 @@
      "Microsoft"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -2819,8 +2816,8 @@
       ]
      },
      "properties": {
-      "name": "Granger Data Center",
-      "phase": "proposal"
+      "name": "Microsoft Granger",
+      "phase": "expanding"
      }
     }
    ]
@@ -3113,6 +3110,9 @@
      "Metrobloks"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -3164,7 +3164,7 @@
       ]
      },
      "properties": {
-      "name": "Martindale Indianapolis Metrobloks Data Center",
+      "name": "Metrobloks Martindale-Brightwood",
       "phase": "proposed"
      }
     }
@@ -3335,6 +3335,9 @@
      "Sabey Data Centers"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -3410,7 +3413,7 @@
       ]
      },
      "properties": {
-      "name": "Decatur Township Data Center",
+      "name": "Decatur Technology Park",
       "phase": "proposed"
      }
     }
@@ -3434,6 +3437,9 @@
      "Google"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -3551,6 +3557,14 @@
      "types": [
       "news"
      ]
+    },
+    {
+     "id": "https://www.greenfieldreporter.com/2025/07/16/county-commissioners-nix-data-center-proposal-in-buck-creek-township/",
+     "date": "2025-7-16",
+     "text": "Greenfield Reporter - https://www.greenfieldreporter.com/2025/07/16/county-commissioners-nix-data-center-proposal-in-buck-creek-township/",
+     "types": [
+      "news"
+     ]
     }
    ],
    "stakeholders": {
@@ -3558,6 +3572,9 @@
      "Surge Development"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -3653,7 +3670,7 @@
       ]
      },
      "properties": {
-      "name": "Surge Development Buck Creek Township Data Center",
+      "name": "Project Redline",
       "phase": "withdrawn"
      }
     }
@@ -3937,7 +3954,10 @@
     {
      "id": "https://mcachamber.com/project-maize-could-bring-big-changes-to-michigan-city/",
      "date": "2025-8-26",
-     "text": "Michigan City Chamber - PROJECT MAIZE COULD BRING BIG CHANGES TO MICHIGAN CITY"
+     "text": "Michigan City Chamber - PROJECT MAIZE COULD BRING BIG CHANGES TO MICHIGAN CITY",
+     "types": [
+      "government"
+     ]
     },
     {
      "id": "https://www.wvpe.org/wvpe-news/2025-09-04/michigan-city-council-approves-tax-abatements-for-data-center-project",
@@ -3950,12 +3970,18 @@
     {
      "id": "https://nwitimes.com/news/local/article_4314d0b1-29a6-46b3-85e6-06b5d50b1c0c.html",
      "date": "2026-9-4",
-     "text": "NWI - $830M data center lands tax incentives in Michigan City"
+     "text": "NWI - $830M data center lands tax incentives in Michigan City",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://edcmc.com/wp-content/uploads/2025/08/Project-Maize-FAQ-Responses.pdf",
      "date": "2025-7-31",
-     "text": "EDCMC - Project Maize FAQ’s"
+     "text": "EDCMC - Project Maize FAQ’s",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.chicagotribune.com/2025/09/03/michigan-city-council-approves-all-data-center-related-resolutions/",
@@ -3973,7 +3999,10 @@
     "D": [
      "Phoenix Investors"
     ]
-   }
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
   },
   "43": {
    "approvals": [
@@ -3994,12 +4023,18 @@
     },
     {
      "id": "https://www.cityofhobart.org/149/Master-Plan",
-     "text": "City of Hobart, Indiana (Official Website) - Master Plan / 2040 Comprehensive Plan"
+     "text": "City of Hobart, Indiana - Master Plan / 2040 Comprehensive Plan",
+     "types": [
+      "government"
+     ]
     },
     {
      "id": "https://www.chicagotribune.com/2026/03/29/judge-dismisses-hobart-data-center-challenge/",
      "date": "2026-3-29",
-     "text": "Chicago Tribune - Judge dismisses Hobart data center challenge"
+     "text": "Chicago Tribune - Judge dismisses Hobart data center challenge",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.nipsco.com/our-company/news-room/news-article/powering-indiana-s-future--how-nipsco--genco--and-amazon-keep-energy-reliable-and-affordable",
@@ -4020,7 +4055,10 @@
     {
      "id": "https://insight.factset.com/nipsco-proposes-special-contract-for-amazon-data-centers-in-indiana",
      "date": "2026-2-6",
-     "text": "FactSet Insight - NIPSCO Proposes Special Contract for Amazon Data Centers in Indiana"
+     "text": "FactSet Insight - NIPSCO Proposes Special Contract for Amazon Data Centers in Indiana",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://abc7chicago.com/post/city-hobart-indiana-votes-approve-fill-permit-controversial-amazon-data-center-proposal/18550806/",
@@ -4040,12 +4078,18 @@
     },
     {
      "id": "https://hobartdatacenters.org/",
-     "text": "No Hobart Data Centers (Community Initiative) - Homepage"
+     "text": "No Hobart Data Centers (Community Initiative) - Homepage",
+     "types": [
+      "advocacy"
+     ]
     },
     {
      "id": "https://nwitimes.com/news/local/government-politics/article_841983ad-2332-49f3-91a6-a42574a44d75.html",
      "date": "2026-5-8",
-     "text": "nwitimes.com - Hobart officials OK Amazon data center site plan in tense meeting with residents"
+     "text": "nwitimes.com - Hobart officials OK Amazon data center site plan in tense meeting with residents",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://indianaeconomicdigest.net/MobileContent/Most-Recent/Recycling-Waste-Disposal/Article/5-things-to-know-about-data-center-plans-in-Hobart/31/259/120452",
@@ -4055,12 +4099,23 @@
     {
      "id": "https://www.21alivenews.com/2025/11/25/hobart-reaches-agreement-with-amazon-next-gen-data-center/",
      "date": "2025-11-25",
-     "text": "21 Alive News - Hobart reaches agreement with Amazon for next-gen data center"
+     "text": "21 Alive News - Hobart reaches agreement with Amazon for next-gen data center",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.wbez.org/in-the-loop-with-sasha-ann-simons/2026/02/03/amazon-data-center-coming-to-northwest-indiana-residents-arent-happy",
      "date": "2026-2-3",
      "text": "WBEZ Chicago - Amazon data center coming to Northwest Indiana. Residents aren’t happy",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.chicagotribune.com/2026/09/20/hobart-mayor-lauds-windfall-payments-for-amazon-data-center/",
+     "date": "2026-9-20",
+     "text": "Chicago Tribune - Hobart Mayor lauds windfall payments for Amazon data center",
      "types": [
       "news"
      ]
@@ -4079,6 +4134,9 @@
      "GenCo"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -4188,7 +4246,10 @@
     },
     {
      "id": "https://cityoflaporte.com/news/gov-holcomb-announces-plans-for-new-1b-microsoft-data-center-in-northwest-indiana",
-     "text": "City of LaPorte, Indiana (Official Website) - Gov. Holcomb announces plans for new $1B Microsoft Data Center in Northwest Indiana"
+     "text": "City of LaPorte, Indiana - Gov. Holcomb announces plans for new $1B Microsoft Data Center in Northwest Indiana",
+     "types": [
+      "government"
+     ]
     },
     {
      "id": "https://www.wndu.com/2024/06/04/1-billion-microsoft-data-center-coming-laporte/",
@@ -4209,12 +4270,18 @@
     {
      "id": "https://indianaeconomicdigest.net/Content/Default/Also-In-The-News/Article/La-Porte-shares-Microsoft-agreement-details-for-245-000-square-foot-data-center/-3/5307/121535",
      "date": "2026-6-2",
-     "text": "Indiana Economic Digest - La Porte shares Microsoft agreement details for 245,000-square-foot data center"
+     "text": "Indiana Economic Digest - La Porte shares Microsoft agreement details for 245,000-square-foot data center",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.southbendtribune.com/story/news/local/2026/04/20/additional-larger-microsoft-data-center-in-laporte-draws-support/89659800007/",
      "date": "2026-4-20",
-     "text": "South Bend Tribune - Additional, larger Microsoft data center in LaPorte draws support"
+     "text": "South Bend Tribune - Additional, larger Microsoft data center in LaPorte draws support",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.wndu.com/2026/03/03/laporte-microsoft-data-center-deal-direct-revenue-local-schools/",
@@ -4234,6 +4301,9 @@
      "Microsoft"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -4441,7 +4511,7 @@
       ]
      },
      "properties": {
-      "name": "Microsoft La Porte Data Center",
+      "name": "Microsoft La Porte",
       "phase": "construction"
      }
     }
@@ -4499,13 +4569,17 @@
     }
    ],
    "notes": [
-    "The map boundary represents the site plans provided by Lebanon."
+    "The map boundary represents the site plans provided by Lebanon.",
+    "Only data center buildings are included in the building count."
    ],
    "stakeholders": {
     "D": [
      "Meta"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -4775,7 +4849,10 @@
     {
      "id": "https://www.madisoncourier.com/news/data-center-town-hall-set-for-friday-at-fairgrounds/article_96139c88-433a-53b2-94cd-94ccdd27af1a.html",
      "date": "2026-6-1",
-     "text": "Madison Courier - Data center town hall set for Friday at Fairgrounds"
+     "text": "Madison Courier - Data center town hall set for Friday at Fairgrounds",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.wdrb.com/news/zoning-board-allows-controversial-madison-data-center-project-to-move-forward/article_e55a1071-bbe7-425a-98b5-d88c7a94d2b4.html",
@@ -4788,12 +4865,15 @@
     {
      "id": "https://www.madisoncourier.com/carroll_news_democrat/news/proposed-jpg-data-center-could-generate-60m-taxes-annually/article_2804a794-5c76-548f-be98-8975b84b2284.html",
      "date": "2026-4-1",
-     "text": "The News Democrat - Proposed JPG data center could generate $60M taxes annually"
+     "text": "The News Democrat - Proposed JPG data center could generate $60M taxes annually",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://jeffersoncounty.in.gov/DocumentCenter/View/2703/Legal-Notice-BZA-Public-Hearing-Appeal-5-20-26",
      "date": "2026-5-20",
-     "text": "Jefferson County, Indiana (Official Website) - Legal Notice-BZA Public Hearing Appeal-5-20-26",
+     "text": "Jefferson County, Indiana - Legal Notice-BZA Public Hearing Appeal-5-20-26",
      "types": [
       "government"
      ]
@@ -4858,40 +4938,69 @@
     "Google operated under another entity called \"Deep Meadow Ventures LLC\"."
    ],
    "stakeholders": {
-    "T": [
+    "D": [
      "Google"
     ]
-   }
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
   },
   "49": {
    "sources": [
     {
      "id": "https://www.inkfreenews.com/2026/06/03/amazon-plans-7-billion-data-center-project-in-jasper-county/",
      "date": "2026-6-3",
-     "text": "Ink Free News - Amazon Plans $7 Billion Data Center Project In Jasper County"
+     "text": "Ink Free News - Amazon Plans $7 Billion Data Center Project In Jasper County",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.newsbug.info/kankakee_valley_post_news/news/amazon-discusses-data-center-plans-with-wheatfield-county-residents/article_643aa4ce-aef2-4faa-b0bb-d79ead0ec949.html",
      "date": "2026-6-2",
-     "text": "Kankakee Valley Post News - Amazon discusses data center plans with Wheatfield, county residents"
+     "text": "Kankakee Valley Post News - Amazon discusses data center plans with Wheatfield, county residents",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.insideindianabusiness.com/articles/amazon-planning-7-billion-data-center-near-nipsco-plant",
      "date": "2026-5-28",
-     "text": "Inside Indiana Business - Amazon planning $7 billion data center near NIPSCO plant"
+     "text": "Inside Indiana Business - Amazon planning $7 billion data center near NIPSCO plant",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.circleofblue.org/2026/water-energy/inside-americas-first-data-center-only-utility/",
+     "date": "2026-7-23",
+     "text": "Circle of Blue - Inside America's First Data Center-Only Utility",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.nwiforum.org/press/2026/6/17/northwest-indiana-forum-announces-amazon-data-center-in-jasper-county",
+     "date": "2026-6-17",
+     "text": "Northwest Indiana Forum - Northwest Indiana Forum Announces Amazon Data Center in Jasper County"
     }
-   ],
-   "notes": [
-    "The exact location for the proposal is currently unknown."
    ],
    "stakeholders": {
     "D": [
      "Amazon Web Services"
     ],
     "U": [
-     "NIPSCO"
+     "Northern Indiana Public Service Company"
     ]
-   }
+   },
+   "powerSource": [
+    "gas",
+    "coal"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
   },
   "50": {
    "sources": [
@@ -4941,21 +5050,30 @@
     {
      "id": "https://futurism.com/artificial-intelligence/google-data-center-fort-wayne-indiana-wetlands",
      "date": "2026-8-7",
-     "text": "Futurism - Google Data Center Announces Plans to Pave Over Protected Wetlands"
+     "text": "Futurism - Google Data Center Announces Plans to Pave Over Protected Wetlands",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.21alivenews.com/2026/08/06/public-hearing-planned-google-data-center-developers-request-fill-more-wetlands/",
      "date": "2026-8-6",
-     "text": "21 Alive News - Public hearing planned as Google data center developers request to fill more wetlands"
+     "text": "21 Alive News - Public hearing planned as Google data center developers request to fill more wetlands",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://citycouncildocuments.acfw.net/documents/download/2023-12-19/R-23-12-03.pdf",
      "date": "2023-12-29",
-     "text": "Fort Wayne City Council - Special Session Approving Taxpayer Agreement for new Economic Development Project"
+     "text": "Fort Wayne City Council - Special Session Approving Taxpayer Agreement for new Economic Development Project",
+     "types": [
+      "government"
+     ]
     },
     {
      "id": "https://www.cityoffortwayne.in.gov/1518/Council-Documents",
-     "text": "Fort Wayne City Counsil - Meeting Documents",
+     "text": "Fort Wayne City Council - Meeting Documents",
      "types": [
       "government"
      ]
@@ -4977,7 +5095,10 @@
     },
     {
      "id": "https://www.acimap.us/assessors.html",
-     "text": "Allen County Assessors Viewer - GIS Map"
+     "text": "Allen County Assessors Viewer - GIS Map",
+     "types": [
+      "government"
+     ]
     },
     {
      "id": "https://www.wfft.com/news/business/idem-seeking-public-comment-regarding-potential-project-zodiac-modifications/article_d1b60260-6acc-42ef-8a31-71d36e31c905.html#:~:text=%E2%80%9CProject%20Zodiac%E2%80%9D%20refers%20to%20the,to%20come%20with%20pollution%20controls.",
@@ -4997,10 +5118,13 @@
     }
    ],
    "stakeholders": {
-    "T": [
+    "D": [
      "Google"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -5598,7 +5722,7 @@
       ]
      },
      "properties": {
-      "name": "Edged Energy Des Moines",
+      "name": "Edged Des Moines",
       "phase": "preliminary"
      }
     }
@@ -6381,6 +6505,28 @@
     "media_monitoring"
    ]
   },
+  "70": {
+   "sources": [
+    {
+     "id": "https://www.datacenters.com/windstream-dubuque-ia",
+     "text": "datacenters.com",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Windstream"
+    ]
+   },
+   "niche": [
+    "other"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
   "71": {
    "sources": [
     {
@@ -6441,6 +6587,41 @@
     "media_monitoring"
    ]
   },
+  "73": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/us-signal-to-expand-capacity-at-data-centers-in-michigan-detroit/",
+     "text": "datacenterdynamics.com - US Signal to expand capacity at data centers in Michigan & Detroit",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.dbusiness.com/daily-news/us-signal-adding-3mw-of-commercial-computing-power-to-belleville-data-center/",
+     "date": "2025-6-12",
+     "text": "DBusiness Magazine - US Signal Adding 3MW of Commercial Computing Power to Belleville Data Center",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://ground.news/article/us-signal-expands-national-infrastructure-footprint-with-major-data-center-and-fiber-investments",
+     "date": "2025-6-5",
+     "text": "Ground News - US Signal Expands National Infrastructure Footprint with Major Data Center and Fiber Investments",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "US Signal"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
   "74": {
    "sources": [
     {
@@ -6448,9 +6629,6 @@
      "date": "2024-4-3",
      "text": "Creston News - Data Center planned for SE of Adair"
     }
-   ],
-   "notes": [
-    "Using the higher bound of long-term jobs created (40 vs 70)."
    ],
    "stakeholders": {
     "D": [
@@ -7013,7 +7191,7 @@
       ]
      },
      "properties": {
-      "name": "Mercer County Data Center",
+      "name": "Harrodsburg Data Center",
       "phase": "preliminary"
      }
     }
@@ -7178,7 +7356,7 @@
       ]
      },
      "properties": {
-      "name": "TeraWulf Hawesville Data Center",
+      "name": "TeraWulf Hawesville",
       "phase": "proposed"
      }
     }
@@ -7531,7 +7709,7 @@
       ]
      },
      "properties": {
-      "name": "DartPoints Lexmark Data Center Redevelopment",
+      "name": "DartPoints Former Lexmark Data Center Redevelopment",
       "phase": "preliminary"
      }
     }
@@ -7803,12 +7981,26 @@
     {
      "id": "https://www.newscentermaine.com/article/news/local/data-center-former-loring-air-force-base-benefits-downsides/97-6167eb8d-8ef5-4b26-ba28-d919c7cbc938",
      "date": "2025-10-23",
-     "text": "News Center Maine - Data center planned for former Loring Air Force Base said to bring benefits with few downsides"
+     "text": "News Center Maine - Data center planned for former Loring Air Force Base said to bring benefits with few downsides",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://thecounty.me/2025/10/14/business-news/maines-1st-ai-data-center-is-coming-to-aroostook-county/",
      "date": "2025-11",
-     "text": "The County - Maine’s first AI data center is coming to Aroostook County"
+     "text": "The County - Maine’s first AI data center is coming to Aroostook County",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://themainemonitor.org/maine-considers-data-centers-moratorium/",
+     "date": "2026-2-23",
+     "text": "The Maine Monitor - As data centers look to rural New England, Maine considers a moratorium",
+     "types": [
+      "news"
+     ]
     }
    ],
    "notes": [
@@ -7822,6 +8014,9 @@
    "powerSource": [
     "hydro",
     "grid"
+   ],
+   "informationSource": [
+    "media_monitoring"
    ],
    "geojson": [
     {
@@ -8769,6 +8964,9 @@
      "Security Land and Development LP"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -8901,12 +9099,18 @@
     {
      "id": "https://www.washingtoninformer.com/landover-data-center-protest/",
      "date": "2025-9-11",
-     "text": "Washington Informer - Prince George’s Residents Speak Out Against Proposed Landover Data Center"
+     "text": "Washington Informer - Prince George’s Residents Speak Out Against Proposed Landover Data Center",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.thesentinel.com/communities/landover-community-continues-fighting-data-center-amidst-temporary-pause/article_a7b69097-efbf-4e7c-9a1a-e66a6b83857d.html",
      "date": "2025-10-1",
-     "text": "The Sentinel - Landover community continues fighting data center amidst temporary pause"
+     "text": "The Sentinel - Landover community continues fighting data center amidst temporary pause",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://wtop.com/prince-georges-county/2025/12/whats-at-stake-as-prince-georges-county-ponders-data-centers/",
@@ -8922,6 +9126,9 @@
      "Lerner Enterprises"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -9049,7 +9256,7 @@
       ]
      },
      "properties": {
-      "name": "Brightseat Tech Park Data Center Development",
+      "name": "Brightseat Tech Park Data Center",
       "phase": "proposed"
      }
     }
@@ -9440,7 +9647,7 @@
       ]
      },
      "properties": {
-      "name": "Quantum Frederick Park Data Center Campus",
+      "name": "Quantum Frederick",
       "phase": "construction"
      }
     }
@@ -10275,11 +10482,17 @@
      ]
     }
    ],
+   "notes": [
+    "TPC Data Centers operated under \"Mid-Atlantic LLC.\""
+   ],
    "stakeholders": {
-    "R": [
-     "TPC Data Center via Mid-Atlantic LLC"
+    "D": [
+     "TPC Data Centers"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -10355,7 +10568,7 @@
       ]
      },
      "properties": {
-      "name": "TPC Data Center",
+      "name": "TPC Laurel",
       "phase": "proposed"
      }
     }
@@ -10523,16 +10736,25 @@
    "sources": [
     {
      "id": "https://www.thesalinebarn.com/",
-     "text": "The Barn Saline - Homepage"
+     "text": "The Barn Saline - Homepage",
+     "types": [
+      "developer"
+     ]
     },
     {
      "id": "https://salinetownship.org/data-center-update",
-     "text": "Saline Township - Data Center Updates"
+     "text": "Saline Township - Data Center Updates",
+     "types": [
+      "government"
+     ]
     },
     {
      "id": "https://salinetownship.org/uploads/notices/SalineDataCenterConsentJudgmentFinalExecutionCopy492124804975v1.pdf",
      "date": "2025-10-15",
-     "text": "Michigan Courts"
+     "text": "Saline Township, Michigan - Michigan Courts",
+     "types": [
+      "government"
+     ]
     },
     {
      "id": "https://www.mlive.com/news/ann-arbor/2026/02/traffic-problems-reported-as-openai-oracle-data-center-construction-ramps-up.html",
@@ -10545,7 +10767,10 @@
     {
      "id": "https://www.theguardian.com/us-news/2025/dec/18/michigan-data-center-fight",
      "date": "2025-12-18",
-     "text": "The Guardian - ‘Uniquely evil’: Michigan residents fight against huge datacenter backed by top tycoons"
+     "text": "The Guardian - ‘Uniquely evil’: Michigan residents fight against huge datacenter backed by top tycoons",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://openai.com/index/expanding-stargate-to-michigan/",
@@ -10580,10 +10805,6 @@
      ]
     },
     {
-     "id": "https://edraofmi.org/saline-township",
-     "text": "Economic Development Responsibility Alliance of Michigan - Saline Project Stargate hyperscale AI Data Center"
-    },
-    {
      "id": "https://www.oracle.com/news/announcement/blog/oracle-is-set-to-power-on-new-data-center-in-michigan-2025-1018",
      "date": "2025-12-18",
      "text": "Oracle Cloud - Oracle is Set to Power on New Data Center in Michigan",
@@ -10594,7 +10815,10 @@
     {
      "id": "https://bridgemi.com/michigan-environment-watch/dte-consumers-advance-plans-for-power-hungry-data-centers-in-michigan/",
      "date": "2025-10-30",
-     "text": "Bridge Michigan - Tech giants announce $7B data center, Michigan’s first hyperscale campus"
+     "text": "Bridge Michigan - Tech giants announce $7B data center, Michigan’s first hyperscale campus",
+     "types": [
+      "news"
+     ]
     }
    ],
    "notes": [
@@ -10607,6 +10831,12 @@
      "Related Digital"
     ]
    },
+   "powerSource": [
+    "grid"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -10726,7 +10956,7 @@
       ]
      },
      "properties": {
-      "name": "Project Mitten - Stargate Project",
+      "name": "Project Mitten / The Barn",
       "phase": "construction"
      }
     }
@@ -10751,7 +10981,7 @@
     },
     {
      "id": "https://www.panattoni.com/vanburen/",
-     "text": "Panattoni Data Centers (Official Website) - Project Cannoli, Van Buren Michigan",
+     "text": "Panattoni Data Centers - Project Cannoli, Van Buren Michigan",
      "types": [
       "developer"
      ]
@@ -10766,10 +10996,16 @@
     }
    ],
    "stakeholders": {
+    "D": [
+     "Google"
+    ],
     "R": [
      "Panattoni Data Center Group"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -10917,7 +11153,7 @@
       ]
      },
      "properties": {
-      "name": "",
+      "name": "Project Cannoli",
       "phase": "proposed"
      }
     }
@@ -10928,15 +11164,24 @@
     {
      "id": "https://www.macombdaily.com/2026/03/11/washington-twp-data-center-zoning-request-postponed-yet-again-heres-why/",
      "date": "2026-3-11",
-     "text": "Macomb Daily - Washington Twp. data center zoning request postponed yet again, here’s why"
+     "text": "Macomb Daily - Washington Twp. data center zoning request postponed yet again, here’s why",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://cms2.revize.com/revize/washingtonmi/32%20Mile%20Road%20Technical%20Campus%20FAQ%20-%20Spalding%20DeDecker.pdf?t=20251205121340615&t=20251205121340615",
-     "text": "Washington Township Revise - 32 Mile Road Technical Campus, Frequently Asked Questions "
+     "text": "Washington Township, Revise - 32 Mile Road Technical Campus, Frequently Asked Questions",
+     "types": [
+      "government"
+     ]
     },
     {
      "id": "https://www.washingtontownship.org/doing_business/32_mile_logistics_campus.php",
-     "text": "Washington Township (Official Website) - 32 Mile Road Logistics Campus"
+     "text": "Washington Township - 32 Mile Road Logistics Campus",
+     "types": [
+      "government"
+     ]
     },
     {
      "id": "https://planetdetroit.org/2025/12/washington-township-data-center-hearing/",
@@ -10948,7 +11193,10 @@
     },
     {
      "id": "https://cms2.revize.com/revize/washingtonmi/2024-0611_32%20Mile%20Logistics%20Campus_Conceptual%20PUD.pdf",
-     "text": "Washington Township Revise - 32 Mile Road Logistics Campus, Conceptual Plan"
+     "text": "Washington Township Revise - 32 Mile Road Logistics Campus, Conceptual Plan",
+     "types": [
+      "government"
+     ]
     }
    ],
    "stakeholders": {
@@ -10956,6 +11204,9 @@
      "Prologis"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -11030,7 +11281,10 @@
     {
      "id": "https://www.crainsgrandrapids.com/news/economic-development/microsoft-faces-the-public-as-it-pursues-two-grand-rapids-area-data-center-projects/",
      "date": "2026-3-8",
-     "text": "Crain's Grand Rapids Business - Microsoft ramps up community engagement in West Michigan"
+     "text": "Crain's Grand Rapids Business - Microsoft ramps up community engagement in West Michigan",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.fox17online.com/news/local-news/kent/microsoft-hosts-discussions-on-gaines-township-data-center-while-working-to-acquire-residential-properties",
@@ -11051,7 +11305,10 @@
     {
      "id": "https://www.wzzm13.com/article/news/local/microsoft-seeks-rezoning-potential-data-center-in-gaines-township/69-42938090-280d-436d-b837-907fabb85e4d",
      "date": "2025-12-15",
-     "text": "WZZM 13 - Microsoft seeks rezoning for potential data center in Gaines Township"
+     "text": "WZZM 13 - Microsoft seeks rezoning for potential data center in Gaines Township",
+     "types": [
+      "news"
+     ]
     }
    ],
    "stakeholders": {
@@ -11059,6 +11316,9 @@
      "Microsoft"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -11102,7 +11362,7 @@
       ]
      },
      "properties": {
-      "name": "Microsoft Gaines Township Data Center",
+      "name": "Microsoft Gaines Township",
       "phase": "proposed"
      }
     }
@@ -11113,17 +11373,26 @@
     {
      "id": "https://www.dbusiness.com/hustle-and-muscle-articles/large-data-center-planned-in-kalkaska-joins-4-other-proposed-projects-in-michigan/",
      "date": "2025-12-1",
-     "text": "DBusiness Magazine - Large Data Center Planned in Kalkaska, Joins 4 Other Proposed Projects"
+     "text": "DBusiness Magazine - Large Data Center Planned in Kalkaska, Joins 4 Other Proposed Projects",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.traverseticker.com/news/data-center-explored-for-kalkaska/",
      "date": "2025-11-17",
-     "text": "The Ticker - Data Center Explored for Kalkaska"
+     "text": "The Ticker - Data Center Explored for Kalkaska",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://spectrumlocalnews.com/mi/michigan/news/2025/11/24/clean-energy-company-abandons-kalkaska-data-center-proposal-on-public-land",
      "date": "2025-11-24",
-     "text": "Spectrum Local News - Clean energy company abandons public land Kalkaska data center proposal"
+     "text": "Spectrum Local News - Clean energy company abandons public land Kalkaska data center proposal",
+     "types": [
+      "news"
+     ]
     }
    ],
    "stakeholders": {
@@ -11131,6 +11400,9 @@
      "RockLocker LLC"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -11194,7 +11466,7 @@
       ]
      },
      "properties": {
-      "name": "Rocklocker Kalkaska Data Center",
+      "name": "Rocklocker Kalkaska",
       "phase": "withdrawn"
      }
     }
@@ -11222,7 +11494,10 @@
     {
      "id": "https://www.michigandaily.com/opinion/columns/deception-deflection-and-disregard-how-umich-is-forcing-a-data-center-on-ypsilanti/",
      "date": "2025-12-9",
-     "text": "The Michigan Daily - Deception, deflection and disregard: How UMich is forcing a data center on Ypsilanti"
+     "text": "The Michigan Daily - Deception, deflection and disregard: How UMich is forcing a data center on Ypsilanti",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://planetdetroit.org/2025/06/university-michigan-data-center-concerns/",
@@ -11234,12 +11509,18 @@
     },
     {
      "id": "https://research.umich.edu/research-at-michigan/lanl/",
-     "text": "University of Michigan × Los Alamos Supercomputing Research Center"
+     "text": "University of Michigan - University of Michigan × Los Alamos Supercomputing Research Center",
+     "types": [
+      "developer"
+     ]
     },
     {
      "id": "https://www.route-fifty.com/artificial-intelligence/2025/10/los-alamos-and-university-michigan-want-build-national-security-data-center-ypsilanti-residents-and-local-officials-see-few-benefits/408680/",
      "date": "2025-10-8",
-     "text": "Route Fifty - Los Alamos and University of Michigan want to build a national security ‘data center’ in Ypsilanti. Residents and local officials see few benefits"
+     "text": "Route Fifty - Los Alamos and University of Michigan want to build a national security ‘data center’ in Ypsilanti. Residents and local officials see few benefits",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.ecocenter.org/when-ai-comes-town-ypsilanti-data-center-and-environmental-responsibility",
@@ -11252,6 +11533,9 @@
      "University of Michigan"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -11450,7 +11734,10 @@
    "sources": [
     {
      "id": "https://ironwooddatacenter.com/",
-     "text": "Project Ironwood (Official Website)"
+     "text": "Project Ironwood - Homepage",
+     "types": [
+      "developer"
+     ]
     },
     {
      "id": "https://www.13abc.com/2025/09/24/potential-data-center-coming-dundee-township/",
@@ -11466,6 +11753,9 @@
      "Cloverleaf Infrastructure"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -11687,23 +11977,62 @@
     },
     {
      "id": "https://nodatacenterlyon.org/",
-     "text": "No Data Center Lyon"
+     "text": "No Data Center Lyon - Homepage",
+     "types": [
+      "advocacy"
+     ]
     },
     {
      "id": "https://projectflexmi.com/",
-     "text": "Project Flex Michigan (Official Website)"
+     "text": "Project Flex Michigan - Homepage",
+     "types": [
+      "developer"
+     ]
     },
     {
      "id": "https://www.lyontwp.org/news_detail_T9_R645.php",
      "date": "2025-12-11",
-     "text": "Lyon Township - Project Flex Press Release"
+     "text": "Lyon Township - Project Flex Press Release",
+     "types": [
+      "government"
+     ]
+    },
+    {
+     "id": "https://thelivingstonpost.com/project-flex-one-year-later-part-i/",
+     "date": "2026-9-8",
+     "text": "The Livingston Post - Project Flex one year later: Part I",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.crainsdetroit.com/technology/cdb-anthropic-projectflex-datacenter-20260414/",
+     "date": "2026-4-14",
+     "text": "Crain's Detroit Business - Claude AI maker Anthropic in talks for Southeast Michigan hyperscale data center",
+     "types": [
+      "news"
+     ]
     }
+   ],
+   "notes": [
+    "Purporting to utilize BESS instead of diesel backup generators; local engineers reviewing the site plan believe generators could be added later."
    ],
    "stakeholders": {
     "D": [
-     "Verrus"
+     "Verrus",
+     "Anthropic"
     ]
    },
+   "powerSource": [
+    "grid"
+   ],
+   "niche": [
+    "ai",
+    "cloud"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -11781,7 +12110,10 @@
     {
      "id": "https://www.lbwl.com/community/newsroom/2025-11-05-deep-green-proposes-120-million-sustainable-data-center-investment",
      "date": "2025-11-05",
-     "text": "Lansing BWL - Deep Green proposes $120 million sustainable data center investment in downtown Lansing"
+     "text": "Lansing BWL - Deep Green proposes $120 million sustainable data center investment in downtown Lansing",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.wilx.com/2026/03/05/lansing-planning-commission-approves-rezoning-deep-green-data-center/",
@@ -11881,6 +12213,9 @@
      "Franklin Partners LLC"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -11992,7 +12327,7 @@
       ]
      },
      "properties": {
-      "name": "Pavillion Township Data Center",
+      "name": "Pavilion Township Data Center",
       "phase": "withdrawn"
      }
     }
@@ -12093,6 +12428,9 @@
      "Metrobloks"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -12140,7 +12478,7 @@
       ]
      },
      "properties": {
-      "name": "Metrobloks Southfield Data Center",
+      "name": "Metrobloks Southfield",
       "phase": "proposed"
      }
     }
@@ -12225,10 +12563,19 @@
     }
    ],
    "stakeholders": {
+    "A": [
+     "Stantec Consulting Michigan Inc."
+    ],
+    "D": [
+     "Meta"
+    ],
     "R": [
      "Randee LLC"
     ]
-   }
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
   },
   "117": {
    "sources": [
@@ -12360,7 +12707,7 @@
       ]
      },
      "properties": {
-      "name": "Clinton Amazon Data Center",
+      "name": "Amazon Clinton",
       "phase": "proposed"
      }
     }
@@ -12546,7 +12893,7 @@
       ]
      },
      "properties": {
-      "name": "Ridgeland Amazon Data Center",
+      "name": "Amazon Ridgeland",
       "phase": "proposed"
      }
     }
@@ -12849,7 +13196,7 @@
       ]
      },
      "properties": {
-      "name": "Vicksburg Amazon Data Center",
+      "name": "Project Steamboat",
       "phase": "proposed"
      }
     }
@@ -13174,7 +13521,7 @@
       ]
      },
      "properties": {
-      "name": "MACROHARDRR",
+      "name": "xAI MACROHARDRR",
       "phase": "construction"
      }
     }
@@ -13289,14 +13636,17 @@
      ]
     }
    ],
-   "notes": [
-    "Using lower bound for IT capacity (800 MW vs 1200 MW)."
-   ],
    "stakeholders": {
     "D": [
      "Nebius"
     ]
    },
+   "niche": [
+    "cloud"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -13380,7 +13730,7 @@
       ]
      },
      "properties": {
-      "name": "Nebius Independence Hyperscale Campus",
+      "name": "Nebius Independence",
       "phase": "construction"
      }
     }
@@ -13397,16 +13747,25 @@
    "sources": [
     {
      "id": "http://mcmo.us/amazon/",
-     "text": "Montgomery County, MO - Montgomery County, MO Data Center -Project Green (Amazon Web Services)"
+     "text": "Montgomery County, MO - Montgomery County, MO Data Center -Project Green (Amazon Web Services)",
+     "types": [
+      "government"
+     ]
     },
     {
      "id": "https://amazonstlwest.com/",
-     "text": "Amazon Access STL West - Amazon Explores Montgomery County for New Data Center Investment"
+     "text": "Amazon Access STL West - Amazon Explores Montgomery County for New Data Center Investment",
+     "types": [
+      "developer"
+     ]
     },
     {
      "id": "https://themissouritimes.com/aws-new-facilities-near-new-florence-will-double-tax-revenue-for-montgomery-county/",
      "date": "2026-2-4",
-     "text": "Missouri Times - AWS’ new facilities near New Florence will double tax revenue for Montgomery County"
+     "text": "Missouri Times - AWS’ new facilities near New Florence will double tax revenue for Montgomery County",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.komu.com/news/midmissourinews/montgomery-county-hears-public-comment-on-amazon-data-center-process/article_d43107d7-3b24-4a17-870c-e760059ea0f8.html",
@@ -13425,6 +13784,9 @@
      "NorthPoint Development"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -13538,6 +13900,9 @@
      "Related Digital"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -13673,6 +14038,12 @@
      "Crusoe"
     ]
    },
+   "niche": [
+    "ai"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -13756,7 +14127,7 @@
       ]
      },
      "properties": {
-      "name": "Crusoe Warrenton AI Data Center",
+      "name": "Crusoe Warrenton",
       "phase": "proposed"
      }
     }
@@ -13790,7 +14161,10 @@
     {
      "id": "https://spectrumlocalnews.com/mo/st-louis/news/2026/04/13/st-louis-festus-data-center-crg-bob-clark",
      "date": "2026-4-13",
-     "text": "Spectrum Local News - Data center developer responds to Festus upheaval"
+     "text": "Spectrum Local News - Data center developer responds to Festus upheaval",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.stlpr.org/government-politics-issues/2026-04-08/6b-data-center-festus-voters-oust-every-incumbent-council-member",
@@ -13811,12 +14185,18 @@
     {
      "id": "https://www.stltoday.com/news/local/business/article_38d69067-33b4-4cd8-ad6d-3810cf6c166b.html",
      "date": "2026-4-13",
-     "text": "STL Today - Clayco chief defends Festus data center, worries St. Louis area will be 'left out' of boom"
+     "text": "STL Today - Clayco chief defends Festus data center, worries St. Louis area will be 'left out' of boom",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://nypost.com/2026/04/10/business/after-missouri-city-approves-6b-data-center-angry-voters-get-revenge-at-the-polls/",
      "date": "2026-4-10",
-     "text": "NY Post - After Missouri city approves $6B data center, angry voters get revenge at the polls"
+     "text": "NY Post - After Missouri city approves $6B data center, angry voters get revenge at the polls",
+     "types": [
+      "news"
+     ]
     }
    ],
    "notes": [
@@ -13828,6 +14208,9 @@
      "Clayco"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -13983,7 +14366,7 @@
       ]
      },
      "properties": {
-      "name": "CRG Festus Data Center",
+      "name": "CRG Festus",
       "phase": "proposed"
      }
     }
@@ -14036,7 +14419,10 @@
     {
      "id": "https://missouripartnership.com/metrobloks-selects-liberty-missouri-for-1-4-billion-data-center-investment/",
      "date": "2026-3-24",
-     "text": "Missouri Partnership - Metrobloks Selects Liberty, Missouri, for $1.4 Billion Data Center Investment"
+     "text": "Missouri Partnership - Metrobloks Selects Liberty, Missouri, for $1.4 Billion Data Center Investment",
+     "types": [
+      "news"
+     ]
     }
    ],
    "notes": [
@@ -14048,6 +14434,9 @@
      "Lincoln"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -14111,7 +14500,7 @@
       ]
      },
      "properties": {
-      "name": "Metrobloks Liberty Data Center Campus",
+      "name": "Metrobloks Liberty",
       "phase": "proposed"
      }
     }
@@ -14142,9 +14531,6 @@
       "government"
      ]
     }
-   ],
-   "notes": [
-    "Using the lower expected IT capacity (current 24 MW vs future 100 MW potential)."
    ],
    "stakeholders": {
     "D": [
@@ -14185,6 +14571,9 @@
      "Geronimo Power"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -14264,7 +14653,7 @@
       ]
      },
      "properties": {
-      "name": "Geronimo Power Sarcoxie Hyperscale Data Center",
+      "name": "Jasper County Powered Data Park",
       "phase": "proposed"
      }
     }
@@ -14275,32 +14664,50 @@
     {
      "id": "https://www.firstalert4.com/2026/02/20/data-center-projects-spark-community-debates-both-sides-mississippi-river/",
      "date": "2026-2-19",
-     "text": "First Alert 4 - Data center projects spark community debates on both sides of Mississippi River"
+     "text": "First Alert 4 - Data center projects spark community debates on both sides of Mississippi River",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.westnewsmagazine.com/news/data-center-meeting-fills-pacific-city-hall-to-standing-room-only/article_364f008e-fa84-4055-9a8a-466c091b3e90.html",
      "date": "2026-1-30",
-     "text": "West News Magazine - Data center meeting fills Pacific city hall to standing room only"
+     "text": "West News Magazine - Data center meeting fills Pacific city hall to standing room only",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.firstalert4.com/2026/04/21/franklin-county-meeting-could-be-turning-point-data-center-debate/",
      "date": "2026-4-21",
-     "text": "First Alert 4 - Franklin County meeting could be turning point in data center debate"
+     "text": "First Alert 4 - Franklin County meeting could be turning point in data center debate",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://hoodline.com/2026/02/pacific-erupts-over-16-billion-data-center-invasion/",
      "date": "2026-2-20",
-     "text": "Hoodline - Pacific Erupts Over $16 Billion Data Center Invasion"
+     "text": "Hoodline - Pacific Erupts Over $16 Billion Data Center Invasion",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://hometownmatters.com/data-center-meeting-draws-crowd-reveals-disconnect-between-mayor-and-aldermen/",
      "date": "2026-1-29",
-     "text": "Hometown Matters - Data Center Meeting Draws Crowd, Reveals Disconnect Between Mayor and Aldermen"
+     "text": "Hometown Matters - Data Center Meeting Draws Crowd, Reveals Disconnect Between Mayor and Aldermen",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.stlmag.com/business/pacific-data-center-beltline-energy-proposal/",
      "date": "2026-1-28",
-     "text": "St. Louis Magazine - Pacific residents push back on $16B data center pitched for their slice of Franklin County"
+     "text": "St. Louis Magazine - Pacific residents push back on $16B data center pitched for their slice of Franklin County",
+     "types": [
+      "news"
+     ]
     }
    ],
    "notes": [
@@ -14314,6 +14721,9 @@
      "Logistix"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -14557,13 +14967,16 @@
    ],
    "notes": [
     "250 long term jobs refers only to data center related positions.",
-    "The map boundary includes proposed permanent open spaces—the data center campus will NOT take up the entire area."
+    "The map boundary includes proposed permanent open spaces—the data center campus will NOT take up the entire area. Part of Diamond Farm property."
    ],
    "stakeholders": {
     "D": [
      "Provident Data Centers"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -14706,17 +15119,26 @@
     {
      "id": "https://thebeaconnews.org/stories/2026/03/18/kansas-city-data-centers-ai-job-security/",
      "date": "2026-3-18",
-     "text": "The Beacon - Kansas City data centers and AI flip the script on job security"
+     "text": "The Beacon - Kansas City data centers and AI flip the script on job security",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://missouripartnership.com/meta-data-center-opens-represents-1b-investment-in-missouri/",
      "date": "2025-8-20",
-     "text": "Missouri Partnership - Meta Data Center Opens; Represents $1B Investment in Missouri"
+     "text": "Missouri Partnership - Meta Data Center Opens; Represents $1B Investment in Missouri",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://startlandnews.com/2025/08/meta-data-center-kansas-city/",
      "date": "2025-8-21",
-     "text": "Startland News - Meta’s billion-dollar KC data center just came online; here’s what the region expects it to generate"
+     "text": "Startland News - Meta’s billion-dollar KC data center just came online; here’s what the region expects it to generate",
+     "types": [
+      "news"
+     ]
     }
    ],
    "notes": [
@@ -14727,39 +15149,71 @@
      "Meta",
      "Diode Ventures"
     ]
-   }
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
   },
   "137": {
    "sources": [
     {
      "id": "https://www.ozarksfirst.com/news/company-behind-webster-county-data-center-responds-to-backlash/",
      "date": "2026-5-13",
-     "text": "Ozarks First - Company behind Webster County data center responds to backlash"
+     "text": "Ozarks First - Company behind Webster County data center responds to backlash",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.ozarksfirst.com/news/concerns-over-marshfield-data-center/",
      "date": "2026-5-6",
-     "text": "Ozarks First - Marshfield residents continue pushback on planned data center"
+     "text": "Ozarks First - Marshfield residents continue pushback on planned data center",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://sbj.net/stories/data-center-underway-in-webster-county,104155",
      "date": "2026-5-7",
-     "text": "SBJ - Data center underway in Webster County"
+     "text": "SBJ - Data center underway in Webster County",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.ky3.com/2026/04/22/rumors-data-center-webster-county-sparks-community-concerns/",
      "date": "2026-4-22",
-     "text": "KY3 - Rumors of data center in Webster County spark community concerns"
+     "text": "KY3 - Rumors of data center in Webster County spark community concerns",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.protectwebstercounty.com/the-project",
+     "text": "Protect Webster County - Information About The Data Center",
+     "types": [
+      "advocacy"
+     ]
     }
    ],
    "notes": [
-    "Map Boundary represents parcels owned by ARY Investments, LLC."
+    "Map Boundary represents parcels owned by ARY Investments, LLC.",
+    "Modular units, 10x60 ft."
    ],
    "stakeholders": {
     "D": [
      "Lumon Solutions"
     ]
    },
+   "powerSource": [
+    "grid"
+   ],
+   "niche": [
+    "hpc"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -14803,7 +15257,7 @@
       ]
      },
      "properties": {
-      "name": "Lumon Solutions Marshfield HPC Facility",
+      "name": "Lumon Solutions Marshfield Webster",
       "phase": "proposed"
      }
     }
@@ -14814,7 +15268,10 @@
     {
      "id": "https://www.midriversnewsmagazine.com/news/st-charles-residents-push-back-on-hyperscale-data-center-near-city-s-water-source/article_0892c124-6c4c-4ca0-a741-ee7275fbfeb0.html",
      "date": "2025-8-15",
-     "text": "Mid Rivers News - St. Charles residents push back on hyperscale data center near city’s water source"
+     "text": "Mid Rivers News - St. Charles residents push back on hyperscale data center near city’s water source",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.stlpr.org/news-briefs/2025-08-18/developer-controversial-data-center-st-charles",
@@ -14851,7 +15308,7 @@
     {
      "id": "https://house.mo.gov/PressRelease.aspx?prid=372",
      "date": "2025-8-18",
-     "text": "Missouri Gov (Official) - State Rep. Travis Wilson Calls for Withdrawal of “Project Cumulus” Proposal in Saint Charles",
+     "text": "Missouri Gov - State Rep. Travis Wilson Calls for Withdrawal of “Project Cumulus” Proposal in Saint Charles",
      "types": [
       "government"
      ]
@@ -14866,6 +15323,9 @@
      "Clayco"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -14979,7 +15439,10 @@
     "D": [
      "Wildwood Ranch LLC"
     ]
-   }
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
   },
   "140": {
    "sources": [
@@ -15068,17 +15531,26 @@
     {
      "id": "https://moundcitymessenger.com/2026/02/20/foristell-residents-express-opposition-to-proposed-data-center/",
      "date": "2026-2-20",
-     "text": "Mound City Messenger - Foristell Residents Express Opposition to Proposed Data Center"
+     "text": "Mound City Messenger - Foristell Residents Express Opposition to Proposed Data Center",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.stltoday.com/news/local/stcharles/article_c7e6a7e6-dd07-4903-9d28-25ea03e5611e.html",
      "date": "2026-3-17",
-     "text": "St. Louis Dispatch - Foristell to annex 216 acres for possible data center"
+     "text": "St. Louis Dispatch - Foristell to annex 216 acres for possible data center",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.stltoday.com/news/local/stcharles/article_f83ef839-a172-4cf5-9a24-3cc446c79919.html",
      "date": "2026-1-13",
-     "text": "St. Louis Dispatch - Data center developer wants second site in St. Louis area"
+     "text": "St. Louis Dispatch - Data center developer wants second site in St. Louis area",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.ksdk.com/article/news/local/companies-eye-foristell-land-potential-data-centers-developers-st-charles-county-warren-county-farmers-agriculture/63-5dcdc2e6-0c60-4b10-9b3b-88e37b5cc54e",
@@ -15094,7 +15566,10 @@
      "Oppidan Investment Company",
      "Connect"
     ]
-   }
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
   },
   "143": {
    "sources": [
@@ -15121,7 +15596,10 @@
     {
      "id": "https://www.kq2.com/news/2026/05/01/we-do-not-want-this-missouri-residents-fight-back-against-proposed-ai-data-center-in-nodaway-county/",
      "date": "2026-5-1",
-     "text": "KQ2 - ‘We do not want this’: Missouri residents fight back against proposed AI data center in Nodaway County"
+     "text": "KQ2 - ‘We do not want this’: Missouri residents fight back against proposed AI data center in Nodaway County",
+     "types": [
+      "news"
+     ]
     }
    ],
    "notes": [
@@ -15131,18 +15609,27 @@
     "D": [
      "Scale Microgrids"
     ]
-   }
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
   },
   "144": {
    "sources": [
     {
      "id": "https://portkc.com/project/project-mica/",
-     "text": "Port KC - Project Mica"
+     "text": "Port KC - Project Mica",
+     "types": [
+      "government"
+     ]
     },
     {
      "id": "https://www.kansascity.com/news/local/clay-county/article314692654.html",
      "date": "2026-2-14",
-     "text": "The Kansas City Star - Google confirms $10B, 500-acre data center in Kansas City’s Northland"
+     "text": "The Kansas City Star - Google confirms $10B, 500-acre data center in Kansas City’s Northland",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.kshb.com/news/local-news/missouri/kansas-city/google-announces-construction-underway-for-second-data-center-campus-in-kansas-city",
@@ -15153,12 +15640,18 @@
      ]
     }
    ],
+   "notes": [
+    "About $10 billion in tax breaks."
+   ],
    "stakeholders": {
     "D": [
      "Google",
      "Diode Ventures"
     ]
-   }
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
   },
   "145": {
    "sources": [
@@ -15684,7 +16177,7 @@
       ]
      },
      "properties": {
-      "name": "Nutley Data Center",
+      "name": "Prism Capital Partners Nutley Site",
       "phase": "proposed"
      }
     }
@@ -15860,7 +16353,7 @@
       ]
      },
      "properties": {
-      "name": "East Greenwich Township Data Center",
+      "name": "American Tower Mount Royal",
       "phase": "withdrawn"
      }
     }
@@ -16928,7 +17421,7 @@
       ]
      },
      "properties": {
-      "name": "Albany Kenwood Data Center",
+      "name": "Kenwood Commons",
       "phase": "proposed"
      }
     }
@@ -18081,7 +18574,7 @@
       ]
      },
      "properties": {
-      "name": "Kingsboro Data Center Campus",
+      "name": "Kingsboro Data Center",
       "phase": "proposal"
      }
     }
@@ -18388,7 +18881,7 @@
       ]
      },
      "properties": {
-      "name": "Fighting Pike Data Center",
+      "name": "Project Fighting Pike",
       "phase": "proposed"
      }
     }
@@ -18897,7 +19390,7 @@
       ]
      },
      "properties": {
-      "name": "AWS Innovation Campus / New Albany Data Center Campus",
+      "name": "AWS Innovation Campus New Albany",
       "phase": "construction"
      }
     }
@@ -18965,7 +19458,7 @@
       ]
      },
      "properties": {
-      "name": "Vantage New Albany Data Center Campus",
+      "name": "Vantage New Albany Campus",
       "phase": "construction"
      }
     }
@@ -19095,7 +19588,7 @@
       ]
      },
      "properties": {
-      "name": "Google Franklin Furnace Data Center",
+      "name": "AWS Hillard Scioto Campus",
       "phase": "expansion"
      }
     }
@@ -19106,17 +19599,34 @@
     {
      "id": "https://local12.com/news/local/data-center-butler-county-trenton-millions-dollars-real-estate-developers-industrial-land-sale-finalized-new-project-farmland-construction-jobs-long-term-positions",
      "date": "2025-10-28",
-     "text": "Local12 - $7.75M invested for 1-million-square-foot data center in Butler County"
+     "text": "Local12 - $7.75M invested for 1-million-square-foot data center in Butler County",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.journal-news.com/news/trenton-to-host-data-center-forum-open-to-public/NE3R4MUH3ZB2FNU7JUOJ4IJ56A/",
      "date": "2026-2-19",
-     "text": "Journal News - Trenton to host data center forum open to public"
+     "text": "Journal News - Trenton to host data center forum open to public",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.daytondailynews.com/local/life-changing-decision-data-center-growth-fuels-fears-in-local-communities/FQ4JYJCGSVG7TBF7C7A2GR6SVA/",
      "date": "2026-2-19",
-     "text": "Dayton Daily News - ‘Life-changing decision’: Data center growth fuels fears in local communities"
+     "text": "Dayton Daily News - ‘Life-changing decision’: Data center growth fuels fears in local communities",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.journal-news.com/local/what-to-know-about-trenton-s-proposed-data-center-tax-incentives/article_7b381512-adde-58f8-b35b-b43ca25051ef.html",
+     "date": "2026-6-22",
+     "text": "Journal News - What to know about Trenton’s proposed data center tax incentives",
+     "types": [
+      "news"
+     ]
     }
    ],
    "stakeholders": {
@@ -19124,6 +19634,12 @@
      "Prologis"
     ]
    },
+   "powerSource": [
+    "grid"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -19175,7 +19691,7 @@
       ]
      },
      "properties": {
-      "name": "Project Mila / Trenton Industrial Park Data Center",
+      "name": "Project Mila",
       "phase": "proposed"
      }
     }
@@ -19186,7 +19702,10 @@
     {
      "id": "https://www.thebcfa.org/ignitebutler/featured-news-articles/p/item/64490/1b-hyperscale-data-center-could-break-ground-in-city-of-hamilton-in-2026",
      "date": "2025-9-8",
-     "text": "Butler County Finance Authority - $1B hyperscale data center could break ground in city of Hamilton in 2026"
+     "text": "Butler County Finance Authority - $1B hyperscale data center could break ground in city of Hamilton in 2026",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.wcpo.com/hamilton-ohio-data-center-city-council-meeting-october",
@@ -19199,7 +19718,10 @@
     {
      "id": "https://www.journal-news.com/news/residents-say-no-on-1b-data-center-project-wants-hamilton-to-do-the-same/L3YUSLLR2VHMDFXVBXKPBTOHCA/",
      "date": "2025-11-10",
-     "text": "Journal News - Residents say ‘no’ on $1B data center project, want Hamilton to do the same"
+     "text": "Journal News - Residents say ‘no’ on $1B data center project, want Hamilton to do the same",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.wvxu.org/environment/2026-01-15/hamilton-data-center-paused-study",
@@ -19215,6 +19737,9 @@
      "Logistix Property Group"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -19390,7 +19915,7 @@
       ]
      },
      "properties": {
-      "name": "5C Data Center",
+      "name": "5C Springfield",
       "phase": "construction"
      }
     }
@@ -19558,6 +20083,7 @@
   "210": {
    "approvals": [
     {
+     "body": "Piqua City Council",
      "type": "other",
      "notes": "migrated from phase=approved",
      "status": "approved"
@@ -19567,7 +20093,10 @@
     {
      "id": "https://miamivalleytoday.com/piqua-commission-hears-plans-for-new-data-center/",
      "date": "2025-11-7",
-     "text": "Miami Valley Today - Piqua Commission hears plans for new data center"
+     "text": "Miami Valley Today - Piqua Commission hears plans for new data center",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.bizjournals.com/dayton/news/2025/11/05/piqua-data-center-tech-park-shaytura-tax-approved.html",
@@ -19584,13 +20113,52 @@
      "types": [
       "news"
      ]
+    },
+    {
+     "id": "https://www.wdtn.com/news/miami-valley-data-centers/piqua-approves-meta-data-center-deal-despite-protests/",
+     "date": "2026-8-16",
+     "text": "WDTN - Piqua approves Meta data center deal despite protests",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://hntrbrk.com/breaking-news/meta-data-centers",
+     "date": "2026-4-2",
+     "text": "Hunterbrook - BREAKING: Meta Secretly Behind $1B Ohio Data Center Facing Community Pushback",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://piquadata.center/",
+     "text": "Piqua Data Center Tracker (community-led project) - Homepage",
+     "types": [
+      "advocacy"
+     ]
+    },
+    {
+     "id": "https://piquaoh.gov/1673/Data-Center-Project",
+     "text": "Piqua, Ohio - Data Center Project",
+     "types": [
+      "government"
+     ]
     }
    ],
+   "notes": [
+    "Meta is operating under \"J5 LLC\" and \"Shaytura LLC.\""
+   ],
    "stakeholders": {
-    "R": [
-     "Shaytura LLC"
+    "D": [
+     "Meta"
     ]
    },
+   "niche": [
+    "ai"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -19778,7 +20346,7 @@
       ]
      },
      "properties": {
-      "name": "Piqua Data Center",
+      "name": "Project Klondike",
       "phase": "proposed"
      }
     }
@@ -19789,18 +20357,30 @@
     {
      "id": "https://www.sidneydailynews.com/2025/10/31/your-view-data-center-not-just-another-factory/",
      "date": "2025-10-31",
-     "text": "Sidney Daily News - Not Just another factory"
+     "text": "Sidney Daily News - Your View: Data center not just another factory",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.sidneyoh.com/526/6533/Proposed-Data-Center-FAQ",
-     "text": "Sidney Ohio (Official Website) - Proposed Data Center FAQ (Living Document)"
+     "text": "Sidney, Ohio - Proposed Data Center FAQ (Living Document)",
+     "types": [
+      "government"
+     ]
     }
    ],
+   "notes": [
+    "Payments in Lieu of Taxes (PILOT) totaling $50 over 15 years."
+   ],
    "stakeholders": {
-    "T": [
+    "D": [
      "Amazon Web Services"
     ]
-   }
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
   },
   "212": {
    "sources": [
@@ -19926,7 +20506,7 @@
       ]
      },
      "properties": {
-      "name": "Google Franklin Furnace Data Center",
+      "name": "Van Wert Mega Site",
       "phase": "proposed"
      }
     }
@@ -19960,10 +20540,19 @@
     }
    ],
    "stakeholders": {
-    "T": [
-     "OpenAI"
+    "D": [
+     "OpenAI",
+     "Softbank",
+     "Oracle"
     ]
    },
+   "powerSource": [
+    "biomass",
+    "grid"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -20119,7 +20708,7 @@
       ]
      },
      "properties": {
-      "name": "Stargate AI Lordstown Data Center Campus",
+      "name": "Stargate Lordstown",
       "phase": "proposed"
      }
     }
@@ -20210,7 +20799,7 @@
       ]
      },
      "properties": {
-      "name": "",
+      "name": "Lordstown Data Center",
       "phase": "delayed"
      }
     }
@@ -20240,6 +20829,9 @@
      "Google"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -20271,7 +20863,7 @@
       ]
      },
      "properties": {
-      "name": "Google Lockbourne Data Center",
+      "name": "Google Lockbourne",
       "phase": "expansion"
      }
     }
@@ -20289,7 +20881,10 @@
     },
     {
      "id": "https://marysvilleohio.org/772/Data-Center-FAQs",
-     "text": "Marysville Ohio (Official Website) - Data Center FAQs"
+     "text": "Marysville, Ohio - Data Center FAQs",
+     "types": [
+      "government"
+     ]
     },
     {
      "id": "https://www.dispatch.com/story/news/2025/03/11/amazon-marysville-ohio-1-billion-data-center-jobs/82264627007/?gnt-cfr=1&gca-cat=p&gca-uir=true&gca-epti=z115944p000550c000550v115944d--51--b--51--&gca-ft=165&gca-ds=sophi",
@@ -20310,12 +20905,18 @@
     {
      "id": "https://www.marysvillejt.com/2025/02/05/amazon-invests-1-billion-marysville-data-center/",
      "date": "2025-02-05",
-     "text": "Marysville Journal Tribune - City lines up $1B Amazon facility"
+     "text": "Marysville Journal Tribune - City lines up $1B Amazon facility",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://beacon.schneidercorp.com/Application.aspx?AppID=1260&LayerID=41600&PageTypeID=4&PageID=15350&Q=1276493808&KeyValue=29-0023057.0000",
      "date": "2016-11-03",
-     "text": "Union County Beacon - Land Parcel Ownership"
+     "text": "Union County Beacon - Land Parcel Ownership",
+     "types": [
+      "news"
+     ]
     }
    ],
    "stakeholders": {
@@ -20323,6 +20924,9 @@
      "Amazon Web Services"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -20731,11 +21335,17 @@
     {
      "id": "https://sanduskyregister.com/news/549462/diving-deeper-into-data-center/",
      "date": "2024-11-7",
-     "text": "The Sandusky Register - Diving deeper into data center"
+     "text": "The Sandusky Register - Diving deeper into data center",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://aligneddc.com/northeast-ohio-data-centers/",
-     "text": "Aligned Data Centers"
+     "text": "Aligned Data Centers - Northeast Ohio Data Centers",
+     "types": [
+      "developer"
+     ]
     },
     {
      "id": "https://www.youtube.com/watch?v=Xs4DNe-QwdU",
@@ -20744,10 +21354,13 @@
     }
    ],
    "stakeholders": {
-    "O": [
+    "D": [
      "Aligned Data Centers"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -20791,7 +21404,7 @@
       ]
      },
      "properties": {
-      "name": "Google Franklin Furnace Data Center",
+      "name": "Aligned NEO-01",
       "phase": "construction"
      }
     }
@@ -20921,7 +21534,7 @@
       ]
      },
      "properties": {
-      "name": "Microsoft Heath Data Center Campus",
+      "name": "Microsoft Heath Data Center",
       "phase": "construction"
      }
     }
@@ -21047,7 +21660,7 @@
       ]
      },
      "properties": {
-      "name": "Microsoft Hebron Data Center Campus",
+      "name": "Microsoft Hebron Data Center",
       "phase": "construction"
      }
     }
@@ -21116,7 +21729,10 @@
     {
      "id": "https://clintoncountyauditor.org/RealEstate/Summary?Property_ID=30636&TaxYear=0&RowNumber=0",
      "date": "2025-12-10",
-     "text": "Clinton County Auditor - Parcel Information"
+     "text": "Clinton County Auditor - Parcel Information",
+     "types": [
+      "government"
+     ]
     },
     {
      "id": "https://www.chooseclintoncountyoh.org/news/data-center-faqs",
@@ -21132,6 +21748,12 @@
      "Amazon Web Services"
     ]
    },
+   "niche": [
+    "ai"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -21243,7 +21865,7 @@
       ]
      },
      "properties": {
-      "name": "Wilmington Data Center",
+      "name": "AWS Wilmington",
       "phase": "delayed"
      }
     }
@@ -21774,7 +22396,7 @@
       ]
      },
      "properties": {
-      "name": "Killen Revitilization",
+      "name": "Killen Revitilization Project",
       "phase": "proposed"
      }
     }
@@ -22301,12 +22923,18 @@
     {
      "id": "https://www.enr.com/articles/62719-former-fed-uranium-enrichment-site-in-ohio-is-set-to-be-data-center-power-megaproject",
      "date": "2026-3-23",
-     "text": "ENR Midwest - Former Fed Uranium Enrichment Site in Ohio Is Set to Be Data Center-Power Megaproject"
+     "text": "ENR Midwest - Former Fed Uranium Enrichment Site in Ohio Is Set to Be Data Center-Power Megaproject",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.aep.com/news/stories/view/10823/",
      "date": "2026-3-20",
-     "text": "American Electric Power - AEP Ohio Partners to Bring $4.2B in New Electric Infrastructure in Appalachian Ohio Without Raising Customer Rates"
+     "text": "American Electric Power - AEP Ohio Partners to Bring $4.2B in New Electric Infrastructure in Appalachian Ohio Without Raising Customer Rates",
+     "types": [
+      "developer"
+     ]
     },
     {
      "id": "https://www.cleveland.com/news/2026/03/ohios-63-billion-data-centerpower-plant-project-sounds-like-a-dream-too-good-to-be-true.html",
@@ -22323,11 +22951,36 @@
      "types": [
       "news"
      ]
+    },
+    {
+     "id": "https://www.cincinnati.com/story/news/politics/2026/08/24/openai-plans-ohio-data-center/91372218007/",
+     "text": "Cincinnati Enquirer - OpenAI to build world's biggest AI data center in Ohio. What we know",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.ohio.edu/news/2026/07/ohio-leaders-tour-ports-site-reaffirm-commitment-redevelopment-efforts",
+     "date": "2026-7-14",
+     "text": "Ohio Today - OHIO leaders tour PORTS site, reaffirm commitment to redevelopment efforts",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.permitting.gov/newsroom/press-releases/ports-technology-campus-latest-gain-fast-41-coverage",
+     "date": "2026-6-16",
+     "text": "Permitting Council - PORTS Technology Campus is Latest to Gain FAST-41 Coverage",
+     "types": [
+      "news"
+     ]
     }
    ],
    "notes": [
     "Map boundary represents the general area of the former Portsmouth Gaseous Diffusion Plant site.",
-    "Job figures vary across official sources. For example, the U.S. Department of Energy cites 10,000 construction jobs over four years and 2,000 permanent operational positions, while on-site briefing materials referenced by local outlets report peak construction employment as high as 35,000 and permanent staffing at full buildout of approximately 2,500."
+    "Job figures vary across official sources. For example, the U.S. Department of Energy cites 10,000 construction jobs over four years and 2,000 permanent operational positions, while on-site briefing materials referenced by local outlets report peak construction employment as high as 35,000 and permanent staffing at full buildout of approximately 2,500.",
+    "This would become the largest fracked gas power plant in the world.",
+    "640 acres represents the original uranium plant, while the referenced 3,775 acres is the relevant U.S. Department of Energy property."
    ],
    "stakeholders": {
     "D": [
@@ -22339,6 +22992,15 @@
      "AEP Ohio"
     ]
    },
+   "powerSource": [
+    "gas"
+   ],
+   "niche": [
+    "ai"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -22566,7 +23228,7 @@
       ]
      },
      "properties": {
-      "name": "PORTS Technology Center",
+      "name": "Perry Township Data Center",
       "phase": "proposed"
      }
     }
@@ -22577,21 +23239,33 @@
     {
      "id": "https://neo-trans.blog/2026/05/06/1-6b-data-center-planned-in-cleveland/",
      "date": "2026-5-6",
-     "text": "Neo-Trans Blog - $1.6B data center planned in Cleveland"
+     "text": "Neo-Trans Blog - $1.6B data center planned in Cleveland",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.cleveland19.com/2026/05/14/city-rejects-permit-application-proposed-data-center-clevelands-slavic-village-neighborhood/",
-     "text": "19 News - City rejects permit application for proposed data center in Cleveland’s Slavic Village neighborhood"
+     "text": "19 News - City rejects permit application for proposed data center in Cleveland’s Slavic Village neighborhood",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://neo-trans.blog/2026/05/07/more-details-emerge-on-cleveland-data-center/",
      "date": "2026-5-7",
-     "text": "Neo-Trans Blog - More details emerge on Cleveland data center"
+     "text": "Neo-Trans Blog - More details emerge on Cleveland data center",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.news5cleveland.com/news/local-news/clevelands-mayor-has-real-concerns-as-data-center-proposal-surfaces-in-slavic-village",
      "date": "2026-5-7",
-     "text": "ABC 5 Cleveland - Cleveland's mayor has 'real concerns' as data center proposal surfaces in Slavic Village"
+     "text": "ABC 5 Cleveland - Cleveland's mayor has 'real concerns' as data center proposal surfaces in Slavic Village",
+     "types": [
+      "news"
+     ]
     }
    ],
    "notes": [
@@ -22602,6 +23276,9 @@
      "500 ER-EBY Trust"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -22852,12 +23529,25 @@
     {
      "id": "https://www.thepostathens.com/article/2026/02/oh-well-cassidy-mcclurg-ohio-lawmakers-ban-nda-local-officials-scioto-county-commissioner-approved-google-tax-abatement-data-center-southeast-ohio-rural-community-election",
      "date": "2026-2-20",
-     "text": "The Post Athens - Oh Well: Banning NDAs for elected officials affect local elections"
+     "text": "The Post Athens - Oh Well: Banning NDAs for elected officials affect local elections",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://sciotocountydailynews.com/five-big-questions-citizens-still-have-about-the-google-data-center-project/",
      "date": "2026-1",
-     "text": "Scioto County Daily News - Five Big Questions Citizens Still Have About the Google Data Center Project "
+     "text": "Scioto County Daily News - Five Big Questions Citizens Still Have About the Google Data Center Project",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.projectdazzler.com/",
+     "text": "Google - Project Dazzler",
+     "types": [
+      "developer"
+     ]
     }
    ],
    "notes": [
@@ -22868,6 +23558,9 @@
      "Google"
     ]
    },
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -22876,7 +23569,7 @@
       "coordinates": []
      },
      "properties": {
-      "name": "Google Franklin Furnace Data Center",
+      "name": "Project Dazzler",
       "phase": "proposed"
      }
     }
@@ -22887,50 +23580,105 @@
     {
      "id": "https://www.springfieldnewssun.com/news/urbana-forms-oversight-committee-to-study-proposed-1b-data-center/HANXRTY5HZDX3KXUKZ4FXMUGCY/",
      "date": "2026-3-6",
-     "text": "Springfield News Sun - Urbana forms oversight committee to study proposed $1B data center"
+     "text": "Springfield News Sun - Urbana forms oversight committee to study proposed $1B data center",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.springfieldnewssun.com/news/urbana-neighbors-cedar-bog-advocates-push-back-against-data-center/CB6J5G4YLBFL3C6AQS3K2YCDEM/",
      "date": "2026-3-7",
-     "text": "Springfield News Sun - Urbana neighbors, Cedar Bog advocates push back against data center"
+     "text": "Springfield News Sun - Urbana neighbors, Cedar Bog advocates push back against data center",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.urbanaohiodatacenter.com/",
+     "text": "Thor Equities - Urbana Ohio Data Center",
+     "types": [
+      "developer"
+     ]
     }
    ],
    "stakeholders": {
     "R": [
      "Thor Equities"
     ]
-   }
+   },
+   "powerSource": [
+    "grid"
+   ],
+   "informationSource": [
+    "media_monitoring",
+    "crowdsourced"
+   ]
   },
   "236": {
    "sources": [
     {
      "id": "https://www.hometownstations.com/news/allen_county/local-business-leaders-hear-about-the-google-data-center-construction/article_2f803be4-a268-457b-a9ce-2495ebf52d1e.html",
      "date": "2026-4-24",
-     "text": "Hometown Stations - Local business leaders hear about the Google data center construction"
+     "text": "Hometown Stations - Local business leaders hear about the Google data center construction",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.allencountydatacenter.com/",
-     "text": "Google / Allen County Data Center (Official Website) - Allen County Data Center"
+     "text": "Google - Allen County Data Center",
+     "types": [
+      "developer"
+     ]
     },
     {
      "id": "https://www.hometownstations.com/news/allen_county/community-can-access-google-data-center-details-through-aedg-site/article_e413355c-0518-4a57-9da0-70522b0e3e28.html",
      "date": "2026-4-24",
-     "text": "Hometown Stations - Community can access Google data center details through AEDG site"
+     "text": "Hometown Stations - Community can access Google data center details through AEDG site",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://rgp.org/google-to-build-500-million-data-center-in-allen-county/",
-     "text": "RGP Northwest Ohio - Google to Build $500 Million Data Center in Allen County"
+     "text": "RGP Northwest Ohio - Google to Build $500 Million Data Center in Allen County",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://www.aedg.org/data-center-updates/",
      "text": "Allen Economic Development Group - AEDG – Data Center Updates"
+    },
+    {
+     "id": "https://www.limaohio.com/top-stories/2026/07/30/commissioners-approve-google-data-center-sewer-design-change/",
+     "date": "2026-7-30",
+     "text": "limaohio.com - Commissioners approve Google data center sewer design change",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://signalohio.org/google-data-center-near-lima-ohio-neighbors-are-furious/",
+     "date": "2026-7-16",
+     "text": "Signal Ohio - Google is building a $500 million data center in rural Ohio. Neighbors are furious",
+     "types": [
+      "news"
+     ]
     }
+   ],
+   "notes": [
+    "15-year tax abatement offset agreement, $250,000 in annual funding to Elida Local Schools.",
+    "Google operated under \"Bistrozzi LLC.\""
    ],
    "stakeholders": {
     "H": [
      "Google"
     ]
-   }
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
   },
   "237": {
    "sources": [
@@ -23042,7 +23790,7 @@
       ]
      },
      "properties": {
-      "name": "Google Franklin Furnace Data Center",
+      "name": "Bitdeer Weathersfield Project",
       "phase": "proposed"
      }
     }
@@ -23167,7 +23915,7 @@
       ]
      },
      "properties": {
-      "name": "Google Franklin Furnace Data Center",
+      "name": "Johnstown Cologix Data Center",
       "phase": "construction"
      }
     }
@@ -23183,12 +23931,18 @@
     {
      "id": "https://bgindependentmedia.org/meta-data-center-how-it-went-from-economic-development-coup-to-project-local-residents-rue/",
      "date": "2026-02-24",
-     "text": "BG Independent News - Meta data center, how it went from economic development coup to project local residents rue"
+     "text": "BG Independent News - Meta data center, how it went from economic development coup to project local residents rue",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://bgindependentmedia.org/tax-abatement-approved-for-proposed-750-million-data-center-north-of-bg/",
      "date": "2023-09-28",
-     "text": "BG Independent News - Tax abatement approved for proposed $750 million data center north of BG"
+     "text": "BG Independent News - Tax abatement approved for proposed $750 million data center north of BG",
+     "types": [
+      "news"
+     ]
     },
     {
      "id": "https://datacenters.atmeta.com/2025/04/hello-bowling-green/",
@@ -23199,11 +23953,23 @@
      ]
     }
    ],
+   "notes": [
+    "Apollo Generating Station being built to supply this data center, which is a 350 megawatt (MW) natural gas fired electric generation facility. Two 16 inch gas pipelines will feed plant. Nearby land rezoning of 112 acres canceled (possible additional data center?) but rest of Meta project still on track. As of June 2, 2026 13 parcels surrounding the data center were rezoned to M-1 Industrial. These parcels are already owned by Meta and the homes on them have already been razed."
+   ],
    "stakeholders": {
-    "T": [
+    "D": [
      "Meta"
     ]
    },
+   "powerSource": [
+    "gas"
+   ],
+   "btmPowerName": [
+    "Apollo Generating Station"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -23275,7 +24041,7 @@
       ]
      },
      "properties": {
-      "name": "Google Franklin Furnace Data Center",
+      "name": "Meta Bowling Green",
       "phase": "construction"
      }
     }
@@ -23363,7 +24129,7 @@
       ]
      },
      "properties": {
-      "name": "Google Franklin Furnace Data Center",
+      "name": "Microsoft New Albany Data Center",
       "phase": "construction"
      }
     }
@@ -24072,7 +24838,7 @@
       ]
      },
      "properties": {
-      "name": "Zediker Station Data Center Site",
+      "name": "Zediker Station Data Center",
       "phase": "proposed"
      }
     }
@@ -24654,9 +25420,20 @@
      "types": [
       "government"
      ]
+    },
+    {
+     "id": "https://www.wvia.org/news/local/2026-09-22/data-center-developer-joins-workforce-panel-discusses-project-gravity-in-archbald",
+     "date": "2026-9-22",
+     "text": "WVIA - Data center developer joins workforce panel, discusses Project Gravity in Archbald",
+     "types": [
+      "news"
+     ]
     }
    ],
    "stakeholders": {
+    "D": [
+     "Corscale"
+    ],
     "R": [
      "Western Hospitality Partners"
     ]
@@ -24931,7 +25708,7 @@
       ]
      },
      "properties": {
-      "name": "AWS Salem Township Campus (illustrative)",
+      "name": "Blakely AI Data Center",
       "phase": "withdrawn"
      }
     }
@@ -25814,7 +26591,7 @@
       ]
      },
      "properties": {
-      "name": "QTS Data Center Locations",
+      "name": "QTS Salem Data Center",
       "phase": "proposed"
      }
     }
@@ -25873,7 +26650,10 @@
    "sources": [
     {
      "id": "https://lancasteraihub.com/about/",
-     "text": "Chrisia Technology Parks - Lancaster AI Hub"
+     "text": "Chrisia Technology Parks - Lancaster AI Hub",
+     "types": [
+      "developer"
+     ]
     },
     {
      "id": "https://lancasteronline.com/news/local/new-owner-plans-ai-data-centers-in-former-donnelley-lsc-printing-plants-in-lancaster-update/article_29658b12-eeda-11ef-b281-b72b4224cb79.html",
@@ -25901,10 +26681,9 @@
     },
     {
      "id": "https://www.cityoflancasterpa.gov/data-center/",
-     "text": "City of Lancaster (Official Website) - Data Center Information",
+     "text": "City of Lancaster, Pennsylvania - Data Center Information",
      "types": [
-      "government",
-      "developer"
+      "government"
      ]
     },
     {
@@ -25924,6 +26703,9 @@
      ]
     }
    ],
+   "notes": [
+    "72 backup diesel generators."
+   ],
    "stakeholders": {
     "F": [
      "Machine Investment Group"
@@ -25940,7 +26722,7 @@
      "lat": 40.05967714978608,
      "lon": -76.32988653448922,
      "name": "1375 Harrisburg Pike Campus",
-     "address": "1375 Harrisburg Pike (former LSC Communications facility), near Long's Park"
+     "address": "1375 Harrisburg Pike"
     }
    ]
   },
@@ -26269,7 +27051,7 @@
       ]
      },
      "properties": {
-      "name": "PAX - Pennsylvania Digital I",
+      "name": "PAX – Pennsylvania Digital I",
       "phase": "construction"
      }
     }
@@ -26714,7 +27496,7 @@
       ]
      },
      "properties": {
-      "name": "Homer City Energy Campus",
+      "name": "Homer City Energy + AI Campus",
       "phase": "construction"
      }
     }
@@ -26745,16 +27527,46 @@
      "types": [
       "news"
      ]
+    },
+    {
+     "id": "https://www.pennlive.com/business/2026/09/well-pay-for-everything-company-pitches-105b-data-center-plans-in-dauphin-county.html",
+     "date": "2026-9-9",
+     "text": "Penn Live / Patriot News - ‘We’ll pay for everything’: Company pitches $10.5B data center plans in Dauphin County",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://swataratwp.com/wp-content/uploads/2026/09/10-Final-LD-Plans.pdf",
+     "text": "Swatara Township, Pennsylvania - Lot Consolidation and Final Land Development Plans",
+     "types": [
+      "government"
+     ]
+    },
+    {
+     "id": "https://www.fox43.com/article/life/announcements/developer-introduces-plans-to-build-10-billion-data-center-project-in-swatara-township/521-407caab8-89bd-4d5f-9643-c498da650751",
+     "date": "2026-9-9",
+     "text": "Fox43 - Developer introduces plans to build $10 billion data center project in Swatara Township",
+     "types": [
+      "news"
+     ]
     }
    ],
    "notes": [
     "Provident Realty is operating under another entity called \"Harrisburg I, LLC\"."
    ],
    "stakeholders": {
+    "D": [
+     "Corscale"
+    ],
     "R": [
-     "Harrisburg I, LLC"
+     "Provident Realty"
     ]
    },
+   "informationSource": [
+    "media_monitoring",
+    "crowdsourced"
+   ],
    "geojson": [
     {
      "type": "Feature",
@@ -26810,7 +27622,7 @@
       ]
      },
      "properties": {
-      "name": "Dauphin Highlands Golf Course sold for Data Center Development",
+      "name": "Corscale Harrisburg Swatara",
       "phase": "proposed"
      }
     }
@@ -26995,7 +27807,7 @@
       ]
      },
      "properties": {
-      "name": "Hollenback Land Possibly Being Sold for Data Center Development Representation",
+      "name": "Hollenback Township Data Center Development Zoning Application",
       "phase": "preliminary"
      }
     }
@@ -27171,7 +27983,7 @@
       ]
      },
      "properties": {
-      "name": "McKees Rocks Industrial Site",
+      "name": "McKees Rocks Industrial Site Data Center",
       "phase": "preliminary"
      }
     }
@@ -27463,7 +28275,7 @@
       ]
      },
      "properties": {
-      "name": "Robena Data Center Project",
+      "name": "Project Hummingbird",
       "phase": "proposed"
      }
     }
@@ -27628,6 +28440,10 @@
      "lon": -75.55507618446957,
      "phase": "delayed"
     }
+   ],
+   "informationSource": [
+    "media_monitoring",
+    "crowdsourced"
    ],
    "geojson": [
     {
@@ -28329,7 +29145,7 @@
       ]
      },
      "properties": {
-      "name": "Pennhurst Data Center Site",
+      "name": "Pennhurst Data Center",
       "phase": "rejected"
      }
     }
@@ -28503,7 +29319,7 @@
       ]
      },
      "properties": {
-      "name": "Plymouth Data Center Proposal",
+      "name": "Conshohocken Data Center",
       "phase": "proposed"
      }
     }
@@ -28832,7 +29648,7 @@
       ]
      },
      "properties": {
-      "name": "West Hazleton Data Center Proposal",
+      "name": "West Hazleton Data Center",
       "phase": "preliminary"
      }
     }
@@ -29184,7 +30000,7 @@
       ]
      },
      "properties": {
-      "name": "Limerick Linfield Data Center",
+      "name": "Linfield Data Center",
       "phase": "proposed"
      }
     }
@@ -29457,7 +30273,7 @@
       ]
      },
      "properties": {
-      "name": "Kline Township Data Center Proposal",
+      "name": "Kline Township Data Center",
       "phase": "proposed"
      }
     }
@@ -29822,7 +30638,7 @@
       ]
      },
      "properties": {
-      "name": "Atlas Industrial Data Center",
+      "name": "Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus",
       "phase": "proposed"
      }
     }
@@ -30160,7 +30976,7 @@
       ]
      },
      "properties": {
-      "name": "Wyalusing Energy Center",
+      "name": "Klondike Data Center Project",
       "phase": "proposed"
      }
     },
@@ -30398,7 +31214,7 @@
       ]
      },
      "properties": {
-      "name": "Wyalusing Energy Center",
+      "name": "Klondike Data Center Project",
       "phase": "proposed"
      }
     }
@@ -30662,7 +31478,7 @@
       ]
      },
      "properties": {
-      "name": "Limerick / Project Laurel Data Center",
+      "name": "Project Laurel",
       "phase": "proposed"
      }
     }
@@ -30884,7 +31700,7 @@
       ]
      },
      "properties": {
-      "name": "Tobyhanna Township Data Center",
+      "name": "Tobyhanna Township / Blakeslee Data Center",
       "phase": "preliminary"
      }
     }
@@ -31591,7 +32407,7 @@
       ]
      },
      "properties": {
-      "name": "Aliquippa Data Center Campus",
+      "name": "Fezzik Aliquippa Data Center",
       "phase": "proposed"
      }
     }
@@ -33194,7 +34010,7 @@
       ]
      },
      "properties": {
-      "name": "Former Pitt Race Site Data Center",
+      "name": "Switch Data Center at Former Pitt Race Complex",
       "phase": "preliminary"
      }
     }
@@ -35696,7 +36512,7 @@
       ]
      },
      "properties": {
-      "name": "Linde Corporation Data Center",
+      "name": "Linde Clinton Data Center",
       "phase": "rejected"
      }
     }
@@ -37130,7 +37946,7 @@
       ]
      },
      "properties": {
-      "name": "Sharon Data Center",
+      "name": "Keel Infrastructure Sharon",
       "phase": "expansion"
      }
     }
@@ -37362,7 +38178,7 @@
       ]
      },
      "properties": {
-      "name": "Ransom Township Mudiita Data Center",
+      "name": "Mudiita Ransom Township Data Center",
       "phase": "withdrawn"
      }
     }
@@ -38635,7 +39451,7 @@
       ]
      },
      "properties": {
-      "name": "Breaker Street Data Center",
+      "name": "Jessup Breaker Street Data Center",
       "phase": "delayed"
      }
     }
@@ -39039,7 +39855,7 @@
       ]
      },
      "properties": {
-      "name": "Banks Township NorthPoint Data Center",
+      "name": "NorthPoint Spring Mountain Data Center",
       "phase": "proposed"
      }
     }
@@ -39401,7 +40217,7 @@
       ]
      },
      "properties": {
-      "name": "Dorrance Township Data Center (illustrative)",
+      "name": "Dorrance Township Data Center Zoning Ordinance Challenge",
       "phase": "preliminary"
      }
     }
@@ -39536,7 +40352,7 @@
       ]
      },
      "properties": {
-      "name": "Dickson City Data Center Proposal",
+      "name": "East Manchester Farmland to Data Center Initiative Interest",
       "phase": "preliminary"
      }
     }
@@ -40043,7 +40859,7 @@
       ]
      },
      "properties": {
-      "name": "Colossus",
+      "name": "xAI Colossus 1",
       "phase": "operational"
      }
     }
@@ -40184,7 +41000,7 @@
       ]
      },
      "properties": {
-      "name": "Colossus 2",
+      "name": "xAI Colossus 2",
       "phase": "construction"
      }
     }
@@ -40407,7 +41223,7 @@
       ]
      },
      "properties": {
-      "name": "Gallatin Data Center Expansion",
+      "name": "Meta Gallatin",
       "phase": "expansion"
      }
     }
@@ -40708,7 +41524,7 @@
       ]
      },
      "properties": {
-      "name": "5C Memphis Data Center Site",
+      "name": "5C Memphis Data Center",
       "phase": "construction"
      }
     }
@@ -40755,7 +41571,7 @@
       "coordinates": []
      },
      "properties": {
-      "name": "Lawrenceville Data Center",
+      "name": "Lawrenceburg / Ethridge Data Center",
       "phase": "preliminary"
      }
     }
@@ -41152,7 +41968,7 @@
       ]
      },
      "properties": {
-      "name": "Nashville DC Blox Data Center",
+      "name": "DC Blox Nashville",
       "phase": "proposed"
      }
     }
@@ -41544,7 +42360,7 @@
       ]
      },
      "properties": {
-      "name": "Monarch Compute Campus",
+      "name": "Monarch Compute Campus and Mountaineer Gigasystem",
       "phase": "construction"
      }
     }
@@ -42358,7 +43174,7 @@
       ]
      },
      "properties": {
-      "name": "Hog Lick Data Center",
+      "name": "Appalachian Mega Site / Hog Lick Data Center",
       "phase": "preliminary"
      }
     }
@@ -43227,6 +44043,70 @@
     "media_monitoring"
    ]
   },
+  "371": {
+   "sources": [
+    {
+     "id": "https://investors.terawulf.com/news-events/press-releases/detail/100/terawulf-announces-december-2024-production-and-operations",
+     "text": "TeraWulf Inc. - TeraWulf Announces December 2024 Production and Operations Update",
+     "types": [
+      "developer"
+     ]
+    },
+    {
+     "id": "https://www.globenewswire.com/news-release/2025/08/14/3133308/0/en/TeraWulf-Signs-200-MW-10-Year-AI-Hosting-Agreements-with-Fluidstack.html",
+     "date": "2025-8-14",
+     "text": "GlobeNewswire News Room - TeraWulf Signs 200+ MW, 10-Year AI Hosting Agreements with Fluidstack",
+     "types": [
+      "developer"
+     ]
+    },
+    {
+     "id": "https://www.morningstar.com/news/dow-jones/202508182652/google-lifting-stake-in-terawulf-with-additional-14-billion-backstop",
+     "text": "Morningstar, Inc. - Google Lifting Stake in TeraWulf With Additional $1.4 Billion Backstop",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/fluidstack-to-lease-another-160mw-of-capacity-from-terawulf-at-new-york-campus-google-to-increase-stake-in-cryptominer/",
+     "text": "datacenterdynamics.com - Fluidstack to lease another 160MW of capacity from TeraWulf at New York campus, Google to increase stake in cryptominer",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/terawulf-tops-out-latest-data-center-at-lake-mariner-campus-in-new-york/",
+     "text": "datacenterdynamics.com - TeraWulf tops out latest data center at Lake Mariner campus in New York",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/core42-expands-ai-cluster-by-42mw-in-buffalo-new-york/",
+     "text": "datacenterdynamics.com - Core42 expands AI cluster by 42MW in Buffalo, New York",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "TeraWulf",
+     "Fluidstack",
+     "Google",
+     "Core42"
+    ]
+   },
+   "powerSource": [
+    "gas"
+   ],
+   "niche": [
+    "crypto"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
   "372": {
    "sources": [
     {
@@ -43325,6 +44205,9 @@
    },
    "niche": [
     "cloud"
+   ],
+   "informationSource": [
+    "media_monitoring"
    ]
   },
   "376": {
@@ -43546,18 +44429,44 @@
    "sources": [
     {
      "id": "https://www.datacenterdynamics.com/en/news/brookfield-to-develop-gigawatt-scale-data-center-campus-at-does-kentucky-nuclear-enrichment-plant/",
-     "text": "datacenterdynamics.com - Brookfield to develop gigawatt-scale data center campus at DOE's Kentucky nuclear enrichment plant",
+     "date": "2026-7-29",
+     "text": "Data Center Dynamics - Brookfield to develop gigawatt-scale data center campus at DOE's Kentucky nuclear enrichment plant",
      "types": [
       "news"
      ]
+    },
+    {
+     "id": "https://www.reuters.com/business/energy/brookfield-nextera-develop-100-billion-data-center-campus-kentucky-source-says-2026-07-29/",
+     "date": "2026-7-29",
+     "text": "Reuters - NextEra, Brookfield plan $100 billion data center at US uranium site in Kentucky",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.energy.gov/articles/energy-department-announces-partnership-expand-reliable-affordable-energy-access-and-power",
+     "date": "2026-7-29",
+     "text": "U.S. Department of Energy - Energy Department Announces Partnership to Expand Reliable, Affordable Energy Access and Power America’s AI Future in Western Kentucky",
+     "types": [
+      "government",
+      "news"
+     ]
+    },
+    {
+     "id": "https://newsroom.nexteraenergy.com/2026-07-29-DOE-Site-in-Western-Kentucky-Revitalized-with-Data-Center-Campus-and-Dedicated-Energy-Project,-Creating-Jobs-and-Protecting-Residents-and-Businesses-from-Costs?l=12",
+     "date": "2026-7-29",
+     "text": "NextEra Energy - DOE Site in Western Kentucky Revitalized with Data Center Campus and Dedicated Energy Project, Creating Jobs and Protecting Residents and Businesses from Costs",
+     "types": [
+      "developer"
+     ]
     }
    ],
-   "notes": [
-    "DOE site"
-   ],
    "stakeholders": {
-    "D": [
-     ""
+    "F": [
+     "Brookfield Asset Management"
+    ],
+    "U": [
+     "NextEra Energy"
     ]
    },
    "informationSource": [
@@ -43593,11 +44502,88 @@
     "media_monitoring"
    ]
   },
+  "386": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/data-center-moratorium-blocking-gigawatt-campus-challenged-in-cave-city-kentucky/",
+     "text": "datacenterdynamics.com - Data center moratorium blocking gigawatt campus challenged in Cave City, Kentucky",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "On hold due to 12-month moratorium. Being challenged"
+   ],
+   "stakeholders": {
+    "D": [
+     "Kentucky Industrial Alliance LLC"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "387": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/riot-to-convert-cryptomine-site-in-texas-to-hpc-signs-25mw-lease-with-amd/",
+     "text": "datacenterdynamics.com - Riot to convert cryptomine site in Texas to HPC, signs 25MW lease with AMD",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.wpsdlocal6.com/newsletter_stories/city-leaders-hope-to-fill-space-after-cryptocurrency-company-leaves-amerisourcebergen-building-in-paducah/article_6d9aefce-e236-11ec-b493-2ba86b7b6a5b.html",
+     "text": "WPSD Local 6 - City leaders hope to fill space after cryptocurrency company leaves AmerisourceBergen building in Paducah",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Crypto pivoting to HPC."
+   ],
+   "stakeholders": {
+    "D": [
+     "Riot"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "388": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/riot-to-convert-cryptomine-site-in-texas-to-hpc-signs-25mw-lease-with-amd/",
+     "text": "datacenterdynamics.com - Riot to convert cryptomine site in Texas to HPC, signs 25MW lease with AMD",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Crypto pivoting to HPC."
+   ],
+   "stakeholders": {
+    "D": [
+     "Riot"
+    ]
+   },
+   "powerSource": [
+    "grid"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
   "389": {
    "sources": [
     {
      "id": "https://www.datacenterdynamics.com/en/news/submers-rubix-data-centers-proposes-2gw-data-center-at-former-steelworks-in-kentucky/",
-     "text": "datacenterdynamics.com - Submer's Rubix Data Centers proposes 2GW data center at former steelworks in Kentucky",
+     "date": "2026-7-23",
+     "text": "Data Center Dynamics - Submer's Rubix Data Centers proposes 2GW data center at former steelworks in Kentucky",
      "types": [
       "news"
      ]
@@ -43634,6 +44620,2147 @@
    ],
    "informationSource": [
     "media_monitoring"
+   ]
+  },
+  "391": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/officials-in-meade-county-kentucky-reject-data-center-rezoning-plan/",
+     "text": "datacenterdynamics.com - Officials in Meade County, Kentucky, reject data center rezoning plan",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.change.org/p/stop-the-ai-data-center-construction-in-ekron-ky",
+     "text": "Change.org - Sign the Petition",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "392": {
+   "sources": [
+    {
+     "id": "https://www.markleygroup.com/data-center",
+     "text": "markleygroup.com - Data Center | Colocation",
+     "types": [
+      "developer"
+     ]
+    },
+    {
+     "id": "https://www.govtech.com/analytics/massachusetts-residents-protest-data-farm-expansion",
+     "date": "2024-9-24",
+     "text": "GovTech - Massachusetts Residents Protest Data Farm Expansion",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.lowellsun.com/2025/06/25/lowell-city-council-approves-markley-groups-diesel-fueled-expansion/",
+     "date": "2025-6-25",
+     "text": "Lowell Sun - Lowell City Council approves Markley Group’s diesel-fueled expansion",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.yahoo.com/news/articles/25-investigates-raised-concerns-mass-230539627.html",
+     "text": "Yahoo News - 25 Investigates: Raised concerns as Mass. prepares for first hyperscale data center",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.cbsnews.com/boston/news/inside-lowell-markley-data-center",
+     "text": "CBS News - Take a rare look inside the largest data center in Massachusetts. Neighbors call it",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.cbsnews.com/boston/news/judge-halts-expansion-data-center-lowell-massachusetts/",
+     "text": "CBS News - Judge halts expansion of massive data center in Lowell, Massachusetts neighborhood",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.facebook.com/p/Honest-Future-for-Lowell-61581451256994/",
+     "text": "Facebook - Honest Future for Lowell (Local Grassroots Coalition)",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "notes": [
+    "Lowell City Council voted in favor of a 360-day moratorium on expansion at the facility",
+    "Lowell residents had filed a lawsuit in April to stop the installation of additional diesel generators for backup power. On Monday, Aug 10th, a judge imposed a moratorium on the installation of these additional generators."
+   ],
+   "stakeholders": {
+    "D": [
+     "Markely Group"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring",
+    "crowdsourced"
+   ]
+  },
+  "393": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/harrison-street-sells-two-powered-shell-data-center-sites-in-maryland/",
+     "text": "datacenterdynamics.com - Harrison Street sells two powered shell data center sites in Maryland",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "394": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/aws-proposes-data-center-campus-next-to-nuclear-plant-in-calvert-county-maryland/",
+     "date": "2026-4-1",
+     "text": "Data Center Dynamics - AWS proposes data center campus next to nuclear plant in Calvert County, Maryland",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/aws-pulls-out-of-planned-data-center-campus-next-to-maryland-nuclear-plant/",
+     "date": "2026-8-5",
+     "text": "Data Center Dynamics - AWS pulls out of planned data center campus next to Maryland nuclear plant",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.calvertcountymd.gov/DocumentCenter/View/54079/AWS-Community-Open-House-Presentation",
+     "date": "2026-3-26",
+     "text": "Calvert County, Maryland - AWS Community Open House Presentation",
+     "types": [
+      "government"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Amazon"
+    ]
+   },
+   "powerSource": [
+    "nuclear"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "395": {
+   "sources": [
+    {
+     "id": "https://www.appealdigitalparkcalvertmd.com/",
+     "text": "Natelli Holdings - Appeal Digital Park",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.somdnews.com/recorder/news/local/data-center-developer-proposes-site-and-park-in-lusby/article_1f85b73c-235a-4d24-93df-4f42d2246c59.html",
+     "date": "2026-3-25",
+     "text": "South Maryland News - Data center developer proposes site and park in Lusby",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "The developer's official project website mentions both 200,000 SF and 220,000 SF for the building footprint, so the lower value is used."
+   ],
+   "stakeholders": {
+    "D": [
+     "Natelli Holdings"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "396": {
+   "approvals": [
+    {
+     "body": "Federal Energy Regulatory Commission",
+     "date": "2026-7-29",
+     "type": "other",
+     "notes": "The FERC authorized TeraWulf to purchase total ownership interests in Morgantown Power LLC from Lanyard Power Holdings LLC, a GenOn affiliate.",
+     "status": "approved",
+     "local_name": "Ownership Transfer"
+    }
+   ],
+   "sources": [
+    {
+     "id": "https://thebaynet.com/charles-countys-morgantown-plant-being-bought-by-data-infrastructure-company/",
+     "date": "2026-2-4",
+     "text": "The BayNet - Charles County’s Morgantown Plant Being Bought By Data Infrastructure Company",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://actionnetwork.org/groups/charles-county-against-data-centers",
+     "text": "Action Network - Charles County Against Data Centers: Charles County Against Data Centers",
+     "types": [
+      "advocacy"
+     ]
+    },
+    {
+     "id": "https://www.change.org/p/reject-zta-25-187-data-centers-we-want-more-transparency-and-community-involvement",
+     "text": "Change.org - Sign the Petition",
+     "types": [
+      "advocacy"
+     ]
+    },
+    {
+     "id": "https://investors.terawulf.com/news-events/press-releases/detail/129/terawulf-expands-digital-and-power-infrastructure-portfolio-with-strategic-acquisitions-in-kentucky-and-maryland",
+     "date": "2026-2-2",
+     "text": "TeraWulf - TeraWulf Expands Digital and Power Infrastructure Portfolio with Strategic Acquisitions in Kentucky and Maryland",
+     "types": [
+      "developer"
+     ]
+    },
+    {
+     "id": "https://thebaynet.com/terawulf-morgantown-power-plant-ferc-approval/",
+     "date": "2026-7-31",
+     "text": "The BayNet - TeraWulf Gets Federal Approval To Buy Morgantown Power Plant In Charles County",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "TeraWulf is operating under \"Chesapeake Data LLC.\""
+   ],
+   "stakeholders": {
+    "D": [
+     "TeraWulf"
+    ]
+   },
+   "niche": [
+    "hpc",
+    "crypto"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "397": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/land-rezoning-proposal-for-300mw-data-center-in-frankfort-indiana-rescinded-by-developer/",
+     "date": "2025-7-25",
+     "text": "Data Center Dynamics - Land rezoning proposal for 300MW data center in Frankfort, Indiana rescinded by developer",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.wthr.com/article/news/local/clinton-county-commissioners-reject-data-center-project-over-growing-concerns-rezoning-plan-proposal/531-30cc9c05-69e5-4fb6-b510-78929ce6751b",
+     "text": "13 WTHR - Clinton County commissioners reject data center project over 'growing concerns'",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://logistixpg.com/logistix_projects/logix-i-campus/",
+     "text": "Logistix - Logix I Campus",
+     "types": [
+      "developer"
+     ]
+    }
+   ],
+   "notes": [
+    "Clinton County commissioners rejected a plan to rezone the land to build the 715-acre data center in 1/2026"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "398": {
+   "sources": [
+    {
+     "id": "https://wrbiradio.com/greensburg-council-approves-era-establishment-data-center-abatement/",
+     "text": "WRBI Radio - Greensburg Council Approves ERA Establishment, Data Center Abatement",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.yahoo.com/news/development-coming-greensburg-011600861.html",
+     "text": "Yahoo News - New development coming to Greensburg",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://baxtel.com/data-center/jumping-bison-greensburg-in?lat=39.37234142555886&lng=-85.51474217656732&distance=4286.716935410502",
+     "text": "baxtel.com - Jumping Bison: Greensburg, IN Data Center",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.facebook.com/p/Coalition-to-Protect-Decatur-County-Against-AI-Data-Center-61580212506454/",
+     "text": "facebook.com - Coalition to Protect Decatur County Against AI Data Center",
+     "types": [
+      "advocacy"
+     ]
+    },
+    {
+     "id": "https://www.change.org/p/say-no-to-ai-data-centers-in-decatur-county",
+     "text": "Change.org - Sign the Petition",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "informationSource": [
+    "crowdsourced"
+   ]
+  },
+  "399": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/coreweave-to-develop-180mw-data-center-at-digital-crossroads-campus-in-hammond-indiana/",
+     "text": "datacenterdynamics.com - CoreWeave to develop 180MW data center at Digital Crossroads campus in Hammond, Indiana",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "400": {
+   "sources": [
+    {
+     "id": "https://web.archive.org/web/20260419222133/https://www.chicagotribune.com/2026/04/17/developers-answer-questions-about-potential-lowell-area-data-center/",
+     "date": "2026-4-17",
+     "text": "Chicago Tribune - Developers answer questions about potential Lowell-area data center",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.latitudemedia.com/news/in-indiana-an-anatomy-of-data-center-opposition/",
+     "date": "2026-5-1",
+     "text": "Latitude Media - In Indiana, an anatomy of data center opposition",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://projectshirleylakecounty.com/",
+     "text": "Project Shirley",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Sentinel Data Centers"
+    ]
+   },
+   "informationSource": [
+    "crowdsourced"
+   ]
+  },
+  "402": {
+   "approvals": [
+    {
+     "type": "other",
+     "notes": "migrated from phase=approved",
+     "status": "approved"
+    }
+   ],
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/dc-blox-to-expand-into-indiana-targets-data-center-campus-in-indianapolis/",
+     "text": "datacenterdynamics.com - DC Blox to expand into Indiana, targets data center campus in Indianapolis",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/dc-blox-data-center-in-eastern-indianapolis-receives-recommendation-for-approval/",
+     "text": "datacenterdynamics.com - DC Blox data center in eastern Indianapolis receives recommendation for approval",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/dc-blox-data-center-campus-greenlit-in-indianapolis-indiana/",
+     "text": "datacenterdynamics.com - DC Blox data center campus greenlit in Indianapolis, Indiana",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.change.org/p/reject-the-dc-blox-data-center-and-protect-irvington-s-future",
+     "text": "Change.org - Sign the Petition",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "DC Blox"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "403": {
+   "sources": [
+    {
+     "id": "https://www.portercountyin.gov/DocumentCenter/View/51340/Neighborhood-Meeting-County-Presentation-Post",
+     "text": "portercountyin.gov",
+     "types": [
+      "government"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/qts-cans-data-center-scheme-in-porter-county-indiana-after-protests/",
+     "text": "datacenterdynamics.com - QTS cans data center scheme in Porter County, Indiana, after protests",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Blackstone-owned firm has withdrawn its rezoning request for the land after local people voiced concerns about the scheme"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "404": {
+   "sources": [
+    {
+     "id": "https://www.portercountyin.gov/DocumentCenter/View/51340/Neighborhood-Meeting-County-Presentation-Post",
+     "text": "portercountyin.gov",
+     "types": [
+      "government"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/qts-cans-data-center-scheme-in-porter-county-indiana-after-protests/",
+     "text": "datacenterdynamics.com - QTS cans data center scheme in Porter County, Indiana, after protests",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Blackstone-owned firm has withdrawn its rezoning request for the land after local people voiced concerns about the scheme"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "405": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/indianas-city-of-valparaiso-pulls-the-plug-on-agincourt-data-center-project/",
+     "text": "datacenterdynamics.com - Indiana's city of Valparaiso pulls the plug on Agincourt data center project",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.chicagotribune.com/2025/03/11/citizens-outcry-for-transparency-impact-of-potential-data-center-development-in-valparaiso/",
+     "date": "2025-3-11",
+     "text": "Chicago Tribune - Valparaiso mayor drops pursuit of data center after citizens’ outcry for ‘transparency,’ impact of development",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Agincourt Investments"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "407": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/radiusdc-looks-to-build-two-data-centers-outside-indianapolis-indiana/",
+     "text": "datacenterdynamics.com - RadiusDC looks to build two data centers outside Indianapolis, Indiana",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/radiusdc-announces-24mw-data-center-campus-outside-indianapolis-indiana/",
+     "text": "datacenterdynamics.com - RadiusDC announces 24MW data center campus outside Indianapolis, Indiana",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.change.org/p/stop-the-construction-of-a-data-center-in-plainfield-indiana",
+     "text": "Change.org - Sign the Petition",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "408": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/industrial-real-estate-giant-prologis-is-planning-a-large-data-center-development-in-illinois-first-reported-by-local-news-including-shelbyville-news-and-fox-prologis-is-filing-to-develop-a-campus-in-the-city-of-shelbyville-in-central-illinois-lorm/",
+     "text": "Data Center Dynamics - Prologis eyes 13-building data center development in Indiana",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.wthr.com/article/news/local/shelbyville-plan-commission-says-no-429-acre-data-center-project-local-news-construction/531-17a451a1-64e7-4023-b5bf-fdeee3f26f4f",
+     "text": "WTHR - Shelbyville plan commission says 'no' to 429-acre data center project",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Prologis"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "409": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/fluidstack-shares-details-of-planned-data-center-in-sullivan-county-indiana/",
+     "text": "datacenterdynamics.com - Fluidstack shares details of planned data center in Sullivan County, Indiana",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/coatue-sets-up-data-center-venture-partners-with-fluidstack-for-430mw-campus-in-indiana/",
+     "text": "datacenterdynamics.com - Coatue sets up data center venture, partners with Fluidstack for 430MW campus in Indiana",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://sullivanenergydata.com/data-centers/heartland-industrial-park/",
+     "text": "sullivanenergydata.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.facebook.com/groups/886556810945945/",
+     "text": "facebook.com",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "notes": [
+    "Not sure if the New Lebanon 430 MW site is the same as the one adjacent to Merom",
+    "Expected online: 2026?"
+   ],
+   "stakeholders": {
+    "D": [
+     "Fluidstack"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "410": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/prologis-data-center-proposal-in-kosciusko-county-indiana-denied/",
+     "text": "datacenterdynamics.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://wsbt.com/news/local/proposed-data-center-kosciusko-county-denied-planning-commission-rezone-550-acres-farmland-mystery-company-project-property-facility-people-crowd-signatures-petitioner-transmission-power-bolt-lines-indiana",
+     "date": "2025-4-2",
+     "text": "WSBT",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Prologis"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "411": {
+   "sources": [
+    {
+     "id": "https://www.govtech.com/artificial-intelligence/2b-in-data-center-projects-planned-for-merrillville-ind",
+     "date": "2024-11-25",
+     "text": "GovTech - $2B+ in Data Center Projects Planned for Merrillville, Ind.",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/nine-building-data-center-campus-proposed-in-northwest-indiana/",
+     "text": "datacenterdynamics.com - Nine-building data center campus proposed in Northwest Indiana",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Province Group"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "412": {
+   "sources": [
+    {
+     "id": "https://wsbt.com/news/local/new-data-center-receives-unfavorable-recommendation-st-joseph-county-area-plan-commission-farm-land-12-billion-dollar-project-indiana",
+     "date": "2025-9-16",
+     "text": "WSBT - $12 billion data center receives unfavorable recommendation",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.wndu.com/2025/09/16/proposed-12-billion-data-center-st-joseph-county-gets-unfavorable-recommendation/",
+     "date": "2025-9-16",
+     "text": "wndu.com - Proposed $12 billion data center in St. Joseph County gets unfavorable recommendation",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://indianaeconomicdigest.net/Content/Default/Major-Indiana-News/Article/-12-billion-data-center-proposed-in-New-Carlisle-in-St-Joseph-County/-3/5308/119966",
+     "text": "indianaeconomicdigest.net",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.wndu.com/2025/10/29/proposed-12-billion-data-center-gets-unfavorable-recommendation-st-joe-county-committee/",
+     "date": "2025-10-29",
+     "text": "wndu.com - Proposed $12 billion data center gets unfavorable recommendation from St. Joe County committee",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.wndu.com/2025/10/23/new-carlisle-town-council-opposes-proposed-12-billion-data-center/",
+     "date": "2025-10-23",
+     "text": "wndu.com - New Carlisle Town Council opposes proposed $12 billion data center",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://wsbt.com/news/local/st-joseph-county-council-denies-rezoning-of-land-for-data-center-votes-7-2-marathon-meeting-hours-long-public-opinion-13-billion-dollar-project-amazon-new-carlisle-approval-process-plan-commission-st-joseph-county-indiana",
+     "date": "2025-12-10",
+     "text": "WSBT - St. Joseph County Council denies land rezoning for data center",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Discussion may be brought back in May 2026"
+   ],
+   "stakeholders": {
+    "D": [
+     "Mall-O-Manor LLC"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "413": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/meta-to-develop-data-center-campus-in-jeffersonville-indiana/",
+     "text": "datacenterdynamics.com - Meta to develop data center campus in Jeffersonville, Indiana",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/meta-announces-1gw-data-center-campus-in-indiana/",
+     "text": "datacenterdynamics.com - Meta announces 1GW data center campus in Indiana",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Meta"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "414": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/new-york-based-mag-partners-may-build-data-centers-on-235-acre-site-in-baltimore/",
+     "text": "datacenterdynamics.com - New York-based Mag Partners may build data centers on 235-acre site in Baltimore",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Baltimore Peninsula and Port Covington"
+   ],
+   "stakeholders": {
+    "D": [
+     "MAG Partners"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "415": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/cielo-digital-infrastructure-plans-300mw-data-center-campus-in-south-carolina/",
+     "text": "Data Center Dynamics - Cielo Digital Infrastructure plans 300MW data center campus in South Carolina",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.desmoinesregister.com/story/money/business/development/2025/03/17/des-moines-data-center-project-cielo-digital/82309158007/?gnt-cfr=1&gca-cat=p&gca-uir=true&gca-epti=undefined&gca-ft=0&gca-ds=sophi",
+     "date": "2025-3-17",
+     "text": "Des Moines Register - South Des Moines farmland could be in line for data center development. What to know:",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Cielo Digital Infrastructure"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "416": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/new-data-center-construction-confirmed-in-adams-county-ohio/",
+     "text": "datacenterdynamics.com - New data center construction confirmed in Adams County, Ohio",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.pjm.com/-/media/DotCom/committees-groups/committees/teac/2026/20260203/20260203-item-06---dayton-supplemental-projects.pdf",
+     "date": "2026-2-3",
+     "text": "pjm.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.wcpo.com/news/local-news/i-team/adams-county-data-center-could-be-one-of-ohios-biggest-power-guzzlers",
+     "date": "2026-2-20",
+     "text": "WCPO 9 Cincinnati - Adams County data center could be one of Ohio's biggest power guzzlers",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.foodandwaterwatch.org/2026/05/28/inside-the-fight-to-stop-a-data-center-in-ohio/",
+     "date": "2026-5-28",
+     "text": "Food & Water Watch - Inside the Fight to Stop a Data Center in Ohio",
+     "types": [
+      "advocacy"
+     ]
+    },
+    {
+     "id": "https://amazon.adamscountyoh.gov/",
+     "date": "2022-10-5",
+     "text": "RM Custom Theme",
+     "types": [
+      "government"
+     ]
+    },
+    {
+     "id": "https://www.facebook.com/groups/3210572959125541/",
+     "text": "facebook.com - Backlash from community members during town hall meetings. A Facebook group with over 1,000 members has been organizing against the project.",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "notes": [
+    "Could reach 11.4 million megawatt hours annually by 2032, 31 times Adams County’s 2025 consumption of 366"
+   ],
+   "stakeholders": {
+    "D": [
+     "AWS"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "417": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/real-estate-firm-eyes-amherst-ohio-for-potential-data-center-project/",
+     "text": "datacenterdynamics.com - Real estate firm eyes Amherst, Ohio, for potential data center project",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "418": {
+   "sources": [
+    {
+     "id": "https://abc6onyourside.com/news/local/pataskala-residents-rally-at-city-hall-to-fight-aligned-data-center-seek-petition-drive-ohio",
+     "date": "2026-6-3",
+     "text": "WSYX - Pataskala residents rally at City Hall to fight Aligned data center, seek petition drive",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "notes": [
+    "From specific documents, appears to be a separate facility from Mink East Data Center"
+   ],
+   "stakeholders": {
+    "D": [
+     "Aligned Data Centers"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "419": {
+   "sources": [
+    {
+     "id": "https://edocpub.epa.ohio.gov/publicportal/ViewDocument.aspx?docid=4170748",
+     "text": "edocpub.epa.ohio.gov",
+     "types": [
+      "government"
+     ]
+    }
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "420": {
+   "sources": [
+    {
+     "id": "https://www.theintelligencer.net/news/community/2025/06/opportunities-eyed-for-former-w-h-sammis-plant-site-in-stratton/",
+     "date": "2025-6",
+     "text": "The Intelligencer - Opportunities Eyed for Former W.H. Sammis Plant Site in Stratton",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "The current owners of the former Sammis Power Plant property are hoping to bring a data center to Jefferson County by making sure it is one of Ohio’s priority investment areas."
+   ],
+   "informationSource": [
+    "crowdsourced"
+   ]
+  },
+  "421": {
+   "sources": [
+    {
+     "id": "https://www.toledoblade.com/local/suburbs/2026/04/23/data-center-discussion-company-is-interested-waterville-township/stories/20260423024",
+     "date": "2026-4-23",
+     "text": "The Blade - Data center discussion draws crowd; trustees confirm company is ‘interested’ in Waterville Township",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.noawdatacenters.org/",
+     "text": "No to Anthony Wayne Area Data Centers - Homepage",
+     "types": [
+      "advocacy"
+     ]
+    },
+    {
+     "id": "https://drive.google.com/drive/folders/156QHBWS2dY3AQQeMY_COWCzk8NsozaPI?usp=drive_link",
+     "text": "Google Drive - Waterville FOIA Request"
+    }
+   ],
+   "notes": [
+    "Limited public details are available. View sources to see documents obtained in a public records request."
+   ],
+   "informationSource": [
+    "foia"
+   ]
+  },
+  "424": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/300-acres-of-land-in-preble-county-ohio-could-host-data-center-campus/",
+     "text": "datacenterdynamics.com - 300 acres of land in Preble County, Ohio, could host data center campus",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.wdtn.com/news/300-acres-of-farmland-could-be-rezoned-for-new-data-center-near-i-70/",
+     "text": "wdtn.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.registerherald.com/2025/10/06/applicants-withdraw-data-center-project-rezoning-request/",
+     "date": "2025-10-6",
+     "text": "The Register Herald - Applicants withdraw “Data Center Project” rezoning request",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Rezoning request that would make the data center possible was withdrawn as of September 29, 2025."
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "425": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/edgeconnex-files-to-convert-warehouse-and-build-new-700000-sq-ft-data-center-in-new-albany-ohio/",
+     "text": "datacenterdynamics.com - EdgeConneX files to convert warehouse and build new 700,000 sq ft data center in New Albany, Ohio",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/edgeconnex-affiliate-proposes-430mw-natural-gas-plant-to-power-data-center-campus-in-new-albany-ohio/",
+     "text": "datacenterdynamics.com - EdgeConneX affiliate proposes 430MW natural gas plant to power data center campus in New Albany, Ohio",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.edgeconnex.com/albany-north-campus-new-energy-center/",
+     "text": "EdgeConneX - New Albany North Campus Energy Center",
+     "types": [
+      "developer"
+     ]
+    },
+    {
+     "id": "https://oilandgaswatch.org/facility/f02dee40-717f-42a4-8d6a-2bef9436d24f",
+     "text": "oilandgaswatch.org - EIP Oil & Gas Watch",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://newalbanyohio.org/natural-gas-power/",
+     "text": "City of New Albany - Natural Gas Power",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Phase 1 - 120 MW gas plant and a 524,525 sq ft building, Phase II - 216 MW gas plant and two-story 700,000 sq ft building, as well as a separate 80,000 sq ft (7,430 sqm) energy center building housing gas-fired generators, Phase III - 430 MW gas plant."
+   ],
+   "stakeholders": {
+    "D": [
+     "EdgeConneX"
+    ]
+   },
+   "powerSource": [
+    "gas"
+   ],
+   "btmPowerName": [
+    "PowerConneX I, II, and III New Albany Energy Center"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "426": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/karis-critical-purchases-115-acres-for-data-center-in-new-albany-ohio/",
+     "text": "datacenterdynamics.com - Karis Critical purchases 115 acres for data center in New Albany, Ohio",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://archive.is/20250723064521/https://www.bizjournals.com/columbus/news/2025/07/22/karis-critical-smart-farms-data-center-new-albany.html",
+     "date": "2025-7-22",
+     "text": "archive.is",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://newalbanyohio.org/wp-content/uploads/2025/07/Adopted-Legislation-7-15-25.pdf",
+     "date": "2025-7",
+     "text": "newalbanyohio.org",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://newalbanyohio.org/wp-content/uploads/2025/06/25-0616-PC-Meeting-Packet-Reduced.pdf",
+     "date": "2025-6",
+     "text": "newalbanyohio.org",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.colossusdc.com/industry-news/karis-critical-acquires-115-acres-in-new-albany-for-data-center-development",
+     "text": "colossusdc.com - Karis Critical Acquires 115 Acres in New Albany for Data Center Development",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://karis.com/properties/smart-farm",
+     "text": "Karis - New Albany, OH",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://archive.is/20250821071037/https://www.bizjournals.com/columbus/news/2025/08/20/karis-critical-new-albany-data-center.html",
+     "date": "2025-8-20",
+     "text": "archive.is",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Rezoning for the Smart Farm Zoning District was approved on May 5, 2025 at the New Albany Planning Commission meeting and adopted on July 15, 2025."
+   ],
+   "stakeholders": {
+    "D": [
+     "Karis Critical"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "428": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/michigans-oakland-university-puts-out-call-for-data-center-proposals/",
+     "text": "datacenterdynamics.com - Michigan's Oakland University puts out call for data center proposals",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/michigans-oakland-university-board-votes-to-move-ahead-with-data-center-project/",
+     "text": "datacenterdynamics.com - Michigan's Oakland University board votes to move ahead with data center project",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Oakland University"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "429": {
+   "sources": [
+    {
+     "id": "https://gocolumbiamo.legistar.com/View.ashx?M=F&ID=14838831&GUID=CD9D24B9-05B4-4203-B9BA-8DC02DA95B03",
+     "text": "gocolumbiamo.legistar.com",
+     "types": [
+      "government"
+     ]
+    },
+    {
+     "id": "https://www.komu.com/news/midmissourinews/columbia-residents-speak-against-rezoning-farm-land-for-possible-data-center/article_c4429655-ed89-51d3-a5df-6e57681b2548.html",
+     "text": "KOMU 8 - Columbia residents speak against rezoning farm land for possible data center",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "430": {
+   "sources": [
+    {
+     "id": "https://www.mlive.com/news/ann-arbor/2025/07/farmland-rezoned-for-proposed-1b-data-center-in-southeast-washtenaw-county.html",
+     "date": "2025-7",
+     "text": "mlive.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/local-officials-recommend-denial-of-thor-equities-data-center-in-michigan/",
+     "text": "datacenterdynamics.com - Local officials recommend denial of Thor Equities data center in Michigan",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://augustatownship.org/wp-content/uploads/2025/05/Data_Center_Review.pdf",
+     "date": "2025-5",
+     "text": "augustatownship.org",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://bridgemi.com/michigan-environment-watch/tiny-michigan-town-hopes-to-stop-data-center-with-ballot-initiative/",
+     "date": "2025-10-14",
+     "text": "Bridge Michigan - Tiny Michigan town hopes to stop data center with ballot initiative",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Thor Equities"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "431": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/us-signal-to-expand-capacity-at-data-centers-in-michigan-detroit/",
+     "text": "datacenterdynamics.com - US Signal to expand capacity at data centers in Michigan & Detroit",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://ussignal.com/data-centers/mi03-detroit/",
+     "text": "US Signal - MI03 Detroit Data Center: Leading Data Centers in Michigan",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/panattoni-looks-to-develop-1gw-data-center-campus-outside-detroit-michigan/",
+     "text": "datacenterdynamics.com - Panattoni looks to develop 1GW data center campus outside Detroit, Michigan",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Purported to add 3MW of commercial power"
+   ],
+   "stakeholders": {
+    "D": [
+     "US Signal"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "432": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/switch-plans-second-expansion-of-pyramid-data-center-campus-in-grand-rapids-michigan/",
+     "text": "datacenterdynamics.com - Switch plans second expansion of pyramid data center campus in Grand Rapids, Michigan",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Expanding; adding a third building."
+   ],
+   "stakeholders": {
+    "D": [
+     "Switch"
+    ]
+   },
+   "informationSource": [
+    "crowdsourced"
+   ]
+  },
+  "433": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/mystery-tech-firm-looks-to-build-800-acre-data-center-campus-outside-grand-rapids-michigan/",
+     "text": "datacenterdynamics.com - Mystery tech firm looks to build ~800-acre data center campus outside Grand Rapids, Michigan",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Venerly LLC?"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "434": {
+   "sources": [
+    {
+     "id": "https://www.mlive.com/environment/2026/02/former-nuclear-plant-site-draws-data-center-concerns-in-northern-michigan.html",
+     "date": "2026-2",
+     "text": "mlive.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.mlive.com/environment/2026/03/northern-michigan-township-extends-data-center-pause-amid-concerns-over-big-rock-point.html",
+     "date": "2026-3",
+     "text": "mlive.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://docs.google.com/viewerng/viewer?url=https://www.hayestownshipmi.gov/wp-content/uploads/2026/06/PSA-and-E-mail-Response_Hayes-Twp_FINAL-1.pdf&hl=en_US",
+     "date": "2026-6",
+     "text": "docs.google.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://nocharlevoixdatacenter.org/",
+     "text": "nocharlevoixdatacenter.org - No Charlevoix Data Center",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "notes": [
+    "Although a news report in boynecitizen.com reported that Holtec \"ruled out\" Big Rock Point as a site for a data center on ITS land, which is 100 acres within the 500 acres that Consumers Energy owns on Lake Michigan, there is still the very real possibility that the Consumers Energy property might become a data center. Holtec International has not said anything on its website about ruling out data centers at Big Rock."
+   ],
+   "stakeholders": {
+    "D": [
+     "Holtec"
+    ]
+   },
+   "informationSource": [
+    "crowdsourced"
+   ]
+  },
+  "435": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/microsoft-plans-data-centers-in-dorr-and-lowell-townships-applies-for-property-rezoning-in-gaines-townships/",
+     "text": "datacenterdynamics.com - Microsoft plans data center campuses in Dorr and Lowell Townships, Michigan",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Microsoft"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "436": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/owners-of-indoor-cannabis-farm-in-michigan-offer-site-up-for-data-center-use/",
+     "text": "datacenterdynamics.com - Owners of indoor cannabis farm in Michigan offer site up for data center use",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Harbor Farmz"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "437": {
+   "sources": [
+    {
+     "id": "https://www.mlive.com/news/grand-rapids/2025/12/why-a-top-10-company-is-eyeing-a-data-center-in-this-west-michigan-town.html",
+     "date": "2025-12",
+     "text": "mlive.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.change.org/p/big-tech-wants-our-community-lowell-mi-and-great-lakes-allies-say-no",
+     "text": "Change.org - Sign the Petition",
+     "types": [
+      "advocacy"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/developer-in-lowell-township-michigan-withdraws-data-center-application-following-opposition/",
+     "text": "datacenterdynamics.com - Developer in Lowell Township, Michigan, withdraws data center application following opposition",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.wzzm13.com/article/news/local/microsoft-proposed-lowell-data-center/69-7cdddbc3-6793-4fbc-bd27-1d99f2a76e8e",
+     "text": "wzzm13.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/microsoft-plans-data-centers-in-dorr-and-lowell-townships-applies-for-property-rezoning-in-gaines-townships/",
+     "text": "datacenterdynamics.com - Microsoft plans data center campuses in Dorr and Lowell Townships, Michigan",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.facebook.com/residentsunitedlowell",
+     "text": "facebook.com - Residents United for a Healthy Lowell",
+     "types": [
+      "advocacy"
+     ]
+    },
+    {
+     "id": "https://linktr.ee/residentsunitedlowell",
+     "text": "Linktree - Residents United for Lowell Official: Instagram, Facebook",
+     "types": [
+      "advocacy"
+     ]
+    },
+    {
+     "id": "https://www.change.org/p/no-lowell-data-center",
+     "text": "Change.org - Sign the Petition",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Microsoft"
+    ],
+    "R": [
+     "Franklin Partners"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "438": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/michigan-utility-consumers-energy-to-provide-1gw-of-power-to-new-hyperscale-data-center/",
+     "text": "datacenterdynamics.com - Michigan utility Consumers Energy to provide 1GW of power to new hyperscale data center",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Consumers Energy (CMS) is set to provide the energy for this data center."
+   ],
+   "stakeholders": {
+    "D": [
+     "Undisclosed Developer"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "439": {
+   "sources": [
+    {
+     "id": "https://www.thenewsherald.com/2025/12/08/data-center-proposed-in-allen-park-to-be-considered-by-planners/",
+     "date": "2025-12-8",
+     "text": "The News Herald - Data center proposed in Allen Park to be considered by planners",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://cityofallenpark.org/departments/building_and_engineering/faq.php",
+     "text": "cityofallenpark.org - Development Projects & Public Hearings",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://cms3.revize.com/revize/allenparkmi/Documents/Departments/Building%20and%20Engineering/Development%20Projects%20&%20Public%20Hearings/2026/2026.01.08%20Data%20Center/SD-SPBG01-ZZ-Z-BGT-RP-Z-80412%20Report%20for%20PC.pdf?t=202601051514460&t=202601051514460",
+     "text": "cms3.revize.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://planetdetroit.org/2026/01/allen-park-data-center-proposal/",
+     "date": "2026-1-8",
+     "text": "Planet Detroit - Protesters to rally against Allen Park data center before planning vote",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://planetdetroit.org/2026/01/allen-park-postpones-data-center-decision/",
+     "date": "2026-1-9",
+     "text": "Planet Detroit - Allen Park officials postpone decision on 26-megawatt data center",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://tockify.com/miresistevents/detail/1285/1767913200000",
+     "text": "tockify.com - NO to Data Centers Protest - Allen Park",
+     "types": [
+      "advocacy"
+     ]
+    },
+    {
+     "id": "https://www.change.org/p/non-allen-park-mi-residents-help-keep-ai-data-centers-out-of-wayne-county-cities-listed",
+     "text": "Change.org - Sign the Petition",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Solstice"
+    ]
+   },
+   "informationSource": [
+    "crowdsourced"
+   ]
+  },
+  "440": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/google-affiliated-company-buys-430-acres-of-land-in-kansas-city-missouri/",
+     "text": "datacenterdynamics.com - Google affiliated company buys 430 acres of land in Kansas City, Missouri",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Google"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "441": {
+   "sources": [
+    {
+     "id": "https://sbj.net/stories/webster-county-data-center,104328",
+     "text": "Springfield Business Journal - Site selector taps city of Marshfield for data center",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "442": {
+   "sources": [
+    {
+     "id": "https://www.maryvilleforum.com/news/commission-4-billion-ai-data-center-likely-to-go-forward/article_cbbfd4f8-aaad-43b8-8f8a-a3a4e6a6d990.html",
+     "text": "The Maryville Forum - Commission: $4 billion AI data center likely to go forward",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.kxcv.org/news/2026-03-11/with-little-public-notice-data-center-developers-consider-nodaway-county",
+     "date": "2026-3-11",
+     "text": "KXCV-KRNW - With little public notice, data center developers consider Nodaway County",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.change.org/p/stop-the-ai-data-center-from-being-built-in-nodaway-county-and-other-missouri-counties",
+     "text": "Change.org - Sign the Petition",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "notes": [
+    "Possibly near White Cloud wind farm. Very vague detail."
+   ],
+   "stakeholders": {
+    "D": [
+     "ReLoad"
+    ]
+   },
+   "informationSource": [
+    "crowdsourced"
+   ]
+  },
+  "443": {
+   "sources": [
+    {
+     "id": "https://jeremyhasnoplan.com/notes/missouri-data-center-gold-rush/",
+     "text": "jeremyhasnoplan.com - Missouri's Data Center Gold Rush",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://mccmeetingspublic.blob.core.usgovcloudapi.net/moberly-meet-b1f2d06cb1df41dea662239e37259894/ITEM-Attachment-001-129fe376fd124959923d817f5399c4e1.pdf",
+     "text": "mccmeetingspublic.blob.core.usgovcloudapi.net",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Very vague details available"
+   ],
+   "informationSource": [
+    "crowdsourced"
+   ]
+  },
+  "444": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/peculiar-officials-in-missouri-remove-data-centers-from-ordinance-blocking-15bn-diode-project/",
+     "text": "datacenterdynamics.com - Peculiar officials in Missouri remove data centers from ordinance, blocking $1.5bn Diode project",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterwatch.org/report",
+     "text": "Data Center Watch - $64 billion of data center projects have been blocked or delayed amid local opposition",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Diode Ventures"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "445": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/patmos-to-build-new-data-center-in-independence-missouri-as-city-moratorium-discussed/",
+     "text": "datacenterdynamics.com - Patmos to build new data center in Independence, Missouri, as city moratorium discussed",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "446": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/cielo-digital-infrastructure-plans-300mw-data-center-campus-in-south-carolina/",
+     "text": "datacenterdynamics.com - Cielo Digital Infrastructure plans 300MW data center campus in South Carolina",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "447": {
+   "sources": [
+    {
+     "id": "https://www.kshb.com/news/local-news/tech-firm-eyes-development-for-6-data-centers-north-of-kansas-city-international-airport",
+     "date": "2025-6-27",
+     "text": "KSHB 41 Kansas City News - Tech firm eyes development for 6 data centers north of Kansas City International Airport",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://fox4kc.com/news/100-billion-data-center-coming-to-kansas-citys-northland/",
+     "text": "fox4kc.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/google-affiliated-company-buys-430-acres-of-land-in-kansas-city-missouri/",
+     "text": "datacenterdynamics.com - Google affiliated company buys 430 acres of land in Kansas City, Missouri",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "448": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/former-newspaper-building-in-kansas-city-eyed-for-20-story-data-center-development/",
+     "text": "datacenterdynamics.com - Former newspaper building in Kansas City eyed for 20-story data center development",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/officials-reject-proposal-for-20-story-data-center-in-downtown-kansas-city-missouri/",
+     "text": "datacenterdynamics.com - Officials reject proposal for 20-story data center in downtown Kansas City, Missouri",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "powerSource": [
+    "gas"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "449": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/local-businessman-withdraws-application-for-data-center-in-st-joseph-missouri/",
+     "text": "datacenterdynamics.com - Local businessman withdraws application for data center in St. Joseph, Missouri",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.stjosephmo.gov/DocumentCenter/View/21960/Developer-Fact-Sheet",
+     "text": "stjosephmo.gov",
+     "types": [
+      "government"
+     ]
+    }
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "450": {
+   "sources": [
+    {
+     "id": "https://www.youtube.com/watch?v=wYBBZEKJWlk&ab_channel=FOX2St.Louis",
+     "text": "youtube.com",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Adjacent to substation, second data center to be built in Armory parking lot."
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "452": {
+   "sources": [
+    {
+     "id": "https://www.dispatch.com/story/news/2025/05/30/vantage-data-center-campus-millersport-ohio-tech/83921180007/",
+     "date": "2025-5-30",
+     "text": "dispatch.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.nbc4i.com/news/local-news/fairfield-county/some-residents-hesitant-about-new-1-billion-data-center-headed-for-central-ohio/",
+     "text": "nbc4i.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://cleanview.co/public/data-centers/ohio/1895/j5-piqua-data-center",
+     "text": "Cleanview - J5 Piqua Data Center — Miami, Ohio",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.nbc4i.com/news/local-news/fairfield-county/2-1-billion-vantage-data-center-announced-for-fairfield-county/",
+     "text": "nbc4i.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://fairfieldenergycenter.com/",
+     "text": "Fairfield Energy",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://vantagemillersportcampus.com/",
+     "date": "2026-5-7",
+     "text": "Vantage Data Centers OH2 Campus - Vantage Data Centers OH2",
+     "types": [
+      "developer"
+     ]
+    }
+   ],
+   "notes": [
+    "Behind the meter 800 MW Millersport Energy Center was withdrawn, making it unclear how this data center will be powered (https://opsb.ohio.gov/cases/25-0584-el-bgn). A new behind-the-meter plant (Fairfield Energy Center) was proposed to power the data center."
+   ],
+   "stakeholders": {
+    "D": [
+     "Vantage"
+    ]
+   },
+   "btmPowerName": [
+    "Fairfeild Energy Center"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "454": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/muhlenberg-ohio-introduces-year-long-moratorium-on-new-data-centers/",
+     "text": "datacenterdynamics.com - Muhlenberg, Ohio, introduces year-long moratorium on new data centers",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.change.org/p/muhlenberg-twp-and-community-against-data-center-and-or-power-distribution-build",
+     "text": "Change.org - Sign the Petition",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "455": {
+   "approvals": [
+    {
+     "type": "other",
+     "notes": "migrated from phase=approved",
+     "status": "approved"
+    }
+   ],
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/proposed-edgeconnex-data-center-in-pickaway-county-ohio-facing-criticism/",
+     "text": "datacenterdynamics.com - Proposed EdgeConneX data center in Pickaway County, Ohio, facing criticism",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/local-authorities-in-ashville-ohio-deny-annexation-request-for-data-center-project/",
+     "text": "datacenterdynamics.com - Local authorities in Ashville, Ohio, deny annexation request for data center project",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.sciotopost.com/ashville-council-rejects-data-center-annexation-emphasizes-regional-cooperation-and-updated-ceda-agreement/",
+     "date": "2026-2-3",
+     "text": "Scioto Post - Ashville Council Rejects Data Center Annexation, Emphasizes Regional Cooperation and Updated CEDA Agreement",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.sciotopost.com/ashville-greenlights-data-center-as-commercial-point-prepares-legal-fight/",
+     "date": "2026-4-7",
+     "text": "Scioto Post - Ashville Greenlights Data Center as Commercial Point Prepares Legal Fight",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/4453/Ashvillevillage/9a9e344a-f249-4b53-835c-83efb6759bfe/06-2026-DEVELOPMENT-AND-SUPPLY-AGREEMENT-TERM-SUMMARY-WITH-EDGECONNEX.pdf?disposition=inline",
+     "text": "files-backend.assets.thrillshare.com",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.change.org/p/stop-the-proposed-edgeconnex-data-center-in-ashville-ohio",
+     "text": "Change.org - Sign the Petition",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "notes": [
+    "Land annexation voted down, 4-2, site restricted to 200 acres. Site plan included 1.8GW substation and dedicated gas plant",
+    "Advocacy: https://abc6onyourside.com/news/local/ashville-ohio-residents-push-back-against-proposed-edgeconnex-project-data-center-at-packed-council-meeting"
+   ],
+   "stakeholders": {
+    "D": [
+     "EdgeConneX"
+    ]
+   },
+   "powerSource": [
+    "gas"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "457": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/aws-plans-2bn-data-center-campus-in-sunbury-ohio/",
+     "text": "datacenterdynamics.com - AWS plans $2bn data center campus in Sunbury, Ohio",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.delawaresource.com/2026/04/16/sunbury-city-council-passes-moratorium-on-data-centers-in-effect-till-2027/",
+     "date": "2026-4-16",
+     "text": "Delaware Source - Sunbury City Council passes moratorium on data centers until 2027",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://sunburyohio.org/1276/Data-Center",
+     "text": "sunburyohio.org - Data Center",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.delawaresource.com/2026/05/07/sunbury-city-council-announces-data-center-open-house-unveils-more-project-files/",
+     "date": "2026-5-7",
+     "text": "Delaware Source - Public records provide new details on Sunbury’s proposed Amazon data center",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.10tv.com/article/news/local/sunbury-residents-push-let-voters-decide-proposed-amazon-data-center/530-83093f86-a16e-40e1-840b-cd2add004494",
+     "text": "10tv.com",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "On April 15, 2026 the City Council enacted Mayor Joe St. John's proposed moratorium on data centers that would last until January 31, 2027."
+   ],
+   "stakeholders": {
+    "D": [
+     "AWS"
+    ]
+   },
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "458": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/mara-acquires-505mw-gas-plant-in-ohio-intends-to-construct-200mw-data-center-at-site/",
+     "text": "datacenterdynamics.com - Mara acquires 505MW gas plant in Ohio, intends to construct 200MW data center at site",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.mara.com/posts/mara-agreement-to-acquire-long-ridge-energy-power",
+     "text": "mara.com - MARA Advances Its Optimized Digital Infrastructure Strategy with Agreement to Acquire Long Ridge Energy & Power",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.utilitydive.com/news/pjm-market-monitor-mara-data-center-long-ridge/821574/",
+     "text": "utilitydive.com",
+     "types": [
+      "news"
+     ]
+    }
+   ],
+   "notes": [
+    "Taking over existing power plant. Supports more than 1 GW of potential power capacity."
+   ],
+   "powerSource": [
+    "gas"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "459": {
+   "sources": [
+    {
+     "id": "https://www.datacenterdynamics.com/en/news/data-center-project-in-lawrence-county-ohio-sparks-calls-for-moratorium-in-neighboring-city/",
+     "text": "datacenterdynamics.com - Data center project in Lawrence County, Ohio, sparks calls for moratorium in neighboring city",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://irontontribune.com/2025/12/25/jan-8-meeting-set-on-data-center/",
+     "date": "2025-12-25",
+     "text": "The Tribune - Jan. 8 meeting set on data center",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://www.change.org/p/stop-the-ai-data-centers-in-lawrence-county-ohio",
+     "text": "Change.org - Sign the Petition",
+     "types": [
+      "advocacy"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "Strata"
+    ]
+   },
+   "niche": [
+    "ai"
+   ],
+   "informationSource": [
+    "media_monitoring"
+   ]
+  },
+  "461": {
+   "sources": [
+    {
+     "id": "https://www.pennlive.com/news/2026/09/data-center-complex-plan-submitted-to-dauphin-county-township.html",
+     "date": "2026-9-25",
+     "text": "Penn Live / Patriot News - Data center complex plan submitted to Dauphin County township",
+     "types": [
+      "news"
+     ]
+    },
+    {
+     "id": "https://swataratwp.com/wp-content/uploads/2026/08/11-PAA250290_Permit-Plan-Set.pdf",
+     "date": "2026-8-11",
+     "text": "Swatara Township, Pennsylvania - Lot Consolidation and Preliminary / Final Land Development Plans for US Highlands East Purchaser LLC",
+     "types": [
+      "government"
+     ]
+    }
+   ],
+   "stakeholders": {
+    "D": [
+     "US Highlands East Purchaser LLC",
+     "Corscale"
+    ]
+   },
+   "informationSource": [
+    "crowdsourced"
+   ],
+   "geojson": [
+    {
+     "type": "Feature",
+     "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+       [
+        [
+         -76.8019,
+         40.239501
+        ],
+        [
+         -76.797456,
+         40.234456
+        ],
+        [
+         -76.79583,
+         40.231886
+        ],
+        [
+         -76.793686,
+         40.228372
+        ],
+        [
+         -76.793466,
+         40.228718
+        ],
+        [
+         -76.793329,
+         40.229408
+        ],
+        [
+         -76.792987,
+         40.230036
+        ],
+        [
+         -76.793014,
+         40.230821
+        ],
+        [
+         -76.792863,
+         40.231501
+        ],
+        [
+         -76.792712,
+         40.232045
+        ],
+        [
+         -76.791519,
+         40.233663
+        ],
+        [
+         -76.792163,
+         40.23443
+        ],
+        [
+         -76.789238,
+         40.23845
+        ],
+        [
+         -76.790642,
+         40.23926
+        ],
+        [
+         -76.791597,
+         40.240093
+        ],
+        [
+         -76.791992,
+         40.240294
+        ],
+        [
+         -76.795643,
+         40.240536
+        ],
+        [
+         -76.795901,
+         40.239464
+        ],
+        [
+         -76.798749,
+         40.239679
+        ],
+        [
+         -76.799125,
+         40.240318
+        ],
+        [
+         -76.8019,
+         40.239501
+        ]
+       ]
+      ]
+     },
+     "properties": {
+      "name": "Corscale Highland Swatara",
+      "phase": "proposed"
+     }
+    }
    ]
   }
  }
