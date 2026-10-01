@@ -38,9 +38,9 @@ of this repository and this module does not re-score.
 
 | | count |
 |---|---|
-| current rule links | 362 |
-| of those, carrying a model score | 20 (5.5 pct) |
-| of those, with no score | 342 |
+| current rule links | 373 |
+| of those, carrying a model score | 20 (5.4 pct) |
+| of those, with no score | 353 |
 
 A link created after the spike ran cannot be audited here and is counted above
 rather than passed over. As that number grows the audit covers less of the
@@ -65,7 +65,7 @@ Unscored current links (first 20):
 - opp_0e4c335737e1 -> prj_334
 - opp_0f01cb4fa3f5 -> prj_230
 - opp_0f9c5e6b0f52 -> prj_130
+- opp_0fca72cf7a27 -> prj_408
 - opp_11176d608380 -> prj_21
 - opp_112e9c2fa247 -> prj_335
 - opp_11a797b685bb -> prj_439
-- opp_11fa1ec005e1 -> prj_102

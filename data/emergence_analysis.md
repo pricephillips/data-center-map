@@ -1,6 +1,6 @@
 # Emergence Analysis: Verified-Negative Audit
 
-Generated 2026-09-30. Gate thresholds registered 2026-07-27. This is the analysis layer over negative_audit.py; the audit frame design itself is registered separately and is not modified here.
+Generated 2026-10-01. Gate thresholds registered 2026-07-27. This is the analysis layer over negative_audit.py; the audit frame design itself is registered separately and is not modified here.
 
 ## Gate decision
 
@@ -19,14 +19,14 @@ The worklist front-loads rows whose outcome is blocked_confirmed, because a proj
 
 | Stratum | Frame | Coded | Coverage |
 | :-- | :-- | :-- | :-- |
-| purposive (blocked_confirmed) | 22 | 8 | 36.4% |
-| random (all other frame rows) | 192 | 0 | 0.0% |
+| purposive (blocked_confirmed) | 33 | 8 | 24.2% |
+| random (all other frame rows) | 233 | 0 | 0.0% |
 
 Note the shape of the coded set: every coded row to date falls in the purposive cell and none in the random stratum. A combined coverage figure over the whole frame would therefore overstate progress toward an emergence estimate, which depends entirely on the random stratum. Random-stratum coverage is the number that matters and it is the one in the gate table above.
 
 ## Purposive cell: blocked with no recorded opposition
 
-8 of 22 coded. Findings: 5 verified_opposition, 1 verified_none, 2 undeterminable.
+8 of 33 coded. Findings: 5 verified_opposition, 1 verified_none, 2 undeterminable.
 
 This cell was a diagnostic question rather than an estimation target, and it has an answer. Where the cell is dominated by verified_opposition, the reading is that these projects did face opposition and the tracker did not carry it, which makes the cell a detection gap rather than a real population of quietly blocked projects. Consequence for existing statistics: opposition presence among blocked projects was understated, and the affected projects are listed in data/audit_discovered_opposition.csv for entry through the normal sourced-URL path.
 

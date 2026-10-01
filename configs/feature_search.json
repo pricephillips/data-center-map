@@ -48,6 +48,13 @@
     "min_samples_leaf": 20,
     "l2_regularization": 1.0
   },
+  "ebm": {
+    "_comment": "Spec 008 US4. Explainable Boosting Machine (interpret-core) on one target, scored on that target's registered CV folds, then refit once on the whole frame for per-variable shape tables (data/feature_search_shapes.json). Main effects only, so every shape is one readable curve. max_bins 32 (default 1024) keeps each curve chartable: 5-fold AUC on restrict_profile was 0.798 at 32 bins vs 0.799 at 1024, while 1024 bins carry bin-to-bin noise. A challenger: choose_promotions() never reads it. Runs only where feature_search.py runs (feature-search.yml, weekly).",
+    "target": "restrict_profile",
+    "interactions": 0,
+    "outer_bags": 8,
+    "max_bins": 32
+  },
   "permutation_repeats": 5,
   "cluster_threshold": 0.7,
   "weight_filter": {

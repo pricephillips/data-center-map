@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """agenda_extract.py -- grounded candidate rows from agenda or minutes text,
-run locally with LangExtract on an Ollama model. Never in CI.
+run with LangExtract on a local Ollama model (on a workstation, or in
+agenda-extract.yml with an Ollama server inside the runner).
 
 Spec 007, US5. Given agenda or minutes text (from agenda_text.py's cache, or
 any .txt), a local model proposes candidate rows: jurisdiction, body, date,
@@ -13,10 +14,16 @@ against the exact passage it came from.
 
 Rules this script enforces:
 
-  * It refuses to run when the CI environment variable is set (exit 2). The
-    one exception is --selftest, which uses a stubbed model and a fixture
-    agenda, makes no network call, and is how Principle IX's blocking
-    selftest step covers the grounding rule.
+  * It refuses to run when the CI environment variable is set (exit 2),
+    unless --allow-ci is passed. Only agenda-extract.yml passes it (owner
+    decision 2026-10-01): that workflow runs Ollama inside the runner, so
+    the model is still local and no agenda text leaves the job. --selftest
+    uses a stubbed model and a fixture agenda, makes no network call, and is
+    how Principle IX's blocking selftest step covers the grounding rule.
+  * --from-index N reads the N cached agendas with the most keyword hits
+    (agenda_text.py's index and .cache/agenda_text), and only the passages
+    around those hits, so a CPU runner finishes. Window offsets are shifted
+    back, so grounding is still checked against the full document.
   * It writes only a draft worklist: data/<name>_draft.csv. Any other output
     path is refused (exit 2), and so is anything naming master_opposition.
     Price reviews the draft and commits what survives; nothing here promotes
@@ -27,6 +34,7 @@ Rules this script enforces:
     dropped.
 
 Usage (on a machine running Ollama):
+  python scripts/agenda_extract.py --from-index 20
   python scripts/agenda_extract.py --in agenda.txt [--in minutes.txt ...]
       [--model gemma2:2b] [--model-url http://localhost:11434]
       [--out data/agenda_extract_draft.csv]
@@ -40,6 +48,7 @@ import csv
 import hashlib
 import os
 import subprocess
+import tempfile
 import sys
 from datetime import datetime, timezone
 
@@ -56,7 +65,7 @@ ITEM_FIELDS = ("item", "action", "vote")
 FIELDS = MEETING_FIELDS + ITEM_FIELDS
 DRAFT_COLS = (["source_path", "source_sha256", "row_n"]
               + [c for f in FIELDS for c in (f, f"{f}_start", f"{f}_end")]
-              + ["model_id", "extracted_at", "review_status"])
+              + ["model_id", "extracted_at", "review_status", "document_url"])
 
 PROMPT = (
     "Extract, in order of appearance, the local government meeting facts in "
@@ -180,20 +189,81 @@ def langextract_fn(model_id: str, model_url: str):
     return run
 
 
-def extract_file(path: str, extract_fn, model_id: str) -> tuple[list[dict], dict[str, int]]:
+class _Shifted:
+    """An extraction made on a window, with its offsets moved into the full
+    document, so grounding checks it against the whole source text."""
+
+    def __init__(self, ext, offset: int):
+        self.extraction_class = getattr(ext, "extraction_class", "")
+        self.extraction_text = getattr(ext, "extraction_text", "")
+        start, end = _interval(ext)
+        self.char_interval = (None if start is None or end is None
+                              else _CI(start + offset, end + offset))
+
+
+def keyword_windows(text: str, radius: int = 700, max_windows: int = 2) -> list[tuple[int, int]]:
+    """Spans of the document around agenda_text.py's keyword hits, merged
+    where they overlap, densest first. A CPU-only model cannot read a 60-page
+    packet; the passages that name a data center are the ones worth reading."""
+    sys.path.insert(0, ROOT)
+    from agenda_text import TERMS  # noqa: PLC0415
+    spans = sorted((max(0, m.start() - radius), min(len(text), m.end() + radius))
+                   for rx in TERMS.values() for m in rx.finditer(text))
+    merged: list[list[int]] = []
+    for s0, e0 in spans:
+        if merged and s0 <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], e0)
+        else:
+            merged.append([s0, e0])
+    hits = [(sum(1 for rx in TERMS.values() for _ in rx.finditer(text[a:b])), a, b)
+            for a, b in merged]
+    hits.sort(key=lambda h: (-h[0], h[1]))
+    return sorted((a, b) for _, a, b in hits[:max_windows])
+
+
+def extract_file(path: str, extract_fn, model_id: str, windowed: bool = False,
+                 document_url: str = "") -> tuple[list[dict], dict[str, int]]:
     with open(path, encoding="utf-8") as fh:
         text = fh.read()
     sha = hashlib.sha256(text.encode("utf-8")).hexdigest()
-    kept, drops = ground(text, extract_fn(text))
+    if windowed:
+        extractions = [_Shifted(e, a) for a, b in keyword_windows(text)
+                       for e in (extract_fn(text[a:b]) or [])]
+    else:
+        extractions = extract_fn(text)
+    kept, drops = ground(text, extractions)
     rows, orphans = assemble_rows(kept)
     drops["no_item"] = orphans
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     for i, r in enumerate(rows, 1):
         r.update({"source_path": os.path.relpath(os.path.abspath(path), ROOT),
                   "source_sha256": sha, "row_n": i, "model_id": model_id,
-                  "extracted_at": now, "review_status": "draft"})
+                  "extracted_at": now, "review_status": "draft",
+                  "document_url": document_url})
     drops["retained_fields"] = len(kept)
     return rows, drops
+
+
+def inputs_from_index(n: int, index: str = os.path.join(ROOT, "data", "agenda_text_index.csv"),
+                      cache_dir: str = os.path.join(ROOT, ".cache", "agenda_text")
+                      ) -> list[tuple[str, str]]:
+    """(cached text path, document url) for the n agendas with the most
+    keyword hits whose text agenda_text.py has cached."""
+    if not os.path.exists(index):
+        return []
+    with open(index, newline="", encoding="utf-8") as fh:
+        rows = list(csv.DictReader(fh))
+    out, seen = [], set()
+    for r in sorted(rows, key=lambda r: -int(r.get("keyword_hits") or 0)):
+        sha = r.get("sha256") or ""
+        path = os.path.join(cache_dir, f"{sha}.txt")
+        if (int(r.get("keyword_hits") or 0) > 0 and sha not in seen
+                and r.get("text_source") in ("text_layer", "ocr") and os.path.exists(path)):
+            seen.add(sha)
+            out.append((path, r.get("document_url", "")))
+        if len(out) >= n:
+            break
+    return out
 
 
 def write_draft(path: str, rows: list[dict]) -> None:
@@ -291,6 +361,48 @@ def selftest() -> int:
                        env=env, capture_output=True, text=True, timeout=60)
     check(r.returncode == EXIT_REFUSED, "a non-draft output path is refused before any work")
 
+    # Keyword windows (CI runs read passages, not whole packets).
+    long_text = ("Preamble. " * 300) + text + (" Closing remarks." * 300)
+    wins = keyword_windows(long_text, radius=200)
+    check(wins and all(b - a < len(long_text) for a, b in wins)
+          and any(a <= long_text.index("data center") < b for a, b in wins),
+          "keyword windows cover the data center passage, not the whole packet")
+    with tempfile.TemporaryDirectory() as td:
+        lp = os.path.join(td, "long.txt")
+        with open(lp, "w", encoding="utf-8") as fh:
+            fh.write(long_text)
+        wrows, wdrops = extract_file(lp, stub_model, "stub", windowed=True,
+                                     document_url="https://example.gov/a.pdf")
+        check(wrows and all(long_text[r[f"{f}_start"]:r[f"{f}_end"]] == r[f]
+                            for r in wrows for f in FIELDS if r[f]),
+              "window offsets are shifted back and slice the full document exactly")
+        check(all(r["document_url"] == "https://example.gov/a.pdf" for r in wrows),
+              "draft rows carry the agenda's document URL")
+
+        idx = os.path.join(td, "index.csv")
+        cache = os.path.join(td, "cache")
+        os.makedirs(cache)
+        for sha in ("a" * 64, "b" * 64):
+            with open(os.path.join(cache, f"{sha}.txt"), "w", encoding="utf-8") as fh:
+                fh.write("x")
+        with open(idx, "w", newline="", encoding="utf-8") as fh:
+            w = csv.writer(fh, lineterminator="\n")
+            w.writerow(["document_url", "sha256", "text_source", "keyword_hits"])
+            w.writerow(["u1", "a" * 64, "ocr", "2"])
+            w.writerow(["u2", "b" * 64, "text_layer", "9"])
+            w.writerow(["u3", "c" * 64, "text_layer", "50"])     # text not cached
+            w.writerow(["u4", "a" * 64, "ocr", "0"])
+        picked = inputs_from_index(5, idx, cache)
+        check([u for _, u in picked] == ["u2", "u1"],
+              "--from-index takes cached agendas with keyword hits, most hits first")
+
+    env = {**os.environ, "CI": "true"}
+    r = subprocess.run([sys.executable, os.path.abspath(__file__), "--allow-ci",
+                        "--out", OUT_DRAFT],
+                       env=env, capture_output=True, text=True, timeout=60, cwd=ROOT)
+    check(r.returncode == 0 and "refusing" not in r.stdout.lower(),
+          "--allow-ci (agenda-extract.yml only) lets a CI run proceed")
+
     print("selftest:", "OK" if ok else "FAILED")
     return 0 if ok else 1
 
@@ -306,26 +418,38 @@ def main() -> int:
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--model-url", default=DEFAULT_MODEL_URL)
     ap.add_argument("--out", default=OUT_DRAFT)
+    ap.add_argument("--from-index", type=int, metavar="N", default=0,
+                    help="the N cached agendas with the most keyword hits "
+                         "(data/agenda_text_index.csv); reads keyword windows only")
+    ap.add_argument("--allow-ci", action="store_true",
+                    help="run although CI is set; only agenda-extract.yml passes "
+                         "this (owner decision 2026-10-01)")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args()
 
     if args.selftest:
         return selftest()
-    if refuse_in_ci():
+    if refuse_in_ci() and not args.allow_ci:
         print("Refusing to run: CI is set. agenda_extract.py runs a local model "
-              "and writes a draft for review; it never runs in CI.")
+              "and writes a draft for review. Only agenda-extract.yml opts in, "
+              "with --allow-ci.")
         return EXIT_REFUSED
     if not draft_path_ok(args.out):
         print(f"Refusing to write {args.out}: drafts go to data/*_draft.csv only.")
         return EXIT_REFUSED
-    if not args.inputs:
+    jobs = [(p, "", False) for p in args.inputs]
+    jobs += [(p, url, True) for p, url in inputs_from_index(args.from_index)]
+    if not jobs:
+        if args.from_index:
+            print("No cached agenda text with keyword hits yet; nothing to extract.")
+            return 0
         ap.print_help()
         return 0
 
     extract_fn = langextract_fn(args.model, args.model_url)
     all_rows, totals = [], {}
-    for path in args.inputs:
-        rows, drops = extract_file(path, extract_fn, args.model)
+    for path, url, windowed in jobs:
+        rows, drops = extract_file(path, extract_fn, args.model, windowed, url)
         all_rows.extend(rows)
         for k, v in drops.items():
             totals[k] = totals.get(k, 0) + v
@@ -333,7 +457,7 @@ def main() -> int:
               + ", ".join(f"{k} {v}" for k, v in sorted(drops.items())))
     write_draft(args.out, all_rows)
     dropped = sum(v for k, v in totals.items() if k != "retained_fields")
-    print(f"total: {len(all_rows)} candidate rows from {len(args.inputs)} files; "
+    print(f"total: {len(all_rows)} candidate rows from {len(jobs)} files; "
           f"{totals.get('retained_fields', 0)} fields retained, all with offsets that "
           f"slice the source exactly; {dropped} dropped ("
           + ", ".join(f"{k} {v}" for k, v in sorted(totals.items())

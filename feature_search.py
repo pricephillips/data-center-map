@@ -31,6 +31,12 @@ Evidence, per target, all out-of-sample:
      direction-bearing evidence the production model's sign-stability rule
      needs, and it is the gate for promotion into that model.
   4. Marginal held-out AUC, reported for context only.
+  5. Spec 008 US4, one target only (configs "ebm" block, restrict_profile):
+     an Explainable Boosting Machine scored on the same CV folds, then refit
+     once for per-variable shape tables a client chart can draw. It is a
+     challenger. choose_promotions() never reads it, so no EBM-only
+     variable reaches the production pool without the L1 evidence, the
+     production model's sign-stability rule and the calibration gate.
 
 Weights update themselves. Each variable's importance is tracked by a
 local-level Kalman filter: the state is the smoothed importance, each run is
@@ -66,6 +72,8 @@ Writes
                                            per update
   data/feature_search_promotions.json      read by county_policy_model.py
   data/feature_search_report.md
+  data/feature_search_shapes.json          EBM shape tables (spec 008 US4);
+                                           written when interpret is installed
 
 Usage
   python feature_search.py
@@ -104,6 +112,7 @@ OUT_WEIGHTS = P("data", "feature_search_weights.json")
 OUT_HISTORY = P("data", "feature_search_weight_history.csv")
 OUT_PROMO = P("data", "feature_search_promotions.json")
 OUT_MD = P("data", "feature_search_report.md")
+OUT_SHAPES = P("data", "feature_search_shapes.json")
 
 LABEL_COLS = {"fips", "state", "has_enacted_restrictive",
               "has_enacted_moratorium", "in_conversion_frame",
@@ -301,6 +310,66 @@ def cluster_features(X, names, threshold):
     return {n: int(c) for n, c in zip(names, lab)}
 
 
+def ebm_available() -> bool:
+    try:
+        import interpret.glassbox  # noqa: F401
+    except ImportError:
+        return False
+    return True
+
+
+def ebm_model(ecfg: dict, names: list, seed: int):
+    from interpret.glassbox import ExplainableBoostingClassifier
+    return ExplainableBoostingClassifier(
+        feature_names=list(names), interactions=ecfg.get("interactions", 0),
+        outer_bags=ecfg.get("outer_bags", 8), max_bins=ecfg.get("max_bins", 32),
+        random_state=seed, n_jobs=-1)
+
+
+def ebm_shapes(ebm, names: list, labels: dict) -> dict:
+    """Per-variable shape tables from a fitted main-effects EBM.
+
+    Continuous variables: edges has one more entry than scores (bin bounds).
+    Nominal variables: edges holds the category names. Scores are log-odds
+    contributions; lower/upper are the EBM's bagged bounds.
+    """
+    glob = ebm.explain_global()
+    imp = list(ebm.term_importances())
+    out = {}
+    for i, f in enumerate(names):
+        d = glob.data(i)
+        ftype = d.get("type", "univariate")
+        edges = [x if isinstance(x, str) else round(float(x), 6) for x in d["names"]]
+        out[f] = {"label": labels.get(f, f),
+                  "type": "nominal" if len(edges) == len(d["scores"]) else "continuous",
+                  "importance": round(float(imp[i]), 6),
+                  "edges": edges,
+                  "scores": [round(float(v), 6) for v in d["scores"]],
+                  "lower": [round(float(v), 6) for v in d.get("lower_bounds", [])],
+                  "upper": [round(float(v), 6) for v in d.get("upper_bounds", [])]}
+        if ftype not in ("univariate",):
+            out[f]["term_type"] = ftype
+    return out
+
+
+def run_ebm(X, y, names, folds, ecfg: dict, seed: int, labels: dict) -> dict:
+    """Held-out AUC on the given folds, then one full-frame refit for shapes."""
+    import warnings
+    import numpy as np
+    from sklearn.metrics import roc_auc_score
+    aucs = []
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        for tr, te in folds:
+            m = ebm_model(ecfg, names, seed).fit(X[tr], y[tr])
+            aucs.append(float(roc_auc_score(y[te], m.predict_proba(X[te])[:, 1])))
+        full = ebm_model(ecfg, names, seed).fit(X, y)
+    return {"auc": {"p10": round(pctile(aucs, .1), 4),
+                    "p50": round(float(np.median(aucs)), 4),
+                    "p90": round(pctile(aucs, .9), 4)},
+            "shapes": ebm_shapes(full, names, labels)}
+
+
 def search_target(tname, tcfg, cfg, data, catalog, rng_seed):
     import numpy as np
     from sklearn.ensemble import HistGradientBoostingClassifier
@@ -420,6 +489,17 @@ def search_target(tname, tcfg, cfg, data, catalog, rng_seed):
                                        "p90": round(pctile(auc_lin, .9), 4)}}
     info["cv"] = dict(cvc)
 
+    # ---- EBM challenger (spec 008 US4), same folds as the GBM
+    ecfg = cfg.get("ebm") or {}
+    if ecfg.get("target") == tname:
+        if ebm_available():
+            res = run_ebm(X, y, names, list(cv.split(X, y)), ecfg, cvc["seed"],
+                          {f: catalog[f]["label"] for f in names})
+            info["held_out_auc"]["ebm_all_candidates"] = res["auc"]
+            info["_ebm_shapes"] = res["shapes"]
+        else:
+            info["ebm"] = "not run: interpret-core is not installed"
+
     # ---- complementary-pairs stability selection (L1 logistic)
     ss = cfg["stability_selection"]
     sel_cnt = {C: np.zeros(p) for C in ss["C_grid"]}
@@ -534,10 +614,14 @@ def main(only=None) -> int:
     except (OSError, ValueError):
         prior_metrics = {"targets": {}}
 
+    # The shapes file is required for a skip only where it can be produced;
+    # otherwise a run without interpret could never skip.
+    must_exist = (OUT_METRICS, OUT_RANK, OUT_PROMO, OUT_MD) + (
+        (OUT_SHAPES,) if cfg.get("ebm", {}).get("target") and ebm_available() else ())
     if not only and all(
             state.get("targets", {}).get(t, {}).get("inputs_hash") == inputs_hash
             for t in cfg["targets"]) and all(
-            os.path.exists(f) for f in (OUT_METRICS, OUT_RANK, OUT_PROMO, OUT_MD)):
+            os.path.exists(f) for f in must_exist):
         # Nothing the search reads has changed since the last update, and the
         # search is deterministic, so a rerun would reproduce every output
         # byte for byte. Skip it rather than spend the CI minutes.
@@ -549,6 +633,7 @@ def main(only=None) -> int:
     Q = wf["process_sd"] ** 2
     V0 = wf["initial_sd"] ** 2
 
+    shapes_doc = None
     metrics = {"generated": today, "config_hash": chash,
                "features_hash": meta.get("content_hash", ""),
                "n_pool": len(catalog), "targets": {}}
@@ -561,6 +646,20 @@ def main(only=None) -> int:
             continue
         tstate = state["targets"].get(tname, {})
         info, rows = search_target(tname, tcfg, cfg, data, catalog, cfg["cv"]["seed"] + i)
+        shapes = info.pop("_ebm_shapes", None)
+        if shapes is not None:
+            shapes_doc = {
+                "generated": today, "target": tname,
+                "role": "challenger; never read by choose_promotions()",
+                "config": {k: v for k, v in cfg["ebm"].items() if not k.startswith("_")}
+                          | {"seed": cfg["cv"]["seed"]},
+                "inputs_hash": inputs_hash,
+                "n_frame": info["n_frame"], "n_positive": info["n_positive"],
+                "held_out_auc": info["held_out_auc"]["ebm_all_candidates"],
+                "note": ("scores are log-odds contributions on the EBM's own "
+                         "binning; predictive association, not an effect size"),
+                "shapes": dict(sorted(shapes.items(),
+                                      key=lambda kv: -kv[1]["importance"]))}
         metrics["targets"][tname] = info
         if not rows:
             print(f"[{tname}] {info['status']}")
@@ -666,11 +765,15 @@ def main(only=None) -> int:
     if not keep_promotions:
         _dump(OUT_PROMO, promo)
     _dump(OUT_METRICS, metrics)
+    if shapes_doc is not None:
+        # Written after the promotion decision above, which never reads it.
+        _dump(OUT_SHAPES, shapes_doc)
     _write_rank(all_rows)
     _write_report(metrics, all_rows, promo, cfg)
 
     leaks = []
-    for path in (OUT_METRICS, OUT_RANK, OUT_WEIGHTS, OUT_PROMO, OUT_MD):
+    for path in (OUT_METRICS, OUT_RANK, OUT_WEIGHTS, OUT_PROMO, OUT_MD) + (
+            (OUT_SHAPES,) if shapes_doc is not None else ()):
         for k, line in enumerate(open(path, encoding="utf-8"), 1):
             if LEAK_RE.search(line) or EM_DASH in line:
                 leaks.append(f"{os.path.basename(path)}:{k}")
@@ -759,6 +862,15 @@ def _write_report(metrics, rows, promo, cfg):
           f"p90 {a['gbm_all_candidates']['p90']:.3f}); L2 logistic on all "
           f"candidates: {a['l2_logistic_all_candidates']['p50']:.3f}. Context "
           f"only; neither is the production model.")
+        if "ebm_all_candidates" in a:
+            e = a["ebm_all_candidates"]
+            w(f"- Explainable boosting (glassbox challenger, main effects "
+              f"only): held-out AUC {e['p50']:.3f} (p10 {e['p10']:.3f}, p90 "
+              f"{e['p90']:.3f}). Per-variable shapes are in "
+              f"data/feature_search_shapes.json for charting. A challenger: "
+              f"promotion never reads it.")
+        elif info.get("ebm"):
+            w(f"- Explainable boosting: {info['ebm']}.")
         w(f"- {info['n_candidates']} candidates evaluated, {info['n_admitted']} "
           f"admitted. {len(info.get('dropped', {}))} not evaluable in this frame.")
         w(f"- Stability selection: {ss['n_half_sample_fits']} half-sample fits; "
@@ -946,6 +1058,42 @@ def selftest() -> int:
         check("an independent variable sits alone", cl["b"] != cl["a"])
     except ImportError:
         pass
+
+    # EBM challenger (spec 008 US4): one variable drives a logistic target
+    # monotonically, two are noise. Its fitted shape must be monotone: scores
+    # non-decreasing bin to bin within MONO_TOL (bagging noise between
+    # adjacent bins), and rank-correlated with the bin midpoints above 0.95.
+    if ebm_available():
+        import numpy as np
+        from sklearn.model_selection import StratifiedKFold
+        MONO_TOL = 0.05
+        rng = np.random.default_rng(1)
+        n = 4000
+        X = np.column_stack([rng.uniform(-3, 3, n), rng.normal(size=n),
+                             rng.normal(size=n)])
+        y = (rng.uniform(size=n) < 1 / (1 + np.exp(-1.5 * X[:, 0]))).astype(int)
+        names = ["mono", "noise_a", "noise_b"]
+        folds = list(StratifiedKFold(3, shuffle=True, random_state=0).split(X, y))
+        ecfg = {k: v for k, v in json.load(open(CONFIG, encoding="utf-8"))["ebm"].items()
+                if not k.startswith("_")}
+        res = run_ebm(X, y, names, folds, ecfg, 7, {"mono": "monotone driver"})
+        sh = res["shapes"]["mono"]
+        sc = sh["scores"]
+        mids = [(sh["edges"][k] + sh["edges"][k + 1]) / 2 for k in range(len(sc))]
+        rk = lambda v: np.argsort(np.argsort(v))
+        rho = float(np.corrcoef(rk(mids), rk(sc))[0, 1])
+        check("EBM shape for the monotone driver is non-decreasing",
+              all(b >= a - MONO_TOL for a, b in zip(sc, sc[1:])))
+        check(f"EBM shape rank-tracks the driver (rho {rho:.3f})", rho > 0.95)
+        check("continuous shape has one more edge than scores",
+              sh["type"] == "continuous" and len(sh["edges"]) == len(sc) + 1)
+        check("the driver outranks the noise variables",
+              sh["importance"] > max(res["shapes"][k]["importance"]
+                                     for k in ("noise_a", "noise_b")))
+        check("EBM held-out AUC is informative", res["auc"]["p50"] > 0.75)
+        check("labels carried into shapes", sh["label"] == "monotone driver")
+    else:
+        print("  SKIP  EBM shape checks: interpret-core not installed")
 
     failed = [n for n, ok in checks if not ok]
     for n, ok in checks:

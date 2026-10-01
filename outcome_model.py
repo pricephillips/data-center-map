@@ -13,6 +13,12 @@ Additive only. Reads Phase 1/2 outputs, writes three NEW files:
                                    (full audit trail for every number)
   data/outcome_model_metrics.json  machine-readable metrics for future
                                    calibration tracking (Phase 5 gating)
+  data/outcome_model_estimators.csv  spec 008: the registered estimator and
+                                   the Firth challenger, one row per
+                                   estimator per CV repeat, on identical
+                                   folds. The registered estimator ships;
+                                   the challenger is reported only
+                                   (estimator_candidates.py).
 
 Defensibility rules honored:
   - Training labels are decided cases ONLY (terminal dispositions); pending
@@ -27,6 +33,7 @@ Defensibility rules honored:
     to automated retraining is Phase 5 and requires the calibration gate.
 
 Run from repo root:  python3 outcome_model.py
+Self-test:           python3 outcome_model.py --selftest
 Depends on project_resolution.py + control_group.py outputs.
 Requires scikit-learn (pip install scikit-learn).
 """
@@ -45,6 +52,8 @@ from collections import Counter
 from datetime import date
 
 import numpy as np
+
+import estimator_candidates
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 P = lambda *a: os.path.join(ROOT, *a)
@@ -66,6 +75,7 @@ except Exception:
 OUT_REPORT = P("data", "outcome_model_report.md")
 OUT_FEATURES = P("data", "outcome_model_features.csv")
 OUT_METRICS = P("data", "outcome_model_metrics.json")
+OUT_ESTIMATORS = P("data", "outcome_model_estimators.csv")
 
 RANDOM_STATE = 20260710
 # Report any feature observed on less than this share of projects. Not a
@@ -269,6 +279,11 @@ def main() -> int:
     importances /= n_imp
     coefs /= n_imp
 
+    # Spec 008 US1: the Firth challenger on the same folds. Reported only;
+    # the registered estimator above is the one whose predictions ship.
+    cand_rows, cand_summary = challenger_comparison(X, y)
+    estimator_candidates.write_rows(OUT_ESTIMATORS, cand_rows)
+
     auc_lo, auc_med, auc_hi = np.percentile(aucs, [10, 50, 90])
     brier_lo, brier_med, brier_hi = np.percentile(briers, [10, 50, 90])
     base_rate = n_blocked / n
@@ -358,6 +373,11 @@ def main() -> int:
       f"{n}: each test fold holds ~{n // N_FOLDS} projects and ~"
       f"{max(1, round(n_blocked / N_FOLDS))} blocked cases.")
     w("")
+    w("## Estimator candidates (spec 008)")
+    w("")
+    for ln in estimator_candidates.report_lines(cand_summary, N_REPEATS):
+        w(ln)
+    w("")
     w("## Coarse calibration (out-of-fold, first repeat)")
     w("")
     for label, cnt, pred, obs in calib:
@@ -411,6 +431,8 @@ def main() -> int:
                          for k, v, c in imp_ranked[:8]],
         "feature_columns": feature_cols,
         "random_state": RANDOM_STATE,
+        "estimator_candidates": {"note": estimator_candidates.SELECTION_NOTE,
+                                 "estimators": cand_summary},
     }
     with open(OUT_METRICS, "w", encoding="utf-8") as fh:
         json.dump(metrics, fh, indent=2)
@@ -422,7 +444,7 @@ def main() -> int:
     print(f"wrote {os.path.relpath(OUT_REPORT, ROOT)}, features, metrics")
 
     pat = re.compile(r'\b(win|wins|loss|losses|lost)\b', re.IGNORECASE)
-    hits = [f"{f}:{i}" for f in (OUT_REPORT, OUT_FEATURES)
+    hits = [f"{f}:{i}" for f in (OUT_REPORT, OUT_FEATURES, OUT_ESTIMATORS)
             for i, l in enumerate(open(f, encoding="utf-8"), 1) if pat.search(l)]
     if hits:
         print("LEAK AUDIT FAILED:", hits[:10])
@@ -431,5 +453,48 @@ def main() -> int:
     return 0
 
 
+def challenger_comparison(X, y):
+    """Registered estimator and Firth on the registered RepeatedStratifiedKFold."""
+    from sklearn.model_selection import RepeatedStratifiedKFold
+    cv = RepeatedStratifiedKFold(n_splits=N_FOLDS, n_repeats=N_REPEATS,
+                                 random_state=RANDOM_STATE)
+    return estimator_candidates.compare_estimators(
+        X, y, cv, N_FOLDS,
+        estimator_candidates.standard_estimators(C=0.5, class_weight="balanced",
+                                                 max_iter=2000))
+
+
+def selftest() -> int:
+    """Spec 008 FR-005: the challenger path on a synthetic frame."""
+    fails = []
+
+    def check(name, cond):
+        print(("ok   " if cond else "FAIL ") + name)
+        if not cond:
+            fails.append(name)
+
+    rng = np.random.RandomState(3)
+    X = rng.randn(80, 4)
+    X[rng.rand(80, 4) < 0.15] = np.nan
+    y = (np.nan_to_num(X[:, 1]) + rng.randn(80) > 0.5).astype(int)
+    rows, summary = challenger_comparison(X, y)
+    names = set(summary)
+    check("registered estimator scored on every repeat",
+          sum(1 for r in rows if r["estimator"] == estimator_candidates.REGISTERED) == N_REPEATS)
+    if estimator_candidates.firth_available():
+        check("Firth challenger scored on every repeat",
+              sum(1 for r in rows if r["estimator"] == estimator_candidates.FIRTH) == N_REPEATS)
+    else:
+        print("SKIP Firth rows: firthmodels not installed")
+    check("only the registered estimator ships",
+          [n for n in names if summary[n]["selected"]] == [estimator_candidates.REGISTERED])
+    check("every row carries a Brier value",
+          all(isinstance(r["brier_mean"], float) for r in rows))
+    print(f"{'PASS' if not fails else 'FAIL'}: outcome_model selftest")
+    return 1 if fails else 0
+
+
 if __name__ == "__main__":
+    if "--selftest" in sys.argv:
+        sys.exit(selftest())
     sys.exit(main())

@@ -65,7 +65,7 @@ WORKFLOWS = os.path.join(ROOT, ".github", "workflows")
 
 INDEX_COLS = ["document_url", "sha256", "jurisdiction", "state", "text_source",
               "pages", "text_chars", "keyword_hits", "matched_terms",
-              "processed_at"]
+              "processed_at", "resolved_url"]
 
 # A page with fewer non-space characters than this has no usable text layer.
 # Scanned pages come back empty or with a stray form feed; a real page of
@@ -117,6 +117,39 @@ def pages_needing_ocr(pages: list[str]) -> list[int]:
 
 def is_pdf(data: bytes) -> bool:
     return data[:1024].lstrip().startswith(b"%PDF")
+
+
+# A landing page, not a document: CivicPlus RSS items link to
+# AgendaCenter/PreviousVersions/<id>, an HTML page whose agenda PDF sits behind
+# an AgendaCenter/ViewFile/... link. The first run indexed all 40 such links
+# as not_pdf. One hop, same host, agenda links before minutes.
+HREF_RX = re.compile(rb"""href\s*=\s*["']([^"'#]+)["']""", re.IGNORECASE)
+DOC_LINK_RX = re.compile(r"(ViewFile/|\.pdf(?:$|\?))", re.IGNORECASE)
+
+
+def pdf_links(html: bytes, page_url: str) -> list[str]:
+    """Same-host links on a landing page that look like documents.
+
+    Ordered agendas first, then anything else, then minutes; deduplicated.
+    """
+    from urllib.parse import urljoin, urlparse
+    host = urlparse(page_url).netloc.lower()
+    seen, links = set(), []
+    for m in HREF_RX.finditer(html or b""):
+        href = m.group(1).decode("utf-8", "replace").replace("&amp;", "&").strip()
+        url = urljoin(page_url, href)
+        if (urlparse(url).netloc.lower() != host or url in seen
+                or not DOC_LINK_RX.search(url)):
+            continue
+        seen.add(url)
+        links.append(url)
+    def rank(u: str) -> int:
+        # Not the whole URL: every CivicPlus link contains "AgendaCenter".
+        low = u.lower()
+        tail = (low.split("viewfile/", 1)[1] if "viewfile/" in low
+                else low.rsplit("/", 1)[-1]).split("?")[0]
+        return 0 if "agenda" in tail else 2 if "minute" in tail else 1
+    return sorted(links, key=rank)
 
 
 # ---------------------------------------------------------------------------
@@ -253,7 +286,11 @@ def run(max_docs: int, max_mb: float, feed: str = FEED, index: str = INDEX,
             continue
         seen.add(url)
         prev = existing.get(url)
-        if prev and prev.get("text_source") not in RETRY_STATUSES:
+        # A not_pdf row from before landing-page resolution (blank
+        # resolved_url) is retried once; after that not_pdf is final.
+        legacy_not_pdf = (prev and prev.get("text_source") == "not_pdf"
+                          and not prev.get("resolved_url"))
+        if prev and prev.get("text_source") not in RETRY_STATUSES and not legacy_not_pdf:
             continue
         todo.append(r)
     max_bytes = int(max_mb * 1024 * 1024)
@@ -270,7 +307,15 @@ def run(max_docs: int, max_mb: float, feed: str = FEED, index: str = INDEX,
         elif len(data) > max_bytes:
             row = {**base, "sha256": "", "text_source": "too_large"}
         elif not is_pdf(data):
-            row = {**base, "sha256": sha256_bytes(data), "text_source": "not_pdf"}
+            row = {**base, "sha256": sha256_bytes(data), "text_source": "not_pdf",
+                   "resolved_url": "none"}
+            for link in pdf_links(data, url)[:1]:
+                sleep(THROTTLE_S)
+                st2, doc = fetcher(link, max_bytes)
+                if st2 == 200 and doc and len(doc) <= max_bytes and is_pdf(doc):
+                    row = {**base, **process_pdf(doc, cache_dir), "resolved_url": link}
+                else:
+                    row["resolved_url"] = f"{link} (not a PDF or HTTP {st2})"
         else:
             row = {**base, **process_pdf(data, cache_dir)}
         existing[url] = row
@@ -371,23 +416,47 @@ def selftest() -> int:
                 w.writerow(["Test County, VA", "VA", "https://example.gov/a.pdf"])
                 w.writerow(["Test County, VA", "VA", "https://example.gov/page"])
                 w.writerow(["Test County, VA", "VA", "https://example.gov/gone.pdf"])
+                w.writerow(["Test County, VA", "VA",
+                            "https://example.gov/AgendaCenter/PreviousVersions/7"])
+            landing = (b'<html><a href="https://other.example/x.pdf">x</a>'
+                       b'<a href="/AgendaCenter/ViewFile/Minutes/_0101-7">m</a>'
+                       b'<a href="/AgendaCenter/ViewFile/Agenda/_0101-7?html=false&amp;x=1">a</a></html>')
             answers = {"https://example.gov/a.pdf": (200, text_pdf),
                        "https://example.gov/page": (200, b"<html></html>"),
-                       "https://example.gov/gone.pdf": (404, b"")}
+                       "https://example.gov/gone.pdf": (404, b""),
+                       "https://example.gov/AgendaCenter/PreviousVersions/7": (200, landing),
+                       "https://example.gov/AgendaCenter/ViewFile/Agenda/_0101-7?html=false&x=1":
+                           (200, scanned_pdf)}
+            check(pdf_links(landing, "https://example.gov/AgendaCenter/PreviousVersions/7")
+                  == ["https://example.gov/AgendaCenter/ViewFile/Agenda/_0101-7?html=false&x=1",
+                      "https://example.gov/AgendaCenter/ViewFile/Minutes/_0101-7"],
+                  "landing page: same-host document links, agenda before minutes")
             index = os.path.join(td, "index.csv")
             st = run(10, 25, feed, index, os.path.join(td, "c2"),
                      fetcher=lambda u, m: answers[u], sleep=lambda s: None)
             rows = {r["document_url"]: r for r in read_csv(index)}
             check(st.get("text_layer") == 1 and st.get("not_pdf") == 1
                   and st.get("fetch_error") == 1, "run records one status per document")
+            lp = rows["https://example.gov/AgendaCenter/PreviousVersions/7"]
+            check(lp["text_source"] in ("ocr", "ocr_unavailable")
+                  and lp["resolved_url"].endswith("_0101-7?html=false&x=1"),
+                  "a CivicPlus landing page resolves one hop to its agenda PDF")
+            check(rows["https://example.gov/page"]["resolved_url"] == "none",
+                  "a page with no document link stays not_pdf, marked resolved")
+            # A pre-resolution not_pdf row (blank resolved_url) is retried once.
+            legacy = read_csv(index)
+            for r in legacy:
+                if r["document_url"] == "https://example.gov/page":
+                    r["resolved_url"] = ""
+            write_index(index, legacy)
             check(rows["https://example.gov/a.pdf"]["sha256"] == sha256_bytes(text_pdf),
                   "the index row carries the content hash")
             fetched = []
             run(10, 25, feed, index, os.path.join(td, "c2"),
                 fetcher=lambda u, m: (fetched.append(u), answers[u])[1],
                 sleep=lambda s: None)
-            check(fetched == ["https://example.gov/gone.pdf"],
-                  "final documents are skipped; only the fetch error is retried")
+            check(sorted(fetched) == ["https://example.gov/gone.pdf", "https://example.gov/page"],
+                  "final documents are skipped; the fetch error and a legacy not_pdf are retried")
             with open(index, "rb") as fh:
                 check(b"\r\n" not in fh.read(), "index is LF")
 

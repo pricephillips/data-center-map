@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-01T13:53:02Z",
+  "generated": "2026-10-01T21:34:35Z",
   "counties": 3222,
   "counties_matchable": 3115,
   "peers_per_county": 10,
@@ -20,7 +20,7 @@
     "pct_bachelors_plus",
     "margin_2024"
   ],
-  "score_separation_restrictive_minus_non": 0.0848,
+  "score_separation_restrictive_minus_non": 0.0852,
   "medians": {
     "national": {
       "calibrated_score": 0.11044999999999999,
@@ -34,7 +34,7 @@
       "margin_2024": -0.41974999999999996
     },
     "restrictive": {
-      "calibrated_score": 0.1869,
+      "calibrated_score": 0.18725,
       "n_opposition_events": 1.0,
       "opposition_events_per_100k": 2.183346191200466,
       "existing_dc_count": 0.0,
@@ -45,7 +45,7 @@
       "margin_2024": -0.2496
     },
     "non_restrictive": {
-      "calibrated_score": 0.1021,
+      "calibrated_score": 0.10205,
       "n_opposition_events": 0.0,
       "opposition_events_per_100k": 0.0,
       "existing_dc_count": 0.0,
@@ -56,7 +56,7 @@
       "margin_2024": -0.44405
     },
     "dc_present": {
-      "calibrated_score": 0.3635,
+      "calibrated_score": 0.3618,
       "n_opposition_events": 1.0,
       "opposition_events_per_100k": 0.18485472883043647,
       "existing_dc_count": 2.0,
@@ -67,7 +67,7 @@
       "margin_2024": -0.0168
     },
     "tracked_activity": {
-      "calibrated_score": 0.1931,
+      "calibrated_score": 0.1935,
       "n_opposition_events": 1.0,
       "opposition_events_per_100k": 2.090126243625115,
       "existing_dc_count": 0.0,
@@ -79,8 +79,8 @@
     }
   },
   "inputs": {
-    "county_aggregate.csv": "fae01d12075b17fb",
-    "county_policy_scores.csv": "b0001502f7f613d1",
-    "county_policy_intervals.csv": "f26768e78a22f4c3"
+    "county_aggregate.csv": "b13994a7999a33f0",
+    "county_policy_scores.csv": "71e1824a934b3780",
+    "county_policy_intervals.csv": "7b1a2c7d1e4ce155"
   }
 }

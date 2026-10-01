@@ -1,6 +1,6 @@
 # Landmark Diagnostics: Anchor Feasibility
 
-Generated 2026-09-30. Diagnostic record. This analysis made the case for re-anchoring the landmark at announced_date; that change was adopted in landmark_model.py on 2026-07-28, so the comparison below is the justification of a decision already taken rather than an open question. The opposition-anchor figures are reconstructed here from first_opposition_date for the record. Survivor conditioning, floors (n >= 40, blocked >= 12, not_blocked >= 12), and the registered window grid [30, 60, 90, 120, 180] are imported from that module rather than restated.
+Generated 2026-10-01. Diagnostic record. This analysis made the case for re-anchoring the landmark at announced_date; that change was adopted in landmark_model.py on 2026-07-28, so the comparison below is the justification of a decision already taken rather than an open question. The opposition-anchor figures are reconstructed here from first_opposition_date for the record. Survivor conditioning, floors (n >= 40, blocked >= 12, not_blocked >= 12), and the registered window grid [30, 60, 90, 120, 180] are imported from that module rather than restated.
 
 ## Finding
 
@@ -18,7 +18,7 @@ The ceiling column is the frame that would exist if every missing decision date 
 | 60 | 5 | 3 | 57 | 9 | no |
 | 90 | 2 | 2 | 49 | 7 | no |
 | 120 | 2 | 2 | 46 | 7 | no |
-| 180 | 2 | 2 | 42 | 7 | no |
+| 180 | 2 | 2 | 41 | 7 | no |
 
 The blocked arm ceiling peaks at 11 against a floor of 12. Recovering all 53 dates does not close that gap, because the worklist is 47 advanced and only 6 blocked. Blocked projects already carry verified decision dates at a far higher rate, which is a known structural asymmetry in this dataset, so the arm that binds is the arm recovery cannot help.
 
@@ -26,7 +26,7 @@ The blocked arm ceiling peaks at 11 against a floor of 12. Recovering all 53 dat
 
 Anchor-to-decision gaps across the 31 decided projects with dates: median 0 days, range -394 to 232. 19 of 31 (0.613) are non-positive, and 12 are exactly zero.
 
-A non-positive gap means the first recorded opposition event is dated at or after the terminal decision, so no window can contain pre-decision information and survivor conditioning removes the project from every frame. The cause is visible in the event counts: 23 of 31 decided projects have exactly one linked opposition event. Coverage is triggered by the decision, one story is recorded, and the opposition and the outcome share a date.
+A non-positive gap means the first recorded opposition event is dated at or after the terminal decision, so no window can contain pre-decision information and survivor conditioning removes the project from every frame. The cause is visible in the event counts: 24 of 31 decided projects have exactly one linked opposition event. Coverage is triggered by the decision, one story is recorded, and the opposition and the outcome share a date.
 
 This is a measurement property, not a claim that opposition began on the day of the decision. It is the same detection limit the verified-negative audit ran into from the other direction.
 
@@ -49,8 +49,8 @@ Announcement-to-decision gaps: median 170 days, range 12 to 492, with 0 non-posi
 | 90 | 22 | 16 | 6 | 75 | 22 | 53 | yes | 107 |
 | 120 | 17 | 13 | 4 | 69 | 18 | 51 | yes | 107 |
 | 180 | 14 | 10 | 4 | 66 | 15 | 51 | yes | 99 |
-| 270 (exploratory) | 8 | 5 | 3 | 60 | 10 | 50 | no | 78 |
-| 365 (exploratory) | 4 | 3 | 1 | 46 | 7 | 39 | no | 47 |
+| 270 (exploratory) | 8 | 5 | 3 | 59 | 10 | 49 | no | 78 |
+| 365 (exploratory) | 4 | 3 | 1 | 45 | 7 | 38 | no | 47 |
 
 Windows whose ceiling clears all three floors: 30, 60, 90, 120, 180. Applying the registered tie-breaking preference for the shortest window would select W = 30, but note that the registered criterion selects on cross-validated AUC among feasible windows, which cannot be evaluated until the frame actually exists. The window named here is the shortest FEASIBLE one, not a selected model.
 

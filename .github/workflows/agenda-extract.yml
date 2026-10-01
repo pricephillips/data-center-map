@@ -1,0 +1,91 @@
+name: Agenda extraction (local model, draft only)
+
+# Spec 007 US5, run in CI by owner decision (2026-10-01). The model runs
+# inside this runner (Ollama), so no agenda text leaves the job, and the
+# output is data/agenda_extract_draft.csv: a draft worklist where every field
+# carries character offsets that slice its source text exactly. Nothing here
+# writes to master_opposition.csv or promotes a row; a person reviews the
+# draft. scripts/agenda_extract.py still refuses CI unless --allow-ci is
+# passed, and this is the only workflow that passes it.
+#
+# Input is the agenda text local-signals.yml caches (agenda_text.py, keyed
+# by PDF SHA-256): the N agendas with the most keyword hits, and only the
+# passages around those hits, so a CPU runner finishes.
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_docs:
+        description: "Agendas to read (most keyword hits first)"
+        required: false
+        default: "20"
+  schedule:
+    # Mondays 10:20 UTC, after local-signals (07:40) has refreshed the cache.
+    - cron: "20 10 * * 1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: agenda-extract
+  cancel-in-progress: false
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      MODEL: gemma2:2b
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
+      - name: Install LangExtract
+        run: uv pip install --system -c requirements/ci.txt langextract
+
+      - name: Self-test (stub model, fixture agenda)
+        run: python scripts/agenda_extract.py --selftest
+
+      - name: Restore agenda text cache (written by local-signals.yml)
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .cache/agenda_text
+          key: agenda-text-${{ github.run_id }}
+          restore-keys: agenda-text-
+
+      - name: Start Ollama and pull the model
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          (ollama serve > /tmp/ollama.log 2>&1 &)
+          for _ in $(seq 1 30); do
+            curl -sf http://localhost:11434/api/tags > /dev/null && break
+            sleep 2
+          done
+          ollama pull "$MODEL"
+
+      - name: Extract grounded candidate rows (draft)
+        env:
+          MAX_DOCS: ${{ github.event.inputs.max_docs || '20' }}
+        run: python scripts/agenda_extract.py --allow-ci --from-index "$MAX_DOCS" --model "$MODEL"
+
+      - name: Commit the draft
+        run: |
+          if [ ! -f data/agenda_extract_draft.csv ]; then
+            echo "No draft was written; nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/agenda_extract_draft.csv
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Agenda extraction draft (grounded, for review) [skip ci]"
+          bash scripts/git_push_retry.sh
