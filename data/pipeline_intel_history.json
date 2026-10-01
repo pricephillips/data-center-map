@@ -1,26 +1,26 @@
 {
- "_generated": "2026-09-30",
+ "_generated": "2026-10-01",
  "_note": "seen dates are when the source changed: an upper bound on when the underlying change happened, never the date itself.",
  "panel_start": "2026-04-23",
- "panel_end": "2026-09-29",
- "n_snapshots": 48,
+ "panel_end": "2026-10-01",
+ "n_snapshots": 49,
  "baseline_projects": 246,
- "projects_ever_seen": 403,
- "projects_present_now": 396,
+ "projects_ever_seen": 471,
+ "projects_present_now": 464,
  "event_counts": {
-  "first_seen": 157,
-  "phase_change": 51,
-  "field_change": 926,
+  "first_seen": 225,
+  "phase_change": 52,
+  "field_change": 992,
   "moved": 11,
   "removed": 16,
   "reappeared": 9,
   "source_reclassified": 32
  },
  "field_change_counts": {
-  "size_acres": 500,
-  "companies": 75,
-  "capacity_mw": 295,
-  "name": 56
+  "size_acres": 514,
+  "companies": 85,
+  "capacity_mw": 307,
+  "name": 86
  },
  "phase_transitions": [
   {
@@ -126,6 +126,11 @@
   {
    "from": "construction",
    "to": "operational",
+   "n": 1
+  },
+  {
+   "from": "proposed",
+   "to": "expansion",
    "n": 1
   }
  ],
@@ -246,7 +251,9 @@
   },
   {
    "week": "2026-09-28",
-   "phase_change": 1
+   "phase_change": 2,
+   "field_change": 66,
+   "first_seen": 68
   }
  ],
  "degraded_snapshots": [
@@ -551,6 +558,11 @@
    "snapshot": "2026-09-29",
    "commit": "dade752e53",
    "rows": 396
+  },
+  {
+   "snapshot": "2026-10-01",
+   "commit": "1c2a709602",
+   "rows": 464
   }
  ]
 }

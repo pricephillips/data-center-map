@@ -38,9 +38,9 @@ seen_date,project_id,source_id,event_type,field,old_value,new_value,prev_snapsho
 2026-05-01,prj_297,238,first_seen,,,delayed,2026-04-29,2026-05-01,0e5006de10
 2026-05-01,prj_334,240,field_change,companies,CTC Property LLC; Phoenix Investors; xAI; Memphis Light Gas and Water (MLGW); Tennessee Valley Authority (TVA); City of Memphis; Memphis City Council; Tennessee Department of Environment and Conservation (TDEC),CTC Property LLC; Phoenix Investors; xAI; Memphis Light Gas and Water (MLGW); Tennessee Valley Authority (TVA),2026-04-29,2026-05-01,0e5006de10
 2026-05-01,prj_335,241,phase_change,phase,operational,construction,2026-04-29,2026-05-01,0e5006de10
-2026-05-01,prj_104,104,removed,,operational,,2026-04-29,2026-05-01,0e5006de10
 2026-05-01,prj_61,61,removed,,proposed,,2026-04-29,2026-05-01,0e5006de10
 2026-05-01,prj_86,86,removed,,withdrawn,,2026-04-29,2026-05-01,0e5006de10
+2026-05-01,prj_104,104,removed,,operational,,2026-04-29,2026-05-01,0e5006de10
 2026-05-01,prj_217,217,removed,,construction,,2026-04-29,2026-05-01,0e5006de10
 2026-05-04,prj_3,3,field_change,companies,Hensel Phelps Construction; Meta; Aldridge Electric,Terracon; Hensel Phelps Construction; Meta; Aldridge Electric,2026-05-01,2026-05-04,4f4771806b
 2026-05-04,prj_4,4,phase_change,phase,approved,preliminary,2026-05-01,2026-05-04,4f4771806b
@@ -208,15 +208,15 @@ seen_date,project_id,source_id,event_type,field,old_value,new_value,prev_snapsho
 2026-07-10,prj_1007,1007,first_seen,,,proposed,2026-07-02,2026-07-10,7fbe754aa0
 2026-07-10,prj_1008,1008,first_seen,,,proposed,2026-07-02,2026-07-10,7fbe754aa0
 2026-07-10,prj_1009,1009,first_seen,,,preliminary,2026-07-02,2026-07-10,7fbe754aa0
-2026-07-11,prj_1008,1008,removed,,proposed,,2026-07-10,2026-07-11,30f57e3339
 2026-07-11,prj_1004,1004,removed,,preliminary,,2026-07-10,2026-07-11,30f57e3339
 2026-07-11,prj_1003,1003,removed,,construction,,2026-07-10,2026-07-11,30f57e3339
 2026-07-11,prj_1009,1009,removed,,preliminary,,2026-07-10,2026-07-11,30f57e3339
-2026-07-11,prj_1001,1001,removed,,proposed,,2026-07-10,2026-07-11,30f57e3339
-2026-07-11,prj_1005,1005,removed,,proposed,,2026-07-10,2026-07-11,30f57e3339
-2026-07-11,prj_1006,1006,removed,,construction,,2026-07-10,2026-07-11,30f57e3339
 2026-07-11,prj_1007,1007,removed,,proposed,,2026-07-10,2026-07-11,30f57e3339
+2026-07-11,prj_1006,1006,removed,,construction,,2026-07-10,2026-07-11,30f57e3339
 2026-07-11,prj_1002,1002,removed,,withdrawn,,2026-07-10,2026-07-11,30f57e3339
+2026-07-11,prj_1005,1005,removed,,proposed,,2026-07-10,2026-07-11,30f57e3339
+2026-07-11,prj_1008,1008,removed,,proposed,,2026-07-10,2026-07-11,30f57e3339
+2026-07-11,prj_1001,1001,removed,,proposed,,2026-07-10,2026-07-11,30f57e3339
 2026-07-13,prj_183,141,phase_change,phase,approved,proposed,2026-07-12,2026-07-13,1c5c81b2e6
 2026-07-13,prj_1001,1001,reappeared,,,proposed,2026-07-12,2026-07-13,1c5c81b2e6
 2026-07-13,prj_1002,1002,reappeared,,,withdrawn,2026-07-12,2026-07-13,1c5c81b2e6
@@ -1201,3 +1201,138 @@ seen_date,project_id,source_id,event_type,field,old_value,new_value,prev_snapsho
 2026-09-25,prj_389,389,first_seen,,,proposed,2026-09-24,2026-09-25,a5a8987e03
 2026-09-25,prj_390,390,first_seen,,,proposed,2026-09-24,2026-09-25,a5a8987e03
 2026-09-29,prj_1002,1002,phase_change,phase,withdrawn,proposed,2026-09-25,2026-09-29,dade752e53
+2026-10-01,prj_22,22,field_change,size_acres,32.82828283,,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_23,23,field_change,name,NE Edge Groton Data Center,NE Edge Groton,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_32,32,phase_change,phase,proposed,expansion,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_32,32,field_change,name,Granger Data Center,Microsoft Granger,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_35,35,field_change,name,Martindale Indianapolis Metrobloks Data Center,Metrobloks Martindale-Brightwood,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_39,39,field_change,name,Hancock County MegaSite,Project Redline,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_43,43,field_change,capacity_mw,,2400,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_44,44,field_change,name,Microsoft La Porte Data Center,Microsoft La Porte,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_46,46,field_change,name,JPG Data Center,Jefferson Proving Ground Data Center,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_48,48,field_change,size_acres,,468,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_49,49,field_change,companies,Amazon Web Services; NIPSCO,Amazon Web Services; Northern Indiana Public Service Company,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_49,49,field_change,name,Amazon Wheatfield,Project Rise,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_51,51,field_change,capacity_mw,,200,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_70,70,first_seen,,,operational,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_73,73,first_seen,,,expansion,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_93,93,field_change,capacity_mw,,820,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_93,93,field_change,name,Brightseat Tech Park Data Center Development,Brightseat Tech Park Data Center,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_98,98,field_change,size_acres,100,7.56,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_98,98,field_change,companies,TPC Data Center via Mid-Atlantic LLC,TPC Data Centers,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_98,98,field_change,name,Laurel Data Center,TPC Laurel,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_103,103,field_change,size_acres,280,282,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_103,103,field_change,companies,Panattoni Data Center Group,Google; Panattoni Data Center Group,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_105,105,field_change,name,Microsoft Gaines Township Data Center,Microsoft Gaines Township,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_106,106,field_change,capacity_mw,,1000,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_106,106,field_change,name,Rocklocker Kalkaska Data Center,Rocklocker Kalkaska,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_110,110,field_change,capacity_mw,,200,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_110,110,field_change,companies,Verrus,Verrus; Anthropic,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_114,114,field_change,name,Metrobloks Southfield Data Center,Metrobloks Southfield,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_116,116,field_change,companies,Randee LLC,Stantec Consulting Michigan Inc.; Meta; Randee LLC,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_126,126,field_change,name,Nebius Independence Hyperscale Campus,Nebius Independence,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_129,129,field_change,size_acres,,340,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_129,129,field_change,name,Crusoe Warrenton AI Data Center,Crusoe Warrenton,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_130,130,field_change,name,CRG Festus Data Center,CRG Festus,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_131,131,field_change,name,Metrobloks Liberty Data Center Campus,Metrobloks Liberty,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_133,133,field_change,name,Jasper County Powered Data Park / Sarcoxie Data Center,Jasper County Powered Data Park,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_136,136,field_change,name,Meta Kansas City Data Center,Meta Kansas City,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_137,137,field_change,name,Marshfield Webster Data Center,Lumon Solutions Marshfield Webster,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_205,205,field_change,name,AWS Hillard Campus,AWS Hillard Scioto Campus,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_206,206,field_change,capacity_mw,,250,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_206,206,field_change,name,Project Mila / Trenton Industrial Park Data Center,Project Mila,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_207,207,field_change,capacity_mw,240,200,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_210,210,field_change,capacity_mw,,1400,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_210,210,field_change,size_acres,1168,1200,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_210,210,field_change,companies,Shaytura LLC,Meta,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_210,210,field_change,name,Piqua Data Center,Project Klondike,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_213,213,field_change,capacity_mw,,1500,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_213,213,field_change,companies,OpenAI,OpenAI; Softbank; Oracle,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_213,213,field_change,name,Stargate Project - Lordstown AI Data Center Campus,Stargate Lordstown,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_221,221,field_change,name,NEO-01 / Sandusky Data Center,Aligned NEO-01,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_225,225,field_change,capacity_mw,,400,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_225,225,field_change,name,AWS Wilmington Data Center,AWS Wilmington,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_231,231,field_change,size_acres,,3775,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_233,233,field_change,capacity_mw,,150,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_233,233,field_change,size_acres,,35,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_234,234,field_change,size_acres,11.4784206,,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_234,234,field_change,name,Google Franklin Furnace Data Center,Project Dazzler,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_235,235,field_change,capacity_mw,,100,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_235,235,field_change,size_acres,,48,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_235,235,field_change,name,Urbana Data Center,Urbana Technology Hub,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_236,236,field_change,size_acres,,373,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_240,240,field_change,size_acres,160,,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_240,240,field_change,name,Meta Bowling Green Data Center,Meta Bowling Green,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_247,247,field_change,companies,Western Hospitality Partners,Corscale; Western Hospitality Partners,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_259,259,field_change,size_acres,250,228,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_259,259,field_change,companies,"Harrisburg I, LLC",Corscale; Provident Realty,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_259,259,field_change,name,Dauphin Highlands Golf Course sold for Data Center,Corscale Harrisburg Swatara,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_371,371,first_seen,,,expansion,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_375,375,field_change,name,Provident Charleston,Provident Chesterton,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_384,384,field_change,size_acres,,750,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_384,384,field_change,companies,,Brookfield Asset Management; NextEra Energy,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_386,386,first_seen,,,rejected,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_387,387,first_seen,,,expansion,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_388,388,first_seen,,,expansion,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_391,391,first_seen,,,rejected,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_392,392,first_seen,,,rejected,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_393,393,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_394,394,first_seen,,,withdrawn,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_395,395,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_396,396,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_397,397,first_seen,,,rejected,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_398,398,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_399,399,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_400,400,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_402,402,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_403,403,first_seen,,,withdrawn,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_404,404,first_seen,,,withdrawn,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_405,405,first_seen,,,withdrawn,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_407,407,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_408,408,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_409,409,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_410,410,first_seen,,,rejected,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_411,411,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_412,412,first_seen,,,withdrawn,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_413,413,first_seen,,,construction,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_414,414,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_415,415,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_416,416,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_417,417,first_seen,,,preliminary,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_418,418,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_419,419,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_420,420,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_421,421,first_seen,,,preliminary,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_424,424,first_seen,,,withdrawn,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_425,425,first_seen,,,construction,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_426,426,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_428,428,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_429,429,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_430,430,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_431,431,first_seen,,,expansion,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_432,432,first_seen,,,expansion,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_433,433,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_434,434,first_seen,,,preliminary,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_435,435,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_436,436,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_437,437,first_seen,,,delayed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_438,438,first_seen,,,preliminary,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_439,439,first_seen,,,rejected,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_440,440,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_441,441,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_442,442,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_443,443,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_444,444,first_seen,,,rejected,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_445,445,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_446,446,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_447,447,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_448,448,first_seen,,,rejected,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_449,449,first_seen,,,withdrawn,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_450,450,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_452,452,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_454,454,first_seen,,,rejected,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_455,455,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_457,457,first_seen,,,delayed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_458,458,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_459,459,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602
+2026-10-01,prj_461,461,first_seen,,,proposed,2026-09-29,2026-10-01,1c2a709602

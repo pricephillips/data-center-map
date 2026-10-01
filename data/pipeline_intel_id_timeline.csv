@@ -4,7 +4,7 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 19,3,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,19,yes,Clarksville Data Center,Arkansas
 22,4,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,22,yes,Port of Little Rock Data Center,Arkansas
 20,5,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,20,yes,Vilonia Cryptomine,Arkansas
-23,6,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,23,yes,NE Edge Groton Data Center,Connecticut
+23,6,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,23,yes,NE Edge Groton,Connecticut
 24,7,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,24,yes,Wallingford Data Center,Connecticut
 25,8,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,25,yes,Bloomfield Data Center Proposal,Connecticut
 26,9,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,26,yes,Trumbull Data Center Investment,Connecticut
@@ -13,7 +13,7 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 30,12,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,30,yes,Newark White Clay Creek Business Park Data Center,Delaware
 51,13,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,51,yes,Project Zodiac,Indiana
 50,14,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,50,yes,Bristol Data Center,Indiana
-32,15,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,32,yes,Granger Data Center,Indiana
+32,15,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,32,yes,Microsoft Granger,Indiana
 33,16,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,33,yes,South Bend Data Center,Indiana
 47,17,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,47,yes,Decennial Group Akron,Indiana
 34,18,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,34,yes,Project Rainier,Indiana
@@ -26,8 +26,8 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 87,25,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,87,yes,Millinocket Data Center,Maine
 86,26,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,86,yes,Sanford Woods Industrial and Technical Campus,Maine
 90,27,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,90,yes,Woodlawn Data Center,Maryland
-93,28,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,93,yes,Brightseat Tech Park Data Center Development,Maryland
-98,29,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,98,yes,Laurel Data Center,Maryland
+93,28,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,93,yes,Brightseat Tech Park Data Center,Maryland
+98,29,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,98,yes,TPC Laurel,Maryland
 94,30,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,94,yes,Quantum Frederick,Maryland
 95,31,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,95,yes,Piney Reach Data Center Development,Maryland
 96,32,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,96,yes,Johns Hopkins Data Science and Artificial Intelligence Institute (DSAI),Maryland
@@ -38,8 +38,8 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 116,37,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,116,yes,Project Splitrock,Michigan
 104,38,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,104,yes,32 Mile Road Technical Campus,Michigan
 115,39,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,115,yes,Benton Charter Township Data Center,Michigan
-105,40,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,105,yes,Microsoft Gaines Township Data Center,Michigan
-106,41,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,106,yes,Rocklocker Kalkaska Data Center,Michigan
+105,40,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,105,yes,Microsoft Gaines Township,Michigan
+106,41,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,106,yes,Rocklocker Kalkaska,Michigan
 107,42,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,107,yes,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,Michigan
 108,43,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,108,yes,Project Cherry Blossom,Michigan
 109,44,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,109,yes,Project Ironwood,Michigan
@@ -47,7 +47,7 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 111,46,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,111,yes,Deep Green Lansing Data Center,Michigan
 112,47,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,112,yes,Pavilion Township Data Center,Michigan
 113,48,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,113,yes,Sansone York Township Data Center,Michigan
-114,49,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,114,yes,Metrobloks Southfield Data Center,Michigan
+114,49,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,114,yes,Metrobloks Southfield,Michigan
 146,50,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,146,yes,DataOne Vineland,New Jersey
 147,51,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,147,yes,Princeton Nurseries Data Center,New Jersey
 148,52,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,148,yes,Prism Capital Partners Nutley Site,New Jersey
@@ -88,16 +88,16 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 203,87,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,203,yes,Vantage New Albany Campus,Ohio
 202,88,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,202,yes,AWS Innovation Campus New Albany,Ohio
 204,89,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,204,yes,QTS New Albany Campus,Ohio
-205,90,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,205,yes,AWS Hillard Campus,Ohio
-206,91,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,206,yes,Project Mila / Trenton Industrial Park Data Center,Ohio
+205,90,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,205,yes,AWS Hillard Scioto Campus,Ohio
+206,91,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,206,yes,Project Mila,Ohio
 207,92,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,207,yes,Hamilton Data Center,Ohio
 208,93,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,208,yes,5C Springfield,Ohio
 209,94,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,209,yes,Ashville Data Center,Ohio
-210,95,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,210,yes,Piqua Data Center,Ohio
+210,95,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,210,yes,Project Klondike,Ohio
 211,96,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,211,yes,Project Galaxy,Ohio
-234,97,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,234,yes,Google Franklin Furnace Data Center,Ohio
+234,97,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,234,yes,Project Dazzler,Ohio
 212,98,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,212,yes,Van Wert Mega Site,Ohio
-213,99,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,213,yes,Stargate Project - Lordstown AI Data Center Campus,Ohio
+213,99,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,213,yes,Stargate Lordstown,Ohio
 214,100,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,214,yes,Lordstown Data Center,Ohio
 238,101,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,238,yes,Bitdeer Weathersfield Project,Ohio
 237,102,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,237,yes,"Cipher Mining's ""Ulysses""",Ohio
@@ -109,14 +109,14 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 218,108,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,218,yes,Strata Expanse AI Center of Excellence,Ohio
 219,109,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,219,yes,Hannibal Data Center Campus,Ohio
 220,110,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,220,yes,Bitdeer Clarington Data Center,Ohio
-240,111,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,240,yes,Meta Bowling Green Data Center,Ohio
-221,112,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,221,yes,NEO-01 / Sandusky Data Center,Ohio
+240,111,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,240,yes,Meta Bowling Green,Ohio
+221,112,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,221,yes,Aligned NEO-01,Ohio
 222,113,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,222,yes,Microsoft Heath Data Center,Ohio
 223,114,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,223,yes,Microsoft Hebron Data Center,Ohio
 241,115,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,241,yes,Microsoft New Albany Data Center,Ohio
-235,116,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,235,yes,Urbana Data Center,Ohio
+235,116,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,235,yes,Urbana Technology Hub,Ohio
 224,117,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,224,yes,Akron Data Center Expansion,Ohio
-225,118,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,225,yes,AWS Wilmington Data Center,Ohio
+225,118,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,225,yes,AWS Wilmington,Ohio
 226,119,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,226,yes,Mt. Orab Mega Site,Ohio
 227,120,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,227,yes,J.M. Stuart Revitilization Project,Ohio
 228,121,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,228,yes,Killen Revitilization Project,Ohio
@@ -141,7 +141,7 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 258,140,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,258,yes,Homer City Energy + AI Campus,Pennsylvania
 244,141,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,244,yes,Keel Infrastructure Panther Creek,Pennsylvania
 242,142,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,242,yes,Fairview Crossroads Data Center,Pennsylvania
-259,143,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,259,yes,Dauphin Highlands Golf Course sold for Data Center,Pennsylvania
+259,143,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,259,yes,Corscale Harrisburg Swatara,Pennsylvania
 260,144,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,260,yes,Hollenback Township Data Center Development Zoning Application,Pennsylvania
 261,145,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,261,yes,Jessup Sunnyside Data Center,Pennsylvania
 262,146,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,262,yes,McKees Rocks Industrial Site Data Center,Pennsylvania
@@ -200,11 +200,11 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 350,199,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,350,yes,QTS Kearneysville Data Center Complex,West Virginia
 357,200,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,357,yes,Penzance Intelligence Center,West Virginia
 351,201,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,351,yes,Google Buffalo Data Center,West Virginia
-35,202,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,35,yes,Martindale Indianapolis Metrobloks Data Center,Indiana
+35,202,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,35,yes,Metrobloks Martindale-Brightwood,Indiana
 36,203,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,36,yes,Surge Development Knightstown Data Center,Indiana
 37,204,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,37,yes,Decatur Technology Park,Indiana
 38,205,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,38,yes,Project Louie,Indiana
-39,206,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,39,yes,Hancock County MegaSite,Indiana
+39,206,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,39,yes,Project Redline,Indiana
 48,207,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,48,yes,Project Flo,Indiana
 40,208,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,40,yes,Pittsboro Middle Township Data Center,Indiana
 41,209,2026-04-23T20:52:28Z,2026-04-29T08:27:50Z,41,yes,Pike Township Data Center,Indiana
@@ -253,10 +253,10 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 232,252,2026-04-27T08:36:01Z,2026-04-29T08:27:50Z,232,yes,Perry Township Data Center,Ohio
 296,253,2026-04-29T08:27:50Z,2026-04-29T08:27:50Z,296,yes,MRP Duncannon Data Center,Pennsylvania
 340,254,2026-04-29T08:27:50Z,2026-04-29T08:27:50Z,340,yes,Lawrenceburg / Ethridge Data Center,Tennessee
-1,1,2026-05-01T08:21:08Z,2026-09-29T12:32:04Z,1,yes,Project Nebius,Alabama
-2,2,2026-05-01T08:21:08Z,2026-09-29T12:32:04Z,2,yes,Project Marvel,Alabama
-3,3,2026-05-01T08:21:08Z,2026-09-29T12:32:04Z,3,yes,Meta Platforms Montgomery,Alabama
-4,4,2026-05-01T08:21:08Z,2026-09-29T12:32:04Z,4,yes,DC BLOX Montgomery,Alabama
+1,1,2026-05-01T08:21:08Z,2026-10-01T12:52:34Z,1,yes,Project Nebius,Alabama
+2,2,2026-05-01T08:21:08Z,2026-10-01T12:52:34Z,2,yes,Project Marvel,Alabama
+3,3,2026-05-01T08:21:08Z,2026-10-01T12:52:34Z,3,yes,Meta Platforms Montgomery,Alabama
+4,4,2026-05-01T08:21:08Z,2026-10-01T12:52:34Z,4,yes,DC BLOX Montgomery,Alabama
 5~e219,5,2026-05-01T08:21:08Z,2026-05-04T08:37:59Z,5,no,DC BLOX Huntsville,Alabama
 5,6,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,5,yes,DC BLOX Birmingham,Alabama
 6,7,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,6,yes,AUBix + Core Scientific Data Center,Alabama
@@ -267,7 +267,7 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 19,12,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,19,yes,Clarksville Data Center,Arkansas
 22,13,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,22,yes,Port of Little Rock Data Center,Arkansas
 20,14,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,20,yes,Vilonia Cryptomine,Arkansas
-23,15,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,23,yes,NE Edge Groton Data Center,Connecticut
+23,15,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,23,yes,NE Edge Groton,Connecticut
 24,16,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,24,yes,Wallingford Data Center,Connecticut
 25,17,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,25,yes,Bloomfield Data Center Proposal,Connecticut
 26,18,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,26,yes,Trumbull Data Center Investment,Connecticut
@@ -277,15 +277,15 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 30,22,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,30,yes,Newark White Clay Creek Business Park Data Center,Delaware
 51,23,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,51,yes,Project Zodiac,Indiana
 50,24,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,50,yes,Bristol Data Center,Indiana
-32,25,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,32,yes,Granger Data Center,Indiana
+32,25,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,32,yes,Microsoft Granger,Indiana
 33,26,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,33,yes,South Bend Data Center,Indiana
 47,27,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,47,yes,Decennial Group Akron,Indiana
 34,28,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,34,yes,Project Rainier,Indiana
-35,29,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,35,yes,Martindale Indianapolis Metrobloks Data Center,Indiana
+35,29,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,35,yes,Metrobloks Martindale-Brightwood,Indiana
 36,30,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,36,yes,Surge Development Knightstown Data Center,Indiana
 37,31,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,37,yes,Decatur Technology Park,Indiana
 38,32,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,38,yes,Project Louie,Indiana
-39,33,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,39,yes,Hancock County MegaSite,Indiana
+39,33,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,39,yes,Project Redline,Indiana
 48,34,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,48,yes,Project Flo,Indiana
 40,35,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,40,yes,Pittsboro Middle Township Data Center,Indiana
 41,36,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,41,yes,Pike Township Data Center,Indiana
@@ -314,8 +314,8 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 87,59,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,87,yes,Millinocket Data Center,Maine
 86,60,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,86,yes,Sanford Woods Industrial and Technical Campus,Maine
 90,61,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,90,yes,Woodlawn Data Center,Maryland
-93,62,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,93,yes,Brightseat Tech Park Data Center Development,Maryland
-98,63,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,98,yes,Laurel Data Center,Maryland
+93,62,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,93,yes,Brightseat Tech Park Data Center,Maryland
+98,63,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,98,yes,TPC Laurel,Maryland
 94,64,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,94,yes,Quantum Frederick,Maryland
 95,65,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,95,yes,Piney Reach Data Center Development,Maryland
 96,66,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,96,yes,Johns Hopkins Data Science and Artificial Intelligence Institute (DSAI),Maryland
@@ -326,8 +326,8 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 116,71,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,116,yes,Project Splitrock,Michigan
 104,72,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,104,yes,32 Mile Road Technical Campus,Michigan
 115,73,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,115,yes,Benton Charter Township Data Center,Michigan
-105,74,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,105,yes,Microsoft Gaines Township Data Center,Michigan
-106,75,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,106,yes,Rocklocker Kalkaska Data Center,Michigan
+105,74,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,105,yes,Microsoft Gaines Township,Michigan
+106,75,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,106,yes,Rocklocker Kalkaska,Michigan
 107,76,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,107,yes,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,Michigan
 108,77,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,108,yes,Project Cherry Blossom,Michigan
 109,78,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,109,yes,Project Ironwood,Michigan
@@ -335,7 +335,7 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 111,80,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,111,yes,Deep Green Lansing Data Center,Michigan
 112,81,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,112,yes,Pavilion Township Data Center,Michigan
 113,82,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,113,yes,Sansone York Township Data Center,Michigan
-114,83,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,114,yes,Metrobloks Southfield Data Center,Michigan
+114,83,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,114,yes,Metrobloks Southfield,Michigan
 118,84,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,118,yes,Amazon Clinton,Mississippi
 119,85,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,119,yes,Amazon Ridgeland,Mississippi
 125,86,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,125,yes,Amazon Madison Mega Site,Mississippi
@@ -387,16 +387,16 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 203,132,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,203,yes,Vantage New Albany Campus,Ohio
 202,133,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,202,yes,AWS Innovation Campus New Albany,Ohio
 204,134,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,204,yes,QTS New Albany Campus,Ohio
-205,135,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,205,yes,AWS Hillard Campus,Ohio
-206,136,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,206,yes,Project Mila / Trenton Industrial Park Data Center,Ohio
+205,135,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,205,yes,AWS Hillard Scioto Campus,Ohio
+206,136,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,206,yes,Project Mila,Ohio
 207,137,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,207,yes,Hamilton Data Center,Ohio
 208,138,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,208,yes,5C Springfield,Ohio
 209,139,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,209,yes,Ashville Data Center,Ohio
-210,140,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,210,yes,Piqua Data Center,Ohio
+210,140,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,210,yes,Project Klondike,Ohio
 211,141,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,211,yes,Project Galaxy,Ohio
-234,142,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,234,yes,Google Franklin Furnace Data Center,Ohio
+234,142,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,234,yes,Project Dazzler,Ohio
 212,143,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,212,yes,Van Wert Mega Site,Ohio
-213,144,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,213,yes,Stargate Project - Lordstown AI Data Center Campus,Ohio
+213,144,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,213,yes,Stargate Lordstown,Ohio
 214,145,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,214,yes,Lordstown Data Center,Ohio
 238,146,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,238,yes,Bitdeer Weathersfield Project,Ohio
 237,147,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,237,yes,"Cipher Mining's ""Ulysses""",Ohio
@@ -407,14 +407,14 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 218,152,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,218,yes,Strata Expanse AI Center of Excellence,Ohio
 219,153,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,219,yes,Hannibal Data Center Campus,Ohio
 220,154,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,220,yes,Bitdeer Clarington Data Center,Ohio
-240,155,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,240,yes,Meta Bowling Green Data Center,Ohio
-221,156,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,221,yes,NEO-01 / Sandusky Data Center,Ohio
+240,155,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,240,yes,Meta Bowling Green,Ohio
+221,156,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,221,yes,Aligned NEO-01,Ohio
 222,157,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,222,yes,Microsoft Heath Data Center,Ohio
 223,158,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,223,yes,Microsoft Hebron Data Center,Ohio
 241,159,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,241,yes,Microsoft New Albany Data Center,Ohio
-235,160,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,235,yes,Urbana Data Center,Ohio
+235,160,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,235,yes,Urbana Technology Hub,Ohio
 224,161,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,224,yes,Akron Data Center Expansion,Ohio
-225,162,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,225,yes,AWS Wilmington Data Center,Ohio
+225,162,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,225,yes,AWS Wilmington,Ohio
 226,163,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,226,yes,Mt. Orab Mega Site,Ohio
 227,164,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,227,yes,J.M. Stuart Revitilization Project,Ohio
 228,165,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,228,yes,Killen Revitilization Project,Ohio
@@ -442,7 +442,7 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 258,187,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,258,yes,Homer City Energy + AI Campus,Pennsylvania
 244,188,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,244,yes,Keel Infrastructure Panther Creek,Pennsylvania
 242,189,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,242,yes,Fairview Crossroads Data Center,Pennsylvania
-259,190,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,259,yes,Dauphin Highlands Golf Course sold for Data Center,Pennsylvania
+259,190,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,259,yes,Corscale Harrisburg Swatara,Pennsylvania
 260,191,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,260,yes,Hollenback Township Data Center Development Zoning Application,Pennsylvania
 261,192,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,261,yes,Jessup Sunnyside Data Center,Pennsylvania
 262,193,2026-05-01T08:21:08Z,2026-05-16T08:11:30Z,262,yes,McKees Rocks Industrial Site Data Center,Pennsylvania
@@ -519,29 +519,29 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 78,264,2026-05-07T08:43:05Z,2026-05-16T08:11:30Z,78,yes,Project Pulse,Kentucky
 298,265,2026-05-10T08:17:17Z,2026-05-16T08:11:30Z,298,yes,Linde Clinton Data Center,Pennsylvania
 271~e270,266,2026-05-10T08:17:17Z,2026-05-16T08:11:30Z,271,no,Big Beaver Borough Switch Data Center,Pennsylvania
-126,267,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,126,yes,Nebius Independence Hyperscale Campus,Missouri
+126,267,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,126,yes,Nebius Independence,Missouri
 127,268,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,127,yes,Project Green,Missouri
 128,269,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,128,yes,Project Spade,Missouri
-129,270,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,129,yes,Crusoe Warrenton AI Data Center,Missouri
+129,270,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,129,yes,Crusoe Warrenton,Missouri
 139,271,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,139,yes,Wildwood Ranch AI Data Center,Missouri
-130,272,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,130,yes,CRG Festus Data Center,Missouri
+130,272,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,130,yes,CRG Festus,Missouri
 141,273,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,141,yes,Armory Innovation Data Center,Missouri
 140,274,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,140,yes,Mo Lake Development Cross Creek Data Center,Missouri
-131,275,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,131,yes,Metrobloks Liberty Data Center Campus,Missouri
+131,275,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,131,yes,Metrobloks Liberty,Missouri
 143,276,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,143,yes,White Cloud Acres,Missouri
 132,277,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,132,yes,Lambda AI Factory,Missouri
-133,278,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,133,yes,Jasper County Powered Data Park / Sarcoxie Data Center,Missouri
+133,278,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,133,yes,Jasper County Powered Data Park,Missouri
 142,279,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,142,yes,Oppidan Foristell Data Center Sites,Missouri
 134,280,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,134,yes,Meramec Valley Technology Park,Missouri
 135,281,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,135,yes,Gateway Digital Campus,Missouri
-136,282,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,136,yes,Meta Kansas City Data Center,Missouri
+136,282,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,136,yes,Meta Kansas City,Missouri
 144,283,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,144,yes,Project Mica,Missouri
-137,284,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,137,yes,Marshfield Webster Data Center,Missouri
+137,284,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,137,yes,Lumon Solutions Marshfield Webster,Missouri
 138,285,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,138,yes,Project Cumulus,Missouri
 299,286,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,299,yes,East Brandywine Data Center,Pennsylvania
 233,288,2026-05-16T08:11:30Z,2026-05-16T08:11:30Z,233,yes,Morabito Slavic Village Data Center,Ohio
-5,5,2026-05-21T09:54:44Z,2026-09-29T12:32:04Z,5,yes,DC BLOX Birmingham,Alabama
-6,6,2026-05-21T09:54:44Z,2026-09-29T12:32:04Z,6,yes,AUBix + Core Scientific Data Center,Alabama
+5,5,2026-05-21T09:54:44Z,2026-10-01T12:52:34Z,5,yes,DC BLOX Birmingham,Alabama
+6,6,2026-05-21T09:54:44Z,2026-10-01T12:52:34Z,6,yes,AUBix + Core Scientific Data Center,Alabama
 9,7,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,9,yes,Childersburg Data Center,Alabama
 7,8,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,7,yes,Tallassee Mill Data Center,Alabama
 10,9,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,10,yes,Project Red Clay,Alabama
@@ -552,7 +552,7 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 19,14,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,19,yes,Clarksville Data Center,Arkansas
 22,15,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,22,yes,Port of Little Rock Data Center,Arkansas
 20,16,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,20,yes,Vilonia Cryptomine,Arkansas
-23,17,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,23,yes,NE Edge Groton Data Center,Connecticut
+23,17,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,23,yes,NE Edge Groton,Connecticut
 24,18,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,24,yes,Wallingford Data Center,Connecticut
 25,19,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,25,yes,Bloomfield Data Center Proposal,Connecticut
 26,20,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,26,yes,Trumbull Data Center Investment,Connecticut
@@ -562,15 +562,15 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 30,24,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,30,yes,Newark White Clay Creek Business Park Data Center,Delaware
 51,25,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,51,yes,Project Zodiac,Indiana
 50,26,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,50,yes,Bristol Data Center,Indiana
-32,27,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,32,yes,Granger Data Center,Indiana
+32,27,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,32,yes,Microsoft Granger,Indiana
 33,28,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,33,yes,South Bend Data Center,Indiana
 47,29,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,47,yes,Decennial Group Akron,Indiana
 34,30,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,34,yes,Project Rainier,Indiana
-35,31,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,35,yes,Martindale Indianapolis Metrobloks Data Center,Indiana
+35,31,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,35,yes,Metrobloks Martindale-Brightwood,Indiana
 36,32,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,36,yes,Surge Development Knightstown Data Center,Indiana
 37,33,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,37,yes,Decatur Technology Park,Indiana
 38,34,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,38,yes,Project Louie,Indiana
-39,35,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,39,yes,Hancock County MegaSite,Indiana
+39,35,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,39,yes,Project Redline,Indiana
 48,36,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,48,yes,Project Flo,Indiana
 40,37,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,40,yes,Pittsboro Middle Township Data Center,Indiana
 41,38,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,41,yes,Pike Township Data Center,Indiana
@@ -602,8 +602,8 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 87,64,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,87,yes,Millinocket Data Center,Maine
 86,65,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,86,yes,Sanford Woods Industrial and Technical Campus,Maine
 90,66,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,90,yes,Woodlawn Data Center,Maryland
-93,67,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,93,yes,Brightseat Tech Park Data Center Development,Maryland
-98,68,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,98,yes,Laurel Data Center,Maryland
+93,67,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,93,yes,Brightseat Tech Park Data Center,Maryland
+98,68,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,98,yes,TPC Laurel,Maryland
 94,69,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,94,yes,Quantum Frederick,Maryland
 95,70,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,95,yes,Piney Reach Data Center Development,Maryland
 96,71,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,96,yes,Johns Hopkins Data Science and Artificial Intelligence Institute (DSAI),Maryland
@@ -614,8 +614,8 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 116,76,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,116,yes,Project Splitrock,Michigan
 104,77,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,104,yes,32 Mile Road Technical Campus,Michigan
 115,78,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,115,yes,Benton Charter Township Data Center,Michigan
-105,79,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,105,yes,Microsoft Gaines Township Data Center,Michigan
-106,80,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,106,yes,Rocklocker Kalkaska Data Center,Michigan
+105,79,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,105,yes,Microsoft Gaines Township,Michigan
+106,80,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,106,yes,Rocklocker Kalkaska,Michigan
 107,81,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,107,yes,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,Michigan
 108,82,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,108,yes,Project Cherry Blossom,Michigan
 109,83,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,109,yes,Project Ironwood,Michigan
@@ -623,7 +623,7 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 111,85,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,111,yes,Deep Green Lansing Data Center,Michigan
 112,86,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,112,yes,Pavilion Township Data Center,Michigan
 113,87,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,113,yes,Sansone York Township Data Center,Michigan
-114,88,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,114,yes,Metrobloks Southfield Data Center,Michigan
+114,88,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,114,yes,Metrobloks Southfield,Michigan
 118,89,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,118,yes,Amazon Clinton,Mississippi
 119,90,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,119,yes,Amazon Ridgeland,Mississippi
 125,91,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,125,yes,Amazon Madison Mega Site,Mississippi
@@ -632,24 +632,24 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 121,94,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,121,yes,Meridian Compass Data Center,Mississippi
 122,95,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,122,yes,Clarksdale Data Center,Mississippi
 123,96,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,123,yes,xAI MACROHARDRR,Mississippi
-126,97,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,126,yes,Nebius Independence Hyperscale Campus,Missouri
+126,97,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,126,yes,Nebius Independence,Missouri
 127,98,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,127,yes,Project Green,Missouri
 128,99,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,128,yes,Project Spade,Missouri
-129,100,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,129,yes,Crusoe Warrenton AI Data Center,Missouri
+129,100,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,129,yes,Crusoe Warrenton,Missouri
 139,101,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,139,yes,Wildwood Ranch AI Data Center,Missouri
-130,102,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,130,yes,CRG Festus Data Center,Missouri
+130,102,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,130,yes,CRG Festus,Missouri
 141,103,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,141,yes,Armory Innovation Data Center,Missouri
 140,104,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,140,yes,Mo Lake Development Cross Creek Data Center,Missouri
-131,105,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,131,yes,Metrobloks Liberty Data Center Campus,Missouri
+131,105,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,131,yes,Metrobloks Liberty,Missouri
 143,106,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,143,yes,White Cloud Acres,Missouri
 132,107,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,132,yes,Lambda AI Factory,Missouri
-133,108,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,133,yes,Jasper County Powered Data Park / Sarcoxie Data Center,Missouri
+133,108,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,133,yes,Jasper County Powered Data Park,Missouri
 142,109,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,142,yes,Oppidan Foristell Data Center Sites,Missouri
 134,110,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,134,yes,Meramec Valley Technology Park,Missouri
 135,111,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,135,yes,Gateway Digital Campus,Missouri
-136,112,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,136,yes,Meta Kansas City Data Center,Missouri
+136,112,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,136,yes,Meta Kansas City,Missouri
 144,113,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,144,yes,Project Mica,Missouri
-137,114,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,137,yes,Marshfield Webster Data Center,Missouri
+137,114,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,137,yes,Lumon Solutions Marshfield Webster,Missouri
 138,115,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,138,yes,Project Cumulus,Missouri
 146,116,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,146,yes,DataOne Vineland,New Jersey
 147,117,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,147,yes,Princeton Nurseries Data Center,New Jersey
@@ -700,16 +700,16 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 203,162,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,203,yes,Vantage New Albany Campus,Ohio
 202,163,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,202,yes,AWS Innovation Campus New Albany,Ohio
 204,164,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,204,yes,QTS New Albany Campus,Ohio
-205,165,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,205,yes,AWS Hillard Campus,Ohio
-206,166,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,206,yes,Project Mila / Trenton Industrial Park Data Center,Ohio
+205,165,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,205,yes,AWS Hillard Scioto Campus,Ohio
+206,166,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,206,yes,Project Mila,Ohio
 207,167,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,207,yes,Hamilton Data Center,Ohio
 208,168,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,208,yes,5C Springfield,Ohio
 209,169,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,209,yes,Ashville Data Center,Ohio
-210,170,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,210,yes,Piqua Data Center,Ohio
+210,170,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,210,yes,Project Klondike,Ohio
 211,171,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,211,yes,Project Galaxy,Ohio
-234,172,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,234,yes,Google Franklin Furnace Data Center,Ohio
+234,172,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,234,yes,Project Dazzler,Ohio
 212,173,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,212,yes,Van Wert Mega Site,Ohio
-213,174,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,213,yes,Stargate Project - Lordstown AI Data Center Campus,Ohio
+213,174,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,213,yes,Stargate Lordstown,Ohio
 214,175,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,214,yes,Lordstown Data Center,Ohio
 238,176,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,238,yes,Bitdeer Weathersfield Project,Ohio
 237,177,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,237,yes,"Cipher Mining's ""Ulysses""",Ohio
@@ -720,14 +720,14 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 218,182,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,218,yes,Strata Expanse AI Center of Excellence,Ohio
 219,183,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,219,yes,Hannibal Data Center Campus,Ohio
 220,184,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,220,yes,Bitdeer Clarington Data Center,Ohio
-240,185,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,240,yes,Meta Bowling Green Data Center,Ohio
-221,186,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,221,yes,NEO-01 / Sandusky Data Center,Ohio
+240,185,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,240,yes,Meta Bowling Green,Ohio
+221,186,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,221,yes,Aligned NEO-01,Ohio
 222,187,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,222,yes,Microsoft Heath Data Center,Ohio
 223,188,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,223,yes,Microsoft Hebron Data Center,Ohio
 241,189,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,241,yes,Microsoft New Albany Data Center,Ohio
-235,190,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,235,yes,Urbana Data Center,Ohio
+235,190,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,235,yes,Urbana Technology Hub,Ohio
 224,191,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,224,yes,Akron Data Center Expansion,Ohio
-225,192,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,225,yes,AWS Wilmington Data Center,Ohio
+225,192,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,225,yes,AWS Wilmington,Ohio
 226,193,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,226,yes,Mt. Orab Mega Site,Ohio
 227,194,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,227,yes,J.M. Stuart Revitilization Project,Ohio
 228,195,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,228,yes,Killen Revitilization Project,Ohio
@@ -756,7 +756,7 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 258,218,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,258,yes,Homer City Energy + AI Campus,Pennsylvania
 244,219,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,244,yes,Keel Infrastructure Panther Creek,Pennsylvania
 242,220,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,242,yes,Fairview Crossroads Data Center,Pennsylvania
-259,221,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,259,yes,Dauphin Highlands Golf Course sold for Data Center,Pennsylvania
+259,221,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,259,yes,Corscale Harrisburg Swatara,Pennsylvania
 260,222,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,260,yes,Hollenback Township Data Center Development Zoning Application,Pennsylvania
 261,223,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,261,yes,Jessup Sunnyside Data Center,Pennsylvania
 262,224,2026-05-21T09:54:44Z,2026-09-14T21:39:34Z,262,yes,McKees Rocks Industrial Site Data Center,Pennsylvania
@@ -837,9 +837,9 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 81,299,2026-06-03T11:11:35Z,2026-06-24T09:41:12Z,81,yes,Maysville Data Center,Kentucky
 255,214,2026-06-04T10:05:31Z,2026-09-14T21:39:34Z,255,yes,Allentown Warehouse Conversion Data Center,Pennsylvania
 158,300,2026-06-04T10:05:31Z,2026-06-24T09:41:12Z,158,yes,Kenwood Commons,New York
-44,301,2026-06-04T10:05:31Z,2026-06-24T09:41:12Z,44,yes,Microsoft La Porte Data Center,Indiana
-46,302,2026-06-04T10:05:31Z,2026-06-24T09:41:12Z,46,yes,JPG Data Center,Indiana
-49,303,2026-06-04T10:05:31Z,2026-06-24T09:41:12Z,49,yes,Amazon Wheatfield,Indiana
+44,301,2026-06-04T10:05:31Z,2026-06-24T09:41:12Z,44,yes,Microsoft La Porte,Indiana
+46,302,2026-06-04T10:05:31Z,2026-06-24T09:41:12Z,46,yes,Jefferson Proving Ground Data Center,Indiana
+49,303,2026-06-04T10:05:31Z,2026-06-24T09:41:12Z,49,yes,Project Rise,Indiana
 304,304,2026-06-04T10:05:31Z,2026-06-24T09:41:12Z,304,yes,Granville Data Center,Pennsylvania
 79,305,2026-06-05T10:02:43Z,2026-06-24T09:41:12Z,79,yes,DartPoints Former Lexmark Data Center Redevelopment,Kentucky
 342,306,2026-06-06T08:41:37Z,2026-06-24T09:41:12Z,342,yes,DC Blox Nashville,Tennessee
@@ -887,9 +887,9 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 341,297,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,341,yes,Jailhouse Studios,Tennessee
 81,298,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,81,yes,Maysville Data Center,Kentucky
 158,299,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,158,yes,Kenwood Commons,New York
-44,300,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,44,yes,Microsoft La Porte Data Center,Indiana
-46,301,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,46,yes,JPG Data Center,Indiana
-49,302,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,49,yes,Amazon Wheatfield,Indiana
+44,300,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,44,yes,Microsoft La Porte,Indiana
+46,301,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,46,yes,Jefferson Proving Ground Data Center,Indiana
+49,302,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,49,yes,Project Rise,Indiana
 304,303,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,304,yes,Granville Data Center,Pennsylvania
 79,304,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,79,yes,DartPoints Former Lexmark Data Center Redevelopment,Kentucky
 342,305,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,342,yes,DC Blox Nashville,Tennessee
@@ -908,18 +908,18 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 45,318,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,45,yes,Project Domino,Indiana
 306,319,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,306,yes,Gravel Pike Data Center,Pennsylvania
 307,320,2026-07-02T09:23:46Z,2026-09-14T21:39:34Z,307,yes,Keel Infrastructure Sharon,Pennsylvania
-1001,1001,2026-07-10T19:16:01Z,2026-09-29T12:32:04Z,1001,yes,Harper Road Technology Park,Missouri
-1002,1002,2026-07-10T19:16:01Z,2026-09-29T12:32:04Z,1002,yes,Province Group Perry Village Data Center Campus,Ohio
-1003,1003,2026-07-10T19:16:01Z,2026-09-29T12:32:04Z,1003,yes,Meta Hyperion,Louisiana
-1004,1004,2026-07-10T19:16:01Z,2026-09-29T12:32:04Z,1004,yes,Prado AI Industrial Campus,Mississippi
-1005,1005,2026-07-10T19:16:01Z,2026-09-29T12:32:04Z,1005,yes,New Carlisle Chicago Trail Data Center (Third Site),Indiana
-1006,1006,2026-07-10T19:16:01Z,2026-09-29T12:32:04Z,1006,yes,Project Maize / Google Michigan City Data Center,Indiana
-1007,1007,2026-07-10T19:16:01Z,2026-09-29T12:32:04Z,1007,yes,Meta Project Everest,Louisiana
-1008,1008,2026-07-10T19:16:01Z,2026-09-29T12:32:04Z,1008,yes,Terra Nexus Custer Avenue Data Center,North Carolina
-1009,1009,2026-07-10T19:16:01Z,2026-09-29T12:32:04Z,1009,yes,PRSM Group Cumberland County Data Center,North Carolina
-1010,1010,2026-07-13T23:58:29Z,2026-09-29T12:32:04Z,1010,yes,Project Sail Data Center,Georgia
-1011,1011,2026-07-13T23:58:29Z,2026-09-29T12:32:04Z,1011,yes,Howell Township Data Center (Project Splitrock),Michigan
-1012,1012,2026-07-14T19:32:16Z,2026-09-29T12:32:04Z,1012,yes,Natelli Vance County Data Center,North Carolina
+1001,1001,2026-07-10T19:16:01Z,2026-10-01T12:52:34Z,1001,yes,Harper Road Technology Park,Missouri
+1002,1002,2026-07-10T19:16:01Z,2026-10-01T12:52:34Z,1002,yes,Province Group Perry Village Data Center Campus,Ohio
+1003,1003,2026-07-10T19:16:01Z,2026-10-01T12:52:34Z,1003,yes,Meta Hyperion,Louisiana
+1004,1004,2026-07-10T19:16:01Z,2026-10-01T12:52:34Z,1004,yes,Prado AI Industrial Campus,Mississippi
+1005,1005,2026-07-10T19:16:01Z,2026-10-01T12:52:34Z,1005,yes,New Carlisle Chicago Trail Data Center (Third Site),Indiana
+1006,1006,2026-07-10T19:16:01Z,2026-10-01T12:52:34Z,1006,yes,Project Maize / Google Michigan City Data Center,Indiana
+1007,1007,2026-07-10T19:16:01Z,2026-10-01T12:52:34Z,1007,yes,Meta Project Everest,Louisiana
+1008,1008,2026-07-10T19:16:01Z,2026-10-01T12:52:34Z,1008,yes,Terra Nexus Custer Avenue Data Center,North Carolina
+1009,1009,2026-07-10T19:16:01Z,2026-10-01T12:52:34Z,1009,yes,PRSM Group Cumberland County Data Center,North Carolina
+1010,1010,2026-07-13T23:58:29Z,2026-10-01T12:52:34Z,1010,yes,Project Sail Data Center,Georgia
+1011,1011,2026-07-13T23:58:29Z,2026-10-01T12:52:34Z,1011,yes,Howell Township Data Center (Project Splitrock),Michigan
+1012,1012,2026-07-14T19:32:16Z,2026-10-01T12:52:34Z,1012,yes,Natelli Vance County Data Center,North Carolina
 308,321,2026-07-18T08:01:07Z,2026-09-14T21:39:34Z,308,yes,PNK Valley View Data Center,Pennsylvania
 309,322,2026-07-29T08:48:59Z,2026-09-14T21:39:34Z,309,yes,Mudiita Ransom Township Data Center,Pennsylvania
 310,323,2026-07-29T08:48:59Z,2026-09-14T21:39:34Z,310,yes,Nebius Butler Township Data Center,Pennsylvania
@@ -927,21 +927,21 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 311,325,2026-08-17T07:05:23Z,2026-09-14T21:39:34Z,311,yes,Swedeland Discovery Center Data Center Campus,Pennsylvania
 312,326,2026-08-17T07:05:23Z,2026-09-14T21:39:34Z,312,yes,Stonebridge Lawrence Data Center,Pennsylvania
 313,327,2026-09-11T10:59:06Z,2026-09-14T21:39:34Z,313,yes,North Coventry Mall Data Center,Pennsylvania
-7,7,2026-09-17T21:33:20Z,2026-09-29T12:32:04Z,7,yes,Tallassee Mill Data Center,Alabama
-8,8,2026-09-17T21:33:20Z,2026-09-29T12:32:04Z,8,yes,Columbiana Mining Facility and Data Center,Alabama
-9,9,2026-09-17T21:33:20Z,2026-09-29T12:32:04Z,9,yes,Childersburg Data Center,Alabama
-10,10,2026-09-17T21:33:20Z,2026-09-29T12:32:04Z,10,yes,Project Red Clay,Alabama
-11,11,2026-09-17T21:33:20Z,2026-09-29T12:32:04Z,11,yes,Edged Energy Prichard,Alabama
-12,12,2026-09-17T21:33:20Z,2026-09-29T12:32:04Z,12,yes,Beacon Mount Vernon,Alabama
-13,13,2026-09-17T21:33:20Z,2026-09-29T12:32:04Z,13,yes,VoltCore Bitcoin Mine,Alabama
-14,14,2026-09-17T21:33:20Z,2026-09-29T12:32:04Z,14,yes,Stak Energy Center,Alaska
-15,15,2026-09-17T21:33:20Z,2026-09-29T12:32:04Z,15,yes,Prudhoe Bay Data Center,Alaska
+7,7,2026-09-17T21:33:20Z,2026-10-01T12:52:34Z,7,yes,Tallassee Mill Data Center,Alabama
+8,8,2026-09-17T21:33:20Z,2026-10-01T12:52:34Z,8,yes,Columbiana Mining Facility and Data Center,Alabama
+9,9,2026-09-17T21:33:20Z,2026-10-01T12:52:34Z,9,yes,Childersburg Data Center,Alabama
+10,10,2026-09-17T21:33:20Z,2026-10-01T12:52:34Z,10,yes,Project Red Clay,Alabama
+11,11,2026-09-17T21:33:20Z,2026-10-01T12:52:34Z,11,yes,Edged Energy Prichard,Alabama
+12,12,2026-09-17T21:33:20Z,2026-10-01T12:52:34Z,12,yes,Beacon Mount Vernon,Alabama
+13,13,2026-09-17T21:33:20Z,2026-10-01T12:52:34Z,13,yes,VoltCore Bitcoin Mine,Alabama
+14,14,2026-09-17T21:33:20Z,2026-10-01T12:52:34Z,14,yes,Stak Energy Center,Alaska
+15,15,2026-09-17T21:33:20Z,2026-10-01T12:52:34Z,15,yes,Prudhoe Bay Data Center,Alaska
 18,16,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,18,yes,Project Pyramid,Arkansas
 19,17,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,19,yes,Clarksville Data Center,Arkansas
 20,18,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,20,yes,Vilonia Cryptomine,Arkansas
 21,19,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,21,yes,Project Leo,Arkansas
 22,20,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,22,yes,Port of Little Rock Data Center,Arkansas
-23,21,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,23,yes,NE Edge Groton Data Center,Connecticut
+23,21,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,23,yes,NE Edge Groton,Connecticut
 24,22,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,24,yes,Wallingford Data Center,Connecticut
 25,23,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,25,yes,Bloomfield Data Center Proposal,Connecticut
 26,24,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,26,yes,Trumbull Data Center Investment,Connecticut
@@ -950,24 +950,24 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 29,27,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,29,yes,"St. Georges Business Park Data Center / ""Frightland Project""",Delaware
 30,28,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,30,yes,Newark White Clay Creek Business Park Data Center,Delaware
 31,29,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,31,yes,Servpac Mililani Technology Park,Hawaii
-32,30,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,32,yes,Granger Data Center,Indiana
+32,30,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,32,yes,Microsoft Granger,Indiana
 33,31,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,33,yes,South Bend Data Center,Indiana
 34,32,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,34,yes,Project Rainier,Indiana
-35,33,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,35,yes,Martindale Indianapolis Metrobloks Data Center,Indiana
+35,33,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,35,yes,Metrobloks Martindale-Brightwood,Indiana
 36,34,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,36,yes,Surge Development Knightstown Data Center,Indiana
 37,35,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,37,yes,Decatur Technology Park,Indiana
 38,36,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,38,yes,Project Louie,Indiana
-39,37,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,39,yes,Hancock County MegaSite,Indiana
+39,37,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,39,yes,Project Redline,Indiana
 40,38,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,40,yes,Pittsboro Middle Township Data Center,Indiana
 41,39,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,41,yes,Pike Township Data Center,Indiana
 42,40,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,42,yes,Project Maize,Indiana
 43,41,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,43,yes,Hobart Tech Park,Indiana
-44,42,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,44,yes,Microsoft La Porte Data Center,Indiana
+44,42,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,44,yes,Microsoft La Porte,Indiana
 45,43,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,45,yes,Project Domino,Indiana
-46,44,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,46,yes,JPG Data Center,Indiana
+46,44,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,46,yes,Jefferson Proving Ground Data Center,Indiana
 47,45,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,47,yes,Decennial Group Akron,Indiana
 48,46,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,48,yes,Project Flo,Indiana
-49,47,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,49,yes,Amazon Wheatfield,Indiana
+49,47,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,49,yes,Project Rise,Indiana
 50,48,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,50,yes,Bristol Data Center,Indiana
 51,49,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,51,yes,Project Zodiac,Indiana
 52,50,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,52,yes,Google Cedar Rapids,Iowa
@@ -1001,20 +1001,20 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 88,78,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,88,yes,Yankee Nuclear Power Plant Data Center,Maine
 89,79,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,89,yes,DeepGreen Eastport Subsea Data Center,Maine
 90,80,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,90,yes,Woodlawn Data Center,Maryland
-93,81,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,93,yes,Brightseat Tech Park Data Center Development,Maryland
+93,81,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,93,yes,Brightseat Tech Park Data Center,Maryland
 94,82,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,94,yes,Quantum Frederick,Maryland
 95,83,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,95,yes,Piney Reach Data Center Development,Maryland
 96,84,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,96,yes,Johns Hopkins Data Science and Artificial Intelligence Institute (DSAI),Maryland
 97,85,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,97,yes,Atmosphere Dickerson Data Center,Maryland
-98,86,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,98,yes,Laurel Data Center,Maryland
+98,86,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,98,yes,TPC Laurel,Maryland
 99,87,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,99,yes,Servistar Westfield,Massachusetts
 100,88,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,100,yes,Holyoke Data Center,Massachusetts
 101,89,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,101,yes,Everett Docklands Data Center,Massachusetts
 102,90,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,102,yes,Project Mitten / The Barn,Michigan
 103,91,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,103,yes,Project Cannoli,Michigan
 104,92,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,104,yes,32 Mile Road Technical Campus,Michigan
-105,93,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,105,yes,Microsoft Gaines Township Data Center,Michigan
-106,94,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,106,yes,Rocklocker Kalkaska Data Center,Michigan
+105,93,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,105,yes,Microsoft Gaines Township,Michigan
+106,94,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,106,yes,Rocklocker Kalkaska,Michigan
 107,95,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,107,yes,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,Michigan
 108,96,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,108,yes,Project Cherry Blossom,Michigan
 109,97,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,109,yes,Project Ironwood,Michigan
@@ -1022,7 +1022,7 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 111,99,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,111,yes,Deep Green Lansing Data Center,Michigan
 112,100,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,112,yes,Pavilion Township Data Center,Michigan
 113,101,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,113,yes,Sansone York Township Data Center,Michigan
-114,102,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,114,yes,Metrobloks Southfield Data Center,Michigan
+114,102,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,114,yes,Metrobloks Southfield,Michigan
 115,103,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,115,yes,Benton Charter Township Data Center,Michigan
 116,104,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,116,yes,Project Splitrock,Michigan
 118,105,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,118,yes,Amazon Clinton,Mississippi
@@ -1033,18 +1033,18 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 123,110,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,123,yes,xAI MACROHARDRR,Mississippi
 124,111,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,124,yes,Taurus Data Center Hub,Mississippi
 125,112,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,125,yes,Amazon Madison Mega Site,Mississippi
-126,113,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,126,yes,Nebius Independence Hyperscale Campus,Missouri
+126,113,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,126,yes,Nebius Independence,Missouri
 127,114,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,127,yes,Project Green,Missouri
 128,115,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,128,yes,Project Spade,Missouri
-129,116,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,129,yes,Crusoe Warrenton AI Data Center,Missouri
-130,117,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,130,yes,CRG Festus Data Center,Missouri
-131,118,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,131,yes,Metrobloks Liberty Data Center Campus,Missouri
+129,116,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,129,yes,Crusoe Warrenton,Missouri
+130,117,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,130,yes,CRG Festus,Missouri
+131,118,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,131,yes,Metrobloks Liberty,Missouri
 132,119,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,132,yes,Lambda AI Factory,Missouri
-133,120,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,133,yes,Jasper County Powered Data Park / Sarcoxie Data Center,Missouri
+133,120,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,133,yes,Jasper County Powered Data Park,Missouri
 134,121,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,134,yes,Meramec Valley Technology Park,Missouri
 135,122,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,135,yes,Gateway Digital Campus,Missouri
-136,123,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,136,yes,Meta Kansas City Data Center,Missouri
-137,124,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,137,yes,Marshfield Webster Data Center,Missouri
+136,123,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,136,yes,Meta Kansas City,Missouri
+137,124,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,137,yes,Lumon Solutions Marshfield Webster,Missouri
 138,125,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,138,yes,Project Cumulus,Missouri
 139,126,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,139,yes,Wildwood Ranch AI Data Center,Missouri
 140,127,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,140,yes,Mo Lake Development Cross Creek Data Center,Missouri
@@ -1112,15 +1112,15 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 202,189,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,202,yes,AWS Innovation Campus New Albany,Ohio
 203,190,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,203,yes,Vantage New Albany Campus,Ohio
 204,191,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,204,yes,QTS New Albany Campus,Ohio
-205,192,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,205,yes,AWS Hillard Campus,Ohio
-206,193,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,206,yes,Project Mila / Trenton Industrial Park Data Center,Ohio
+205,192,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,205,yes,AWS Hillard Scioto Campus,Ohio
+206,193,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,206,yes,Project Mila,Ohio
 207,194,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,207,yes,Hamilton Data Center,Ohio
 208,195,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,208,yes,5C Springfield,Ohio
 209,196,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,209,yes,Ashville Data Center,Ohio
-210,197,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,210,yes,Piqua Data Center,Ohio
+210,197,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,210,yes,Project Klondike,Ohio
 211,198,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,211,yes,Project Galaxy,Ohio
 212,199,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,212,yes,Van Wert Mega Site,Ohio
-213,200,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,213,yes,Stargate Project - Lordstown AI Data Center Campus,Ohio
+213,200,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,213,yes,Stargate Lordstown,Ohio
 214,201,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,214,yes,Lordstown Data Center,Ohio
 215,202,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,215,yes,Google Lockbourne,Ohio
 216,203,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,216,yes,Project Cosmos,Ohio
@@ -1128,11 +1128,11 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 218,205,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,218,yes,Strata Expanse AI Center of Excellence,Ohio
 219,206,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,219,yes,Hannibal Data Center Campus,Ohio
 220,207,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,220,yes,Bitdeer Clarington Data Center,Ohio
-221,208,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,221,yes,NEO-01 / Sandusky Data Center,Ohio
+221,208,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,221,yes,Aligned NEO-01,Ohio
 222,209,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,222,yes,Microsoft Heath Data Center,Ohio
 223,210,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,223,yes,Microsoft Hebron Data Center,Ohio
 224,211,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,224,yes,Akron Data Center Expansion,Ohio
-225,212,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,225,yes,AWS Wilmington Data Center,Ohio
+225,212,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,225,yes,AWS Wilmington,Ohio
 226,213,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,226,yes,Mt. Orab Mega Site,Ohio
 227,214,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,227,yes,J.M. Stuart Revitilization Project,Ohio
 228,215,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,228,yes,Killen Revitilization Project,Ohio
@@ -1141,13 +1141,13 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 231,218,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,231,yes,PORTS Technology Center,Ohio
 232,219,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,232,yes,Perry Township Data Center,Ohio
 233,220,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,233,yes,Morabito Slavic Village Data Center,Ohio
-234,221,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,234,yes,Google Franklin Furnace Data Center,Ohio
-235,222,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,235,yes,Urbana Data Center,Ohio
+234,221,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,234,yes,Project Dazzler,Ohio
+235,222,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,235,yes,Urbana Technology Hub,Ohio
 236,223,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,236,yes,Project BOSC,Ohio
 237,224,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,237,yes,"Cipher Mining's ""Ulysses""",Ohio
 238,225,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,238,yes,Bitdeer Weathersfield Project,Ohio
 239,226,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,239,yes,Johnstown Cologix Data Center,Ohio
-240,227,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,240,yes,Meta Bowling Green Data Center,Ohio
+240,227,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,240,yes,Meta Bowling Green,Ohio
 241,228,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,241,yes,Microsoft New Albany Data Center,Ohio
 242,229,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,242,yes,Fairview Crossroads Data Center,Pennsylvania
 243,230,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,243,yes,Project Hazelnut,Pennsylvania
@@ -1166,7 +1166,7 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 256,243,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,256,yes,PAX – Pennsylvania Digital I,Pennsylvania
 257,244,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,257,yes,Dynamo Springdale,Pennsylvania
 258,245,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,258,yes,Homer City Energy + AI Campus,Pennsylvania
-259,246,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,259,yes,Dauphin Highlands Golf Course sold for Data Center,Pennsylvania
+259,246,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,259,yes,Corscale Harrisburg Swatara,Pennsylvania
 260,247,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,260,yes,Hollenback Township Data Center Development Zoning Application,Pennsylvania
 261,248,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,261,yes,Jessup Sunnyside Data Center,Pennsylvania
 262,249,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,262,yes,McKees Rocks Industrial Site Data Center,Pennsylvania
@@ -1262,372 +1262,440 @@ entity,source_id,first_snapshot,last_snapshot,current_id,present_now,name,state
 357,339,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,357,yes,Penzance Intelligence Center,West Virginia
 16,340,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,16,yes,ForgeLight Ventures Conway,Arkansas
 17,341,2026-09-17T21:33:20Z,2026-09-17T21:33:20Z,17,yes,EdgeConneX Sheridan,Arkansas
-16,16,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,16,yes,ForgeLight Ventures Conway,Arkansas
-17,17,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,17,yes,EdgeConneX Sheridan,Arkansas
-18,18,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,18,yes,Project Pyramid,Arkansas
-19,19,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,19,yes,Clarksville Data Center,Arkansas
-20,20,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,20,yes,Vilonia Cryptomine,Arkansas
-21,21,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,21,yes,Project Leo,Arkansas
-22,22,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,22,yes,Port of Little Rock Data Center,Arkansas
-23,23,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,23,yes,NE Edge Groton Data Center,Connecticut
-24,24,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,24,yes,Wallingford Data Center,Connecticut
-25,25,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,25,yes,Bloomfield Data Center Proposal,Connecticut
-26,26,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,26,yes,Trumbull Data Center Investment,Connecticut
-27,27,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,27,yes,Bristol Technology Center,Connecticut
-28,28,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,28,yes,Project Washington,Delaware
-29,29,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,29,yes,"St. Georges Business Park Data Center / ""Frightland Project""",Delaware
-30,30,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,30,yes,Newark White Clay Creek Business Park Data Center,Delaware
-31,31,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,31,yes,Servpac Mililani Technology Park,Hawaii
-32,32,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,32,yes,Granger Data Center,Indiana
-33,33,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,33,yes,South Bend Data Center,Indiana
-34,34,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,34,yes,Project Rainier,Indiana
-35,35,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,35,yes,Martindale Indianapolis Metrobloks Data Center,Indiana
-36,36,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,36,yes,Surge Development Knightstown Data Center,Indiana
-37,37,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,37,yes,Decatur Technology Park,Indiana
-38,38,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,38,yes,Project Louie,Indiana
-39,39,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,39,yes,Hancock County MegaSite,Indiana
-40,40,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,40,yes,Pittsboro Middle Township Data Center,Indiana
-41,41,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,41,yes,Pike Township Data Center,Indiana
-42,42,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,42,yes,Project Maize,Indiana
-43,43,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,43,yes,Hobart Tech Park,Indiana
-44,44,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,44,yes,Microsoft La Porte Data Center,Indiana
-45,45,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,45,yes,Project Domino,Indiana
-46,46,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,46,yes,JPG Data Center,Indiana
-47,47,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,47,yes,Decennial Group Akron,Indiana
-48,48,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,48,yes,Project Flo,Indiana
-49,49,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,49,yes,Amazon Wheatfield,Indiana
-50,50,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,50,yes,Bristol Data Center,Indiana
-51,51,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,51,yes,Project Zodiac,Indiana
-52,52,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,52,yes,Google Cedar Rapids,Iowa
-53,53,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,53,yes,QTS Cedar Rapids,Iowa
-54,54,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,54,yes,Meta Davenport Data Center,Iowa
-55,55,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,55,yes,Project Ruthenium,Iowa
-56,56,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,56,yes,Edged Des Moines,Iowa
-57,57,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,57,yes,Project Morgan,Iowa
-58,58,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,58,yes,Google Council Bluffs,Iowa
-59,59,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,59,yes,Tract Altoona,Iowa
-60,60,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,60,yes,Project Alluvion,Iowa
-61,61,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,61,yes,Project Ginger West,Iowa
-62,62,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,62,yes,Project Ginger East,Iowa
-63,63,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,63,yes,Project Osmium,Iowa
-64,64,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,64,yes,Tract Project West,Iowa
-65,65,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,65,yes,COPT Defense Properties Data Center,Iowa
-66,66,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,66,yes,Simple Mining Cascade,Iowa
-67,67,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,67,yes,Simple Mining Cedar Falls,Iowa
-68,68,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,68,yes,Edged Data Center,Iowa
-69,69,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,69,yes,Jackson County Data Center,Iowa
-71,71,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,71,yes,Karis Dubuque,Iowa
-72,72,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,72,yes,MidAmerican Data Center,Iowa
-74,74,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,74,yes,Applied Digital Adair,Iowa
-75,75,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,75,yes,Project Lincoln,Kentucky
-76,76,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,76,yes,Harrodsburg Data Center,Kentucky
-77,77,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,77,yes,TeraWulf Hawesville,Kentucky
-78,78,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,78,yes,Project Pulse,Kentucky
-79,79,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,79,yes,DartPoints Former Lexmark Data Center Redevelopment,Kentucky
-80,80,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,80,yes,Franklin–Simpson Data Storage and Service Center,Kentucky
-81,81,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,81,yes,Maysville Data Center,Kentucky
-82,82,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,82,yes,Muskie Data Campus,Kentucky
-83,83,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,83,yes,PowerHouse Louisville,Kentucky
-84,84,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,84,yes,Loring Air Force Base Data Center,Maine
-85,85,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,85,yes,Bates Mill No. 3. Data Center,Maine
-86,86,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,86,yes,Sanford Woods Industrial and Technical Campus,Maine
-87,87,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,87,yes,Millinocket Data Center,Maine
-88,88,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,88,yes,Yankee Nuclear Power Plant Data Center,Maine
-89,89,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,89,yes,DeepGreen Eastport Subsea Data Center,Maine
-90,90,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,90,yes,Woodlawn Data Center,Maryland
-91,91,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,91,yes,TeraWulf Newburg,Maryland
-92,92,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,92,yes,Sandy Farms Data Center,Maryland
-93,93,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,93,yes,Brightseat Tech Park Data Center Development,Maryland
-94,94,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,94,yes,Quantum Frederick,Maryland
-95,95,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,95,yes,Piney Reach Data Center Development,Maryland
-96,96,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,96,yes,Johns Hopkins Data Science and Artificial Intelligence Institute (DSAI),Maryland
-97,97,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,97,yes,Atmosphere Dickerson Data Center,Maryland
-98,98,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,98,yes,Laurel Data Center,Maryland
-99,99,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,99,yes,Servistar Westfield,Massachusetts
-100,100,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,100,yes,Holyoke Data Center,Massachusetts
-101,101,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,101,yes,Everett Docklands Data Center,Massachusetts
-102,102,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,102,yes,Project Mitten / The Barn,Michigan
-103,103,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,103,yes,Project Cannoli,Michigan
-104,104,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,104,yes,32 Mile Road Technical Campus,Michigan
-105,105,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,105,yes,Microsoft Gaines Township Data Center,Michigan
-106,106,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,106,yes,Rocklocker Kalkaska Data Center,Michigan
-107,107,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,107,yes,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,Michigan
-108,108,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,108,yes,Project Cherry Blossom,Michigan
-109,109,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,109,yes,Project Ironwood,Michigan
-110,110,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,110,yes,Project Flex,Michigan
-111,111,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,111,yes,Deep Green Lansing Data Center,Michigan
-112,112,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,112,yes,Pavilion Township Data Center,Michigan
-113,113,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,113,yes,Sansone York Township Data Center,Michigan
-114,114,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,114,yes,Metrobloks Southfield Data Center,Michigan
-115,115,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,115,yes,Benton Charter Township Data Center,Michigan
-116,116,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,116,yes,Project Splitrock,Michigan
-117,117,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,117,yes,Starkville Crypto Mine,Mississippi
-118,118,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,118,yes,Amazon Clinton,Mississippi
-119,119,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,119,yes,Amazon Ridgeland,Mississippi
-120,120,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,120,yes,Project Steamboat,Mississippi
-121,121,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,121,yes,Meridian Compass Data Center,Mississippi
-122,122,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,122,yes,Clarksdale Data Center,Mississippi
-123,123,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,123,yes,xAI MACROHARDRR,Mississippi
-124,124,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,124,yes,Taurus Data Center Hub,Mississippi
-125,125,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,125,yes,Amazon Madison Mega Site,Mississippi
-126,126,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,126,yes,Nebius Independence Hyperscale Campus,Missouri
-127,127,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,127,yes,Project Green,Missouri
-128,128,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,128,yes,Project Spade,Missouri
-129,129,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,129,yes,Crusoe Warrenton AI Data Center,Missouri
-130,130,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,130,yes,CRG Festus Data Center,Missouri
-131,131,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,131,yes,Metrobloks Liberty Data Center Campus,Missouri
-132,132,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,132,yes,Lambda AI Factory,Missouri
-133,133,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,133,yes,Jasper County Powered Data Park / Sarcoxie Data Center,Missouri
-134,134,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,134,yes,Meramec Valley Technology Park,Missouri
-135,135,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,135,yes,Gateway Digital Campus,Missouri
-136,136,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,136,yes,Meta Kansas City Data Center,Missouri
-137,137,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,137,yes,Marshfield Webster Data Center,Missouri
-138,138,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,138,yes,Project Cumulus,Missouri
-139,139,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,139,yes,Wildwood Ranch AI Data Center,Missouri
-140,140,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,140,yes,Mo Lake Development Cross Creek Data Center,Missouri
-141,141,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,141,yes,Armory Innovation Data Center,Missouri
-142,142,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,142,yes,Oppidan Foristell Data Center Sites,Missouri
-143,143,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,143,yes,White Cloud Acres,Missouri
-144,144,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,144,yes,Project Mica,Missouri
-145,145,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,145,yes,Nottingham Data Center,New Hampshire
-146,146,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,146,yes,DataOne Vineland,New Jersey
-147,147,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,147,yes,Princeton Nurseries Data Center,New Jersey
-148,148,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,148,yes,Prism Capital Partners Nutley Site,New Jersey
-149,149,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,149,yes,New Brunswick Data Center,New Jersey
-150,150,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,150,yes,American Tower Mount Royal,New Jersey
-151,151,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,151,yes,CoreWeave Kenilworth,New Jersey
-152,152,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,152,yes,Monroe Township Data Center,New Jersey
-153,153,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,153,yes,Andover Data Center,New Jersey
-154,154,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,154,yes,Millville Energy & Data Center Campus,New Jersey
-155,155,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,155,yes,Sugar Hill Portland Data Center,New York
-156,156,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,156,yes,Massena Petawatt Data Center Site Advertisement,New York
-157,157,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,157,yes,Riverview Innovative and Technology Campus Data Center,New York
-158,158,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,158,yes,Kenwood Commons,New York
-159,159,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,159,yes,STAMP Data Center,New York
-160,160,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,160,yes,Ilion Data Center,New York
-161,161,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,161,yes,Niagara Digital Campus,New York
-162,162,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,162,yes,Brookhaven National Laboratory Data Center,New York
-163,163,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,163,yes,Lake Hawkeye,New York
-164,164,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,164,yes,Lysander Data Center,New York
-165,165,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,165,yes,Oneonta West End Data Center,New York
-166,166,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,166,yes,Rural Hall Data Center,North Carolina
-167,167,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,167,yes,Person County Mega Park,North Carolina
-168,168,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,168,yes,Tarboro Data Center Campus,North Carolina
-169,169,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,169,yes,High Point Data Center,North Carolina
-170,170,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,170,yes,CLT20 Moores Chapel,North Carolina
-171,171,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,171,yes,CLT10 Uptown Expansion,North Carolina
-172,172,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,172,yes,Greensboro Dream Center,North Carolina
-173,173,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,173,yes,Marble Data Center Campus,North Carolina
-174,174,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,174,yes,Maiden iDataCenter Campus,North Carolina
-175,175,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,175,yes,T5 Data Centers Kings Mountain,North Carolina
-176,176,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,176,yes,Forest City Data Center Campus,North Carolina
-177,177,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,177,yes,Lenoir Campus (Existing + Project Cardinal 2024),North Carolina
-178,178,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,178,yes,Natelli Investments New Hill Digital Campus,North Carolina
-179,179,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,179,yes,Kingsboro Data Center,North Carolina
-180,180,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,180,yes,Fayetteville Data Center Campus,North Carolina
-181,181,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,181,yes,Lenoir Data Center Expansion,North Carolina
-182,182,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,182,yes,Rowan County Data Center,North Carolina
-183,183,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,183,yes,Project Delta,North Carolina
-184,184,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,184,yes,AWS Richmond County Campus,North Carolina
-185,185,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,185,yes,Statesville Data Center Campus,North Carolina
-186,186,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,186,yes,Charlotte University City Data Center,North Carolina
-187,187,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,187,yes,5C Charlotte Data Center,North Carolina
-188,188,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,188,yes,NC-1 Campus (Madison) Data Center,North Carolina
-189,189,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,189,yes,Microsoft — Catawba County Campus Cluster (Lyle Creek / Boyd Farm / Hickory / Stover North),North Carolina
-190,190,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,190,yes,Raleigh New Build Data Center,North Carolina
-191,191,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,191,yes,American Tower RA1,North Carolina
-192,192,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,192,yes,Tract Mooresville Technology Park,North Carolina
-193,193,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,193,yes,Project Accelerate,North Carolina
-194,194,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,194,yes,Project Fighting Pike,North Dakota
-195,195,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,195,yes,Polaris Forge 1,North Dakota
-196,196,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,196,yes,Atlas Power Williston,North Dakota
-197,197,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,197,yes,Polaris Forge 2,North Dakota
-198,198,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,198,yes,River Run Energy Center,North Dakota
-199,199,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,199,yes,Applied Digital Oliver County,North Dakota
-200,200,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,200,yes,Nakota Data Campus,North Dakota
-201,201,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,201,yes,Aurum Capital Ventures Bismarck,North Dakota
-202,202,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,202,yes,AWS Innovation Campus New Albany,Ohio
-203,203,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,203,yes,Vantage New Albany Campus,Ohio
-204,204,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,204,yes,QTS New Albany Campus,Ohio
-205,205,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,205,yes,AWS Hillard Campus,Ohio
-206,206,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,206,yes,Project Mila / Trenton Industrial Park Data Center,Ohio
-207,207,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,207,yes,Hamilton Data Center,Ohio
-208,208,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,208,yes,5C Springfield,Ohio
-209,209,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,209,yes,Ashville Data Center,Ohio
-210,210,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,210,yes,Piqua Data Center,Ohio
-211,211,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,211,yes,Project Galaxy,Ohio
-212,212,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,212,yes,Van Wert Mega Site,Ohio
-213,213,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,213,yes,Stargate Project - Lordstown AI Data Center Campus,Ohio
-214,214,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,214,yes,Lordstown Data Center,Ohio
-215,215,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,215,yes,Google Lockbourne,Ohio
-216,216,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,216,yes,Project Cosmos,Ohio
-217,217,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,217,yes,Cologix Lewis Center Data Center,Ohio
-218,218,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,218,yes,Strata Expanse AI Center of Excellence,Ohio
-219,219,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,219,yes,Hannibal Data Center Campus,Ohio
-220,220,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,220,yes,Bitdeer Clarington Data Center,Ohio
-221,221,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,221,yes,NEO-01 / Sandusky Data Center,Ohio
-222,222,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,222,yes,Microsoft Heath Data Center,Ohio
-223,223,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,223,yes,Microsoft Hebron Data Center,Ohio
-224,224,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,224,yes,Akron Data Center Expansion,Ohio
-225,225,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,225,yes,AWS Wilmington Data Center,Ohio
-226,226,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,226,yes,Mt. Orab Mega Site,Ohio
-227,227,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,227,yes,J.M. Stuart Revitilization Project,Ohio
-228,228,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,228,yes,Killen Revitilization Project,Ohio
-229,229,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,229,yes,Marysville South Data Center,Ohio
-230,230,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,230,yes,Buck Canyon Properties Data Center,Ohio
-231,231,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,231,yes,PORTS Technology Center,Ohio
-232,232,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,232,yes,Perry Township Data Center,Ohio
-233,233,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,233,yes,Morabito Slavic Village Data Center,Ohio
-234,234,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,234,yes,Google Franklin Furnace Data Center,Ohio
-235,235,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,235,yes,Urbana Data Center,Ohio
-236,236,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,236,yes,Project BOSC,Ohio
-237,237,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,237,yes,"Cipher Mining's ""Ulysses""",Ohio
-238,238,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,238,yes,Bitdeer Weathersfield Project,Ohio
-239,239,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,239,yes,Johnstown Cologix Data Center,Ohio
-240,240,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,240,yes,Meta Bowling Green Data Center,Ohio
-241,241,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,241,yes,Microsoft New Albany Data Center,Ohio
-242,242,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,242,yes,Fairview Crossroads Data Center,Pennsylvania
-243,243,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,243,yes,Project Hazelnut,Pennsylvania
-244,244,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,244,yes,Keel Infrastructure Panther Creek,Pennsylvania
-245,245,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,245,yes,Zediker Station Data Center,Pennsylvania
-246,246,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,246,yes,Wildcat Ridge AI Data Center,Pennsylvania
-247,247,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,247,yes,Project Gravity,Pennsylvania
-248,248,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,248,yes,Blakely AI Data Center,Pennsylvania
-249,249,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,249,yes,Project Boson,Pennsylvania
-250,250,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,250,yes,Project Gold,Pennsylvania
-251,251,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,251,yes,Sentinel Green Fig East Whiteland,Pennsylvania
-252,252,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,252,yes,QTS Salem Data Center,Pennsylvania
-253,253,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,253,yes,AWS Keystone Trade Center Campus,Pennsylvania
-254,254,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,254,yes,CoreWeave Lancaster,Pennsylvania
-255,255,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,255,yes,Allentown Warehouse Conversion Data Center,Pennsylvania
-256,256,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,256,yes,PAX – Pennsylvania Digital I,Pennsylvania
-257,257,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,257,yes,Dynamo Springdale,Pennsylvania
-258,258,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,258,yes,Homer City Energy + AI Campus,Pennsylvania
-259,259,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,259,yes,Dauphin Highlands Golf Course sold for Data Center,Pennsylvania
-260,260,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,260,yes,Hollenback Township Data Center Development Zoning Application,Pennsylvania
-261,261,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,261,yes,Jessup Sunnyside Data Center,Pennsylvania
-262,262,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,262,yes,McKees Rocks Industrial Site Data Center,Pennsylvania
-263,263,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,263,yes,Project Hummingbird,Pennsylvania
-264,264,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,264,yes,Archbald I LLC Data Center Campuses,Pennsylvania
-265,265,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,265,yes,Former Air Products Headquarters Data Center,Pennsylvania
-266,266,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,266,yes,Pennhurst Data Center,Pennsylvania
-267,267,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,267,yes,Conshohocken Data Center,Pennsylvania
-268,268,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,268,yes,Dickson City Data Centers,Pennsylvania
-269,269,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,269,yes,West Hazleton Data Center,Pennsylvania
-270,270,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,270,yes,Sugarloaf Township Data Center,Pennsylvania
-271,271,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,271,yes,Linfield Data Center,Pennsylvania
-272,272,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,272,yes,Kline Township Data Center,Pennsylvania
-273,273,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,273,yes,Ransom Township Data Center,Pennsylvania
-274,274,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,274,yes,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,Pennsylvania
-275,275,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,275,yes,Smithfield Gateway Project,Pennsylvania
-276,276,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,276,yes,Project Phoenix,Pennsylvania
-277,277,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,277,yes,Klondike Data Center Project,Pennsylvania
-278,278,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,278,yes,Project Laurel,Pennsylvania
-279,279,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,279,yes,Tobyhanna Township / Blakeslee Data Center,Pennsylvania
-280,280,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,280,yes,Talen Energy Rezone Request for Possible Data Center in Montour County,Pennsylvania
-281,281,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,281,yes,Fezzik Aliquippa Data Center,Pennsylvania
-282,282,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,282,yes,Project Green Mountain,Pennsylvania
-283,283,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,283,yes,Conewago Township Data Center Land Considerations,Pennsylvania
-284,284,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,284,yes,Briar Creek Township Data Center Zoning Overlay,Pennsylvania
-285,285,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,285,yes,South Hanover Township Data Center,Pennsylvania
-286,286,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,286,yes,Sellersville / West Rockhill Township Data Center,Pennsylvania
-287,287,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,287,yes,North Coventry Township Data Center,Pennsylvania
-288,288,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,288,yes,Prologis Warehouse Data Center,Pennsylvania
-289,289,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,289,yes,Switch Data Center at Former Pitt Race Complex,Pennsylvania
-290,290,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,290,yes,Allenwood Data Center,Pennsylvania
-291,291,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,291,yes,Fort Cherry Development District,Pennsylvania
-292,292,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,292,yes,Champion Data Center Project,Pennsylvania
-293,293,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,293,yes,South Annville Township Data Center,Pennsylvania
-294,294,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,294,yes,Newton Township Data Center,Pennsylvania
-295,295,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,295,yes,New Castle Data Center,Pennsylvania
-296,296,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,296,yes,MRP Duncannon Data Center,Pennsylvania
-297,297,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,297,yes,Project Triboro,Pennsylvania
-298,298,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,298,yes,Linde Clinton Data Center,Pennsylvania
-299,299,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,299,yes,East Brandywine Data Center,Pennsylvania
-300,300,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,300,yes,Renaissance Boulevard Data Center Campus,Pennsylvania
-301,301,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,301,yes,600 River Road Data Center,Pennsylvania
-302,302,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,302,yes,3200 Horizon Drive Data Center,Pennsylvania
-303,303,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,303,yes,Quakertown Data Center Park,Pennsylvania
-304,304,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,304,yes,Granville Data Center,Pennsylvania
-305,305,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,305,yes,Muncy Data Center,Pennsylvania
-306,306,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,306,yes,Gravel Pike Data Center,Pennsylvania
-307,307,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,307,yes,Keel Infrastructure Sharon,Pennsylvania
-308,308,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,308,yes,PNK Valley View Data Center,Pennsylvania
-309,309,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,309,yes,Mudiita Ransom Township Data Center,Pennsylvania
-310,310,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,310,yes,Nebius Butler Township Data Center,Pennsylvania
-311,311,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,311,yes,Swedeland Discovery Center Data Center Campus,Pennsylvania
-312,312,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,312,yes,Stonebridge Lawrence Data Center,Pennsylvania
-313,313,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,313,yes,North Coventry Mall Data Center,Pennsylvania
-314,314,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,314,yes,Storage Data Center Project,Pennsylvania
-315,315,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,315,yes,TECfusions “Keystone Connect” AI Campus,Pennsylvania
-316,316,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,316,yes,Starpointe Data Center Project,Pennsylvania
-317,317,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,317,yes,Amazon Salem Township,Pennsylvania
-318,318,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,318,yes,4-3 Salem Township,Pennsylvania
-319,319,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,319,yes,Iron City No. 1 Power Generator and Compute Center,Pennsylvania
-320,320,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,320,yes,Lower Mount Bethel Technology Center,Pennsylvania
-321,321,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,321,yes,Cumru Titus,Pennsylvania
-322,322,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,322,yes,Jessup Breaker Street Data Center,Pennsylvania
-323,323,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,323,yes,Calpine Peach Bottom,Pennsylvania
-324,324,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,324,yes,NorthPoint Spring Mountain Data Center,Pennsylvania
-325,325,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,325,yes,Penn Forest Township Data Center,Pennsylvania
-326,326,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,326,yes,Dorrance Township Data Center Zoning Ordinance Challenge,Pennsylvania
-327,327,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,327,yes,East Manchester Farmland to Data Center Initiative Interest,Pennsylvania
-328,328,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,328,yes,Alpha Compute Data Center,Pennsylvania
-329,329,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,329,yes,Newport Township Data Center Campus,Pennsylvania
-330,330,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,330,yes,Smithfield Data Center,Rhode Island
-331,331,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,331,yes,Gemini Sioux Falls Data Center,South Dakota
-332,332,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,332,yes,Sequitor Edge Rapid City,South Dakota
-333,333,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,333,yes,Applied Digital Toronto,South Dakota
-334,334,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,334,yes,xAI Colossus 1,Tennessee
-335,335,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,335,yes,xAI Colossus 2,Tennessee
-336,336,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,336,yes,Meta Gallatin,Tennessee
-337,337,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,337,yes,Neural Nexus Data Center,Tennessee
-338,338,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,338,yes,RadiusDC Nashville I,Tennessee
-339,339,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,339,yes,5C Memphis Data Center,Tennessee
-340,340,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,340,yes,Lawrenceburg / Ethridge Data Center,Tennessee
-341,341,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,341,yes,Jailhouse Studios,Tennessee
-342,342,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,342,yes,DC Blox Nashville,Tennessee
-343,343,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,343,yes,CleanSpark Mountain City Bitcoin Mine,Tennessee
-344,344,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,344,yes,ExoticRidge Bitcoin Mine,Tennessee
-345,345,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,345,yes,Arnold Air Force Data Center,Tennessee
-346,346,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,346,yes,Hixson Data Center,Tennessee
-347,347,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,347,yes,Quantum Leap,Tennessee
-348,348,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,348,yes,Cielo Digital Clarksville,Tennessee
-349,349,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,349,yes,Monarch Compute Campus and Mountaineer Gigasystem,West Virginia
-350,350,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,350,yes,QTS Kearneysville Data Center Complex,West Virginia
-351,351,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,351,yes,Google Buffalo Data Center,West Virginia
-352,352,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,352,yes,Appalachian Mega Site / Hog Lick Data Center,West Virginia
-353,353,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,353,yes,Ridgeline Facility,West Virginia
-354,354,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,354,yes,Alpha Technologies Huntington,West Virginia
-355,355,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,355,yes,"Adams Fork Harless Data Center Energy Campus, Holden",West Virginia
-356,356,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,356,yes,"Adams Fork Data Center Energy Campus, Wharncliffe",West Virginia
-357,357,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,357,yes,Penzance Intelligence Center,West Virginia
-358,358,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,358,yes,NOAA Environmental Security Computing Center,West Virginia
-359,359,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,359,yes,Stokes Wheeling,West Virginia
-360,360,2026-09-22T11:19:34Z,2026-09-29T12:32:04Z,360,yes,NETL Computational Science & Engineering Center,West Virginia
-361,361,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,361,yes,QLevr Charlestown,Indiana
-362,362,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,362,yes,Joint Base McGuire-Dix-Lakehurst,New Jersey
-363,363,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,363,yes,Tower Gate Project,New Jersey
-364,364,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,364,yes,Comcast Moorestown,New Jersey
-365,365,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,365,yes,Brookhaven Logistics Center,New York
-366,366,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,366,yes,Former Sears Data Center,New York
-368,368,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,368,yes,9Lives Niagara,New York
-369,369,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,369,yes,Tesla Dojo Supercomputer,New York
-370,370,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,370,yes,Treetop Development Project,New York
-372,372,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,372,yes,Camp Monterey Data Center,New York
-373,373,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,373,yes,Holtec Decommissioning International,New York
-374,374,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,374,yes,IBM Quantum Data Center,New York
-375,375,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,375,yes,Provident Charleston,Indiana
-376,376,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,376,yes,Karis Critical,Indiana
-377,377,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,377,yes,Wylie Capital,Indiana
-378,378,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,378,yes,Slate Belt Data Centers,Pennsylvania
-379,379,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,379,yes,Soltier Cryptomine,Pennsylvania
-380,380,2026-09-24T11:28:54Z,2026-09-29T12:32:04Z,380,yes,Data Centric LLC Allenwood,Pennsylvania
-367,367,2026-09-25T11:34:46Z,2026-09-29T12:32:04Z,367,yes,North Country Colocation Services,New York
-381,381,2026-09-25T11:34:46Z,2026-09-29T12:32:04Z,381,yes,Wilsonville Data Center,Alabama
-382,382,2026-09-25T11:34:46Z,2026-09-29T12:32:04Z,382,yes,Project Bluegrass,Kentucky
-383,383,2026-09-25T11:34:46Z,2026-09-29T12:32:04Z,383,yes,Jenkins KY Data Center,Kentucky
-384,384,2026-09-25T11:34:46Z,2026-09-29T12:32:04Z,384,yes,Brookfield Data Center,Kentucky
-385,385,2026-09-25T11:34:46Z,2026-09-29T12:32:04Z,385,yes,Sphere 3D Data Center,Kentucky
-389,389,2026-09-25T11:34:46Z,2026-09-29T12:32:04Z,389,yes,Rubix Data Center,Kentucky
-390,390,2026-09-25T11:34:46Z,2026-09-29T12:32:04Z,390,yes,PowerHouse Carrollton,Kentucky
+16,16,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,16,yes,ForgeLight Ventures Conway,Arkansas
+17,17,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,17,yes,EdgeConneX Sheridan,Arkansas
+18,18,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,18,yes,Project Pyramid,Arkansas
+19,19,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,19,yes,Clarksville Data Center,Arkansas
+20,20,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,20,yes,Vilonia Cryptomine,Arkansas
+21,21,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,21,yes,Project Leo,Arkansas
+22,22,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,22,yes,Port of Little Rock Data Center,Arkansas
+23,23,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,23,yes,NE Edge Groton,Connecticut
+24,24,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,24,yes,Wallingford Data Center,Connecticut
+25,25,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,25,yes,Bloomfield Data Center Proposal,Connecticut
+26,26,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,26,yes,Trumbull Data Center Investment,Connecticut
+27,27,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,27,yes,Bristol Technology Center,Connecticut
+28,28,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,28,yes,Project Washington,Delaware
+29,29,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,29,yes,"St. Georges Business Park Data Center / ""Frightland Project""",Delaware
+30,30,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,30,yes,Newark White Clay Creek Business Park Data Center,Delaware
+31,31,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,31,yes,Servpac Mililani Technology Park,Hawaii
+32,32,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,32,yes,Microsoft Granger,Indiana
+33,33,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,33,yes,South Bend Data Center,Indiana
+34,34,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,34,yes,Project Rainier,Indiana
+35,35,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,35,yes,Metrobloks Martindale-Brightwood,Indiana
+36,36,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,36,yes,Surge Development Knightstown Data Center,Indiana
+37,37,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,37,yes,Decatur Technology Park,Indiana
+38,38,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,38,yes,Project Louie,Indiana
+39,39,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,39,yes,Project Redline,Indiana
+40,40,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,40,yes,Pittsboro Middle Township Data Center,Indiana
+41,41,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,41,yes,Pike Township Data Center,Indiana
+42,42,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,42,yes,Project Maize,Indiana
+43,43,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,43,yes,Hobart Tech Park,Indiana
+44,44,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,44,yes,Microsoft La Porte,Indiana
+45,45,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,45,yes,Project Domino,Indiana
+46,46,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,46,yes,Jefferson Proving Ground Data Center,Indiana
+47,47,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,47,yes,Decennial Group Akron,Indiana
+48,48,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,48,yes,Project Flo,Indiana
+49,49,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,49,yes,Project Rise,Indiana
+50,50,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,50,yes,Bristol Data Center,Indiana
+51,51,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,51,yes,Project Zodiac,Indiana
+52,52,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,52,yes,Google Cedar Rapids,Iowa
+53,53,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,53,yes,QTS Cedar Rapids,Iowa
+54,54,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,54,yes,Meta Davenport Data Center,Iowa
+55,55,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,55,yes,Project Ruthenium,Iowa
+56,56,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,56,yes,Edged Des Moines,Iowa
+57,57,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,57,yes,Project Morgan,Iowa
+58,58,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,58,yes,Google Council Bluffs,Iowa
+59,59,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,59,yes,Tract Altoona,Iowa
+60,60,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,60,yes,Project Alluvion,Iowa
+61,61,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,61,yes,Project Ginger West,Iowa
+62,62,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,62,yes,Project Ginger East,Iowa
+63,63,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,63,yes,Project Osmium,Iowa
+64,64,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,64,yes,Tract Project West,Iowa
+65,65,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,65,yes,COPT Defense Properties Data Center,Iowa
+66,66,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,66,yes,Simple Mining Cascade,Iowa
+67,67,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,67,yes,Simple Mining Cedar Falls,Iowa
+68,68,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,68,yes,Edged Data Center,Iowa
+69,69,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,69,yes,Jackson County Data Center,Iowa
+71,71,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,71,yes,Karis Dubuque,Iowa
+72,72,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,72,yes,MidAmerican Data Center,Iowa
+74,74,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,74,yes,Applied Digital Adair,Iowa
+75,75,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,75,yes,Project Lincoln,Kentucky
+76,76,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,76,yes,Harrodsburg Data Center,Kentucky
+77,77,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,77,yes,TeraWulf Hawesville,Kentucky
+78,78,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,78,yes,Project Pulse,Kentucky
+79,79,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,79,yes,DartPoints Former Lexmark Data Center Redevelopment,Kentucky
+80,80,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,80,yes,Franklin–Simpson Data Storage and Service Center,Kentucky
+81,81,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,81,yes,Maysville Data Center,Kentucky
+82,82,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,82,yes,Muskie Data Campus,Kentucky
+83,83,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,83,yes,PowerHouse Louisville,Kentucky
+84,84,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,84,yes,Loring Air Force Base Data Center,Maine
+85,85,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,85,yes,Bates Mill No. 3. Data Center,Maine
+86,86,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,86,yes,Sanford Woods Industrial and Technical Campus,Maine
+87,87,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,87,yes,Millinocket Data Center,Maine
+88,88,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,88,yes,Yankee Nuclear Power Plant Data Center,Maine
+89,89,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,89,yes,DeepGreen Eastport Subsea Data Center,Maine
+90,90,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,90,yes,Woodlawn Data Center,Maryland
+91,91,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,91,yes,TeraWulf Newburg,Maryland
+92,92,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,92,yes,Sandy Farms Data Center,Maryland
+93,93,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,93,yes,Brightseat Tech Park Data Center,Maryland
+94,94,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,94,yes,Quantum Frederick,Maryland
+95,95,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,95,yes,Piney Reach Data Center Development,Maryland
+96,96,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,96,yes,Johns Hopkins Data Science and Artificial Intelligence Institute (DSAI),Maryland
+97,97,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,97,yes,Atmosphere Dickerson Data Center,Maryland
+98,98,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,98,yes,TPC Laurel,Maryland
+99,99,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,99,yes,Servistar Westfield,Massachusetts
+100,100,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,100,yes,Holyoke Data Center,Massachusetts
+101,101,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,101,yes,Everett Docklands Data Center,Massachusetts
+102,102,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,102,yes,Project Mitten / The Barn,Michigan
+103,103,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,103,yes,Project Cannoli,Michigan
+104,104,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,104,yes,32 Mile Road Technical Campus,Michigan
+105,105,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,105,yes,Microsoft Gaines Township,Michigan
+106,106,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,106,yes,Rocklocker Kalkaska,Michigan
+107,107,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,107,yes,Ypsilanti University of Michigan × Los Alamos Supercomputing Research Center,Michigan
+108,108,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,108,yes,Project Cherry Blossom,Michigan
+109,109,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,109,yes,Project Ironwood,Michigan
+110,110,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,110,yes,Project Flex,Michigan
+111,111,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,111,yes,Deep Green Lansing Data Center,Michigan
+112,112,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,112,yes,Pavilion Township Data Center,Michigan
+113,113,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,113,yes,Sansone York Township Data Center,Michigan
+114,114,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,114,yes,Metrobloks Southfield,Michigan
+115,115,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,115,yes,Benton Charter Township Data Center,Michigan
+116,116,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,116,yes,Project Splitrock,Michigan
+117,117,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,117,yes,Starkville Crypto Mine,Mississippi
+118,118,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,118,yes,Amazon Clinton,Mississippi
+119,119,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,119,yes,Amazon Ridgeland,Mississippi
+120,120,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,120,yes,Project Steamboat,Mississippi
+121,121,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,121,yes,Meridian Compass Data Center,Mississippi
+122,122,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,122,yes,Clarksdale Data Center,Mississippi
+123,123,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,123,yes,xAI MACROHARDRR,Mississippi
+124,124,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,124,yes,Taurus Data Center Hub,Mississippi
+125,125,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,125,yes,Amazon Madison Mega Site,Mississippi
+126,126,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,126,yes,Nebius Independence,Missouri
+127,127,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,127,yes,Project Green,Missouri
+128,128,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,128,yes,Project Spade,Missouri
+129,129,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,129,yes,Crusoe Warrenton,Missouri
+130,130,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,130,yes,CRG Festus,Missouri
+131,131,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,131,yes,Metrobloks Liberty,Missouri
+132,132,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,132,yes,Lambda AI Factory,Missouri
+133,133,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,133,yes,Jasper County Powered Data Park,Missouri
+134,134,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,134,yes,Meramec Valley Technology Park,Missouri
+135,135,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,135,yes,Gateway Digital Campus,Missouri
+136,136,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,136,yes,Meta Kansas City,Missouri
+137,137,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,137,yes,Lumon Solutions Marshfield Webster,Missouri
+138,138,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,138,yes,Project Cumulus,Missouri
+139,139,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,139,yes,Wildwood Ranch AI Data Center,Missouri
+140,140,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,140,yes,Mo Lake Development Cross Creek Data Center,Missouri
+141,141,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,141,yes,Armory Innovation Data Center,Missouri
+142,142,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,142,yes,Oppidan Foristell Data Center Sites,Missouri
+143,143,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,143,yes,White Cloud Acres,Missouri
+144,144,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,144,yes,Project Mica,Missouri
+145,145,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,145,yes,Nottingham Data Center,New Hampshire
+146,146,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,146,yes,DataOne Vineland,New Jersey
+147,147,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,147,yes,Princeton Nurseries Data Center,New Jersey
+148,148,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,148,yes,Prism Capital Partners Nutley Site,New Jersey
+149,149,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,149,yes,New Brunswick Data Center,New Jersey
+150,150,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,150,yes,American Tower Mount Royal,New Jersey
+151,151,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,151,yes,CoreWeave Kenilworth,New Jersey
+152,152,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,152,yes,Monroe Township Data Center,New Jersey
+153,153,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,153,yes,Andover Data Center,New Jersey
+154,154,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,154,yes,Millville Energy & Data Center Campus,New Jersey
+155,155,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,155,yes,Sugar Hill Portland Data Center,New York
+156,156,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,156,yes,Massena Petawatt Data Center Site Advertisement,New York
+157,157,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,157,yes,Riverview Innovative and Technology Campus Data Center,New York
+158,158,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,158,yes,Kenwood Commons,New York
+159,159,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,159,yes,STAMP Data Center,New York
+160,160,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,160,yes,Ilion Data Center,New York
+161,161,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,161,yes,Niagara Digital Campus,New York
+162,162,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,162,yes,Brookhaven National Laboratory Data Center,New York
+163,163,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,163,yes,Lake Hawkeye,New York
+164,164,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,164,yes,Lysander Data Center,New York
+165,165,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,165,yes,Oneonta West End Data Center,New York
+166,166,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,166,yes,Rural Hall Data Center,North Carolina
+167,167,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,167,yes,Person County Mega Park,North Carolina
+168,168,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,168,yes,Tarboro Data Center Campus,North Carolina
+169,169,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,169,yes,High Point Data Center,North Carolina
+170,170,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,170,yes,CLT20 Moores Chapel,North Carolina
+171,171,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,171,yes,CLT10 Uptown Expansion,North Carolina
+172,172,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,172,yes,Greensboro Dream Center,North Carolina
+173,173,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,173,yes,Marble Data Center Campus,North Carolina
+174,174,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,174,yes,Maiden iDataCenter Campus,North Carolina
+175,175,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,175,yes,T5 Data Centers Kings Mountain,North Carolina
+176,176,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,176,yes,Forest City Data Center Campus,North Carolina
+177,177,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,177,yes,Lenoir Campus (Existing + Project Cardinal 2024),North Carolina
+178,178,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,178,yes,Natelli Investments New Hill Digital Campus,North Carolina
+179,179,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,179,yes,Kingsboro Data Center,North Carolina
+180,180,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,180,yes,Fayetteville Data Center Campus,North Carolina
+181,181,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,181,yes,Lenoir Data Center Expansion,North Carolina
+182,182,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,182,yes,Rowan County Data Center,North Carolina
+183,183,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,183,yes,Project Delta,North Carolina
+184,184,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,184,yes,AWS Richmond County Campus,North Carolina
+185,185,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,185,yes,Statesville Data Center Campus,North Carolina
+186,186,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,186,yes,Charlotte University City Data Center,North Carolina
+187,187,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,187,yes,5C Charlotte Data Center,North Carolina
+188,188,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,188,yes,NC-1 Campus (Madison) Data Center,North Carolina
+189,189,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,189,yes,Microsoft — Catawba County Campus Cluster (Lyle Creek / Boyd Farm / Hickory / Stover North),North Carolina
+190,190,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,190,yes,Raleigh New Build Data Center,North Carolina
+191,191,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,191,yes,American Tower RA1,North Carolina
+192,192,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,192,yes,Tract Mooresville Technology Park,North Carolina
+193,193,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,193,yes,Project Accelerate,North Carolina
+194,194,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,194,yes,Project Fighting Pike,North Dakota
+195,195,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,195,yes,Polaris Forge 1,North Dakota
+196,196,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,196,yes,Atlas Power Williston,North Dakota
+197,197,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,197,yes,Polaris Forge 2,North Dakota
+198,198,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,198,yes,River Run Energy Center,North Dakota
+199,199,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,199,yes,Applied Digital Oliver County,North Dakota
+200,200,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,200,yes,Nakota Data Campus,North Dakota
+201,201,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,201,yes,Aurum Capital Ventures Bismarck,North Dakota
+202,202,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,202,yes,AWS Innovation Campus New Albany,Ohio
+203,203,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,203,yes,Vantage New Albany Campus,Ohio
+204,204,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,204,yes,QTS New Albany Campus,Ohio
+205,205,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,205,yes,AWS Hillard Scioto Campus,Ohio
+206,206,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,206,yes,Project Mila,Ohio
+207,207,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,207,yes,Hamilton Data Center,Ohio
+208,208,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,208,yes,5C Springfield,Ohio
+209,209,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,209,yes,Ashville Data Center,Ohio
+210,210,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,210,yes,Project Klondike,Ohio
+211,211,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,211,yes,Project Galaxy,Ohio
+212,212,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,212,yes,Van Wert Mega Site,Ohio
+213,213,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,213,yes,Stargate Lordstown,Ohio
+214,214,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,214,yes,Lordstown Data Center,Ohio
+215,215,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,215,yes,Google Lockbourne,Ohio
+216,216,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,216,yes,Project Cosmos,Ohio
+217,217,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,217,yes,Cologix Lewis Center Data Center,Ohio
+218,218,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,218,yes,Strata Expanse AI Center of Excellence,Ohio
+219,219,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,219,yes,Hannibal Data Center Campus,Ohio
+220,220,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,220,yes,Bitdeer Clarington Data Center,Ohio
+221,221,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,221,yes,Aligned NEO-01,Ohio
+222,222,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,222,yes,Microsoft Heath Data Center,Ohio
+223,223,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,223,yes,Microsoft Hebron Data Center,Ohio
+224,224,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,224,yes,Akron Data Center Expansion,Ohio
+225,225,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,225,yes,AWS Wilmington,Ohio
+226,226,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,226,yes,Mt. Orab Mega Site,Ohio
+227,227,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,227,yes,J.M. Stuart Revitilization Project,Ohio
+228,228,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,228,yes,Killen Revitilization Project,Ohio
+229,229,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,229,yes,Marysville South Data Center,Ohio
+230,230,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,230,yes,Buck Canyon Properties Data Center,Ohio
+231,231,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,231,yes,PORTS Technology Center,Ohio
+232,232,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,232,yes,Perry Township Data Center,Ohio
+233,233,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,233,yes,Morabito Slavic Village Data Center,Ohio
+234,234,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,234,yes,Project Dazzler,Ohio
+235,235,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,235,yes,Urbana Technology Hub,Ohio
+236,236,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,236,yes,Project BOSC,Ohio
+237,237,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,237,yes,"Cipher Mining's ""Ulysses""",Ohio
+238,238,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,238,yes,Bitdeer Weathersfield Project,Ohio
+239,239,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,239,yes,Johnstown Cologix Data Center,Ohio
+240,240,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,240,yes,Meta Bowling Green,Ohio
+241,241,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,241,yes,Microsoft New Albany Data Center,Ohio
+242,242,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,242,yes,Fairview Crossroads Data Center,Pennsylvania
+243,243,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,243,yes,Project Hazelnut,Pennsylvania
+244,244,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,244,yes,Keel Infrastructure Panther Creek,Pennsylvania
+245,245,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,245,yes,Zediker Station Data Center,Pennsylvania
+246,246,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,246,yes,Wildcat Ridge AI Data Center,Pennsylvania
+247,247,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,247,yes,Project Gravity,Pennsylvania
+248,248,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,248,yes,Blakely AI Data Center,Pennsylvania
+249,249,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,249,yes,Project Boson,Pennsylvania
+250,250,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,250,yes,Project Gold,Pennsylvania
+251,251,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,251,yes,Sentinel Green Fig East Whiteland,Pennsylvania
+252,252,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,252,yes,QTS Salem Data Center,Pennsylvania
+253,253,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,253,yes,AWS Keystone Trade Center Campus,Pennsylvania
+254,254,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,254,yes,CoreWeave Lancaster,Pennsylvania
+255,255,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,255,yes,Allentown Warehouse Conversion Data Center,Pennsylvania
+256,256,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,256,yes,PAX – Pennsylvania Digital I,Pennsylvania
+257,257,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,257,yes,Dynamo Springdale,Pennsylvania
+258,258,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,258,yes,Homer City Energy + AI Campus,Pennsylvania
+259,259,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,259,yes,Corscale Harrisburg Swatara,Pennsylvania
+260,260,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,260,yes,Hollenback Township Data Center Development Zoning Application,Pennsylvania
+261,261,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,261,yes,Jessup Sunnyside Data Center,Pennsylvania
+262,262,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,262,yes,McKees Rocks Industrial Site Data Center,Pennsylvania
+263,263,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,263,yes,Project Hummingbird,Pennsylvania
+264,264,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,264,yes,Archbald I LLC Data Center Campuses,Pennsylvania
+265,265,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,265,yes,Former Air Products Headquarters Data Center,Pennsylvania
+266,266,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,266,yes,Pennhurst Data Center,Pennsylvania
+267,267,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,267,yes,Conshohocken Data Center,Pennsylvania
+268,268,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,268,yes,Dickson City Data Centers,Pennsylvania
+269,269,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,269,yes,West Hazleton Data Center,Pennsylvania
+270,270,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,270,yes,Sugarloaf Township Data Center,Pennsylvania
+271,271,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,271,yes,Linfield Data Center,Pennsylvania
+272,272,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,272,yes,Kline Township Data Center,Pennsylvania
+273,273,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,273,yes,Ransom Township Data Center,Pennsylvania
+274,274,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,274,yes,Atlas Industrial / South Whitehall Township Hyperscale Data Center Campus,Pennsylvania
+275,275,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,275,yes,Smithfield Gateway Project,Pennsylvania
+276,276,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,276,yes,Project Phoenix,Pennsylvania
+277,277,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,277,yes,Klondike Data Center Project,Pennsylvania
+278,278,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,278,yes,Project Laurel,Pennsylvania
+279,279,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,279,yes,Tobyhanna Township / Blakeslee Data Center,Pennsylvania
+280,280,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,280,yes,Talen Energy Rezone Request for Possible Data Center in Montour County,Pennsylvania
+281,281,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,281,yes,Fezzik Aliquippa Data Center,Pennsylvania
+282,282,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,282,yes,Project Green Mountain,Pennsylvania
+283,283,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,283,yes,Conewago Township Data Center Land Considerations,Pennsylvania
+284,284,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,284,yes,Briar Creek Township Data Center Zoning Overlay,Pennsylvania
+285,285,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,285,yes,South Hanover Township Data Center,Pennsylvania
+286,286,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,286,yes,Sellersville / West Rockhill Township Data Center,Pennsylvania
+287,287,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,287,yes,North Coventry Township Data Center,Pennsylvania
+288,288,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,288,yes,Prologis Warehouse Data Center,Pennsylvania
+289,289,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,289,yes,Switch Data Center at Former Pitt Race Complex,Pennsylvania
+290,290,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,290,yes,Allenwood Data Center,Pennsylvania
+291,291,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,291,yes,Fort Cherry Development District,Pennsylvania
+292,292,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,292,yes,Champion Data Center Project,Pennsylvania
+293,293,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,293,yes,South Annville Township Data Center,Pennsylvania
+294,294,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,294,yes,Newton Township Data Center,Pennsylvania
+295,295,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,295,yes,New Castle Data Center,Pennsylvania
+296,296,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,296,yes,MRP Duncannon Data Center,Pennsylvania
+297,297,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,297,yes,Project Triboro,Pennsylvania
+298,298,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,298,yes,Linde Clinton Data Center,Pennsylvania
+299,299,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,299,yes,East Brandywine Data Center,Pennsylvania
+300,300,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,300,yes,Renaissance Boulevard Data Center Campus,Pennsylvania
+301,301,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,301,yes,600 River Road Data Center,Pennsylvania
+302,302,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,302,yes,3200 Horizon Drive Data Center,Pennsylvania
+303,303,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,303,yes,Quakertown Data Center Park,Pennsylvania
+304,304,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,304,yes,Granville Data Center,Pennsylvania
+305,305,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,305,yes,Muncy Data Center,Pennsylvania
+306,306,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,306,yes,Gravel Pike Data Center,Pennsylvania
+307,307,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,307,yes,Keel Infrastructure Sharon,Pennsylvania
+308,308,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,308,yes,PNK Valley View Data Center,Pennsylvania
+309,309,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,309,yes,Mudiita Ransom Township Data Center,Pennsylvania
+310,310,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,310,yes,Nebius Butler Township Data Center,Pennsylvania
+311,311,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,311,yes,Swedeland Discovery Center Data Center Campus,Pennsylvania
+312,312,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,312,yes,Stonebridge Lawrence Data Center,Pennsylvania
+313,313,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,313,yes,North Coventry Mall Data Center,Pennsylvania
+314,314,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,314,yes,Storage Data Center Project,Pennsylvania
+315,315,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,315,yes,TECfusions “Keystone Connect” AI Campus,Pennsylvania
+316,316,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,316,yes,Starpointe Data Center Project,Pennsylvania
+317,317,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,317,yes,Amazon Salem Township,Pennsylvania
+318,318,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,318,yes,4-3 Salem Township,Pennsylvania
+319,319,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,319,yes,Iron City No. 1 Power Generator and Compute Center,Pennsylvania
+320,320,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,320,yes,Lower Mount Bethel Technology Center,Pennsylvania
+321,321,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,321,yes,Cumru Titus,Pennsylvania
+322,322,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,322,yes,Jessup Breaker Street Data Center,Pennsylvania
+323,323,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,323,yes,Calpine Peach Bottom,Pennsylvania
+324,324,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,324,yes,NorthPoint Spring Mountain Data Center,Pennsylvania
+325,325,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,325,yes,Penn Forest Township Data Center,Pennsylvania
+326,326,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,326,yes,Dorrance Township Data Center Zoning Ordinance Challenge,Pennsylvania
+327,327,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,327,yes,East Manchester Farmland to Data Center Initiative Interest,Pennsylvania
+328,328,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,328,yes,Alpha Compute Data Center,Pennsylvania
+329,329,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,329,yes,Newport Township Data Center Campus,Pennsylvania
+330,330,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,330,yes,Smithfield Data Center,Rhode Island
+331,331,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,331,yes,Gemini Sioux Falls Data Center,South Dakota
+332,332,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,332,yes,Sequitor Edge Rapid City,South Dakota
+333,333,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,333,yes,Applied Digital Toronto,South Dakota
+334,334,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,334,yes,xAI Colossus 1,Tennessee
+335,335,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,335,yes,xAI Colossus 2,Tennessee
+336,336,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,336,yes,Meta Gallatin,Tennessee
+337,337,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,337,yes,Neural Nexus Data Center,Tennessee
+338,338,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,338,yes,RadiusDC Nashville I,Tennessee
+339,339,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,339,yes,5C Memphis Data Center,Tennessee
+340,340,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,340,yes,Lawrenceburg / Ethridge Data Center,Tennessee
+341,341,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,341,yes,Jailhouse Studios,Tennessee
+342,342,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,342,yes,DC Blox Nashville,Tennessee
+343,343,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,343,yes,CleanSpark Mountain City Bitcoin Mine,Tennessee
+344,344,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,344,yes,ExoticRidge Bitcoin Mine,Tennessee
+345,345,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,345,yes,Arnold Air Force Data Center,Tennessee
+346,346,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,346,yes,Hixson Data Center,Tennessee
+347,347,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,347,yes,Quantum Leap,Tennessee
+348,348,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,348,yes,Cielo Digital Clarksville,Tennessee
+349,349,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,349,yes,Monarch Compute Campus and Mountaineer Gigasystem,West Virginia
+350,350,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,350,yes,QTS Kearneysville Data Center Complex,West Virginia
+351,351,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,351,yes,Google Buffalo Data Center,West Virginia
+352,352,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,352,yes,Appalachian Mega Site / Hog Lick Data Center,West Virginia
+353,353,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,353,yes,Ridgeline Facility,West Virginia
+354,354,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,354,yes,Alpha Technologies Huntington,West Virginia
+355,355,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,355,yes,"Adams Fork Harless Data Center Energy Campus, Holden",West Virginia
+356,356,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,356,yes,"Adams Fork Data Center Energy Campus, Wharncliffe",West Virginia
+357,357,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,357,yes,Penzance Intelligence Center,West Virginia
+358,358,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,358,yes,NOAA Environmental Security Computing Center,West Virginia
+359,359,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,359,yes,Stokes Wheeling,West Virginia
+360,360,2026-09-22T11:19:34Z,2026-10-01T12:52:34Z,360,yes,NETL Computational Science & Engineering Center,West Virginia
+361,361,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,361,yes,QLevr Charlestown,Indiana
+362,362,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,362,yes,Joint Base McGuire-Dix-Lakehurst,New Jersey
+363,363,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,363,yes,Tower Gate Project,New Jersey
+364,364,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,364,yes,Comcast Moorestown,New Jersey
+365,365,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,365,yes,Brookhaven Logistics Center,New York
+366,366,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,366,yes,Former Sears Data Center,New York
+368,368,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,368,yes,9Lives Niagara,New York
+369,369,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,369,yes,Tesla Dojo Supercomputer,New York
+370,370,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,370,yes,Treetop Development Project,New York
+372,372,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,372,yes,Camp Monterey Data Center,New York
+373,373,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,373,yes,Holtec Decommissioning International,New York
+374,374,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,374,yes,IBM Quantum Data Center,New York
+375,375,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,375,yes,Provident Chesterton,Indiana
+376,376,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,376,yes,Karis Critical,Indiana
+377,377,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,377,yes,Wylie Capital,Indiana
+378,378,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,378,yes,Slate Belt Data Centers,Pennsylvania
+379,379,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,379,yes,Soltier Cryptomine,Pennsylvania
+380,380,2026-09-24T11:28:54Z,2026-10-01T12:52:34Z,380,yes,Data Centric LLC Allenwood,Pennsylvania
+367,367,2026-09-25T11:34:46Z,2026-10-01T12:52:34Z,367,yes,North Country Colocation Services,New York
+381,381,2026-09-25T11:34:46Z,2026-10-01T12:52:34Z,381,yes,Wilsonville Data Center,Alabama
+382,382,2026-09-25T11:34:46Z,2026-10-01T12:52:34Z,382,yes,Project Bluegrass,Kentucky
+383,383,2026-09-25T11:34:46Z,2026-10-01T12:52:34Z,383,yes,Jenkins KY Data Center,Kentucky
+384,384,2026-09-25T11:34:46Z,2026-10-01T12:52:34Z,384,yes,Brookfield Data Center,Kentucky
+385,385,2026-09-25T11:34:46Z,2026-10-01T12:52:34Z,385,yes,Sphere 3D Data Center,Kentucky
+389,389,2026-09-25T11:34:46Z,2026-10-01T12:52:34Z,389,yes,Rubix Data Center,Kentucky
+390,390,2026-09-25T11:34:46Z,2026-10-01T12:52:34Z,390,yes,PowerHouse Carrollton,Kentucky
+70,70,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,70,yes,Windstream Dubuque,Iowa
+73,73,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,73,yes,US Signal IA01,Iowa
+371,371,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,371,yes,Lake Mariner Data Center,New York
+386,386,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,386,yes,Kentucky Industrial Alliance LLC Data Center,Kentucky
+387,387,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,387,yes,Riot 1,Kentucky
+388,388,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,388,yes,Riot 2,Kentucky
+391,391,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,391,yes,Ekron Data Center,Kentucky
+392,392,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,392,yes,Markely Data Center Expansion,Massachusetts
+393,393,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,393,yes,Eternal Rings Data Center,Maryland
+394,394,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,394,yes,Amazon Lusby,Maryland
+395,395,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,395,yes,Appeal Digital Park,Maryland
+396,396,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,396,yes,TeraWulf Morgantown,Maryland
+397,397,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,397,yes,Logix I Campus,Indiana
+398,398,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,398,yes,Jumping Bison LLC Data Center,Indiana
+399,399,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,399,yes,CoreWeave Hammond,Indiana
+400,400,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,400,yes,Project Shirley,Indiana
+402,402,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,402,yes,Thunderbird Commerce Center Project,Indiana
+403,403,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,403,yes,Jeremiah A QTS,Indiana
+404,404,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,404,yes,Jeremiah B QTS,Indiana
+405,405,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,405,yes,Agincourt Valparaiso,Indiana
+407,407,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,407,yes,RadiusDC Indianapolis,Indiana
+408,408,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,408,yes,Prologis Shelbyville,Indiana
+409,409,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,409,yes,Fluidstack Sullivan County,Indiana
+410,410,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,410,yes,Prologis Leesburg,Indiana
+411,411,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,411,yes,Province Group Data Center,Indiana
+412,412,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,412,yes,Mall-O-Manor LLC Data Center,Indiana
+413,413,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,413,yes,Meta Jeffersonville,Indiana
+414,414,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,414,yes,MAG Partners Data Centers,Maryland
+415,415,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,415,yes,Cielo Digital Des Moines,Iowa
+416,416,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,416,yes,Aberdeen Data Center,Ohio
+417,417,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,417,yes,Cervenka Development Partners Data Center (pre-proposal,Ohio
+418,418,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,418,yes,Aligned Data Center,Ohio
+419,419,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,419,yes,Mink East Data Center,Ohio
+420,420,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,420,yes,Sammis Power Plant Data Center,Ohio
+421,421,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,421,yes,Waterville Data Center Land Advertisement,Ohio
+424,424,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,424,yes,PRSM Data Center,Ohio
+425,425,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,425,yes,EdgeConneX New Albany,Ohio
+426,426,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,426,yes,Karis Critical Johnstown,Ohio
+428,428,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,428,yes,Oakland University Data Center,Michigan
+429,429,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,429,yes,Columbia Data Center,Missouri
+430,430,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,430,yes,Thor Equities Data Center,Michigan
+431,431,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,431,yes,US Signal Data Center,Michigan
+432,432,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,432,yes,Switch Pyramid Campus,Michigan
+433,433,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,433,yes,Project Peninsula,Michigan
+434,434,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,434,yes,Charlevoix Big Rock Data Center and Small Modular Nuclear (pre-proposal),Michigan
+435,435,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,435,yes,Microsoft Dorr Data Center,Michigan
+436,436,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,436,yes,Harbor Farmz Data Center,Michigan
+437,437,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,437,yes,Lowell Covenant Business Park Data Center,Michigan
+438,438,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,438,yes,Lower Peninsula Data Center,Michigan
+439,439,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,439,yes,Solstice Data Center,Michigan
+440,440,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,440,yes,Shenandoah Computing Kansas City,Missouri
+441,441,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,441,yes,Swarm Systems Marshfield,Missouri
+442,442,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,442,yes,ReLoad Data Center,Missouri
+443,443,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,443,yes,Project Tiger Zou,Missouri
+444,444,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,444,yes,Project Harper,Missouri
+445,445,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,445,yes,Patmos Independence Technology Campus,Missouri
+446,446,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,446,yes,Cielo Digital Infrastructure,Missouri
+447,447,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,447,yes,Project Kestrel,Missouri
+448,448,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,448,yes,Revitalization Unlimited Kansas City,Missouri
+449,449,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,449,yes,STJ St. Louis,Missouri
+450,450,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,450,yes,Tierpoint St. Louis,Missouri
+452,452,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,452,yes,Vantage OH2,Ohio
+454,454,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,454,yes,Pacifico Data Center,Ohio
+455,455,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,455,yes,EdgeConneX Ashville,Ohio
+457,457,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,457,yes,Amazon Sunbury,Ohio
+458,458,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,458,yes,Mara Holdings,Ohio
+459,459,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,459,yes,Ravel Data Center,Ohio
+461,461,2026-10-01T12:52:34Z,2026-10-01T12:52:34Z,461,yes,Corscale Highland Swatara,Pennsylvania
