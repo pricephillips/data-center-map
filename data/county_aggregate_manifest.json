@@ -1,23 +1,23 @@
 {
-  "generated": "2026-09-30",
+  "generated": "2026-10-01",
   "counties": 3222,
-  "event_rows_with_county": 1538,
-  "event_match_rate": 0.9915,
+  "event_rows_with_county": 1543,
+  "event_match_rate": 0.9916,
   "enacted_restriction_counties": 484,
-  "dc_presence_counties": 424,
+  "dc_presence_counties": 441,
   "enacted_restriction_counties_tracker": 338,
   "enacted_restriction_counties_census_only": 146,
   "inputs": {
     "county_census_features.csv": "c94063d9123016f5",
     "county_votes.json": "b521eb017a7acfa5",
     "atlas.csv": "7a8c78d3ed6cea2d",
-    "master_opposition.csv": "e4b500c632c42229",
-    "baseline_universe.csv": "bb027398bf4eb6b6",
-    "project_lifecycles.csv": "eb716ea400f162da"
+    "master_opposition.csv": "76f9850448801fe4",
+    "baseline_universe.csv": "68734c37a5b0e947",
+    "project_lifecycles.csv": "818a3718b744da69"
   },
   "fips_status_counts": {
-    "current": 1847,
-    "missing": 49,
+    "current": 1911,
+    "missing": 53,
     "ambiguous_split": 5
   },
   "fips_unresolved": 5

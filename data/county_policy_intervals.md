@@ -29,8 +29,8 @@ Per-county interval on the enacted-restriction probability, cross Venn-Abers ove
 | median interval width | 0.0955 |
 | p90 interval width | 0.1437 |
 | max interval width | 0.7027 |
-| counties with width over 0.10 | 1143 |
-| median width, counties with an enacted restriction | 0.1040 |
+| counties with width over 0.10 | 1119 |
+| median width, counties with an enacted restriction | 0.1050 |
 
 A wide interval is the model saying it does not know, which is information: those counties are where the enacted-restriction evidence is thinnest relative to profile. Any external use quotes the interval, never the point alone.
 
@@ -54,12 +54,12 @@ A wide interval is the model saying it does not know, which is information: thos
 | label | counties | share |
 | :-- | --: | --: |
 | `none_supported` | 2886 | 91.8% |
-| `enacted_supported` | 17 | 0.5% |
+| `enacted_supported` | 18 | 0.6% |
 | `indeterminate` | 0 | 0.0% |
-| `atypical` | 241 | 7.7% |
+| `atypical` | 240 | 7.6% |
 
-- Empirical marginal coverage: 0.803 (nominal 0.80)
-- Coverage on counties WITH an enacted restriction: 0.033
+- Empirical marginal coverage: 0.804 (nominal 0.80)
+- Coverage on counties WITH an enacted restriction: 0.035
 - Coverage on counties without: 0.944
 
 The class-conditional gap is the expected behavior of marginal conformal prediction under a low base rate: the minority class is covered less often than the nominal level, and on this frame the enacted class is covered at or near zero. The LAC sets are retained as documentation of that limitation; the Venn-Abers intervals above are the object to use. Any external use of either must carry the marginal caveat.

@@ -1,8 +1,8 @@
 # County FIPS resolution
 
-Proposals examined: 396
-Already resolved by the existing lookup: 382
-Applied by this pass: 13
+Proposals examined: 464
+Already resolved by the existing lookup: 448
+Applied by this pass: 15
 Held for confirmation: 0
 Still unresolved: 1
 
@@ -13,7 +13,7 @@ Network steps were allowed.
 | method | confidence | resolved |
 | :-- | :-- | --: |
 | `lookup_normalized` | high | 1 |
-| `census_reverse` | high | 11 |
+| `census_reverse` | high | 13 |
 | `name_extract` | medium | 1 |
 
 Retired codes caught: 5. A retired code is a FIPS the lookup still returns that no longer exists in the county universe, so it joins to nothing while looking valid. Connecticut is the live case: it replaced counties with planning regions in 2022.
@@ -35,6 +35,8 @@ Retired codes caught: 5. A retired code is a FIPS the lookup still returns that 
 | prj_178 | North Carolina | (blank) | Wake County, North Carolina | 37183 | `census_reverse` |
 | prj_189 | North Carolina | (blank) | Catawba County, North Carolina | 37035 | `name_extract` |
 | prj_390 | Kentucky | Carrollton County | Carroll County, Kentucky | 21041 | `census_reverse` |
+| prj_403 | Indiana | (blank) | Porter County, Indiana | 18127 | `census_reverse` |
+| prj_404 | Indiana | (blank) | Porter County, Indiana | 18127 | `census_reverse` |
 
 ## Still unresolved
 

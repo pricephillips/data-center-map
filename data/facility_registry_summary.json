@@ -1,13 +1,13 @@
 {
-  "generated": "2026-09-30",
-  "rows": 1635,
-  "distinct_sites": 790,
+  "generated": "2026-10-01",
+  "rows": 1636,
+  "distinct_sites": 791,
   "by_source": {
     "osti_im3_atlas": 1479,
     "osm": 75,
     "epa_air": 50,
     "epoch_frontier": 27,
-    "layer_b_graduation": 4
+    "layer_b_graduation": 5
   },
   "by_state": {
     "Virginia": 319,
@@ -17,18 +17,18 @@
     "Ohio": 93,
     "Washington": 82,
     "Arizona": 65,
-    "Iowa": 64,
+    "Iowa": 65,
     "New Jersey": 53,
     "Illinois": 50
   },
-  "with_coordinates": 1635,
+  "with_coordinates": 1636,
   "decisions_this_run": {
-    "blocked": 1114,
+    "blocked": 1113,
     "held": 244,
-    "promoted": 79
+    "promoted": 80
   },
   "decisions_note": "what the gate decided this run. A decision is written to the trail only when it differs from the last one recorded for that candidate, so a steady-state run decides without recording.",
   "note": "distinct_sites counts clusters, not rows: a campus present in two snapshots is one site with two provenance records. The snapshots themselves are never rewritten by this module; the registry is derived and regenerable.",
-  "decisions_newly_recorded": 0,
-  "decisions_unchanged_since_last_run": 1233
+  "decisions_newly_recorded": 3,
+  "decisions_unchanged_since_last_run": 1230
 }
