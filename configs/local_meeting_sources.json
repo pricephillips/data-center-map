@@ -2874,43 +2874,59 @@
     "platform": "ambiguous"
   },
   "LA::West Feliciana Parish": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:08+00:00",
+    "checked_at": "2026-10-01T21:32:30+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MA::Franklin County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:52:08+00:00",
-    "platform": "ambiguous"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://ma-franklin.civicplus.com",
+    "checked_at": "2026-10-01T21:32:40+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MA::Hampden": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:52:11+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://ma-hampden.civicplus.com",
+    "checked_at": "2026-10-01T21:33:12+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MA::Hampden County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:52:13+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://ma-hampden.civicplus.com",
+    "checked_at": "2026-10-01T21:33:26+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MA::Middlesex": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:13+00:00",
+    "checked_at": "2026-10-01T21:33:38+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MA::Middlesex County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:13+00:00",
+    "checked_at": "2026-10-01T21:33:40+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MA::Worcester County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:03+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T21:33:42+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "MD::Anne Arundel County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:06+00:00",
+    "checked_at": "2026-10-01T21:33:44+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MD::Baltimore": {
@@ -2919,203 +2935,339 @@
     "platform": "none"
   },
   "MD::Baltimore City": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:16+00:00",
+    "checked_at": "2026-10-01T21:33:54+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MD::Baltimore County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:52:18+00:00",
-    "platform": "none"
+    "adapter": "native:granicus",
+    "base_url": "https://baltimore.granicus.com",
+    "checked_at": "2026-10-01T21:34:04+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "granicus"
   },
   "MD::Calvert": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:11+00:00",
+    "checked_at": "2026-10-01T21:34:14+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MD::Calvert County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:20+00:00",
+    "checked_at": "2026-10-01T21:34:24+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
+  "MD::Caroline County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://md-carolinecounty.civicplus.com",
+    "checked_at": "2026-10-01T21:34:34+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
   "MD::Carroll County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:11+00:00",
+    "checked_at": "2026-10-01T21:34:41+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MD::Charles County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:23+00:00",
+    "checked_at": "2026-10-01T21:34:43+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
+  "MD::Dorchester County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://md-dorchestercounty.civicplus.com",
+    "checked_at": "2026-10-01T21:34:53+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
   "MD::Frederick County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:23+00:00",
+    "checked_at": "2026-10-01T21:34:58+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MD::Harford": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:52:25+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://md-harfordcounty.civicplus.com",
+    "checked_at": "2026-10-01T21:35:00+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MD::Harford County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:52:27+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://md-harfordcounty.civicplus.com",
+    "checked_at": "2026-10-01T21:35:25+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MD::Howard County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:27+00:00",
+    "checked_at": "2026-10-01T21:35:47+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MD::Montgomery County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:27+00:00",
+    "checked_at": "2026-10-01T21:35:49+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MD::Prince George's County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:30+00:00",
+    "checked_at": "2026-10-01T21:35:51+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "MD::Queen Anne's County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:36:01+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "MD::Somerset County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:36:11+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "MD::Talbot County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:36:13+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MD::Washington County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:56:14+00:00",
+    "checked_at": "2026-10-01T21:36:23+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "MD::Wicomico County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://md-wicomicocounty.civicplus.com",
+    "checked_at": "2026-10-01T21:36:25+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "MD::Worcester County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:36:38+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "ME::Androscoggin County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:52:32+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://me-androscoggincounty.civicplus.com",
+    "checked_at": "2026-10-01T21:36:40+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "ME::Cumberland County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:52:32+00:00",
-    "platform": "ambiguous"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://me-cumberland.civicplus.com",
+    "checked_at": "2026-10-01T21:36:45+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "ME::Knox County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:32+00:00",
+    "checked_at": "2026-10-01T21:37:04+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "ME::Lincoln County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:32+00:00",
+    "checked_at": "2026-10-01T21:37:06+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "ME::Penobscot County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:35+00:00",
+    "checked_at": "2026-10-01T21:37:08+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "ME::York County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:52:35+00:00",
-    "platform": "ambiguous"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://me-york.civicplus.com",
+    "checked_at": "2026-10-01T21:37:18+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MI::Allegan County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:37+00:00",
+    "checked_at": "2026-10-01T21:37:49+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Barry County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:16+00:00",
+    "checked_at": "2026-10-01T21:37:59+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Bay": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:56:20+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T21:38:13+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "MI::Berrien County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:52:40+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mi-berriencounty.civicplus.com",
+    "checked_at": "2026-10-01T21:38:15+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MI::Calhoun County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:43+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T21:38:55+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "MI::Cass": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:43+00:00",
+    "checked_at": "2026-10-01T21:38:58+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MI::Cass County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:43+00:00",
+    "checked_at": "2026-10-01T21:39:01+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MI::Charlevoix County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:46+00:00",
+    "checked_at": "2026-10-01T21:39:04+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Chippewa County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:48+00:00",
-    "platform": "none"
-  },
-  "MI::Delta County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:52:50+00:00",
-    "platform": "none"
-  },
-  "MI::Genesee County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:52:50+00:00",
+    "checked_at": "2026-10-01T21:39:15+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
-  "MI::Houghton County": {
+  "MI::Delta County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:53+00:00",
+    "checked_at": "2026-10-01T21:39:17+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "MI::Genesee County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:39:19+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "MI::Grand Traverse County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mi-grandtraversecounty.civicplus.com",
+    "checked_at": "2026-10-01T21:39:21+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "MI::Houghton County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:39:23+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Huron County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:55+00:00",
+    "checked_at": "2026-10-01T21:39:34+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Ingham County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:52:57+00:00",
+    "checked_at": "2026-10-01T21:39:43+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Jackson County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:16+00:00",
+    "checked_at": "2026-10-01T21:39:53+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MI::Kalamazoo County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:00+00:00",
+    "checked_at": "2026-10-01T21:39:57+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Kalkaska County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:02+00:00",
+    "checked_at": "2026-10-01T21:40:10+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Kent County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:53:05+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mi-kentcounty.civicplus.com",
+    "checked_at": "2026-10-01T21:40:20+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MI::Keweenaw": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:20+00:00",
+    "checked_at": "2026-10-01T21:40:31+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Keweenaw County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:24+00:00",
+    "checked_at": "2026-10-01T21:40:41+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Lapeer County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:28+00:00",
+    "checked_at": "2026-10-01T21:40:51+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Lenawee County": {
@@ -3124,9 +3276,11 @@
     "platform": "none"
   },
   "MI::Livingston County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:07+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T21:41:01+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "MI::Macomb": {
     "base_url": "",
@@ -3134,109 +3288,193 @@
     "platform": "none"
   },
   "MI::Macomb County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:53:09+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mi-macomb.civicplus.com",
+    "checked_at": "2026-10-01T21:41:03+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MI::Mason": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-14T14:24:14+00:00",
+    "checked_at": "2026-10-01T21:41:08+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MI::Mecosta County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:12+00:00",
+    "checked_at": "2026-10-01T21:41:10+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Monroe County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:12+00:00",
+    "checked_at": "2026-10-01T21:41:20+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MI::Oakland": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:14+00:00",
+    "checked_at": "2026-10-01T21:41:23+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Oakland County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:17+00:00",
+    "checked_at": "2026-10-01T21:41:32+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Ottawa County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:19+00:00",
+    "checked_at": "2026-10-01T21:41:42+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
+  },
+  "MI::Saginaw": {
+    "adapter": "native:granicus",
+    "base_url": "https://saginaw.granicus.com",
+    "checked_at": "2026-10-01T21:41:52+00:00",
+    "civic_scraper": "1.1.0",
+    "civic_scraper_errors": "granicus: ValueError",
+    "platform": "granicus"
   },
   "MI::Saginaw County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:53:21+00:00",
-    "platform": "none"
+    "adapter": "native:granicus",
+    "base_url": "https://saginaw.granicus.com",
+    "checked_at": "2026-10-01T21:42:02+00:00",
+    "civic_scraper": "1.1.0",
+    "civic_scraper_errors": "granicus: ValueError",
+    "platform": "granicus"
   },
   "MI::Shiawassee County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:35+00:00",
+    "checked_at": "2026-10-01T21:42:13+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Tuscola County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:24+00:00",
+    "checked_at": "2026-10-01T21:42:23+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Van Buren County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:40+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T21:42:33+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "MI::Washtenaw": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:26+00:00",
+    "checked_at": "2026-10-01T21:42:35+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Washtenaw County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:29+00:00",
+    "checked_at": "2026-10-01T21:42:44+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MI::Wayne County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:53:31+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mi-wayne.civicplus.com",
+    "checked_at": "2026-10-01T21:42:54+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "MN::Anoka County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mn-anoka.civicplus.com",
+    "checked_at": "2026-10-01T21:43:08+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MN::Blue Earth County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:53:34+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mn-blueearthcounty.civicplus.com",
+    "checked_at": "2026-10-01T21:43:33+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MN::Carlton": {
     "base_url": "",
     "checked_at": "2026-08-31T15:23:38+00:00",
     "platform": "none"
   },
+  "MN::Carlton County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mn-carltoncounty.civicplus.com",
+    "checked_at": "2026-10-01T21:43:38+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
   "MN::Carver County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mn-carver.civicplus.com",
+    "checked_at": "2026-10-01T21:43:50+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "MN::Chisago": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:36+00:00",
+    "checked_at": "2026-10-01T21:44:20+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "MN::Chisago County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:44:31+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MN::Dakota County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:42+00:00",
+    "checked_at": "2026-10-01T21:44:40+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "MN::Freeborn County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:44:42+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MN::Goodhue County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:46+00:00",
+    "checked_at": "2026-10-01T21:44:53+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MN::Hennepin County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:48+00:00",
+    "checked_at": "2026-10-01T21:45:03+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MN::Le Sueur County": {
-    "base_url": "",
-    "checked_at": "2026-09-28T15:56:31+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mn-lesueurcounty.civicplus.com",
+    "checked_at": "2026-10-01T21:45:13+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MN::Nicollet": {
     "base_url": "",
@@ -3244,414 +3482,754 @@
     "platform": "none"
   },
   "MN::Nicollet County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:51+00:00",
+    "checked_at": "2026-10-01T21:45:27+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MN::Nobles County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:53:53+00:00",
+    "checked_at": "2026-10-01T21:45:37+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "MN::Pine County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:45:47+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MN::Ramsey County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:44+00:00",
+    "checked_at": "2026-10-01T21:45:57+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MN::Rice": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:53:56+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mn-ricecounty.civicplus.com",
+    "checked_at": "2026-10-01T21:46:08+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MN::Rice County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:53:58+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mn-ricecounty.civicplus.com",
+    "checked_at": "2026-10-01T21:46:10+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MN::Scott County": {
-    "base_url": "",
-    "checked_at": "2026-08-24T08:27:44+00:00",
-    "platform": "ambiguous"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mn-scottcounty.civicplus.com",
+    "checked_at": "2026-10-01T21:46:11+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MN::Sherburne County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mn-sherburnecounty.civicplus.com",
+    "checked_at": "2026-10-01T21:46:15+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "MN::Sibley County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:01+00:00",
+    "checked_at": "2026-10-01T21:46:18+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MN::St. Louis": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-14T14:24:14+00:00",
+    "checked_at": "2026-10-01T21:46:29+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MN::St. Louis County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:01+00:00",
+    "checked_at": "2026-10-01T21:46:31+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MN::Stearns": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:03+00:00",
+    "checked_at": "2026-10-01T21:46:33+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MN::Waseca County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mn-waseca.civicplus.com",
+    "checked_at": "2026-10-01T21:46:43+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "MN::Washington County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:56:42+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T21:46:48+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "MN::Wright County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mn-wrightcounty.civicplus.com",
+    "checked_at": "2026-10-01T21:46:50+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "MO::Benton County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:06+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T21:47:01+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "MO::Boone County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:06+00:00",
+    "checked_at": "2026-10-01T21:47:03+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MO::Camden": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:06+00:00",
+    "checked_at": "2026-10-01T21:47:05+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MO::Cass County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mo-casscounty.civicplus.com",
+    "checked_at": "2026-10-01T21:47:07+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "MO::Cedar County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:06+00:00",
+    "checked_at": "2026-10-01T21:47:20+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MO::Clay County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:06+00:00",
+    "checked_at": "2026-10-01T21:47:22+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MO::Franklin County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:54:06+00:00",
-    "platform": "ambiguous"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mo-franklincounty.civicplus.com",
+    "checked_at": "2026-10-01T21:47:25+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MO::Jackson County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:54:06+00:00",
-    "platform": "ambiguous"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mo-jackson.civicplus.com",
+    "checked_at": "2026-10-01T21:47:34+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MO::Jasper County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:09+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T21:47:41+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "MO::Jefferson County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:09+00:00",
+    "checked_at": "2026-10-01T21:47:44+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MO::McDonald": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-14T14:24:19+00:00",
+    "checked_at": "2026-10-01T21:47:46+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MO::Montgomery County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:09+00:00",
+    "checked_at": "2026-10-01T21:47:56+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MO::Nodaway County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:56:47+00:00",
+    "checked_at": "2026-10-01T21:47:58+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MO::Oregon": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:56:52+00:00",
+    "checked_at": "2026-10-01T21:48:08+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MO::Platte County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:11+00:00",
+    "checked_at": "2026-10-01T21:48:19+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "MO::Ralls County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:48:29+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MO::St. Charles County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:54:14+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mo-stcharlescounty.civicplus.com",
+    "checked_at": "2026-10-01T21:48:39+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MO::St. Louis (Independent City)": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:16+00:00",
+    "checked_at": "2026-10-01T21:48:56+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MO::St. Louis (city)": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:19+00:00",
+    "checked_at": "2026-10-01T21:49:06+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MO::St. Louis County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:19+00:00",
+    "checked_at": "2026-10-01T21:49:16+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
-  "MO::Warren County": {
+  "MO::Stone County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:19+00:00",
+    "checked_at": "2026-10-01T21:49:18+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "MO::Warren County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:49:29+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MO::Webster": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:21+00:00",
+    "checked_at": "2026-10-01T21:49:31+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MO::Webster County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:56:58+00:00",
+    "checked_at": "2026-10-01T21:49:42+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MS::Coahoma County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:24+00:00",
+    "checked_at": "2026-10-01T21:49:51+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MS::DeSoto": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:24+00:00",
+    "checked_at": "2026-10-01T21:50:01+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MS::DeSoto County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:24+00:00",
+    "checked_at": "2026-10-01T21:50:03+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MS::Hinds County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:26+00:00",
+    "checked_at": "2026-10-01T21:50:05+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MS::Lauderdale County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:28+00:00",
+    "checked_at": "2026-10-01T21:50:15+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MS::Madison County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:28+00:00",
+    "checked_at": "2026-10-01T21:50:25+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MS::Rankin County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:31+00:00",
+    "checked_at": "2026-10-01T21:50:27+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MS::Warren County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:31+00:00",
+    "checked_at": "2026-10-01T21:50:39+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "MT::Cascade County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mt-cascadecounty.civicplus.com",
+    "checked_at": "2026-10-01T21:50:41+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "MT::Missoula": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:33+00:00",
+    "checked_at": "2026-10-01T21:50:50+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MT::Missoula County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:36+00:00",
+    "checked_at": "2026-10-01T21:51:00+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "MT::Musselshell": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:51:12+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MT::Silver Bow County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:38+00:00",
+    "checked_at": "2026-10-01T21:51:22+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "MT::Stillwater County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:54:41+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://mt-stillwatercounty.civicplus.com",
+    "checked_at": "2026-10-01T21:51:32+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "MT::Yellowstone County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:43+00:00",
+    "checked_at": "2026-10-01T21:51:43+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "NC::Alamance County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:51:54+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "NC::Avery County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:52:03+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Brunswick County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:46+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T21:52:13+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "NC::Buncombe County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:48+00:00",
+    "checked_at": "2026-10-01T21:52:18+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
+  },
+  "NC::Camden County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:52:28+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "NC::Chatham": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:50+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T21:52:31+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "NC::Chatham County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:53+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T21:52:33+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "NC::Clay County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:53+00:00",
+    "checked_at": "2026-10-01T21:52:35+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NC::Cleveland County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:55+00:00",
+    "checked_at": "2026-10-01T21:52:37+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Cumberland County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:55+00:00",
+    "checked_at": "2026-10-01T21:52:47+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
-  "NC::Durham": {
+  "NC::Davie County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:54:58+00:00",
+    "checked_at": "2026-10-01T21:52:49+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
+  },
+  "NC::Durham": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://nc-durham.civicplus.com",
+    "checked_at": "2026-10-01T21:53:02+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "NC::Edgecombe County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:00+00:00",
+    "checked_at": "2026-10-01T21:53:21+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
+  },
+  "NC::Forsyth County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:53:31+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "NC::Franklin County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://nc-franklincounty.civicplus.com",
+    "checked_at": "2026-10-01T21:53:33+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "NC::Gaston County": {
-    "base_url": "",
-    "checked_at": "2026-08-24T08:27:48+00:00",
-    "platform": "none"
+    "adapter": "native:granicus",
+    "base_url": "https://gaston.granicus.com",
+    "checked_at": "2026-10-01T21:53:37+00:00",
+    "civic_scraper": "1.1.0",
+    "civic_scraper_errors": "granicus: ValueError",
+    "platform": "granicus"
   },
   "NC::Gates": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-31T15:23:40+00:00",
+    "checked_at": "2026-10-01T21:53:48+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Gates County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:03+00:00",
+    "checked_at": "2026-10-01T21:53:58+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Granville County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:52+00:00",
+    "checked_at": "2026-10-01T21:54:08+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
-  "NC::Harnett County": {
+  "NC::Greene": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:05+00:00",
+    "checked_at": "2026-10-01T21:54:19+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "NC::Halifax County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://nc-halifaxcounty.civicplus.com",
+    "checked_at": "2026-10-01T21:54:21+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "NC::Harnett County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:54:23+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Haywood County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:07+00:00",
+    "checked_at": "2026-10-01T21:54:33+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Henderson County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:10+00:00",
+    "checked_at": "2026-10-01T21:54:44+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Iredell County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://nc-iredellcounty.civicplus.com",
+    "checked_at": "2026-10-01T21:54:55+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "NC::Jackson County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://nc-jacksoncounty.civicplus.com",
+    "checked_at": "2026-10-01T21:55:01+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "NC::Johnston County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:12+00:00",
+    "checked_at": "2026-10-01T21:55:18+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Lee County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:12+00:00",
+    "checked_at": "2026-10-01T21:55:28+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NC::Macon County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:56+00:00",
+    "checked_at": "2026-10-01T21:55:30+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Madison County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:56+00:00",
+    "checked_at": "2026-10-01T21:55:41+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
-  "NC::Mecklenburg County": {
+  "NC::McDowell County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:12+00:00",
+    "checked_at": "2026-10-01T21:55:43+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "NC::Mecklenburg County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:55:53+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NC::Moore County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:27:56+00:00",
+    "checked_at": "2026-10-01T21:55:55+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
-  "NC::Northampton": {
+  "NC::Nash County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:12+00:00",
+    "checked_at": "2026-10-01T21:55:58+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "NC::Northampton": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:56:08+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NC::Orange County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:55:15+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://nc-orangecounty.civicplus.com",
+    "checked_at": "2026-10-01T21:56:10+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "NC::Pasquotank County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:57:03+00:00",
+    "checked_at": "2026-10-01T21:56:24+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Pender": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-14T14:24:24+00:00",
+    "checked_at": "2026-10-01T21:56:34+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "NC::Pender County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:56:45+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Person County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:28:00+00:00",
+    "checked_at": "2026-10-01T21:56:55+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Rowan County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:17+00:00",
+    "checked_at": "2026-10-01T21:57:06+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Rutherford County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:28:04+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T21:57:17+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "NC::Stokes": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:28:08+00:00",
+    "checked_at": "2026-10-01T21:57:19+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Stokes County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:20+00:00",
+    "checked_at": "2026-10-01T21:57:29+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Surry County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:55:22+00:00",
-    "platform": "none"
+    "adapter": "native:granicus",
+    "base_url": "https://surry.granicus.com",
+    "checked_at": "2026-10-01T21:57:40+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "granicus"
   },
   "NC::Swain County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:24+00:00",
+    "checked_at": "2026-10-01T21:57:50+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "NC::Transylvania County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:58:00+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Union County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:57:03+00:00",
+    "checked_at": "2026-10-01T21:58:10+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NC::Vance County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:27+00:00",
+    "checked_at": "2026-10-01T21:58:12+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NC::Wake County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:29+00:00",
+    "checked_at": "2026-10-01T21:58:21+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
+  "NC::Warren County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://nc-warrencounty.civicplus.com",
+    "checked_at": "2026-10-01T21:58:31+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
   "NC::Watauga County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:32+00:00",
+    "checked_at": "2026-10-01T21:58:36+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
+  },
+  "NC::Wilkes County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://nc-wilkescounty.civicplus.com",
+    "checked_at": "2026-10-01T21:58:47+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "NC::Yadkin": {
     "base_url": "",
@@ -3659,28 +4237,52 @@
     "platform": "none"
   },
   "NC::Yadkin County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:28:17+00:00",
+    "checked_at": "2026-10-01T21:58:51+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
+  "NC::Yancey County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://nc-yanceycounty.civicplus.com",
+    "checked_at": "2026-10-01T21:59:01+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
   "ND::Barnes County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:57:08+00:00",
+    "checked_at": "2026-10-01T21:59:03+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "ND::Cass County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:32+00:00",
+    "checked_at": "2026-10-01T21:59:13+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "ND::Dakota": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:59:15+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "ND::Dickey County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:34+00:00",
+    "checked_at": "2026-10-01T21:59:17+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "ND::Dunn County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:28:17+00:00",
+    "checked_at": "2026-10-01T21:59:27+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "ND::McLean County": {
@@ -3689,23 +4291,38 @@
     "platform": "ambiguous"
   },
   "ND::Mercer County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:34+00:00",
+    "checked_at": "2026-10-01T21:59:29+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "ND::Morton County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:37+00:00",
+    "checked_at": "2026-10-01T21:59:31+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "ND::Oliver": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T21:59:41+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "ND::Oliver County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:39+00:00",
+    "checked_at": "2026-10-01T21:59:51+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "ND::Ransom": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-14T14:24:29+00:00",
+    "checked_at": "2026-10-01T22:00:00+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "ND::Stark County": {
@@ -3713,39 +4330,67 @@
     "checked_at": "2026-08-24T08:28:17+00:00",
     "platform": "ambiguous"
   },
-  "ND::Wells": {
+  "ND::Walsh": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:57:08+00:00",
+    "checked_at": "2026-10-01T22:00:10+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "ND::Wells": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:00:20+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "ND::Williams": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:57:14+00:00",
+    "checked_at": "2026-10-01T22:00:22+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "ND::Williams County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:28:21+00:00",
+    "checked_at": "2026-10-01T22:00:32+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NE::Blaine County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:57:19+00:00",
+    "checked_at": "2026-10-01T22:00:42+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
-  "NE::Cass County": {
+  "NE::Butler County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:39+00:00",
+    "checked_at": "2026-10-01T22:00:51+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "NE::Cass County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:00:53+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NE::Cherry County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:57:24+00:00",
+    "checked_at": "2026-10-01T22:00:55+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NE::Custer County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:41+00:00",
+    "checked_at": "2026-10-01T22:01:05+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NE::Dixon": {
@@ -3753,40 +4398,89 @@
     "checked_at": "2026-09-28T15:57:30+00:00",
     "platform": "none"
   },
-  "NE::Gage County": {
+  "NE::Dundy County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:44+00:00",
+    "checked_at": "2026-10-01T22:01:15+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "NE::Gage County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:01:25+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NE::Hitchcock County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:46+00:00",
+    "checked_at": "2026-10-01T22:01:35+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
+  "NE::Lancaster County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://ne-lancastercounty.civicplus.com",
+    "checked_at": "2026-10-01T22:01:45+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
   "NE::Lincoln County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:46+00:00",
+    "checked_at": "2026-10-01T22:02:10+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NE::Logan County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:46+00:00",
+    "checked_at": "2026-10-01T22:02:12+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "NE::McPherson County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:02:14+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NE::Otoe County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:49+00:00",
+    "checked_at": "2026-10-01T22:02:16+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "NE::Red Willow County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:02:26+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NE::Sarpy County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:51+00:00",
+    "checked_at": "2026-10-01T22:02:36+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NE::Seward County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:54+00:00",
+    "checked_at": "2026-10-01T22:02:47+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
+  },
+  "NE::Thomas County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:02:57+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "NEVADA::Nevada": {
     "base_url": "",
@@ -3794,84 +4488,116 @@
     "platform": "none"
   },
   "NH::Carroll": {
-    "base_url": "",
-    "checked_at": "2026-09-28T15:57:30+00:00",
-    "platform": "ambiguous"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://nh-carrollcounty.civicplus.com",
+    "checked_at": "2026-10-01T22:02:59+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "NJ::Atlantic County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:28:25+00:00",
+    "checked_at": "2026-10-01T22:03:07+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NJ::Burlington County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:56+00:00",
+    "checked_at": "2026-10-01T22:03:17+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NJ::Camden County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:56+00:00",
+    "checked_at": "2026-10-01T22:03:27+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NJ::Cumberland County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:56+00:00",
+    "checked_at": "2026-10-01T22:03:29+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NJ::Essex County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:55:59+00:00",
+    "checked_at": "2026-10-01T22:03:31+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NJ::Gloucester County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:56:01+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://nj-gloucestercounty.civicplus.com",
+    "checked_at": "2026-10-01T22:03:41+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "NJ::Hudson": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:57:35+00:00",
+    "checked_at": "2026-10-01T22:03:46+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NJ::Hudson County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:04+00:00",
+    "checked_at": "2026-10-01T22:03:57+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NJ::Hunterdon County": {
-    "base_url": "",
-    "checked_at": "2026-08-24T08:28:29+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://nj-hunterdoncounty.civicplus.com",
+    "checked_at": "2026-10-01T22:04:06+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "NJ::Mercer County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:04+00:00",
+    "checked_at": "2026-10-01T22:04:14+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NJ::Middlesex": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:04+00:00",
+    "checked_at": "2026-10-01T22:04:16+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NJ::Middlesex County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:04+00:00",
+    "checked_at": "2026-10-01T22:04:18+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NJ::Monmouth": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:06+00:00",
+    "checked_at": "2026-10-01T22:04:20+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NJ::Monmouth County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:08+00:00",
+    "checked_at": "2026-10-01T22:04:30+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NJ::Morris County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:28:33+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T22:04:40+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "NJ::Salem": {
     "base_url": "https://salem.granicus.com",
@@ -3884,19 +4610,25 @@
     "platform": "granicus"
   },
   "NJ::Somerset": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:11+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T22:04:42+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "NJ::Somerset County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:13+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T22:05:04+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "NJ::Sussex": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:56:16+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://nj-sussexcounty.civicplus.com",
+    "checked_at": "2026-10-01T22:05:09+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "NJ::Sussex County": {
     "base_url": "",
@@ -3904,64 +4636,95 @@
     "platform": "none"
   },
   "NJ::Union": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:16+00:00",
+    "checked_at": "2026-10-01T22:05:34+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NJ::Union County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:16+00:00",
+    "checked_at": "2026-10-01T22:05:36+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NJ::Warren County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:16+00:00",
+    "checked_at": "2026-10-01T22:05:38+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NM::Bernalillo County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:29+00:00",
+    "checked_at": "2026-10-01T22:05:40+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NM::Colfax County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:32+00:00",
+    "checked_at": "2026-10-01T22:05:50+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NM::Do\u00f1a Ana": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:28:42+00:00",
+    "checked_at": "2026-10-01T22:06:01+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NM::Do\u00f1a Ana County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:34+00:00",
+    "checked_at": "2026-10-01T22:06:12+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NM::Los Alamos": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-14T14:24:34+00:00",
+    "checked_at": "2026-10-01T22:06:22+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NM::Santa Fe County": {
+    "adapter": "native:primegov",
+    "base_url": "https://santafe.primegov.com",
+    "checked_at": "2026-10-01T22:06:31+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "primegov"
+  },
+  "NM::Sierra County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:36+00:00",
+    "checked_at": "2026-10-01T22:06:41+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NM::Socorro County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:39+00:00",
+    "checked_at": "2026-10-01T22:06:50+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NM::Torrance County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:28:47+00:00",
+    "checked_at": "2026-10-01T22:07:03+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NM::Valencia County": {
-    "base_url": "",
-    "checked_at": "2026-08-24T08:28:51+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://nm-valenciacounty.civicplus.com",
+    "checked_at": "2026-10-01T22:07:13+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "NORTH DAKOTA::Dakota": {
     "base_url": "",
@@ -3969,639 +4732,1019 @@
     "platform": "ambiguous"
   },
   "NV::Clark": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:39+00:00",
+    "checked_at": "2026-10-01T22:07:16+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NV::Clark County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:39+00:00",
+    "checked_at": "2026-10-01T22:07:18+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
-  "NV::Eureka": {
+  "NV::Elko County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-31T15:23:43+00:00",
+    "checked_at": "2026-10-01T22:07:20+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "NV::Eureka": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:07:29+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NV::Eureka County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:57:51+00:00",
+    "checked_at": "2026-10-01T22:07:39+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NV::Humboldt County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:57:56+00:00",
+    "checked_at": "2026-10-01T22:07:50+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
-  "NV::Lyon County": {
+  "NV::Lincoln County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:39+00:00",
+    "checked_at": "2026-10-01T22:08:00+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
-  "NV::Nye": {
+  "NV::Lyon County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:58:02+00:00",
+    "checked_at": "2026-10-01T22:08:02+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "NV::Nevada": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:08:04+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "NV::Nye": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:08:14+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NV::Nye County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:41+00:00",
+    "checked_at": "2026-10-01T22:08:24+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NV::Washoe County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:44+00:00",
+    "checked_at": "2026-10-01T22:08:33+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "NV::White Pine County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:08:43+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NY::Dutchess": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:46+00:00",
+    "checked_at": "2026-10-01T22:08:53+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NY::Genesee County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:46+00:00",
+    "checked_at": "2026-10-01T22:09:03+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NY::Herkimer": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:58:07+00:00",
+    "checked_at": "2026-10-01T22:09:05+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NY::Nassau County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:46+00:00",
+    "checked_at": "2026-10-01T22:09:15+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "NY::New York": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-31T15:23:45+00:00",
+    "checked_at": "2026-10-01T22:09:37+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NY::Niagara County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:49+00:00",
+    "checked_at": "2026-10-01T22:09:47+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NY::Onondaga County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:51+00:00",
+    "checked_at": "2026-10-01T22:09:57+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NY::Otsego County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:54+00:00",
+    "checked_at": "2026-10-01T22:10:07+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NY::Rockland County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:56+00:00",
+    "checked_at": "2026-10-01T22:10:17+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NY::Seneca County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:56:56+00:00",
-    "platform": "ambiguous"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://ny-senecacounty.civicplus.com",
+    "checked_at": "2026-10-01T22:10:27+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "NY::St. Lawrence County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:56:59+00:00",
+    "checked_at": "2026-10-01T22:10:36+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NY::Suffolk County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:01+00:00",
+    "checked_at": "2026-10-01T22:10:46+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "NY::Tompkins County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:03+00:00",
+    "checked_at": "2026-10-01T22:10:56+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OH::Adams County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:03+00:00",
+    "checked_at": "2026-10-01T22:11:06+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Allen County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:03+00:00",
+    "checked_at": "2026-10-01T22:11:08+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
+  "OH::Ashtabula County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://oh-ashtabulacounty.civicplus.com",
+    "checked_at": "2026-10-01T22:11:10+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
   "OH::Brown County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:03+00:00",
+    "checked_at": "2026-10-01T22:11:12+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Butler County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:03+00:00",
+    "checked_at": "2026-10-01T22:11:14+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Champaign County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:03+00:00",
+    "checked_at": "2026-10-01T22:11:16+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Clark County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:03+00:00",
+    "checked_at": "2026-10-01T22:11:18+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "OH::Clermont County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:11:20+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "OH::Clinton": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:11:30+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Clinton County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:03+00:00",
+    "checked_at": "2026-10-01T22:11:32+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Cuyahoga County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:06+00:00",
+    "checked_at": "2026-10-01T22:11:34+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OH::Delaware County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:08+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T22:11:44+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "OH::Fairfield County": {
-    "base_url": "",
-    "checked_at": "2026-08-24T08:28:51+00:00",
-    "platform": "ambiguous"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://oh-fairfield.civicplus.com",
+    "checked_at": "2026-10-01T22:11:46+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "OH::Fayette County": {
-    "base_url": "",
-    "checked_at": "2026-08-24T08:28:51+00:00",
-    "platform": "ambiguous"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://oh-fayettecounty.civicplus.com",
+    "checked_at": "2026-10-01T22:11:56+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "OH::Franklin County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:08+00:00",
+    "checked_at": "2026-10-01T22:12:05+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Geauga County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:28:56+00:00",
+    "checked_at": "2026-10-01T22:12:07+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OH::Greene County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:11+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T22:12:16+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "OH::Hamilton County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:11+00:00",
+    "checked_at": "2026-10-01T22:12:18+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Hancock County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:57:11+00:00",
-    "platform": "ambiguous"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://oh-hancockcounty.civicplus.com",
+    "checked_at": "2026-10-01T22:12:20+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "OH::Hardin County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:29:00+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T22:12:29+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "OH::Harrison County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://oh-harrison.civicplus.com",
+    "checked_at": "2026-10-01T22:12:31+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "OH::Highland County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:13+00:00",
+    "checked_at": "2026-10-01T22:12:35+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OH::Lake County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:13+00:00",
+    "checked_at": "2026-10-01T22:12:45+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Lawrence County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:13+00:00",
+    "checked_at": "2026-10-01T22:12:47+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Licking County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:15+00:00",
+    "checked_at": "2026-10-01T22:12:49+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OH::Lorain County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:57:18+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://oh-loraincounty.civicplus.com",
+    "checked_at": "2026-10-01T22:12:59+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "OH::Lucas County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:20+00:00",
+    "checked_at": "2026-10-01T22:13:08+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OH::Madison County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:29:00+00:00",
+    "checked_at": "2026-10-01T22:13:18+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Mahoning County": {
-    "base_url": "",
-    "checked_at": "2026-08-24T08:29:04+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://oh-mahoningcounty.civicplus.com",
+    "checked_at": "2026-10-01T22:13:20+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "OH::Medina County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:29:04+00:00",
+    "checked_at": "2026-10-01T22:13:29+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Miami County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:20+00:00",
+    "checked_at": "2026-10-01T22:13:31+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Montgomery County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:57:20+00:00",
-    "platform": "ambiguous"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://oh-montgomerycounty.civicplus.com",
+    "checked_at": "2026-10-01T22:13:34+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "OH::Pickaway County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:22+00:00",
+    "checked_at": "2026-10-01T22:13:46+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OH::Pike County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:22+00:00",
+    "checked_at": "2026-10-01T22:13:56+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Portage County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:57:25+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://oh-portagecounty.civicplus.com",
+    "checked_at": "2026-10-01T22:13:58+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "OH::Preble County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:57:27+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://oh-preblecounty.civicplus.com",
+    "checked_at": "2026-10-01T22:14:02+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "OH::Richland County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:27+00:00",
+    "checked_at": "2026-10-01T22:14:09+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
-  "OH::Sandusky County": {
+  "OH::Ross County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:30+00:00",
+    "checked_at": "2026-10-01T22:14:11+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "OH::Sandusky County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:14:21+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OH::Scioto County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:32+00:00",
+    "checked_at": "2026-10-01T22:14:31+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OH::Seneca County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:32+00:00",
+    "checked_at": "2026-10-01T22:14:41+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Shelby County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:32+00:00",
+    "checked_at": "2026-10-01T22:14:43+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Stark County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:34+00:00",
+    "checked_at": "2026-10-01T22:14:45+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OH::Summit": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:57:37+00:00",
-    "platform": "none"
+    "adapter": "native:primegov",
+    "base_url": "https://summit.primegov.com",
+    "checked_at": "2026-10-01T22:14:55+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "primegov"
   },
   "OH::Summit County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:57:39+00:00",
-    "platform": "none"
+    "adapter": "native:primegov",
+    "base_url": "https://summit.primegov.com",
+    "checked_at": "2026-10-01T22:15:06+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "primegov"
   },
   "OH::Trumbull": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:42+00:00",
+    "checked_at": "2026-10-01T22:15:15+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OH::Trumbull County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:44+00:00",
+    "checked_at": "2026-10-01T22:15:25+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OH::Union County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:57:44+00:00",
-    "platform": "ambiguous"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://oh-union.civicplus.com",
+    "checked_at": "2026-10-01T22:15:41+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "OH::Van Wert": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:47+00:00",
+    "checked_at": "2026-10-01T22:15:47+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OH::Warren County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:29:04+00:00",
+    "checked_at": "2026-10-01T22:15:57+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Washington County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:47+00:00",
+    "checked_at": "2026-10-01T22:15:59+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OH::Wood County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:57:50+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://oh-woodcounty.civicplus.com",
+    "checked_at": "2026-10-01T22:16:01+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "OK::Carter County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:53+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T22:16:11+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "OK::Comanche County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://ok-comanchecounty.civicplus.com",
+    "checked_at": "2026-10-01T22:16:13+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "OK::Garfield": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:55+00:00",
+    "checked_at": "2026-10-01T22:16:39+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OK::Muskogee County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:57:57+00:00",
+    "checked_at": "2026-10-01T22:16:49+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OK::Oklahoma County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:00+00:00",
+    "checked_at": "2026-10-01T22:17:00+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OK::Okmulgee County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:58:02+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://ok-okmulgee.civicplus.com",
+    "checked_at": "2026-10-01T22:17:10+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "OK::Osage County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:15+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T22:17:16+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "OK::Pittsburg County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:18+00:00",
+    "checked_at": "2026-10-01T22:17:18+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OK::Rogers County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:58:21+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://ok-rogerscounty.civicplus.com",
+    "checked_at": "2026-10-01T22:17:29+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "OK::Tulsa County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:25+00:00",
+    "checked_at": "2026-10-01T22:17:54+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OK::Wagoner County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:58:28+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://ok-wagonercounty.civicplus.com",
+    "checked_at": "2026-10-01T22:18:06+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "OR::Clackamas": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:29:09+00:00",
+    "checked_at": "2026-10-01T22:18:17+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
+  "OR::Clackamas County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:18:28+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OR::Hood River County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:31+00:00",
+    "checked_at": "2026-10-01T22:18:38+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
-  "OR::Morrow County": {
+  "OR::Marion County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:34+00:00",
+    "checked_at": "2026-10-01T22:18:48+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "OR::Morrow County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:18:50+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OR::Umatilla County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:36+00:00",
+    "checked_at": "2026-10-01T22:19:00+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OR::Wasco County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:38+00:00",
+    "checked_at": "2026-10-01T22:19:11+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "OR::Washington": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:38+00:00",
+    "checked_at": "2026-10-01T22:19:21+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "OR::Washington County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:38+00:00",
+    "checked_at": "2026-10-01T22:19:23+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Adams County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:58:07+00:00",
+    "checked_at": "2026-10-01T22:19:25+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Allegheny County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:41+00:00",
+    "checked_at": "2026-10-01T22:19:27+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Beaver County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:43+00:00",
+    "checked_at": "2026-10-01T22:19:36+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Berks County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:29:12+00:00",
+    "checked_at": "2026-10-01T22:19:46+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Bucks County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:46+00:00",
+    "checked_at": "2026-10-01T22:19:56+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Carbon County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:48+00:00",
+    "checked_at": "2026-10-01T22:20:06+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Chester County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:48+00:00",
+    "checked_at": "2026-10-01T22:20:16+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Clinton": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:48+00:00",
+    "checked_at": "2026-10-01T22:20:18+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "PA::Clinton County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:20:20+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Columbia County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:29:12+00:00",
+    "checked_at": "2026-10-01T22:20:23+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Cumberland County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:48+00:00",
+    "checked_at": "2026-10-01T22:20:25+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Dauphin County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:51+00:00",
+    "checked_at": "2026-10-01T22:20:27+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Delaware County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:29:12+00:00",
+    "checked_at": "2026-10-01T22:20:36+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Franklin County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:58:51+00:00",
+    "checked_at": "2026-10-01T22:20:39+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Indiana": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:29:17+00:00",
+    "checked_at": "2026-10-01T22:20:41+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Lackawanna County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:03+00:00",
+    "checked_at": "2026-10-01T22:20:50+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Lancaster County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:59:05+00:00",
-    "platform": "none"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://pa-lancastercounty.civicplus.com",
+    "checked_at": "2026-10-01T22:21:10+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "PA::Lawrence County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:05+00:00",
+    "checked_at": "2026-10-01T22:21:36+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Lebanon County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:08+00:00",
+    "checked_at": "2026-10-01T22:21:38+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Lehigh County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:10+00:00",
+    "checked_at": "2026-10-01T22:21:48+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Luzerne County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://pa-luzernecounty.civicplus.com",
+    "checked_at": "2026-10-01T22:21:58+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "PA::Lycoming": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:12+00:00",
+    "checked_at": "2026-10-01T22:22:26+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Lycoming County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:29:21+00:00",
+    "checked_at": "2026-10-01T22:22:38+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Mifflin County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:15+00:00",
+    "checked_at": "2026-10-01T22:22:48+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Monroe County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:15+00:00",
+    "checked_at": "2026-10-01T22:22:58+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Montgomery": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:15+00:00",
+    "checked_at": "2026-10-01T22:23:00+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Montgomery County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:15+00:00",
+    "checked_at": "2026-10-01T22:23:02+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Montour County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:17+00:00",
+    "checked_at": "2026-10-01T22:23:04+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Northampton County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:17+00:00",
+    "checked_at": "2026-10-01T22:23:15+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Northumberland County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:20+00:00",
+    "checked_at": "2026-10-01T22:23:17+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Perry County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:22+00:00",
+    "checked_at": "2026-10-01T22:23:27+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Philadelphia County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:29:25+00:00",
+    "checked_at": "2026-10-01T22:23:37+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Potter": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:58:12+00:00",
+    "checked_at": "2026-10-01T22:23:47+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Schuylkill County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:25+00:00",
+    "checked_at": "2026-10-01T22:23:57+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::Somerset": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-09-28T15:58:12+00:00",
+    "checked_at": "2026-10-01T22:24:07+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Union County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:25+00:00",
+    "checked_at": "2026-10-01T22:24:09+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Washington County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:25+00:00",
+    "checked_at": "2026-10-01T22:24:11+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "PA::Westmoreland County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-24T08:29:33+00:00",
+    "checked_at": "2026-10-01T22:24:13+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
   },
   "PA::York County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:25+00:00",
+    "checked_at": "2026-10-01T22:24:23+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "RI::Providence County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:27+00:00",
+    "checked_at": "2026-10-01T22:24:26+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "none"
+  },
+  "SC::Abbeville County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://sc-abbeville.civicplus.com",
+    "checked_at": "2026-10-01T22:24:36+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "SC::Aiken County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://sc-aikencounty.civicplus.com",
+    "checked_at": "2026-10-01T22:24:40+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "SC::Anderson County": {
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://sc-andersoncounty.civicplus.com",
+    "checked_at": "2026-10-01T22:24:56+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
+  },
+  "SC::Berkeley County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:30+00:00",
-    "platform": "none"
+    "checked_at": "2026-10-01T22:25:05+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
+  },
+  "SC::Calhoun County": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-01T22:25:07+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "ambiguous"
   },
   "SC::Cherokee County": {
+    "adapter": "none",
     "base_url": "",
-    "checked_at": "2026-08-12T16:59:30+00:00",
+    "checked_at": "2026-10-01T22:25:09+00:00",
+    "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
   "SC::Chester County": {
-    "base_url": "",
-    "checked_at": "2026-08-12T16:59:30+00:00",
-    "platform": "ambiguous"
+    "adapter": "civic_scraper:civicplus",
+    "base_url": "https://sc-chester.civicplus.com",
+    "checked_at": "2026-10-01T22:25:11+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "civicplus_rss"
   },
   "SC::Chesterfield County": {
     "base_url": "",

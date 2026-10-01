@@ -72,7 +72,7 @@ Proxy score 2. Live proposal touching the incentive stack with repeal or sunset 
   - 2026-02-09: live (verified stage: Passed one chamber (2026-03-06))
   - 2026-03-06: live (verified stage: Passed one chamber (2026-03-06)), repeal or sunset language present
   - 2026-02-01: live (verified stage: Passed one chamber (2026-03-06)), repeal or sunset language present
-  - 2026-02-01: live (verified stage: Introduced (2025-02-20)), repeal or sunset language present
+  - 2026-02-01: live (verified stage: Passed one chamber (2026-03-06)), repeal or sunset language present
   - 2026-04-03: live (verified stage: Passed one chamber (2026-03-06))
 - Granting authority and program age: not on file. Record them in data/incentive_programs.csv for descriptive context.
 - This proxy reads the public legislative record only. Property tax abatements, grants, utility incentives, local programs and state-local alignment must be researched before this score is treated as final.
@@ -171,7 +171,7 @@ Proxy score 2. Live proposal touching the incentive stack with repeal or sunset 
 
 - Incentive-adjacent statewide records: 1 (1 live)
 - Stage evidence: verified bill_sync stages where matched, feed status otherwise
-  - 2026-06-23: live (verified stage: Introduced (2026-06-04)), repeal or sunset language present
+  - 2026-06-23: live (verified stage: Introduced (2026-02-26)), repeal or sunset language present
 - Granting authority and program age: not on file. Record them in data/incentive_programs.csv for descriptive context.
 - This proxy reads the public legislative record only. Property tax abatements, grants, utility incentives, local programs and state-local alignment must be researched before this score is treated as final.
 
@@ -237,7 +237,7 @@ Proxy score 2. Live proposal touching the incentive stack with repeal or sunset 
   - 2025-11-01: terminal (feed status: approved)
   - 2026-01-20: live (feed status: active)
   - 2026-05-20: live (feed status: pending), repeal or sunset language present
-  - 2026-06-30: live (verified stage: Passed one chamber (2026-06-30)), repeal or sunset language present
+  - 2026-06-30: live (verified stage: Passed both chambers (2026-06-30)), repeal or sunset language present
 - Granting authority and program age: not on file. Record them in data/incentive_programs.csv for descriptive context.
 - This proxy reads the public legislative record only. Property tax abatements, grants, utility incentives, local programs and state-local alignment must be researched before this score is treated as final.
 
@@ -257,7 +257,7 @@ Proxy score 2. Live proposal touching the incentive stack with repeal or sunset 
 
 - Incentive-adjacent statewide records: 4 (3 live)
 - Stage evidence: verified bill_sync stages where matched, feed status otherwise
-  - 2026-02-17: live (feed status: pending), repeal or sunset language present
+  - 2026-02-17: live (verified stage: Introduced (2026-02-17)), repeal or sunset language present
   - 2026-03-01: terminal (verified stage: Signed into law (2025-06-30)), repeal or sunset language present
   - 2026-02-05: live (feed status: pending)
   - 2026-05-27: live (feed status: active)
@@ -309,11 +309,11 @@ Proxy score 3. Live incentive-adjacent activity without repeal or sunset languag
 
 ### Incentive durability proxy: TN
 
-Proxy score 3. Live incentive-adjacent activity without repeal or sunset language: monitoring required. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Incentive-adjacent measures on the record all reached terminal dispositions without enactment. A 1 is never assigned automatically; see module docstring.
 
-- Incentive-adjacent statewide records: 1 (1 live)
+- Incentive-adjacent statewide records: 1 (0 live)
 - Stage evidence: verified bill_sync stages where matched, feed status otherwise
-  - 2026-02-01: live (verified stage: Introduced (2026-02-02))
+  - 2026-02-01: terminal (feed status: pending)
 - Granting authority and program age: not on file. Record them in data/incentive_programs.csv for descriptive context.
 - This proxy reads the public legislative record only. Property tax abatements, grants, utility incentives, local programs and state-local alignment must be researched before this score is treated as final.
 
