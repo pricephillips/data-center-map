@@ -1,0 +1,332 @@
+Address,All chip types,Calculations sheet,Construction companies,Country,Current H100 equivalents,Current chip types,Current power (MW),Current total capital cost (2025 USD billions),Energy companies,Investors,Name,Owner,Project,Selected Sources,Users,first_dated_observation
+"5420 Tulane Rd, Memphis, TN 38109","B200,B300",https://docs.google.com/spreadsheets/d/1oZpZ9nTTV6wW0xjc1pPOQmKS7NCyDzuG2HiycC1GqFs/edit?usp=sharing,,United States,1111672.5618999496,"B200,B300",946,35.836372,,,Colossus 2,SpaceXAI #confident,,"- [WSJ profile of the Colossus data centers](https://www.wsj.com/tech/elon-musk-xai-memphis-tennessee-power-dec4c70d) 
+- [Final GPU count reported by Elon Musk](https://x.com/elonmusk/status/1947701807389515912)
+- [MLGW update mentioning power requests for Colossus 2](https://www.mlgw.com/images/content/files/pdf/new/5-5-25%20xAI%20Update.pdf#page=4)
+- [SpaceX-Cursor partnership to use Colossus](https://x.com/SpaceX/status/2046713419978453374)
+- [Anthropic to use Colossus 2 from June 2026](https://x.com/nottombrown/status/2057194829986300375)
+- [SpaceX S-1 filing, mentioning exact compute and power for Colossus 2](https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/spaceexplorationtechnologi.htm)
+","Anthropic #confident, Cursor #confident, SpaceXAI #confident",2025-02-28
+"1435 Hwy 54 W, Fayetteville, GA 30214",B200,https://docs.google.com/spreadsheets/d/1XeruHu2ES3UsSrsAU3HSMkk5zwzFOQzxQE9pQ_fuEUw/edit?usp=sharing,,United States,768768.7220818596,B200,636,24.092952,Georgia Power,,Microsoft Fairwater Atlanta,Microsoft #confident,Microsoft AI WAN #confident,"- [2023 Air Permit application](https://drive.google.com/file/d/1p7aY9syz319IcEuyukgIIvzmhTNKRS6p/view?usp=sharing) 
+- [YouTube video with aerial views](https://www.youtube.com/watch?v=44eWesI-174) 
+- [OpenAI article mentioning they use Microsoft's Fairwater supercomputers](https://openai.com/index/mrc-supercomputer-networking/)
+- [Bloomberg article](https://www.bloomberg.com/news/features/2024-12-08/georgia-s-blackstone-backed-qts-data-center-hits-resistance-over-ai-power-needs)
+
+","OpenAI #likely, Microsoft #likely",2023-04-09
+"55001 Larrison Blvd, New Carlisle, IN 46552",Trainium2,https://docs.google.com/spreadsheets/d/1umU-KLAB_6A-lKRCdLuF7SPv74HlqKjDdfDor1bRGuY/edit?usp=sharing,,United States,685912.076806468,Trainium2,910,34.47262,,,Anthropic-Amazon New Carlisle,Amazon #confident,Project Rainier #confident,"- [Air Construction Permit application for the northern portion](https://drive.google.com/file/d/1BKiTFNUk2KDaUaiHG7fz0KlkNSBTHzbb/view?usp=sharing)
+- [Backup diesel generator referenced in the permit](https://www.cat.com/en_US/products/new/power-systems/electric-power/diesel-generator-sets/117341.html)
+- [Announcement of Project Rainier coming online](https://www.aboutamazon.com/news/aws/aws-project-rainier-ai-trainium-chips-compute-cluster)
+- [Air permit for Buildings 19-32, suggesting expansion to 2.3 GW total facility power](https://t.co/HsAO7oyKa2)
+",Anthropic #confident,2024-02-09
+"4581 Webb St, Pryor, OK 74361","TPU v5p,TPU v5e",https://docs.google.com/spreadsheets/d/1lD_rxcr7NwyAXlJf2TUis1AuMry4jGJNxOFP8zn17zc/edit?usp=sharing,,United States,636685.1945426983,"TPU v5p,TPU v5e",368,13.940576,,,Google Pryor (North),Google #confident,,"- [Google announces expansion of Pryor facility](https://blog.google/inside-google/company-announcements/google-american-innovation-oklahoma/)
+- [Google 2025 Environmental Report](https://sustainability.google/reports/google-2025-environmental-report/) with PUE and water use on pp.109-110
+- [News of a 9 exaflop TPUv4 cluster in the Pryor data center, launched in 2022](https://techcrunch.com/2022/05/11/google-launches-a-9-exaflop-cluster-of-cloud-tpu-v4-pods-into-public-preview/)
+",Google DeepMind #speculative,2024-07-19
+"1 Community Cir, New Albany, OH 43054","B200,B300",https://docs.google.com/spreadsheets/d/1LOiioZUG696TC3nOAXROvhJBhhN7to-r6KR05Hd0qCk/edit?usp=sharing,,United States,599845.17433047,B200,496,18.789472,"Williams,American Electric Power",,Meta Prometheus,Meta #confident,Prometheus #confident,"- [Meta blog post with details on Prometheus](https://engineering.fb.com/2025/09/29/data-infrastructure/metas-infrastructure-evolution-and-the-advent-of-ai/)
+- [New Albany Business Park land use map](https://drive.google.com/file/d/1Wb_BBVOnhu5UCQ8Q5d6iRIG9K_vigD8A/view?usp=sharing)
+- [Letter on Socrates South Power Generation Project](https://drive.google.com/file/d/1OMbFbdNGPmfSkwVWqOAK-5pOufiKQBu1/view?usp=sharing)
+",Meta #confident,2022-04-14
+"5502 Spinks Rd, Abilene, TX 79601","B200,B300",https://docs.google.com/spreadsheets/d/197BW-5tHutOzJ_LTv990eCO_M8nUXT2t1nl--UfMIUk/edit?usp=sharing,Mortenson,United States,509348.15563415864,"B200,B300",421,15.948322,American Electric Power,"Softbank,OpenAI,Oracle",OpenAI Stargate Abilene,Oracle #confident,Stargate #confident,"- [Crusoe 2024 Impact Report, with details on Abilene](https://drive.google.com/file/d/1oHWA9vmpvFOh-LvDy5fgq_wq5ITuxd1r/view?usp=sharing)
+- [Air Permit Application for buildings 1-2, featuring blueprints on p.157](https://drive.google.com/file/d/1FgfX6hqojlBtqNXJHjzJmnwWAMx4_M0b/view?usp=sharing)
+- [Mortensen’s profile of the project, with details of substations](https://www.mortenson.com/projects/abilene-data-center-development)
+",OpenAI #confident,2024-05-31
+"4800 90th St, Mount Pleasant, WI 53403",B200,https://docs.google.com/spreadsheets/d/1CRnOKjeb6z5VFPyeA7xaMrbppOD5dCS7TE20kvQyb8E/edit?usp=sharing,,United States,445679.63617988885,B200,369,13.978458,WE Energies,,Microsoft Fairwater Wisconsin,Microsoft #confident,Microsoft AI WAN #confident,"- [Microsoft blog with engineering details](https://blogs.microsoft.com/blog/2025/09/18/inside-the-worlds-most-powerful-ai-datacenter/)
+- [Microsoft blog with more general information](https://blogs.microsoft.com/on-the-issues/2025/09/18/made-in-wisconsin-the-worlds-most-powerful-ai-datacenter/)
+- [Construction Permit Application for building 1](https://drive.google.com/file/d/1azyXnreQBuYEqX2oaSUgePDGCMneez5Z/view?usp=sharing)
+- [Plan for 9-building and 6-building expansions](https://drive.google.com/file/d/1PQKzfauDNzabN7oNviMKTvsZmxlsUVpG/view?usp=sharing)
+- [OpenAI article mentioning they use Microsoft's Fairwater supercomputers](https://openai.com/index/mrc-supercomputer-networking/)
+","OpenAI #likely, Microsoft #likely",2023-07-14
+"4250 Messenger Lp, Los Lunas, NM 87031",B300,https://docs.google.com/spreadsheets/d/1mhkRkn27J1JmPrRvXejn_eSQr33e1_yfQ1fsKMa4Bis/edit?usp=drive_link,,United States,401212.7337038909,B300,352,13.334463999999999,,,Meta Los Lunas,Meta #confident,,"- [Meta fact sheet](https://datacenters.atmeta.com/wp-content/uploads/2025/02/Meta_s-Los-Lunas-Data-Center.pdf)
+- [Air quality permit for expansion](https://drive.google.com/file/d/1TxuazhSkiaHCd5FGKh_Syc_RsrzfV7Wd/view?usp=drive_link)
+- [Construction contractor page for the site](https://fortisconstruction.com/project/meta-los-lunas-campus/)
+",Meta #confident,2024-07-24
+"5076 S High St, Columbus, OH 43207","TPU v5e,TPU v5p,TPU v6e,TPU v7",https://docs.google.com/spreadsheets/d/17vNqp7jsx3CUwFeUfxIyI3KA0uZ0Bh7BNkrVyH77Ohs/edit?usp=sharing,,United States,331985.85144012125,"TPU v5e,TPU v5p,TPU v6e,TPU v7",303,11.478245999999999,,,Google Columbus,Google #confident,,"- [DCD article detailing early work beginning on the site ](https://www.datacenterdynamics.com/en/news/google-breaks-ground-on-columbus-ohio-data-center/)
+- [Transmission line construction notice; details current site capacity, expansion, and maximum future site capacity ](https://www.aeptransmission.com/ohio/docs/Hartman%20Farms%20Extension%20No.%202%20138%20kV%20Transmission%20Line%20Project%20Construction%20Notice.pdf)
+",Google DeepMind #speculative,2021-10-01
+"1101 Beech Rd SW, New Albany, OH 43054","TPU v5e,TPU v5p,TPU v6e",https://docs.google.com/spreadsheets/d/1b9T05Ze9Kv3Um4C6wv2uVYB0q7KgZ4AQaDPnaoh-ro0/edit?usp=sharing,,United States,323900.9600808489,"TPU v5e,TPU v5p,TPU v6e",333,12.614706,,,Google New Albany,Google #confident,,"- [Draft basis of air permit for Google Omaha, a similar data center](https://drive.google.com/file/d/1KN7o-wQOyt1UEud8wpM8PymXJF479r0n/view?usp=sharing)
+- Google’s [2025 Environmental Report](https://sustainability.google/reports/google-2025-environmental-report/)
+
+",Google DeepMind #speculative,2024-04-20
+,"TPU v6e,TPU v5p",https://docs.google.com/spreadsheets/d/1A_7rJWFKkspUPlYTmyg5JKL18OIzVgwLdhy3YbLs3eQ/edit?usp=sharing,,United States,289540.17180394137,"TPU v6e,TPU v5p",183,6.932405999999999,,,Google Mesa,Google #confident,,"- [DCD article on the site breaking ground](https://www.datacenterdynamics.com/en/news/google-breaks-ground-on-mesa-data-center-campus-in-arizona/)
+- [DCD article on announcement to build Building 2](https://www.datacenterdynamics.com/en/news/google-files-to-build-second-data-center-at-mesa-campus-in-arizona/)
+",,2023-07-01
+"3231 Riverport Rd, Memphis, TN 38109","H100,H200,B200",https://docs.google.com/spreadsheets/d/1aXs4vx7AMrzUIR3YeBvJRAD_rmDiioY9zR95DZdDa_s/edit?usp=sharing,,United States,275795.85649317835,"H100,H200,B200",340,12.87988,MLGW,,Colossus 1,SpaceXAI #confident,,"- [May 2025 Electricity Provider Disclosure](https://drive.google.com/file/d/17WAFThn95X85ebzA_e19R1zYycwFzAl2/view?usp=sharing)
+- [July 2025 Permit for Gas Turbines](https://www.scribd.com/document/883601734/01156-01PC-070225-Permit)
+- [Southern Environmental Law Center Gas Permit Appeal, with additional satellite images](https://cdn.arstechnica.net/wp-content/uploads/2025/07/NAACP-and-YGGs-xAI-Air-Permit-Appeal-7-15-2025.pdf)
+- [Disclosure on X (formerly Twitter) by Elon Musk of the breakdown of GPUs](https://archive.is/oHQSA)
+- [Anthropic announcement](https://www.anthropic.com/news/higher-limits-spacex)
+",Anthropic #confident,2024-04-24
+"10410 Bunge Ave, Council Bluffs, IA 51503","TPU v5e,TPU v6e,TPU v5p,TPU v7",https://docs.google.com/spreadsheets/d/1wIuGUtPoKnZZcFKFmNXy5vQCiBT8RK3S31bIOYlxFmI/edit?usp=sharing,,United States,255684.68923698837,"TPU v5e,TPU v6e,TPU v5p,TPU v7",237,8.978034,,,Google Council Bluffs (East),Google #confident,,"- [Construction permit application form with site address](https://programs.iowadnr.gov/easyair/Public/EnSuite/Shared/Pages/Util/ServerRptViewer.aspx?sr=/IDNR/Reports/EASY/RPT_Construction_Application_A_GEN&SUBMISSION_RID=67330&SUB_FORM_RID=148293)
+- [Construction permit application form with backup generator data](https://programs.iowadnr.gov/easyair/Public/EnSuite/Shared/Pages/Util/ServerRptViewer.aspx?sr=/IDNR/Reports/EASY/RPT_Construction_Application_E_EU&SUBMISSION_RID=67330&SUB_FORM_RID=148297) (believed to be for Building 3)
+",Google DeepMind #speculative,2022-09-06
+"8171 Jim Christal Rd, Denton, TX 76207",B200,https://docs.google.com/spreadsheets/d/1xIG1Y6Rg3s4ShcmUUgwodjgLphcXRLqMqpDcrXh34jQ/edit?usp=sharingsharing,,United States,252652.85497726125,B200,262,9.925084,,,CoreWeave Denton TX,CoreWeave #confident,,"- [Core Scientific - CoreWeave Announce 1.2B expansion in Denton, TX](https://investors.corescientific.com/news-events/press-releases/detail/110/core-scientific-and-coreweave-announce-1-2-billion-expansion-at-denton-tx-site)
+- [Core Scientific - Denton Datacenter Official Site](https://corescientific.com/high-density-data-centers/denton-texas/)
+- [TMF - Core Scientific Q4 2025 Earnings Transcript](https://www.fool.com/earnings/call-transcripts/2026/03/02/core-scientific-corz-q4-2025-earnings-transcript/)
+- [WSJ - plans to rent to OpenAI](https://www.wsj.com/tech/ai/coreweave-stock-market-ai-bubble-a3c8c321)
+",OpenAI #likely,2024-11-01
+"6000 Technology Blvd, Sandston, VA 23150",,https://docs.google.com/spreadsheets/d/1tCoNEu-EK4B261RUWGlDO_341hPs9hnwBtkGO2dDOcA/edit?usp=sharing,,United States,242546.7407781708,,238,9.015915999999999,Dominion Energy,,QTS Richmond 1,,,"- [Richmond 1 factsheet](https://qtsdatacenters.com/data-centers/richmond-1/)
+- [Environmental permit detailing power generation](https://www.deq.virginia.gov/home/showpublisheddocument/25650/638627871515730000)
+",,2023-10-01
+"1772-2396 145th St, Rosemount, MN 55068, USA",B200,https://docs.google.com/spreadsheets/d/11pdqhcJnw3iAwraTho9AW4m7WyBdvTR9sYzK0z5-SC8/edit?usp=sharing,,United States,215675.11520970188,B200,178,6.742996,,,Meta Rosemount,Meta #confident,,"- [Official Meta announcement.](https://datacenters.atmeta.com/2024/03/hello-rosemount/)
+- [Air quality permit for initial buildout.](https://drive.google.com/file/d/1i2D0eMp9uc1CfRhymu69Bms5wz9q0Rkc/view?usp=sharing)
+",Meta #confident,2024-05-30
+"Amazon Data Services Inc, Madison Mega Site Nissan Parkway and Highway 22 Canton, Mississippi Madison County",Trainium2,https://docs.google.com/spreadsheets/d/10asD982gArQ0CQTVo_v331kEx_vDnwhWAusaYo1zsto/edit?usp=sharing,,United States,214348.14354550533,Trainium2,284,10.758488,,,Amazon Madison Mega Site,Amazon #confident,Project Rainier #speculative,"- [Air Construction Permit](https://drive.google.com/file/d/1lhSF8TBA7fNWsN4Onj-nfL7X_-BN573r/view?usp=sharing)
+- [Backup diesel generator referenced in the permit](https://www.cat.com/en_US/products/new/power-systems/electric-power/diesel-generator-sets/117341.html)
+- [New York Times article on Project Rainier](https://www.nytimes.com/2025/06/24/technology/amazon-ai-data-centers.html)
+- [SemiAnalysis article with imagery of Canton they have labeled as being an Amazon-Anthropic collaboration](https://newsletter.semianalysis.com/p/amazons-ai-resurgence-aws-anthropics-multi-gigawatt-trainium-expansion)
+",Anthropic #speculative,2023-10-02
+"13001 Rollins Ford Road, Bristow, VA 20136","TPU v5e,TPU v5p,TPU v6e,TPU v7",https://docs.google.com/spreadsheets/d/1nMKioHt4E_5xu4mVeM7kf1eFoegL4TYoZnWsQlE_hl8/edit?usp=sharing,,United States,209860.53562405254,"TPU v5e,TPU v5p,TPU v6e,TPU v7",238,9.015915999999999,,,Google Bristow,Google,,"[Google Environmental Report](https://sustainability.google/reports/google-2026-environmental-report/)
+",Google DeepMind,2021-07-01
+"14250 W Broadway Rd, Goodyear, AZ 85338","H100,B200",https://docs.google.com/spreadsheets/d/12pVrAs40UMGZwxdJz5lyFlr-CATUwl4Im42BVDvi8-A/edit?usp=sharing,,United States,205154.11824153614,"H100,B200",202,7.652164000000001,,,Microsoft Goodyear,Microsoft #confident,,"- [Maricopa County map](https://gis.maricopa.gov/aqd/recordsviewer/#) showing PHX-10 and PHX-11 buildings owned by Microsoft
+- [Dust control permit](https://edms.maricopa.gov/aq/api/Document/AQizTh7Ek3Odb1UYnAFQc%C3%81Z0k59aCsu4%C3%890gw6xcPqnhTfYtG7scD%C3%89BewWyX4qdzXFk%C3%81xL9%C3%89VthN71ODAxZuKKeU%3D/) for project titled ""MICROSOFT CORPORATION PHX10-11 DATA CENTER OFFSITE IMPROVEMENTS""
+- [SemiAnalysis article](https://newsletter.semianalysis.com/p/microsofts-ai-strategy-deconstructed) that includes similar estimates and associates the data center with OpenAI
+","OpenAI #likely, Microsoft #confident",2021-06-21
+"500 8th St, Jeffersonville, IN 47130, USA",B300,https://docs.google.com/spreadsheets/d/1AlQw55-NjGpM-Ti15amJZY50REI4vcJ4EYwH7mIfglo/edit?usp=sharing,,United States,203132.89540171804,B300,178,6.742996,,,Meta Jeffersonville,Meta #confident,,"- [Official Meta Fact Sheet ](https://datacenters.atmeta.com/wp-content/uploads/2025/02/Meta_s-Jeffersonville-Data-Center.pdf).
+- [Turner Construction contractor presenting their involvement in the project.](https://www.turnerconstruction.com/insights/turner-construction-company-to-build-hyperscale-data-center-for-meta-in-indiana)
+- [Air Quality Permit for initial buildout](https://drive.google.com/file/d/1RpOCS_z32qaWskhhAJL8_QjU9VSz5Eqh/view?usp=sharing)
+
+",Meta #confident,2024-02-01
+"2310 Eberhardt Rd, Temple, TX 76504",B300,https://docs.google.com/spreadsheets/d/1SwdruUu3hHAs6hd0m3SvZY22bGBCO7-9aiLSCiJl6-k/edit?usp=sharing,JE Dunn,United States,202472.98777125112,B300,178,6.742996,,,Meta Temple,Meta #confident,,"- [JE Dunn project page](https://jedunn.com/projects/meta-temple-data-center/) mentioning a 152 MW power capacity
+- [TDLR filing](https://www.tdlr.texas.gov/TABS/Search/Project/TABS2022017728) reporting the start and end date, square footage of Building 1 and 2
+- [TDLR filing](https://www.tdlr.texas.gov/TABS/Search/Project/TABS2026008019) for Building 3
+",Meta #confident,2022-04-01
+13360 Miller Rd NW,"Trainium2,H100,H200,B200",https://docs.google.com/spreadsheets/d/10uynqa40vg0ycoigE2TRah3aUPEDlMCb-n1w-IdN7sQ/edit?usp=sharing,,United States,201111.67256189996,"Trainium2,H100,H200,B200",213,8.068866,,,AWS New Albany,Amazon #confident,,"- [City of New Albany Project Updates](https://newalbanyohio.org/community-development/project-updates/)
+- [New Albany Community Development Report - Dec. 2024](https://newalbanyohio.org/wp-content/uploads/2025/01/CD-2024-12.pdf)
+- [New Albany Community Development Report - Aug. 2025](https://newalbanyohio.org/wp-content/uploads/2025/09/CD-2025-08.pdf)
+- [Article reporting first signing of the project](https://www.wosu.org/politics-government/2023-09-20/new-albany-city-council-approves-tax-break-deal-for-3-5-billion-amazon-data-center-project)
+",,2022-07-01
+"11110 State St, Omaha, NE 68142","TPU v5e,TPU v5p,TPU v6e,TPU v7",https://docs.google.com/spreadsheets/d/1GeUMas99qz2kfy3nhfmVEjPNgDNYfXgOoTiUx1EG_P0/edit?usp=sharing,,United States,198585.14401212733,"TPU v5e,TPU v5p,TPU v6e,TPU v7",237,8.978034,,,Google Omaha,Google #confident,,"- [Draft basis of air permit with details of cooling towers](https://drive.google.com/file/d/1KN7o-wQOyt1UEud8wpM8PymXJF479r0n/view?usp=sharing)
+- Google’s [2025 Environmental Report](https://sustainability.google/reports/google-2025-environmental-report/)
+",Google DeepMind #speculative,2021-11-25
+"5475 Cloud Ct, Lincoln, NE 68514","TPU v6e,TPU v7",https://docs.google.com/spreadsheets/d/10qC79HsjxVN7JeTCz5VzdXaNPzDqknRXNd1D3Jkijnk/edit?usp=sharing,,United States,197574.53259221828,"TPU v6e,TPU v7",141,5.341361999999999,,,Google Lincoln,Google #confident,,"- [Army corps land use application with a useful construction plan diagram, split across 7 phases](https://upload.wikimedia.org/wikipedia/commons/2/25/Application_no-_NWO-2019-00110-WEH_-_USACE-p16021coll15-1525.pdf)
+- [DCD article on the start of site construction](https://www.datacenterdynamics.com/en/news/work-on-data-center-in-lincoln-nebraska-finally-starting/)
+- [Rezoning approval, stating 75 ft building height](https://lnklan.granicus.com/DocumentViewer.php?file=lnklan_bfe1e3023d49404348f26355e113cb22.pdf&view=1)
+",,2023-07-01
+"6030–6070 Technology Blvd, Sandston, VA 23150",,https://docs.google.com/spreadsheets/d/1ABNg-_JXDzzO4bPbXLD7tIZCQNDD-UOkY_0Sktf7bDo/edit?usp=sharing,,United States,182920.66700353715,,180,6.818759999999999,Dominion Energy,,QTS Richmond 2,,,"- [Richmond 2 factsheet](https://qtsdatacenters.com/data-centers/richmond-1/)
+- [Environmental permit detailing power generation](https://www.deq.virginia.gov/home/showpublisheddocument/25650/638627871515730000)
+
+",,2022-04-01
+"3500 River Rd, The Dalles, OR","TPU v6e,TPU v5p,TPU v5e,TPU v7",https://docs.google.com/spreadsheets/d/1QEX9kWixFn14GySGb65aTktC5hn_-wVkCdBzd4HUl1U/edit?usp=sharing,,United States,175341.0813542193,"TPU v6e,TPU v5p,TPU v5e,TPU v7",154,5.8338280000000005,,,Google The Dalles,Google #confident,,"- [Permit confirming this is a data center and the internal square footage](https://static1.squarespace.com/static/5e9a1686f716835e61268f2a/t/63659cb153e00407c9cd0bc9/1667603634454/SPR%2B512-22%2C%2BNOD%2C%2B10-31-22%2B%281%29.pdf)
+- [Google PUE data listing the ""3rd facility"" from Q3 2025](https://datacenters.google/efficiency/)
+",,2023-05-21
+"3525–3543 Portugee Rd, Sandston, VA 23150",,https://docs.google.com/spreadsheets/d/1JNkuiBpWs4M0ToP3DsTZQaevvFEpaW841KQ3PG9JQYE/edit?usp=sharing,,United States,174835.77564426477,,144,5.455007999999999,Dominion Energy,,QTS Richmond 3,,,"- [Richmond 3 factsheet](https://q.com/data-centers/richmond-3/)
+- [Environmental permit detailing power generation](https://www.deq.virginia.gov/home/showpublisheddocument/25650/638627871515730000)
+
+",,2024-04-01
+"Co Rd 42, Montgomery, AL 36105, USA",B300,https://docs.google.com/spreadsheets/d/1gyeamGR5Oifeomj1gHXQqVYTRfGs9PGBq-YD0IGpKK4/edit?gid=2010365208#gid=2010365208,Hensel Phelps,United States,174517.43304699342,B300,153,5.795946,,,Meta Montgomery,Meta #confident,,"- [Meta Introduction to the Montgomery Project](https://datacenters.atmeta.com/2024/05/hello-montgomery/)
+- [Meta expansion announcement](https://datacenters.atmeta.com/2025/09/montgomery-were-growing/)
+- [Contractor announcement](https://www.henselphelps.com/meta-awards-hensel-phelps-montgomery-data-center/)
+
+",Meta #confident,2025-03-01
+"601 Kuna Mora Rd,  Kuna ID 83634",B300,https://docs.google.com/spreadsheets/d/1I4oCviRN5Es3njqhSlm3WD7Hxfitb29eVJEGOaTbiTc/edit?usp=sharing,,United States,173247.67205659422,B300,152,5.758064,Idaho Power Company,,Meta Kuna,Meta #confident,,"- [Official Pamphlet from Meta](https://datacenters.atmeta.com/wp-content/uploads/2025/02/Meta_s-Kuna-Data-Center.pdf)
+- [Application for Power Purchase Agreement, Pleasant Valley Solar 1 ](https://puc.idaho.gov/Fileroom/PublicFiles/ELEC/IPC/IPCE2229/CaseFiles/20221114Application.pdf)
+- [Application for Power Purchase Agreement, Pleasant Valley Solar 2](https://lf-puc.idaho.gov/WebLink/DocView.aspx?dbid=0&id=73294)
+- [Approval to move start date of Solar 2 to May 31, 2026](https://puc.idaho.gov/Fileroom/PublicFiles/ELEC/IPC/IPCE2420/OrdNotc/20240913Final_Order_No_36322.pdf) and [staff comments](https://lf-puc.idaho.gov/WebLink/DocView.aspx?dbid=0&id=135751)
+- [Notice of Application for 3rd PPA (Blacks Creek Energy Center)](https://puc.idaho.gov/Fileroom/PublicFiles/ELEC/IPC/IPCE2442/OrdNotc/20241210Notice_of_Application_Order_No_36419.pdf)
+- [Idaho Statesman: Peak construction reached in March 2025](https://www.idahostatesman.com/news/business/article304464416.html)
+- [Idaho Statesman: Expected water usage reported in 2022](https://www.idahostatesman.com/opinion/from-the-opinion-editor/article259250030.html)
+",Meta #confident,2022-10-03
+"Cheyenne, WY 82007, USA",B300,https://docs.google.com/spreadsheets/d/12-VqZMagtKT_6aSSlHXIg22E6iWwVWU5FJ4yZurQtro/edit?gid=2010365208#gid=2010365208,,United States,172814.5528044467,B300,152,5.758064,,,Meta Cheyenne,Meta #confident,,"- [Meta Introduction to the Cheyenne Project](https://datacenters.atmeta.com/2024/07/hello-cheyenne/)
+- [Fortis Construction announcement](https://fortisconstruction.com/news/fortis-building-metas-cheyenne-campus/)
+- [Press announcement suggesting a 2027 operational date](https://cheyenneleads.org/meta-announces-new-data-center-a-major-investment-in-cheyenne-wyoming/)
+
+",Meta #confident,2024-05-15
+"1626 County Line Road Ridgeland, Mississippi","Trainium2,Trainium3",https://docs.google.com/spreadsheets/d/1WWWmkFubzXYb2RY9PZsF4BtrpmbmdcSJtVTw1kcJxVs/edit?usp=sharing,,United States,171298.6356745831,Trainium2,228,8.637096,Entergy,,Amazon Ridgeland,Amazon #confident,Project Rainier #speculative,"- [Air Construction Permit](https://drive.google.com/file/d/1dQ5Pxl7rQAHLvHoTYrpOX32WAolo46d7/view?usp=sharing)
+- [Permit review document](https://drive.google.com/file/d/1myQ6BYqqzcfsWwv41tufHobvA8T3qo_d/view?usp=sharing)
+- [Backup diesel generator referenced in the permit](https://www.cat.com/en_US/products/new/power-systems/electric-power/diesel-generator-sets/117341.html)
+- [New York Times article on Project Rainier](https://www.nytimes.com/2025/06/24/technology/amazon-ai-data-centers.html)
+",Anthropic #speculative,2024-02-24
+"5400 Prosperity Dr NW, Toney, AL",B300,https://docs.google.com/spreadsheets/d/1Rk-yikcpmRBm2V9iwBTdad2IILaZEODw1Xzk66GYEJk/edit?gid=2010365208#gid=2010365208,,United States,166760.9903991915,B300,146,5.530772,"Tennessee Valley Authority,NextEra Energy Resources,First Solar",,Meta Huntsville,Meta #confident,,"- [Announcement of expansion completing in 2026 ](https://plateauexcavation.com/projects/huntsville-meta-data-center-meta-project-ferris/)
+- [TVA solar installation announcements](https://www.prnewswire.com/news-releases/tva-announces-largest-valley-solar-installations--built-for-facebook-300743255.html)
+",Meta #confident,2021-12-13
+"984 County Road 112, Afton, TX 79220",B200,https://docs.google.com/spreadsheets/d/1qcYPDCBHZOg0EKGpK7Ru4-cGd8Y8BkXAxf2W3umOwmo/edit?usp=sharing,,United States,159551.768236855,B200,132,5.000424000000001,,,Coreweave Helios,CoreWeave #confident,,"- [Galaxy Q3 financial results with power capacity timeline](https://investor.galaxy.com/news/news-details/2025/Galaxy-Announces-Third-Quarter-2025-Financial-Results/default.aspx)
+- [Permit review with details on backup generators and power capacity](https://records.tceq.texas.gov/cs/idcplg?IdcService=TCEQ_EXTERNAL_SEARCH_GET_FILE&dID=8711478&Rendition=Web#:~:text=Galaxy%20Helios%20I%20LLC%20owns,are%20the%20basis%20of%20the)
+- [3D renderings of Helios Building 1 on Galaxy's website, showing generators and chillers](https://www.galaxy.com/data-centers)
+- [TDLR record with Building 1 construction costs and end date](https://www.tdlr.texas.gov/TABS/Search/Project/TABS2025012175)
+",OpenAI #speculative,2025-05-31
+"5855 SW Kerry St, Cumming, IA 50061","A100,H100,B200",https://docs.google.com/spreadsheets/d/1GxpxdT_2dcvnvdmi2dybQfiwb0-XhzWf65i3QVI0FEA/edit?usp=sharing,,United States,155634.15866599293,"A100,H100,B200",190,7.19758,,,Microsoft Project Osmium,Microsoft #confident,,"- [SemiAnalysis article with IT power estimations and detailing usage by OpenAI for training GPT 3.5](https://newsletter.semianalysis.com/p/microsofts-ai-strategy-deconstructed)
+- [DCD Article on site expansion](https://www.datacenterdynamics.com/en/news/microsoft-granted-permit-for-new-data-center-in-des-moines-iowa/)
+- [MISO Announcement reporting power for newest buildings, likely an overestimate](https://cdn.misoenergy.org/NEW%20LOAD%20ANNOUNCEMENTS%20IN%20MISO%20REGIONS%2012062024684954.pdf)
+- [Microsoft article on data centers in Iowa used by OpenAI](https://news.microsoft.com/source/features/ai/west-des-moines-iowa-ai-supercomputer/?msockid=23bbdd21a02166402e27c929a1a567ce)
+",OpenAI #speculative,2018-12-18
+"1275 N Community Cir, Eagle Mountain, UT 84005",B300,https://docs.google.com/spreadsheets/d/1mVv_XB56SrZcy2jAwoG6lzgeXQHp0G3adhIaChbNh4E/edit?usp=sharing,Mortenson,United States,151354.21930267813,B300,133,5.038306,Williams,,Meta Eagle Mountain,Meta #confident,,"- [Expansion announcement by Meta ](https://www.facebook.com/EagleMountainDataCenter/posts/517902967007646)
+- [Report on Williams Company gas-fired plant under construction adjacent to data cente](https://ukozvhzgrcnkcatjqfoo.supabase.co/storage/v1/object/public/03-00-air-construction/2026.02.05_Eagle%20Mountain%20Power%20Plant_Application_32a5238b.pdf)r
+
+",Meta #confident,2023-10-01
+"3250 Railport Parkway, Midlothian, TX 76065","TPU v7,TPU v6e",https://docs.google.com/spreadsheets/d/13T5HLjkSCBKhOwSaOnxUcGqeSdfSF67ZSMVltEGywFM/edit?usp=sharing,,United States,143580.85118746842,"TPU v7,TPU v6e",103,3.901846,,,Google Midlothian,Google #confident,,"- [Site Map and Permit](https://ecode360.com/MI6405/laws/LF1665983.pdf)
+- [City Council Presentation](https://archive-stream.granicus.com/OnDemand/_definst_/mp4:swagitVideo/midlothiantx/eefcd9e0-4c12-41ba-986a-165a20124c72.mp4/playlist.m3u8)
+",,2023-11-28
+,"TPU v5e,TPU v4,TPU v6e,TPU v5p",https://docs.google.com/spreadsheets/d/1LrjkAu7XNz9VjMLjKm9rZyhaFAwDQfJUpeC1XKE2JR8/edit?usp=sharing,,United States,133906.01313794847,"TPU v5e,TPU v4,TPU v6e,TPU v5p",161,6.0990020000000005,,,Google Storey County,Google #confident,,"- [Air quality permit application listing emergency generators and a small ""R&D"" fuel cell plant](https://ndep-onbase.nv.gov/api/Document/AeFo%C3%89pjclbkomJ7CWpPryLOjA6FQT9HFrkSuMWbMXTpKCzSR%C3%81W1f8zzFhGhik1iZCcNSpuTRRqNXD1inrrpBxtA%3D/) (via [Aterio](https://www.aterio.io/))
+- [Google data center page](https://datacenters.google/locations/storey-county-nevada/)
+",Google DeepMind #speculative,2023-08-30
+"105 Whiley Rd, Lancaster, OH 43130","TPU v5e,TPU v6e",https://docs.google.com/spreadsheets/d/1idRHPUAUAVqBbAT4GNXj-2JtVA_kM89GwZkLifLNj3E/edit?usp=sharing,,United States,130368.8731682668,"TPU v5e,TPU v6e",137,5.189834,,,Google Lancaster,Google #confident,,"- [DCD article discussing the announcement of this site](https://www.datacenterdynamics.com/en/news/google-to-build-two-more-data-centers-in-columbus-ohio/)
+",,2021-10-01
+"4755 NE Huffman St, Hillsboro, OR 97124",H100,https://docs.google.com/spreadsheets/d/1IDIlQvAa0AMeV0xAT0592dV1cV8Ptj1B4Kzyefna1fg/edit?usp=sharing,,United States,123839,H100,180,6.818759999999999,"Portland General Electric,Avangrid",,Meta-QTS Hillsboro 2,Meta #likely,,"- [QTS Hillsboro 2 data center announcement](https://q.com/data-centers/hillsboro-2/)
+- [QTS and Meta sign an agreement with PGE for a 120MWac solar installation](https://q.com/news/avangrid-and-portland-general-electric-collaborate-with-qts-and-meta-to-build-120-mwac-solar-project-in-oregon/)
+",Meta #likely,2021-04-01
+"42575 Arcola Blvd, Sterling, VA 20166","TPU v6e,TPU v7",https://docs.google.com/spreadsheets/d/1XNyE95_WdfMangRolxlJQugH_aFGxDyZFHzqAOelLD4/edit?usp=sharing,,United States,108135.42193026781,"TPU v6e,TPU v7",77,2.9169140000000002,,,Google Arcola,Google #confident,,"- [Google Investing $1B To Improve Northern Virginia Data Centers (via Aterio)](https://www.bisnow.com/national/news/data-center/google-investing-1b-to-improve-northern-virginia-data-centers-124025)
+",,2024-10-01
+"330 Austin Blvd, Red Oak, TX 75154",TPU v6e,https://docs.google.com/spreadsheets/d/1qxeBYFdHeNePrvSQdGmO608SBGSLgW6Hrtf_HxcgNfw/edit?usp=sharing,,United States,108135.42193026781,TPU v6e,77,2.9169140000000002,,,Google Red Oak,Google #confident,,"- [Media coverage confirming location, project name, investment size, and some timing](https://www.mysanantonio.com/business/article/google-texas-data-center-21236627.php)
+- [Google PUE data listing the Red Oak site from Q1 2026](https://datacenters.google/efficiency/)
+",,2023-04-30
+"14651-15249 Gold Coast Rd 68138 Papillion Nebraska, USA","TPU v4,TPU v5e,TPU v5p",https://docs.google.com/spreadsheets/d/1OKS1FDYBSSB5oVkWYW_gDcZ3Za1UZfR_vK4l3lT8AP4/edit?usp=sharing,,United States,100555.83628094998,"TPU v4,TPU v5e,TPU v5p",237,8.978034,,Google,Google Papillion,Google #confident,,"- [Draft basis of air permit with details of cooling towers](https://drive.google.com/file/d/1nONzuLnpMPST0bOINDKXmSZ0ANlynYY0/view?usp=sharing)
+- Google’s [2025 Environmental Report](https://sustainability.google/reports/google-2025-environmental-report/) Page 109.
+
+
+",Google DeepMind #speculative,2020-03-04
+"9685 87th Ave SE, Ellendale, ND 58436",B200,https://docs.google.com/spreadsheets/d/1a572c9bP48XuHQ3R_GFdrYa17MmkoK8IT7-FOrxRgDw/edit?usp=sharing,,United States,93481.55634158666,B200,68,2.5759760000000003,,,CoreWeave Ellendale ND,CoreWeave #confident,,"- [Applied Digital Announces 250MW AI Data Center Lease With CoreWeave](https://ir.applieddigital.com/news-events/press-releases/detail/123/applied-digital-announces-250mw-ai-data-center-lease-with)
+- [SEC 8k Filing with Applied Digital](https://ir.applieddigital.com/sec-filings/all-sec-filings/content/0001641172-25-013199/form8-k.htm)
+- [Applied Digital Delivers Second Building at Polaris Forge 1](https://ir.applieddigital.com/news-events/press-releases/detail/157/applied-digital-delivers-second-building-at-polaris-forge-1)
+",OpenAI #speculative,2023-10-31
+"14436-14998 Fairview Rd, Springfield, NE 68059, USA",B300,https://docs.google.com/spreadsheets/d/1iFwArbo-x0WDxO3mfvZBopGZsd4EvA9HDfjxXKyfy5g/edit?gid=2010365208#gid=2010365208,,United States,91965.63921172309,B300,80,3.03056,,,Meta Sarpy,Meta #confident,,"- [Meta Sarpy info sheet (PDF)](https://datacenters.atmeta.com/asset/sarpy-data-center-info-sheet/)
+
+
+",Meta #confident,2024-08-01
+"1401 Meadowville Technology Parkway, Chester, VA","H100,B200",https://docs.google.com/spreadsheets/d/1d6BKTzXUVmUCBOjAv2WR8GOHKXodNaD0vrDpE6Zmvms/edit?usp=sharing,,United States,88428.49924204143,"H100,B200",82,3.106324,,,CoreWeave Chester VA,CoreWeave #confident,,"- [Chirisa secures $200 million loan to fit out VA Data center for CoreWeave](https://www.datacenterdynamics.com/en/news/chirisa-secures-200-million-loan-to-fit-out-virginia-data-center-for-coreweave/)
+- [Blue Owl-led JV secures $750m to build out data centers for CoreWeave](https://www.datacenterdynamics.com/en/news/blue-owl-led-jv-secures-750m-to-build-out-data-centers-for-coreweave/)
+- [Chirisa offers former Capital One data center in Virginia to hyperscalers](https://www.datacenterdynamics.com/en/news/chirisa-offers-former-capital-one-data-center-in-virginia-to-hyperscalers/)
+",OpenAI #speculative,2023-09-18
+"1125 Electron Ave, Berwick, PA 18603","Trainium2,Trainium3",https://docs.google.com/spreadsheets/d/1InmGZk_dfT4oFdHmD5jVt2Q--H1wgeT8lMmx-qqmwFI/edit?usp=sharing,,United States,81354.21930267812,Trainium2,108,4.091256,,,AWS Berwick,Amazon #confident,Project Rainier #speculative,"- [NYT reporting that one of the Project Rainier sites may be in Pennsylvania](https://www.nytimes.com/2025/06/24/technology/amazon-ai-data-centers.html)
+- [Talen SEC filing detailing the $650M sale of the Cumulus data center campus to AWS](https://www.sec.gov/Archives/edgar/data/1622536/000162828024036935/tln-20240630.htm)
+- [Pennsylvania PUC filing describing the planned 16-building AWS data center development](https://www.puc.pa.gov/pcdocs/1861638.pdf)
+- [SRBC filing covering AWS campus expansion and water-use plans](https://www.srbc.gov/about/news/docs/2025-159-final-public-comment-responses-20260128.pdf) 
+",Anthropic #speculative,2021-07-01
+"155 Palmer Ln, Marble, NC 28905",B200,https://docs.google.com/spreadsheets/d/1_8yOR7DUXGIDghGwUSlVuqiFhbfA40iaxr9HyvslST8/edit?usp=sharing,,United States,78827.6907529055,B200,65,2.46233,,,CoreWeave Marble NC,CoreWeave #confident,,"- [Core Scientific - Q1 2026 Fiscal Earnings Call](https://investors.corescientific.com/sec-filings/all-sec-filings/content/0001628280-26-031246/q1fy26earningsdeck.htm)
+- [Core Scientific - Official Marble, NC Datacenter page](https://corescientific.com/high-density-data-centers/marble-nc/)
+- [Core Scientific - Q1 2025 Earnings Presentation](https://investors.corescientific.com/sec-filings/all-sec-filings/content/0001628280-25-023161/exhibit992-q12025earning.htm)
+- [Core Scientific - June 2024 Investor and Analyst Day](https://www.sec.gov/Archives/edgar/data/1839341/000162828024027821/corescientificinvestorda.htm)
+",OpenAI #speculative,2024-06-25
+"7601 State Hwy 105, Trenton, SC 29847, USA",B300,https://docs.google.com/spreadsheets/d/1AoK8Ky5mZJ_hhsFx16S1ugapGMrlIIcMVWYSWqkJmkU/edit?gid=2010365208#gid=2010365208,,United States,78322.38504295099,B300,69,2.613858,,,Meta Aiken,Meta #confident,,"- [Meta Introduction to the Aiken Project](https://datacenters.atmeta.com/2024/08/hello-south-carolina/)
+- [DPR Construction project page](https://www.dpr.com/projects/meta-aiken-data-center-aiken-sc)
+
+",Meta #confident,2024-05-30
+"7725 Lake Rd, Barker, NY 14012",B200,https://docs.google.com/spreadsheets/d/11RE1IAiuyFAcPcYMPMG4-ev3C13N84c5fq4TY8JK6wY/edit?usp=sharing,,United States,71753.4108135422,B200,58,2.197156,,Google,Core42 Lake Mariner,Core42 #confident,,"- [Terawulf press release with details of Core42 lease for Buildings 1-2](https://investors.terawulf.com/news-events/press-releases/detail/99/terawulf-to-deliver-over-70-mw-of-data-center)
+- [Terawulf press release with details and timeline for Buildings 1-5](https://investors.terawulf.com/news-events/press-releases/detail/132/terawulf-reports-fourth-quarter-and-full-year-2025-results)
+- [DCD article suggesting that Fluidstack will deploy Google TPUs at Lake Mariner](https://www.datacenterdynamics.com/en/news/google-offers-its-tpus-to-ai-cloud-providers-report/)
+- [Announcement of Anthropic-Fluidstack partnership, including data center(s) in New York](https://www.anthropic.com/news/anthropic-invests-50-billion-in-american-ai-infrastructure)
+",G42 #likely,2024-10-01
+"15000 Lambda Drive, San Antonio, TX 78245","H100,B300",https://docs.google.com/spreadsheets/d/1wtryXxH9tEtc3gatXW1GmwtJzZB3uKkSD0Pw-RJBZnY/edit?usp=sharing,,United States,64679.13087417888,"H100,B300",75,2.84115,,,Microsoft SAT40,Microsoft #confident,,"- [TDLR for SAT40 (Building 2)](https://www.tdlr.texas.gov/TABS/Search/Project/TABS2023013247)
+- [TDLR for a set of three long buildings, which includes the first building we believe is for AI (Building 1)](https://www.tdlr.texas.gov/TABS/Search/Project/EABPRJB8824650)
+",,2018-12-28
+"9590 Hornbaker Rd, Manassas, VA 20109",H100,https://docs.google.com/spreadsheets/d/1VaMTR_IA8V30N7aa47QXt1VVLog_-LzLWSrGuFIGF8c/edit?usp=sharing,,United States,61141.99090449722,H100,85,3.21997,,,STACK Infrastructure NVA02,,,"- [Official website for NVA02, showcasing their project.](https://www.stackinfra.com/locations/americas/northern-virginia/nva02/)
+- [Most recent official schematic of the NVA02 campus.](https://www.stackinfra.com/about/news-press/press-releases/stack-infrastructure-expands-northern-virginia-data-center-campus/)
+- [Air quality permit from the state of Virginia.](https://www.deq.virginia.gov/home/showpublisheddocument/25966/638633868679100000)
+
+",,2019-10-19
+"7725 Lake Rd, Barker, NY 14012",TPU v7,https://docs.google.com/spreadsheets/d/1MrE3TlzhV8IPcb0uPixkfec3txcHt0iLTXhKjeFPsSU/edit?usp=sharing,,United States,58564.93178372915,TPU v7,42,1.5910440000000001,,"Google,Blackstone",Anthropic Lake Mariner,AI XPV Platform #confident,,"- [Terawulf press release with details and timeline for Buildings 1-5](https://investors.terawulf.com/news-events/press-releases/detail/132/terawulf-reports-fourth-quarter-and-full-year-2025-results)
+- [DCD article suggesting that Fluidstack will deploy Google TPUs at Lake Mariner](https://www.datacenterdynamics.com/en/news/google-offers-its-tpus-to-ai-cloud-providers-report/)
+- [Announcement of Anthropic-Fluidstack partnership, including data center(s) in New York](https://www.anthropic.com/news/anthropic-invests-50-billion-in-american-ai-infrastructure)
+",Anthropic #likely,2025-06-11
+"3963 S Lincoln Ave, Vineland, New Jersey",B300,https://docs.google.com/spreadsheets/d/1-x8TTkzOemQ4hI61I5tuHgatFUSI0e5F3RAw8uufooI/edit,,United States,56846.89236988378,B300,50,1.8941,,,Microsoft-Nebius New Jersey,Nebius #confident,,"- [Nebius: up to 300 MW capacity at new New Jersey data center](https://nebius.com/newsroom/nebius-accelerates-us-expansion-adding-up-to-300-mw-capacity-at-new-data-center-in-new-jersey)
+- [DataOne and Nebius partner for 300 MW AI data center (Data Centre Magazine)](https://datacentremagazine.com/articles/dataone-and-nebius-partner-for-new-300mw-ai-data-centre)
+- [Microsoft secures 100,000 NVIDIA GB300 via Nebius deal (Tom's Hardware)](https://www.tomshardware.com/tech-industry/artificial-intelligence/microsoft-inks-usd33-billion-in-deals-with-neoclouds-like-nebius-coreweave-nebius-deal-alone-secures-100-000-nvidia-gb300-chips-for-internal-use)
+- [DataOne CEO on first 50 MW delivery to Nebius (LinkedIn)](https://www.linkedin.com/feed/update/urn:li:activity:7367650153555591168/)
+- [Large data center nears completion in Vineland (Cape May County Herald)](https://capemaycountyherald.com/article/large-data-center-nears-completion-in-vineland/)
+- [SemiAnalysis: Stop Saying Half of 2026 US Datacenter Capacity Is Canceled](https://newsletter.semianalysis.com/p/stop-saying-half-of-2026-us-datacenter)
+",Microsoft #likely,2024-05-31
+2950 S. Litchfield Road,H100,https://docs.google.com/spreadsheets/d/1SC63z3YKLbCg9XNmo2uIcuGxife8xhHqYTc_IyEuzk0/edit?usp=drive_link,,United States,46134.4113188479,H100,64,2.424448,,,Stream Phoenix,,,"- [Official page for the data center.](https://www.streamdatacenters.com/locations/phoenix/)
+- [Official pre-construction planning document.](https://www.streamdatacenters.com/wp-content/uploads/2026/01/SDC-Goodyear-CaseStudy-251218.pdf)
+",,2022-10-30
+"3545 Wiseman Boulevard, San Antonio, TX 78251","H100,B300",https://docs.google.com/spreadsheets/d/1IqbFMekinpl1wfte8Nav6nUJMdeOq7tCHsRR7X8zV14/edit?usp=sharing,,United States,45174.33046993431,"H100,B300",47,1.7804540000000002,,,Microsoft SAT14,Microsoft #confident,,"- [Phase 1 TDLR](https://www.tdlr.texas.gov/TABS/Search/Project/TABS2021019142)
+- [Phase 2 TDLR](https://www.tdlr.texas.gov/TABS/Search/Project/TABS2021019471)
+- [Phase 3 TDLR](https://www.tdlr.texas.gov/TABS/Search/Project/TABS2021019588)
+- [Phase 4 TDLR](https://www.tdlr.texas.gov/TABS/Search/Project/TABS2021019686)
+",,2022-02-18
+"14720 Omicron Dr, San Antonio, TX 78245",B200,https://docs.google.com/spreadsheets/d/1PA0eDftvbL8OQPbFyoGGPzBK_j1xEtYcZqs-cGOreVE/edit?usp=drivesdk,,United States,38706.417382516425,B200,32,1.212224,,,Vantage TX1,,,"- [Construction Permitting for TX11](https://www.tdlr.texas.gov/TABS/Search/Project/TABS2024007561)
+- [Construction Permitting for TX12](https://www.tdlr.texas.gov/TABS/Search/Project/TABS2026001234)
+- [Air quality permitting that references TX13](https://drive.google.com/file/d/1rbF-RT5Sq-iZ26hK5cKzbM2K4Vq2vObY/view?usp=sharing)
+",,2023-12-15
+"2205 Industrial South Rd, Dalton, GA, 30721",B300,https://docs.google.com/spreadsheets/d/1IYUyvV2o1NHNCtyCSMWNxZClDcz2ZoCg9nwoYcLIib0/edit?usp=sharing,,United States,32238.504295098533,B300,28,1.060696,,,CoreWeave Dalton 1 & 2,CoreWeave #confident,,"- [Core Scientific page](https://corescientific.com/high-density-data-centers/dalton-ga-dnn1-2/)
+- [SEC filing with power utility information](https://investors.corescientific.com/sec-filings/all-sec-filings/content/0001140361-25-039864/0001140361-25-039864.pdf)
+- [DCD article](https://www.datacenterdynamics.com/en/news/core-scientific-plans-new-ai-data-centers-in-dalton-georgia/)
+- [Core Scientific presentation](https://www.sec.gov/Archives/edgar/data/1839341/000162828024027821/corescientificinvestorda.htm)
+
+",OpenAI #speculative,2024-06-03
+"1025 Jefferson Street NW, Atlanta, GA 30318","H100,A100",https://docs.google.com/spreadsheets/d/1i9MM0gKZOoc4UXpuMBHhy2qu_y64TlXeD8JUpgiLaWE/edit,,United States,11470.43961596766,"H100,A100",17.32971,0.6564840742199999,,,xAI QTS Atlanta,SpaceXAI #confident,,"- [Develop Fulton bond fact sheet: X Corp Generative AI Equipment Project (Jan 23, 2024)](https://www.developfultoncounty.com/meetings-and-minutes_239_547601452.pdf)
+- [Business Insider: Elon Musk's new Atlanta data center for xAI has $700 million in AI equipment](https://www.businessinsider.com/xai-elon-musk-x-new-atlanta-data-center-2025-2)
+- [Fortune: Elon Musk's xAI is sharing X's equipment at its Atlanta data center (Jan 24, 2025)](https://fortune.com/2025/01/24/elon-musk-xai-sharing-x-equipment-gpus-datacenter-georgia-tax-breaks-documents/)
+",SpaceXAI #confident,2024-01-23
+,TPU v7,https://docs.google.com/spreadsheets/d/1sGialfBa0kKKX7Vm8qL_R6Ce3PSzt7NawpAnWolnTVc/edit,,United States,0,,0,0,,,Anthropic Barber Lake,Cipher Mining #confident,,"- [Cipher signs 168 MW AI hosting deal with Fluidstack, Google backs it (Sep 2025)](https://www.globenewswire.com/news-release/2025/09/25/3156107/0/en/Cipher-Mining-Signs-168-MW-10-Year-AI-Hosting-Agreement-with-Fluidstack.html)
+- [Cipher adds 56 MW gross to reach 300 MW at Barber Lake (Nov 2025)](https://www.globenewswire.com/news-release/2025/11/20/3191801/0/en/Cipher-Mining-Signs-Additional-56-MW-10-Year-AI-Hosting-Agreement-with-Fluidstack.html)
+- [Cipher 8-K exhibit: 207 MW total critical IT load (SEC, Nov 2025)](https://www.sec.gov/Archives/edgar/data/1819989/000095010325015073/dp237633_ex9901.htm)
+- [Anthropic to expand use of Google Cloud TPUs (Oct 2025)](https://www.googlecloudpresscorner.com/2025-10-23-Anthropic-to-Expand-Use-of-Google-Cloud-TPUs-and-Services)
+- [Anthropic $50B US AI infrastructure with Fluidstack (Nov 2025)](https://www.anthropic.com/news/anthropic-invests-50-billion-in-american-ai-infrastructure)
+- [DCD: Cipher secures Fluidstack as customer, Google as investor](https://www.datacenterdynamics.com/en/news/cipher-mining-secures-fluidstack-as-a-customer-and-google-as-an-investor/)
+- [Air quality permit listing 60 x 3 MW plus 60 x 3.1MW backup generators](https://drive.google.com/file/d/1hzNlH8549ppuCwvKfMo--3PsD-hYBJDa/view?usp=sharing)
+",Anthropic #confident,2025-09-18
+"216 Greenfield Rd, Lancaster, PA 
+",Rubin,https://docs.google.com/spreadsheets/d/1eg37hTqVXt4hHVHSgpc1Z95W8uDgpGW9j9IbrmNbJsM/edit?usp=sharing,,United States,0,,0,0,,Blue Owl Capital,CoreWeave Lancaster Greenfield site,CoreWeave #confident,,"- [CoreWeave announces plans to spend $6 billion on Lancaster data centers](https://investors.coreweave.com/news/news-details/2025/CoreWeave-Announces-Multi-Billion-Dollar-Commitment-to-AI-Infrastructure-in-Pennsylvania/default.aspx)
+- [Machine Investment Group purchases two former printing press sites in Lancaster, Pennsylvania](https://www.datacenterdynamics.com/en/news/machine-investment-acquires-two-printing-press-sites-in-pennsylvania-plans-data-center-redevelopment/?utm_source=datacentermap.com)
+",OpenAI #speculative,2025-07-15
+"1525 W 43rd St S, Muskogee, OK 74401, USA",B300,https://docs.google.com/spreadsheets/d/14s8DmbRuWQQsfaZ7E7pj4XoOq-3RrXiDNn6p0dbZ8nc/edit?usp=sharing,,United States,0,,0,0,,,CoreWeave Muskogee OK,CoreWeave #confident,,"- [Core Scientific ground breaking announcement](https://investors.corescientific.com/news-events/press-releases/detail/99/core-scientific-and-port-muskogee-break-ground-on-100-mw-hpc-data-center)
+- [Port Muskogee ground breaking announcement](https://www.portmuskogee.com/core-scientific-and-port-muskogee-break-ground-on-100-mw-hpc-data-center/)
+- [Air quality permit application](https://applications.deq.ok.gov/permitspublic/storedpermits/9138.pdf)
+",OpenAI #speculative,2024-11-18
+"5502 Spinks Rd, Abilene, TX 79601",Rubin,https://docs.google.com/spreadsheets/d/1FpTJoXhLRzKTX8S3kSnPlT8V66ad_htJPuvaYPiHAsE/edit?usp=sharing,,United States,0,,0,0,,NVIDIA,Crusoe Abilene Expansion,Microsoft #confident,,"- [Bloomberg reporting that Oracle and OpenAI pulled out of expanding to these buildings, NVIDIA and Meta might replace them](https://www.bloomberg.com/news/articles/2026-03-06/oracle-and-openai-end-plans-to-expand-flagship-data-center)
+- [Air Permit Application for the buildings, featuring blueprints on p.391](https://www.tceq.texas.gov/assets/public/permitting/air/reports/applications/400428-ac.pdf) (via [Aterio](https://www.aterio.io/blog/stargate-files-for-phase-3-expansion-in-abilene))
+- [Partnership Announcement with Microsoft](https://x.com/mustafasuleyman/status/2037547756320141587)
+
+",Microsoft #likely,2025-11-02
+"10001 Lima Rd, Claude, TX 79019","B300,Rubin",https://docs.google.com/spreadsheets/d/1NE3R883YwdkSNVCbVJfy5nMCDy99eNA1wRdwikcJYWk/edit?usp=sharing,"Crusoe,Hoffman",United States,0,,0,0,Serena,,Goodnight,Google #speculative,,"- [Amended tax abatement agreement, with updated blueprints on p.46](https://www.co.armstrong.tx.us/upload/page/5361/Amended_Restated_Consolidated%20Second%20Property%20Tax%20Abatement%20Agreement%20%20GNDC1_ArmstrongCounty.pdf)
+- [Original tax abatement agreement, with original blueprints and specs on the last page](https://drive.google.com/file/d/1ky5HhuhU8_JADNB2GziWa4WDRbTU4qtO/view?usp=sharing)
+- [TABS database, with ""Llano"" data centers in the city of Claude](https://www.tdlr.texas.gov/TABS/Search/)
+- [Press release reports Google investing in a new data center in Armstrong County](https://www.reuters.com/business/google-invest-40-billion-new-data-centers-texas-bloomberg-news-reports-2025-11-14/)
+- [Clean Air Act Initial Prevention of Significant Deterioration permit application.](https://drive.google.com/file/d/1sI8t1MzjDTAEnn-yY4zv3SiiTCpruzSQ/view?usp=drive_link)
+",Google DeepMind #speculative,2025-05-19
+"5800 EDGEWOOD RD SW CEDAR RAPIDS, IA 52404",,https://docs.google.com/spreadsheets/d/1-ywhMnHBDsTCosaOfKibppdxI1n6GzqU1UL-v5Z1sVs/edit?usp=sharing,,United States,0,,0,0,,,Google Cedar Rapids,Google #confident,,"- [MISO new load announcements](https://cdn.misoenergy.org/NEW%20LOAD%20ANNOUNCEMENTS%20IN%20MISO%20REGIONS%2012062024684954.pdf), featuring 600 MW for Google in Cedar Rapids
+- [Permit application](https://www.govonlinesaas.com/LCPH/EasyAir/Public/EnSuite/Shared/Pages/util/StreamDoc.ashx?id=260&type=attachment) detailing the number of buildings, cooling towers, and backup generators.
+",Google DeepMind #speculative,2024-06-14
+"6015 Adams Center Road, Fort Wayne, IN 46806",,https://docs.google.com/spreadsheets/d/1a3GgdEIeJqMwhqrfreQlnJM4GERZukdtP5QFg4xTtNo/edit?usp=sharing,,United States,0,,0,0,,Google,Google Fort Wayne,Google #confident,,"- [Google's plans for wetlands in Fort Wayne](https://www.thelocalfw.com/what-to-know-about-googles-plans-for-wetlands-in-fort-wayne/)
+- [Data center's diesel generators](https://www.thelocalfw.com/data-center-diesel-generators/)
+- [Project's history and tax abatement](https://www.thelocalfw.com/data-centers-secrecy-and-tax-abatements/)
+- [City Council approval](https://citycouncildocuments.acfw.net/documents/download/2023-12-19/R-23-12-02.pdf)
+",Google DeepMind #speculative,2024-04-01
+,"TPU v6e,TPU v7",https://docs.google.com/spreadsheets/d/12x1HahypL5ZlDEbpMrF9ZWB95DSWXztFLL6AwkvU408/edit?usp=sharing,,United States,0,"TPU v6e,TPU v7",0,0,,,Google Kansas City East,Google #confident,,"- [Hunt Midwest Business Center press release linking data center with Google](https://huntmidwest.com/2024/03/google-announces-1-billion-data-center-at-hunt-midwest-business-center/)
+- [DCD article on the site](https://www.datacenterdynamics.com/en/news/google-files-project-plan-for-data-center-in-kansas-city-missouri/)
+",,2024-01-01
+"12356 Middleton Pike, Bowling Green, OH 43402","B300,Rubin",https://docs.google.com/spreadsheets/d/1DH2kCU99fLYUj28VDjHWoGbx3IahwltzXqcbBEa-pOc/edit?gid=2010365208#gid=2010365208,,United States,0,,0,0,Williams,,Meta Bowling Green,Meta #confident,,"- [Meta letter to Middleton Township](https://drive.google.com/drive/folders/12Cz7AlZt4fJfWevNAWTfq8IyLfNHpajz)
+- [Construction notice for new transmission lines to data center substation](https://drive.google.com/file/d/1YBuaFsslxCAZxlJtSI0rXfNsFqddwaHN/view?usp=sharing)
+- [Ohio Power Siting Board announcement](https://archive.ph/lqgZw)
+- [Apollo Power Generation Project Letter of Notice Appendix A, with a project timeline](https://drive.google.com/file/d/1L154XKyiHqRzeZj36zqMRkjdG7QIFL41/view?usp=drive_link)
+",Meta #confident,2024-11-01
+"1 Meta Lp, Gallatin, TN 37066",B300,https://docs.google.com/spreadsheets/d/11d5_1ctrhEaeCqinR2l_YwvltGLDpMRm4_lcfS5bfV0/edit?usp=drive_link,,United States,0,B300,0,0,,,Meta Gallatin,Meta #confident,,"- [Meta fact sheet](https://datacenters.atmeta.com/wp-content/uploads/2025/02/Meta_s-Gallatin-Data-Center.pdf)
+- [Campus extension announcement](https://www.gallatingetsit.com/newsroom/meta-approved-for-another-data-center-on-gallatin-campus)
+",Meta #confident,2023-09-11
+"Holly Ridge, LA 71269",Rubin,https://docs.google.com/spreadsheets/d/1cyXcZ_jIsJDjuPKx6_J1scIWeq0-rfM3-2GcSKN4oA0/edit?usp=sharing,Mortenson,United States,0,,0,0,Entergy,,Meta Hyperion,Meta #confident,Hyperion #confident,"- [Data center profile by Meta](https://datacenters.atmeta.com/richland-parish-data-center/)
+- [Entergy's application for generation and transmission resources](https://drive.google.com/file/d/1FLY13apaHy4hI8RNVk9n_nlJpwFHtBrB/view?usp=sharing)
+- [MISO update with 1.8 GW substation plan](https://drive.google.com/file/d/1D4eUHwEuirNi0g3IU_xGOti3PcC8fcXi/view?usp=sharing)
+- [S&P Global ratings research with 2.064 GW campus details](https://www.spglobal.com/ratings/en/regulatory/article/-/view/sourceId/101653176)
+",Meta #confident,2024-12-20
+"2300 Hallock Young Rd, Warren, OH 44481",Rubin,https://docs.google.com/spreadsheets/d/1uWCFpC5r9GEYqFaEhgB2bDqXOLvizvIUhDEdIg_XC5E/edit?usp=sharing,,United States,0,,0,0,,,OpenAI Stargate Lordstown,Softbank #confident,Stargate #confident,"- [Announcement of 5 new Stargate sites mentioning Lordstown](https://www.datacenterdynamics.com/en/news/openai-announces-five-more-us-stargate-data-centers-with-oracle-and-softbank/)
+- [Water Quality Permitting stating that “manufacturing and assembly” is the main purpose of the construction](https://drive.google.com/file/d/1VfWvb9unUXZs3u4zwBjZjQwtsu91y8i9/view?usp=drivesdk)
+- [Stormwater Permitting](https://drive.google.com/file/d/1xl4Ql2jdmKhcYFhn43ymM2TJ56Z8cInL/view?usp=drivesdk)
+",OpenAI #confident,2025-10-12
+,,https://docs.google.com/spreadsheets/d/1uqn1l4aQCjT8E7JUmLsT6CrE3PtjajDL19Sj6xw2qg8/edit?usp=sharing,,United States,0,,0,0,,,OpenAI Stargate Michigan,Oracle #confident,Stargate #confident,"- [Related Digital website for this site ](https://www.related-digital.com/michigan)
+- [Michigan Public Service Commission Energy Contract Approval, reports 1,383 MW as the site capacity](https://www.michigan.gov/mpsc/commission/news-releases/2025/12/18/mpsc-approves-dte-electric-energy-contracts-for-data-center)
+- [Air Permitting, calls the site Project Mitten, includes site map](https://drive.google.com/file/d/16ZucHKYmld7dLApSXNtbknOyagSn5E-r/view?usp=sharing)
+- [DTE Electric’s contract approval ](https://mi-psc.my.site.com/sfc/servlet.shepherd/version/download/068cs00001MH71XAAT)
+- [Website with more details for locals about the site](https://www.thesalinebarn.com/)
+",OpenAI #confident,2025-12-04
+,,https://docs.google.com/spreadsheets/d/1Ngd8mud1gHPmwamHYb7VhfYMZLiS9hfjMlHxdsu6d28/edit?usp=sharing,,United States,0,,0,0,,,OpenAI Stargate Milam,Softbank #confident,Stargate #confident,"- [Data Center Dynamics article on the site](https://www.datacenterdynamics.com/en/news/softbanks-sb-energy-to-build-and-operate-openais-12gw-stargate-data-center-in-milam-county-texas/)
+- [SB Energy article, source for 1.2 GW capacity ](https://sbenergy.com/openai-and-softbank-group-partner-with-sb-energy/)
+- [TDLR page for the first building of the site, indicating construction completion date](https://www.tdlr.texas.gov/TABS/Search/Project/TABS2026017746)
+",OpenAI #confident,2025-09-27
+,,https://docs.google.com/spreadsheets/d/1Dd2oXxg3tdBebaWOW-qSj1U1-HZ9zM9LkXseTayWhBM/edit?usp=sharing,,United States,0,,0,0,Bloom Energy,,OpenAI Stargate New Mexico,Oracle #confident,Stargate #confident,"- [Project Jupiter Website](https://projectjupitertogether.com/)
+- [Stormwater Permitting](https://drive.google.com/file/d/1vVKvPogq2TkeFn7ibnp0GNqz8aB4tZXz/view?usp=sharing)
+- [Oracle, BorderPlex and Bloom Energy to power Project Jupiter with fuel cell technology (Apr 27, 2026)](https://www.oracle.com/news/announcement/oracle-borderplex-and-bloom-energy-to-power-project-jupiter-with-fuel-cell-technology-2026-04-27/)
+",OpenAI #confident,2025-10-01
+"175 Private Road 1604, Abilene, TX 79601, Shackelford County",Rubin,https://docs.google.com/spreadsheets/d/1MzNM0bbxwhChbKF-x1RT3ilZ0r8pU_ZPi9r5-w0z4A4/edit?usp=sharing,,United States,0,,0,0,,"Oracle,OpenAI",OpenAI Stargate Shackelford,Oracle #confident,Stargate #confident,"- [Vantage data center page with power capacity, number of buildings, and first building timeline](https://vantage-dc.com/data-center-locations/north-america/shackelford-county-tx)
+- [OpenAI Stargate expansion announcement mentioning Shackelford site](https://openai.com/index/five-new-stargate-sites/)
+- [Vantage LinkedIn post connecting the data center to OpenAI Stargate](https://web.archive.org/web/20260226203340/https://www.linkedin.com/posts/vantage-data-centers_ai-digitalinfrastructure-stargate-activity-7405254667062124544-FOcd/?rcm=ACoAAAmuuF4BvsgagH4Z8-Z8-0LaBPPY6467cAs)
+- [TDLR filing for first building (other buildings are also on TDLR)](https://www.tdlr.texas.gov/TABS/Search/Project/TABS2026024094)
+",OpenAI #confident,2025-08-01
+,,https://docs.google.com/spreadsheets/d/1fjTxXhhaiFa7x1YBAAa7d2CcUrnSLGNJYOTd6o3xd04/edit?usp=sharing,,United States,0,,0,0,,,OpenAI Stargate Wisconsin,Oracle #confident,Stargate #confident,"- [Data center page on Vantage website](https://vantage-dc.com/data-center-locations/north-america/port-washington-wisconsin)
+- [Environmental Analysis Summary](https://drive.google.com/file/d/1ft2ZzqAYZtsTqMwyML4eo_EFYuclVxE6/view?usp=sharing)
+",OpenAI #confident,2026-01-02
+"6200 76th Ave SW, Fairfax, IA 52228",Rubin,https://docs.google.com/spreadsheets/d/1zXqoogyqGbmgvdu4vSTepZG3Cy8kMoJjp0n3KaZPkd4/edit?usp=sharing,,United States,0,,0,0,Alliant Energy,,QTS Cedar Rapids,,,"- [MISO new load announcements](https://cdn.misoenergy.org/NEW%20LOAD%20ANNOUNCEMENTS%20IN%20MISO%20REGIONS%2012062024684954.pdf), including 616 MW in Cedar Rapids for a ""Shell Corp"" called SNA LLC.
+- [Article by The Gazette](https://www.thegazette.com/business/fast-start-to-cedar-rapids-data-center-projects/) featuring a rendering of Building 2 and 3.
+- [Article by Corridor Business Journal ](https://corridorbusiness.com/scope-of-qts-data-project-in-cedar-rapids-continuing-to-grow/)featuring a rendering of Buildings 1-3.
+- [Post by GLD Commercial ](https://www.gldcommercial.com/google-and-qts-data/)featuring a map with land assigned to QTS in Big Cedar Industrial Center.
+",,2025-01-17
+"652 E Hyperscale Way, Eagle Mountain, UT 84013",B300,https://docs.google.com/spreadsheets/d/1pWiTKivojS1IY4tiv0aHM06FugKbLA2qjLJ-5DFoRF4/edit?usp=sharing,,United States,0,,0,0,,,QTS Eagle Mountain,Meta #speculative,,"- [QTS Eagle Mountain website](https://q.com/data-centers/eagle-mountain/)
+- [DEQ Approval listing emergency generators](https://daqpermitting.utah.gov/DocViewer?IntDocID=155764&contentType=application/pdf)
+",Meta #speculative,2023-10-01
