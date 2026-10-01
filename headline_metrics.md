@@ -11,7 +11,7 @@ Unit is the primary incident RECORD in the clean feed, not the project entity. D
 ## Decided-case confirmed-block rate, project entities
 Unit is the resolved project in data/project_lifecycles.csv, all periods pooled. Quote this figure whenever the claim is about projects; quote the record figure above only when the claim is explicitly about tracked opposition events.
 
-- 38% of 178 decided projects (68 blocked_confirmed) out of 463 tracked
+- 38% of 179 decided projects (68 blocked_confirmed) out of 463 tracked
 
 The two rates differ because the populations differ: one project can carry several decided records, and many decided records are not yet linked to a project entity. Neither number is wrong; quoting either without its unit is.
 
