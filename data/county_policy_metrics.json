@@ -1433,5 +1433,37 @@
       "ambiguous_split": 5
     },
     "fips_unresolved": 5
+  },
+  "spatial_diagnostics": {
+    "residual": "has_enacted_restrictive - calibrated_score",
+    "morans_i": {
+      "I": 0.1186,
+      "expected_I": -0.00032,
+      "p_sim": 0.001,
+      "z_sim": 10.69,
+      "permutations": 999,
+      "n": 3144,
+      "islands": 20,
+      "weights": "contiguity, row-standardized, data/county_adjacency.csv"
+    },
+    "state_grouped_cv": {
+      "auc": {
+        "p10": 0.7044,
+        "p50": 0.7522,
+        "p90": 0.7989
+      },
+      "folds": 5,
+      "repeats": 5,
+      "folds_scored": 25,
+      "groups": "state FIPS",
+      "n_states": 51,
+      "specification": {
+        "spec": "promoted_on_last",
+        "C": 0.01
+      }
+    },
+    "standard_cv_auc_p50": 0.7582,
+    "state_grouped_gap": 0.006,
+    "note": "diagnostics only; never features, never used for selection"
   }
 }
