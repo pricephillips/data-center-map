@@ -1,63 +1,63 @@
 {
-  "generated": "2026-09-29",
-  "n": 80,
-  "n_blocked": 30,
-  "base_rate": 0.375,
+  "generated": "2026-10-01",
+  "n": 93,
+  "n_blocked": 35,
+  "base_rate": 0.3763,
   "cv": {
     "folds": 5,
     "repeats": 10
   },
   "roc_auc": {
-    "p10": 0.7483,
-    "p50": 0.85,
-    "p90": 0.9667
+    "p10": 0.699,
+    "p50": 0.8214,
+    "p90": 0.9167
   },
   "brier": {
-    "p10": 0.0948,
-    "p50": 0.1651,
-    "p90": 0.2259,
-    "base_rate_brier": 0.2344
+    "p10": 0.125,
+    "p50": 0.1783,
+    "p90": 0.2498,
+    "base_rate_brier": 0.2347
   },
   "top_features": [
     {
       "name": "mech_public_comment",
-      "auc_drop": 0.1448,
-      "mean_std_coef": -1.2222
+      "auc_drop": 0.1651,
+      "mean_std_coef": -1.1626
     },
     {
       "name": "days_to_first_opposition",
-      "auc_drop": 0.0419,
-      "mean_std_coef": -0.6948
-    },
-    {
-      "name": "hyperscaler_involved",
-      "auc_drop": 0.0312,
-      "mean_std_coef": -0.5138
-    },
-    {
-      "name": "capacity_missing",
-      "auc_drop": 0.0207,
-      "mean_std_coef": 0.5255
-    },
-    {
-      "name": "log1p_prior_state_opposition",
-      "auc_drop": 0.0186,
-      "mean_std_coef": 0.4079
+      "auc_drop": 0.0678,
+      "mean_std_coef": -0.8719
     },
     {
       "name": "n_opposition_events",
-      "auc_drop": 0.0149,
-      "mean_std_coef": -0.433
+      "auc_drop": 0.0194,
+      "mean_std_coef": -0.4839
     },
     {
-      "name": "petition_signatures_log1p",
-      "auc_drop": 0.0132,
-      "mean_std_coef": 0.3966
+      "name": "hyperscaler_involved",
+      "auc_drop": 0.0167,
+      "mean_std_coef": -0.4139
+    },
+    {
+      "name": "mech_moratorium",
+      "auc_drop": -0.0131,
+      "mean_std_coef": -0.0625
+    },
+    {
+      "name": "capacity_missing",
+      "auc_drop": 0.0131,
+      "mean_std_coef": 0.3236
     },
     {
       "name": "opposition_span_days",
-      "auc_drop": -0.0086,
-      "mean_std_coef": 0.1402
+      "auc_drop": -0.0113,
+      "mean_std_coef": 0.0327
+    },
+    {
+      "name": "mech_ordinance",
+      "auc_drop": 0.0108,
+      "mean_std_coef": 0.3496
     }
   ],
   "feature_columns": [
@@ -82,5 +82,36 @@
     "mech_regulatory_action",
     "mech_petition"
   ],
-  "random_state": 20260710
+  "random_state": 20260710,
+  "estimator_candidates": {
+    "note": "Scored beside the registered estimator on identical folds. The registered rule has no estimator dimension, so the registered estimator ships; adopting a challenger requires a new dated registration entry and the calibration gate.",
+    "estimators": {
+      "logistic_l2_registered": {
+        "role": "registered",
+        "auc": {
+          "p10": 0.7013,
+          "p50": 0.8214,
+          "p90": 0.9167
+        },
+        "brier_p50": 0.1783,
+        "n_sign_stable": 8,
+        "n_coef": 20,
+        "max_abs_coef": 1.4879,
+        "selected": true
+      },
+      "firth_logistic": {
+        "role": "challenger",
+        "auc": {
+          "p10": 0.619,
+          "p50": 0.7662,
+          "p90": 0.881
+        },
+        "brier_p50": 0.2037,
+        "n_sign_stable": 5,
+        "n_coef": 20,
+        "max_abs_coef": 2.5603,
+        "selected": false
+      }
+    }
+  }
 }
