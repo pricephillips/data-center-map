@@ -27,6 +27,16 @@ Validation stack:
     unstable and reported as such.
   - Per-county scores are out-of-fold (never scored by a model that saw the
     county in training).
+  - Spatial diagnostics (spec 008 US3; diagnostics only, never features and
+    never part of selection): Moran's I on the residual
+    has_enacted_restrictive - calibrated_score, with row-standardized
+    contiguity weights built from data/county_adjacency.csv (esda +
+    libpysal, 999 permutations, seeded), and the selected specification
+    re-validated with cross-validation grouped by state. Same-state
+    diffusion lets standard CV put neighbouring, similar counties on both
+    sides of a split; the state-grouped AUC is the figure with that removed.
+    Written under spatial_diagnostics in the metrics file and beside the
+    standard AUC in the report.
 
 Reporting rules: variable trust tiers accompany every table; associations
 are predictive, not causal; no figure is a probability that a new project
@@ -60,6 +70,8 @@ MANIFEST = P("data", "county_aggregate_manifest.json")
 OUT_METRICS = P("data", "county_policy_metrics.json")
 OUT_SCORES = P("data", "county_policy_scores.csv")
 OUT_MD = P("data", "county_policy_report.md")
+ADJACENCY_CSV = P("data", "county_adjacency.csv")
+MORAN_PERMUTATIONS = 999
 
 N_SPLITS = 5
 N_REPEATS = 5
@@ -419,6 +431,73 @@ def load():
     return kept, len(rows) - len(kept)
 
 
+# --------------------------------------------------------------------------
+# Spatial diagnostics (spec 008 US3). Reported, never used for selection.
+# --------------------------------------------------------------------------
+
+def read_adjacency(src: str = None) -> list:
+    with open(src or ADJACENCY_CSV, newline="", encoding="utf-8") as fh:
+        return [(r["fips"], r["neighbor_fips"]) for r in csv.DictReader(fh)]
+
+
+def neighbor_map(ids: list, pairs: list) -> dict:
+    """Symmetric neighbour lists restricted to ids, self-pairs dropped."""
+    keep = set(ids)
+    nb = {i: set() for i in ids}
+    for a, b in pairs:
+        if a != b and a in keep and b in keep:
+            nb[a].add(b)
+            nb[b].add(a)
+    return {i: sorted(v) for i, v in nb.items()}
+
+
+def morans_i(values, ids: list, nb: dict, permutations=MORAN_PERMUTATIONS,
+             seed=SEED) -> dict:
+    """Moran's I (esda) with row-standardized contiguity weights (libpysal)."""
+    try:
+        import warnings
+        import numpy as np
+        import esda
+        from libpysal.weights import W
+    except ImportError as exc:
+        return {"unavailable": f"{type(exc).__name__}: {exc}"}
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        w = W(nb, id_order=list(ids), silence_warnings=True)
+        w.transform = "r"
+        np.random.seed(seed)       # esda draws permutations from the global RNG
+        m = esda.Moran(np.asarray(values, dtype=float), w, permutations=permutations)
+    return {"I": round(float(m.I), 4), "expected_I": round(float(m.EI), 5),
+            "p_sim": round(float(m.p_sim), 4), "z_sim": round(float(m.z_sim), 2),
+            "permutations": permutations, "n": len(ids),
+            "islands": sum(1 for i in ids if not nb.get(i)),
+            "weights": "contiguity, row-standardized, data/county_adjacency.csv"}
+
+
+def state_grouped_cv(X, y, groups, c_reg, n_splits=N_SPLITS,
+                     n_repeats=N_REPEATS, seed=SEED) -> list:
+    """Fold AUCs with whole states held out together (StratifiedGroupKFold)."""
+    import numpy as np
+    from sklearn.impute import SimpleImputer
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.metrics import roc_auc_score
+    from sklearn.model_selection import StratifiedGroupKFold
+    from sklearn.pipeline import make_pipeline
+    from sklearn.preprocessing import StandardScaler
+    aucs = []
+    for r in range(n_repeats):
+        cv = StratifiedGroupKFold(n_splits=n_splits, shuffle=True, random_state=seed + r)
+        for tr, te in cv.split(X, y, groups):
+            if len(set(y[te])) < 2:
+                continue
+            pipe = make_pipeline(
+                SimpleImputer(strategy="median", keep_empty_features=True),
+                StandardScaler(), LogisticRegression(C=c_reg, max_iter=4000))
+            pipe.fit(X[tr], y[tr])
+            aucs.append(float(roc_auc_score(y[te], pipe.predict_proba(X[te])[:, 1])))
+    return aucs
+
+
 def main() -> int:
     try:
         import numpy as np
@@ -685,6 +764,33 @@ def main() -> int:
         "aggregate_manifest": (json.load(open(MANIFEST))
                                if os.path.exists(MANIFEST) else None),
     }
+    # --- spatial diagnostics (spec 008 US3): computed after selection and
+    # after every headline figure above, and read by nothing that ships ---
+    resid = y - oof_cal
+    try:
+        nb = neighbor_map(fips, read_adjacency())
+        moran = morans_i(resid, fips, nb)
+    except (OSError, KeyError) as exc:
+        moran = {"unavailable": f"{type(exc).__name__}: {exc}"}
+    sel_ix = [all_feats.index(f) for f in feats]
+    states = np.array([f[:2] for f in fips])
+    g_aucs = state_grouped_cv(Xall[:, sel_ix], y, states, C_REG)
+    g_p50 = round(st.median(g_aucs), 4) if g_aucs else None
+    metrics["spatial_diagnostics"] = {
+        "residual": "has_enacted_restrictive - calibrated_score",
+        "morans_i": moran,
+        "state_grouped_cv": {
+            "auc": ({"p10": round(pctile(g_aucs, .10), 4), "p50": g_p50,
+                     "p90": round(pctile(g_aucs, .90), 4)} if g_aucs else None),
+            "folds": N_SPLITS, "repeats": N_REPEATS, "folds_scored": len(g_aucs),
+            "groups": "state FIPS", "n_states": int(len(set(states))),
+            "specification": {"spec": sel["spec"], "C": C_REG}},
+        "standard_cv_auc_p50": metrics["roc_auc"]["p50"],
+        "state_grouped_gap": (round(metrics["roc_auc"]["p50"] - g_p50, 4)
+                              if g_p50 is not None else None),
+        "note": "diagnostics only; never features, never used for selection",
+    }
+
     with open(OUT_METRICS, "w", encoding="utf-8") as fh:
         json.dump(metrics, fh, indent=2)
 
@@ -761,6 +867,43 @@ def main() -> int:
       f"{c['post_recalibration_slope']:.2f}, intercept "
       f"{c['post_recalibration_intercept']:.2f}. Use calibrated_score "
       f"from the scores file.")
+    w("")
+    sd = metrics["spatial_diagnostics"]
+    w("## Spatial diagnostics (not part of selection)")
+    w("")
+    mi = sd["morans_i"]
+    if "unavailable" in mi:
+        w(f"- Moran's I: not computed ({mi['unavailable']}).")
+    else:
+        w(f"- Moran's I on residuals (enacted minus calibrated score), "
+          f"contiguity weights from data/county_adjacency.csv, "
+          f"row-standardized: I = {mi['I']:.3f} against {mi['expected_I']:.4f} "
+          f"expected under no spatial pattern, pseudo p = {mi['p_sim']:.3f} "
+          f"({mi['permutations']} permutations), z = {mi['z_sim']:.1f}. "
+          f"{mi['islands']} counties have no scored neighbour. "
+          + ("Residuals cluster: neighbouring counties share error the "
+             "profile variables do not explain. The state-grouped AUC below "
+             "measures how much of the standard AUC depends on seeing other "
+             "counties from the same state in training."
+             if mi["p_sim"] < 0.05 else
+             "No significant clustering of residuals at the 0.05 level."))
+    ga = sd["state_grouped_cv"]["auc"]
+    if ga:
+        w(f"- AUC with whole states held out together "
+          f"({N_SPLITS} folds x {N_REPEATS} repeats, "
+          f"{sd['state_grouped_cv']['n_states']} states): "
+          f"{ga['p50']:.2f} (p10 {ga['p10']:.2f}, p90 {ga['p90']:.2f}), "
+          f"beside the standard CV AUC of {a['p50']:.2f}; gap "
+          f"{sd['state_grouped_gap']:+.3f}. "
+          + ("The gap is small: holding whole states out costs little "
+             "accuracy, so the standard figure is not carried by same-state "
+             "information." if abs(sd["state_grouped_gap"]) < 0.02 else
+             "Holding whole states out costs accuracy; the state-grouped "
+             "figure is the one to quote for a state the model has not "
+             "seen."))
+    w("- Both are diagnostics. Neither enters the model or the selection "
+      "rule, and a change in either is never a reason to revert a "
+      "specification.")
     w("")
     w("## Coefficients (fold stability)")
     w("")
@@ -967,6 +1110,56 @@ def selftest() -> int:
         check("no promotion file widens nothing",
               load_promotions(os.path.join(tmp, "none.json"), exp, set())
               == ([], {}))
+
+    # Spatial diagnostics (spec 008 US3): planted clustering on a 20 x 20
+    # rook grid is significant; the same values shuffled are not.
+    ids = [f"{r:02d}{c:02d}" for r in range(20) for c in range(20)]
+    pairs = [(f"{r:02d}{c:02d}", f"{r + dr:02d}{c + dc:02d}")
+             for r in range(20) for c in range(20)
+             for dr, dc in ((0, 1), (1, 0)) if r + dr < 20 and c + dc < 20]
+    nb = neighbor_map(ids, pairs + [("0000", "0000"), ("0000", "9999")])
+    check("neighbour map is symmetric, drops self-pairs and unknown ids",
+          all(a in nb[b] for a in nb for b in nb[a]) and "0000" not in nb["0000"]
+          and len(nb["0000"]) == 2 and len(nb["0505"]) == 4)
+    try:
+        import esda  # noqa: F401
+        import libpysal  # noqa: F401
+        import numpy as np
+    except ImportError:
+        print("  SKIP  Moran's I checks: esda/libpysal not installed")
+        check("missing esda reports unavailable, never raises",
+              "unavailable" in morans_i([0.0] * 400, ids, nb))
+    else:
+        planted = [1.0 if int(i[2:]) < 10 else 0.0 for i in ids]
+        rng = np.random.RandomState(4)
+        planted = list(np.array(planted) + rng.normal(0, 0.3, 400))
+        shuffled = list(rng.permutation(planted))
+        mp = morans_i(planted, ids, nb, permutations=199)
+        ms = morans_i(shuffled, ids, nb, permutations=199)
+        check(f"planted clustering is significant (I={mp['I']}, p={mp['p_sim']})",
+              mp["I"] > 0.3 and mp["p_sim"] < 0.05)
+        check(f"shuffled values are not (I={ms['I']}, p={ms['p_sim']})",
+              ms["p_sim"] >= 0.05)
+        check("Moran's I is seeded and repeatable",
+              morans_i(planted, ids, nb, permutations=199) == mp)
+    try:
+        import numpy as np
+        import sklearn  # noqa: F401
+    except ImportError:
+        print("  SKIP  state-grouped CV: scikit-learn not installed")
+    else:
+        rng = np.random.RandomState(9)
+        groups = np.repeat([f"{k:02d}" for k in range(12)], 40)
+        X = rng.normal(size=(480, 2))
+        y = (X[:, 0] + rng.normal(0, 1, 480) > 0.8).astype(int)
+        aucs = state_grouped_cv(X, y, groups, 0.3, n_splits=4, n_repeats=2)
+        check("state-grouped CV scores every fold on a signal frame",
+              len(aucs) == 8 and min(aucs) > 0.6)
+        from sklearn.model_selection import StratifiedGroupKFold
+        held = [set(groups[te]) for tr, te in StratifiedGroupKFold(
+            n_splits=4, shuffle=True, random_state=SEED).split(X, y, groups)]
+        check("no state appears in two test folds",
+              sum(len(h) for h in held) == len(set().union(*held)) == 12)
 
     failed = [n for n, ok in checks if not ok]
     for n, ok in checks:
