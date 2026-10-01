@@ -311,8 +311,11 @@ def cluster_features(X, names, threshold):
 
 
 def ebm_available() -> bool:
-    import importlib.util
-    return importlib.util.find_spec("interpret") is not None
+    try:
+        import interpret.glassbox  # noqa: F401
+    except ImportError:
+        return False
+    return True
 
 
 def ebm_model(ecfg: dict, names: list, seed: int):
