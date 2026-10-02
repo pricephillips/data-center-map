@@ -31,11 +31,14 @@ The selftest must cover:
 ## `master_diff.py` (new)
 
 ```
-python master_diff.py [--base REV]
+python master_diff.py [--base auto|REV]
 python master_diff.py --selftest
 ```
 
-- `--base` defaults to `HEAD~1`.
+- `--base` defaults to `auto` (revised 2026-10-02): HEAD when this run edited
+  `master_opposition.csv`, otherwise the parent of the newest commit that changed
+  it, otherwise `HEAD~1`. Auto-build commits between source changes made a plain
+  `HEAD~1` read "No changes" on most runs.
 - It reads `master_opposition.csv` and `master_opposition_clean.csv` at `--base`
   via `git show`, and from the working tree.
 - It writes only `data/master_diff_summary.md` (FR-006). The path is a module
@@ -46,7 +49,7 @@ python master_diff.py --selftest
   `Community Outcome` cell. It asserts that the summary names the row and both
   values, which is the spec's independent test for US5.
 
-**CI requirement**: the pipeline checkout needs `fetch-depth: 2`. The default
+**CI requirement**: the pipeline checkout uses `fetch-depth: 50` (was 2). The default
 depth of 1 has no `HEAD~1`, and without it every run would write "no prior
 revision".
 

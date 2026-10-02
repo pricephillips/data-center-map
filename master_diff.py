@@ -16,11 +16,19 @@ Two daff comparisons, both keyless (research.md D8):
     clean feed is deduplicated, so outcome changes are read from it.
 
 Usage
-  python master_diff.py [--base HEAD~1]
+  python master_diff.py [--base auto|REV]
   python master_diff.py --selftest
 
-CI checks out with fetch-depth: 2 so HEAD~1 exists. Without a prior revision
-the summary says so and the module exits 0.
+Base revision (default "auto"):
+  - the working tree's master_opposition.csv differs from HEAD's (this run
+    edited it, e.g. status_resolution.py --apply): compare to HEAD;
+  - otherwise: compare to the parent of the newest commit that changed
+    master_opposition.csv, so the summary keeps describing the latest real
+    change instead of turning into "No changes" whenever the previous commit
+    was an auto-build that left the source of truth alone;
+  - history too shallow to find that commit: HEAD~1, as before.
+CI checks out with enough depth for the second rule. Without any prior
+revision the summary says so and the module exits 0.
 """
 
 from __future__ import annotations
@@ -48,9 +56,31 @@ def read_rows(text: str) -> list[list[str]]:
 
 
 def at_rev(rev: str, path: str) -> str | None:
+    # Bytes, decoded without newline translation, so the text matches a file
+    # read with newline="" (text=True would turn CRLF into LF).
     r = subprocess.run(["git", "show", f"{rev}:{path}"], cwd=HERE,
-                       capture_output=True, text=True, encoding="utf-8")
-    return r.stdout if r.returncode == 0 else None
+                       capture_output=True)
+    return r.stdout.decode("utf-8") if r.returncode == 0 else None
+
+
+def resolve_base(base: str) -> str:
+    """Pick the comparison revision for --base auto (see the docstring)."""
+    if base != "auto":
+        return base
+    head_raw = at_rev("HEAD", RAW)
+    try:
+        with open(os.path.join(HERE, RAW), encoding="utf-8", newline="") as fh:
+            work_raw = fh.read()
+    except OSError:
+        work_raw = None
+    if head_raw is not None and work_raw is not None and head_raw != work_raw:
+        return "HEAD"
+    r = subprocess.run(["git", "log", "-1", "--format=%H", "HEAD", "--", RAW],
+                       cwd=HERE, capture_output=True, text=True)
+    last = r.stdout.strip()
+    if last and at_rev(f"{last}~1", RAW) is not None:
+        return f"{last}~1"
+    return "HEAD~1"
 
 
 def short_sha(rev: str) -> str:
@@ -160,6 +190,7 @@ def render(base: str, head: str, raw_diff: list[list[str]] | None,
 
 def build(base: str) -> str:
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
+    base = resolve_base(base)
     old_raw = at_rev(base, RAW)
     if old_raw is None:
         return render(base, "working tree", None, [], now)
@@ -205,6 +236,7 @@ def selftest() -> int:
     check("no CR in the summary", "\r" not in md)
     same = render("abc1234", "working tree", hilite(a, a), [], "t")
     check("identical revisions say no changes", "No changes." in same)
+    check("an explicit base is used as given", resolve_base("abc1234") == "abc1234")
     none = render("HEAD~1", "working tree", None, [], "t")
     check("a missing base says so", "No prior revision" in none)
     check("pipes are escaped", esc("a|b\nc") == "a\\|b c")
@@ -219,7 +251,7 @@ def selftest() -> int:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--selftest", action="store_true")
-    ap.add_argument("--base", default="HEAD~1")
+    ap.add_argument("--base", default="auto")
     args = ap.parse_args(argv)
     if args.selftest:
         return selftest()

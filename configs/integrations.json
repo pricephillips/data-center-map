@@ -518,12 +518,12 @@
       "tier": 1,
       "spec": "007",
       "session": 4,
-      "runs_in": "local",
+      "runs_in": "ci",
       "target": [
         "scripts/agenda_extract.py"
       ],
       "reason": "Source-grounded extraction (character offsets) from agenda text into candidate rows; runs locally on Ollama, never in CI, output is a worklist.",
-      "risk_notes": "Model output is a draft; every field must carry its offset or it is dropped.",
+      "risk_notes": "Model output is a draft; every field must carry its offset or it is dropped. Runs in CI by owner decision (commit 4a49585): agenda-extract.yml installs Ollama on the runner with gemma2:2b and passes --allow-ci; output is a draft worklist only. Spec 007 FR-005 originally said local only.",
       "source_url": "https://github.com/google/langextract",
       "products": [
         "platform"
@@ -635,7 +635,7 @@
       "session": 6,
       "runs_in": "ci",
       "target": [
-        "acquire-geo-sources.yml",
+        ".github/workflows/acquire-geo-sources.yml",
         "data/geo/counties_2024.topojson"
       ],
       "reason": "Current county geometry. The plotly geojson now used lacks 13 scored counties (9 Connecticut planning regions, 3 Alaska, Oglala Lakota SD).",
@@ -659,7 +659,7 @@
       "session": 6,
       "runs_in": "ci",
       "target": [
-        "acquire-geo-sources.yml"
+        ".github/workflows/acquire-geo-sources.yml"
       ],
       "reason": "Build-time simplify and convert to TopoJSON; commits a small file into the repo instead of a 3.2 MB third-party fetch.",
       "risk_notes": "",
@@ -985,22 +985,12 @@
       "id": "census-mcp",
       "name": "U.S. Census Bureau Data API MCP",
       "kind": "mcp",
-      "version": "latest",
       "license": "public-domain",
-      "status": "selected",
-      "tier": 1,
-      "spec": "agent",
-      "session": 0,
-      "runs_in": "agent",
-      "target": [
-        "session setup"
-      ],
-      "reason": "Official ACS queries in session; the sandbox cannot reach api.census.gov directly.",
+      "status": "deferred",
+      "reason": "Superseded for now (2026-09-29): sessions reach api.census.gov directly through the environment network allowlist with CENSUS_API_KEY. The official MCP server is self-hosted and not in the connector directory.",
       "risk_notes": "",
       "source_url": "https://github.com/uscensusbureau/us-census-bureau-data-api-mcp",
-      "products": [
-        "internal"
-      ]
+      "trigger": "A session needs ACS queries the direct API cannot serve (complex table discovery, geography resolution), or the server becomes available as a hosted connector."
     },
     {
       "id": "ast-grep",

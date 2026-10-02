@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
     inputs:
       only:
-        description: "Comma-separated sources (blank = all): grid_generation,retail_price,water_use,drought,farmland"
+        description: "Comma-separated sources (blank = all): grid_generation,retail_price,water_use,drought,farmland,political"
         required: false
         default: ""
   schedule:
