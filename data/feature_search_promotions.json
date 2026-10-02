@@ -1,8 +1,8 @@
 {
-  "generated": "2026-10-01",
+  "generated": "2026-10-02",
   "enabled": true,
   "target": "restrict_profile",
-  "inputs_hash": "be6834be2a63-30dc1e7c1e4e",
+  "inputs_hash": "3bbe01b78c45-30dc1e7c1e4e",
   "source_csv": "data/county_features_expanded.csv",
   "rule": "selection probability >= threshold with consistent sign, admitted, leakage class in allow-list, one per correlation cluster, not already in the production pool",
   "allowed_leakage_classes": [
@@ -17,7 +17,7 @@
       "leakage_class": "none",
       "direction": "positive",
       "selection_probability": 0.99,
-      "filtered_importance": 0.00371
+      "filtered_importance": 0.00366
     }
   ]
 }
