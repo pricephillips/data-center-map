@@ -1,7 +1,7 @@
 {
-  "generated": "2026-10-01",
+  "generated": "2026-10-02",
   "config_hash": "30dc1e7c1e4e",
-  "features_hash": "be6834be2a63",
+  "features_hash": "65ee0735d517",
   "n_pool": 73,
   "targets": {
     "restrict": {
@@ -20,14 +20,14 @@
       },
       "held_out_auc": {
         "gbm_all_candidates": {
-          "p10": 0.9312,
-          "p50": 0.9478,
-          "p90": 0.968
+          "p10": 0.9343,
+          "p50": 0.945,
+          "p90": 0.9657
         },
         "l2_logistic_all_candidates": {
-          "p10": 0.7428,
-          "p50": 0.7856,
-          "p90": 0.8264
+          "p10": 0.7433,
+          "p50": 0.7861,
+          "p90": 0.8261
         }
       },
       "cv": {
@@ -48,20 +48,18 @@
           "0.003": 0,
           "0.005": 0,
           "0.01": 3.86,
-          "0.02": 5.82,
-          "0.05": 14.91,
-          "0.1": 28.36,
-          "0.3": 47.52
+          "0.02": 5.75,
+          "0.05": 14.92,
+          "0.1": 28.25,
+          "0.3": 47.43
         },
-        "mean_selected_at_weakest_penalty_used": 5.82,
-        "expected_false_selections_bound": 0.968
+        "mean_selected_at_weakest_penalty_used": 5.75,
+        "expected_false_selections_bound": 0.945
       },
       "status": "OK",
-      "n_admitted": 9,
+      "n_admitted": 11,
       "weights_updated": true,
-      "drift_flags": [
-        "state_restrict_rate_loo"
-      ]
+      "drift_flags": []
     },
     "restrict_profile": {
       "target": "restrict_profile",
@@ -75,19 +73,19 @@
       "dropped": {},
       "held_out_auc": {
         "gbm_all_candidates": {
-          "p10": 0.7463,
-          "p50": 0.7991,
-          "p90": 0.8305
+          "p10": 0.7469,
+          "p50": 0.7978,
+          "p90": 0.8284
         },
         "l2_logistic_all_candidates": {
           "p10": 0.7025,
-          "p50": 0.7612,
-          "p90": 0.8086
+          "p50": 0.7609,
+          "p90": 0.8094
         },
         "ebm_all_candidates": {
-          "p10": 0.7479,
-          "p50": 0.7867,
-          "p90": 0.8205
+          "p10": 0.7507,
+          "p50": 0.7877,
+          "p90": 0.821
         }
       },
       "cv": {
@@ -108,16 +106,16 @@
           "0.003": 0,
           "0.005": 0,
           "0.01": 2.16,
-          "0.02": 5.36,
-          "0.05": 13.12,
-          "0.1": 19.27,
-          "0.3": 28.35
+          "0.02": 5.24,
+          "0.05": 13.14,
+          "0.1": 19.08,
+          "0.3": 28.25
         },
-        "mean_selected_at_weakest_penalty_used": 5.36,
-        "expected_false_selections_bound": 1.368
+        "mean_selected_at_weakest_penalty_used": 5.24,
+        "expected_false_selections_bound": 1.308
       },
       "status": "OK",
-      "n_admitted": 21,
+      "n_admitted": 24,
       "weights_updated": true,
       "drift_flags": []
     },
@@ -137,14 +135,14 @@
       },
       "held_out_auc": {
         "gbm_all_candidates": {
-          "p10": 0.9163,
-          "p50": 0.9294,
-          "p90": 0.9482
+          "p10": 0.9135,
+          "p50": 0.9346,
+          "p90": 0.9479
         },
         "l2_logistic_all_candidates": {
-          "p10": 0.7595,
-          "p50": 0.7795,
-          "p90": 0.8074
+          "p10": 0.7593,
+          "p50": 0.7799,
+          "p90": 0.8071
         }
       },
       "cv": {
@@ -165,16 +163,16 @@
           "0.003": 0,
           "0.005": 0,
           "0.01": 2.74,
-          "0.02": 4.19,
-          "0.05": 14.23,
-          "0.1": 26.81,
-          "0.3": 45.8
+          "0.02": 4.17,
+          "0.05": 14.01,
+          "0.1": 26.65,
+          "0.3": 45.83
         },
-        "mean_selected_at_weakest_penalty_used": 4.19,
-        "expected_false_selections_bound": 0.502
+        "mean_selected_at_weakest_penalty_used": 4.17,
+        "expected_false_selections_bound": 0.497
       },
       "status": "OK",
-      "n_admitted": 8,
+      "n_admitted": 7,
       "weights_updated": true,
       "drift_flags": []
     },
@@ -183,9 +181,9 @@
       "description": "among counties with recorded local opposition before any enactment, which went on to enact a restriction",
       "label": "has_enacted_restrictive",
       "frame": "in_conversion_frame",
-      "n_frame": 264,
+      "n_frame": 265,
       "n_positive": 67,
-      "base_rate": 0.2538,
+      "base_rate": 0.2528,
       "n_candidates": 70,
       "dropped": {
         "opp_pre_ordinance_activity": "varies in only 3 positive counties",
@@ -194,14 +192,14 @@
       },
       "held_out_auc": {
         "gbm_all_candidates": {
-          "p10": 0.5495,
-          "p50": 0.6115,
-          "p90": 0.6769
+          "p10": 0.5275,
+          "p50": 0.6327,
+          "p90": 0.7308
         },
         "l2_logistic_all_candidates": {
-          "p10": 0.5621,
-          "p50": 0.6272,
-          "p90": 0.7019
+          "p10": 0.5615,
+          "p50": 0.6538,
+          "p90": 0.7154
         }
       },
       "cv": {
@@ -225,12 +223,12 @@
           "0.005": 0,
           "0.01": 0,
           "0.02": 0,
-          "0.05": 0.74,
-          "0.1": 5.29,
-          "0.3": 20.67
+          "0.05": 0.77,
+          "0.1": 5.25,
+          "0.3": 20.69
         },
-        "mean_selected_at_weakest_penalty_used": 5.29,
-        "expected_false_selections_bound": 0.8
+        "mean_selected_at_weakest_penalty_used": 5.25,
+        "expected_false_selections_bound": 0.787
       },
       "status": "OK",
       "n_admitted": 7,
