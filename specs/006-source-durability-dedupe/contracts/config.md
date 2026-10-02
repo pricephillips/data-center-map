@@ -17,7 +17,8 @@ default shown.
     "recheck_after_days": 1,
     "max_attempts": 3,
     "checkpoint_every": 25,
-    "skip_hosts": ["news.google.com"]
+    "skip_hosts": ["news.google.com"],
+    "max_runtime_s": 1800
   },
   "extract": {
     "timeout_s": 10,
@@ -48,3 +49,8 @@ default shown.
 `dedupe.threshold` is the config value from the spec's edge case. The
 selftest pins behavior at 0.7 whatever the file says: it passes its own
 config.
+
+`archive.max_runtime_s` (added 2026-10-02) is a wall-clock budget, checked
+between URLs. It stops the batch with `stop_reason=time_budget` and still
+writes the outputs, so the job reaches its commit step inside
+`source-archive.yml`'s 45-minute timeout.

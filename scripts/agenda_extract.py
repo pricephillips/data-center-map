@@ -258,7 +258,8 @@ def inputs_from_index(n: int, index: str = os.path.join(ROOT, "data", "agenda_te
         sha = r.get("sha256") or ""
         path = os.path.join(cache_dir, f"{sha}.txt")
         if (int(r.get("keyword_hits") or 0) > 0 and sha not in seen
-                and r.get("text_source") in ("text_layer", "ocr") and os.path.exists(path)):
+                and r.get("text_source") in ("text_layer", "ocr", "html")
+                and os.path.exists(path)):
             seen.add(sha)
             out.append((path, r.get("document_url", "")))
         if len(out) >= n:

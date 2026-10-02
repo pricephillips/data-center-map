@@ -23,8 +23,14 @@ jobs:
   signals:
     runs-on: ubuntu-latest
     steps:
+      # ref: the branch, not the triggering commit. A dispatch queued behind a
+      # running job (concurrency group above) would otherwise check out the
+      # commit it was dispatched at and rebase every generated file over the
+      # earlier run's commit; on 2026-10-01 that conflict failed the commit
+      # step and threw the run's output away.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ github.ref }}
           fetch-depth: 0
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
@@ -66,9 +72,12 @@ jobs:
 
       # OCR text is cached by the PDF's SHA-256 in .cache/agenda_text, so a
       # document is read (and OCR'd) once. A fresh key per run saves the
-      # grown cache; restore-keys picks up the newest earlier one.
+      # grown cache; restore-keys picks up the newest earlier one. Restore and
+      # save are separate steps so the cache is saved even when a later step
+      # (the commit) fails: actions/cache saves only on job success, and a
+      # failed commit on 2026-10-01 discarded that run's OCR work.
       - name: Restore agenda text cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .cache/agenda_text
           key: agenda-text-${{ github.run_id }}
@@ -79,6 +88,13 @@ jobs:
         # per-document failure is recorded in the index, not raised.
         continue-on-error: true
         run: python agenda_text.py --run --max-docs 40 --max-mb 25
+
+      - name: Save agenda text cache
+        if: always() && hashFiles('.cache/agenda_text/**') != ''
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .cache/agenda_text
+          key: agenda-text-${{ github.run_id }}
 
       - name: Dispute watch (candidate dockets)
         # Unauthenticated CourtListener is capped at 125 requests/day, so a
