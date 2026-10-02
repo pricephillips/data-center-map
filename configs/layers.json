@@ -141,7 +141,9 @@
         "data/county_grid_territory.csv",
         "data/county_grid_territory_manifest.json",
         "data/grid_planned_generation.csv",
-        "data/grid_planned_generation_manifest.json"
+        "data/grid_planned_generation_manifest.json",
+        "data/raw/medsl/*.csv",
+        "data/raw/medsl/README.md"
       ]
     },
     "E": {
@@ -331,6 +333,7 @@
     "data/source_archive.csv": "Resume state for source_archive.py (spec 006): which URLs a Save Page Now request is outstanding for, how many attempts each has used, and when each was last checked. Archived rows could be re-found through CDX, but a regeneration would forget the pending requests and attempt counts, so a three-way merge of appended rows is right and a regenerate is not.",
     "data/facility_promoted.csv": "Append-only record of candidates promoted into the registry. facility_registry.py --promote --stream <name> appends each promoted row and every rebuild reads them back; a regeneration from the snapshots alone would drop every promotion. Registered 2026-09-29.",
     "data/status_resolutions.csv": "Reviewer-confirmed resolutions, hand-edited, plus rows status_resolution.py --auto-supersede appends for syndicated copies (2026-09-29). Append-only from the module, so a three-way merge of two branches that each added rows is correct and a forced conflict would be a regression.",
-    "data/county_votes_legacy.json": "The scraped county_votes.json kept once, at the approved MEDSL switch (fetch_county_features.py, 2026-09-29). Written only when absent and never rebuilt, so no run can regenerate it."
+    "data/county_votes_legacy.json": "The scraped county_votes.json kept once, at the approved MEDSL switch (fetch_county_features.py, 2026-09-29). Written only when absent and never rebuilt, so no run can regenerate it.",
+    "data/raw/medsl/countypres_2000-2024.csv": "MEDSL county presidential returns 2000-2024, downloaded by hand through the Harvard Dataverse guestbook (guestbookID 458), which blocks anonymous API downloads. fetch_county_features.py reads it in place of the download and checks its md5 against the Dataverse metadata on every run; replace it only with a fresh download of the published file."
   }
 }
