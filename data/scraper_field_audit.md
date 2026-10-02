@@ -1,6 +1,6 @@
 # Scraper field audit
 
-Generated 2026-10-01 by `scripts/scrape-trackdatacenters-proposals.py`.
+Generated 2026-10-02 by `scripts/scrape-trackdatacenters-proposals.py`.
 
 452 records; 60 distinct top-level keys in the response.
 
@@ -35,4 +35,4 @@ Candidate landing places for anything in the list above, with up to 4 distinct o
 
 ## Id stability
 
-Stable: none of 384 shared ids changed project.
+Stable: none of 452 shared ids changed project.
