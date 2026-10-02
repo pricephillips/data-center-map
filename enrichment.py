@@ -267,10 +267,20 @@ _LOC_SUFFIX = re.compile(
 _CITY_OF = re.compile(r"(?i)\bcity of\b")
 
 
+# Locality for a record that names no county, city or project. Its Name is
+# then the Incident headline (schema_adapter maps Name from Project Name, then
+# Incident), and a headline is not a place: keying on it put composed headline
+# text such as "...a midterm win by blocking..." into qc_jurisdiction_key.
+UNPLACEABLE = "unplaceable"
+
+
 def _locality_stem(record: dict) -> str:
     base = str(record.get("County", "") or "").strip() or str(record.get("City", "") or "").strip()
     if not base:
         base = str(record.get("Name", "") or record.get("Incident", "") or "").strip()
+        incident = str(record.get("Incident", "") or "").strip()
+        if not base or (incident and base == incident):
+            return UNPLACEABLE
     base = _CITY_OF.sub("", base)
     base = _LOC_SUFFIX.sub("", base)
     return re.sub(r"\s+", " ", base).strip().lower()

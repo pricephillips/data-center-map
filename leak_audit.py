@@ -110,6 +110,12 @@ INTERNAL_QUOTES = {
     ("data/bill_sync_votes.csv", "motion_text"),
     ("data/bill_sync_cache.json", "motion_text"),
     ("data/dispute_watch_cache.json", "party"),
+    # Registered 2026-10-02. Same class as party: CourtListener values in the
+    # same internal-only cache, transported verbatim. attorney is a person's
+    # name ("William Win-Ning Chuang"); snippet is the opening text of a filed
+    # document ("... Profit and Loss ..." on a financial exhibit).
+    ("data/dispute_watch_cache.json", "attorney"),
+    ("data/dispute_watch_cache.json", "snippet"),
     ("data/dispute_watch.csv", "party"),
     # Registered 2026-10-02, same class as `party`: the cache stores raw
     # CourtListener search results, and two more of its keys are transported
@@ -191,6 +197,15 @@ INHERITED_FIELDS = {
     # The only files with a `utilities` column are those two; elsewhere the
     # word is a search term, not a key.
     "utilities",
+    # Registered 2026-10-02. clean_opposition_data.split_incident() returns a
+    # substring of Incident (already registered below as "incident"): it drops
+    # a trailing ", ST" and a parenthetical descriptor and adds nothing. For a
+    # harvested news row the Incident is a headline, so location_name is that
+    # headline too ("Dems deny GOP a midterm win by blocking Husted data
+    # center bill"). Transported, never composed. The column cannot be blanked
+    # for such rows instead, because project_id groups on it and every
+    # headline-only row in a state would merge into one project.
+    "location_name",
     "community outcome", "summary", "sources", "source url", "objective",
     "incident", "entity", "project name", "opposition groups", "notes",
     "what it means", "correct outcome", "message", "all_issues",
@@ -551,6 +566,10 @@ def selftest() -> int:
        classify("data/stakeholder_positions.csv",
                 "Residents objected to the loss of farmland",
                 field="evidence_summary"), ADVISORY)
+    eq("location_name split from a headline Incident is advisory",
+       classify("master_opposition_clean.csv",
+                "Dems deny GOP a midterm win by blocking Husted data center bill",
+                field="location_name"), ADVISORY)
     eq("a composed evidence_summary is still only as safe as its words",
        classify("data/stakeholder_positions.csv", "a clear win for opponents",
                 field="model_note"), BLOCKING)
