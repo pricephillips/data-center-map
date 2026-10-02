@@ -1017,6 +1017,18 @@ def selftest() -> bool:
            "declared local instrument outranks narrative bill context "
            "(local-instrument precedence, 2026-08-25)")
 
+    # A headline-only record names no place: its key must not carry the
+    # headline (2026-10-02: "...a midterm win by blocking..." reached
+    # qc_jurisdiction_key and blocked the leak audit).
+    headline = {"Incident": "Dems deny GOP a midterm win by blocking a data center bill",
+                "Opposition Type": "legislation", "Community Outcome": "pending"}
+    hk = E.jurisdiction_key(A.normalize_record(headline))
+    expect(hk.split("::")[1] == E.UNPLACEABLE and "win" not in hk,
+           "headline-only record keys as unplaceable, never on the headline")
+    named = {"Incident": "Board votes", "Project Name": "Project Aurora", "State": "Ohio"}
+    expect("project aurora" in E.jurisdiction_key(A.normalize_record(named)),
+           "a project name still keys the record when no county or city is given")
+
     enr = E.enrich_record(A.normalize_record(linn))
     expect(enr["qc_mechanism"] == "conditional_zoning" and enr["qc_is_block"] is False and enr["qc_highlight"],
            "conditional ordinance -> not a block, highlighted")

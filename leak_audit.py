@@ -110,6 +110,12 @@ INTERNAL_QUOTES = {
     ("data/bill_sync_votes.csv", "motion_text"),
     ("data/bill_sync_cache.json", "motion_text"),
     ("data/dispute_watch_cache.json", "party"),
+    # Registered 2026-10-02. Same class as party: CourtListener values in the
+    # same internal-only cache, transported verbatim. attorney is a person's
+    # name ("William Win-Ning Chuang"); snippet is the opening text of a filed
+    # document ("... Profit and Loss ..." on a financial exhibit).
+    ("data/dispute_watch_cache.json", "attorney"),
+    ("data/dispute_watch_cache.json", "snippet"),
     ("data/dispute_watch.csv", "party"),
     # Registered 2026-08-26 with manual_records.py. new_value is the verbatim
     # replacement value for a named master column (Summary, Community
