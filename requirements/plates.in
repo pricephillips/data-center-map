@@ -1,0 +1,9 @@
+# Terrain plates (spec 013, FR-001). Not part of ci.in: only plate-probe.yml,
+# render-plates.yml and local plate renders install this. Exact pins; a
+# forge3d upgrade is a deliberate registry change (configs/integrations.json).
+forge3d==1.40.1
+numpy==2.4.6
+pillow==12.3.0
+# DEM fetch only (scripts/render_terrain_plate.py --fetch-dem-only, or a cold
+# .cache/dem). The render path never imports it.
+rasterio==1.4.4

@@ -1,0 +1,190 @@
+name: Plate probe
+
+# Settles where terrain plates can render (spec 013 US4). GitHub-hosted
+# runners have no GPU; forge3d renders through wgpu, which can use a software
+# adapter on each OS. One matrix leg per route renders the Spalding fixture
+# (configs/plates/13255_spalding.json) at 512x512 and uploads the PNG plus a
+# JSON record of the adapter it actually got and its timing.
+#
+#   A  windows-latest  DX12    WARP (built into Windows)
+#   B  ubuntu-latest   Vulkan  Mesa lavapipe (mesa-vulkan-drivers)
+#   C  ubuntu-latest   GL      Mesa llvmpipe via EGL
+#   D  macos-14        Metal   the runner's virtual GPU, if exposed
+#
+# forge3d 1.40.1 exposes no fallback-adapter flag: its native layer requests a
+# hardware adapter and falls back to a software one on its own. The backend is
+# pinned with WGPU_BACKENDS (vulkan|dx12|metal|gl), the variable its own
+# remediation text and determinism module name; device_probe() then reports
+# name, backend, device_type and software_fallback, which each leg logs.
+#
+# The decide job applies the US4 rule automatically: the first leg in A, B, C,
+# D order that rendered a non-blank image (luminance std above 4) inside its
+# timeout becomes the CI route; if none did, the route is the local-render
+# fallback. The result goes to the job summary and the decision artifact;
+# specs/013-terrain-plates/research.md records it.
+#
+# The DEM is fetched once (dem job) and handed to every leg as an artifact, so
+# a leg measures rendering, not the network.
+#
+# workflow_dispatch only. Read-only: artifacts only, nothing is committed.
+
+on:
+  workflow_dispatch:
+    inputs:
+      size:
+        description: 'Probe render size in pixels (square)'
+        required: false
+        default: '512'
+      full_leg:
+        description: 'Also time a full print render on this leg (none, A, B, C or D)'
+        required: false
+        default: 'none'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: plate-probe
+  cancel-in-progress: false
+
+env:
+  PLATE_CONFIG: configs/plates/13255_spalding.json
+
+jobs:
+  dem:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - name: Install plate requirements
+        run: pip install -r requirements/plates.in
+      - name: Fetch the fixture DEM from 3DEP
+        run: python scripts/render_terrain_plate.py --config "$PLATE_CONFIG" --fetch-dem-only
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: plate-dem
+          path: .cache/dem/
+          include-hidden-files: true
+          retention-days: 7
+
+  probe:
+    needs: dem
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - leg: A
+            os: windows-latest
+            backend: dx12
+          - leg: B
+            os: ubuntu-latest
+            backend: vulkan
+          - leg: C
+            os: ubuntu-latest
+            backend: gl
+          - leg: D
+            os: macos-14
+            backend: metal
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    continue-on-error: true
+    defaults:
+      run:
+        shell: bash
+    env:
+      WGPU_BACKENDS: ${{ matrix.backend }}
+      LEG: ${{ matrix.leg }}
+      PROBE_SIZE: ${{ inputs.size }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - name: Software Vulkan (lavapipe)
+        if: matrix.leg == 'B'
+        run: sudo apt-get update -q && sudo apt-get install -y -q mesa-vulkan-drivers
+      - name: Software GL (llvmpipe via EGL)
+        if: matrix.leg == 'C'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q libegl1 libegl-mesa0 libgl1-mesa-dri
+          echo "LIBGL_ALWAYS_SOFTWARE=1" >> "$GITHUB_ENV"
+          echo "XDG_RUNTIME_DIR=$RUNNER_TEMP" >> "$GITHUB_ENV"
+      - name: Install plate requirements
+        run: pip install -r requirements/plates.in
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: plate-dem
+          path: .cache/dem
+      - name: Probe render (adapter is logged first)
+        timeout-minutes: 8
+        run: |
+          python scripts/render_terrain_plate.py --config "$PLATE_CONFIG" \
+            --probe --leg "$LEG" --size "${PROBE_SIZE:-512}" --out-dir outputs/probe
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json, os
+          r = json.load(open(f"outputs/probe/{os.environ['LEG']}.json"))
+          a = r.get("adapter") or {}
+          print(f"### Leg {r['leg']}: {r['status']}")
+          print(f"- adapter: {a.get('name')} ({a.get('backend')}, {a.get('device_type')}, "
+                f"software_fallback={a.get('software_fallback')})")
+          print(f"- seconds: {r.get('seconds')}; luminance std: {r.get('map_luminance_std')}")
+          if r.get("reason"):
+              print(f"- reason: {r['reason'][:500]}")
+          PY
+      - name: Full print render (timing)
+        if: inputs.full_leg == matrix.leg
+        timeout-minutes: 70
+        run: |
+          start=$(date +%s)
+          python scripts/render_terrain_plate.py --config "$PLATE_CONFIG" --out-dir outputs/probe \
+            || echo "full render failed" >> outputs/probe/full-render.txt
+          echo "leg=$LEG full_render_seconds=$(( $(date +%s) - start ))" >> outputs/probe/full-render.txt
+          cat outputs/probe/full-render.txt >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: plate-probe-${{ matrix.leg }}
+          path: outputs/probe/
+          if-no-files-found: warn
+          retention-days: 30
+
+  decide:
+    needs: probe
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: plate-probe-*
+          path: probe-records
+      - name: Apply the US4 decision rule
+        run: |
+          mkdir -p probe-records
+          python scripts/render_terrain_plate.py --probe-decide probe-records --timeout 600 \
+            | tee plate-route.json
+          {
+            echo "## Plate route"
+            echo '```json'
+            cat plate-route.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: plate-route
+          path: plate-route.json
+          retention-days: 90

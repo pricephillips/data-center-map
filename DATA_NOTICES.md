@@ -12,7 +12,9 @@ Only notices a provider's terms or licence require are shown in the app:
   map's attribution control (`basemap.js`).
 
 Courtesy credits (Drought Monitor, USGS, Open States, GDELT, tonmcg) are
-recorded here only.
+recorded here only, except that terrain plates (spec 013) print the USGS 3DEP
+credit in their footer and GeoLibre projects (spec 012) carry their credits in
+the project description.
 
 | File(s) | Source | Licence | Obligation |
 |---|---|---|---|
@@ -27,6 +29,8 @@ recorded here only.
 | `data/features/water_use.csv` | USGS county water use, 2015 | Public domain | Credit requested. |
 | `data/external_restriction_census*.csv` (Moratorium Nation rows) | Bommarito, Michael J. (2026), Moratorium Nation: U.S. Infrastructure Moratorium Data (https://github.com/mjbommar/moratorium-data-2026) | CC-BY-4.0 | Credit the author, dataset and licence. |
 | `data/bill_*` | Open States (Plural) | Public domain dedication | Attribution appreciated, not required. |
+| `outputs/plates/*.png` (terrain plates, not committed; spec 013) | U.S. Geological Survey, 3D Elevation Program (3DEP) 1/3 arc-second and 1 arc-second DEMs, read from the 3DEP staged products (https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/) | Public domain | Courtesy credit, printed in every plate footer with the product and access date: "Elevation: U.S. Geological Survey, 3D Elevation Program." No endorsement implied. |
+| `data/geolibre/*.geolibre.json` (spec 012) | Derived from the files above: Census 2024 county boundaries, `data/county_policy_scores.csv`, `master_opposition_clean.csv`, and for the swipe project the presidential margin in `data/county_votes.json` | As for each source | Each project's description carries its credits; the margin credit follows the MEDSL / tonmcg rule in the row above. |
 
 ## MIT notice for US_County_Level_Election_Results_08-24
 

@@ -12,6 +12,13 @@
 <!-- View state in the URL, so a map view or filter set can be cited by
      link rather than by screenshot. Same-origin, same as viz-palette. -->
 <script src="./map-permalink.js"></script>
+<!-- Legend entries built from the layer's own symbology (spec 012, US4).
+     Same-origin. Without it the swipe compare stays hidden; nothing else on
+     the page depends on it. -->
+<script src="./legend-filter.js"></script>
+<script>
+window.LegendFilter = window.LegendFilter || {};
+</script>
 <script>
 // Fallback stub. If map-permalink.js did not load (missing on the host, or a
 // cached 404 during a deploy), every page below would otherwise throw a
@@ -119,6 +126,27 @@ details.card[open] summary { margin-bottom:6px }
 .export-btn:hover { color:var(--text); border-color:var(--tier1) }
 .export-btn:focus-visible { outline:2px solid var(--tier1); outline-offset:2px }
 .export-btn[disabled] { opacity:.5; cursor:default }
+/* Swipe compare (spec 012, US4). The divider sits over the map; the 2024
+   margin layer shows left of it and the score layer right of it. Each side is
+   one layer over the map background, never one layer over the other, so the
+   colors on each side are the colors its legend shows. */
+#scoreMap { position:relative }
+.swipe { position:absolute; top:0; bottom:0; width:2px; margin-left:-1px; z-index:700; pointer-events:none }
+.swipe[hidden] { display:none }
+.swipe-line { position:absolute; top:0; bottom:0; left:0; width:2px; background:#f8fafc;
+  box-shadow:0 0 0 1px rgba(6,10,16,.6); pointer-events:auto; cursor:ew-resize }
+.swipe-handle { position:absolute; top:50%; left:-13px; width:28px; height:28px; margin-top:-14px;
+  border-radius:50%; background:var(--panel2); border:2px solid #f8fafc; color:var(--text);
+  display:flex; align-items:center; justify-content:center; font:700 12px/1 Inter,system-ui,sans-serif;
+  pointer-events:auto; cursor:ew-resize; touch-action:none; user-select:none }
+.swipe-handle:focus-visible { outline:2px solid var(--tier1); outline-offset:2px }
+.swipe-tag { position:absolute; top:8px; white-space:nowrap; font:600 11px/1.3 Inter,system-ui,sans-serif;
+  color:var(--text); background:rgba(22,28,37,.88); border:1px solid var(--border); border-radius:5px;
+  padding:2px 7px; pointer-events:none }
+.swipe-tag.l { right:10px }
+.swipe-tag.r { left:10px }
+.export-btn[aria-pressed="true"] { color:var(--text); border-color:var(--tier1) }
+#marginLegend[hidden] { display:none }
 .leaflet-tooltip.score-tip { background:var(--panel2); border:1px solid var(--border); color:var(--text);
   font-family:Inter,system-ui,sans-serif; font-size:12px; border-radius:6px; box-shadow:none }
 .leaflet-container { font-family:Inter,system-ui,sans-serif }
@@ -214,6 +242,7 @@ forecasts opposition to a specific project.
   <div id="scoreMap"></div>
   <div class="map-legend">
     <div id="scoreLegend" class="legend-block"></div>
+    <div id="marginLegend" class="legend-block" hidden></div>
     <div class="legend-side">
       <span><span class="enacted-key"></span> enacted restrictive policy on record</span>
       <span><span class="nodata-key"></span> not scored on this boundary</span>
@@ -221,6 +250,8 @@ forecasts opposition to a specific project.
         title="Download the current view as a PNG">Export PNG</button>
       <button id="copyLink" class="export-btn" type="button"
         title="Copy a link that reopens this exact view">Copy link</button>
+      <button id="swipeToggle" class="export-btn" type="button" aria-pressed="false" hidden
+        title="Swipe between the score and the 2024 presidential margin">Compare 2024 margin</button>
     </div>
   </div>
 </div>
@@ -273,6 +304,12 @@ const RANKING_URLS = [RAW + '/data/feature_search_ranking.csv', './data/feature_
 // only through the rename crosswalk below). Same raw-first chain as every
 // other data file here, so the Notion and Simple.ink embeds keep working.
 const COUNTY_GEO_URLS = [RAW + '/data/geo/counties_2024.topojson', './data/geo/counties_2024.topojson'];
+// 2024 presidential margin for the swipe compare. The same file and the same
+// raw-first chain opposition-map.html shades its margin layer from
+// (margin_2024 in county_aggregate.csv; sources in DATA_NOTICES.md). Fetched
+// only when the compare is first switched on, so a reader who never opens it
+// pays nothing for it.
+const MARGIN_URLS = [RAW + '/data/county_aggregate.csv', './data/county_aggregate.csv'];
 // topojson-client decodes the TopoJSON into the same FeatureCollection shape
 // the plotly file had. Pinned per configs/integrations.json; two CDNs so one
 // outage does not take the map down.
@@ -848,6 +885,15 @@ async function buildScoreMap() {
     note: 'Bars show county counts along the ramp. The ceiling is the 99th '
         + 'percentile of current scores, so it re-fits on every retrain.'
   });
+  // The two side keys read their stroke and fill from the same palette
+  // objects the layer's style() uses, so they cannot drift from the map.
+  document.querySelectorAll('.map-legend .enacted-key').forEach(k => {
+    k.style.borderColor = VizPalette.ENACTED_STROKE.color;
+  });
+  document.querySelectorAll('.map-legend .nodata-key').forEach(k => {
+    k.style.background = VizPalette.NODATA.fillColor;
+    k.style.borderColor = VizPalette.NODATA.color;
+  });
 
   const lyr = L.geoJSON(geo, {
     style(feat) {
@@ -887,11 +933,16 @@ async function buildScoreMap() {
     }
   }).addTo(map);
   CURRENT_LAYER = lyr;
+  initSwipe(map, geo);
 
   // fips= is the citation key: it reopens the map with one county called
   // out, which is what a brief needs to point at.
+  let swipeRestore = null;
   PERMA = MapPermalink.attach(map, {
     onRestore(st) {
+      if (st.extra && st.extra.sw !== undefined && typeof MapPermalink.parseSwipe === 'function') {
+        swipeRestore = MapPermalink.parseSwipe(st.extra.sw);
+      }
       if (st.extra && st.extra.fips) {
         selectCounty(String(st.extra.fips).padStart(5, '0'), {
           // Fly to the county only when the link carried no explicit view.
@@ -904,6 +955,272 @@ async function buildScoreMap() {
   });
   const copyBtn = document.getElementById('copyLink');
   if (copyBtn) copyBtn.addEventListener('click', () => MapPermalink.copyLink(copyBtn));
+  // sw= restores after the writer is bound, so the restored key is kept
+  // rather than rewritten. write:false leaves the hash exactly as linked.
+  if (swipeRestore && swipeRestore.on) {
+    SWIPE.pct = swipeRestore.pct;
+    setSwipe(true, { write: false });
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Swipe compare (spec 012, US4)
+//
+// A vertical divider over the map. Left of it, the 2024 presidential margin;
+// right of it, the calibrated score. Both layers sit in their own Leaflet
+// panes and each pane is clipped with CSS clip to its side, recomputed on
+// drag and on every move and zoom, because the clip is in layer coordinates
+// and the panes slide under the viewport as the map pans. Clipping both
+// sides, rather than laying one layer over the other, keeps each side one
+// layer over the background, so neither side's colors are tinted by the
+// layer beneath and each matches its own legend.
+//
+// State is { on, pct } and rides in the permalink as sw=<pct>; absent means
+// off, so every link written before the compare existed opens as it did.
+// No library: Leaflet panes, CSS clip, and pointer and keyboard events.
+// ---------------------------------------------------------------------------
+const SWIPE = { on: false, pct: 50, layer: null, el: null, margins: null, loading: null, geo: null };
+const SWIPE_ATTRIB = '2024 margin: county_aggregate.csv (sources in DATA_NOTICES.md)';
+
+function swipeSupported() {
+  return typeof LegendFilter.marginSymbology === 'function';
+}
+
+// Minimal quoted-CSV split: county_name carries commas inside quotes.
+function splitCsvLine(line) {
+  const out = [];
+  let cur = '', q = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (q) {
+      if (ch === '"') { if (line[i + 1] === '"') { cur += '"'; i++; } else q = false; }
+      else cur += ch;
+    } else if (ch === '"') q = true;
+    else if (ch === ',') { out.push(cur); cur = ''; }
+    else cur += ch;
+  }
+  out.push(cur);
+  return out;
+}
+
+// fips -> margin_2024 (positive is a Democratic margin, dataset convention).
+function parseMarginsCsv(text) {
+  const lines = text.replace(/\r/g, '').trim().split('\n');
+  if (lines.length < 2) return null;
+  const header = splitCsvLine(lines[0]);
+  const fi = header.indexOf('fips'), mi = header.indexOf('margin_2024');
+  if (fi < 0 || mi < 0) return null;
+  const out = {};
+  for (let i = 1; i < lines.length; i++) {
+    const c = splitCsvLine(lines[i]);
+    const fips = String(c[fi] || '').padStart(5, '0');
+    const m = parseFloat(c[mi]);
+    if (fips.length === 5 && Number.isFinite(m)) out[fips] = m;
+  }
+  return Object.keys(out).length ? out : null;
+}
+
+function loadMargins() {
+  if (SWIPE.margins) return Promise.resolve(SWIPE.margins);
+  if (!SWIPE.loading) {
+    SWIPE.loading = fetchFirst(MARGIN_URLS, false).then(t => {
+      SWIPE.margins = t ? parseMarginsCsv(t) : null;
+      return SWIPE.margins;
+    });
+  }
+  return SWIPE.loading;
+}
+
+function marginForFeature(fips) {
+  const m = SWIPE.margins || {};
+  if (m[fips] !== undefined) return m[fips];
+  const alt = BOUNDARY_RENAMES[fips];
+  return alt && m[alt] !== undefined ? m[alt] : null;
+}
+
+function buildMarginLayer(map) {
+  const sym = LegendFilter.marginSymbology();
+  const N = VizPalette.NODATA;
+  const lyr = L.geoJSON(SWIPE.geo, {
+    pane: 'marginPane',
+    renderer: L.canvas({ pane: 'marginPane' }),
+    style(feat) {
+      const fips = String(feat.id).padStart(5, '0');
+      const c = sym.color(marginForFeature(fips));
+      if (c === null) {
+        return { fillColor: N.fillColor, fillOpacity: N.fillOpacity,
+                 color: N.color, weight: N.weight, opacity: 1 };
+      }
+      return { fillColor: c, fillOpacity: VizPalette.FILL_OPACITY,
+               color: VizPalette.BASE_STROKE.color, weight: VizPalette.BASE_STROKE.weight,
+               opacity: 1 };
+    },
+    onEachFeature(feat, layer) {
+      const fips = String(feat.id).padStart(5, '0');
+      const name = feat.properties.NAME || feat.properties.name || '';
+      const st = FIPS_TO_STATE[fips.slice(0, 2)] || '';
+      const m = marginForFeature(fips);
+      const body = m === null ? 'No 2024 margin for this boundary'
+        : `2024 presidential margin: ${sym.label(Math.round(m * 100) / 100)}`;
+      layer.bindTooltip(`<b>${name}, ${st}</b><br>${body}`, { sticky: true, className: 'score-tip' });
+      layer.on('click', () => selectCounty(fips, { navigate: false }));
+    }
+  });
+  return lyr;
+}
+
+// Clip rects in layer coordinates for the current viewport. Left of the
+// divider belongs to the margin pane, right of it to the score pane.
+function applySwipeClip() {
+  const map = CURRENT_MAP;
+  if (!map) return;
+  const marginPane = map.getPane('marginPane');
+  const scorePane = map.getPane('overlayPane');
+  if (!SWIPE.on) {
+    if (marginPane) marginPane.style.clip = '';
+    scorePane.style.clip = '';
+    return;
+  }
+  const size = map.getSize();
+  const nw = map.containerPointToLayerPoint([0, 0]);
+  const se = map.containerPointToLayerPoint(size);
+  const x = nw.x + size.x * SWIPE.pct / 100;
+  if (marginPane) marginPane.style.clip = `rect(${nw.y}px, ${x}px, ${se.y}px, ${nw.x}px)`;
+  scorePane.style.clip = `rect(${nw.y}px, ${se.x}px, ${se.y}px, ${x}px)`;
+}
+
+function paintSwipeHandle() {
+  if (!SWIPE.el) return;
+  SWIPE.el.style.left = SWIPE.pct + '%';
+  const h = SWIPE.el.querySelector('.swipe-handle');
+  h.setAttribute('aria-valuenow', String(SWIPE.pct));
+  h.setAttribute('aria-valuetext',
+    `${SWIPE.pct} percent: 2024 margin to the left, enacted-restriction score to the right`);
+  SWIPE.el.dataset.pct = String(SWIPE.pct);
+}
+
+function writeSwipeHash() {
+  if (!PERMA || typeof MapPermalink.swipeValue !== 'function') return;
+  PERMA.set('sw', MapPermalink.swipeValue(SWIPE.on, SWIPE.pct));
+}
+
+function setSwipePct(pct, write) {
+  const n = Math.round(Number(pct));
+  SWIPE.pct = Number.isFinite(n) ? Math.max(0, Math.min(100, n)) : 50;
+  paintSwipeHandle();
+  applySwipeClip();
+  if (write) writeSwipeHash();
+}
+
+function buildSwipeControl(map) {
+  const wrap = document.createElement('div');
+  wrap.className = 'swipe';
+  wrap.hidden = true;
+  wrap.innerHTML =
+    '<div class="swipe-line"></div>' +
+    '<span class="swipe-tag l">2024 margin</span>' +
+    '<span class="swipe-tag r">Score</span>' +
+    '<div class="swipe-handle" role="slider" tabindex="0" aria-orientation="horizontal"' +
+    ' aria-label="Swipe compare: 2024 margin left, score right"' +
+    ' aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">' +
+    '<span aria-hidden="true">\u2194</span></div>';
+  map.getContainer().appendChild(wrap);
+  // Keep presses on the divider from starting a map drag or a county click.
+  L.DomEvent.disableClickPropagation(wrap);
+  L.DomEvent.disableScrollPropagation(wrap);
+
+  let dragging = false;
+  const pctAt = clientX => {
+    const r = map.getContainer().getBoundingClientRect();
+    return ((clientX - r.left) / r.width) * 100;
+  };
+  const down = ev => {
+    dragging = true;
+    ev.preventDefault();
+    ev.stopPropagation();
+    try { ev.target.setPointerCapture(ev.pointerId); } catch (e) { /* synthetic event */ }
+  };
+  const move = ev => { if (dragging) setSwipePct(pctAt(ev.clientX), false); };
+  const up = ev => {
+    if (!dragging) return;
+    dragging = false;
+    try { ev.target.releasePointerCapture(ev.pointerId); } catch (e) { /* not captured */ }
+    writeSwipeHash();
+  };
+  wrap.querySelectorAll('.swipe-line, .swipe-handle').forEach(el => {
+    el.addEventListener('pointerdown', down);
+    el.addEventListener('pointermove', move);
+    el.addEventListener('pointerup', up);
+    el.addEventListener('pointercancel', up);
+  });
+  const handle = wrap.querySelector('.swipe-handle');
+  handle.addEventListener('keydown', ev => {
+    const step = ev.shiftKey ? 10 : 1;
+    let next = null;
+    if (ev.key === 'ArrowLeft' || ev.key === 'ArrowDown') next = SWIPE.pct - step;
+    else if (ev.key === 'ArrowRight' || ev.key === 'ArrowUp') next = SWIPE.pct + step;
+    else if (ev.key === 'PageDown') next = SWIPE.pct - 10;
+    else if (ev.key === 'PageUp') next = SWIPE.pct + 10;
+    else if (ev.key === 'Home') next = 0;
+    else if (ev.key === 'End') next = 100;
+    if (next === null) return;
+    ev.preventDefault();
+    ev.stopPropagation();
+    setSwipePct(next, true);
+  });
+  return wrap;
+}
+
+async function setSwipe(on, opts) {
+  opts = opts || {};
+  const map = CURRENT_MAP;
+  const btn = document.getElementById('swipeToggle');
+  if (!map || !swipeSupported()) return;
+  if (on && !SWIPE.layer) {
+    if (btn) btn.disabled = true;
+    const margins = await loadMargins();
+    if (btn) btn.disabled = false;
+    if (!margins) {
+      if (btn) { btn.textContent = '2024 margin unavailable'; btn.disabled = true; }
+      return;
+    }
+    SWIPE.layer = buildMarginLayer(map);
+  }
+  SWIPE.on = !!on;
+  const legend = document.getElementById('marginLegend');
+  if (SWIPE.on) {
+    if (!map.hasLayer(SWIPE.layer)) SWIPE.layer.addTo(map);
+    map.attributionControl.addAttribution(SWIPE_ATTRIB);
+    if (legend) {
+      LegendFilter.renderRampLegend(legend, LegendFilter.marginSymbology(), {
+        title: '2024 presidential margin (left of the divider)',
+        note: 'Positive is a Democratic margin.'
+      });
+      legend.hidden = false;
+    }
+  } else {
+    if (SWIPE.layer && map.hasLayer(SWIPE.layer)) map.removeLayer(SWIPE.layer);
+    map.attributionControl.removeAttribution(SWIPE_ATTRIB);
+    if (legend) legend.hidden = true;
+  }
+  if (SWIPE.el) SWIPE.el.hidden = !SWIPE.on;
+  if (btn) btn.setAttribute('aria-pressed', String(SWIPE.on));
+  setSwipePct(SWIPE.pct, opts.write !== false);
+}
+
+function initSwipe(map, geo) {
+  const btn = document.getElementById('swipeToggle');
+  if (!swipeSupported()) return;
+  SWIPE.geo = geo;
+  map.createPane('marginPane');
+  // Above the score layer's overlayPane (400), below tooltips (650).
+  map.getPane('marginPane').style.zIndex = 450;
+  SWIPE.el = buildSwipeControl(map);
+  map.on('move zoom zoomend viewreset resize', applySwipeClip);
+  if (btn) {
+    btn.hidden = false;
+    btn.addEventListener('click', () => setSwipe(!SWIPE.on));
+  }
 }
 
 // Calls out one county: selection stroke, brought to front, hash updated.

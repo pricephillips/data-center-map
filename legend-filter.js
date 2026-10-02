@@ -46,11 +46,21 @@
  *     A value with no parsable year passes only when both ends are open, so
  *     narrowing the range never keeps an undated record it cannot place.
  *
+ * Symbology legends and pin tooltips (spec 012, US4)
+ *   entriesFromScale(scale), marginSymbology() with entriesFromSymbology()
+ *   and renderRampLegend(), and outcomeEntries() build legend entries from
+ *   the class breaks and colors the layer paints with (viz-palette.js), so a
+ *   legend cannot disagree with its map. pinLabel() and bindPinTooltip() give
+ *   every pin map the same hover label: name, place, outcome term. Outcome
+ *   text is limited to the platform tiers; anything else is dropped.
+ *
  * Registration
  *   2026-08-12  Initial registration. Contract, modes, and empty-set
  *               semantics as above. Selection is applied through the host
  *               page's existing filter predicate; the module owns no
  *               filtering logic of its own.
+ *   2026-10-01  Added symbology legend builders and the shared pin tooltip.
+ *               Additive; attach() and the year-range helpers are unchanged.
  */
 (function (global) {
   'use strict';
@@ -236,6 +246,229 @@
     return true;
   }
 
+  // ---------------------------------------------------------------------
+  // Legends generated from symbology (spec 012, US4)
+  // ---------------------------------------------------------------------
+  // A hand-written legend is a second copy of the layer's class breaks and
+  // colors, and a second copy drifts. These build legend entries from the
+  // same objects the layer paints with, so the legend is the symbology read
+  // back rather than a description of it. Colors come from viz-palette.js,
+  // read at call time so a page that loads it later still gets them.
+
+  function palette() { return global.VizPalette || null; }
+
+  /* entriesFromScale(scale, opts) -> [{ value, label, color }]
+   *   scale  a VizPalette.SequentialScale (or anything with ticks() and color())
+   *   opts.ticks   number of intervals, as passed to scale.ticks(). Default 4.
+   *   opts.format  fn(value) -> label. Default whole percent.
+   * Each entry's value is a class break from scale.ticks() and its color is
+   * scale.color() at that break, the call the layer's style() makes.
+   */
+  function entriesFromScale(scale, opts) {
+    opts = opts || {};
+    if (!scale || typeof scale.ticks !== 'function') return [];
+    var fmt = opts.format || function (v) { return (v * 100).toFixed(0) + '%'; };
+    return scale.ticks(opts.ticks || 4).map(function (v) {
+      return { value: v, label: fmt(v), color: scale.color(v) };
+    });
+  }
+
+  // margin_2024 symbology. Positive is a Democratic margin under the dataset
+  // convention (naive re-derivation flips the sign). Colors saturate at a
+  // 50-point margin, which is where both choropleth pages already saturated.
+  var MARGIN_SPAN = 0.5;
+  function marginLabel(v) {
+    if (Math.abs(v) < 1e-9) return 'even';
+    return (v < 0 ? 'R +' : 'D +') + Math.round(Math.abs(v) * 100);
+  }
+  /* marginSymbology() -> { breaks, color(m), label(m), span }
+   *   The single definition the margin layer styles with and the margin
+   *   legend is built from. color() returns null for a missing value so the
+   *   caller can fall through to the no-data fill.
+   */
+  function marginSymbology() {
+    var VP = palette();
+    return {
+      span: MARGIN_SPAN,
+      breaks: [-MARGIN_SPAN, 0, MARGIN_SPAN],
+      color: function (m) {
+        if (m === null || m === undefined || m === '' || !isFinite(m) || !VP) return null;
+        var t = Number(m) / MARGIN_SPAN;
+        return VP.diverging(t < -1 ? -1 : (t > 1 ? 1 : t));
+      },
+      label: marginLabel
+    };
+  }
+  /* entriesFromSymbology(sym) -> [{ value, label, color }] from sym.breaks. */
+  function entriesFromSymbology(sym) {
+    if (!sym || !sym.breaks) return [];
+    return sym.breaks.map(function (v) {
+      return { value: v, label: sym.label(v), color: sym.color(v) };
+    });
+  }
+  /* rampCss(sym, steps) -> CSS gradient sampled from sym.color across its
+   * breaks, so the legend ramp is the layer's own color function. */
+  function rampCss(sym, steps) {
+    steps = steps || 12;
+    var lo = sym.breaks[0], hi = sym.breaks[sym.breaks.length - 1];
+    var parts = [], i;
+    for (i = 0; i <= steps; i++) {
+      parts.push(sym.color(lo + (hi - lo) * (i / steps)) + ' ' +
+                 Math.round((i / steps) * 100) + '%');
+    }
+    return 'linear-gradient(to right,' + parts.join(',') + ')';
+  }
+  /* renderRampLegend(el, sym, opts) -> entries
+   *   Writes the viz-palette legend markup (vp-title, vp-ramp, vp-ticks,
+   *   vp-note) from the symbology, and records the breaks on the element as
+   *   data-legend-breaks so a test can compare them with the layer's.
+   */
+  function renderRampLegend(el, sym, opts) {
+    opts = opts || {};
+    var entries = entriesFromSymbology(sym);
+    if (!el) return entries;
+    var ticks = entries.map(function (e, ix) {
+      var align = ix === 0 ? 'flex-start'
+        : (ix === entries.length - 1 ? 'flex-end' : 'center');
+      return '<span style="justify-content:' + align + '">' + escHtml(e.label) + '</span>';
+    }).join('');
+    el.innerHTML =
+      '<div class="vp-title">' + escHtml(opts.title || '') + '</div>' +
+      '<div class="vp-ramp" style="background:' + rampCss(sym) + '"></div>' +
+      '<div class="vp-ticks">' + ticks + '</div>' +
+      (opts.note ? '<div class="vp-note">' + escHtml(opts.note) + '</div>' : '');
+    el.setAttribute('data-legend-breaks', JSON.stringify(entries.map(function (e) {
+      return e.value;
+    })));
+    return entries;
+  }
+
+  // ---------------------------------------------------------------------
+  // Outcome vocabulary and uniform pin tooltips (spec 012, US4)
+  // ---------------------------------------------------------------------
+  // The platform's outcome tiers, and the friendly labels already shown on
+  // opposition-map. Nothing outside this set is ever rendered as an outcome.
+  var OUTCOME_TERMS = ['advanced_confirmed', 'restricted_conditional',
+    'blocked_confirmed', 'pending', 'blocked_unverified',
+    'advanced_unverified', 'mixed'];
+  var OUTCOME_TERM_LABEL = {
+    advanced_confirmed: 'Advanced (confirmed)',
+    restricted_conditional: 'Restricted (conditional)',
+    blocked_confirmed: 'Blocked (confirmed)',
+    pending: 'Pending / undecided',
+    blocked_unverified: 'Blocked (unverified)',
+    advanced_unverified: 'Advanced (unverified)',
+    mixed: 'Mixed'
+  };
+  // Scorekeeping words and internal field names. A label containing any of
+  // them is dropped, not rewritten, so a page passing a raw source value by
+  // mistake shows no outcome rather than the wrong vocabulary.
+  var REFUSED = /\b(win|wins|won|loss|losses|lost|decided|confirmed_blocks|blocked_share)\b/i;
+
+  function escHtml(v) {
+    return String(v === null || v === undefined ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* outcomeLabel(term, labels) -> friendly label, or '' for anything outside
+   * the platform vocabulary. labels overrides the defaults per term. */
+  function outcomeLabel(term, labels) {
+    var k = String(term || '').trim().toLowerCase();
+    if (OUTCOME_TERMS.indexOf(k) < 0) return '';
+    var l = (labels && labels[k]) || OUTCOME_TERM_LABEL[k];
+    return REFUSED.test(l) ? '' : l;
+  }
+
+  /* outcomeEntries(order, labels) -> [{ key, label, color }]
+   *   Legend rows for outcome classes, colored from VizPalette.OUTCOME_COLOR,
+   *   the table the pins are painted from. Keys outside the platform
+   *   vocabulary are skipped.
+   */
+  function outcomeEntries(order, labels) {
+    var VP = palette();
+    var colors = (VP && VP.OUTCOME_COLOR) || {};
+    return (order || OUTCOME_TERMS).filter(function (k) {
+      return OUTCOME_TERMS.indexOf(k) >= 0;
+    }).map(function (k) {
+      return { key: k, label: outcomeLabel(k, labels), color: colors[k] || null };
+    });
+  }
+
+  /* pinLabel(info) -> HTML for the hover tooltip on every pin map.
+   *   info.name     project or facility name
+   *   info.county   county text, as the source records it
+   *   info.state    state name or abbreviation, appended after the county
+   *   info.outcome  a platform outcome term, rendered through outcomeLabel()
+   *   info.outcomeLabel  a page's existing friendly label, used in place of
+   *                 the default when it passes the vocabulary screen
+   * Three short lines: name, place, outcome. Empty parts are omitted. No other
+   * field is read, so a composite or internal column cannot reach a tooltip.
+   */
+  function pinLabel(info) {
+    info = info || {};
+    var name = String(info.name || '').trim() || 'Unnamed';
+    if (name.length > 60) name = name.slice(0, 57) + '...';
+    var place = [info.county, info.state].map(function (v) {
+      return String(v || '').trim();
+    }).filter(Boolean).join(', ');
+    var oc = '';
+    if (info.outcomeLabel && !REFUSED.test(String(info.outcomeLabel))) {
+      oc = String(info.outcomeLabel);
+    } else if (info.outcome) {
+      oc = outcomeLabel(info.outcome);
+    }
+    var out = '<b>' + escHtml(name) + '</b>';
+    if (place) out += '<br>' + escHtml(place);
+    if (oc) out += '<br><span class="lf-pin-oc">' + escHtml(oc) + '</span>';
+    return out;
+  }
+
+  var PIN_CSS_ID = 'legend-filter-pin-css';
+  function injectPinCss() {
+    var d = global.document;
+    if (!d || !d.getElementById || d.getElementById(PIN_CSS_ID)) return;
+    var s = d.createElement('style');
+    s.id = PIN_CSS_ID;
+    s.textContent = [
+      '.leaflet-tooltip.lf-pin-tip{background:#0f1722;color:#eef2f7;',
+      '  border:1px solid #2c3544;border-radius:8px;font-size:12px;line-height:1.45;',
+      '  box-shadow:0 6px 20px rgba(0,0,0,.35)}',
+      '.leaflet-tooltip.lf-pin-tip b{color:#fff}',
+      '.leaflet-tooltip.lf-pin-tip .lf-pin-oc{color:#c6cfda}'
+    ].join('\n');
+    d.head.appendChild(s);
+  }
+
+  /* bindPinTooltip(layer, info, opts) -> layer
+   *   info is the object pinLabel() takes, or fn() returning one, evaluated
+   *   on each hover so data joined after the pin was built still shows.
+   *   opts.className is added beside the shared lf-pin-tip class. Hover only:
+   *   the page's own click handler (detail panel, popup) is left untouched.
+   */
+  function bindPinTooltip(layer, info, opts) {
+    if (!layer || typeof layer.bindTooltip !== 'function') return layer;
+    opts = opts || {};
+    injectPinCss();
+    var content = typeof info === 'function'
+      ? function () { return pinLabel(info()); }
+      : pinLabel(info);
+    layer.bindTooltip(content, {
+      direction: 'top',
+      className: 'lf-pin-tip' + (opts.className ? ' ' + opts.className : '')
+    });
+    return layer;
+  }
+
   global.LegendFilter = { attach: attach, fromHashValue: fromHashValue,
-                          yearOf: yearOf, inYearRange: inYearRange };
+                          yearOf: yearOf, inYearRange: inYearRange,
+                          entriesFromScale: entriesFromScale,
+                          marginSymbology: marginSymbology,
+                          entriesFromSymbology: entriesFromSymbology,
+                          renderRampLegend: renderRampLegend,
+                          OUTCOME_TERMS: OUTCOME_TERMS,
+                          outcomeLabel: outcomeLabel,
+                          outcomeEntries: outcomeEntries,
+                          pinLabel: pinLabel,
+                          bindPinTooltip: bindPinTooltip };
 })(window);

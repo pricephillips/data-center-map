@@ -121,5 +121,33 @@ const CHK = () => ({tagName:'INPUT', type:'checkbox', checked:false, addEventLis
   eq('polarity: loss maps to advanced_confirmed', OUT.loss, 'advanced_confirmed');
 }
 
+// ---- group 7: swipe compare key (spec 012, US4) ----
+{ const w = boot('#map=5/39/-98&fips=51145&sw=55', {}); const MP = w.MapPermalink;
+  const m = {_c:{lat:0,lng:0},_z:4,getCenter(){return this._c;},getZoom(){return this._z;},on(){},
+             setView(ll,z){this._c={lat:ll[0],lng:ll[1]};this._z=z;}};
+  let seen = null;
+  const ctl = MP.attach(m, { onRestore(st){ seen = st.extra.sw; } });
+  eq('sw surfaced to the page on restore', seen, '55');
+  eq('sw parses as on at its percent', MP.parseSwipe(seen), {on:true, pct:55});
+  eq('sw rides beside existing keys', w.location.hash, '#map=5/39.0000/-98.0000&fips=51145&sw=55');
+  ctl.set('sw', MP.swipeValue(true, 61.6));
+  eq('position written as an integer percent', ctl.get('sw'), '62');
+  // Round trip: the written hash, reopened, yields the same state.
+  const w2 = boot(w.location.hash, {}); const MP2 = w2.MapPermalink;
+  let back = null;
+  MP2.attach({_c:{lat:0,lng:0},_z:4,getCenter(){return this._c;},getZoom(){return this._z;},on(){},
+              setView(ll,z){this._c={lat:ll[0],lng:ll[1]};this._z=z;}},
+             { onRestore(st){ back = MP2.parseSwipe(st.extra.sw); } });
+  eq('round trip restores the same position', back, {on:true, pct:62});
+  ctl.set('sw', MP.swipeValue(false, 62));
+  eq('swipe off drops the key', w.location.hash.indexOf('sw='), -1);
+  eq('other keys survive swipe off', w.location.hash.indexOf('fips=51145') > 0, true);
+  eq('absent key reads as off', MP.parseSwipe(undefined), {on:false, pct:50});
+  eq('malformed key reads as off', MP.parseSwipe('left'), {on:false, pct:50});
+  eq('out of range clamps high', MP.parseSwipe('140'), {on:true, pct:100});
+  eq('out of range clamps low', MP.parseSwipe('-3'), {on:true, pct:0});
+  eq('zero is a position, not off', MP.swipeValue(true, 0), '0');
+}
+
 console.log('\n'+pass+' passed, '+fail+' failed');
 process.exit(fail?1:0);

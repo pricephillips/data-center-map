@@ -4,3 +4,7 @@ __pycache__/
 
 # OCR text cache (agenda_text.py); CI persists it with actions/cache
 .cache/
+
+# Terrain plates and probe renders (spec 013). Deliverable artifacts, not
+# data: CI uploads them as workflow artifacts and never commits them.
+outputs/

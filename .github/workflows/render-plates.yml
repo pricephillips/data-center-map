@@ -1,0 +1,110 @@
+name: Render plates
+
+# Renders every terrain plate config in configs/plates/ on the CI route chosen
+# by plate-probe.yml (spec 013 US4, FR-007) and uploads the PNGs and their
+# sidecar JSON as workflow artifacts. It never commits plates: outputs/ is
+# gitignored and this job has read-only permissions.
+#
+# route picks the runner and wgpu backend of the probe leg that won (see
+# specs/013-terrain-plates/research.md, R4). preview renders at reduced
+# samples and labels the output "preview" in the filename and sidecar. The
+# default is full quality: the Spalding print render took 35.7 minutes on a
+# 4-vCPU lavapipe machine (research R4), inside the 60-minute budget. Switch
+# the default to preview if a runner measurement (plate-probe full_leg) ever
+# exceeds it.
+#
+# workflow_dispatch only.
+
+on:
+  workflow_dispatch:
+    inputs:
+      route:
+        description: 'Probe leg to render on (A windows/dx12, B ubuntu/vulkan, C ubuntu/gl, D macos/metal)'
+        required: false
+        default: 'B'
+      preview:
+        description: 'Reduced samples, labelled preview (true or false)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: render-plates
+  cancel-in-progress: false
+
+jobs:
+  route:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      os: ${{ steps.pick.outputs.os }}
+      backend: ${{ steps.pick.outputs.backend }}
+    steps:
+      - id: pick
+        env:
+          ROUTE: ${{ inputs.route }}
+        run: |
+          case "$ROUTE" in
+            A) echo "os=windows-latest" >> "$GITHUB_OUTPUT"; echo "backend=dx12" >> "$GITHUB_OUTPUT" ;;
+            B) echo "os=ubuntu-latest" >> "$GITHUB_OUTPUT"; echo "backend=vulkan" >> "$GITHUB_OUTPUT" ;;
+            C) echo "os=ubuntu-latest" >> "$GITHUB_OUTPUT"; echo "backend=gl" >> "$GITHUB_OUTPUT" ;;
+            D) echo "os=macos-14" >> "$GITHUB_OUTPUT"; echo "backend=metal" >> "$GITHUB_OUTPUT" ;;
+            *) echo "route must be A, B, C or D" >&2; exit 1 ;;
+          esac
+
+  render:
+    needs: route
+    runs-on: ${{ needs.route.outputs.os }}
+    timeout-minutes: 75
+    defaults:
+      run:
+        shell: bash
+    env:
+      WGPU_BACKENDS: ${{ needs.route.outputs.backend }}
+      ROUTE: ${{ inputs.route }}
+      PREVIEW: ${{ inputs.preview }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - name: Software Vulkan (lavapipe)
+        if: inputs.route == 'B'
+        run: sudo apt-get update -q && sudo apt-get install -y -q mesa-vulkan-drivers
+      - name: Software GL (llvmpipe via EGL)
+        if: inputs.route == 'C'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q libegl1 libegl-mesa0 libgl1-mesa-dri
+          echo "LIBGL_ALWAYS_SOFTWARE=1" >> "$GITHUB_ENV"
+          echo "XDG_RUNTIME_DIR=$RUNNER_TEMP" >> "$GITHUB_ENV"
+      - name: Install plate requirements
+        run: pip install -r requirements/plates.in
+      - name: Render every plate config
+        run: |
+          args=()
+          if [ "$PREVIEW" = "true" ]; then args+=(--preview); fi
+          status=0
+          for cfg in configs/plates/*.json; do
+            echo "::group::$cfg"
+            python scripts/render_terrain_plate.py --config "$cfg" "${args[@]}" || status=1
+            echo "::endgroup::"
+          done
+          {
+            echo "## Plates (route $ROUTE, backend $WGPU_BACKENDS, preview=$PREVIEW)"
+            for side in outputs/plates/*.json; do
+              python -c "import json,sys; s=json.load(open(sys.argv[1])); print('-', s['png'], s['seconds'], (s.get('adapter') or {}).get('name'))" "$side"
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit $status
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: terrain-plates
+          path: outputs/plates/
+          if-no-files-found: warn
+          retention-days: 30

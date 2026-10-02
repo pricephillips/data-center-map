@@ -1,0 +1,46 @@
+{
+  "_comment": [
+    "Field allowlist for scripts/export_geolibre.py (spec 012 US2, FR-002).",
+    "Only the columns named here reach a GeoLibre popup or tooltip. The",
+    "exporter refuses any column in refused_columns and any column it reads",
+    "from site_screener.py's composite outputs, whatever this file says, so",
+    "widening the allowlist can never publish a group-level outcome count.",
+    "Hand-edited; no process writes it."
+  ],
+  "pins": {
+    "source": "master_opposition_clean.csv",
+    "popup": [
+      {"field": "Project Name", "label": "Project"},
+      {"field": "City", "label": "City"},
+      {"field": "County", "label": "County"},
+      {"field": "State", "label": "State"},
+      {"field": "outcome_defensible", "label": "Outcome"},
+      {"field": "qc_mechanism", "label": "Mechanism"},
+      {"field": "action_year", "label": "Year"}
+    ],
+    "tooltip": ["Project Name", "County", "outcome_defensible"]
+  },
+  "counties": {
+    "popup": [
+      {"field": "county", "label": "County"},
+      {"field": "state", "label": "State"},
+      {"field": "calibrated_score", "label": "Calibrated score"},
+      {"field": "score_decile", "label": "Decile"},
+      {"field": "has_enacted_restrictive", "label": "Enacted restriction"}
+    ],
+    "tooltip": ["county", "score_decile"]
+  },
+  "margin": {
+    "popup": [
+      {"field": "county", "label": "County"},
+      {"field": "state", "label": "State"},
+      {"field": "margin_2024", "label": "2024 presidential margin"}
+    ],
+    "tooltip": ["county", "margin_2024"]
+  },
+  "refused_columns": [
+    "decided",
+    "confirmed_blocks",
+    "blocked_share"
+  ]
+}

@@ -1042,11 +1042,25 @@ function handleCSVData(rawData) {
       const idx = i;
       const extra = r._projGroup.length > 1 ? ' • +' + (r._projGroup.length - 1) + ' more' : '';
       const m = L.marker([mlat, mlon], { icon: iconFor(r, usedCentroid) })
-        .bindPopup(() => buildPopup(r, usedCentroid), { maxWidth: 360 })
-        .bindTooltip(
+        .bindPopup(() => buildPopup(r, usedCentroid), { maxWidth: 360 });
+      // Shared hover label (spec 012, US4): name, county, outcome, the same
+      // three lines as every other pin map. The outcome is the platform tier
+      // (OUTCOME_TIER) shown with this page's friendly label; a raw value
+      // with no tier shows no outcome line rather than its raw term.
+      if (typeof LegendFilter.bindPinTooltip === 'function') {
+        const rawOc = String(r['Community Outcome'] || '').trim().toLowerCase();
+        const tier = OUTCOME_TIER[rawOc] || '';
+        LegendFilter.bindPinTooltip(m, {
+          name: r['Project Name'] || r['Incident'] || '',
+          county: r['County'] || '', state: r['State'] || '',
+          outcome: tier, outcomeLabel: tier ? friendlyOutcome(rawOc) : ''
+        }, { className: 'pin-tooltip' });
+      } else {
+        m.bindTooltip(
           `<b>${esc((r['Incident'] || '').slice(0, 50))}</b><br>${esc(r['State'] || '')} • ${esc(friendlyOutcome(r['Community Outcome']))}${extra}`,
           { direction: 'top', className: 'pin-tooltip' }
         );
+      }
       m.on('click', e => { L.DomEvent.stopPropagation(e); highlightCard(idx); });
       leafletMarkers[i] = m;
     });
