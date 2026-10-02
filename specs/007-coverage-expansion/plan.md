@@ -311,3 +311,25 @@ place per package.
 |-----------|------------|-------------------------------------|
 | Three generic options added to `fetch_permits.py` and `permit_ingest.py` for an ingestion that FR-004 says is config-only | Epoch's campus CSV has no date and no state column, and its dates live in a second file. Without a join, a state extractor and a project matcher, the config maps zero valid rows. Matching is also needed so a tracked project never enters the baseline as an unopposed comparable. | An Epoch-specific ingest script is what FR-004 forbids. The options are source-agnostic, each is off unless a config names it, and each has a selftest, so the ingestion path stays one path. |
 | `scripts/agenda_extract.py --selftest` runs in CI although the script refuses CI | Principle IX puts every module's selftest in the blocking discovery run. | Exempting the script would leave the offset rule untested in CI. The selftest uses a stub model and makes no network call, so it is not an extraction run. |
+
+**Follow-up (2026-10-01, owner decision)**: US5 runs in CI. The sandbox
+network policy blocks Ollama's hosts, so the local-only run had no machine to
+run on. `agenda-extract.yml` (weekly, and on dispatch) installs Ollama inside
+the runner, pulls `gemma2:2b`, restores the agenda text cache that
+`local-signals.yml` writes, and runs
+`scripts/agenda_extract.py --allow-ci --from-index 20`.
+
+- The model is still local to the job, and no agenda text leaves it.
+- Every retained field is still grounded by exact slice, and the output is
+  still only `data/agenda_extract_draft.csv`, which the workflow commits for
+  review.
+- `--allow-ci` is the only way past the CI refusal, and only this workflow
+  passes it. FR-005's refusal stays the default.
+- `--from-index` reads only the passages around keyword hits, so a CPU runner
+  finishes inside the job timeout. Window offsets are shifted back, so
+  grounding is checked against the full document.
+
+The federal pass needed no change: the `CONGRESS_API_KEY` repository secret
+was already set. On 2026-10-01 `bill-sync.yml` matched 15 of 15 federal bill
+identifiers, and 7 records went to review. The Epoch fetch added 49 candidates
+to the dated baseline and held 17 that match tracked projects.

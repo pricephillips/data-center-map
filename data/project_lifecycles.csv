@@ -44,7 +44,7 @@ prj_42,Project Maize,IN,la porte,construction,advanced_confirmed,yes,2025-06-01,
 prj_43,Hobart Tech Park,IN,lake,proposed,pending,no,2025-01-01,year,,,,,2026-09-25,2400,proposals,725,2,2025-10-01,2025-11-01,31,,public_comment,2,no
 prj_44,Microsoft La Porte,IN,laporte,construction,advanced_confirmed,yes,2024-01-01,year,,,,,2026-09-25,538,opposition_events,1800,2,2026-04-13,2026-05-18,35,,public_comment; zoning_restriction,1,no
 prj_45,Project Domino,IN,boone,construction,advanced_confirmed,yes,2024-11-01,month,,,,,2026-09-25,1000,proposals,1400,1,2025-08-01,2025-08-01,0,,public_comment; zoning_restriction,2,no
-prj_46,Jefferson Proving Ground Data Center,IN,jefferson,proposed,pending,no,2026-02-01,month,,,,,2026-09-28,,,,0,,,,,,0,no
+prj_46,Jefferson Proving Ground Data Center,IN,jefferson,approved,advanced_confirmed,yes,2026-02-01,month,,,,,2026-09-28,,,,1,2026-05-20,2026-05-20,0,,zoning_restriction,0,no
 prj_47,Decennial Group Akron,IN,fulton,proposed,pending,no,2026-02-01,month,,,,,2026-03-09,500,proposals,300,1,2026-03-03,2026-03-03,0,,moratorium,2,no
 prj_48,Project Flo,IN,marion,withdrawn,blocked_confirmed,yes,2025-03-01,month,2025-09-22,"Google withdrawal, date stated in sourced tracker record",https://mirrorindy.org/google-behind-proposed-indianapolis-data-center-project/,205,2026-09-25,400,opposition_events,468,1,2025-09-22,2025-09-22,0,,project_withdrawal,2,no
 prj_49,Project Rise,IN,jasper,proposed,pending,no,2026-06-01,month,,,,,2026-09-25,,,304,0,,,,,,0,no
@@ -383,7 +383,7 @@ prj_382,Project Bluegrass,KY,mercer,proposed,pending,no,,,,,,,,,,900,0,,,,,,0,no
 prj_383,Jenkins KY Data Center,KY,letcher,preliminary,pending,no,,,,,,,,,,100,0,,,,,,0,no
 prj_384,Brookfield Data Center,KY,mccracken,proposed,pending,no,,,,,,,2026-09-25,1200,proposals,750,0,,,,,,0,no
 prj_385,Sphere 3D Data Center,KY,christian,proposed,pending,no,,,,,,,,15,proposals,,0,,,,,,0,no
-prj_386,Kentucky Industrial Alliance LLC Data Center,KY,barren,rejected,blocked_confirmed,yes,,,,,,,,1200,proposals,380,0,,,,,,0,no
+prj_386,Kentucky Industrial Alliance LLC Data Center,KY,barren,rejected,blocked_confirmed,yes,,,,,,,,1200,proposals,380,1,2026-07-20,2026-07-20,0,,lawsuit; moratorium,0,yes
 prj_387,Riot 1,KY,mccracken,expansion,advanced_confirmed,yes,,,,,,,,,,,0,,,,,,0,no
 prj_388,Riot 2,KY,mccracken,expansion,advanced_confirmed,yes,,,,,,,,60,proposals,,0,,,,,,0,no
 prj_389,Rubix Data Center,KY,boyd,proposed,pending,no,,,,,,,2026-09-25,2000,proposals,450,0,,,,,,0,no
@@ -393,7 +393,7 @@ prj_392,Markely Data Center Expansion,MA,middlesex,rejected,blocked_confirmed,ye
 prj_393,Eternal Rings Data Center,MD,prince george's,proposed,pending,no,,,,,,,,,,,0,,,,,,0,no
 prj_394,Amazon Lusby,MD,calvert,withdrawn,blocked_confirmed,yes,,,,,,,2026-09-25,500,proposals,,1,2026-03-03,2026-03-03,0,,moratorium,1,no
 prj_395,Appeal Digital Park,MD,calvert,proposed,pending,no,2026-03-01,month,,,,,2026-09-25,,,133,0,,,,,,0,no
-prj_396,TeraWulf Morgantown,MD,charles,proposed,pending,no,,,,,,,2026-09-25,210,proposals,250,0,,,,,,0,no
+prj_396,TeraWulf Morgantown,MD,charles,proposed,pending,no,,,,,,,2026-09-25,210,proposals,250,1,2026-03-02,2026-03-02,0,,regulatory_action; zoning_restriction,2,no
 prj_397,Logix I Campus,IN,clinton,rejected,blocked_confirmed,yes,,,,,,,2026-09-25,300,proposals,833,0,,,,,,0,no
 prj_398,Jumping Bison LLC Data Center,IN,decatur,proposed,pending,no,,,,,,,,,,550,0,,,,,,0,no
 prj_399,CoreWeave Hammond,IN,lake,proposed,pending,no,,,,,,,,180,proposals,,0,,,,,,0,no
@@ -402,8 +402,8 @@ prj_402,Thunderbird Commerce Center Project,IN,marion,proposed,pending,no,,,,,,,
 prj_403,Jeremiah A QTS,IN,,withdrawn,blocked_confirmed,yes,,,,,,,,,,400,0,,,,,,0,no
 prj_404,Jeremiah B QTS,IN,,withdrawn,blocked_confirmed,yes,,,,,,,,,,400,0,,,,,,0,no
 prj_405,Agincourt Valparaiso,IN,porter,withdrawn,blocked_confirmed,yes,,,,,,,,,,248,0,,,,,,0,no
-prj_407,RadiusDC Indianapolis,IN,hendricks,proposed,pending,no,,,,,,,,,,31,0,,,,,,0,no
-prj_408,Prologis Shelbyville,IN,shelby,proposed,pending,no,,,,,,,2026-09-28,,,576,0,,,,,,0,no
+prj_407,RadiusDC Indianapolis,IN,hendricks,proposed,pending,no,,,,,,,,24,opposition_events,31,1,2025-10-01,2025-10-01,0,,public_comment,1,no
+prj_408,Prologis Shelbyville,IN,shelby,proposed,pending,no,,,,,,,2026-09-28,,,576,2,2026-01-01,2026-02-23,53,,moratorium; public_comment,1,no
 prj_409,Fluidstack Sullivan County,IN,sullivan,proposed,pending,no,,,,,,,,430,proposals,1000,0,,,,,,0,no
 prj_410,Prologis Leesburg,IN,kosciusko,rejected,blocked_confirmed,yes,,,,,,,,,,550,1,2025-04-22,2025-04-22,0,,zoning_restriction,1,no
 prj_411,Province Group Data Center,IN,lake,proposed,pending,no,,,,,,,,,,,0,,,,,,0,no
@@ -420,8 +420,8 @@ prj_421,Waterville Data Center Land Advertisement,OH,lucas,preliminary,pending,n
 prj_424,PRSM Data Center,OH,preble,withdrawn,blocked_confirmed,yes,,,,,,,,,,300,0,,,,,,0,no
 prj_425,EdgeConneX New Albany,OH,licking,construction,advanced_confirmed,yes,,,,,,,,120,proposals,270,0,,,,,,0,no
 prj_426,Karis Critical Johnstown,OH,licking,proposed,pending,no,,,,,,,,36,proposals,115,0,,,,,,0,no
-prj_428,Oakland University Data Center,MI,oakland,proposed,pending,no,,,,,,,,26,proposals,,1,2025-06-01,2025-06-01,0,,public_comment,1,no
-prj_429,Columbia Data Center,MO,boone,proposed,pending,no,,,,,,,,,,63,0,,,,,,0,no
+prj_428,Oakland University Data Center,MI,oakland,proposed,pending,no,,,,,,,,26,proposals,,3,2025-06-01,2026-09-24,480,,moratorium; public_comment,2,no
+prj_429,Columbia Data Center,MO,boone,proposed,pending,no,,,,,,,,,,63,1,2025-11-19,2025-11-19,0,,zoning_restriction,1,no
 prj_430,Thor Equities Data Center,MI,washtenaw,proposed,pending,no,,,,,,,,100,opposition_events,822,2,2025-08-01,2025-10-01,61,,public_comment; zoning_restriction,1,no
 prj_431,US Signal Data Center,MI,wayne,expansion,advanced_confirmed,yes,,,,,,,,2,proposals,,0,,,,,,0,no
 prj_432,Switch Pyramid Campus,MI,kent,expansion,advanced_confirmed,yes,,,,,,,,320,proposals,,0,,,,,,0,no
@@ -444,9 +444,9 @@ prj_448,Revitalization Unlimited Kansas City,MO,jackson,rejected,blocked_confirm
 prj_449,STJ St. Louis,MO,buchanan,withdrawn,blocked_confirmed,yes,,,,,,,,,,400,0,,,,,,0,no
 prj_450,Tierpoint St. Louis,MO,st. charles,proposed,pending,no,,,,,,,,,,,0,,,,,,0,no
 prj_452,Vantage OH2,OH,fairfield,proposed,pending,no,,,,,,,,800,proposals,345,0,,,,,,0,no
-prj_454,Pacifico Data Center,OH,pickaway,rejected,blocked_confirmed,yes,,,,,,,,,,,0,,,,,,0,no
+prj_454,Pacifico Data Center,OH,pickaway,rejected,blocked_confirmed,yes,,,,,,,,120,opposition_events,,1,2026-02-06,2026-02-06,0,,moratorium,1,no
 prj_455,EdgeConneX Ashville,OH,pickaway,proposed,pending,no,,,,,,,,200,proposals,195,1,2025-12-19,2025-12-19,0,,moratorium,1,no
-prj_457,Amazon Sunbury,OH,delaware,delayed,pending,no,,,,,,,,,,,0,,,,,,0,no
+prj_457,Amazon Sunbury,OH,delaware,delayed,pending,no,,,,,,,,,,,1,2026-04-15,2026-04-15,0,,legislation; public_comment; zoning_restriction,1,no
 prj_458,Mara Holdings,OH,monroe,proposed,pending,no,,,,,,,,200,proposals,1600,0,,,,,,0,no
 prj_459,Ravel Data Center,OH,lawrence,proposed,pending,no,,,,,,,,,,,0,,,,,,0,no
 prj_461,Corscale Highland Swatara,PA,dauphin,proposed,pending,no,2026-09-01,month,,,,,2026-09-30,,,157,0,,,,,,0,no

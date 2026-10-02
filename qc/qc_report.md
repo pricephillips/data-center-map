@@ -1,7 +1,7 @@
 # Master Opposition QC Report
 
-- Records scanned: **1983**
-- Passed to feed: **1964**
+- Records scanned: **1989**
+- Passed to feed: **1970**
 - Blocked / quarantined: **19**
 - Block threshold: CRITICAL, HIGH
 

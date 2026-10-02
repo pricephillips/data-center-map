@@ -179,12 +179,12 @@ Proxy score 5. Every tracked statewide record's stance is supportive; no restric
 
 ### Political alignment proxy: KY
 
-Proxy score 2. Restrictive statewide records outnumber supportive ones. A 1 is never assigned automatically; see module docstring.
+Proxy score 2. A verified chamber roll call shows a restrictive measure passing or a supportive measure failing. A 1 is never assigned automatically; see module docstring.
 
 - Statewide legislative records on data centers: 2 (0 supportive, 1 restrictive)
 - Stance evidence: verified roll-call votes where available (bill_sync_votes.csv), feed qc_leg_stance otherwise
   - 2026-02-01 (statewide): unclear (feed qc_leg_stance: unclear)
-  - 2026-02-12 (statewide HB 593): restrictive (feed qc_leg_stance: restrictive)
+  - 2026-02-12 (statewide HB 593): restrictive (verified roll call, latest recorded action: HB 593 passed 90 yes / 8 no on 2026-03-04)
 - This proxy reads the public statewide legislative record only. Governor's position, local board and EDO stance, and utility/regulator posture are not covered and must be researched separately; see political_alignment_worklist.py.
 
 ### Political alignment proxy: LA

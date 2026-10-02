@@ -58,7 +58,9 @@ jobs:
         uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
 
       - name: Install dependencies
-        run: uv pip install --system -c requirements/ci.txt pandas numpy scipy "scikit-learn>=1.2"
+        # interpret-core: EBM challenger on restrict_profile (spec 008 US4).
+        # It runs here, weekly, and never in the nightly pipeline.
+        run: uv pip install --system -c requirements/ci.txt pandas numpy scipy "scikit-learn>=1.2" interpret-core
 
       - name: Self-tests (BLOCKING)
         run: |
@@ -92,6 +94,7 @@ jobs:
             git add data/feature_search_metrics.json data/feature_search_ranking.csv \
                     data/feature_search_weights.json data/feature_search_weight_history.csv \
                     data/feature_search_promotions.json data/feature_search_report.md \
+                    data/feature_search_shapes.json \
                     2>/dev/null || true
           }
           for i in 1 2 3 4; do

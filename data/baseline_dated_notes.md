@@ -1,12 +1,12 @@
 # Dated Baseline — Coverage and Definitions
 
-Generated 2026-09-29 by `baseline_dated.py`.
+Generated 2026-10-01 by `baseline_dated.py`.
 
 ## Frame
 
-- Records with a usable time origin (day/month announced): **845** (317 internal, 528 external)
-- Opposed: 183 (27 with a verified decision date)
-- Control (unopposed): 662 (0 with a verified decision date; 45 decided but undated → censored lower bounds)
+- Records with a usable time origin (day/month announced): **897** (320 internal, 577 external)
+- Opposed: 184 (31 with a verified decision date)
+- Control (unopposed): 713 (0 with a verified decision date; 46 decided but undated → censored lower bounds)
 
 ## End-anchor kinds
 
@@ -16,7 +16,7 @@ Generated 2026-09-29 by `baseline_dated.py`.
 
 ## External ingest
 
-- `baseline_dated_external.csv` present: 528 accepted, 0 rejected.
+- `baseline_dated_external.csv` present: 577 accepted, 0 rejected.
 
 ## Binding limitations
 

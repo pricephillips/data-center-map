@@ -31,6 +31,7 @@ State transitions:
 | keyword_hits | The total number of matches of the fixed term list. |
 | matched_terms | The distinct terms matched, joined with `; `. |
 | processed_at | UTC ISO date. |
+| resolved_url | Set when `document_url` returned an HTML landing page, as CivicPlus `AgendaCenter/PreviousVersions/<id>` does. Holds the one same-host document link that was followed (agenda links before minutes), `none` when the page had no document link, or the link plus why it failed. A `not_pdf` row with a blank value predates this column and is retried once. |
 
 Rows with `ocr_unavailable`, `fetch_error` or `extractor_unavailable` are
 retried on the next run. Every other status is final for that URL. The text itself is kept

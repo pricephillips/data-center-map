@@ -22,7 +22,7 @@ Median values for the three groups a county page reads against.
 
 | metric | all counties | enacted a restriction | no restriction |
 | --- | --- | --- | --- |
-| Restriction resemblance score | 0.1104 | 0.1869 | 0.1021 |
+| Restriction resemblance score | 0.1104 | 0.1872 | 0.1021 |
 | Opposition events | 0 | 1 | 0 |
 | Opposition events per 100k residents | 0.000 | 2.183 | 0.000 |
 | Data center records in the atlas | 0 | 0 | 0 |

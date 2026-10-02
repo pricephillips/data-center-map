@@ -554,24 +554,9 @@
     {
       "id": "netcal",
       "name": "netcal",
-      "kind": "python",
-      "version": ">=1.4,<2",
-      "license": "Apache-2.0",
-      "status": "selected",
-      "tier": 1,
-      "spec": "008",
-      "session": 5,
-      "runs_in": "ci",
-      "target": [
-        "calibration_gate.py"
-      ],
-      "reason": "ECE/MCE and reliability-diagram bins added to the gate report; gate criteria unchanged until reviewed. relplot rejected: unclear license string.",
-      "risk_notes": "",
-      "source_url": "https://github.com/EFS-OpenSource/calibration-framework",
-      "products": [
-        "platform",
-        "static_report"
-      ]
+      "status": "eliminated",
+      "category": "cost-infra",
+      "reason": "Session 5 (2026-10-01): its metrics module imports torch at load, and an install adds 57 packages including torch, pyro-ppl, gpytorch and tensorboard. The ECE, MCE, equal-mass variants and reliability bins it would supply are about 40 lines in calibration_gate.py with the same binary-label definitions (make versus take, docs/tool_selection.md rule 6; specs/008-model-robustness/research.md D3)."
     },
     {
       "id": "pysal-esda",
@@ -588,7 +573,7 @@
         "county_policy_model.py (diagnostics only)"
       ],
       "reason": "Moran's I on county residuals and a state-grouped CV check that the AUC is not carried by same-state diffusion.",
-      "risk_notes": "Current releases need Python 3.12; plan decides between a 3.12 job and an older pin.",
+      "risk_notes": "Resolved in session 5: esda 2.9.0 declares Requires-Python >=3.11, so every workflow stays on 3.11 with no pin moved (specs/008-model-robustness/research.md D1). Pulls in geopandas, shapely and pyproj as dependencies.",
       "source_url": "https://github.com/pysal/esda",
       "products": [
         "platform"
@@ -608,7 +593,7 @@
       "target": [
         "feature_search.py"
       ],
-      "reason": "Glassbox challenger with exact per-variable shape functions for client-readable charts; promotes only through calibration_gate.py.",
+      "reason": "Installed as interpret-core (the glassbox subset, without the dashboard stack); imports as interpret.glassbox. Glassbox challenger with exact per-variable shape functions for client-readable charts; promotes only through calibration_gate.py.",
       "risk_notes": "",
       "source_url": "https://github.com/interpretml/interpret",
       "products": [
@@ -1478,7 +1463,7 @@
       "name": "relplot",
       "status": "eliminated",
       "category": "license-risk",
-      "reason": "License string is a copyright line only; netcal chosen."
+      "reason": "License string is a copyright line only. netcal was chosen over it, then itself eliminated in session 5 for its torch dependency; the metrics are built in-house."
     },
     {
       "id": "firthlogist",

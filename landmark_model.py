@@ -76,6 +76,12 @@ Outputs (all NEW files; additive):
   and, only when a window passes the gate:
   data/landmark_model_features.csv  exact per-project matrix at selected W
   data/landmark_model_metrics.json  machine-readable metrics (Phase 5 input)
+  data/landmark_model_estimators.csv  spec 008: registered estimator and
+                                    the Firth challenger at the selected
+                                    window, one row per estimator per CV
+                                    repeat. Reported only; the window rule
+                                    has no estimator dimension, so the
+                                    registered estimator ships.
   data/landmark_model_predictions.csv  OOF predictions + pending-project
                                     scores with risk bands and scoreability
                                     status (scoreable once >= W days have
@@ -102,6 +108,8 @@ from datetime import date, timedelta
 
 import numpy as np
 
+import estimator_candidates
+
 ROOT = os.path.dirname(os.path.abspath(__file__))
 P = lambda *a: os.path.join(ROOT, *a)
 
@@ -127,6 +135,7 @@ OUT_ANNOUNCE_WORKLIST = P("data", "announce_date_worklist.csv")
 OUT_FEATURES = P("data", "landmark_model_features.csv")
 OUT_METRICS = P("data", "landmark_model_metrics.json")
 OUT_PREDICTIONS = P("data", "landmark_model_predictions.csv")
+OUT_ESTIMATORS = P("data", "landmark_model_estimators.csv")
 
 RANDOM_STATE = 20260723
 N_REPEATS = 10
@@ -458,8 +467,43 @@ def selftest() -> int:
     check(not survives(date(2025, 1, 1), date(2025, 1, 31), 30),
           "excluded exactly at W (strict inequality)")
 
+    # Spec 008 US1: the challenger path on a synthetic frame. Needs sklearn;
+    # Firth rows need firthmodels.
+    try:
+        import sklearn  # noqa: F401
+    except ImportError:
+        print("  SKIP challenger comparison: scikit-learn not installed")
+    else:
+        rng = np.random.RandomState(5)
+        X = rng.randn(60, 3)
+        X[rng.rand(60, 3) < 0.1] = np.nan
+        y = (np.nan_to_num(X[:, 0]) + rng.randn(60) > 0.3).astype(int)
+        rows, summary = challenger_comparison(X, y, 90)
+        check(sum(1 for r in rows if r["estimator"] == estimator_candidates.REGISTERED)
+              == N_REPEATS, "registered estimator scored on every repeat")
+        check(all(r["window_days"] == 90 for r in rows), "rows carry the selected window")
+        check([n for n, v in summary.items() if v["selected"]]
+              == [estimator_candidates.REGISTERED], "only the registered estimator ships")
+        if estimator_candidates.firth_available():
+            check(sum(1 for r in rows if r["estimator"] == estimator_candidates.FIRTH)
+                  == N_REPEATS, "Firth challenger scored on every repeat")
+        else:
+            print("  SKIP Firth rows: firthmodels not installed")
+
     print("selftest:", "OK" if ok else "FAILED")
     return 0 if ok else 1
+
+
+def challenger_comparison(X, y, window_days):
+    """Registered estimator and Firth on the registered RepeatedStratifiedKFold."""
+    from sklearn.model_selection import RepeatedStratifiedKFold
+    cv = RepeatedStratifiedKFold(n_splits=N_FOLDS, n_repeats=N_REPEATS,
+                                 random_state=RANDOM_STATE)
+    return estimator_candidates.compare_estimators(
+        X, y, cv, N_FOLDS,
+        estimator_candidates.standard_estimators(C=0.5, class_weight="balanced",
+                                                 max_iter=2000),
+        window_days=window_days)
 
 
 def main() -> int:
@@ -657,6 +701,15 @@ def main() -> int:
               f"of best). n = {len(R['y'])}, blocked = {int(R['y'].sum())}, "
               f"base rate {R['base_rate']:.3f}.")
             w("")
+            # Spec 008 US1: Firth challenger at the selected window, after
+            # selection, so it cannot influence which window is chosen.
+            cand_rows, cand_summary = challenger_comparison(R["X"], R["y"], W_sel)
+            estimator_candidates.write_rows(OUT_ESTIMATORS, cand_rows)
+            w("## Estimator candidates (spec 008)")
+            w("")
+            for ln in estimator_candidates.report_lines(cand_summary, N_REPEATS):
+                w(ln)
+            w("")
             w("## Interpretation rules")
             w("")
             w("This is a retrospective predictive association on the "
@@ -689,6 +742,9 @@ def main() -> int:
                     "median_auc": r["auc"][1], "median_brier": r["brier"][1],
                     "n": int(len(r["y"]))} for W, r in results.items()},
                 "features": R["cols"],
+                "estimator_candidates": {
+                    "note": estimator_candidates.SELECTION_NOTE,
+                    "estimators": cand_summary},
             }
             with open(OUT_METRICS, "w", encoding="utf-8") as fh:
                 json.dump(metrics, fh, indent=2)
@@ -728,7 +784,7 @@ def main() -> int:
     # leak audit on everything written this run
     audit_paths = [OUT_FEAS, OUT_REPORT, OUT_WORKLIST, OUT_ANNOUNCE_WORKLIST]
     if not report_only:
-        audit_paths += [OUT_FEATURES, OUT_METRICS, OUT_PREDICTIONS]
+        audit_paths += [OUT_FEATURES, OUT_METRICS, OUT_PREDICTIONS, OUT_ESTIMATORS]
     rx = re.compile(r"\b(win|wins|loss|losses|lost)\b", re.I)
     dirty = [p for p in audit_paths
              if os.path.exists(p) and rx.search(open(p, encoding="utf-8").read())]

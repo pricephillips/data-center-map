@@ -1,24 +1,24 @@
 # Proposed data center pipeline: intelligence report
 
-Generated 2026-10-01 by `proposal_enrichment.py`. Descriptive shares with their denominators. Decided means a terminal lifecycle outcome (blocked_confirmed, restricted_conditional, advanced_confirmed); block rates are observed among those, not effects. Estimated MW is an acreage-based range for projects reporting no capacity and is never added into reported totals.
+Generated 2026-10-02 by `proposal_enrichment.py`. Descriptive shares with their denominators. Decided means a terminal lifecycle outcome (blocked_confirmed, restricted_conditional, advanced_confirmed); block rates are observed among those, not effects. Estimated MW is an acreage-based range for projects reporting no capacity and is never added into reported totals.
 
 ## Totals
 
-- 464 projects in 28 states. By source phase: 285 pending, 110 advancing, 69 withdrawn or rejected. By verified lifecycle outcome: 178 decided, 68 blocked_confirmed.
+- 464 projects in 28 states. By source phase: 284 pending, 111 advancing, 69 withdrawn or rejected. By verified lifecycle outcome: 179 decided, 68 blocked_confirmed.
 - Reported capacity 115,026 MW across 201 projects. Another 171 report acreage but no MW; at the observed MW-per-acre range they would add 59,392 to 231,330 MW (estimate, not included above).
-- 216 projects carry recorded opposition.
-- 32 projects were relabeled "proposed" when the source folded its "approved" phase into "proposed" on 2026-09-22 (listed in `source_reclassified_from`). Under Ruling 1, 11 keep "approved" on in-repo evidence of a final approval (a sourced row in `data/project_decision_dates.csv`, or a linked opposition record of the approving vote); the rest count as pending, are listed as APPROVAL_EVIDENCE rows in `data/project_link_review.csv`, and are restored on the run after such evidence is committed. This is a data correction: decided counts reported before the relabel included all of them.
+- 224 projects carry recorded opposition.
+- 32 projects were relabeled "proposed" when the source folded its "approved" phase into "proposed" on 2026-09-22 (listed in `source_reclassified_from`). Under Ruling 1, 12 keep "approved" on in-repo evidence of a final approval (a sourced row in `data/project_decision_dates.csv`, or a linked opposition record of the approving vote); the rest count as pending, are listed as APPROVAL_EVIDENCE rows in `data/project_link_review.csv`, and are restored on the run after such evidence is committed. This is a data correction: decided counts reported before the relabel included all of them.
 
 ## Outcomes among decided projects (descriptive)
 
 | slice | blocked | decided | share |
 |---|---|---|---|
-| all decided | 68 | 178 | 38% |
-| with opposition | 33 | 90 | 37% |
-| without recorded opposition | 35 | 88 | 40% |
-| with lawsuit | 4 | 15 | 27% |
+| all decided | 68 | 179 | 38% |
+| with opposition | 35 | 93 | 38% |
+| without recorded opposition | 33 | 86 | 38% |
+| with lawsuit | 5 | 16 | 31% |
 | nda reported | 0 | 1 | 0% |
-| top3 county deciles | 62 | 165 | 38% |
+| top3 county deciles | 62 | 166 | 37% |
 | bottom7 county deciles | 6 | 13 | 46% |
 | colocated generation | 1 | 4 | 25% |
 

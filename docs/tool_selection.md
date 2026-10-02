@@ -33,7 +33,7 @@ A tool is selected only if it passes all of the following:
 | 2 | 005 data quality | Pandera; in-house state normalizer, column coverage delta gate, out-of-fold label disagreement audit; MIT Election Lab county returns replacing `county_votes.json` |
 | 3 | 006 source durability | Internet Archive SPN2 and CDX, trafilatura, datasketch MinHash |
 | 4 | 007 coverage | civic-scraper, OCRmyPDF, Congress.gov API, Epoch AI Frontier Data Centers, LangExtract (local only) |
-| 5 | 008 models | firthmodels, netcal, esda with libpysal (diagnostics), InterpretML EBM (challenger), skops model cards |
+| 5 | 008 models | firthmodels, esda with libpysal (diagnostics), InterpretML EBM via interpret-core (challenger), skops model cards. netcal was eliminated in session 5 (torch dependency); the gate computes ECE and MCE in-house. |
 | 6 | 009 frontend | Census 2024 county boundaries, mapshaper, topojson-client, MapLibre with maplibre-gl-leaflet, OpenFreeMap, Tabulator, Playwright, axe-core; in-house date slider and detail panel |
 | 7 | 010 static reports | docxtpl, WeasyPrint, Great Tables, Altair with vl-convert, Pandoc (CLI); Urban Institute chart guide as reference |
 | 8 | 011 client databases | Datasette, sqlite-utils, Frictionless Data Package, Apprise |
@@ -71,7 +71,7 @@ Re-reviewed against the client suite (passive static reports and actively update
 - **No repo LICENSE.** The repo is all-rights-reserved by default. That keeps private client products possible, and it is why GPL and AGPL imports are blocked. Adding an explicit proprietary notice is Price's decision.
 - **Pass 1 queue framing withdrawn.** Generation queues list power plants, not data centers (`docs/interconnection_queue_scoping.md`).
 - **HIFLD Open** was discontinued in 2025.
-- **Python version.** esda, libpysal and Bambi need Python 3.12, while 15 of 19 workflows pin 3.11. Spec 008 decides.
+- **Python version.** Decided in spec 008 (2026-10-01): stay on 3.11. esda 2.9.0 and libpysal 4.14.1 support 3.11, so no workflow moves. Bambi still needs 3.12. The Dependabot ignores on numpy >=2.5 and scipy >=1.18 come off with a later repo-wide 3.12 move.
 - **Client data exposure.** Client configs and databases must never be committed to the public repo (spec 011, edge cases).
 
 ## Elimination categories

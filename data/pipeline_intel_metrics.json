@@ -1,5 +1,5 @@
 {
- "_generated": "2026-10-01",
+ "_generated": "2026-10-02",
  "_note": "Descriptive shares with their denominators. Decided means a terminal lifecycle outcome (blocked_confirmed, restricted_conditional, advanced_confirmed); block rates are observed among those, not effects. Estimated MW is an acreage-based range for projects reporting no capacity and is never added into reported totals.",
  "totals": {
   "projects": 464,
@@ -13,14 +13,14 @@
   "acres": 153904,
   "project_cost_usd": 761959300000,
   "project_cost_projects": 111,
-  "decided": 178,
+  "decided": 179,
   "blocked_confirmed": 68,
   "reclassified_by_source": 32,
-  "reclassified_restored": 11,
+  "reclassified_restored": 12,
   "phase_blocked": 69,
-  "phase_advancing": 110,
-  "phase_pending": 285,
-  "with_opposition": 216
+  "phase_advancing": 111,
+  "phase_pending": 284,
+  "with_opposition": 224
  },
  "capacity_estimate": {
   "mw_per_acre_median": 1.771,
@@ -48,11 +48,11 @@
   },
   {
    "phase": "proposed",
-   "projects": 215,
+   "projects": 214,
    "mw_reported": 63134,
    "mw_reported_n": 102,
    "mw_est_unreported": 60725,
-   "phase_pending": 215,
+   "phase_pending": 214,
    "phase_advancing": 0,
    "phase_blocked": 0,
    "blocked_confirmed": 0,
@@ -61,7 +61,7 @@
     "k": 0,
     "share": null
    },
-   "with_opposition": 96
+   "with_opposition": 100
   },
   {
    "phase": "delayed",
@@ -78,24 +78,24 @@
     "k": 0,
     "share": null
    },
-   "with_opposition": 8
+   "with_opposition": 9
   },
   {
    "phase": "approved",
-   "projects": 13,
+   "projects": 14,
    "mw_reported": 4450,
    "mw_reported_n": 6,
    "mw_est_unreported": 2252,
    "phase_pending": 0,
-   "phase_advancing": 13,
+   "phase_advancing": 14,
    "phase_blocked": 0,
    "blocked_confirmed": 0,
    "block_rate_decided": {
-    "n": 13,
+    "n": 14,
     "k": 0,
     "share": 0.0
    },
-   "with_opposition": 13
+   "with_opposition": 14
   },
   {
    "phase": "construction",
@@ -180,7 +180,7 @@
     "k": 33,
     "share": 1.0
    },
-   "with_opposition": 13
+   "with_opposition": 15
   }
  ],
  "by_region": [
@@ -199,7 +199,7 @@
     "k": 32,
     "share": 0.485
    },
-   "with_opposition": 93
+   "with_opposition": 96
   },
   {
    "grid_region": "MISO",
@@ -207,16 +207,16 @@
    "mw_reported": 20758,
    "mw_reported_n": 44,
    "mw_est_unreported": 40806,
-   "phase_pending": 60,
-   "phase_advancing": 32,
+   "phase_pending": 59,
+   "phase_advancing": 33,
    "phase_blocked": 15,
    "blocked_confirmed": 14,
    "block_rate_decided": {
-    "n": 46,
+    "n": 47,
     "k": 14,
-    "share": 0.304
+    "share": 0.298
    },
-   "with_opposition": 59
+   "with_opposition": 62
   },
   {
    "grid_region": "Southeast (non-RTO)",
@@ -233,7 +233,7 @@
     "k": 14,
     "share": 0.286
    },
-   "with_opposition": 43
+   "with_opposition": 45
   },
   {
    "grid_region": "SPP",
@@ -337,7 +337,7 @@
     "k": 3,
     "share": 0.136
    },
-   "with_opposition": 24
+   "with_opposition": 26
   },
   {
    "state": "IN",
@@ -345,16 +345,16 @@
    "mw_reported": 9315,
    "mw_reported_n": 14,
    "mw_est_unreported": 19164,
-   "phase_pending": 21,
-   "phase_advancing": 10,
+   "phase_pending": 20,
+   "phase_advancing": 11,
    "phase_blocked": 10,
    "blocked_confirmed": 10,
    "block_rate_decided": {
-    "n": 20,
+    "n": 21,
     "k": 10,
-    "share": 0.5
+    "share": 0.476
    },
-   "with_opposition": 16
+   "with_opposition": 19
   },
   {
    "state": "MO",
@@ -371,7 +371,7 @@
     "k": 5,
     "share": 0.417
    },
-   "with_opposition": 14
+   "with_opposition": 15
   },
   {
    "state": "NC",
@@ -456,7 +456,7 @@
     "k": 3,
     "share": 0.429
    },
-   "with_opposition": 8
+   "with_opposition": 9
   },
   {
    "state": "TN",
@@ -507,7 +507,7 @@
     "k": 1,
     "share": 0.333
    },
-   "with_opposition": 6
+   "with_opposition": 7
   },
   {
    "state": "NJ",
@@ -747,7 +747,7 @@
     "k": 0,
     "share": 0.0
    },
-   "with_opposition": 3
+   "with_opposition": 4
   },
   {
    "developer": "Prologis",
@@ -764,7 +764,7 @@
     "k": 1,
     "share": 1.0
    },
-   "with_opposition": 3
+   "with_opposition": 4
   },
   {
    "developer": "MLP Ventures",
@@ -1076,11 +1076,11 @@
  "by_screen_tier": [
   {
    "screen_tier": "Low",
-   "projects": 169,
+   "projects": 167,
    "mw_reported": 52614,
    "mw_reported_n": 79,
-   "mw_est_unreported": 34441,
-   "phase_pending": 101,
+   "mw_est_unreported": 34211,
+   "phase_pending": 99,
    "phase_advancing": 49,
    "phase_blocked": 19,
    "blocked_confirmed": 19,
@@ -1089,32 +1089,32 @@
     "k": 19,
     "share": 0.279
    },
-   "with_opposition": 52
+   "with_opposition": 55
   },
   {
    "screen_tier": "Guarded",
-   "projects": 158,
+   "projects": 162,
    "mw_reported": 35908,
    "mw_reported_n": 66,
-   "mw_est_unreported": 45677,
-   "phase_pending": 99,
-   "phase_advancing": 38,
+   "mw_est_unreported": 45962,
+   "phase_pending": 102,
+   "phase_advancing": 39,
    "phase_blocked": 21,
    "blocked_confirmed": 21,
    "block_rate_decided": {
-    "n": 59,
+    "n": 60,
     "k": 21,
-    "share": 0.356
+    "share": 0.35
    },
-   "with_opposition": 88
+   "with_opposition": 91
   },
   {
    "screen_tier": "Elevated",
-   "projects": 101,
+   "projects": 99,
    "mw_reported": 15917,
    "mw_reported_n": 40,
-   "mw_est_unreported": 35951,
-   "phase_pending": 63,
+   "mw_est_unreported": 35896,
+   "phase_pending": 61,
    "phase_advancing": 20,
    "phase_blocked": 18,
    "blocked_confirmed": 17,
@@ -1123,7 +1123,7 @@
     "k": 17,
     "share": 0.459
    },
-   "with_opposition": 56
+   "with_opposition": 58
   },
   {
    "screen_tier": "High",
@@ -1162,24 +1162,24 @@
  ],
  "outcomes": {
   "block_rate_all_decided": {
-   "n": 178,
+   "n": 179,
    "k": 68,
-   "share": 0.382
+   "share": 0.38
   },
   "block_rate_with_opposition": {
-   "n": 90,
-   "k": 33,
-   "share": 0.367
+   "n": 93,
+   "k": 35,
+   "share": 0.376
   },
   "block_rate_without_recorded_opposition": {
-   "n": 88,
-   "k": 35,
-   "share": 0.398
+   "n": 86,
+   "k": 33,
+   "share": 0.384
   },
   "block_rate_with_lawsuit": {
-   "n": 15,
-   "k": 4,
-   "share": 0.267
+   "n": 16,
+   "k": 5,
+   "share": 0.312
   },
   "block_rate_nda_reported": {
    "n": 1,
@@ -1187,9 +1187,9 @@
    "share": 0.0
   },
   "block_rate_top3_county_deciles": {
-   "n": 165,
+   "n": 166,
    "k": 62,
-   "share": 0.376
+   "share": 0.373
   },
   "block_rate_bottom7_county_deciles": {
    "n": 13,
@@ -1320,7 +1320,8 @@
  "county_risk": {
   "projects_by_restriction_decile": {
    "2": 1,
-   "4": 3,
+   "3": 1,
+   "4": 2,
    "5": 5,
    "6": 9,
    "7": 16,
@@ -1333,17 +1334,17 @@
  },
  "corroboration": {
   "distribution": {
-   "1": 57,
-   "2": 200,
-   "3": 180,
-   "4": 27
+   "1": 56,
+   "2": 194,
+   "3": 186,
+   "4": 28
   },
-  "single_source_projects": 57,
+  "single_source_projects": 56,
   "signals": {
    "tracker": 464,
-   "local_record": 216,
+   "local_record": 224,
    "cited_sources": 373,
-   "news": 20,
+   "news": 21,
    "colocated_generation": 6,
    "federal_air_permit": 26
   }
@@ -1912,7 +1913,7 @@
   ]
  },
  "queues": {
-  "news_new_candidates": 861,
+  "news_new_candidates": 919,
   "news_possible_matches": 32,
   "air_permits_unmatched": 184,
   "air_permits_matched": 32

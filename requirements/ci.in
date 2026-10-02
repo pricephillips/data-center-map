@@ -26,3 +26,15 @@ civic-scraper>=1.1,<2
 ocrmypdf>=17,<18
 pdfminer.six
 langextract>=1.7,<2
+# Spec 008 (session 5). All resolve on Python 3.11 with no existing pin moved
+# (specs/008-model-robustness/research.md D1). firthmodels: Firth challenger
+# in outcome_model.py and landmark_model.py; esda + libpysal: Moran's I in
+# county_policy_model.py; interpret-core: EBM challenger in feature_search.py
+# (glassbox only, without the dashboard stack); skops: model cards from
+# calibration_gate.py. netcal is not used: its metrics import torch, so the
+# gate computes ECE and MCE in-house (research.md D3).
+firthmodels>=0.8,<1
+esda>=2.9,<3
+libpysal>=4.14,<5
+interpret-core>=0.7,<0.8
+skops>=0.16,<1
