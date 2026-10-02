@@ -111,6 +111,17 @@ INTERNAL_QUOTES = {
     ("data/bill_sync_cache.json", "motion_text"),
     ("data/dispute_watch_cache.json", "party"),
     ("data/dispute_watch.csv", "party"),
+    # Registered 2026-10-02, same class as `party`: the cache stores raw
+    # CourtListener search results, and two more of its keys are transported
+    # verbatim. `attorney` is counsel names ("William Win-Ning Chuang") and
+    # `snippet` is RECAP document text, OCR of filed exhibits ("Profit and
+    # Loss" is a financial statement heading). Neither is composed here, and
+    # dispute_watch.py never copies either key into dispute_watch.csv. The
+    # cache is internal and never ships. These two keys turned the blocking
+    # tier red on main once local-signals.yml committed a cache that
+    # included them, failing pipeline.yml and gate-check.yml.
+    ("data/dispute_watch_cache.json", "attorney"),
+    ("data/dispute_watch_cache.json", "snippet"),
     # Registered 2026-08-26 with manual_records.py. new_value is the verbatim
     # replacement value for a named master column (Summary, Community
     # Outcome, ...), i.e. transported record content whose destination
@@ -232,6 +243,43 @@ def classify(relpath: str, line: str, field: str = "") -> str:
     return ADVISORY
 
 
+# A derived column can copy text out of an inherited column of the same row:
+# clean_opposition_data.py splits Incident into location_name, and a headline
+# Incident with no parenthetical comes through whole ("Dems deny GOP a
+# midterm win by blocking Husted data center bill"); qc enrichment then
+# lower-cases it into qc_jurisdiction_key. Registered 2026-10-02, when that
+# record turned the blocking tier red on main. The words are the source's,
+# so the hit is inherited. The test is per row and per fragment: every
+# "::" or "|" separated part that carries a hit must appear verbatim (case and
+# whitespace folded) inside an inherited column of the SAME row, and must be
+# at least CARRIED_MIN_WORDS long. A composed label such as "win" never
+# qualifies however often the row's Summary says it.
+CARRIED_MIN_WORDS = 4
+_SEP_RE = re.compile(r"::|\|")
+
+
+def _fold(s: str) -> str:
+    return re.sub(r"\s+", " ", s or "").strip().lower()
+
+
+def carried_from_row(col: str, val: str, row: dict) -> bool:
+    """True when every hit-bearing fragment of `val` is copied verbatim from
+    an inherited column of the same row (see CARRIED_MIN_WORDS)."""
+    sources = [_fold(v) for k, v in row.items()
+               if k != col and v and (k or "").strip().lower() in INHERITED_FIELDS]
+    if not sources:
+        return False
+    found = False
+    for part in _SEP_RE.split(URL_RE.sub(" ", val)):
+        if not LEAK_RE.search(part):
+            continue
+        frag = _fold(part)
+        if len(frag.split()) < CARRIED_MIN_WORDS or not any(frag in src for src in sources):
+            return False
+        found = True
+    return found
+
+
 def scan_csv_columns(path: str, relpath: str) -> list[dict]:
     """For CSVs, reports the offending column rather than every row, so one
     scorekeeping column does not produce hundreds of identical hits."""
@@ -242,17 +290,31 @@ def scan_csv_columns(path: str, relpath: str) -> list[dict]:
             if not rdr.fieldnames:
                 return []
             counts: dict[str, int] = {}
-            example: dict[str, str] = {}
+            example: dict = {}
+            carried: dict[str, int] = {}
             for row in rdr:
                 for col, val in row.items():
                     if val and LEAK_RE.search(str(val)):
                         counts[col] = counts.get(col, 0) + 1
-                        example.setdefault(col, str(val))
+                        if carried_from_row(col, str(val), row):
+                            carried[col] = carried.get(col, 0) + 1
+                            example.setdefault(("carried", col), str(val))
+                        else:
+                            example.setdefault(col, str(val))
             for col, n in sorted(counts.items(), key=lambda kv: -kv[1]):
+                if col in example:
+                    tier = classify(relpath, example[col], field=col)
+                    shown = example[col]
+                else:
+                    # Every hit in this column is carried from its own row.
+                    shown = example[("carried", col)]
+                    tier = (EXEMPT if classify(relpath, shown, field=col) == EXEMPT
+                            else ADVISORY)
+                note = (f" ({carried[col]} carried verbatim from an inherited column)"
+                        if carried.get(col) else "")
                 hits.append({
-                    "path": relpath, "line": 0,
-                    "tier": classify(relpath, example[col], field=col),
-                    "text": f"column {col!r}: {n} row(s), e.g. {example[col]!r}",
+                    "path": relpath, "line": 0, "tier": tier,
+                    "text": f"column {col!r}: {n} row(s){note}, e.g. {shown!r}",
                 })
     except (OSError, csv.Error, UnicodeDecodeError):
         pass
@@ -264,17 +326,26 @@ def scan_json(path: str, relpath: str) -> list[dict]:
     record dump does not produce one hit per record."""
     counts: dict[str, int] = {}
     example: dict[str, str] = {}
+    carried: dict[str, int] = {}
 
-    def walk(node, keypath="$"):
+    def walk(node, keypath="$", record=None):
         if isinstance(node, dict):
+            # A flat record (string values beside the hit) is the JSON form of
+            # a CSV row, so the same carried-from-row rule applies.
+            flat = {k: v for k, v in node.items() if isinstance(v, str)}
             for k, v in node.items():
-                walk(v, f"{keypath}.{k}")
+                walk(v, f"{keypath}.{k}", flat if isinstance(v, str) else None)
         elif isinstance(node, list):
             for v in node:
                 walk(v, f"{keypath}[]")
         elif isinstance(node, str) and LEAK_RE.search(node):
             counts[keypath] = counts.get(keypath, 0) + 1
-            example.setdefault(keypath, node[:80])
+            key = keypath.rsplit(".", 1)[-1]
+            if record is not None and carried_from_row(key, node, record):
+                carried[keypath] = carried.get(keypath, 0) + 1
+                example.setdefault(("carried", keypath), node[:80])
+            else:
+                example.setdefault(keypath, node[:80])
 
     try:
         with open(path, encoding="utf-8") as fh:
@@ -282,10 +353,20 @@ def scan_json(path: str, relpath: str) -> list[dict]:
     except (OSError, ValueError, RecursionError):
         return scan_text(path, relpath)
 
-    return [{"path": relpath, "line": 0,
-             "tier": classify(relpath, example[k], field=k.rsplit(".", 1)[-1]),
-             "text": f"key {k}: {n} value(s), e.g. {example[k]!r}"}
-            for k, n in sorted(counts.items(), key=lambda kv: -kv[1])]
+    hits = []
+    for k, n in sorted(counts.items(), key=lambda kv: -kv[1]):
+        field = k.rsplit(".", 1)[-1]
+        if k in example:
+            tier, shown = classify(relpath, example[k], field=field), example[k]
+        else:
+            # Every hit under this key is carried from its own record.
+            shown = example[("carried", k)]
+            tier = EXEMPT if classify(relpath, shown, field=field) == EXEMPT else ADVISORY
+        note = (f" ({carried[k]} carried verbatim from an inherited key)"
+                if carried.get(k) else "")
+        hits.append({"path": relpath, "line": 0, "tier": tier,
+                     "text": f"key {k}: {n} value(s){note}, e.g. {shown!r}"})
+    return hits
 
 
 def scan_text(path: str, relpath: str) -> list[dict]:
@@ -386,6 +467,49 @@ def selftest() -> int:
     eq("open states motion text is advisory",
        classify("data/bill_sync_votes.csv", "Conrad AM2794 lost",
                 field="motion_text"), ADVISORY)
+    head = "Dems deny GOP a midterm win by blocking Husted data center bill"
+    row = {"Incident": head, "location_name": head,
+           "qc_jurisdiction_key": "::" + head.lower() + "::state",
+           "outcome_label": "win", "Summary": "Residents called it a win."}
+    eq("a location copied whole from the row's Incident is carried",
+       carried_from_row("location_name", head, row), True)
+    eq("a jurisdiction key built from the row's Incident is carried",
+       carried_from_row("qc_jurisdiction_key", row["qc_jurisdiction_key"], row), True)
+    eq("a bare composed label is never carried, even if Summary says it",
+       carried_from_row("outcome_label", "win", row), False)
+    eq("text from another row's source is not carried",
+       carried_from_row("location_name", head, {"Incident": "Some other place",
+                                                "location_name": head}), False)
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        fp = os.path.join(td, "feed.csv")
+        with open(fp, "w", newline="", encoding="utf-8") as fh:
+            w = csv.DictWriter(fh, fieldnames=list(row), lineterminator="\n")
+            w.writeheader()
+            w.writerow(row)
+        tiers = {h["text"].split("'")[1]: h["tier"] for h in scan_csv_columns(fp, "feed.csv")}
+        eq("carried derived columns are advisory in a scan",
+           (tiers.get("location_name"), tiers.get("qc_jurisdiction_key")), (ADVISORY, ADVISORY))
+        eq("a composed label column still blocks in a scan",
+           tiers.get("outcome_label"), BLOCKING)
+        jp = os.path.join(td, "export.json")
+        with open(jp, "w", encoding="utf-8") as fh:
+            json.dump([row], fh)
+        jt = {h["text"].split()[1].rstrip(":"): h["tier"] for h in scan_json(jp, "export.json")}
+        eq("carried keys in a JSON record export are advisory",
+           (jt.get("$[].location_name"), jt.get("$[].qc_jurisdiction_key")),
+           (ADVISORY, ADVISORY))
+        eq("a composed label key in a JSON record export still blocks",
+           jt.get("$[].outcome_label"), BLOCKING)
+    eq("courtlistener counsel names in the dispute cache are advisory",
+       classify("data/dispute_watch_cache.json", "William Win-Ning Chuang",
+                field="attorney"), ADVISORY)
+    eq("recap document text in the dispute cache is advisory",
+       classify("data/dispute_watch_cache.json", "Profit and Loss",
+                field="snippet"), ADVISORY)
+    eq("a composed snippet column elsewhere still blocks",
+       classify("data/some_generated.csv", "a narrow loss", field="snippet"),
+       BLOCKING)
     eq("open states motion text in the cache is advisory",
        classify("data/bill_sync_cache.json", "Conrad AM2794 lost",
                 field="motion_text"), ADVISORY)
