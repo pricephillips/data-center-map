@@ -16,7 +16,8 @@
     "max_attempts": 3,
     "checkpoint_every": 25,
     "skip_hosts": ["news.google.com"],
-    "max_runtime_s": 1800
+    "max_runtime_s": 1800,
+    "cdx_fail_streak": 3
   },
   "extract": {
     "timeout_s": 10,

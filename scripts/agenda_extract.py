@@ -47,6 +47,7 @@ import argparse
 import csv
 import hashlib
 import os
+import re
 import subprocess
 import tempfile
 import sys
@@ -106,11 +107,39 @@ def _interval(ext) -> tuple[int | None, int | None]:
     return getattr(ci, "start_pos", None), getattr(ci, "end_pos", None)
 
 
+# LangExtract aligns each extraction to the source fuzzily, so a reported span
+# can sit a few characters off, or the model can rewrite a line break as a
+# space. On the first CI run (2026-10-02), 23 of 29 dropped fields failed only
+# this check, leaving 1 row from 8 agendas. A misaligned field is searched for
+# near its reported span, first verbatim and then with any run of whitespace
+# allowed to match any other. It is kept only when that search finds exactly
+# one match, and its value becomes the source slice it matched. So the
+# invariant still holds: every kept value equals source[start:end].
+REALIGN_RADIUS = 300
+
+
+def realign(text: str, value: str, start: int, end: int) -> tuple[int, int] | None:
+    """(start, end) of the single match of `value` near [start, end), or None."""
+    lo, hi = max(0, start - REALIGN_RADIUS), min(len(text), end + REALIGN_RADIUS)
+    window = text[lo:hi]
+    tokens = value.split()
+    if not tokens:
+        return None
+    for pattern in (re.escape(value), r"\s+".join(re.escape(t) for t in tokens)):
+        hits = [m.span() for m in re.finditer(pattern, window)]
+        if len(hits) == 1:
+            return lo + hits[0][0], lo + hits[0][1]
+        if len(hits) > 1:
+            return None          # ambiguous: never guess between matches
+    return None
+
+
 def ground(text: str, extractions) -> tuple[list[dict], dict[str, int]]:
     """Keep a field only when its offsets exist, are in bounds, and slice the
-    source to exactly the extracted string. Returns (kept, drop counts)."""
+    source to exactly the kept string (after realign() for a field whose span
+    was reported slightly off). Returns (kept, drop counts)."""
     kept, drops = [], {"no_offset": 0, "out_of_bounds": 0, "offset_mismatch": 0,
-                       "unknown_field": 0}
+                       "unknown_field": 0, "realigned": 0}
     for ext in extractions or []:
         field = (getattr(ext, "extraction_class", "") or "").strip().lower()
         value = getattr(ext, "extraction_text", "") or ""
@@ -125,8 +154,13 @@ def ground(text: str, extractions) -> tuple[list[dict], dict[str, int]]:
             drops["out_of_bounds"] += 1
             continue
         if text[start:end] != value:
-            drops["offset_mismatch"] += 1
-            continue
+            span = realign(text, value, start, end)
+            if span is None:
+                drops["offset_mismatch"] += 1
+                continue
+            start, end = span
+            value = text[start:end]
+            drops["realigned"] += 1
         kept.append({"field": field, "value": value, "start": start, "end": end})
     return kept, drops
 
@@ -310,7 +344,7 @@ def stub_model(text: str):
         at("action", "approved without discussion"),
         _Ext("vote", "7-0", None),                           # no offsets
         _Ext("action", "tabled", (len(text) + 5, len(text) + 11)),  # out of bounds
-        _Ext("body", "Planning Commission", (0, 19)),         # misaligned
+        _Ext("body", "Planning Commission", (0, 19)),         # misaligned, absent
     ]
 
 
@@ -340,6 +374,24 @@ def selftest() -> int:
     check(rows[1]["vote"] == "" and rows[1]["action"] == "approved without discussion",
           "a vote is left blank when none is stated")
     check(all(r["review_status"] == "draft" for r in rows), "every row is a draft")
+
+    # Realignment: a span reported a few characters off, and a line break
+    # rewritten as a space, are both recovered as exact source slices.
+    src = "Item 4.\nPublic hearing on the data center\nrezoning request. Item 5. Budget."
+    i = src.index("Public hearing")
+    shifted = _Ext("item", "Public hearing on the data center", (i + 3, i + 36))
+    wrapped = _Ext("item", "data center rezoning request", (i + 20, i + 48))
+    kept, rd = ground(src, [shifted, wrapped])
+    check(rd["realigned"] == 2 and all(src[k["start"]:k["end"]] == k["value"] for k in kept),
+          "misaligned spans are realigned to exact source slices")
+    check(kept[1]["value"] == "data center\nrezoning request",
+          "a whitespace-rewritten value is replaced by the source's own text")
+    twice = "rezoning. rezoning."
+    amb, ad = ground(twice, [_Ext("item", "rezoning", (1, 9))])
+    check(amb == [] and ad["offset_mismatch"] == 1, "an ambiguous realignment is dropped, never guessed")
+    far = "x" * 1000 + "Budget"
+    fk, fd = ground(far, [_Ext("item", "Budget", (0, 6))])
+    check(fk == [] and fd["offset_mismatch"] == 1, "a match beyond the realign radius is dropped")
 
     orphan_rows, orphans = assemble_rows([{"field": "vote", "value": "3-0", "start": 0, "end": 3}])
     check(orphan_rows == [] and orphans == 1, "a vote with no item is dropped, not attached")
@@ -457,12 +509,14 @@ def main() -> int:
         print(f"{path}: {len(rows)} candidate rows, "
               + ", ".join(f"{k} {v}" for k, v in sorted(drops.items())))
     write_draft(args.out, all_rows)
-    dropped = sum(v for k, v in totals.items() if k != "retained_fields")
+    not_drops = ("retained_fields", "realigned")
+    dropped = sum(v for k, v in totals.items() if k not in not_drops)
     print(f"total: {len(all_rows)} candidate rows from {len(jobs)} files; "
-          f"{totals.get('retained_fields', 0)} fields retained, all with offsets that "
+          f"{totals.get('retained_fields', 0)} fields retained "
+          f"({totals.get('realigned', 0)} realigned), all with offsets that "
           f"slice the source exactly; {dropped} dropped ("
           + ", ".join(f"{k} {v}" for k, v in sorted(totals.items())
-                      if k != "retained_fields") + ")")
+                      if k not in not_drops) + ")")
     print(f"draft -> {os.path.relpath(args.out, ROOT)} (review before committing)")
     return 0
 
