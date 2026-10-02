@@ -242,7 +242,12 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 78
+  - candidate docket (tax increment): Shiferaw v. City and County of San Francisco, N.D. Cal. (2018-11-09)
+  - candidate docket (tax increment): In Re: Katrina Canal Breaches Litigation, E.D. La. (2005-09-19)
+  - candidate docket (tax increment): Village of Washington Park, Bankr. S.D. Ill. (2009-07-06)
+  - candidate docket (tax increment): Agera Energy LLC, Bankr. S.D.N.Y. (2019-10-04)
+  - candidate docket (tax increment): Thomson Reuters Enterprise Centre GmbH v. ROSS Intelligence Inc., D. Del. (2020-05-06)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Forsyth, 
@@ -251,7 +256,12 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 88
+  - candidate docket (tax increment): Dallas Roof Gardens Inc v. The City of Dallas Texas, N.D. Tex. (2007-04-23)
+  - candidate docket (tax increment): SECURITIES AND EXCHANGE COMMISSION v. J.P. MORGAN SECURITIES LLC, D.N.J. (2011-07-07)
+  - candidate docket (tax increment): PNC Bank, National Association v. Havenhills Investment Company, LLC, S.D. Ill. (2015-04-30)
+  - candidate docket (tax increment): Soscia Holdings, LLC v. Town of Coventry, D.R.I. (2025-06-13)
+  - candidate docket (tax increment): Village of Washington Park, Bankr. S.D. Ill. (2009-07-06)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Fremont, 
@@ -4835,8 +4845,9 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 1
-- Local meeting items on file: 4
+- Local meeting items on file: 5
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 16:51:45 -0700 Board of County Commissioners Week of October 5 - October 9, 2026 (civicplus_rss)
   - local meeting: Thu, 01 Oct 2026 15:50:20 -0700 Board of County Commissioners Week of September 21 - 25, 2026 (civicplus_rss)
   - local meeting: Tue, 29 Sep 2026 13:47:16 -0700 Board of County Commissioners Week of September  28 - October 2, 2026 (civicplus_rss)
   - local meeting: Tue, 29 Sep 2026 08:38:14 -0700 County Planning Board Meeting Agenda (PDF) (civicplus_rss)
@@ -6460,7 +6471,7 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 9
+- Local meeting items on file: 8
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
   - local meeting: Thu, 01 Oct 2026 16:25:45 -0600 Board of County Commissioners Meeting Agenda 10/05/2026 (civicplus_rss)
   - local meeting: Wed, 30 Sep 2026 09:48:19 -0600 Board of Adjustment regular meeting agenda (civicplus_rss)
@@ -7022,20 +7033,26 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Orangeburg County, SC
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 2
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Fri, 18 Sep 2026 17:17:24 -0500 County Council Regular Meeting Agenda (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 17:16:50 -0500 County Council Public Works Committee Meeting Agenda (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Spartanburg, SC
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 4
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 15:09:37 -0500 October 6, 2026 PC Meeting (civicplus_rss)
+  - local meeting: Wed, 23 Sep 2026 09:21:52 -0500 8/25/2026 BZA Agenda (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 19:09:30 -0500 Main Agenda - Final (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 19:07:08 -0500 Public Safety Committee Special Meeting - Notice and Agenda (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Spartanburg County, SC
@@ -7043,8 +7060,12 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 Proxy score 2. A local tax-incentive record for the county is already flagged as an enacted block. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 1
-- Local meeting items on file: 0
+- Local meeting items on file: 4
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 15:09:37 -0500 October 6, 2026 PC Meeting (civicplus_rss)
+  - local meeting: Wed, 23 Sep 2026 09:21:52 -0500 8/25/2026 BZA Agenda (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 19:09:30 -0500 Main Agenda - Final (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 19:07:08 -0500 Public Safety Committee Special Meeting - Notice and Agenda (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Sumter County, SC
@@ -7061,8 +7082,9 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 Proxy score 2. A local tax-incentive record for the county is already flagged as an enacted block. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 1
-- Local meeting items on file: 0
+- Local meeting items on file: 1
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Wed, 23 Sep 2026 15:08:52 -0500 Bethel Lake Wylie Land Acquisition and Preservation Parks District Board Meeting 4:30pm @ Field Day Park Community Center (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Brookings County, SD
@@ -7157,11 +7179,16 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Coffee County, TN
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 13
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Tue, 29 Sep 2026 08:15:11 -0600 Capital Outlay Committee Meeting (civicplus_rss)
+  - local meeting: Fri, 25 Sep 2026 11:30:47 -0600 Budget & Finance Committee (civicplus_rss)
+  - local meeting: Fri, 25 Sep 2026 08:19:40 -0600 Budget & Finance Committee (civicplus_rss)
+  - local meeting: Thu, 24 Sep 2026 12:18:11 -0600 Opioid Abatement Fund Committee (civicplus_rss)
+  - local meeting: Thu, 24 Sep 2026 11:48:53 -0600 Library Board (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Cumberland County, TN
@@ -7346,20 +7373,30 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Washington, TN
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 16
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 10:23:30 -0500 Purchasing Commission Agenda 10.8.26 (PDF) (civicplus_rss)
+  - local meeting: Thu, 01 Oct 2026 10:13:27 -0500 Public Safety Committee Agenda 10.8.26 (PDF) (civicplus_rss)
+  - local meeting: Thu, 01 Oct 2026 10:12:33 -0500 HEW Committee Agenda 10.8.26 (PDF) (civicplus_rss)
+  - local meeting: Thu, 01 Oct 2026 10:11:43 -0500 Employee Comp & Benefits Agenda 10.8.26 (PDF) (civicplus_rss)
+  - local meeting: Thu, 01 Oct 2026 10:10:43 -0500 County Owned Property Committee Agenda 10.8.26 (PDF) (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Washington County, TN
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 16
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 10:23:30 -0500 Purchasing Commission Agenda 10.8.26 (PDF) (civicplus_rss)
+  - local meeting: Thu, 01 Oct 2026 10:13:27 -0500 Public Safety Committee Agenda 10.8.26 (PDF) (civicplus_rss)
+  - local meeting: Thu, 01 Oct 2026 10:12:33 -0500 HEW Committee Agenda 10.8.26 (PDF) (civicplus_rss)
+  - local meeting: Thu, 01 Oct 2026 10:11:43 -0500 Employee Comp & Benefits Agenda 10.8.26 (PDF) (civicplus_rss)
+  - local meeting: Thu, 01 Oct 2026 10:10:43 -0500 County Owned Property Committee Agenda 10.8.26 (PDF) (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Wilson County, TN
@@ -7418,11 +7455,14 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Bosque County, TX
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 1
-- Local meeting items on file: 0
+- Local meeting items on file: 3
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Tue, 29 Sep 2026 13:57:19 -0600 Commissioners Court Agenda Regular Session (civicplus_rss)
+  - local meeting: Tue, 22 Sep 2026 16:23:43 -0600 Commissioners Court Agenda-Amended (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 13:28:08 -0600 Commissioners Court Special Session Agenda (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Brazoria County, TX
@@ -7436,11 +7476,13 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Brazos County, TX
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 2
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: 2026-10-05T10:00:00 Commissioners Court - Regular Meeting (primegov)
+  - local meeting: 2026-10-07T09:30:00 B/CS MPO Board Meeting (primegov)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Cameron County, TX
@@ -7562,11 +7604,13 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Kaufman County, TX
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 2
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 08:00:01 -0600 Weekly Agenda Packet for Commissioners Court 10.6.26 (civicplus_rss)
+  - local meeting: Wed, 23 Sep 2026 14:20:01 -0600 Weekly Agenda Packet for Commissioners Court 9.29.26 (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Lee County, TX
@@ -7589,20 +7633,34 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Lubbock, TX
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 11
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 15:26:51 -0600 Community Development & Services Board Regular Meeting (civicplus_rss)
+  - local meeting: Thu, 01 Oct 2026 13:44:17 -0600 Board Bylaws and Policies Committee of the Electric Utility Board - 9:30 AM (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 15:31:16 -0600 Appointments Advisory Board - 11:30 AM (civicplus_rss)
+  - local meeting: Fri, 25 Sep 2026 11:03:24 -0600 Building Board of Appeals 2:00 PM
+Start time of this meeting has changed for just this meeting. (civicplus_rss)
+  - local meeting: Fri, 25 Sep 2026 10:54:57 -0600 Building Board of Appeals
+Meeting time has been adjusted for this meeting to 2:00p.m. (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Lubbock County, TX
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 11
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 15:26:51 -0600 Community Development & Services Board Regular Meeting (civicplus_rss)
+  - local meeting: Thu, 01 Oct 2026 13:44:17 -0600 Board Bylaws and Policies Committee of the Electric Utility Board - 9:30 AM (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 15:31:16 -0600 Appointments Advisory Board - 11:30 AM (civicplus_rss)
+  - local meeting: Fri, 25 Sep 2026 11:03:24 -0600 Building Board of Appeals 2:00 PM
+Start time of this meeting has changed for just this meeting. (civicplus_rss)
+  - local meeting: Fri, 25 Sep 2026 10:54:57 -0600 Building Board of Appeals
+Meeting time has been adjusted for this meeting to 2:00p.m. (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Marshall, TX
@@ -7616,11 +7674,16 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: McLennan County, TX
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 11
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Tue, 29 Sep 2026 12:59:22 -0600 Commissioners Court Meeting Agenda and Packet (civicplus_rss)
+  - local meeting: Tue, 29 Sep 2026 11:31:12 -0600 Commissioners Court Meeting Agenda - Budget and Tax Rate Adoption (civicplus_rss)
+  - local meeting: Tue, 29 Sep 2026 11:30:09 -0600 Commissioners Court Meeting Agenda - EVENING Tax Rate Public Hearing (civicplus_rss)
+  - local meeting: Tue, 29 Sep 2026 11:29:24 -0600 Commissioners Court Meeting Agenda and Packet - MORNING (civicplus_rss)
+  - local meeting: Tue, 29 Sep 2026 11:28:28 -0600 Commissioners Court Meeting Agenda and Packet (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Medina County, TX
@@ -7652,11 +7715,14 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Parker County, TX
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 1
-- Local meeting items on file: 0
+- Local meeting items on file: 3
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: April 25 2016 April 25, 2016 Parker County Commissioners Court (granicus)
+  - local meeting: April 11 2016 April 11, 2016 Commissioners Court (granicus)
+  - local meeting: March 28 2016 Commissioners Court Meeting March 28, 2016 (granicus)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Pecos County, TX
@@ -7769,20 +7835,26 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Box Elder, UT
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 3
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 12:56:35 -0700 Planning Commission Regular Meeting Material (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 11:07:38 -0700 Planning Commission Regular Meeting Material (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 10:47:34 -0700 County Commission Meeting Regular Agenda (PDF) (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Box Elder County, UT
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 1
-- Local meeting items on file: 0
+- Local meeting items on file: 3
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 12:56:35 -0700 Planning Commission Regular Meeting Material (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 11:07:38 -0700 Planning Commission Regular Meeting Material (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 10:47:34 -0700 County Commission Meeting Regular Agenda (PDF) (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Cache County, UT
@@ -7859,11 +7931,16 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Albemarle County, VA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 428
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Sep 16 2026 Board of Supervisors on 2026-09-16 2:30 PM - Regular Second Meeting (granicus)
+  - local meeting: Sep  2 2026 Board of Supervisors on 2026-09-02 1:00 PM - Regular First Meeting (granicus)
+  - local meeting: Aug 19 2026 Board of Supervisors on 2026-08-19 1:00 PM - Regular Second Meeting (granicus)
+  - local meeting: Aug  5 2026 Board of Supervisors on 2026-08-05 1:00 PM - Regular First Meeting (granicus)
+  - local meeting: Jul 15 2026 Board of Supervisors on 2026-07-15 1:00 PM - Regular Meeting (granicus)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Appomattox County, VA
@@ -7886,29 +7963,39 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Botetourt County, VA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 2
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Wed, 30 Sep 2026 15:25:03 -0500 Parks and Recreation Commission Meeting - October 5th, 2026 (civicplus_rss)
+  - local meeting: Thu, 17 Sep 2026 20:52:46 -0500 Board of Supervisors Regular Meeting (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Campbell, VA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 4
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Wed, 30 Sep 2026 12:55:38 -0500 Campbell County Electoral Board Meeting (civicplus_rss)
+  - local meeting: Tue, 29 Sep 2026 12:00:25 -0500 Planning Commission Regular Meeting Agenda (Available via ZOOM) (civicplus_rss)
+  - local meeting: Mon, 28 Sep 2026 10:23:13 -0500 Campbell County Electoral Board (civicplus_rss)
+  - local meeting: Mon, 21 Sep 2026 10:31:49 -0500 Campbell County Electoral Board meeting set for Friday, August 21, 2026 at 10:30 am in the Registrar's Office located at 41 Courthouse Lane, Rustburg. (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Campbell County, VA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 4
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Wed, 30 Sep 2026 12:55:38 -0500 Campbell County Electoral Board Meeting (civicplus_rss)
+  - local meeting: Tue, 29 Sep 2026 12:00:25 -0500 Planning Commission Regular Meeting Agenda (Available via ZOOM) (civicplus_rss)
+  - local meeting: Mon, 28 Sep 2026 10:23:13 -0500 Campbell County Electoral Board (civicplus_rss)
+  - local meeting: Mon, 21 Sep 2026 10:31:49 -0500 Campbell County Electoral Board meeting set for Friday, August 21, 2026 at 10:30 am in the Registrar's Office located at 41 Courthouse Lane, Rustburg. (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Charles City County, VA
@@ -7985,20 +8072,26 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Franklin, VA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 3
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Wed, 30 Sep 2026 16:09:16 -0500 Board of Supervisors Special Called Meeting (civicplus_rss)
+  - local meeting: Thu, 24 Sep 2026 14:11:39 -0500 Meeting Cancellation Notice (civicplus_rss)
+  - local meeting: Wed, 23 Sep 2026 18:00:40 -0500 Planning Commission Work Session (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Franklin County, VA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 3
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Wed, 30 Sep 2026 16:09:16 -0500 Board of Supervisors Special Called Meeting (civicplus_rss)
+  - local meeting: Thu, 24 Sep 2026 14:11:39 -0500 Meeting Cancellation Notice (civicplus_rss)
+  - local meeting: Wed, 23 Sep 2026 18:00:40 -0500 Planning Commission Work Session (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Frederick County, VA
@@ -8030,11 +8123,15 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Hanover County, VA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 4
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Fri, 18 Sep 2026 17:05:24 -0500 Meeting packet for upcoming Hanover CSB - Finance & Oversight Committee (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 17:00:11 -0500 Meeting packet for upcoming Hanover CSB - Community Engagement Committee (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 16:59:57 -0500 Meeting packet for upcoming Hanover CSB - Finance & Oversight Committee (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 16:59:46 -0500 Meeting packet for upcoming Hanover CSB - Programming Committee (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Henrico County, VA
@@ -8057,20 +8154,24 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Louisa County, VA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 3
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Tue, 29 Sep 2026 15:33:55 -0500 Electoral Board Meeting (civicplus_rss)
+  - local meeting: Tue, 29 Sep 2026 15:33:38 -0500 Electoral Board Meeting (civicplus_rss)
+  - local meeting: Tue, 22 Sep 2026 11:35:34 -0500 Electoral Board Meeting (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Mecklenburg County, VA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 1
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Wed, 23 Sep 2026 08:31:10 -0500 August 20,2026, Planning Commission meeting packet (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: New Kent County, VA
@@ -8152,11 +8253,16 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Shenandoah County, VA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 8
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Wed, 30 Sep 2026 12:27:07 -0500 Board of Supervisors Regular Meeting (PDF) (civicplus_rss)
+  - local meeting: Tue, 29 Sep 2026 07:31:43 -0500 Community and Policy Management Team Meeting Agenda (civicplus_rss)
+  - local meeting: Tue, 29 Sep 2026 07:29:58 -0500 Community and Policy Management Team Meeting Agenda (civicplus_rss)
+  - local meeting: Tue, 29 Sep 2026 07:28:09 -0500 Community and Policy Management Team Meeting Agenda (civicplus_rss)
+  - local meeting: Fri, 25 Sep 2026 14:07:29 -0500 Board of Equalization 5.7.26 (PDF) (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Spotsylvania, VA
@@ -8215,38 +8321,53 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Wise County, VA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 1
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 14:48:10 -0500 BOS - Regular Meeting - 10.8.26 (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Wythe, VA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 5
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 08:26:59 -0500 Planning Commission Regular Meeting Agenda (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 15:03:21 -0500 BOS Agenda (PDF) (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 08:40:19 -0500 Special called joint meeting with the Board of Supervisors (civicplus_rss)
+  - local meeting: Thu, 24 Sep 2026 13:58:52 -0500 BOS Pack (PDF) (civicplus_rss)
+  - local meeting: Wed, 23 Sep 2026 13:57:52 -0500 BOS Joint Meeting with JIDA Agenda & Minutes (PDF) (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Wythe County, VA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 5
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 08:26:59 -0500 Planning Commission Regular Meeting Agenda (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 15:03:21 -0500 BOS Agenda (PDF) (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 08:40:19 -0500 Special called joint meeting with the Board of Supervisors (civicplus_rss)
+  - local meeting: Thu, 24 Sep 2026 13:58:52 -0500 BOS Pack (PDF) (civicplus_rss)
+  - local meeting: Wed, 23 Sep 2026 13:57:52 -0500 BOS Joint Meeting with JIDA Agenda & Minutes (PDF) (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: York County, VA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 4
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Wed, 23 Sep 2026 15:37:32 -0500 Chesapeake Bay Board Meeting (civicplus_rss)
+  - local meeting: Wed, 23 Sep 2026 15:37:02 -0500 Chesapeake Bay Board Meeting (civicplus_rss)
+  - local meeting: Wed, 23 Sep 2026 11:35:29 -0500 Economic Development Authority Meeting (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 08:29:37 -0500 Economic Development Authority Meeting (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Windsor County, VT
@@ -8269,20 +8390,26 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Douglas County, WA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 2
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 24 Sep 2026 15:36:34 -0800 Board of County Commissioners Regular Meeting Agenda (civicplus_rss)
+  - local meeting: Mon, 21 Sep 2026 10:03:20 -0800 Board of County Commissioners Regular Meeting Agenda (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Grant County, WA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 4
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Wed, 30 Sep 2026 10:44:19 -0800 Hearing Examiner Regular Meeting Agenda (PDF) (civicplus_rss)
+  - local meeting: Fri, 25 Sep 2026 14:52:59 -0800 Weekly Agenda, Online Meeting Information and Supporting Documentation (civicplus_rss)
+  - local meeting: Wed, 23 Sep 2026 17:03:49 -0800 Planning Commission Workshop Agenda (PDF) (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 16:10:18 -0800 Weekly Agenda, Online Meeting Information and Supporting Documentation (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Grays Harbor, WA
@@ -8314,11 +8441,13 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Lincoln County, WA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 2
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 15:26:01 -0800 Commissioners Regular Meeting - Agenda & Materials (civicplus_rss)
+  - local meeting: Tue, 22 Sep 2026 12:10:40 -0800 Commissioners Regular Meeting - Agenda & Materials (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Pierce County, WA
@@ -8359,20 +8488,30 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Spokane, WA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 12
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Wed, 30 Sep 2026 20:46:06 -0800 Planning Commission Regular Meeting Agenda (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 16:59:10 -0800 Agenda: No Hearing (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 16:58:04 -0800 Agenda: No Hearing (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 16:56:43 -0800 Agenda: No Hearing (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 16:49:53 -0800 Hearing: PW-2115-22 Preliminary Plat of Braemar Glen Estates to divide 30.3 acres into a maximum of 175 lots for single-family and duplex residences, for a maximum of 187 dwelling units, in the Low Density Residential (LDR) zone. (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Spokane County, WA
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 12
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Wed, 30 Sep 2026 20:46:06 -0800 Planning Commission Regular Meeting Agenda (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 16:59:10 -0800 Agenda: No Hearing (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 16:58:04 -0800 Agenda: No Hearing (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 16:56:43 -0800 Agenda: No Hearing (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 16:49:53 -0800 Hearing: PW-2115-22 Preliminary Plat of Braemar Glen Estates to divide 30.3 acres into a maximum of 175 lots for single-family and duplex residences, for a maximum of 187 dwelling units, in the Low Density Residential (LDR) zone. (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Walla Walla County, WA
@@ -8445,11 +8584,16 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Door County, WI
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 8
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 15:41:00 -0600 Broadband Committee Agenda Packet (pdf) (civicplus_rss)
+  - local meeting: Fri, 25 Sep 2026 07:42:18 -0600 Resource Planning Committee Agenda Packet (PDF) (civicplus_rss)
+  - local meeting: Mon, 21 Sep 2026 13:42:13 -0600 Treatment Court Steering Committee Agenda Packet (PDF) (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 08:56:28 -0600 Nutritional Advisory Council Agenda Packet (PDF) (civicplus_rss)
+  - local meeting: Fri, 18 Sep 2026 08:55:59 -0600 Aging and Disability Resource Center Advisory Board Agenda Packet (PDF) (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Dunn County, WI
@@ -8463,11 +8607,16 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Eau Claire, WI
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 10
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 08:02:12 -0600 Plan Commission Agenda Packet 10/5/26 (civicplus_rss)
+  - local meeting: Wed, 30 Sep 2026 17:15:15 -0600 Plan Commission Regular Meeting Agenda [PDF] (civicplus_rss)
+  - local meeting: Mon, 28 Sep 2026 08:25:05 -0600 Plan Commission Regular Meeting Agenda (PDF) (civicplus_rss)
+  - local meeting: Mon, 28 Sep 2026 08:25:04 -0600 Plan Commission Regular Meeting Agenda (PDF) (civicplus_rss)
+  - local meeting: Mon, 28 Sep 2026 08:24:59 -0600 Housing Opportunities Commission Agenda 8/12/26 (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Grant County, WI
@@ -8499,11 +8648,16 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Kenosha County, WI
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 9
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Thu, 01 Oct 2026 15:41:52 -0600 Human Services Committee Meeting agenda - October 6, 2026 (civicplus_rss)
+  - local meeting: Thu, 01 Oct 2026 09:12:07 -0600 Planning Development & Extension Education Committee (civicplus_rss)
+  - local meeting: Mon, 28 Sep 2026 19:23:44 -0600 Public Works/Facilities Committee Meeting (civicplus_rss)
+  - local meeting: Fri, 25 Sep 2026 15:25:17 -0600 Public Works/Facilities Committee Meeting (civicplus_rss)
+  - local meeting: Thu, 24 Sep 2026 15:40:20 -0600 Kenosha County Zoning Board of Adjustment Meeting (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Kewaunee County, WI
@@ -8526,11 +8680,16 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Manitowoc County, WI
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 1338
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Oct  1 2026 Public Works Committee on 2026-10-01 5:30 PM (granicus)
+  - local meeting: Sep 23 2026 Plan Commission on 2026-09-23 6:00 PM (granicus)
+  - local meeting: Sep 23 2026 Board of Public Works on 2026-09-23 4:00 PM (granicus)
+  - local meeting: Sep 21 2026 Common Council on 2026-09-21 6:30 PM (granicus)
+  - local meeting: Sep 21 2026 Committee of the Whole on 2026-09-21 5:30 PM (granicus)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Marathon County, WI
@@ -8688,11 +8847,12 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Berkeley County, WV
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 1
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Fri, 18 Sep 2026 15:11:54 -0500 Berkeley County Emergency Ambulance Authority Meeting September 24, 2026 (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Logan County, WV
