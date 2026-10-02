@@ -633,9 +633,15 @@ def selftest() -> int:
             run(10, 25, feed, index, os.path.join(td, "c2"),
                 fetcher=lambda u, m: (fetched.append(u), answers[u])[1],
                 sleep=lambda s: None)
-            check(sorted(fetched) == sorted(["https://example.granicus.com/old",
-                                             "https://example.gov/gone.pdf",
-                                             "https://example.gov/page"]),
+            expected = ["https://example.granicus.com/old", "https://example.gov/gone.pdf",
+                        "https://example.gov/page"]
+            if lp["text_source"] in RETRY_STATUSES:
+                # Without tesseract and gs the scanned CivicPlus agenda is
+                # ocr_unavailable, which is retried by design: its landing
+                # page and the PDF it resolves to are fetched again.
+                expected += ["https://example.gov/AgendaCenter/PreviousVersions/7",
+                             lp["resolved_url"]]
+            check(sorted(fetched) == sorted(expected),
                   "final documents are skipped; the fetch error and legacy not_pdf rows "
                   "(including one the feed dropped) are retried")
             rows = {r["document_url"]: r for r in read_csv(index)}
