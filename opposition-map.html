@@ -290,12 +290,17 @@ body { font-family:Inter,system-ui,sans-serif; background:var(--bg); color:var(-
       <div id="project-panel" hidden>
         <div class="legend">
           <h3>Project outcome</h3>
+          <!-- Rows are rebuilt from VizPalette.OUTCOME_COLOR by
+               renderOutcomeLegend(); this static copy is what shows if the
+               shared modules fail to load. -->
+          <div id="outcomeLegendRows">
           <div class="row"><span class="sw osh blocked_confirmed" style="background:var(--blocked)"></span>
             blocked (confirmed terminal)</div>
           <div class="row"><span class="sw osh advanced_confirmed" style="background:var(--advanced)"></span>
             advanced (confirmed)</div>
           <div class="row"><span class="sw osh pending" style="background:var(--pending)"></span>
             pending / undecided</div>
+          </div>
           <div class="row"><span class="sw" style="background:transparent;border:2px solid #67e8f9"></span>
             cyan ring: a lawsuit is on record</div>
           <div class="row" style="color:var(--muted);margin-top:7px">
@@ -505,10 +510,17 @@ function policyColor(score) {
 // orange rather than blue and red: both stay separable under the common
 // colour vision deficiencies, where red collapses into the warm end of the
 // sequential ramp used on the other layers of this same map.
+// The color function is LegendFilter.marginSymbology(), the same object the
+// margin legend is built from, so the legend's breaks and colors are the
+// layer's (spec 012, US4). The inline fallback is the identical ramp, kept
+// for a load where legend-filter.js is missing.
+const MARGIN_SYM = typeof LegendFilter.marginSymbology === 'function'
+  ? LegendFilter.marginSymbology() : null;
 function marginColor(m) {
   if (m === null || !Number.isFinite(m)) return null;
-  return { color: VizPalette.diverging(Math.max(-1, Math.min(1, m / 0.5))),
-           opacity: VizPalette.FILL_OPACITY };
+  const c = MARGIN_SYM ? MARGIN_SYM.color(m)
+    : VizPalette.diverging(Math.max(-1, Math.min(1, m / 0.5)));
+  return c === null ? null : { color: c, opacity: VizPalette.FILL_OPACITY };
 }
 function countColor(n) {
   if (!n) return null;
@@ -516,9 +528,17 @@ function countColor(n) {
   return c === null ? null : { color:c, opacity:VizPalette.FILL_OPACITY };
 }
 
-const OUTCOME_COLOR = {
-  blocked_confirmed:'#ef4444', advanced_confirmed:'#38bdf8', pending:'#fbbf24'
-};
+// Read from VizPalette.OUTCOME_COLOR, the table the outcome legend is built
+// from, so a pin and its legend row cannot carry different colors. The
+// literals are the same values, for a load where the palette lacks the table.
+const OUTCOME_COLOR = (function () {
+  const P = (window.VizPalette && VizPalette.OUTCOME_COLOR) || {};
+  return {
+    blocked_confirmed: P.blocked_confirmed || '#ef4444',
+    advanced_confirmed: P.advanced_confirmed || '#38bdf8',
+    pending: P.pending || '#fbbf24'
+  };
+})();
 // Painting order for the cluster donut, so a cluster's ring reads the same way
 // every time regardless of which outcome happens to be most common in it.
 const OUTCOME_ORDER = ['blocked_confirmed','pending','advanced_confirmed'];
@@ -529,6 +549,27 @@ const OUTCOME_LABEL = {
   pending:'Pending / undecided'
 };
 const BAND_COLOR = { lower:'#22c55e', moderate:'#eab308', elevated:'#f97316', higher:'#ef4444' };
+
+// Outcome legend rows built from the same color table the pins use
+// (LegendFilter.outcomeEntries reads VizPalette.OUTCOME_COLOR), in the
+// legend's existing order and wording. Swatch shapes keep the osh classes so
+// the legend still echoes the marker shapes.
+const OUTCOME_LEGEND_ORDER = ['blocked_confirmed', 'advanced_confirmed', 'pending'];
+const OUTCOME_LEGEND_TEXT = {
+  blocked_confirmed: 'blocked (confirmed terminal)',
+  advanced_confirmed: 'advanced (confirmed)',
+  pending: 'pending / undecided'
+};
+function renderOutcomeLegend() {
+  const host = document.getElementById('outcomeLegendRows');
+  if (!host || typeof LegendFilter.outcomeEntries !== 'function') return;
+  const entries = LegendFilter.outcomeEntries(OUTCOME_LEGEND_ORDER, OUTCOME_LEGEND_TEXT)
+    .filter(e => e.color && e.label);
+  if (entries.length !== OUTCOME_LEGEND_ORDER.length) return;
+  host.innerHTML = entries.map(e =>
+    `<div class="row" data-outcome="${e.key}"><span class="sw osh ${e.key}" style="background:${e.color}"></span>\n` +
+    `            ${esc(e.label)}</div>`).join('');
+}
 
 // ---------------------------------------------------------------------------
 // State
@@ -682,6 +723,14 @@ function renderCountyLegend(metric) {
   if (!host) return;
   // Diverging ramp is orange/blue rather than red/blue so the two ends stay
   // separable for colourblind readers.
+  if (metric === 'margin_2024' && MARGIN_SYM) {
+    LegendFilter.renderRampLegend(host, MARGIN_SYM, {
+      title: '2024 presidential margin',
+      note: 'Positive is a Democratic margin.'
+    });
+    return;
+  }
+  host.removeAttribute('data-legend-breaks');
   if (metric === 'margin_2024') {
     host.innerHTML =
       '<div class="vp-title">2024 presidential margin</div>' +
@@ -948,10 +997,15 @@ function drawPins() {
     const m = L.marker([p.lat,p.lon], { icon:pinIcon(p), pane:'pinPane' });
     m.options._outcome = p.outcome;
     m.options._pid = p.pid;
-    m.bindTooltip(
-      `<b>${esc(p.name)}</b><br>${OUTCOME_LABEL[p.outcome]||p.outcome}` +
-      (p.nOpp ? ` &middot; ${p.nOpp} opposition event${p.nOpp===1?'':'s'}` : ''),
-      { className:'tip', direction:'top' });
+    // Shared hover label (spec 012, US4): name, county, outcome term, the
+    // same three lines on every pin map. Click still opens the side panel.
+    if (typeof LegendFilter.bindPinTooltip === 'function') {
+      LegendFilter.bindPinTooltip(m, { name: p.name, county: p.county, state: p.state,
+        outcome: p.outcome, outcomeLabel: OUTCOME_LABEL[p.outcome] }, { className: 'tip' });
+    } else {
+      m.bindTooltip(`<b>${esc(p.name)}</b><br>${OUTCOME_LABEL[p.outcome]||''}`,
+        { className:'tip', direction:'top' });
+    }
     m.on('click', () => { selectProject(p.pid, false); showProjectDetail(p); });
     MARKERS[p.pid] = m;
     pinCluster.addLayer(m);
@@ -1537,6 +1591,7 @@ document.addEventListener('keydown', e => {
 // ---------------------------------------------------------------------------
 (async function init() {
   document.getElementById('badge').textContent = 'loading data';
+  renderOutcomeLegend();
   const [scoreText, countyText, propText, lifeText, predText, intervalText, geo] = await Promise.all([
     fetchFirst(SCORE_URLS), fetchFirst(COUNTY_URLS), fetchFirst(PROPOSAL_URLS),
     fetchFirst(LIFECYCLE_URLS), fetchFirst(PRED_URLS), fetchFirst(INTERVAL_URLS),

@@ -81,6 +81,22 @@
   var DIV_POS = [56, 132, 255];   // blue, Democratic lean under this dataset
   var DIV_MID = [40, 46, 58];
 
+  // Outcome tiers (outcome_defensibility.OUTCOME_GRADES). The three confirmed
+  // or open tiers keep the colors opposition-map.html already ships; the
+  // unverified tiers are lighter tints of their confirmed counterparts so a
+  // reader never mistakes a recorded claim for a verified one. Python
+  // renderers (scripts/render_terrain_plate.py, scripts/export_geolibre.py)
+  // read this block by its OUTCOME_COLOR name, so it stays one flat literal.
+  var OUTCOME_COLOR = {
+    advanced_confirmed: '#38bdf8',
+    restricted_conditional: '#f97316',
+    blocked_confirmed: '#ef4444',
+    pending: '#fbbf24',
+    blocked_unverified: '#fca5a5',
+    advanced_unverified: '#bae6fd',
+    mixed: '#a78bfa'
+  };
+
   // One fill opacity for every scored polygon on every page.
   var FILL_OPACITY = 0.88;
 
@@ -398,6 +414,7 @@
     BASE_STROKE: BASE_STROKE,
     HOVER_STROKE: HOVER_STROKE,
     NODATA: NODATA,
+    OUTCOME_COLOR: OUTCOME_COLOR,
     selftest: selftest
   };
 })(window);

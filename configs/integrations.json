@@ -1,6 +1,6 @@
 {
   "_comment": "Tool integration registry. Source of truth for which external tools the platform adopts. integration_audit.py validates this file. Hand-edited; no process writes it.",
-  "version": "2026-09-28",
+  "version": "2026-10-01",
   "license_policy": {
     "allowed": [
       "MIT",
@@ -22,7 +22,8 @@
       "MIT (tiles: ODbL OSM data)",
       "GPL-2.0-cli",
       "CC0-or-verify",
-      "free-tier-service"
+      "free-tier-service",
+      "Apache-2.0 OR MIT"
     ],
     "blocked": [
       "GPL-2.0",
@@ -43,7 +44,9 @@
     "5": "008 model robustness",
     "6": "009 map geometry and frontend",
     "7": "010 deliverable generation",
-    "8": "011 client product foundation"
+    "8": "011 client product foundation",
+    "9": "012 GeoLibre map projects",
+    "10": "013 terrain plates"
   },
   "tools": [
     {
@@ -2170,6 +2173,106 @@
       "status": "eliminated",
       "category": "already-built",
       "reason": "Shipped 2026-09-28 in legistar_probe.py (configs/legistar_clients.json) and status_followup.py. Spec 007's civic-scraper work must reuse these for Legistar, not add a second Legistar path."
+    },
+    {
+      "id": "geolibre",
+      "name": "GeoLibre",
+      "kind": "python",
+      "version": "==3.2.0",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 2,
+      "spec": "012",
+      "session": 9,
+      "runs_in": "local",
+      "target": [
+        "scripts/export_geolibre.py",
+        "data/geolibre/*.geolibre.json"
+      ],
+      "reason": "Authors whole-map project files (layers, styles, popups, legend, swipe) from Python, so pipeline outputs open as analyst-grade maps in the GeoLibre desktop app or Jupyter widget without hand styling.",
+      "risk_notes": "The public sharing host share.geolibre.app is forbidden (entry geolibre-share; integration_audit.py fails on any reference). Projects are opened locally only. Python 3.11+. The project schema is governed by this pin; the exporter re-validates every file with load_project and describe_project.",
+      "source_url": "https://github.com/opengeos/GeoLibre",
+      "products": [
+        "internal",
+        "active_db"
+      ]
+    },
+    {
+      "id": "forge3d",
+      "name": "forge3d (open core)",
+      "kind": "python",
+      "version": "==1.40.1",
+      "license": "Apache-2.0 OR MIT",
+      "status": "selected",
+      "tier": 2,
+      "spec": "013",
+      "session": 10,
+      "runs_in": "local",
+      "target": [
+        "scripts/render_terrain_plate.py",
+        "requirements/plates.in",
+        ".github/workflows/plate-probe.yml",
+        ".github/workflows/render-plates.yml"
+      ],
+      "reason": "Path-traced terrain hero images from 3DEP elevation at print resolution, with Legend, ScaleBar, NorthArrow and text shaping in the open core; final composition stays in Pillow.",
+      "risk_notes": "Open core only; Pro features are forbidden: set_license_key, MapPlate, SVG/PDF vector export, building import, Mapbox style loading and scene bundles (entry forge3d-pro; integration_audit.py fails on any reference). Renders through wgpu; where it runs in CI is settled by plate-probe.yml (spec 013 US4).",
+      "source_url": "https://github.com/milos-agathon/forge3d",
+      "products": [
+        "static_report",
+        "internal"
+      ]
+    },
+    {
+      "id": "rasterio",
+      "name": "rasterio",
+      "kind": "python",
+      "version": "==1.4.4",
+      "license": "BSD-3-Clause",
+      "status": "selected",
+      "tier": 2,
+      "spec": "013",
+      "session": 10,
+      "runs_in": "local",
+      "target": [
+        "scripts/render_terrain_plate.py",
+        "requirements/plates.in"
+      ],
+      "reason": "Windowed HTTP range reads of USGS 3DEP cloud-optimized GeoTIFFs from the public staged-products bucket, so a county DEM is a few megabytes rather than whole 1-degree tiles. forge3d's own COG reader cannot open 3DEP (NAD83) without PROJ.",
+      "risk_notes": "Wheels bundle GDAL (MIT/X) and PROJ (MIT). Only used to fetch the DEM into the gitignored .cache/dem/; the render path itself never imports it.",
+      "source_url": "https://github.com/rasterio/rasterio",
+      "products": [
+        "static_report",
+        "internal"
+      ]
+    },
+    {
+      "id": "geolibre-selfhost",
+      "name": "GeoLibre self-hosted web app",
+      "kind": "service",
+      "license": "MIT",
+      "status": "deferred",
+      "tier": 3,
+      "trigger": "An active_db client engagement needs an interactive analyst workspace behind access control.",
+      "reason": "The GeoLibre web app is a static build that could sit behind the spec 011 access-controlled host and load project files from private storage; see specs/012-geolibre-map-projects/research.md (R3). Until a client needs it, projects open locally only.",
+      "source_url": "https://github.com/opengeos/GeoLibre",
+      "products": [
+        "active_db",
+        "internal"
+      ]
+    },
+    {
+      "id": "geolibre-share",
+      "name": "share.geolibre.app",
+      "status": "eliminated",
+      "category": "principle-conflict",
+      "reason": "Public hosting of client data. Anything uploaded there is reachable by link, and client data may not be published on a public host (same rule as frontend-stacks). integration_audit.py fails on any reference in repo code."
+    },
+    {
+      "id": "forge3d-pro",
+      "name": "forge3d Pro (MapPlate, vector export, building import)",
+      "status": "eliminated",
+      "category": "license-risk",
+      "reason": "Commercial license key required (set_license_key). Composition is done in Pillow, PNG is the deliverable format, and buildings are out of scope. If a deliverable truly needs vector export that is a registry decision with a license purchase, not a code change. integration_audit.py fails on any reference in repo code."
     }
   ],
   "product_lines": {

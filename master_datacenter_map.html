@@ -413,13 +413,26 @@ function render() {
 let dt;
 function debounce() { clearTimeout(dt); dt = setTimeout(render, 280); }
 
+// Shared hover label (spec 012, US4): the same short label as every pin map.
+// Facilities carry no outcome, so the label is name and place. Falls back to
+// the page's previous tooltip if legend-filter.js did not load.
+function pinTip(m, info, legacy) {
+  if (typeof LegendFilter.bindPinTooltip === 'function') {
+    LegendFilter.bindPinTooltip(m, info, { className: 'pin-tooltip' });
+  } else {
+    m.bindTooltip(legacy, { direction: 'top', className: 'pin-tooltip' });
+  }
+}
+
 function initRows(atlasData, aiData) {
   // Atlas rows
   atlasData.forEach(r => {
     if (!r.lat || !r.lon || isNaN(+r.lat) || isNaN(+r.lon)) return;
     const m = L.circleMarker([+r.lat, +r.lon], {
       radius:4, fillColor:'#4f98a3', fillOpacity:0.8, color:'#7ecfda', weight:1
-    }).bindPopup(buildAtlasPopup(r)).bindTooltip(`<b>${r.name||'Unnamed'}</b><br>${r.state||''} · ${r.operator||''}`, {direction:'top',className:'pin-tooltip'});
+    }).bindPopup(buildAtlasPopup(r));
+    pinTip(m, { name: r.name || 'Unnamed', county: r.county || '', state: r.state || '' },
+      `<b>${r.name||'Unnamed'}</b><br>${r.state||''} · ${r.operator||''}`);
     rows.push({ _src:'atlas', _state:r.state_abb||r.state||'', _owner:r.operator||'', _type:r.type||'', _search:[r.name,r.operator,r.state,r.county].join(' ').toLowerCase(), _raw:r });
     leafletMarkers.push(m);
   });
@@ -427,7 +440,14 @@ function initRows(atlasData, aiData) {
   // AI rows
   aiData.forEach(r => {
     if (!r.lat || !r.lon || isNaN(+r.lat) || isNaN(+r.lon)) return;
-    const m = L.marker([+r.lat, +r.lon], { icon: aiIcon(r), zIndexOffset:1000 }).bindPopup(buildAIPopup(r)).bindTooltip(`<b>${r.Name||''}</b><br>${r.Owner||''}`, {direction:'top',className:'pin-tooltip'});
+    const m = L.marker([+r.lat, +r.lon], { icon: aiIcon(r), zIndexOffset:1000 }).bindPopup(buildAIPopup(r));
+    // The IM3 file has a street address, not a county; its last two parts
+    // are the city and the state.
+    const ap = String(r.Address || '').split(',').map(x => x.trim()).filter(Boolean);
+    pinTip(m, { name: r.Name || '',
+                county: ap.length >= 2 ? ap[ap.length - 2] : '',
+                state: ap.length >= 2 ? ap[ap.length - 1].split(' ')[0] : '' },
+      `<b>${r.Name||''}</b><br>${r.Owner||''}`);
     rows.push({ _src:'ai', _state:'', _owner:r.Owner||'', _type:'', _search:[r.Name,r.Owner,r.Users,r.Project,r.Address].join(' ').toLowerCase(), _raw:r });
     leafletMarkers.push(m);
   });

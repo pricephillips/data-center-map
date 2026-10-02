@@ -20,9 +20,16 @@ Rules enforced:
              only for kind "cli": the program runs as a separate process and is
              never imported, so its license does not attach to repo code. The
              repo has no LICENSE file and client products may ship privately.
+  boundaries repo code (*.py, *.js, *.html, *.yml, *.sh) never references the
+             public GeoLibre sharing host (entry geolibre-share), and never
+             calls a forge3d Pro API (entry forge3d-pro): the license-key
+             setter, MapPlate, SVG/PDF vector export, building import, or
+             scene bundles. Specs, docs and configs may name them; code may
+             not. Specs 012 US1 and 013 US2.
 
 Reads
   configs/integrations.json
+  repo code files, for the boundary checks
 Writes
   nothing (prints a report; exit 1 on any violation)
 
@@ -36,6 +43,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 
 REGISTRY = os.path.join("configs", "integrations.json")
@@ -49,6 +57,24 @@ CATEGORIES = {
 
 
 CLI_SUFFIX = "-cli"
+
+# Boundary checks. Each rule is (registry id, pattern, needs_forge3d). A rule
+# with needs_forge3d only fires in a file that also mentions forge3d, because
+# names like export_pdf are generic and spec 010 renders PDFs with WeasyPrint.
+# The patterns are split so this file never matches itself.
+BOUNDARY_RULES = [
+    ("geolibre-share", re.compile(r"share\.geolibre" r"\.app", re.I), False),
+    ("forge3d-pro", re.compile(r"\bset_license" r"_key\b"), False),
+    ("forge3d-pro", re.compile(r"\bMap" r"Plate\w*"), False),
+    ("forge3d-pro", re.compile(r"\bexport_(?:svg|pdf)\b|forge3d\.ex" r"port\b"), True),
+    ("forge3d-pro", re.compile(r"\badd_build" r"ings\w*|forge3d\.build" r"ings\b|"
+                               r"\bimport_osm_build" r"ings\w*"), True),
+    ("forge3d-pro", re.compile(r"\b(?:save|load)_bun" r"dle\b"), True),
+]
+FORGE3D_RE = re.compile(r"forge3d")
+CODE_EXT = {".py", ".js", ".html", ".yml", ".yaml", ".sh"}
+SKIP_DIRS = {".git", "node_modules", "__pycache__", ".cache", "outputs", "specs", "docs",
+             ".specify", ".claude"}
 
 
 def _blocked(lic: str, blocked: list[str], kind: str = "") -> bool:
@@ -108,6 +134,32 @@ def validate(reg: dict) -> list[str]:
         else:
             if t.get("category") not in CATEGORIES:
                 errs.append(f"{tid}: category {t.get('category')!r} not in fixed set")
+    return errs
+
+
+def scan_boundaries(root: str) -> list[str]:
+    """Boundary violations in repo code under root, as 'path:line: id: text'."""
+    errs: list[str] = []
+    me = os.path.abspath(__file__)
+    for dirpath, dirnames, filenames in os.walk(root):
+        dirnames[:] = sorted(d for d in dirnames if d not in SKIP_DIRS)
+        for fn in sorted(filenames):
+            path = os.path.join(dirpath, fn)
+            if os.path.splitext(fn)[1] not in CODE_EXT or os.path.abspath(path) == me:
+                continue
+            try:
+                with open(path, encoding="utf-8", errors="replace") as fh:
+                    lines = fh.read().splitlines()
+            except OSError:
+                continue
+            uses_forge3d = any(FORGE3D_RE.search(ln) for ln in lines)
+            rel = os.path.relpath(path, root)
+            for n, ln in enumerate(lines, 1):
+                for tid, rx, needs in BOUNDARY_RULES:
+                    if needs and not uses_forge3d:
+                        continue
+                    if rx.search(ln):
+                        errs.append(f"{rel}:{n}: {tid}: {ln.strip()[:120]}")
     return errs
 
 
@@ -172,6 +224,30 @@ def _selftest() -> int:
     case("declared product line passes", [dict(good, products=["platform"])], True)
     reg = dict(base, tools=[good])
     checks.append(("session list names tool", "A [" in session_list(reg, "1")))
+
+    import tempfile
+
+    def planted(name: str, text: str) -> list[str]:
+        root = tempfile.mkdtemp(prefix="integration_audit_")
+        with open(os.path.join(root, name), "w", encoding="utf-8") as fh:
+            fh.write(text)
+        return scan_boundaries(root)
+
+    key = "set_license" + "_key"
+    checks.append(("planted forge3d license key fails",
+                   bool(planted("plate.py", f'import forge3d\nforge3d.{key}("x")\n'))))
+    checks.append(("planted Map" "Plate fails",
+                   bool(planted("plate.py", "from forge3d import Map" "Plate\n"))))
+    checks.append(("planted forge3d vector export fails",
+                   bool(planted("plate.py", "import forge3d\nforge3d.export_" "svg(s, 'a.svg')\n"))))
+    checks.append(("planted building import fails",
+                   bool(planted("plate.py", "import forge3d\nforge3d.add_build" "ings(s, g)\n"))))
+    checks.append(("planted sharing host fails",
+                   bool(planted("export.js", "fetch('https://share.geolibre" ".app/p/1')\n"))))
+    checks.append(("WeasyPrint export_pdf without forge3d passes",
+                   not planted("render_county_pdf.py", "def export_" "pdf(html):\n    pass\n")))
+    checks.append(("clean forge3d code passes",
+                   not planted("plate.py", "import forge3d\nforge3d.device_probe()\n")))
     checks.append(("summary counts selected", "selected: 1" in summary(reg)))
     fails = 0
     for name, ok in checks:
@@ -186,12 +262,16 @@ def main() -> int:
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--session")
     ap.add_argument("--registry", default=REGISTRY)
+    ap.add_argument("--root", default=os.path.dirname(os.path.abspath(__file__)),
+                    help="tree scanned by the boundary checks")
     a = ap.parse_args()
     if a.selftest:
         return _selftest()
     with open(a.registry, encoding="utf-8") as f:
         reg = json.load(f)
     errs = validate(reg)
+    if a.registry == REGISTRY:
+        errs += [f"boundary {e}" for e in scan_boundaries(a.root)]
     if a.session is not None:
         print(session_list(reg, a.session))
     else:

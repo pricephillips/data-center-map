@@ -634,6 +634,16 @@ function hasRealCoords(lat, lon) {
             color:'#7ecfda',
             weight:1
           }).bindPopup(buildPopup(row));
+          // Shared hover label (spec 012, US4): name, county, outcome term.
+          // Read on hover, because the outcome comes from the enrichment file,
+          // which may land after the pins are built.
+          if (typeof LegendFilter.bindPinTooltip === 'function') {
+            LegendFilter.bindPinTooltip(row._marker, () => {
+              const x = ENRICHED['prj_' + row.id];
+              return { name: row.name || 'Unnamed proposal', county: row.counties || '',
+                       state: row.state || '', outcome: x ? x.lifecycle_outcome : '' };
+            });
+          }
           row._marker.on('click', () => {
             const idx = filteredRows.indexOf(row);
             if (idx >= 0) highlightCard(idx);

@@ -153,5 +153,91 @@ function boot(){
   eq('inside both bounds', LF.inYearRange('2025-06', 2024, 2026), true);
 }
 
+// ---- legends from symbology (spec 012, US4) ----
+// viz-palette.js loads into the same window first, as it does on the pages,
+// so the entries are compared against the real scale and color functions.
+function bootWithPalette(){
+  const w = boot();
+  new Function('window', fs.readFileSync('viz-palette.js', 'utf8'))(w);
+  return w;
+}
+{ const w = bootWithPalette(); const LF = w.LegendFilter, VP = w.VizPalette;
+  const scale = new VP.SequentialScale([0.01, 0.02, 0.05, 0.09, 0.2, 0.4, 0.9], { floor: 0.35 });
+  const ent = LF.entriesFromScale(scale, { ticks: 4 });
+  eq('scale entries are the layer class breaks', ent.map(e => e.value), scale.ticks(4));
+  eq('scale entry colors are the layer colors', ent.map(e => e.color), scale.ticks(4).map(v => scale.color(v)));
+  eq('scale entry colors match the painted style', ent.map(e => e.color),
+     scale.ticks(4).map(v => scale.style(v, false).fillColor));
+  eq('scale entry labels default to percent', ent[ent.length - 1].label,
+     (scale.ceiling * 100).toFixed(0) + '%');
+  const cnt = new VP.SequentialScale([1, 1, 2, 3, 5, 14], { floor: 1, minPosition: VP.MIN_POSITION_SEPARABLE });
+  const ce = LF.entriesFromScale(cnt, { ticks: 4, format: v => String(Math.round(v)) });
+  eq('floored scale entries carry the floored colors', ce.map(e => e.color), cnt.ticks(4).map(v => cnt.color(v)));
+  eq('no scale, no entries', LF.entriesFromScale(null), []);
+
+  const sym = LF.marginSymbology();
+  const me = LF.entriesFromSymbology(sym);
+  eq('margin entries are the margin breaks', me.map(e => e.value), sym.breaks);
+  eq('margin entry colors are the layer colors', me.map(e => e.color), sym.breaks.map(v => sym.color(v)));
+  eq('margin colors come from VizPalette.diverging', me.map(e => e.color),
+     [VP.diverging(-1), VP.diverging(0), VP.diverging(1)]);
+  eq('margin labels keep the page vocabulary', me.map(e => e.label), ['R +50', 'even', 'D +50']);
+  eq('margin saturates past the span', sym.color(-0.9), VP.diverging(-1));
+  eq('positive margin is the Democratic end', sym.color(0.5), VP.diverging(1));
+  eq('missing margin is no data', [sym.color(null), sym.color(NaN), sym.color('')], [null, null, null]);
+
+  const host = { _attrs: {}, innerHTML: '', setAttribute(k, v){ this._attrs[k] = String(v); } };
+  const re = LF.renderRampLegend(host, sym, { title: '2024 presidential margin', note: 'Positive is a Democratic margin.' });
+  eq('rendered legend records the layer breaks', JSON.parse(host._attrs['data-legend-breaks']), sym.breaks);
+  eq('rendered legend returns its entries', re.map(e => e.color), me.map(e => e.color));
+  eq('rendered ramp is sampled from the layer color', host.innerHTML.indexOf(sym.color(-0.5)) > 0
+     && host.innerHTML.indexOf(sym.color(0.5)) > 0, true);
+  eq('rendered ticks carry the labels', ['R +50', 'even', 'D +50'].every(t => host.innerHTML.includes(t)), true);
+
+  const oe = LF.outcomeEntries(['blocked_confirmed', 'advanced_confirmed', 'pending']);
+  eq('outcome entries keep order', oe.map(e => e.key), ['blocked_confirmed', 'advanced_confirmed', 'pending']);
+  eq('outcome entry colors are VizPalette.OUTCOME_COLOR', oe.map(e => e.color),
+     ['blocked_confirmed', 'advanced_confirmed', 'pending'].map(k => VP.OUTCOME_COLOR[k]));
+  eq('every platform tier has a color', LF.OUTCOME_TERMS.every(k => !!VP.OUTCOME_COLOR[k]), true);
+  eq('non-tier keys are skipped', LF.outcomeEntries(['win', 'pending']).map(e => e.key), ['pending']);
+  eq('page labels override defaults', LF.outcomeEntries(['pending'], { pending: 'pending / undecided' })[0].label,
+     'pending / undecided');
+}
+
+// ---- uniform pin tooltip (spec 012, US4) ----
+{ const LF = boot().LegendFilter;
+  eq('label has name, place, outcome',
+     LF.pinLabel({ name: 'Project A', county: 'Loudoun County', state: 'VA', outcome: 'blocked_confirmed' }),
+     '<b>Project A</b><br>Loudoun County, VA<br><span class="lf-pin-oc">Blocked (confirmed)</span>');
+  eq('empty parts omitted', LF.pinLabel({ name: 'P' }), '<b>P</b>');
+  eq('name is escaped', LF.pinLabel({ name: '<x>&' }), '<b>&lt;x&gt;&amp;</b>');
+  eq('long name is shortened', LF.pinLabel({ name: 'x'.repeat(80) }).length < 80, true);
+  eq('every tier renders a label', LF.OUTCOME_TERMS.every(t => LF.outcomeLabel(t) !== ''), true);
+  eq('unknown outcome is dropped', LF.pinLabel({ name: 'P', outcome: 'win' }), '<b>P</b>');
+  eq('page friendly label is used', LF.pinLabel({ name: 'P', outcome: 'pending', outcomeLabel: 'Contested' }),
+     '<b>P</b><br><span class="lf-pin-oc">Contested</span>');
+  const bad = ['win', 'Loss', 'won', 'lost', 'decided', 'confirmed_blocks', 'blocked_share'];
+  eq('scorekeeping labels never render',
+     bad.map(b => LF.pinLabel({ name: 'P', outcomeLabel: b })), bad.map(() => '<b>P</b>'));
+  eq('refused label falls back to the tier term',
+     LF.pinLabel({ name: 'P', outcome: 'pending', outcomeLabel: 'won' }),
+     '<b>P</b><br><span class="lf-pin-oc">Pending / undecided</span>');
+  eq('undecided is not refused', LF.outcomeLabel('pending'), 'Pending / undecided');
+  const extra = LF.pinLabel({ name: 'P', screen_tier: 'A', blocked_share: 0.4, decided: 3 });
+  eq('fields outside name, place, outcome never render', extra, '<b>P</b>');
+
+  let bound = null;
+  const layer = { bindTooltip(c, o){ bound = { c, o }; return this; } };
+  LF.bindPinTooltip(layer, { name: 'P', outcome: 'mixed' }, { className: 'pin-tooltip' });
+  eq('bind uses the shared label', bound.c, '<b>P</b><br><span class="lf-pin-oc">Mixed</span>');
+  eq('bind adds the shared class beside the page class', bound.o.className, 'lf-pin-tip pin-tooltip');
+  eq('bind hovers above the pin', bound.o.direction, 'top');
+  let late = { name: 'Q' };
+  LF.bindPinTooltip(layer, () => late);
+  late = { name: 'Q', outcome: 'advanced_confirmed' };
+  eq('a function source is read on hover', bound.c(), '<b>Q</b><br><span class="lf-pin-oc">Advanced (confirmed)</span>');
+  eq('a layer without bindTooltip is returned untouched', LF.bindPinTooltip({}, {}), {});
+}
+
 console.log('\n' + pass + ' passed, ' + fail + ' failed');
 process.exit(fail ? 1 : 0);

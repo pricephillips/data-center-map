@@ -66,6 +66,9 @@
  *               from the raw source of record now publishes the four-tier
  *               vocabulary in the hash instead of its own values, and an
  *               unmapped value is dropped rather than written through.
+ *   2026-10-01  Added swipeValue()/parseSwipe() for the sw= key carried by
+ *               the swipe compare on restriction-model.html. Additive: no
+ *               existing key or its parsing changed.
  */
 (function (global) {
   'use strict';
@@ -403,12 +406,38 @@
     return null;
   }
 
+  /* Swipe compare state (spec 012, US4). One short key, sw=<percent>, where
+   * the percent is the divider's integer position from the left edge of the
+   * map. Present means the swipe is on; absent means off, so every link
+   * written before this key existed opens exactly as it did.
+   *   swipeValue(on, pct) -> '55' or null (null clears the key via set())
+   *   parseSwipe(v)       -> { on, pct }, pct clamped to 0..100; a missing or
+   *                          malformed value reads as off at the default 50.
+   */
+  var SWIPE_DEFAULT = 50;
+  function clampPct(p) {
+    var n = Math.round(Number(p));
+    if (!isFinite(n)) return SWIPE_DEFAULT;
+    return n < 0 ? 0 : (n > 100 ? 100 : n);
+  }
+  function swipeValue(on, pct) {
+    return on ? String(clampPct(pct)) : null;
+  }
+  function parseSwipe(v) {
+    if (v === null || v === undefined || v === '' || !/^\s*-?\d+(\.\d+)?\s*$/.test(String(v))) {
+      return { on: false, pct: SWIPE_DEFAULT };
+    }
+    return { on: true, pct: clampPct(parseFloat(v)) };
+  }
+
   global.MapPermalink = {
     attach: attach,
     attachControls: attachControls,
     copyLink: copyLink,
     parseHash: parseHash,
     slug: slug,
-    matchSlug: matchSlug
+    matchSlug: matchSlug,
+    swipeValue: swipeValue,
+    parseSwipe: parseSwipe
   };
 })(window);

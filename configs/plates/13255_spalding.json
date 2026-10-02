@@ -1,0 +1,16 @@
+{
+  "_comment": "Fixture plate for spec 013 (US1 independent test, US4 probe). Spalding County, GA. Title states the finding (spec 010 US5).",
+  "id": "13255_spalding",
+  "title": "Spalding County has two tracked cases: one blocked, one advanced",
+  "subtitle": "Spalding County, Georgia. Both actions were recorded in January 2026.",
+  "area": {"fips": ["13255"]},
+  "camera": {"azimuth_deg": 0, "elevation_deg": 55, "z_scale": 2.5},
+  "sun": {"azimuth_deg": 315, "elevation_deg": 35},
+  "output": {
+    "width": 3000,
+    "height": 2000,
+    "samples": {"spp": 2, "min_frames": 64, "max_frames": 1024, "variance_threshold": 0.001}
+  },
+  "overlays": {"county_boundary": true, "pins": true, "labels": true},
+  "dem": {"pad_frac": 0.08, "max_samples": 2048}
+}
