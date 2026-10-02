@@ -315,6 +315,13 @@
     "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
+  "CA::Riverside": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-02T19:43:21+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
   "CA::Riverside County": {
     "adapter": "none",
     "base_url": "",
@@ -474,6 +481,13 @@
     "checked_at": "2026-10-01T20:33:53+00:00",
     "civic_scraper": "1.1.0",
     "platform": "civicplus_rss"
+  },
+  "CO::Weld": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-02T19:43:31+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
   },
   "CO::Weld County": {
     "adapter": "none",
@@ -4000,6 +4014,20 @@
     "civic_scraper": "1.1.0",
     "platform": "ambiguous"
   },
+  "NC::Guilford": {
+    "adapter": "native:legistar",
+    "base_url": "https://webapi.legistar.com/v1/guilford",
+    "checked_at": "2026-10-02T19:43:40+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "legistar"
+  },
+  "NC::Guilford County": {
+    "adapter": "native:legistar",
+    "base_url": "https://webapi.legistar.com/v1/guilford",
+    "checked_at": "2026-10-02T19:43:48+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "legistar"
+  },
   "NC::Halifax County": {
     "adapter": "civic_scraper:civicplus",
     "base_url": "https://nc-halifaxcounty.civicplus.com",
@@ -6286,6 +6314,13 @@
     "civic_scraper": "1.1.0",
     "platform": "civicplus_rss"
   },
+  "TX::Andrews": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-02T19:43:54+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
+  },
   "TX::Angelina County": {
     "adapter": "none",
     "base_url": "",
@@ -7175,6 +7210,13 @@
     "base_url": "",
     "checked_at": "2026-08-24T08:31:07+00:00",
     "platform": "ambiguous"
+  },
+  "WI::Bayfield": {
+    "adapter": "none",
+    "base_url": "",
+    "checked_at": "2026-10-02T19:44:05+00:00",
+    "civic_scraper": "1.1.0",
+    "platform": "none"
   },
   "WI::Brown County": {
     "adapter": "none",

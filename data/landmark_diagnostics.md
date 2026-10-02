@@ -1,6 +1,6 @@
 # Landmark Diagnostics: Anchor Feasibility
 
-Generated 2026-10-01. Diagnostic record. This analysis made the case for re-anchoring the landmark at announced_date; that change was adopted in landmark_model.py on 2026-07-28, so the comparison below is the justification of a decision already taken rather than an open question. The opposition-anchor figures are reconstructed here from first_opposition_date for the record. Survivor conditioning, floors (n >= 40, blocked >= 12, not_blocked >= 12), and the registered window grid [30, 60, 90, 120, 180] are imported from that module rather than restated.
+Generated 2026-10-02. Diagnostic record. This analysis made the case for re-anchoring the landmark at announced_date; that change was adopted in landmark_model.py on 2026-07-28, so the comparison below is the justification of a decision already taken rather than an open question. The opposition-anchor figures are reconstructed here from first_opposition_date for the record. Survivor conditioning, floors (n >= 40, blocked >= 12, not_blocked >= 12), and the registered window grid [30, 60, 90, 120, 180] are imported from that module rather than restated.
 
 ## Finding
 
@@ -50,7 +50,7 @@ Announcement-to-decision gaps: median 170 days, range 12 to 492, with 0 non-posi
 | 120 | 17 | 13 | 4 | 69 | 18 | 51 | yes | 107 |
 | 180 | 14 | 10 | 4 | 66 | 15 | 51 | yes | 99 |
 | 270 (exploratory) | 8 | 5 | 3 | 59 | 10 | 49 | no | 78 |
-| 365 (exploratory) | 4 | 3 | 1 | 45 | 7 | 38 | no | 47 |
+| 365 (exploratory) | 4 | 3 | 1 | 46 | 7 | 39 | no | 50 |
 
 Windows whose ceiling clears all three floors: 30, 60, 90, 120, 180. Applying the registered tie-breaking preference for the shortest window would select W = 30, but note that the registered criterion selects on cross-validated AUC among feasible windows, which cannot be evaluated until the frame actually exists. The window named here is the shortest FEASIBLE one, not a selected model.
 

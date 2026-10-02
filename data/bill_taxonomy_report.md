@@ -1,6 +1,6 @@
 # Bill taxonomy
 
-Generated 2026-09-29.
+Generated 2026-10-02.
 
 Every bill this repository has matched, classified on two axes: how the law reaches data centers, and what it does to them. Reach decides whether a roll call on the bill may carry a stance; only `data_center_specific` and `large_load_class` may.
 
@@ -8,24 +8,24 @@ Every bill this repository has matched, classified on two axes: how the law reac
 
 | reach | bills | stance? | what it means |
 | --- | --- | --- | --- |
-| `data_center_specific` | 60 | yes | the title names data centers. A vote is a position. |
-| `large_load_class` | 11 | yes | the title binds a load or size class data centers dominate. A vote is a position on how that class is treated. |
-| `sector_vehicle` | 33 | no | the data center content is established by the incident that put the bill here, not by the title. Votes publish with NO stance. |
+| `data_center_specific` | 62 | yes | the title names data centers. A vote is a position. |
+| `large_load_class` | 10 | yes | the title binds a load or size class data centers dominate. A vote is a position on how that class is treated. |
+| `sector_vehicle` | 29 | no | the data center content is established by the incident that put the bill here, not by the title. Votes publish with NO stance. |
 | `lookup_suspect` | 3 | no | the incident says data centers and the fetched title is about something else entirely. A wrong bill, not a gap. |
-| `unestablished` | 67 | no | nothing establishes reach. Withheld. |
+| `unestablished` | 70 | no | nothing establishes reach. Withheld. |
 
 ## Instrument
 
 | instrument | direction | bills |
 | --- | --- | --- |
-| `unclassified` | `—` | 62 |
+| `unclassified` | `—` | 64 |
 | `moratorium_prohibition` | `restrictive` | 27 |
 | `disclosure_reporting` | `disclosure` | 20 |
 | `ratepayer_cost_allocation` | `restrictive` | 17 |
 | `incentive_repeal` | `restrictive` | 14 |
-| `siting_zoning` | `restrictive` | 13 |
+| `siting_zoning` | `restrictive` | 12 |
 | `incentive_grant` | `enabling` | 9 |
-| `supply_enablement` | `enabling` | 6 |
+| `supply_enablement` | `enabling` | 5 |
 | `water_environmental` | `restrictive` | 4 |
 | `local_control` | `restrictive` | 2 |
 
@@ -39,7 +39,7 @@ The incident names the bill and says data centers, and the title that came back 
 | MN | HF 16 | Immigration law enforcement noncooperation ordinances and po | `immigration` | Eliminate data center electricity tax exemption statewide (H |
 | TX | SB 6 | Relating to abortion, including civil liability for the manu | `health` | Implement SB 6 data center grid rules via PUCT rulemaking |
 
-## Bills to re-fetch (56)
+## Bills to re-fetch (58)
 
 These have no title at all: the Open States lookup came back `http_429` or `not_found`, so there is nothing to classify against. That is a spent API quota rather than a coverage judgement, and re-running `bill_sync.py` with quota available resolves it without anyone deciding anything. They are listed separately from the honest misses for exactly that reason.
 
@@ -53,39 +53,40 @@ These have no title at all: the Open States lookup came back `http_429` or `not_
 | DC | HR 6984 | `not_found` | Require EPA quarterly water reporting and EIA biannual energy reportin |
 | FL | HB 1007 | `http_429` | Ban data centers from agricultural zones with 500-foot setbacks |
 | FL | SB 1517 | `not_found` | Require data center developers to disclose projected energy, water, em |
-| GA | HB 1012 | `http_429` | Pause data center permits for study via HB 1012 |
 | GA | HB 1059 | `http_429` | Pause data center permits for study via HB 1012 |
+| GA | HB 559 | `http_429` | Accelerate data center tax exemption sunset (HB 559) |
 | GA | SB 34 | `http_429` | Repeal data center tax exemptions via SB 34 |
 | IA | HF 2261 | `http_429` | Require quarterly water and energy reporting from data centers using 2 |
-| IA | HF 2447 | `http_429` | Require quarterly water and energy reporting from data centers using 2 |
 | IA | HF 2690 | `http_429` | Require quarterly water and energy reporting from data centers using 2 |
 | ID | HB 609 | `http_429` | Reduce data center tax exemptions via HB 609 |
 | ID | HB 756 | `not_found` | Reduce data center tax exemptions via HB 609 |
 | ID | HB 874 | `not_found` | Prevent data center cost pass-through to residential rates in ID |
-| ID | HB 895 | `http_429` | Prohibit consumptive water cooling for new Idaho data centers unless u |
+| ID | HB 895 | `not_found` | Prohibit consumptive water cooling for new Idaho data centers unless u |
 | IL | SB 2182 | `http_429` | Require labor peace agreements for data center tax credits |
 | IL | SB 4004 | `http_429` | Ban data center development NDAs in IL |
-| KY | HB 544 | `http_429` | Ban data center development NDAs via HB 593 |
-| KY | HB 593 | `http_429` | Ban data center development NDAs via HB 593 |
 | MD | HB 120 | `http_429` | Pause data center permits for study via HB 120 |
+| MI | HB 5396 | `http_429` | Repeal Michigan's data center tax exemptions and press for a statewide |
 | MI | SB 761 | `http_429` | Ban data center water withdrawals over 2M gallons/day (SB 761-763) |
 | MI | SB 762 | `http_429` | Ban data center water withdrawals over 2M gallons/day (SB 761-763) |
 | MI | SB 763 | `http_429` | Ban data center water withdrawals over 2M gallons/day (SB 761-763) |
 | MN | HF 4077 | `http_429` | Ban data center development NDAs via SF 4298 |
-| MN | SF 4298 | `http_429` | Statewide moratorium on data center permits until PUC completes compre |
 | MN | SF 4379 | `http_429` | Ban data center development NDAs via SF 4298 |
+| MO | HB 3362 | `http_429` | Prevent data center cost pass-through to residential rates in MO |
+| MO | HB 3364 | `http_429` | Prevent data center cost pass-through to residential rates in MO |
 | MS | HB 1635 | `http_429` | Redirect data center tax revenue to state fund |
 | MS | SB 3168 | `http_429` | Create data center tax incentive program in MS |
 | MT | SB 212 | `http_429` | Establish right to compute, limiting local data center regulation |
+| NJ | A 2757 | `http_429` | Redirect uncommitted NJ AI/data-center tax credits to other priorities |
+| NJ | A 5165 | `http_429` | Redirect uncommitted NJ AI/data-center tax credits to other priorities |
+| NJ | S 1673 | `http_429` | Redirect uncommitted NJ AI/data-center tax credits to other priorities |
+| NJ | S 4390 | `http_429` | Redirect uncommitted NJ AI/data-center tax credits to other priorities |
+| NJ | S 4411 | `http_429` | Redirect uncommitted NJ AI/data-center tax credits to other priorities |
 | NM | SB 235 | `http_429` | Require PRC oversight of 20MW+ microgrids serving data centers |
 | NY | A 11560 | `http_429` | Pause state environmental permits for new hyperscale data centers for  |
 | NY | S 10642 | `http_429` | Pause state environmental permits for new hyperscale data centers for  |
 | NY | S 8540 | `http_429` | Create separate utility rate class for data centers in New York |
-| OH | HB 706 | `http_429` | Repeal data center tax exemptions via HB 706 |
-| OH | SR 37 | `http_429` | Block Amazon/AWS rezoning of 330 acres in Sunbury |
 | OK | HB 299 | `not_found` | Ban NDAs used by city officials when negotiating with data center deve |
 | OK | SB 1488 | `http_429` | Pause data center permits for study via SB 1488 |
-| OR | SB 1586 | `http_429` | Block SB 1586 from adding 373 acres of farmland to Hillsboro's urban g |
 | PA | HB 1834 | `http_429` | Pass Pennsylvania's first data center regulatory framework via HB 1834 |
 | PA | HB 2150 | `http_429` | Develop state model data center zoning ordinance (HB 2151) |
 | PA | HB 2151 | `http_429` | Develop state model data center zoning ordinance (HB 2151) |
@@ -95,6 +96,7 @@ These have no title at all: the Open States lookup came back `http_429` or `not_
 | TN | HB 2392 | `http_429` | Create Tennessee Data Center Impact Review Act (SB 2653) |
 | TN | SB 1999 | `http_429` | Require data center owners to pay full infrastructure costs in TN |
 | TN | SB 2584 | `http_429` | Require data center owners to pay full infrastructure costs in TN |
+| TN | SB 2653 | `http_429` | Require data center owners to pay full infrastructure costs in TN |
 | VA | HB 153 | `http_429` | Require site impact assessments for 100MW+ data centers near farms, pa |
 | VA | HB 641 | `http_429` | Impose $3/sq ft tax on data centers above 25,000 sq ft for conservatio |
 | VA | HB 784 | `http_429` | Mandate transparency and reporting from data centers in VA |
@@ -102,7 +104,7 @@ These have no title at all: the Open States lookup came back `http_429` or `not_
 | VA | SB 553 | `http_429` | Mandate data center water usage disclosure in VA |
 | WI | AB 840 | `http_429` | Shield residential ratepayers from data center costs in WI |
 
-## Truncated titles (13)
+## Truncated titles (12)
 
 `bill_sync.py` stores the first 160 characters of a title. A title at that cap may have been cut mid-subject, so its silence is not evidence: these fall through to the incident rather than being classified `unestablished` on the title alone. West Virginia HB 4983 is the case that made this necessary -- its stored title ends at "certification as a high i", one word before "impact data center".
 
@@ -124,39 +126,41 @@ These have no title at all: the Open States lookup came back `http_429` or `not_
 | FL | HB 1517 | `data_center_specific` | `title_term` | `disclosure_reporting` | `disclosure` | yes | Approval of Data Center Facilities |
 | FL | SB 1118 | `data_center_specific` | `title_term` | `siting_zoning` | `restrictive` | yes | Public Records/Data Centers |
 | FL | SB 484 | `data_center_specific` | `title_term` | `siting_zoning` | `restrictive` | yes | Data Centers |
+| GA | HB 1012 | `data_center_specific` | `title_term` | `moratorium_prohibition` | `restrictive` | yes | Local government; construction or development of  new d |
 | GA | HB 1063 | `data_center_specific` | `title_term` | `ratepayer_cost_allocation` | `restrictive` | yes | Electric utilities; protect residential and retail elec |
-| GA | HB 559 | `data_center_specific` | `title_term` | `unclassified` | `unclassified` | yes | Sales and use tax; exemption for certain high-technolog |
 | GA | SB 408 | `data_center_specific` | `title_term` | `incentive_grant` | `enabling` | yes | State Sales and Use Taxes; data center equipment sales  |
 | GA | SB 410 | `data_center_specific` | `title_term` | `incentive_repeal` | `restrictive` | yes | State Sales and Use Taxes; the data center equipment sa |
+| IA | HF 2447 | `data_center_specific` | `title_term` | `disclosure_reporting` | `disclosure` | yes | A bill for an act relating to water and energy use for  |
 | IN | HB 1245 | `data_center_specific` | `title_term` | `disclosure_reporting` | `disclosure` | yes | IURC study of data centers. |
 | KS | SB 526 | `data_center_specific` | `title_term` | `siting_zoning` | `restrictive` | yes | Requiring data centers to be located on land that was z |
 | KS | SB 98 | `data_center_specific` | `title_term` | `incentive_grant` | `enabling` | yes | Providing a sales tax exemption for the construction or |
+| KY | HB 544 | `data_center_specific` | `title_term` | `unclassified` | `unclassified` | yes | AN ACT relating to data centers. |
+| KY | HB 593 | `data_center_specific` | `title_term` | `unclassified` | `unclassified` | yes | AN ACT relating to data centers. |
 | LA | HB 827 | `data_center_specific` | `title_term` | `incentive_grant` | `enabling` | yes | TAX/TAX REBATES: Provides relative to sales and use tax |
 | MD | HB 1411 | `data_center_specific` | `title_term` | `disclosure_reporting` | `disclosure` | yes | Data Center Planning and Transparency Act |
 | MD | HB 1595 | `data_center_specific` | `title_term` | `unclassified` | `unclassified` | yes | Property Taxes - Authority of Counties to Establish a S |
 | MD | HB 560 | `data_center_specific` | `title_term` | `incentive_repeal` | `restrictive` | yes | Sales and Use Tax and Property Tax - Exemptions for Dat |
 | MD | SB 427 | `data_center_specific` | `title_term` | `unclassified` | `unclassified` | yes | Property Taxes - Authority of Counties to Establish a S |
-| MI | HB 5396 | `data_center_specific` | `title_term` | `moratorium_prohibition` | `restrictive` | yes | Sales tax: exemptions; data center exemption; eliminate |
-| MI | SB 1018 | `data_center_specific` | `title_term` | `moratorium_prohibition` | `restrictive` | yes | Businesses: other; moratorium on certain approvals for  |
+| MI | HB 5594 | `data_center_specific` | `title_term` | `moratorium_prohibition` | `restrictive` | yes | Businesses: other; moratorium on certain approvals for  |
+| MN | SF 4298 | `data_center_specific` | `title_term` | `moratorium_prohibition` | `restrictive` | yes | New data center moratorium established, and Public Util |
 | NE | LB 1111 | `data_center_specific` | `title_term` | `disclosure_reporting` | `disclosure` | yes | Require an annual data center load report to the Nebras |
 | NH | HB 1265 | `data_center_specific` | `title_term` | `moratorium_prohibition` | `restrictive` | yes | prohibiting the construction of data centers in the sta |
 | NH | SB 439 | `data_center_specific` | `title_term` | `siting_zoning` | `restrictive` | yes | relative to municipal data center zoning. |
-| NJ | A 5165 | `data_center_specific` | `title_term` | `unclassified` | `unclassified` | yes | "End Data Center Tax Credits Act"; reduces tax credits  |
 | NJ | A 6181 | `data_center_specific` | `title_term` | `moratorium_prohibition` | `restrictive` | yes | Prohibits agreements intended to conceal certain inform |
 | NJ | A 796 | `data_center_specific` | `title_term` | `ratepayer_cost_allocation` | `restrictive` | yes | Requires electric public utilities to develop and apply |
 | NJ | S 3379 | `data_center_specific` | `title_term` | `unclassified` | `unclassified` | yes | Requires data center owners and operators to submit sem |
-| NJ | S 4390 | `data_center_specific` | `title_term` | `unclassified` | `unclassified` | yes | "End Data Center Tax Credits Act"; reduces tax credits  |
 | NJ | S 680 | `data_center_specific` | `title_term` | `unclassified` | `unclassified` | yes | Requires energy usage plan for proposed artificial inte |
 | NY | A 10141 | `data_center_specific` | `title_term` | `moratorium_prohibition` | `restrictive` | yes | Imposes a moratorium on data center permit issuance; an |
 | NY | S 9144 | `data_center_specific` | `title_term` | `moratorium_prohibition` | `restrictive` | yes | Imposes a moratorium on data center permit issuance; an |
 | OH | HB 646 | `data_center_specific` | `title_term` | `disclosure_reporting` | `disclosure` | yes | Create the Data Center Study Commission |
+| OH | HB 706 | `data_center_specific` | `title_term` | `incentive_repeal` | `restrictive` | yes | Impose certain minimum requirements on data center cust |
 | OK | HB 2992 | `data_center_specific` | `title_term` | `ratepayer_cost_allocation` | `restrictive` | yes | Corporation Commission; creating the Data Center Custom |
+| PA | HB 2496 | `data_center_specific` | `title_term` | `unclassified` | `unclassified` | yes | An Act amending the act of July 31, 1968 (P.L.805, No.2 |
 | SD | HB 1005 | `data_center_specific` | `title_term` | `incentive_grant` | `enabling` | yes | provide a sales and use tax exemption for goods and ser |
 | SD | HB 1038 | `data_center_specific` | `title_term` | `unclassified` | `unclassified` | yes | allow the Public Utilities Commission to assess actual  |
 | SD | SB 135 | `data_center_specific` | `title_term` | `ratepayer_cost_allocation` | `restrictive` | yes | protect residents from increased utility costs and util |
 | SD | SB 232 | `data_center_specific` | `title_term` | `moratorium_prohibition` | `restrictive` | yes | impose a one-year moratorium on the construction or exp |
 | TN | SB 2128 | `data_center_specific` | `title_term` | `moratorium_prohibition` | `restrictive` | yes | Computers and Electronic Processing - As enacted, gener |
-| TN | SB 2653 | `data_center_specific` | `title_term` | `siting_zoning` | `restrictive` | yes | Business and Commerce - As introduced, creates the "Ten |
 | UT | HB 76 | `data_center_specific` | `title_term` | `disclosure_reporting` | `disclosure` | yes | Data Center Water Transparency Amendments |
 | VA | HB 496 | `data_center_specific` | `title_term` | `water_environmental` | `restrictive` | yes | Certain data from water users; water use consumption fo |
 | VA | HB 507 | `data_center_specific` | `title_term` | `siting_zoning` | `restrictive` | yes | Data centers; permit requirements, emission limits for  |
@@ -177,7 +181,6 @@ These have no title at all: the Open States lookup came back `http_429` or `not_
 | ND | HB 1579 | `large_load_class` | `title_class_term` | `disclosure_reporting` | `disclosure` | yes | AN ACT to provide for a legislative management study re |
 | NJ | S 731 | `large_load_class` | `title_class_term` | `ratepayer_cost_allocation` | `restrictive` | yes | Requires electric public utilities to develop and apply |
 | OR | HB 3546 | `large_load_class` | `title_class_term` | `unclassified` | `unclassified` | yes | Relating to large energy use facilities; and declaring  |
-| PA | HB 2496 | `large_load_class` | `human_override` | `unclassified` | `unclassified` | yes |  |
 | VA | HB 155 | `large_load_class` | `title_class_term` | `siting_zoning` | `restrictive` | yes | Electric utilities; certificate of operation for high-l |
 | VA | SB 619 | `large_load_class` | `title_class_term` | `siting_zoning` | `restrictive` | yes | Electric utilities; certificate of operation for high-l |
 | WA | HB 2515 | `large_load_class` | `title_class_term` | `ratepayer_cost_allocation` | `restrictive` | yes | Addressing emerging large energy use facilities. |
@@ -196,18 +199,14 @@ These have no title at all: the Open States lookup came back `http_429` or `not_
 | MD | HB 1532 | `sector_vehicle` | `incident_corroborated:energy_utility` | `unclassified` | `unclassified` | no | Utility RELIEF (Reducing Energy Load Inflation for Ever |
 | ME | LD 307 | `sector_vehicle` | `incident_corroborated:energy_utility` | `incentive_grant` | `unclassified` | no | An Act Regarding Energy, Utilities And Technology |
 | ME | LD 713 | `sector_vehicle` | `incident_corroborated:taxation` | `incentive_repeal` | `unclassified` | no | An Act Regarding Taxation |
-| MO | HB 3362 | `sector_vehicle` | `incident_corroborated:energy_utility` | `ratepayer_cost_allocation` | `unclassified` | no | Creates new provisions for industrial utility users |
-| MO | HB 3364 | `sector_vehicle` | `incident_corroborated:energy_utility` | `ratepayer_cost_allocation` | `unclassified` | no | Creates new provisions for industrial utility users |
 | NC | HB 1002 | `sector_vehicle` | `incident_corroborated:energy_utility` | `ratepayer_cost_allocation` | `unclassified` | no | Rate Payer Protection Act. |
 | NC | SB 730 | `sector_vehicle` | `human_override` | `unclassified` | `unclassified` | no |  |
 | NE | LB 1261 | `sector_vehicle` | `incident_corroborated:energy_utility` | `moratorium_prohibition` | `unclassified` | no | Prohibit the use of eminent domain to acquire certain p |
 | NE | LB 209 | `sector_vehicle` | `incident_corroborated:taxation` | `incentive_grant` | `unclassified` | no | Change provisions relating to homestead exemptions for  |
 | NH | HB 1724 | `sector_vehicle` | `incident_corroborated:energy_utility` | `disclosure_reporting` | `unclassified` | no | relative to public transparency of electric utility ret |
-| NJ | A 2757 | `sector_vehicle` | `incident_corroborated:energy_utility` | `unclassified` | `unclassified` | no | Requires transmission owners to join regional transmiss |
-| NJ | S 1673 | `sector_vehicle` | `incident_corroborated:energy_utility` | `unclassified` | `unclassified` | no | Requires transmission owners to join regional transmiss |
-| NJ | S 4411 | `sector_vehicle` | `incident_corroborated:energy_utility` | `supply_enablement` | `unclassified` | no | "Advanced Grid Technologies Act"; requires State oversi |
 | OH | HB 96 | `sector_vehicle` | `incident_corroborated:taxation` | `incentive_repeal` | `unclassified` | no | Make state operating appropriations for FY 2026-27 |
 | OR | HB 4084 | `sector_vehicle` | `incident_corroborated:economic_development` | `incentive_repeal` | `unclassified` | no | Relating to economic development; and prescribing an ef |
+| OR | SB 1586 | `sector_vehicle` | `incident_corroborated:economic_development` | `unclassified` | `unclassified` | no | Relating to economic development; prescribing an effect |
 | TN | HB 1847 | `sector_vehicle` | `incident_corroborated:energy_utility` | `moratorium_prohibition` | `unclassified` | no | Computers and Electronic Processing - As enacted, gener |
 | VA | HB 1393 | `sector_vehicle` | `incident_corroborated:energy_utility` | `unclassified` | `unclassified` | no | Electric utilities; pilot program for energy assistance |
 | VA | SB 253 | `sector_vehicle` | `incident_corroborated:energy_utility` | `unclassified` | `unclassified` | no | Electric utilities; pilot programs for energy assistanc |
@@ -227,11 +226,10 @@ These have no title at all: the Open States lookup came back `http_429` or `not_
 | DC | HR 6984 | `unestablished` | `title_unavailable` | `disclosure_reporting` | `unclassified` | no |  |
 | FL | HB 1007 | `unestablished` | `title_unavailable` | `siting_zoning` | `unclassified` | no |  |
 | FL | SB 1517 | `unestablished` | `title_unavailable` | `disclosure_reporting` | `unclassified` | no |  |
-| GA | HB 1012 | `unestablished` | `title_unavailable` | `moratorium_prohibition` | `unclassified` | no |  |
 | GA | HB 1059 | `unestablished` | `title_unavailable` | `moratorium_prohibition` | `unclassified` | no |  |
+| GA | HB 559 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | GA | SB 34 | `unestablished` | `title_unavailable` | `incentive_repeal` | `unclassified` | no |  |
 | IA | HF 2261 | `unestablished` | `title_unavailable` | `disclosure_reporting` | `unclassified` | no |  |
-| IA | HF 2447 | `unestablished` | `title_unavailable` | `disclosure_reporting` | `unclassified` | no |  |
 | IA | HF 2690 | `unestablished` | `title_unavailable` | `disclosure_reporting` | `unclassified` | no |  |
 | ID | HB 609 | `unestablished` | `title_unavailable` | `incentive_repeal` | `unclassified` | no |  |
 | ID | HB 756 | `unestablished` | `title_unavailable` | `incentive_repeal` | `unclassified` | no |  |
@@ -240,31 +238,34 @@ These have no title at all: the Open States lookup came back `http_429` or `not_
 | IL | SB 2182 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | IL | SB 4004 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | IL | SB 4016 | `unestablished` | `incident_silent` | `unclassified` | `unclassified` | no |  |
-| KY | HB 544 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
-| KY | HB 593 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | MD | HB 120 | `unestablished` | `title_unavailable` | `moratorium_prohibition` | `unclassified` | no |  |
-| MI | HB 5594 | `unestablished` | `incident_names_another_bill` | `moratorium_prohibition` | `unclassified` | no |  |
+| MI | HB 5396 | `unestablished` | `title_unavailable` | `moratorium_prohibition` | `unclassified` | no |  |
+| MI | SB 1018 | `unestablished` | `incident_names_another_bill` | `moratorium_prohibition` | `unclassified` | no |  |
 | MI | SB 761 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | MI | SB 762 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | MI | SB 763 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | MN | HF 4077 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
-| MN | SF 4298 | `unestablished` | `title_unavailable` | `moratorium_prohibition` | `unclassified` | no |  |
 | MN | SF 4379 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
+| MO | HB 3362 | `unestablished` | `title_unavailable` | `ratepayer_cost_allocation` | `unclassified` | no |  |
+| MO | HB 3364 | `unestablished` | `title_unavailable` | `ratepayer_cost_allocation` | `unclassified` | no |  |
 | MS | HB 1635 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | MS | SB 3168 | `unestablished` | `title_unavailable` | `incentive_grant` | `unclassified` | no |  |
 | MT | SB 212 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | NC | HB 7971 | `unestablished` | `incident_silent` | `unclassified` | `unclassified` | no |  |
+| NJ | A 2757 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
+| NJ | A 5165 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | NJ | A 5462 | `unestablished` | `title_domain_unrecognised` | `unclassified` | `unclassified` | no | "Fair Repair Act"; concerns repairs to certain consumer |
+| NJ | S 1673 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
+| NJ | S 4390 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
+| NJ | S 4411 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | NM | SB 235 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | NY | A 11560 | `unestablished` | `title_unavailable` | `moratorium_prohibition` | `unclassified` | no |  |
 | NY | S 10642 | `unestablished` | `title_unavailable` | `moratorium_prohibition` | `unclassified` | no |  |
 | NY | S 8540 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
-| OH | HB 706 | `unestablished` | `title_unavailable` | `incentive_repeal` | `unclassified` | no |  |
-| OH | SR 37 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
+| OH | SR 37 | `unestablished` | `title_domain_unrecognised` | `unclassified` | `unclassified` | no | Honoring The Ohio State University spirit team on secur |
 | OK | HB 299 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | OK | SB 1488 | `unestablished` | `title_unavailable` | `moratorium_prohibition` | `unclassified` | no |  |
 | OR | HR 655 | `unestablished` | `incident_silent` | `unclassified` | `unclassified` | no |  |
-| OR | SB 1586 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | PA | HB 1834 | `unestablished` | `title_unavailable` | `moratorium_prohibition` | `unclassified` | no |  |
 | PA | HB 2150 | `unestablished` | `title_unavailable` | `siting_zoning` | `unclassified` | no |  |
 | PA | HB 2151 | `unestablished` | `title_unavailable` | `siting_zoning` | `unclassified` | no |  |
@@ -273,8 +274,9 @@ These have no title at all: the Open States lookup came back `http_429` or `not_
 | TN | HB 2047 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | TN | HB 2392 | `unestablished` | `title_unavailable` | `siting_zoning` | `unclassified` | no |  |
 | TN | SB 1999 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
-| TN | SB 2 | `unestablished` | `incident_names_another_bill` | `supply_enablement` | `unclassified` | no |  |
+| TN | SB 2 | `unestablished` | `incident_names_another_bill` | `supply_enablement` | `unclassified` | no | Taxes - As introduced, enacts the "End the Grocery Tax  |
 | TN | SB 2584 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
+| TN | SB 2653 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | VA | HB 1515 | `unestablished` | `incident_names_another_bill` | `unclassified` | `unclassified` | no |  |
 | VA | HB 153 | `unestablished` | `title_unavailable` | `unclassified` | `unclassified` | no |  |
 | VA | HB 503 | `unestablished` | `incident_names_another_bill` | `moratorium_prohibition` | `unclassified` | no |  |

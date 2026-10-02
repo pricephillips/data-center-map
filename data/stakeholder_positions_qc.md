@@ -1,19 +1,19 @@
 # Stakeholder positions QC report
 
-Generated 2026-09-29.
+Generated 2026-10-02.
 
 Every published row is an act on the record with the URL it came from. No position is inferred from a party, a title, a district or a model. An official with no recorded act carries no position here.
 
 ## Published
 
-- Position rows: **29,962**
-- People with a record: **2,811**
-- Roll-call votes read: **29,606**
+- Position rows: **31,148**
+- People with a record: **3,024**
+- Roll-call votes read: **30,792**
 - Roll-call votes withheld by the subject gate: **322**
 
 | evidence class | rows |
 | --- | --- |
-| roll_call_vote | 29,284 |
+| roll_call_vote | 30,470 |
 | governing_body_action | 623 |
 | stated_priority | 43 |
 | bill_sponsorship | 12 |
@@ -22,31 +22,31 @@ Every published row is an act on the record with the URL it came from. No positi
 
 | stance | rows |
 | --- | --- |
-| `recorded_vote_no_direction` | 19,025 |
-| `supported_restriction` | 4,695 |
+| `recorded_vote_no_direction` | 20,127 |
+| `supported_restriction` | 4,668 |
 | `did_not_vote` | 1,748 |
-| `opposed_restriction` | 1,182 |
+| `opposed_restriction` | 1,173 |
+| `supported_disclosure` | 1,066 |
 | `supported_industry_incentive` | 1,056 |
-| `supported_disclosure` | 952 |
 | `governing_body_action` | 623 |
 | `opposed_industry_incentive` | 469 |
-| `opposed_disclosure` | 157 |
+| `opposed_disclosure` | 163 |
 | `stated_priority` | 43 |
-| `sponsored_restriction` | 8 |
-| `sponsored_bill_no_direction` | 3 |
+| `sponsored_restriction` | 7 |
+| `sponsored_bill_no_direction` | 4 |
 | `sponsored_disclosure` | 1 |
 
 ## Records
 
 | record | people |
 | --- | --- |
-| `no_directional_record` | 995 |
-| `consistently_restrictive` | 576 |
-| `single_act` | 484 |
+| `no_directional_record` | 1,209 |
+| `consistently_restrictive` | 565 |
+| `single_act` | 399 |
+| `disclosure_only` | 328 |
 | `mixed` | 303 |
-| `disclosure_only` | 232 |
-| `consistently_industry_side` | 104 |
 | `mostly_restrictive` | 104 |
+| `consistently_industry_side` | 103 |
 | `mostly_industry_side` | 13 |
 
 ## Bills that passed the subject gate
@@ -64,7 +64,7 @@ Every published row is an act on the record with the URL it came from. No positi
 | AZ | HB 2756 | `title_class_term` | `primary` | `restrictive` | `ratepayer_cost_allocation` | Signed into law | utilities; high load factor customers |
 | AZ | HB 2795 | `incident_corroborated:energy_utility` | `partial` | `unclassified` | `—` | Failed floor vote | small modular reactors; zoning; approval |
 | AZ | HB 4009 | `title_term` | `primary` | `restrictive` | `ratepayer_cost_allocation` | Failed floor vote | data centers; state lands; map |
-| CA | AB 1577 | `title_term` | `primary` | `disclosure` | `disclosure_reporting` | Passed both chambers | Data centers: reporting. |
+| CA | AB 1577 | `title_term` | `primary` | `disclosure` | `disclosure_reporting` | Signed into law | Data centers: reporting. |
 | CA | SB 1168 | `title_term` | `primary` | `unclassified` | `unclassified` | Withdrawn | Data centers: rate structures. |
 | CA | SB 57 | `title_term` | `primary` | `disclosure` | `disclosure_reporting` | Signed into law | Electrical corporations: data centers: report. |
 | CA | SB 978 | `title_term` | `primary` | `unclassified` | `unclassified` | Passed committee only | Data centers: labor: electricity rates. |
@@ -78,16 +78,19 @@ Every published row is an act on the record with the URL it came from. No positi
 | FL | HB 1517 | `title_term` | `primary` | `disclosure` | `disclosure_reporting` | Failed floor vote | Approval of Data Center Facilities |
 | FL | SB 1118 | `title_term` | `primary` | `restrictive` | `siting_zoning` | Failed floor vote | Public Records/Data Centers |
 | FL | SB 484 | `title_term` | `primary` | `restrictive` | `siting_zoning` | Signed into law | Data Centers |
+| GA | HB 1012 | `title_term` | `primary` | `restrictive` | `moratorium_prohibition` | Introduced | Local government; construction or development of  new data centers for a specifi |
 | GA | HB 1063 | `title_term` | `primary` | `restrictive` | `ratepayer_cost_allocation` | Withdrawn | Electric utilities; protect residential and retail electricity customers from co |
-| GA | HB 559 | `title_term` | `primary` | `unclassified` | `unclassified` | Introduced | Sales and use tax; exemption for certain high-technology data center equipment;  |
 | GA | SB 408 | `title_term` | `primary` | `enabling` | `incentive_grant` | Introduced | State Sales and Use Taxes; data center equipment sales and use tax exemption; ad |
 | GA | SB 410 | `title_term` | `primary` | `restrictive` | `incentive_repeal` | Passed one chamber | State Sales and Use Taxes; the data center equipment sales and use tax exemption |
 | GA | SB 436 | `incident_corroborated:energy_utility` | `partial` | `unclassified` | `—` | Introduced | Counties, Municipal Corporations; local governments and political subdivisions f |
+| IA | HF 2447 | `title_term` | `primary` | `disclosure` | `disclosure_reporting` | Passed committee only | A bill for an act relating to water and energy use for data centers, including r |
 | IN | HB 1210 | `incident_corroborated:land_use` | `partial` | `unclassified` | `—` | Signed into law | Department of local government finance. |
 | IN | HB 1245 | `title_term` | `primary` | `disclosure` | `disclosure_reporting` | Introduced | IURC study of data centers. |
 | IN | HB 1333 | `incident_corroborated:land_use` | `partial` | `unclassified` | `—` | Failed floor vote | Land use and development. |
 | KS | SB 526 | `title_term` | `primary` | `restrictive` | `siting_zoning` | Failed floor vote | Requiring data centers to be located on land that was zoned for industrial or ma |
 | KS | SB 98 | `title_term` | `primary` | `enabling` | `incentive_grant` | Signed into law | Providing a sales tax exemption for the construction or remodeling of a qualifie |
+| KY | HB 544 | `title_term` | `primary` | `unclassified` | `unclassified` | — | AN ACT relating to data centers. |
+| KY | HB 593 | `title_term` | `primary` | `unclassified` | `unclassified` | Passed one chamber | AN ACT relating to data centers. |
 | KY | SB 197 | `incident_corroborated:taxation` | `partial` | `unclassified` | `—` | Signed into law | AN ACT providing funding and establishing conditions for state government agenci |
 | LA | HB 827 | `title_term` | `primary` | `enabling` | `incentive_grant` | Signed into law | TAX/TAX REBATES: Provides relative to sales and use tax rebates on the sale of c |
 | MD | HB 1411 | `title_term` | `primary` | `disclosure` | `disclosure_reporting` | Introduced | Data Center Planning and Transparency Act |
@@ -98,10 +101,8 @@ Every published row is an act on the record with the URL it came from. No positi
 | MD | SB 596 | `title_class_term` | `primary` | `unclassified` | `unclassified` | Introduced | Large Load Customers - Electric System Interconnection and Demand Response Progr |
 | ME | LD 307 | `incident_corroborated:energy_utility` | `partial` | `unclassified` | `—` | Failed floor vote | An Act Regarding Energy, Utilities And Technology |
 | ME | LD 713 | `incident_corroborated:taxation` | `partial` | `unclassified` | `—` | Signed into law | An Act Regarding Taxation |
-| MI | HB 5396 | `title_term` | `primary` | `restrictive` | `moratorium_prohibition` | Introduced | Sales tax: exemptions; data center exemption; eliminate. Amends sec. 25 of 1933  |
-| MI | SB 1018 | `title_term` | `primary` | `restrictive` | `moratorium_prohibition` | Introduced | Businesses: other; moratorium on certain approvals for and operation of any new  |
-| MO | HB 3362 | `incident_corroborated:energy_utility` | `partial` | `unclassified` | `—` | Introduced | Creates new provisions for industrial utility users |
-| MO | HB 3364 | `incident_corroborated:energy_utility` | `partial` | `unclassified` | `—` | Introduced | Creates new provisions for industrial utility users |
+| MI | HB 5594 | `title_term` | `primary` | `restrictive` | `moratorium_prohibition` | Introduced | Businesses: other; moratorium on certain approvals for and operation of any new  |
+| MN | SF 4298 | `title_term` | `primary` | `restrictive` | `moratorium_prohibition` | Introduced | New data center moratorium established, and Public Utility Commission required t |
 | NC | HB 1002 | `incident_corroborated:energy_utility` | `partial` | `unclassified` | `—` | Introduced | Rate Payer Protection Act. |
 | NC | SB 730 | `human_override` | `partial` | `unclassified` | `—` | — |  |
 | ND | HB 1579 | `title_class_term` | `primary` | `disclosure` | `disclosure_reporting` | Signed into law | AN ACT to provide for a legislative management study relating to the impact of l |
@@ -111,31 +112,27 @@ Every published row is an act on the record with the URL it came from. No positi
 | NH | HB 1265 | `title_term` | `primary` | `restrictive` | `moratorium_prohibition` | Failed floor vote | prohibiting the construction of data centers in the state and establishing a com |
 | NH | HB 1724 | `incident_corroborated:energy_utility` | `partial` | `unclassified` | `—` | Died in committee | relative to public transparency of electric utility retail charges and cost repo |
 | NH | SB 439 | `title_term` | `primary` | `restrictive` | `siting_zoning` | Passed one chamber | relative to municipal data center zoning. |
-| NJ | A 2757 | `incident_corroborated:energy_utility` | `partial` | `unclassified` | `—` | Passed one chamber | Requires transmission owners to join regional transmission organizations approve |
-| NJ | A 5165 | `title_term` | `primary` | `unclassified` | `unclassified` | Passed committee only | "End Data Center Tax Credits Act"; reduces tax credits available for Next New Je |
 | NJ | A 6181 | `title_term` | `primary` | `restrictive` | `moratorium_prohibition` | Introduced | Prohibits agreements intended to conceal certain information concerning the deve |
 | NJ | A 796 | `title_term` | `primary` | `restrictive` | `ratepayer_cost_allocation` | Passed both chambers | Requires electric public utilities to develop and apply special rules for certai |
-| NJ | S 1673 | `incident_corroborated:energy_utility` | `partial` | `unclassified` | `—` | Introduced | Requires transmission owners to join regional transmission organizations approve |
 | NJ | S 3379 | `title_term` | `primary` | `unclassified` | `unclassified` | Passed both chambers | Requires data center owners and operators to submit semi-annual water and energy |
-| NJ | S 4390 | `title_term` | `primary` | `unclassified` | `unclassified` | Passed one chamber | "End Data Center Tax Credits Act"; reduces tax credits available for Next New Je |
-| NJ | S 4411 | `incident_corroborated:energy_utility` | `partial` | `unclassified` | `—` | Introduced | "Advanced Grid Technologies Act"; requires State oversight of supplemental proje |
 | NJ | S 680 | `title_term` | `primary` | `unclassified` | `unclassified` | Introduced | Requires energy usage plan for proposed artificial intelligence data centers and |
 | NJ | S 731 | `title_class_term` | `primary` | `restrictive` | `ratepayer_cost_allocation` | Introduced | Requires electric public utilities to develop and apply special rules for large  |
 | NY | A 10141 | `title_term` | `primary` | `restrictive` | `moratorium_prohibition` | Introduced | Imposes a moratorium on data center permit issuance; and relates to data center  |
 | NY | S 9144 | `title_term` | `primary` | `restrictive` | `moratorium_prohibition` | Introduced | Imposes a moratorium on data center permit issuance; and relates to data center  |
 | OH | HB 646 | `title_term` | `primary` | `disclosure` | `disclosure_reporting` | Passed both chambers | Create the Data Center Study Commission |
+| OH | HB 706 | `title_term` | `primary` | `restrictive` | `incentive_repeal` | Introduced | Impose certain minimum requirements on data center customers |
 | OH | HB 96 | `incident_corroborated:taxation` | `partial` | `unclassified` | `—` | Signed into law | Make state operating appropriations for FY 2026-27 |
 | OK | HB 2992 | `title_term` | `primary` | `restrictive` | `ratepayer_cost_allocation` | Signed into law | Corporation Commission; creating the Data Center Customer Ratepayer Protection A |
 | OR | HB 3546 | `title_class_term` | `primary` | `unclassified` | `unclassified` | Signed into law | Relating to large energy use facilities; and declaring an emergency. |
 | OR | HB 4084 | `incident_corroborated:economic_development` | `partial` | `unclassified` | `—` | Signed into law | Relating to economic development; and prescribing an effective date. |
-| PA | HB 2496 | `human_override` | `primary` | `unclassified` | `unclassified` | — |  |
+| OR | SB 1586 | `incident_corroborated:economic_development` | `partial` | `unclassified` | `—` | Introduced | Relating to economic development; prescribing an effective date. |
+| PA | HB 2496 | `title_term` | `primary` | `unclassified` | `unclassified` | Passed one chamber | An Act amending the act of July 31, 1968 (P.L.805, No.247), known as the Pennsyl |
 | SD | HB 1005 | `title_term` | `primary` | `enabling` | `incentive_grant` | Introduced | provide a sales and use tax exemption for goods and services related to data cen |
 | SD | HB 1038 | `title_term` | `primary` | `unclassified` | `unclassified` | Signed into law | allow the Public Utilities Commission to assess actual costs to data centers tha |
 | SD | SB 135 | `title_term` | `primary` | `restrictive` | `ratepayer_cost_allocation` | Signed into law | protect residents from increased utility costs and utility shortages caused by d |
 | SD | SB 232 | `title_term` | `primary` | `restrictive` | `moratorium_prohibition` | Introduced | impose a one-year moratorium on the construction or expansion of hyperscale data |
 | TN | HB 1847 | `incident_corroborated:energy_utility` | `partial` | `unclassified` | `—` | Signed into law | Computers and Electronic Processing - As enacted, generally prohibits a municipa |
 | TN | SB 2128 | `title_term` | `primary` | `restrictive` | `moratorium_prohibition` | Introduced | Computers and Electronic Processing - As enacted, generally prohibits a municipa |
-| TN | SB 2653 | `title_term` | `primary` | `restrictive` | `siting_zoning` | Introduced | Business and Commerce - As introduced, creates the "Tennessee Data Center Impact |
 | UT | HB 76 | `title_term` | `primary` | `disclosure` | `disclosure_reporting` | Signed into law | Data Center Water Transparency Amendments |
 | VA | HB 1393 | `incident_corroborated:energy_utility` | `partial` | `unclassified` | `—` | Vetoed | Electric utilities; pilot program for energy assistance and weatherization for c |
 | VA | HB 155 | `title_class_term` | `primary` | `restrictive` | `siting_zoning` | Introduced | Electric utilities; certificate of operation for high-load facilities. |

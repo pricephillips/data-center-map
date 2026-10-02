@@ -54,6 +54,7 @@ import tempfile
 import time
 import urllib.error
 import urllib.request
+from html.parser import HTMLParser
 from datetime import datetime, timezone
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -77,6 +78,19 @@ USER_AGENT = "data-center-map-agenda-text/1.0 (+github.com/pricephillips/data-ce
 
 # Statuses retried on the next run. Everything else is final for that URL.
 RETRY_STATUSES = {"ocr_unavailable", "fetch_error", "extractor_unavailable"}
+# resolved_url on a not_pdf row: NO_DOCUMENT once the landing page and its
+# HTML text were both tried. A blank value (before landing pages were
+# followed) or the bare "none" written before HTML pages were read marks a row
+# that a newer rule has not seen yet, so it is retried once.
+NO_DOCUMENT = "no_document"
+LEGACY_NOT_PDF_MARKS = {"", "none"}
+
+
+def should_retry(prev: dict) -> bool:
+    if prev.get("text_source") in RETRY_STATUSES:
+        return True
+    return (prev.get("text_source") == "not_pdf"
+            and (prev.get("resolved_url") or "") in LEGACY_NOT_PDF_MARKS)
 
 # The fixed keyword list. Activity-descriptive terms only.
 TERMS = {
@@ -124,7 +138,70 @@ def is_pdf(data: bytes) -> bool:
 # an AgendaCenter/ViewFile/... link. The first run indexed all 40 such links
 # as not_pdf. One hop, same host, agenda links before minutes.
 HREF_RX = re.compile(rb"""href\s*=\s*["']([^"'#]+)["']""", re.IGNORECASE)
-DOC_LINK_RX = re.compile(r"(ViewFile/|\.pdf(?:$|\?))", re.IGNORECASE)
+# CivicPlus ViewFile links, Granicus MetaViewer attachments, and plain PDFs.
+DOC_LINK_RX = re.compile(r"(ViewFile/|MetaViewer\.php|\.pdf(?:$|\?))", re.IGNORECASE)
+
+# A page that is itself the agenda. Granicus AgendaViewer.php serves the
+# agenda as HTML with no PDF behind it: the first live runs left all 58
+# Granicus links as not_pdf with no document link. Below this many
+# non-space characters of visible text a page is a shell (a login wall, a
+# redirect stub, an empty viewer), not an agenda.
+MIN_HTML_CHARS = 400
+
+
+class _TextOnly(HTMLParser):
+    """Visible text of an HTML page; script, style and head content dropped."""
+    SKIP = {"script", "style", "head", "noscript", "template"}
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.parts: list[str] = []
+        self._skip = 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag in self.SKIP:
+            self._skip += 1
+        elif tag in ("br", "p", "div", "tr", "li", "h1", "h2", "h3", "h4", "td"):
+            self.parts.append("\n")
+
+    def handle_endtag(self, tag):
+        if tag in self.SKIP and self._skip:
+            self._skip -= 1
+
+    def handle_data(self, data):
+        if not self._skip:
+            self.parts.append(data)
+
+
+def html_text(data: bytes) -> str:
+    p = _TextOnly()
+    try:
+        p.feed(data.decode("utf-8", "replace"))
+        p.close()
+    except Exception:  # noqa: BLE001 - a malformed page is just an empty one
+        return ""
+    lines = (re.sub(r"[ \t\xa0]+", " ", ln).strip() for ln in "".join(p.parts).splitlines())
+    return "\n".join(ln for ln in lines if ln)
+
+
+def process_html(data: bytes, cache_dir: str = CACHE_DIR) -> dict | None:
+    """Index fields for an HTML agenda page, or None when it is a shell.
+
+    Cached by the SHA-256 of the page bytes, the same as a PDF."""
+    sha = sha256_bytes(data)
+    txt_path, src_path = cache_paths(sha, cache_dir)
+    if os.path.exists(txt_path) and os.path.exists(src_path):
+        with open(txt_path, encoding="utf-8") as fh:
+            return _row(sha, "html", 1, fh.read(), cached=True)
+    text = html_text(data)
+    if nonspace(text) < MIN_HTML_CHARS:
+        return None
+    os.makedirs(cache_dir, exist_ok=True)
+    with open(txt_path, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(text)
+    with open(src_path, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("html,1\n")
+    return _row(sha, "html", 1, text)
 
 
 def pdf_links(html: bytes, page_url: str) -> list[str]:
@@ -286,13 +363,16 @@ def run(max_docs: int, max_mb: float, feed: str = FEED, index: str = INDEX,
             continue
         seen.add(url)
         prev = existing.get(url)
-        # A not_pdf row from before landing-page resolution (blank
-        # resolved_url) is retried once; after that not_pdf is final.
-        legacy_not_pdf = (prev and prev.get("text_source") == "not_pdf"
-                          and not prev.get("resolved_url"))
-        if prev and prev.get("text_source") not in RETRY_STATUSES and not legacy_not_pdf:
+        if prev and not should_retry(prev):
             continue
         todo.append(r)
+    # Rows the feed has since dropped are retried from the index itself, so a
+    # retry rule added later still reaches them (ten Granicus links had left
+    # the feed before landing-page resolution existed and were never retried).
+    for url, prev in existing.items():
+        if url not in seen and url.startswith(("http://", "https://")) and should_retry(prev):
+            seen.add(url)
+            todo.append(prev)
     max_bytes = int(max_mb * 1024 * 1024)
     stats: dict[str, int] = {}
     today = datetime.now(timezone.utc).date().isoformat()
@@ -308,7 +388,7 @@ def run(max_docs: int, max_mb: float, feed: str = FEED, index: str = INDEX,
             row = {**base, "sha256": "", "text_source": "too_large"}
         elif not is_pdf(data):
             row = {**base, "sha256": sha256_bytes(data), "text_source": "not_pdf",
-                   "resolved_url": "none"}
+                   "resolved_url": NO_DOCUMENT}
             for link in pdf_links(data, url)[:1]:
                 sleep(THROTTLE_S)
                 st2, doc = fetcher(link, max_bytes)
@@ -316,6 +396,11 @@ def run(max_docs: int, max_mb: float, feed: str = FEED, index: str = INDEX,
                     row = {**base, **process_pdf(doc, cache_dir), "resolved_url": link}
                 else:
                     row["resolved_url"] = f"{link} (not a PDF or HTTP {st2})"
+            if row["text_source"] == "not_pdf":
+                # No PDF behind the page: the page may be the agenda itself.
+                page = process_html(data, cache_dir)
+                if page:
+                    row = {**base, **page, "resolved_url": "page"}
         else:
             row = {**base, **process_pdf(data, cache_dir)}
         existing[url] = row
@@ -418,6 +503,17 @@ def selftest() -> int:
                 w.writerow(["Test County, VA", "VA", "https://example.gov/gone.pdf"])
                 w.writerow(["Test County, VA", "VA",
                             "https://example.gov/AgendaCenter/PreviousVersions/7"])
+                w.writerow(["Test County, VA", "VA",
+                            "https://example.granicus.com/AgendaViewer.php?view_id=1&clip_id=9"])
+                w.writerow(["Test County, VA", "VA",
+                            "https://example.granicus.com/AgendaViewer.php?view_id=1&clip_id=10"])
+            granicus_page = (b"<html><head><title>t</title><script>var lost=1;</script></head>"
+                             b"<body><h1>Board of Supervisors</h1>"
+                             + b"<p>Item 4. Public hearing on the rezoning of parcel 12 for a "
+                               b"data center campus, with staff report and conditions.</p>" * 6
+                             + b"</body></html>")
+            granicus_attach = (b"<html><body><a href='MetaViewer.php?view_id=1&amp;meta_id=5'>"
+                               b"Agenda</a></body></html>")
             landing = (b'<html><a href="https://other.example/x.pdf">x</a>'
                        b'<a href="/AgendaCenter/ViewFile/Minutes/_0101-7">m</a>'
                        b'<a href="/AgendaCenter/ViewFile/Agenda/_0101-7?html=false&amp;x=1">a</a></html>')
@@ -426,7 +522,13 @@ def selftest() -> int:
                        "https://example.gov/gone.pdf": (404, b""),
                        "https://example.gov/AgendaCenter/PreviousVersions/7": (200, landing),
                        "https://example.gov/AgendaCenter/ViewFile/Agenda/_0101-7?html=false&x=1":
-                           (200, scanned_pdf)}
+                           (200, scanned_pdf),
+                       "https://example.granicus.com/AgendaViewer.php?view_id=1&clip_id=9":
+                           (200, granicus_page),
+                       "https://example.granicus.com/AgendaViewer.php?view_id=1&clip_id=10":
+                           (200, granicus_attach),
+                       "https://example.granicus.com/MetaViewer.php?view_id=1&meta_id=5":
+                           (200, text_pdf)}
             check(pdf_links(landing, "https://example.gov/AgendaCenter/PreviousVersions/7")
                   == ["https://example.gov/AgendaCenter/ViewFile/Agenda/_0101-7?html=false&x=1",
                       "https://example.gov/AgendaCenter/ViewFile/Minutes/_0101-7"],
@@ -435,19 +537,36 @@ def selftest() -> int:
             st = run(10, 25, feed, index, os.path.join(td, "c2"),
                      fetcher=lambda u, m: answers[u], sleep=lambda s: None)
             rows = {r["document_url"]: r for r in read_csv(index)}
-            check(st.get("text_layer") == 1 and st.get("not_pdf") == 1
+            check(st.get("text_layer") == 2 and st.get("not_pdf") == 1 and st.get("html") == 1
                   and st.get("fetch_error") == 1, "run records one status per document")
+            check("lost" not in html_text(granicus_page) and "Item 4." in html_text(granicus_page),
+                  "HTML text keeps visible text and drops script content")
+            check(process_html(b"<html><body>Sign in</body></html>", td) is None,
+                  "a page shell below the text floor is not an agenda")
             lp = rows["https://example.gov/AgendaCenter/PreviousVersions/7"]
             check(lp["text_source"] in ("ocr", "ocr_unavailable")
                   and lp["resolved_url"].endswith("_0101-7?html=false&x=1"),
                   "a CivicPlus landing page resolves one hop to its agenda PDF")
-            check(rows["https://example.gov/page"]["resolved_url"] == "none",
-                  "a page with no document link stays not_pdf, marked resolved")
-            # A pre-resolution not_pdf row (blank resolved_url) is retried once.
+            check(rows["https://example.gov/page"]["resolved_url"] == NO_DOCUMENT,
+                  "a page with no document link and no agenda text stays not_pdf")
+            gv = rows["https://example.granicus.com/AgendaViewer.php?view_id=1&clip_id=9"]
+            check(gv["text_source"] == "html" and gv["resolved_url"] == "page"
+                  and "rezoning" in gv["matched_terms"],
+                  "a Granicus HTML agenda is indexed from its own text")
+            check(rows["https://example.granicus.com/AgendaViewer.php?view_id=1&clip_id=10"]
+                  ["resolved_url"].endswith("MetaViewer.php?view_id=1&meta_id=5"),
+                  "a Granicus MetaViewer attachment is followed before the page text")
+            # Rows marked by older rules are retried once: blank (before
+            # landing pages) and "none" (before HTML pages), including rows
+            # the feed has since dropped.
             legacy = read_csv(index)
             for r in legacy:
                 if r["document_url"] == "https://example.gov/page":
                     r["resolved_url"] = ""
+            legacy.append({"document_url": "https://example.granicus.com/old", "state": "VA",
+                           "jurisdiction": "Test County, VA", "text_source": "not_pdf",
+                           "resolved_url": "none"})
+            answers["https://example.granicus.com/old"] = (200, granicus_page)
             write_index(index, legacy)
             check(rows["https://example.gov/a.pdf"]["sha256"] == sha256_bytes(text_pdf),
                   "the index row carries the content hash")
@@ -455,8 +574,16 @@ def selftest() -> int:
             run(10, 25, feed, index, os.path.join(td, "c2"),
                 fetcher=lambda u, m: (fetched.append(u), answers[u])[1],
                 sleep=lambda s: None)
-            check(sorted(fetched) == ["https://example.gov/gone.pdf", "https://example.gov/page"],
-                  "final documents are skipped; the fetch error and a legacy not_pdf are retried")
+            check(sorted(fetched) == sorted(["https://example.granicus.com/old",
+                                             "https://example.gov/gone.pdf",
+                                             "https://example.gov/page"]),
+                  "final documents are skipped; the fetch error and legacy not_pdf rows "
+                  "(including one the feed dropped) are retried")
+            rows = {r["document_url"]: r for r in read_csv(index)}
+            check(rows["https://example.granicus.com/old"]["text_source"] == "html",
+                  "a dropped legacy Granicus row is read from its HTML on retry")
+            check(not should_retry(rows["https://example.gov/page"]),
+                  "a page tried under the current rule is final")
             with open(index, "rb") as fh:
                 check(b"\r\n" not in fh.read(), "index is LF")
 
