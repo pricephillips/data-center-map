@@ -92,7 +92,8 @@ HISTORY_CAP = 60
 DEFAULTS = {"max_lookups": 400, "max_saves": 150, "cdx_sleep_s": 1.0,
             "save_sleep_s": 6.0, "backoff_s": [10, 30, 90], "timeout_s": 30,
             "recheck_after_days": 1, "max_attempts": 3, "checkpoint_every": 25,
-            "skip_hosts": ["news.google.com"], "max_runtime_s": 1800}
+            "skip_hosts": ["news.google.com"], "max_runtime_s": 1800,
+            "cdx_fail_streak": 3}
 
 URL_RE = re.compile(r"https?://[^\s'\"}\],;|]+")
 LIMIT_BODY = re.compile(r"(too many|rate limit|daily (capture )?limit|try again later)", re.I)
@@ -341,9 +342,12 @@ def run(http=urllib_http, feed_csv: str = FEED_CSV, out_csv: str = OUT_CSV,
                    "attempts": "0"}
 
     stop_reason, stop_at, done = "complete", "", 0
+    cdx_streak = 0
     try:
         for u in queue:
-            if client.lookups >= int(cfg["max_lookups"]):
+            # The cap bounds archive API calls of either kind, so skipping
+            # CDX never lifts it.
+            if client.lookups + client.fallbacks >= int(cfg["max_lookups"]):
                 stop_reason, stop_at = "cap_reached", u
                 break
             if clock() >= deadline:
@@ -352,7 +356,16 @@ def run(http=urllib_http, feed_csv: str = FEED_CSV, out_csv: str = OUT_CSV,
             prior = rows.get(u) or {**{k: "" for k in FIELDS}, "url": u,
                                     "method": "none", "attempts": "0"}
             row = dict(prior)
-            status, body = client.cdx(u)
+            # After cdx_fail_streak consecutive CDX failures, skip CDX for the
+            # rest of the run. Each failure costs up to timeout_s before the
+            # fallback runs: on 2026-10-02, with the fallback in place, 34 of
+            # 53 lookups still failed CDX first, and the 30-minute budget
+            # covered 53 URLs.
+            if cdx_streak >= int(cfg["cdx_fail_streak"]):
+                status, body = 0, "skipped: CDX failing this run"
+            else:
+                status, body = client.cdx(u)
+                cdx_streak = 0 if status == 200 else cdx_streak + 1
             row["checked_on"] = today.isoformat()
             if status == 200:
                 cap, newest = parse_cdx(body)
@@ -421,6 +434,7 @@ def run(http=urllib_http, feed_csv: str = FEED_CSV, out_csv: str = OUT_CSV,
     out = {"run_at": run_at, "credentials": client.credentials,
            "cited_urls": len(urls), "lookups": client.lookups, "saves": client.saves,
            "availability_fallbacks": client.fallbacks,
+           "cdx_skipped": cdx_streak >= int(cfg["cdx_fail_streak"]),
            "stop_reason": stop_reason, "stop_at_url": stop_at,
            "counts_by_status": counts, "resolvable": resolvable,
            "archived": archived, "coverage": coverage,
@@ -647,6 +661,13 @@ def selftest() -> int:
           got["https://c.example/3"]["status"] == "not_archived"
           and not any(c.startswith(SAVE_URL) and "c.example" in c for c in calls4))
     check("the manifest counts availability fallbacks", fb["availability_fallbacks"] == 3)
+    calls4.clear()
+    run(http=http4, feed_csv=feed4, out_csv=os.path.join(td4, "s.csv"),
+        manifest=os.path.join(td4, "s.json"), cfg=dict(cfg, cdx_fail_streak=2),
+        sleep=slept.append, env={}, today=day1)
+    check("after cdx_fail_streak failures CDX is skipped for the rest of the run",
+          sum(1 for c in calls4 if c.startswith(CDX_URL)) == 2
+          and sum(1 for c in calls4 if c.startswith(AVAILABLE_URL)) == 3)
     check("parse_available rejects a non-200 snapshot and a malformed body",
           parse_available(json.dumps({"archived_snapshots": {"closest": {
               "status": "404", "available": True, "timestamp": "20260101000000"}}})) is None

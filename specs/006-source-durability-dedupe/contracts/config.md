@@ -18,7 +18,8 @@ default shown.
     "max_attempts": 3,
     "checkpoint_every": 25,
     "skip_hosts": ["news.google.com"],
-    "max_runtime_s": 1800
+    "max_runtime_s": 1800,
+    "cdx_fail_streak": 3
   },
   "extract": {
     "timeout_s": 10,
@@ -54,3 +55,7 @@ config.
 between URLs. It stops the batch with `stop_reason=time_budget` and still
 writes the outputs, so the job reaches its commit step inside
 `source-archive.yml`'s 45-minute timeout.
+
+`archive.cdx_fail_streak` (added 2026-10-02): after this many consecutive CDX
+failures, the run stops calling CDX and asks the Wayback availability API
+directly for every remaining URL. The manifest records `cdx_skipped`.
