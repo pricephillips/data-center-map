@@ -1,27 +1,35 @@
 {
-  "run_at": "2026-10-02T20:13:01Z",
-  "credentials": "anonymous",
+  "run_at": "2026-10-02T21:21:27Z",
+  "credentials": "keys",
   "cited_urls": 5714,
-  "lookups": 55,
-  "saves": 1,
+  "lookups": 53,
+  "saves": 7,
+  "availability_fallbacks": 34,
   "stop_reason": "time_budget",
-  "stop_at_url": "https://abc3340.com/news/local/not-a-done-deal-childersburg-faces-questions-over-potential-data-center-talladega-industrial-park",
+  "stop_at_url": "https://arkansasadvocate.com/2025/12/12/fear-of-missing-out-on-data-center-boom-leads-arkansas-officials-to-ignore-hard-questions/",
   "counts_by_status": {
-    "archived": 10,
+    "archived": 56,
     "requested": 0,
-    "not_archived": 45,
+    "not_archived": 52,
     "unresolved_redirect": 0,
     "failed": 0
   },
-  "resolvable": 55,
-  "archived": 10,
-  "coverage": 0.1818,
+  "resolvable": 108,
+  "archived": 56,
+  "coverage": 0.5185,
   "history": [
     {
       "run_at": "2026-10-02T20:13:01Z",
       "archived": 10,
       "resolvable": 55,
       "coverage": 0.1818,
+      "stop_reason": "time_budget"
+    },
+    {
+      "run_at": "2026-10-02T21:21:27Z",
+      "archived": 56,
+      "resolvable": 108,
+      "coverage": 0.5185,
       "stop_reason": "time_budget"
     }
   ]
