@@ -1,0 +1,47 @@
+{
+  "_comment": "Shared statistical definitions for every renderer (spec 010 FR-004). Hand-edited; no process writes it. A deliverable prints a term's definition in parentheses on its first use and the bare term afterwards. Definitions carry no digits, so every digit in a deliverable traces to a fact read at run time (Principle VI). Wording follows county-profile.html and data/county_policy_intervals.md.",
+  "version": "2026-10-02",
+  "terms": {
+    "calibrated_score": {
+      "term": "calibrated score",
+      "definition": "a measure between zero and one of how closely the county's profile resembles counties that have enacted a restriction, recalibrated so that scores match how often enactments are observed; it is a resemblance measure, not a forecast of opposition to any project"
+    },
+    "interval": {
+      "term": "interval",
+      "definition": "the range of probabilities that a separate calibration of the same model supports for a county with this profile; because the calibration is separate, the range need not contain the calibrated score, and a wide range means thin evidence"
+    },
+    "decile": {
+      "term": "decile",
+      "definition": "the county's tenth of the national score distribution, numbered from one for the lowest tenth to ten for the highest"
+    },
+    "pct_national": {
+      "term": "national percentile",
+      "definition": "where the county's score falls among all scored counties, using the mid-rank definition, so the median county reads fiftieth"
+    },
+    "pct_state": {
+      "term": "state percentile",
+      "definition": "the same position computed among the counties of the county's own state"
+    },
+    "peer_median": {
+      "term": "peer median",
+      "definition": "the median score of the counties most similar to this one on population, density, education and the latest presidential margin; a similarity set for reading, not a matched control"
+    },
+    "enacted_restriction": {
+      "term": "enacted restriction",
+      "definition": "a moratorium, zoning restriction or ban recorded as passed, enacted, active, extended or expired; the label is historical and counts a restriction that later lapsed"
+    },
+    "tracked_case": {
+      "term": "tracked case",
+      "definition": "an opposition event recorded in this platform's tracker with its own source"
+    },
+    "outcome_grade": {
+      "term": "outcome grade",
+      "definition": "the recorded outcome of a case on the platform's outcome ladder; unverified grades are outcomes not yet confirmed by a terminal source and are shown as recorded"
+    }
+  },
+  "notices": {
+    "descriptive": "These figures describe recorded histories and associations. They do not say what caused any decision, and they do not predict the outcome of a specific project.",
+    "interval_first": "Quote the interval with the score, never the score alone.",
+    "unitemized": "The enacted label rests on records that are not itemized here; the absence of a listed instrument is a coverage gap, not a contradiction."
+  }
+}

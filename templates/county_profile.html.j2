@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ report.title }}</title>
+<style>
+  /* County profile PDF (spec 010 US2). Hawthorn print styles; outcome colors
+     from viz-palette.json, the mirror of viz-palette.js used by county-profile.html. */
+  @page {
+    size: Letter;
+    margin: 0.9in 0.9in 1in 0.9in;
+    @bottom-left { content: "{{ footer }}"; font: 8pt Georgia, serif; color: {{ ink_muted }}; }
+    @bottom-right { content: "Page " counter(page) " of " counter(pages); font: 8pt Georgia, serif; color: {{ ink_muted }}; }
+  }
+  body { font: 10pt/1.45 Georgia, serif; color: {{ ink }}; }
+  h1 { font-weight: normal; font-size: 22pt; margin: 0 0 2pt; }
+  h2 { font-weight: normal; font-size: 14pt; color: {{ accent }}; margin: 16pt 0 4pt; break-after: avoid; }
+  .subtitle { color: {{ ink_muted }}; margin: 0 0 10pt; }
+  .draft { color: #b91c1c; font-weight: bold; }
+  figure { margin: 6pt 0; break-inside: avoid; }
+  figure img, figure svg { width: 100%; height: auto; }
+  figcaption { font-size: 9pt; font-style: italic; color: {{ ink_muted }}; }
+  .credit { font-size: 7.5pt; color: {{ ink_muted }}; margin: 0; }
+  .gt_table { font-family: Georgia, serif !important; font-size: 8.5pt !important; width: 100% !important; }
+  a { color: {{ accent }}; }
+  {% for key, color in outcome_colors.items() %}.oc-{{ key }} { border-left: 4pt solid {{ color }}; padding-left: 3pt; }
+  {% endfor %}
+</style>
+</head>
+<body>
+<h1>{{ report.title }}</h1>
+{% if report.draft %}<p class="draft">Draft for review. Not for distribution.</p>{% endif %}
+<p class="subtitle">FIPS {{ report.fips }}. Data as of {{ report.as_of }}. Commit {{ report.commit_short }}.</p>
+{% if plate %}
+<figure class="plate">
+  <img src="{{ plate.data_uri }}" alt="{{ plate.title }}">
+  <figcaption>{{ plate.title }} {{ plate.subtitle }}</figcaption>
+  {% for line in plate.credits %}<p class="credit">{{ line }}</p>{% endfor %}
+</figure>
+{% endif %}
+
+<h2>Summary</h2>
+{% if history.enacted %}
+<p>{{ report.county_name }} has an {{ define('enacted_restriction') }} on record.</p>
+{% else %}
+<p>No {{ define('enacted_restriction') }} is on record for {{ report.county_name }}, {{ report.state_name }}.</p>
+{% endif %}
+<p>Its {{ define('calibrated_score') }} is {{ score.calibrated }}, and its {{ define('interval') }} runs from {{ score.interval_low }} to {{ score.interval_high }}. Its {{ define('decile') }} is {{ score.decile }}.</p>
+<p>Each {{ define('tracked_case') }} in this profile carries its own source. Tracked cases in the county: {{ cases.count }}. Adjacent counties: {{ neighbors.count }}. Adjacent counties with an enacted restriction on record: {{ neighbors.n_enacted }}.</p>
+
+<h2 id="history">Enacted restriction history</h2>
+<section class="history">
+{% if history.enacted %}
+  {% if tables.history %}<p>Enacted restrictions recorded in the tracker, each with its own source:</p>{{ tables.history }}{% endif %}
+  {% if tables.census %}<p>Instruments filed in the external restriction census:</p>{{ tables.census }}{% endif %}
+  {% if history.unitemized %}<p>{{ sources.unitemized_notice }}</p>{% endif %}
+{% else %}
+  <p>No enacted restriction is on record for {{ report.county_name }}, {{ report.state_name }}.</p>
+{% endif %}
+</section>
+
+<h2>Restriction resemblance score</h2>
+<p>The calibrated score for {{ report.county_name }} is {{ score.calibrated }}. Its interval runs from {{ score.interval_low }} to {{ score.interval_high }}. {{ sources.interval_notice }}</p>
+<p>It sits at the {{ score.pct_national }} {{ define('pct_national') }} and the {{ score.pct_state }} {{ define('pct_state') }} within {{ report.state_name }}. Most similar counties compared: {{ score.peer_n }}. Their {{ define('peer_median') }} is {{ score.peer_median }}.</p>
+{% for c in charts %}<figure>{{ c.svg }}</figure>{% endfor %}
+
+<h2>Tracked cases in the county</h2>
+{% if tables.cases %}<p>Each case shows its {{ define('outcome_grade') }} as recorded and its source.</p>{{ tables.cases }}
+{% else %}<p>No tracked case is on record for {{ report.county_name }}.</p>{% endif %}
+
+<h2>Neighboring counties</h2>
+{% if tables.neighbors %}<p>Counties that share a boundary with {{ report.county_name }}:</p>{{ tables.neighbors }}
+{% else %}<p>No adjacent county is listed for {{ report.county_name }}.</p>{% endif %}
+
+<h2>Sources and method</h2>
+<p>{{ sources.notice }}</p>
+<p>Every number in this profile was read from the files below at commit {{ report.commit_short }}, with data as of {{ report.as_of }}.</p>
+{{ tables.sources }}
+</body>
+</html>

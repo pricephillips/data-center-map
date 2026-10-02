@@ -1,0 +1,18 @@
+{
+  "_comment": "Location report template contract (spec 010). Hand-edited. build_report_templates.py reads the section order from here; render_location_report.py refuses any template, base or client, that omits a required field or names a field outside required_fields and optional_fields.",
+  "template": "templates/location_report.docx",
+  "tag": "location_report-v1",
+  "confirmed": {"date": "2026-10-02", "by": "Price", "what": "default section order"},
+  "sections": [
+    {"id": "title", "heading": ""},
+    {"id": "summary", "heading": "Summary"},
+    {"id": "history", "heading": "Enacted restriction history"},
+    {"id": "score", "heading": "Restriction resemblance score"},
+    {"id": "cases", "heading": "Tracked cases in the county"},
+    {"id": "neighbors", "heading": "Neighboring counties"},
+    {"id": "sources", "heading": "Sources and method"}
+  ],
+  "required_fields": ["report", "define", "plate", "history", "score", "cases", "neighbors", "sources"],
+  "optional_fields": ["charts"],
+  "client_dir": "templates/clients"
+}

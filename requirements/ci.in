@@ -38,3 +38,18 @@ esda>=2.9,<3
 libpysal>=4.14,<5
 interpret-core>=0.7,<0.8
 skops>=0.16,<1
+# Spec 010 (session 7). docxtpl (LGPL-2.1, imported unmodified as a library) and
+# great-tables run locally; weasyprint and altair with vl-convert-python may run
+# in CI. All are installed by the pipeline selftest step so their --selftest
+# runs. Pandoc is a command-line program and is never installed from here.
+docxtpl>=0.20,<0.21
+great-tables>=1.0,<2
+weasyprint>=70,<71
+altair>=6.3,<7
+vl-convert-python>=1.9,<2
+# Imported directly by the spec 010 scripts; already resolved as docxtpl's
+# dependencies, listed so a direct import never rests on a transitive pin.
+python-docx>=1.2,<2
+jinja2>=3.1,<4
+markupsafe>=3,<4
+lxml>=5,<7
