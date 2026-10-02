@@ -31,7 +31,7 @@ State transitions:
 | keyword_hits | The total number of matches of the fixed term list. |
 | matched_terms | The distinct terms matched, joined with `; `. |
 | processed_at | UTC ISO date. |
-| resolved_url | Set when `document_url` returned an HTML page. One of: the same-host document link that was followed (CivicPlus `ViewFile`, Granicus `MetaViewer.php` or a `.pdf`; agenda links before minutes); `page` when the page itself was indexed as `html`; `no_document` when it had neither; or the link plus why it failed. A `not_pdf` row whose value is blank (written before landing pages were followed) or `none` (written before HTML pages were read) is retried once, including rows the feed has since dropped. |
+| resolved_url | Set when `document_url` returned an HTML page. One of: the document link that was followed (CivicPlus `ViewFile`, Granicus `MetaViewer.php` or a `.pdf` on the page's own host, or any file wrapped in a Google Docs or Office viewer link); `page` when the page itself was indexed as `html`; `no_document (resolver vN)` when it had neither; or the link plus why it failed, also ending `(resolver vN)`. A redirect to a viewer (Santa Clara's Granicus answers 302 to `docs.google.com/gview?url=<PDF>`) is followed straight to the wrapped file. A `not_pdf` row is final only when the current resolver version wrote it: raising `RESOLVER_VERSION` in `agenda_text.py` retries every older `not_pdf` row once, including rows the feed has since dropped. |
 
 Rows with `ocr_unavailable`, `fetch_error` or `extractor_unavailable` are
 retried on the next run. Every other status is final for that URL. The text itself is kept

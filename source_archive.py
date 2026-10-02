@@ -73,6 +73,12 @@ MANIFEST = os.path.join(HERE, "data", "source_archive_manifest.json")
 FIXTURES = os.path.join(HERE, "tests", "fixtures", "source_durability")
 
 CDX_URL = "https://web.archive.org/cdx/search/cdx"
+# Fallback when CDX fails. On the first run that reached its commit
+# (2026-10-02), 44 of 55 CDX lookups returned no response (connection reset or
+# timeout) at up to 30 s each, so the 30-minute budget covered 55 of 5,714
+# URLs. The availability API answered the same question in about 4 s from the
+# same kind of network.
+AVAILABLE_URL = "https://archive.org/wayback/available"
 SAVE_URL = "https://web.archive.org/save"
 WAYBACK = "https://web.archive.org/web/{ts}/{original}"
 USER_AGENT = "hawthorn-dc-tracker/1.0 (source archiving; contact repo owner)"
@@ -184,7 +190,7 @@ class Client:
         env = os.environ if env is None else env
         self.access = (env.get("IA_S3_ACCESS_KEY") or "").strip()
         self.secret = (env.get("IA_S3_SECRET_KEY") or "").strip()
-        self.lookups = self.saves = 0
+        self.lookups = self.saves = self.fallbacks = 0
 
     @property
     def credentials(self) -> str:
@@ -213,6 +219,11 @@ class Client:
         q = urllib.parse.urlencode({"url": url, "output": "json",
                                     "fl": "timestamp,original,statuscode", "limit": "-10"})
         return self._call("GET", f"{CDX_URL}?{q}", pace=float(self.cfg["cdx_sleep_s"]))
+
+    def available(self, url: str) -> tuple[int, str]:
+        self.fallbacks += 1
+        q = urllib.parse.urlencode({"url": url})
+        return self._call("GET", f"{AVAILABLE_URL}?{q}", pace=float(self.cfg["cdx_sleep_s"]))
 
     def save(self, url: str) -> tuple[int, str]:
         self.saves += 1
@@ -243,6 +254,32 @@ def parse_cdx(body: str) -> tuple[dict | None, str]:
     at = dt.datetime.strptime(ts, "%Y%m%d%H%M%S").strftime("%Y-%m-%dT%H:%M:%SZ")
     return {"archived_url": WAYBACK.format(ts=ts, original=original),
             "archived_at": at, "http_status": "200"}, newest_status
+
+
+def parse_available(body: str) -> dict | None:
+    """The availability API's closest 200 capture, or None. Returns None also
+    for a malformed body, which the caller treats like a failed lookup."""
+    try:
+        snap = (json.loads(body or "{}").get("archived_snapshots") or {}).get("closest") or {}
+    except (ValueError, AttributeError):
+        return None
+    ts = str(snap.get("timestamp") or "")
+    if not (snap.get("available") and str(snap.get("status")) == "200"
+            and re.fullmatch(r"\d{14}", ts)):
+        return None
+    at = dt.datetime.strptime(ts, "%Y%m%d%H%M%S").strftime("%Y-%m-%dT%H:%M:%SZ")
+    return {"archived_url": str(snap.get("url", "")).replace("http://web.archive.org",
+                                                            "https://web.archive.org", 1),
+            "archived_at": at, "http_status": "200"}
+
+
+def is_available_body(body: str) -> bool:
+    """True when the body is a well-formed availability answer (with or
+    without a snapshot), so an empty answer can stand in for CDX's."""
+    try:
+        return isinstance(json.loads(body or "").get("archived_snapshots"), dict)
+    except (ValueError, AttributeError):
+        return False
 
 
 # ---------------------------------------------------------------------------
@@ -317,17 +354,25 @@ def run(http=urllib_http, feed_csv: str = FEED_CSV, out_csv: str = OUT_CSV,
             row = dict(prior)
             status, body = client.cdx(u)
             row["checked_on"] = today.isoformat()
-            if status != 200:
-                # CDX itself failed (not a rate limit). Leave the row as it was
-                # apart from checked_on, so the next run tries again.
-                if not prior.get("status"):
-                    row["status"] = "not_archived"
-                rows[u] = row
-                continue
-            cap, newest = parse_cdx(body)
+            if status == 200:
+                cap, newest = parse_cdx(body)
+                found_by = "cdx"
+            else:
+                # CDX itself failed (not a rate limit): ask the availability
+                # API instead. Only a well-formed answer counts; otherwise the
+                # row stays as it was apart from checked_on, and the next run
+                # tries again.
+                a_status, a_body = client.available(u)
+                if a_status != 200 or not is_available_body(a_body):
+                    if not prior.get("status"):
+                        row["status"] = "not_archived"
+                    rows[u] = row
+                    continue
+                cap, newest = parse_available(a_body), ""
+                found_by = "availability"
             if cap:
                 row.update(cap)
-                row["method"] = "spn" if prior.get("status") == "requested" else "cdx"
+                row["method"] = "spn" if prior.get("status") == "requested" else found_by
                 row["status"] = "archived"
             else:
                 row["http_status"] = newest
@@ -375,6 +420,7 @@ def run(http=urllib_http, feed_csv: str = FEED_CSV, out_csv: str = OUT_CSV,
              "coverage": coverage, "stop_reason": stop_reason}
     out = {"run_at": run_at, "credentials": client.credentials,
            "cited_urls": len(urls), "lookups": client.lookups, "saves": client.saves,
+           "availability_fallbacks": client.fallbacks,
            "stop_reason": stop_reason, "stop_at_url": stop_at,
            "counts_by_status": counts, "resolvable": resolvable,
            "archived": archived, "coverage": coverage,
@@ -559,6 +605,53 @@ def selftest() -> int:
           timed["stop_reason"] == "time_budget" and timed["lookups"] == 2
           and timed["stop_at_url"] == "https://ex3.com/c"
           and os.path.exists(os.path.join(td3, "t.csv")))
+    # CDX down: the availability API answers instead.
+    td4 = tempfile.mkdtemp()
+    feed4 = os.path.join(td4, "feed.csv")
+    with open(feed4, "w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh, lineterminator="\n")
+        w.writerow(["Incident", "Source URL", "Sources"])
+        for u in ("https://a.example/1", "https://b.example/2", "https://c.example/3"):
+            w.writerow(["x", u, ""])
+    calls4 = []
+
+    def http4(method, url, data=None, headers=None, timeout=None):
+        calls4.append(url)
+        if url.startswith(CDX_URL):
+            return 0, "ConnectionResetError"
+        if url.startswith(AVAILABLE_URL):
+            u = urllib.parse.parse_qs(urllib.parse.urlsplit(url).query)["url"][0]
+            if u == "https://a.example/1":
+                return 200, json.dumps({"archived_snapshots": {"closest": {
+                    "status": "200", "available": True, "timestamp": "20260618165123",
+                    "url": "http://web.archive.org/web/20260618165123/https://a.example/1"}}})
+            if u == "https://b.example/2":
+                return 200, json.dumps({"url": u, "archived_snapshots": {}})
+            return 0, "TimeoutError"
+        if url.startswith(SAVE_URL):
+            return 200, "{}"
+        return 404, ""
+
+    fb = run(http=http4, feed_csv=feed4, out_csv=os.path.join(td4, "a.csv"),
+             manifest=os.path.join(td4, "m.json"), cfg=cfg, sleep=slept.append,
+             env={}, today=day1)
+    got = load_rows(os.path.join(td4, "a.csv"))
+    check("when CDX fails, an availability snapshot archives the row",
+          got["https://a.example/1"]["status"] == "archived"
+          and got["https://a.example/1"]["method"] == "availability"
+          and got["https://a.example/1"]["archived_url"].startswith("https://web.archive.org/web/2026"))
+    check("an availability answer with no snapshot goes on to a save request",
+          got["https://b.example/2"]["status"] == "requested"
+          and any(c.startswith(SAVE_URL) and "b.example" in c for c in calls4))
+    check("when both lookups fail the row is left for the next run",
+          got["https://c.example/3"]["status"] == "not_archived"
+          and not any(c.startswith(SAVE_URL) and "c.example" in c for c in calls4))
+    check("the manifest counts availability fallbacks", fb["availability_fallbacks"] == 3)
+    check("parse_available rejects a non-200 snapshot and a malformed body",
+          parse_available(json.dumps({"archived_snapshots": {"closest": {
+              "status": "404", "available": True, "timestamp": "20260101000000"}}})) is None
+          and parse_available("<html>") is None and not is_available_body("<html>"))
+
     state["calls"].clear()
     dry = run(http=http, feed_csv=feed, out_csv=os.path.join(td3, "none.csv"),
               manifest=os.path.join(td3, "none.json"), cfg=cfg, env={}, today=day1,

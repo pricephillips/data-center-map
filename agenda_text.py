@@ -53,6 +53,7 @@ import sys
 import tempfile
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from html.parser import HTMLParser
 from datetime import datetime, timezone
@@ -78,19 +79,57 @@ USER_AGENT = "data-center-map-agenda-text/1.0 (+github.com/pricephillips/data-ce
 
 # Statuses retried on the next run. Everything else is final for that URL.
 RETRY_STATUSES = {"ocr_unavailable", "fetch_error", "extractor_unavailable"}
-# resolved_url on a not_pdf row: NO_DOCUMENT once the landing page and its
-# HTML text were both tried. A blank value (before landing pages were
-# followed) or the bare "none" written before HTML pages were read marks a row
-# that a newer rule has not seen yet, so it is retried once.
-NO_DOCUMENT = "no_document"
-LEGACY_NOT_PDF_MARKS = {"", "none"}
+# A not_pdf row is final only when the current resolver wrote it. Every
+# resolved_url the resolver writes on a not_pdf row ends with
+# "(resolver vN)", so raising RESOLVER_VERSION retries every older not_pdf
+# row exactly once, including rows the feed has since dropped. History:
+#   v1 blank / "none": landing pages not followed, or HTML pages not read
+#   v2 "no_document": Google Docs viewer redirects not unwrapped (Santa
+#      Clara's Granicus answers 302 to docs.google.com/gview?url=<the PDF>,
+#      so 31 real agendas read as empty viewer shells)
+#   v3 viewer wrappers unwrapped, on redirects and in page links
+RESOLVER_VERSION = 3
+RESOLVER_MARK = f"(resolver v{RESOLVER_VERSION})"
+NO_DOCUMENT = f"no_document {RESOLVER_MARK}"
 
 
 def should_retry(prev: dict) -> bool:
     if prev.get("text_source") in RETRY_STATUSES:
         return True
     return (prev.get("text_source") == "not_pdf"
-            and (prev.get("resolved_url") or "") in LEGACY_NOT_PDF_MARKS)
+            and not (prev.get("resolved_url") or "").endswith(RESOLVER_MARK))
+
+
+# Document viewers that wrap the real file in a query parameter. A redirect or
+# link to one of these is followed to the file it wraps instead.
+VIEWER_PARAMS = {
+    "docs.google.com": ("/gview", "url"),
+    "drive.google.com": ("/viewerng/viewer", "url"),
+    "view.officeapps.live.com": ("/op/view.aspx", "src"),
+    "view.officeapps.live.com:443": ("/op/view.aspx", "src"),
+}
+
+
+def unwrap_viewer(url: str) -> str:
+    """The wrapped document URL when `url` is a known viewer, else `url`."""
+    from urllib.parse import parse_qs, urlparse
+    u = urlparse(url)
+    spec = VIEWER_PARAMS.get(u.netloc.lower())
+    if not spec or not u.path.startswith(spec[0]):
+        return url
+    inner = (parse_qs(u.query).get(spec[1]) or [""])[0]
+    return inner if inner.startswith(("http://", "https://")) else url
+
+
+class _UnwrapViewerRedirect(urllib.request.HTTPRedirectHandler):
+    """Follows a redirect to a document viewer straight to the wrapped file."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return super().redirect_request(req, fp, code, msg, headers,
+                                        unwrap_viewer(newurl))
+
+
+_OPENER = urllib.request.build_opener(_UnwrapViewerRedirect)
 
 # The fixed keyword list. Activity-descriptive terms only.
 TERMS = {
@@ -214,8 +253,12 @@ def pdf_links(html: bytes, page_url: str) -> list[str]:
     seen, links = set(), []
     for m in HREF_RX.finditer(html or b""):
         href = m.group(1).decode("utf-8", "replace").replace("&amp;", "&").strip()
-        url = urljoin(page_url, href)
-        if (urlparse(url).netloc.lower() != host or url in seen
+        raw = urljoin(page_url, href)
+        url = unwrap_viewer(raw)
+        # A viewer link is followed to its file even across hosts: the page
+        # chose that file. Any other link must stay on the page's own host.
+        same_host = urlparse(raw).netloc.lower() == host
+        if ((not same_host and url == raw) or url in seen
                 or not DOC_LINK_RX.search(url)):
             continue
         seen.add(url)
@@ -326,7 +369,7 @@ def _row(sha: str, source: str, pages: int, text: str, cached: bool = False) -> 
 def fetch_bytes(url: str, max_bytes: int) -> tuple[int, bytes]:
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT_S) as resp:
+        with _OPENER.open(req, timeout=TIMEOUT_S) as resp:
             return resp.status, resp.read(max_bytes + 1)
     except urllib.error.HTTPError as e:
         return e.code, b""
@@ -395,7 +438,7 @@ def run(max_docs: int, max_mb: float, feed: str = FEED, index: str = INDEX,
                 if st2 == 200 and doc and len(doc) <= max_bytes and is_pdf(doc):
                     row = {**base, **process_pdf(doc, cache_dir), "resolved_url": link}
                 else:
-                    row["resolved_url"] = f"{link} (not a PDF or HTTP {st2})"
+                    row["resolved_url"] = f"{link} (not a PDF or HTTP {st2}) {RESOLVER_MARK}"
             if row["text_source"] == "not_pdf":
                 # No PDF behind the page: the page may be the agenda itself.
                 page = process_html(data, cache_dir)
@@ -533,6 +576,22 @@ def selftest() -> int:
                   == ["https://example.gov/AgendaCenter/ViewFile/Agenda/_0101-7?html=false&x=1",
                       "https://example.gov/AgendaCenter/ViewFile/Minutes/_0101-7"],
                   "landing page: same-host document links, agenda before minutes")
+            pdf = "https://santaclara.legistar1.com/santaclara/meetings/2026/2/5005_A_Meeting_Agenda.pdf"
+            gview = "https://docs.google.com/gview?url=" + urllib.parse.quote(pdf, safe="") + "&embedded=true"
+            check(unwrap_viewer(gview) == pdf, "a Google Docs viewer URL unwraps to its PDF")
+            check(unwrap_viewer("https://view.officeapps.live.com/op/view.aspx?src="
+                                + urllib.parse.quote(pdf, safe="")) == pdf,
+                  "an Office viewer URL unwraps to its file")
+            check(unwrap_viewer("https://docs.google.com/document/d/x") == "https://docs.google.com/document/d/x"
+                  and unwrap_viewer(pdf) == pdf, "anything else is left as is")
+            req = urllib.request.Request("https://santaclara.granicus.com/AgendaViewer.php?clip_id=1")
+            redir = _UnwrapViewerRedirect().redirect_request(req, None, 302, "Found", {}, gview)
+            check(redir is not None and redir.full_url == pdf,
+                  "a 302 to a viewer is followed straight to the wrapped PDF")
+            page = ('<a href="' + gview.replace("&", "&amp;") + '">Agenda</a>'
+                    '<a href="https://elsewhere.example/x.pdf">x</a>').encode()
+            check(pdf_links(page, "https://city.granicus.com/AgendaViewer.php") == [pdf],
+                  "a viewer link is followed across hosts; a plain off-host PDF is not")
             index = os.path.join(td, "index.csv")
             st = run(10, 25, feed, index, os.path.join(td, "c2"),
                      fetcher=lambda u, m: answers[u], sleep=lambda s: None)
@@ -584,6 +643,8 @@ def selftest() -> int:
                   "a dropped legacy Granicus row is read from its HTML on retry")
             check(not should_retry(rows["https://example.gov/page"]),
                   "a page tried under the current rule is final")
+            check(should_retry({"text_source": "not_pdf", "resolved_url": "no_document"}),
+                  "a v2 no_document row is retried once by the v3 resolver")
             with open(index, "rb") as fh:
                 check(b"\r\n" not in fh.read(), "index is LF")
 

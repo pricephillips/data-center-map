@@ -8,7 +8,7 @@
 | archived_url | string | `https://web.archive.org/web/<ts>/<original>` for the newest capture with status 200; blank otherwise. |
 | archived_at | string | ISO 8601 UTC (`YYYY-MM-DDTHH:MM:SSZ`) of that capture; blank otherwise. |
 | http_status | string | Status of the capture used. For a URL with only non-200 captures, the newest status. Blank when there is no capture. |
-| method | enum | `cdx` (a capture existed before any request), `spn` (captured after our request), `none` |
+| method | enum | `cdx` (a capture existed before any request), `availability` (the same, found through the Wayback availability API because the CDX lookup failed; added 2026-10-02), `spn` (captured after our request), `none` |
 | status | enum | `archived`, `requested`, `not_archived`, `unresolved_redirect`, `failed` |
 | checked_on | date | Last CDX lookup. |
 | requested_on | date | Last Save Page Now request. |
@@ -38,7 +38,7 @@ The manifest holds the outcome of the last run:
 
 - `run_at`
 - `credentials`: `keys` or `anonymous`
-- `lookups`, `saves`
+- `lookups`, `saves`, `availability_fallbacks` (CDX failures answered through `https://archive.org/wayback/available`; added 2026-10-02)
 - `stop_reason`: `complete`, `cap_reached`, `rate_limited` or `time_budget` (the `max_runtime_s` wall-clock budget ran out; added 2026-10-02)
 - `stop_at_url`
 - `counts_by_status`
