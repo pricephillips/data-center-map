@@ -1,0 +1,82 @@
+name: Render county PDFs
+
+# County profile PDFs (spec 010 US2) rendered with WeasyPrint on a hosted
+# runner and uploaded as workflow artifacts. Nothing is committed: outputs/ is
+# gitignored and this job has read-only permissions. Every number in a PDF is
+# read through scripts/report_data.py from the committed files at this commit,
+# and the footer records the data vintage and the commit SHA.
+#
+# The FIPS list is a workflow input, so it reaches the shell only through env
+# and is validated as five-digit codes before use (zizmor template-injection).
+#
+# workflow_dispatch only.
+
+on:
+  workflow_dispatch:
+    inputs:
+      fips:
+        description: 'Space-separated five-digit county FIPS codes, for example "13255 17063"'
+        required: true
+      draft:
+        description: 'Label the PDFs as drafts (true or false)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: render-county-pdf
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      FIPS_LIST: ${{ inputs.fips }}
+      DRAFT: ${{ inputs.draft }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # report_data.py dates the data by the last commit of each input file.
+          fetch-depth: 50
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+      - name: Install Pango and the renderer packages (pinned, requirements/ci.txt)
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q libpango-1.0-0 libpangoft2-1.0-0
+          uv pip install --system -c requirements/ci.txt pandas weasyprint great-tables altair vl-convert-python jinja2 markupsafe pdfminer.six
+      - name: Validate the FIPS input
+        run: |
+          read -ra codes <<< "$FIPS_LIST"
+          if [ "${#codes[@]}" -eq 0 ]; then echo "no FIPS given" >&2; exit 1; fi
+          for f in "${codes[@]}"; do
+            if ! [[ "$f" =~ ^[0-9]{5}$ ]]; then
+              echo "not a five-digit FIPS code: $f" >&2
+              exit 1
+            fi
+          done
+      - name: Selftest
+        run: python scripts/render_county_pdf.py --selftest
+      - name: Render
+        run: |
+          read -ra codes <<< "$FIPS_LIST"
+          args=()
+          for f in "${codes[@]}"; do args+=(--fips "$f"); done
+          if [ "$DRAFT" = "true" ]; then args+=(--draft); fi
+          python scripts/render_county_pdf.py "${args[@]}"
+          {
+            echo "## County PDFs"
+            for p in outputs/county_pdfs/*.pdf; do echo "- $p"; done
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: county-pdfs
+          path: outputs/county_pdfs/
+          if-no-files-found: error
+          retention-days: 30

@@ -12,7 +12,7 @@
 
 ### User Story 1 - Location reports render from data into the Word template (Priority: P1)
 
-`scripts/render_location_report.py` fills `templates/location_report.docx` (built from the 2026-09-23 Vantage location report template) using docxtpl, with every number read from current platform files at run time: county score, decile, interval, enacted-restriction history, nearby project cases. The output passes `validate.py --original` and the spec 004 Vale rules. The script runs locally; Price reviews before sending.
+`scripts/render_location_report.py` fills `templates/location_report.docx` (client-neutral; a client template under `templates/clients/<client>/` with `--client`) using docxtpl, with every number read from current platform files at run time: county score, decile, interval, enacted-restriction history, nearby project cases. The output passes `validate.py --original` and the spec 004 Vale rules. The script runs locally; Price reviews before sending.
 
 **Why this priority**: Location reports (Woodland CA, Morris IL, Spalding GA, Lackawanna PA) are the recurring client deliverable, and hand-built numbers are where drift enters (Principle VI).
 
@@ -72,5 +72,6 @@ A short `docs/chart_standard.md` records which Urban Institute guide rules the p
 
 ## Assumptions
 
-- The Vantage location report template in the project docs is the base; Price confirms section order before the template is tagged.
+- The base template, `templates/location_report.docx`, is client-neutral (Hawthorn styles) and built from scratch by `scripts/build_report_templates.py`; it does not wait for any client template. Price confirmed its section order on 2026-10-02 before it was tagged `location_report-v1` (`templates/manifest.json`).
+- Per-client templates are optional add-ons at `templates/clients/<client>/location_report.docx`, selected with `--client`. They bind the same fields as the base, so data binding never changes per client. The 2026-09-23 Vantage location report template becomes one such future add-on (`templates/clients/vantage/`), not the base.
 - Client-specific framing enters as config or template text, never as a bespoke code path.

@@ -65,6 +65,8 @@ GENERATED = [
     "verification_status_report.md", "fips_resolution_report.md",
     "docs/*.md", "data/*_report.md", "data/*_intervals.md",
     "snapshots/*",
+    # Client deliverables (spec 010): rendered report markdown and briefs.
+    "deliverables/*",
 ]
 
 # Source-of-truth inputs. The raw vocabulary is the recorded value and is

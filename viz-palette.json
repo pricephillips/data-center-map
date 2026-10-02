@@ -1,0 +1,30 @@
+{
+  "_comment": "Mirror of viz-palette.js for Python renderers and Altair (spec 010 US3). Written by scripts/charts.py --sync-palette; never hand-edited. viz-palette.js is canonical.",
+  "source": "viz-palette.js",
+  "outcome": {
+    "advanced_confirmed": "#38bdf8",
+    "restricted_conditional": "#f97316",
+    "blocked_confirmed": "#ef4444",
+    "pending": "#fbbf24",
+    "blocked_unverified": "#fca5a5",
+    "advanced_unverified": "#bae6fd",
+    "mixed": "#a78bfa"
+  },
+  "inferno": [
+    "#000004",
+    "#1b0c41",
+    "#4a0c6b",
+    "#781c6d",
+    "#a52c60",
+    "#cf4446",
+    "#ed6925",
+    "#fb9a06",
+    "#f7d13d",
+    "#fcffa4"
+  ],
+  "seq_floor": 0.1,
+  "fill_opacity": 0.88,
+  "div_neg": "#f97316",
+  "div_pos": "#3884ff",
+  "div_mid": "#282e3a"
+}

@@ -97,6 +97,8 @@ on:
       - 'ruff.toml'
       - '.vale.ini'
       - 'styles/**'
+      - 'templates/**'
+      - 'deliverables/**'
       - '.github/workflows/pipeline.yml'
   # Safety net: a code path that somehow escapes the filter above, or an
   # upstream data file edited outside the repo, still gets a rebuild daily.
@@ -151,7 +153,13 @@ jobs:
         # Spec 008: firthmodels, esda, libpysal, interpret-core and skops so the
         # discovered selftests exercise the new paths for real, and so
         # county_policy_model.py computes Moran's I in the county step below.
-        run: uv pip install --system -c requirements/ci.txt pandas "scikit-learn>=1.2" mapie pytest ruff daff vale pandera firthmodels esda libpysal interpret-core skops
+        # Spec 010: docxtpl, python-docx, great-tables, weasyprint, altair and
+        # vl-convert-python for the deliverable renderers' selftests (pdfminer.six
+        # reads the rendered PDFs back). WeasyPrint needs Pango from apt.
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q libpango-1.0-0 libpangoft2-1.0-0
+          uv pip install --system -c requirements/ci.txt pandas "scikit-learn>=1.2" mapie pytest ruff daff vale pandera firthmodels esda libpysal interpret-core skops docxtpl python-docx jinja2 markupsafe lxml great-tables weasyprint altair vl-convert-python pdfminer.six
 
       - name: Gate — run self-tests (BLOCKING; a failure stops the build)
         run: |
@@ -216,8 +224,8 @@ jobs:
 
       - name: Deliverable prose lint (Vale; errors block, warnings reported)
         run: |
-          vale --minAlertLevel=error headline_metrics.md
-          { echo "## Vale warnings"; vale --output=line headline_metrics.md || true; } >> "$GITHUB_STEP_SUMMARY"
+          vale --minAlertLevel=error headline_metrics.md deliverables
+          { echo "## Vale warnings"; vale --output=line headline_metrics.md deliverables || true; } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Entity and vocabulary audits (leak audit is a GATE)
         id: audits

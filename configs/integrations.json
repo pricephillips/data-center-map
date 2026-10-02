@@ -1,6 +1,6 @@
 {
   "_comment": "Tool integration registry. Source of truth for which external tools the platform adopts. integration_audit.py validates this file. Hand-edited; no process writes it.",
-  "version": "2026-10-01",
+  "version": "2026-10-02",
   "license_policy": {
     "allowed": [
       "MIT",
@@ -886,11 +886,99 @@
       "runs_in": "local",
       "target": [
         "scripts/render_location_report.py",
-        "templates/location_report.docx"
+        "templates/location_report.docx",
+        "templates/clients/*/location_report.docx"
       ],
-      "reason": "Fills the Vantage location report template from county data; used unmodified as a library.",
-      "risk_notes": "Output still passes validate.py --original.",
+      "reason": "Fills the client-neutral location report template (templates/location_report.docx, Hawthorn styles, built from code) and optional per-client templates under templates/clients/<client>/ that bind the same fields; used unmodified as a library.",
+      "risk_notes": "LGPL-2.1, imported unmodified. Output passes validate.py --original against the template it was filled from; RichText cells use the {{r }} form.",
       "source_url": "https://github.com/elapouya/python-docx-template",
+      "products": [
+        "static_report"
+      ]
+    },
+    {
+      "id": "python-docx",
+      "name": "python-docx",
+      "kind": "python",
+      "version": ">=1.2,<2",
+      "license": "MIT",
+      "status": "selected",
+      "tier": 1,
+      "spec": "010",
+      "session": 7,
+      "runs_in": "local",
+      "target": [
+        "scripts/build_report_templates.py",
+        "scripts/render_location_report.py"
+      ],
+      "reason": "Builds the Word templates from code (Hawthorn styles, no typed numbers) and reads rendered reports back for the checks; already installed as docxtpl's dependency, registered because repo code imports it directly.",
+      "risk_notes": "",
+      "source_url": "https://github.com/python-openxml/python-docx",
+      "products": [
+        "static_report"
+      ]
+    },
+    {
+      "id": "jinja2",
+      "name": "Jinja2",
+      "kind": "python",
+      "version": ">=3.1,<4",
+      "license": "BSD-3-Clause",
+      "status": "selected",
+      "tier": 1,
+      "spec": "010",
+      "session": 7,
+      "runs_in": "local",
+      "target": [
+        "scripts/render_county_pdf.py",
+        "templates/county_profile.html.j2"
+      ],
+      "reason": "HTML template for county profile PDFs, autoescaped with StrictUndefined; already installed as docxtpl's dependency, registered because repo code imports it directly.",
+      "risk_notes": "",
+      "source_url": "https://github.com/pallets/jinja",
+      "products": [
+        "static_report"
+      ]
+    },
+    {
+      "id": "markupsafe",
+      "name": "MarkupSafe",
+      "kind": "python",
+      "version": ">=3,<4",
+      "license": "BSD-3-Clause",
+      "status": "selected",
+      "tier": 1,
+      "spec": "010",
+      "session": 7,
+      "runs_in": "local",
+      "target": [
+        "scripts/render_county_pdf.py"
+      ],
+      "reason": "Escapes link text and marks Great Tables and chart HTML safe inside the autoescaped Jinja2 PDF template; Jinja2's own escaping library.",
+      "risk_notes": "",
+      "source_url": "https://github.com/pallets/markupsafe",
+      "products": [
+        "static_report"
+      ]
+    },
+    {
+      "id": "lxml",
+      "name": "lxml",
+      "kind": "python",
+      "version": ">=5,<7",
+      "license": "BSD-3-Clause",
+      "status": "selected",
+      "tier": 1,
+      "spec": "010",
+      "session": 7,
+      "runs_in": "local",
+      "target": [
+        "scripts/report_data.py",
+        "scripts/render_location_report.py"
+      ],
+      "reason": "Reads rendered DOCX XML for the FR-002 checks (paraId limit, explicit tblGrid, hyperlinks beside runs) and the markdown twin; python-docx's own XML library.",
+      "risk_notes": "",
+      "source_url": "https://github.com/lxml/lxml",
       "products": [
         "static_report"
       ]
@@ -907,10 +995,12 @@
       "session": 7,
       "runs_in": "ci",
       "target": [
-        "scripts/render_county_pdf.py"
+        "scripts/render_county_pdf.py",
+        "templates/county_profile.html.j2",
+        ".github/workflows/render-county-pdf.yml"
       ],
       "reason": "County profile PDFs from county-profile.html content.",
-      "risk_notes": "Needs apt pango libraries in the job.",
+      "risk_notes": "Needs the Pango system libraries (libpango-1.0-0, libpangoft2-1.0-0); the pipeline selftest job and render-county-pdf.yml install them, and the script prints the install line when they are missing.",
       "source_url": "https://github.com/Kozea/WeasyPrint",
       "products": [
         "static_report"
@@ -928,11 +1018,10 @@
       "session": 7,
       "runs_in": "local",
       "target": [
-        "scripts/render_county_pdf.py",
-        "scripts/render_location_report.py"
+        "scripts/render_county_pdf.py"
       ],
       "reason": "Publication-grade tables for PDFs and HTML briefs.",
-      "risk_notes": "",
+      "risk_notes": "PDF tables only; Word reports use native tables, which stay editable and accessible. Link cells are escaped before formatting (pandas 3 string columns reject its html() wrapper).",
       "source_url": "https://github.com/posit-dev/great-tables",
       "products": [
         "static_report"
@@ -950,7 +1039,8 @@
       "session": 7,
       "runs_in": "reference",
       "target": [
-        "viz-palette.js (review only)"
+        "viz-palette.js (review only)",
+        "docs/chart_standard.md"
       ],
       "reason": "Chart standard for policy audiences; reference only, viz-palette.js stays canonical.",
       "risk_notes": "",
@@ -1637,7 +1727,7 @@
       "id": "altair-vlconvert",
       "name": "Altair + vl-convert",
       "kind": "python",
-      "version": "altair>=6.3,<7; vl-convert-python>=1.9",
+      "version": "altair>=6.3,<7; vl-convert-python>=1.9,<2",
       "license": "BSD-3-Clause",
       "status": "selected",
       "tier": 1,
@@ -1645,7 +1735,8 @@
       "session": 7,
       "runs_in": "ci",
       "target": [
-        "scripts/charts.py"
+        "scripts/charts.py",
+        "viz-palette.json"
       ],
       "reason": "One chart definition rendered as interactive Vega-Lite on web pages and as PNG or SVG in Word and PDF, with no browser in CI. Keeps the same chart consistent across static reports and client portals.",
       "risk_notes": "",

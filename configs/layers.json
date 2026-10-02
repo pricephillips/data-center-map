@@ -273,7 +273,15 @@
         "data/pipeline_intel_*.json",
         "data/pipeline_intel_*.md",
         "data/project_key_map_report.md",
-        "data/geolibre/*.geolibre.json"
+        "data/geolibre/*.geolibre.json",
+        "outputs/location_reports/*",
+        "outputs/county_pdfs/*",
+        "outputs/charts/*",
+        "outputs/briefs/*",
+        "deliverables/location_reports/*.md",
+        "templates/location_report.docx",
+        "templates/reference.docx",
+        "viz-palette.json"
       ]
     }
   },

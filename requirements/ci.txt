@@ -10,6 +10,8 @@ aiohttp==3.14.3
     # via langextract
 aiosignal==1.4.0
     # via aiohttp
+altair==6.3.0
+    # via -r requirements/ci.in
 annotated-types==0.8.0
     # via pydantic
 anyio==4.15.1
@@ -30,11 +32,15 @@ autograd==1.9.1
 autograd-gamma==0.5.0
     # via lifelines
 babel==2.18.0
-    # via courlan
+    # via
+    #   courlan
+    #   great-tables
 beautifulsoup4==4.15.0
     # via
     #   civic-scraper
     #   libpysal
+brotli==1.2.0
+    # via fonttools
 certifi==2026.7.22
     # via
     #   httpcore
@@ -44,7 +50,10 @@ certifi==2026.7.22
     #   requests
     #   trafilatura
 cffi==2.1.1
-    # via cryptography
+    # via
+    #   cryptography
+    #   multimark
+    #   weasyprint
 charset-normalizer==3.5.1
     # via
     #   htmldate
@@ -57,6 +66,8 @@ click==8.5.0
     # via
     #   civic-scraper
     #   click-option-group
+    #   multimark
+    #   nokap
 click-option-group==0.5.9
     # via civic-scraper
 cloudpickle==3.1.2
@@ -69,6 +80,8 @@ cryptography==50.0.1
     # via
     #   google-auth
     #   pdfminer-six
+cssselect2==0.10.1
+    # via weasyprint
 cycler==0.12.1
     # via matplotlib
 daff==1.4.2
@@ -83,6 +96,8 @@ demjson3==3.0.6
     # via civic-scraper
 distro==1.9.0
     # via google-genai
+docxtpl==0.20.2
+    # via -r requirements/ci.in
 esda==2.9.0
     # via -r requirements/ci.in
 esprima==4.0.1
@@ -91,6 +106,8 @@ et-xmlfile==2.0.0
     # via openpyxl
 exceptiongroup==1.3.1
     # via langextract
+faicons==0.2.2
+    # via great-tables
 feedparser==6.0.14
     # via civic-scraper
 feedparser-sgmllib==2.1.0
@@ -102,6 +119,7 @@ fonttools==4.66.0
     #   fpdf2
     #   matplotlib
     #   pikepdf
+    #   weasyprint
 formulaic==1.2.2
     # via lifelines
 fpdf2==2.8.9
@@ -138,10 +156,16 @@ google-resumable-media==2.10.2
     # via google-cloud-storage
 googleapis-common-protos==1.75.4
     # via google-api-core
+great-tables==1.0.0
+    # via -r requirements/ci.in
 h11==0.16.0
     # via httpcore
 htmldate==1.10.0
     # via trafilatura
+htmltools==0.7.0
+    # via
+    #   faicons
+    #   great-tables
 httpcore==1.0.9
     # via httpx
 httpx==0.28.1
@@ -156,6 +180,10 @@ idna==3.20
     #   yarl
 img2pdf==0.6.3
     # via ocrmypdf
+importlib-metadata==9.0.1
+    # via great-tables
+importlib-resources==7.1.0
+    # via great-tables
 iniconfig==2.3.0
     # via pytest
 interface-meta==2.0.1
@@ -163,13 +191,19 @@ interface-meta==2.0.1
 interpret-core==0.7.8
     # via -r requirements/ci.in
 jinja2==3.1.6
-    # via libpysal
+    # via
+    #   -r requirements/ci.in
+    #   altair
+    #   docxtpl
+    #   libpysal
 joblib==1.6.0
     # via
     #   interpret-core
     #   scikit-learn
 jsonschema==4.26.0
-    # via pikepdf
+    # via
+    #   altair
+    #   pikepdf
 jsonschema-specifications==2025.9.1
     # via jsonschema
 justext==3.0.2
@@ -186,10 +220,13 @@ lifelines==0.30.0
     # via -r requirements/ci.in
 lxml==6.1.3
     # via
+    #   -r requirements/ci.in
+    #   docxtpl
     #   htmldate
     #   justext
     #   lxml-html-clean
     #   pikepdf
+    #   python-docx
     #   scraper-legistar
     #   trafilatura
 lxml-html-clean==0.4.5
@@ -199,7 +236,9 @@ mapie==1.5.0
 markdown-it-py==4.2.0
     # via rich
 markupsafe==3.0.3
-    # via jinja2
+    # via
+    #   -r requirements/ci.in
+    #   jinja2
 matplotlib==3.11.2
     # via lifelines
 mdurl==0.1.2
@@ -212,12 +251,17 @@ multidict==6.9.1
     # via
     #   aiohttp
     #   yarl
+multimark==0.3.2
+    # via great-tables
 mypy-extensions==1.1.0
     # via typing-inspect
 narwhals==2.26.0
     # via
+    #   altair
     #   formulaic
     #   scikit-learn
+nokap==0.1.0
+    # via great-tables
 numpy==2.4.6
     # via
     #   -r requirements/ci.in
@@ -248,7 +292,9 @@ opentelemetry-api==1.45.0
     # via google-api-core
 packaging==26.3
     # via
+    #   altair
     #   geopandas
+    #   htmltools
     #   libpysal
     #   matplotlib
     #   ocrmypdf
@@ -284,6 +330,7 @@ pillow==12.3.0
     #   matplotlib
     #   ocrmypdf
     #   pikepdf
+    #   weasyprint
 platformdirs==4.12.2
     # via libpysal
 pluggy==1.6.0
@@ -319,6 +366,8 @@ pydantic==2.13.5
     #   pandera
 pydantic-core==2.46.5
     # via pydantic
+pydyf==0.12.1
+    # via weasyprint
 pygments==2.21.0
     # via
     #   pytest
@@ -329,6 +378,8 @@ pyparsing==3.3.3
     # via matplotlib
 pypdfium2==5.13.0
     # via ocrmypdf
+pyphen==0.18.1
+    # via weasyprint
 pyproj==3.7.2
     # via geopandas
 pytest==9.1.1
@@ -340,6 +391,10 @@ python-dateutil==2.9.0.post0
     #   icalendar
     #   matplotlib
     #   pandas
+python-docx==1.2.0
+    # via
+    #   -r requirements/ci.in
+    #   docxtpl
 python-dotenv==1.2.3
     # via langextract
 pytz==2026.4
@@ -422,6 +477,12 @@ tenacity==9.1.4
     # via google-genai
 threadpoolctl==3.7.0
     # via scikit-learn
+tinycss2==1.5.1
+    # via
+    #   cssselect2
+    #   weasyprint
+tinyhtml5==2.1.0
+    # via weasyprint
 tld==0.13.2
     # via courlan
 tqdm==4.70.1
@@ -434,11 +495,14 @@ typing-extensions==4.16.0
     # via
     #   aiohttp
     #   aiosignal
+    #   altair
     #   anyio
     #   beautifulsoup4
     #   exceptiongroup
     #   formulaic
     #   google-genai
+    #   great-tables
+    #   htmltools
     #   icalendar
     #   langextract
     #   ocrmypdf
@@ -446,6 +510,7 @@ typing-extensions==4.16.0
     #   pandera
     #   pydantic
     #   pydantic-core
+    #   python-docx
     #   referencing
     #   typeguard
     #   typing-inspect
@@ -469,11 +534,26 @@ urllib3==2.8.0
     #   trafilatura
 vale==3.22.0.0
     # via -r requirements/ci.in
+vl-convert-python==1.9.0.post1
+    # via -r requirements/ci.in
 wcwidth==0.9.1
     # via prettytable
+weasyprint==70.0
+    # via -r requirements/ci.in
+webencodings==0.6.1
+    # via
+    #   cssselect2
+    #   tinycss2
+    #   tinyhtml5
 websockets==16.1.1
-    # via google-genai
+    # via
+    #   google-genai
+    #   nokap
 wrapt==2.5.0
     # via formulaic
 yarl==1.25.1
     # via aiohttp
+zipp==4.1.0
+    # via importlib-metadata
+zopfli==0.4.3
+    # via fonttools
