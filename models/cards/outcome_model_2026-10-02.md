@@ -37,7 +37,7 @@ On out-of-fold predictions: ECE 0.09, MCE 0.1993, equal-mass ECE 0.0699, equal-m
 
 # Gate result
 
-PROMOTE on 2026-10-02T16:30:42Z: PASSED: ECE 0.090 <= 0.15, Brier skill 0.232 >= 0.05, discrimination ok. Thresholds: ECE <= 0.15, Brier skill >= 0.05, n >= 60, positives >= 20.
+PROMOTE on 2026-10-02T20:28:11Z: PASSED: ECE 0.090 <= 0.15, Brier skill 0.232 >= 0.05, discrimination ok. Thresholds: ECE <= 0.15, Brier skill >= 0.05, n >= 60, positives >= 20.
 
 # Limitations
 
