@@ -972,95 +972,108 @@ def _selftest() -> int:
     ck("large area uses 1 arc-second and several tiles",
        big["product"] == "1" and len(big["sources"]) == 9)
 
-    tmp = tempfile.mkdtemp(prefix="plate_selftest_")
-    topo = {"type": "Topology", "transform": {"scale": [0.001, 0.001], "translate": [-84.45, 33.13]},
-            "arcs": [[[0, 0], [330, 0], [0, 230], [-330, 0], [0, -230]]],
-            "objects": {"counties": {"type": "GeometryCollection", "geometries": [
-                {"type": "Polygon", "id": "13255", "arcs": [[0]], "properties": {"name": "Spalding"}}]}}}
-    os.makedirs(os.path.join(tmp, "data", "geo"))
-    os.makedirs(os.path.join(tmp, "configs", "plates"))
-    with open(os.path.join(tmp, TOPOJSON), "w") as fh:
-        json.dump(topo, fh)
-    with open(os.path.join(ROOT, PALETTE_JS), encoding="utf-8") as fh:
-        pal_js = fh.read()
-    with open(os.path.join(tmp, PALETTE_JS), "w", encoding="utf-8") as fh:
-        fh.write(pal_js)
-    head = "project_id,outcome_defensible,lat,lon,map_pinnable\n"
-    rows_in = ["p1,pending,33.25,-84.28,True", "p2,blocked_confirmed,33.2,-84.3,True"]
-    rows_out = ["p3,advanced_confirmed,35.0,-80.0,True", "p4,pending,33.21,-84.29,False"]
-
-    def write_cases(rows):
-        with open(os.path.join(tmp, CASES), "w", encoding="utf-8") as fh:
-            fh.write(head + "\n".join(rows) + "\n")
-
-    write_cases(rows_in + rows_out)
-    cfg_path = os.path.join(tmp, "configs", "plates", "t.json")
-    cfg = dict(base, output={"width": 640, "height": 420}, camera={"z_scale": 2.0})
-    with open(cfg_path, "w") as fh:
-        json.dump(cfg, fh)
-
-    calls = {"fetch": 0}
-
-    def fake_fetch(p):
-        calls["fetch"] += 1
-        yy, xx = np.mgrid[0:p["rows"], 0:p["cols"]]
-        return (200 + 40 * np.sin(xx / 20.0) * np.cos(yy / 25.0)).astype(np.float32)
-
-    def no_network(p):
-        raise AssertionError("network used with a warm cache")
-
-    def fake_render(dem, albedo, cam, cfg, preview):
-        img = np.zeros((cam.H, cam.W, 4), np.uint8)
-        img[..., :3] = (np.linspace(60, 220, cam.W)[None, :, None]).astype(np.uint8)
-        img[..., 3] = 255
-        return {"rgba": img}
-
-    cache = os.path.join(tmp, "cache")
-    out = os.path.join(tmp, "out")
-    side = run(cfg_path, cache_dir=cache, out_dir=out, render=fake_render, fetch=fake_fetch,
-               sha="f" * 40, root=tmp)
-    ck("cold cache fetches once", calls["fetch"] == 1 and side["dem"]["cache"] == "cold")
-    from PIL import Image
-
-    png = os.path.join(tmp, side["png"])
-    ck("png exists at the requested size", Image.open(png).size == (640, 420))
-    ck("sidecar lists every input",
-       {i["path"] for i in side["inputs"]} == {TOPOJSON, CASES, PALETTE_JS,
-                                               os.path.relpath(cfg_path, tmp)})
-    ck("footer carries the SHA", any("f" * 12 in ln for ln in side["footer"]))
-    ck("sidecar records the DEM product and access date",
-       side["dem"]["product_name"].startswith("3DEP") and side["dem"]["accessed"])
-    ck("z-scale above 1.5 disclosed", any("exaggerated 2x" in ln for ln in side["footer"]))
-    ck("only pinnable cases inside the area are drawn",
-       side["cases"] == {"count": 2, "by_outcome": {"pending": 1, "blocked_confirmed": 1}})
-    side2 = run(cfg_path, cache_dir=cache, out_dir=out, render=fake_render, fetch=no_network,
-                sha="f" * 40, root=tmp)
-    ck("warm cache makes no network request", side2["dem"]["cache"] == "warm")
-
-    write_cases(rows_in + ["p9,won,33.22,-84.3,True"])
-    ck("outcome outside the vocabulary fails", raises(lambda: run(
-        cfg_path, cache_dir=cache, out_dir=out, render=fake_render, fetch=no_network,
-        sha="f" * 40, root=tmp)))
-    write_cases(rows_out)
-    side3 = run(cfg_path, cache_dir=cache, out_dir=out, render=fake_render, fetch=no_network,
-                sha="f" * 40, root=tmp)
-    ck("no pins: footer says so", side3["cases"]["count"] == 0 and any(
-        "No tracked cases" in ln for ln in side3["footer"]))
-    side4 = run(cfg_path, preview=True, cache_dir=cache, out_dir=out, render=fake_render,
-                fetch=no_network, sha="f" * 40, root=tmp)
-    ck("preview is labelled in filename and sidecar",
-       side4["png"].endswith("t-preview.png") and side4["preview"] is True)
-
-    def failing_fetch(p):
-        raise OSError("connection refused")
-
+    # The render and composition checks need the plate dependencies
+    # (requirements/plates.in: Pillow, forge3d). CI installs only ci.in, so
+    # there the dependency-free checks above and below still run and this
+    # block is reported as not run, never silently dropped.
     try:
-        run(cfg_path, cache_dir=os.path.join(tmp, "cold2"), out_dir=out, render=fake_render,
-            fetch=failing_fetch, sha="f" * 40, root=tmp)
-        ck("unreachable 3DEP fails with cache path and retry hint", False)
-    except PlateError as e:
-        ck("unreachable 3DEP fails with cache path and retry hint",
-           "cold2" in str(e) and "Retry" in str(e))
+        import forge3d  # noqa: F401
+        import PIL  # noqa: F401
+        have_plate_deps = True
+    except ImportError:
+        have_plate_deps = False
+    if not have_plate_deps:
+        print("NOTE render and composition checks not run: install requirements/plates.in")
+    else:
+        tmp = tempfile.mkdtemp(prefix="plate_selftest_")
+        topo = {"type": "Topology", "transform": {"scale": [0.001, 0.001], "translate": [-84.45, 33.13]},
+                "arcs": [[[0, 0], [330, 0], [0, 230], [-330, 0], [0, -230]]],
+                "objects": {"counties": {"type": "GeometryCollection", "geometries": [
+                    {"type": "Polygon", "id": "13255", "arcs": [[0]], "properties": {"name": "Spalding"}}]}}}
+        os.makedirs(os.path.join(tmp, "data", "geo"))
+        os.makedirs(os.path.join(tmp, "configs", "plates"))
+        with open(os.path.join(tmp, TOPOJSON), "w") as fh:
+            json.dump(topo, fh)
+        with open(os.path.join(ROOT, PALETTE_JS), encoding="utf-8") as fh:
+            pal_js = fh.read()
+        with open(os.path.join(tmp, PALETTE_JS), "w", encoding="utf-8") as fh:
+            fh.write(pal_js)
+        head = "project_id,outcome_defensible,lat,lon,map_pinnable\n"
+        rows_in = ["p1,pending,33.25,-84.28,True", "p2,blocked_confirmed,33.2,-84.3,True"]
+        rows_out = ["p3,advanced_confirmed,35.0,-80.0,True", "p4,pending,33.21,-84.29,False"]
+
+        def write_cases(rows):
+            with open(os.path.join(tmp, CASES), "w", encoding="utf-8") as fh:
+                fh.write(head + "\n".join(rows) + "\n")
+
+        write_cases(rows_in + rows_out)
+        cfg_path = os.path.join(tmp, "configs", "plates", "t.json")
+        cfg = dict(base, output={"width": 640, "height": 420}, camera={"z_scale": 2.0})
+        with open(cfg_path, "w") as fh:
+            json.dump(cfg, fh)
+
+        calls = {"fetch": 0}
+
+        def fake_fetch(p):
+            calls["fetch"] += 1
+            yy, xx = np.mgrid[0:p["rows"], 0:p["cols"]]
+            return (200 + 40 * np.sin(xx / 20.0) * np.cos(yy / 25.0)).astype(np.float32)
+
+        def no_network(p):
+            raise AssertionError("network used with a warm cache")
+
+        def fake_render(dem, albedo, cam, cfg, preview):
+            img = np.zeros((cam.H, cam.W, 4), np.uint8)
+            img[..., :3] = (np.linspace(60, 220, cam.W)[None, :, None]).astype(np.uint8)
+            img[..., 3] = 255
+            return {"rgba": img}
+
+        cache = os.path.join(tmp, "cache")
+        out = os.path.join(tmp, "out")
+        side = run(cfg_path, cache_dir=cache, out_dir=out, render=fake_render, fetch=fake_fetch,
+                   sha="f" * 40, root=tmp)
+        ck("cold cache fetches once", calls["fetch"] == 1 and side["dem"]["cache"] == "cold")
+        from PIL import Image
+
+        png = os.path.join(tmp, side["png"])
+        ck("png exists at the requested size", Image.open(png).size == (640, 420))
+        ck("sidecar lists every input",
+           {i["path"] for i in side["inputs"]} == {TOPOJSON, CASES, PALETTE_JS,
+                                                   os.path.relpath(cfg_path, tmp)})
+        ck("footer carries the SHA", any("f" * 12 in ln for ln in side["footer"]))
+        ck("sidecar records the DEM product and access date",
+           side["dem"]["product_name"].startswith("3DEP") and side["dem"]["accessed"])
+        ck("z-scale above 1.5 disclosed", any("exaggerated 2x" in ln for ln in side["footer"]))
+        ck("only pinnable cases inside the area are drawn",
+           side["cases"] == {"count": 2, "by_outcome": {"pending": 1, "blocked_confirmed": 1}})
+        side2 = run(cfg_path, cache_dir=cache, out_dir=out, render=fake_render, fetch=no_network,
+                    sha="f" * 40, root=tmp)
+        ck("warm cache makes no network request", side2["dem"]["cache"] == "warm")
+
+        write_cases(rows_in + ["p9,won,33.22,-84.3,True"])
+        ck("outcome outside the vocabulary fails", raises(lambda: run(
+            cfg_path, cache_dir=cache, out_dir=out, render=fake_render, fetch=no_network,
+            sha="f" * 40, root=tmp)))
+        write_cases(rows_out)
+        side3 = run(cfg_path, cache_dir=cache, out_dir=out, render=fake_render, fetch=no_network,
+                    sha="f" * 40, root=tmp)
+        ck("no pins: footer says so", side3["cases"]["count"] == 0 and any(
+            "No tracked cases" in ln for ln in side3["footer"]))
+        side4 = run(cfg_path, preview=True, cache_dir=cache, out_dir=out, render=fake_render,
+                    fetch=no_network, sha="f" * 40, root=tmp)
+        ck("preview is labelled in filename and sidecar",
+           side4["png"].endswith("t-preview.png") and side4["preview"] is True)
+
+        def failing_fetch(p):
+            raise OSError("connection refused")
+
+        try:
+            run(cfg_path, cache_dir=os.path.join(tmp, "cold2"), out_dir=out, render=fake_render,
+                fetch=failing_fetch, sha="f" * 40, root=tmp)
+            ck("unreachable 3DEP fails with cache path and retry hint", False)
+        except PlateError as e:
+            ck("unreachable 3DEP fails with cache path and retry hint",
+               "cold2" in str(e) and "Retry" in str(e))
 
     cam = Camera(np.zeros((100, 200), np.float32), {"spacing_m": [2.0, 3.0]},
                  {"camera": {"azimuth_deg": 0, "elevation_deg": 90, "z_scale": 1}}, 300, 200)
