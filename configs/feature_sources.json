@@ -18,7 +18,9 @@
       "out": "data/features/grid_generation.csv",
       "pudl_release": "v2025.2.0",
       "table": "out_eia__yearly_generators",
-      "base_urls": ["https://s3.us-west-2.amazonaws.com/pudl.catalyst.coop"],
+      "base_urls": [
+        "https://s3.us-west-2.amazonaws.com/pudl.catalyst.coop"
+      ],
       "license": "CC-BY-4.0 (Catalyst Cooperative PUDL; EIA-860)"
     },
     "retail_price": {
@@ -27,7 +29,9 @@
       "pudl_release": "v2025.2.0",
       "sales_table": "core_eia861__yearly_sales",
       "territory_table": "core_eia861__yearly_service_territory",
-      "base_urls": ["https://s3.us-west-2.amazonaws.com/pudl.catalyst.coop"],
+      "base_urls": [
+        "https://s3.us-west-2.amazonaws.com/pudl.catalyst.coop"
+      ],
       "license": "CC-BY-4.0 (Catalyst Cooperative PUDL; EIA-861)"
     },
     "water_use": {
@@ -68,15 +72,29 @@
       "dataverse": "https://dataverse.harvard.edu",
       "doi": "doi:10.7910/DVN/VOQCHQ",
       "file_match": "countypres_2000-2024",
-      "years": [2016, 2020, 2024],
-      "state_fallback": ["AK", "CT"],
+      "local_file": "data/raw/medsl/countypres_2000-2024.csv",
+      "years": [
+        2016,
+        2020,
+        2024
+      ],
+      "state_fallback": [
+        "AK",
+        "CT"
+      ],
       "promote_to_county_votes": {
         "enabled": true,
-        "years": [2016, 2024],
+        "years": [
+          2016,
+          2024
+        ],
         "min_compared": 2900,
         "max_median_abs_diff": 0.005,
         "max_flagged_share": 0.05,
-        "licenses": ["CC0", "CC BY"],
+        "licenses": [
+          "CC0",
+          "CC BY"
+        ],
         "approved": "Price, 2026-09-29: rebuild data/county_votes.json from MEDSL when every gate year passes; the scraped original is kept as data/county_votes_legacy.json"
       },
       "license": "MIT Election Data and Science Lab (Harvard Dataverse); license terms are read from the Dataverse API at each pull and recorded in the manifest"

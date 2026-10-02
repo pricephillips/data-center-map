@@ -72,6 +72,9 @@ GENERATED = [
 SOURCE_DATA = [
     "master_opposition.csv", "master_opposition_raw.csv",
     "atlas.csv", "ai_centers.csv", "change_log.csv",
+    # MEDSL county returns, committed verbatim from Harvard Dataverse
+    # (candidate names and party labels are the source's own values).
+    "data/raw/medsl/*.csv",
 ]
 
 CLIENT_SIDE = ["*.html"]

@@ -1089,7 +1089,27 @@ def dataverse_file(cfg) -> tuple[bytes, dict]:
             break
     if pick is None:
         raise SourceError(f"no file matching {cfg['file_match']!r} in {cfg['doi']}")
-    raw, _ = first_ok(dataverse_download_urls(base, pick))
+    local = cfg.get("local_file")
+    local_path = os.path.join(ROOT, local) if local else ""
+    if local_path and os.path.exists(local_path):
+        # A guestbook-gated file (MEDSL: guestbookID 458) cannot be fetched
+        # anonymously, so Price downloads it once through the Dataverse page
+        # and commits it. The metadata call above needs no guestbook, so the
+        # md5 and license checks still run against what Dataverse publishes.
+        with open(local_path, "rb") as fh:
+            raw = fh.read()
+        source = f"local:{local}"
+    else:
+        try:
+            raw, source = first_ok(dataverse_download_urls(base, pick))
+        except SourceError as exc:
+            if "guestbook" in str(exc).lower() and local:
+                raise SourceError(
+                    f"Dataverse requires a guestbook response for this file. Open "
+                    f"https://doi.org/{cfg['doi'].removeprefix('doi:')}, fill in the guestbook, "
+                    f"download {pick.get('originalFileName') or pick.get('filename')} "
+                    f"(original format), and commit it as {local}. ({exc})") from exc
+            raise
     lic = ver.get("license")
     lic_name = lic.get("name", "") if isinstance(lic, dict) else str(lic or "")
     lic_uri = lic.get("uri", "") if isinstance(lic, dict) else ""
@@ -1098,6 +1118,7 @@ def dataverse_file(cfg) -> tuple[bytes, dict]:
             "dataset_version": f"{ver.get('versionNumber', '')}.{ver.get('versionMinorNumber', '')}",
             "release_time": ver.get("releaseTime", ""), "file_id": pick.get("id"),
             "file_name": pick.get("originalFileName") or pick.get("filename", ""), "md5": md5,
+            "file_source": source,
             "license_name": lic_name, "license_uri": lic_uri,
             "terms_of_use": str(ver.get("termsOfUse", "") or "")[:800]}
     return raw, info
@@ -1107,7 +1128,12 @@ def src_political(cfg, frame, tmpdir):
     raw, info = dataverse_file(cfg)
     got = hashlib.md5(raw).hexdigest()
     if info["md5"] and info["md5"] != got:
-        raise SourceError(f"md5 mismatch: Dataverse {info['md5']}, downloaded {got}")
+        hint = ""
+        if str(info.get("file_source", "")).startswith("local:"):
+            hint = (" The committed copy is not the file Dataverse now publishes: either "
+                    "MEDSL released a new version (download it again through the guestbook) "
+                    "or the archival .tab format was saved instead of the original.")
+        raise SourceError(f"md5 mismatch: Dataverse {info['md5']}, downloaded {got}.{hint}")
     info["md5"] = info["md5"] or got
     years = [int(y) for y in cfg["years"]]
     src = f"MEDSL county presidential returns ({cfg['doi']}, v{info['dataset_version']})"
@@ -1493,6 +1519,47 @@ def selftest() -> int:
           u == ["https://dv/api/access/datafile/7?format=original", "https://dv/api/access/datafile/7"])
     check("a file stored as uploaded uses only the plain download",
           dataverse_download_urls("https://dv", {"id": 7}) == ["https://dv/api/access/datafile/7"])
+
+    # A committed copy is used instead of the gated download; the metadata
+    # (md5, license) still comes from Dataverse.
+    meta = json.dumps({"data": {"latestVersion": {
+        "versionNumber": 2, "versionMinorNumber": 0, "license": {"name": "CC0 1.0"},
+        "files": [{"dataFile": {"id": 9, "filename": "countypres_2000-2024.tab",
+                                "originalFileName": "countypres_2000-2024.csv",
+                                "originalFileFormat": "text/csv", "md5": "abc"}}]}}}).encode()
+    calls = []
+
+    def fake_get(url, **kw):
+        calls.append(url)
+        if "/api/datasets/" in url:
+            return meta
+        raise SourceError(f"GET failed for {url}: HTTP 400: You may not download this file "
+                          "without the required Guestbook response for guestbookID 458.")
+    saved_get = gl["http_get"]
+    gl["http_get"] = fake_get
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            rel = os.path.relpath(os.path.join(tmp, "countypres.csv"), ROOT)
+            dcfg = {"dataverse": "https://dv", "doi": "doi:10.7910/DVN/VOQCHQ",
+                    "file_match": "countypres_2000-2024", "local_file": rel}
+            try:
+                dataverse_file(dcfg)
+                msg = ""
+            except SourceError as exc:
+                msg = str(exc)
+            check("a guestbook block names the page to visit and the path to commit",
+                  "guestbook" in msg.lower() and rel in msg and "doi.org/10.7910/DVN/VOQCHQ" in msg)
+            with open(os.path.join(tmp, "countypres.csv"), "wb") as fh:
+                fh.write(b"year,county_fips\n2024,19001\n")
+            calls.clear()
+            raw, info = dataverse_file(dcfg)
+            check("a committed copy is read instead of downloading",
+                  raw.startswith(b"year,") and info["file_source"] == f"local:{rel}"
+                  and not any("/access/datafile/" in c for c in calls))
+            check("Dataverse metadata still supplies md5 and license with a local copy",
+                  info["md5"] == "abc" and info["license_name"] == "CC0 1.0")
+    finally:
+        gl["http_get"] = saved_get
 
     import inspect
     src_code = inspect.getsource(dataverse_file)
