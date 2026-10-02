@@ -270,7 +270,12 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 98
+  - candidate docket (tax increment): Fremont General Corporation, Bankr. C.D. Cal. (2008-06-18)
+  - candidate docket (tax increment): Citizens for a Healthy Community v. United States Bureau of Land Management, D. Colo. (2020-08-19)
+  - candidate docket (tax increment): Rethink35 v. Texas Department of Transportation (TXDOT), W.D. Tex. (2024-01-26)
+  - candidate docket (tax increment): United States v. JEMAL, D.D.C. (2005-09-27)
+  - candidate docket (tax increment): City of Stockton, California, Bankr. E.D. Cal. (2012-06-28)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Fulton, 
@@ -279,7 +284,12 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 100
+  - candidate docket (tax increment): FULTON v. CITY OF PHILADELPHIA, E.D. Pa. (2018-05-17)
+  - candidate docket (tax increment): Lake Forest Real Estate Investors, LLC v. Village of Lincolnwood, Illinois, The, N.D. Ill. (2019-04-03)
+  - candidate docket (tax increment): V820Jackson, LLC, Bankr. N.D. Ill. (2025-05-12)
+  - candidate docket (tax increment): City of Stockton, California, Bankr. E.D. Cal. (2012-06-28)
+  - candidate docket (tax increment): National Ventures Macon, LLC v. Bleakly Advisory Group, Inc., M.D. Ga. (2006-03-17)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Gallatin, 
