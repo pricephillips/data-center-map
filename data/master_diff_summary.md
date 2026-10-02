@@ -1,6 +1,6 @@
 # Source-of-truth diff
 
-Compared `4962d5d` to `working tree`, generated 2026-10-02 19:30 UTC.
+Compared `604217c` to `working tree`, generated 2026-10-02 19:43 UTC.
 
 ## Row counts (master_opposition.csv)
 
