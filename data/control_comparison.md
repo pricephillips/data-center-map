@@ -16,22 +16,22 @@ Generated 2026-10-02 by `control_comparison.py`. All figures re-derived from the
 Standardized mean differences across match rows. |SMD| < 0.10 = well balanced; 0.10–0.25 = moderate; > 0.25 = imbalanced.
 
 **all tiers** (672 match rows)
-- County 2024 margin: opposed mean -0.120, control mean -0.123, SMD 0.010 — well balanced (n pairs: 651)
-- log10 capacity MW: opposed mean 2.628, control mean 2.286, SMD 0.624 — IMBALANCED — down-weight or re-match (n pairs: 61; capacity is sparse outside the proposals tier)
+- County 2024 margin: opposed mean -0.120, control mean -0.124, SMD 0.013 — well balanced (n pairs: 648)
+- log10 capacity MW: opposed mean 2.580, control mean 2.270, SMD 0.582 — IMBALANCED — down-weight or re-match (n pairs: 68; capacity is sparse outside the proposals tier)
 
-**proposals_unopposed** (544 match rows)
-- County 2024 margin: opposed mean -0.156, control mean -0.158, SMD 0.005 — well balanced (n pairs: 523)
-- log10 capacity MW: opposed mean 2.628, control mean 2.286, SMD 0.624 — IMBALANCED — down-weight or re-match (n pairs: 61; capacity is sparse outside the proposals tier)
+**proposals_unopposed** (545 match rows)
+- County 2024 margin: opposed mean -0.155, control mean -0.156, SMD 0.006 — well balanced (n pairs: 521)
+- log10 capacity MW: opposed mean 2.580, control mean 2.270, SMD 0.582 — IMBALANCED — down-weight or re-match (n pairs: 68; capacity is sparse outside the proposals tier)
 
 **ai_centers** — no matches in this tier.
 
-**atlas** (128 match rows)
-- County 2024 margin: opposed mean 0.029, control mean 0.019, SMD 0.029 — well balanced (n pairs: 128)
+**atlas** (127 match rows)
+- County 2024 margin: opposed mean 0.024, control mean 0.011, SMD 0.038 — well balanced (n pairs: 127)
 - log10 capacity MW: opposed mean n/a, control mean n/a, SMD n/a — insufficient data (n pairs: 0; capacity is sparse outside the proposals tier)
 
 ## 3. Political geography (descriptive)
 
-- Opposed projects sit in counties with mean 2024 margin -0.120 (n=217); the eligible control pool mean is 0.039 (n=1361).
+- Opposed projects sit in counties with mean 2024 margin -0.120 (n=216); the eligible control pool mean is 0.039 (n=1357).
 - This is a raw compositional difference between two differently-constructed samples. It describes where tracked opposition occurs; it does not measure any political driver of opposition.
 
 ## 4. Outcomes among decided opposed projects
@@ -54,9 +54,9 @@ Decided means terminal dispositions only; pending and mixed cases are excluded, 
 
 ## 6. Match-quality flags
 
-- `no_shared_covariates` matches (state/tier only): **13** — down-weight or manually review before any use.
-- `national_fallback` matches (no in-state pool): **273**, covering 123 opposed projects. Growing the proposals_unopposed tier is the fix.
-- Tier usage across all matches: proposals_unopposed: 544, ai_centers: 0, atlas: 128.
+- `no_shared_covariates` matches (state/tier only): **16** — down-weight or manually review before any use.
+- `national_fallback` matches (no in-state pool): **271**, covering 122 opposed projects. Growing the proposals_unopposed tier is the fix.
+- Tier usage across all matches: proposals_unopposed: 545, ai_centers: 0, atlas: 127.
 
 ## 7. Limitations (binding)
 

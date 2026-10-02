@@ -3,14 +3,9 @@
 Run date: 2026-10-02
 Compared against: 2026-10-01
 
-Sites screened: 462 | tier changes: 2 | composite moves of 3 points or more: 0 | newly screened: 0
+Sites screened: 462 | tier changes: 0 | composite moves of 3 points or more: 0 | newly screened: 0
 
-## Tier changes
-
-| Site | County, State | From | To | Composite change |
-| :-- | :-- | :-- | :-- | --: |
-| Rubix Data Center | Boyd County, KY | Low | Guarded | +0.1 |
-| PowerHouse Carrollton | Carroll County, KY | Guarded | Low | -0.2 |
+No site moved by the reporting threshold since the prior run.
 
 ## Reading this report
 
