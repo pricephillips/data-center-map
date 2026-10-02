@@ -146,6 +146,93 @@
       "sha256": "a1cdafb14ff56004718c75ce82d8f01ed1842752ac6b105dbbb642ad5be934a3",
       "status": "ok"
     },
+    "political": {
+      "attempted": "2026-10-02T21:03:02Z",
+      "built": "2026-10-02T21:03:02Z",
+      "coverage": {
+        "dem_share_2p_2016": 3143,
+        "dem_share_2p_2020": 3143,
+        "dem_share_2p_2024": 3143,
+        "dem_share_2p_chg_2016_2020": 3143,
+        "dem_share_2p_chg_2020_2024": 3143,
+        "geo_basis_2016": 3143,
+        "geo_basis_2020": 3143,
+        "geo_basis_2024": 3143,
+        "margin_dr_2016": 3143,
+        "margin_dr_2020": 3143,
+        "margin_dr_2024": 3143,
+        "total_votes_2016": 3143,
+        "total_votes_2020": 3143,
+        "total_votes_2024": 3143,
+        "total_votes_pct_chg_2016_2020": 3143,
+        "total_votes_pct_chg_2020_2024": 3143,
+        "votes_per_pop_2016": 3104,
+        "votes_per_pop_2020": 3104,
+        "votes_per_pop_2024": 3104
+      },
+      "file": "data/features/political.csv",
+      "info": {
+        "dataset_version": "20.0",
+        "doi": "doi:10.7910/DVN/VOQCHQ",
+        "file_id": 13573089,
+        "file_name": "countypres_2000-2024.csv",
+        "file_source": "local:data/raw/medsl/countypres_2000-2024.csv",
+        "license_name": "CC0 1.0",
+        "license_uri": "http://creativecommons.org/publicdomain/zero/1.0",
+        "md5": "bd6661282936006b4ef4f5ee71418f3e",
+        "parity": {
+          "2016": {
+            "median_abs_diff": 0.0016,
+            "n": 3130,
+            "n_flagged": 77,
+            "p95_abs_diff": 0.0137
+          },
+          "2020": {
+            "median_abs_diff": 0.0,
+            "n": 3104,
+            "n_flagged": 5,
+            "p95_abs_diff": 0.0023
+          },
+          "2024": {
+            "median_abs_diff": 0.0,
+            "n": 3116,
+            "n_flagged": 12,
+            "p95_abs_diff": 0.0033
+          }
+        },
+        "parity_baseline": "data/county_votes.json",
+        "promotion": {
+          "criteria": {
+            "approved": "Price, 2026-09-29: rebuild data/county_votes.json from MEDSL when every gate year passes; the scraped original is kept as data/county_votes_legacy.json",
+            "enabled": true,
+            "licenses": [
+              "CC0",
+              "CC BY"
+            ],
+            "max_flagged_share": 0.05,
+            "max_median_abs_diff": 0.005,
+            "min_compared": 2900,
+            "years": [
+              2016,
+              2024
+            ]
+          },
+          "promoted": true,
+          "reasons": []
+        },
+        "release_time": "2026-02-25T19:00:32Z",
+        "terms_of_use": "",
+        "years": [
+          2016,
+          2020,
+          2024
+        ]
+      },
+      "license": "MIT Election Data and Science Lab (Harvard Dataverse); license terms are read from the Dataverse API at each pull and recorded in the manifest",
+      "rows": 3144,
+      "sha256": "8086d0d03f1a5bbb3ed0bf32b23a03cc53399afcc490a7321df0a0f0fa4c5270",
+      "status": "ok"
+    },
     "retail_price": {
       "attempted": "2026-09-28T20:55:00Z",
       "built": "2026-09-28T20:55:00Z",
