@@ -15,7 +15,8 @@
     "recheck_after_days": 1,
     "max_attempts": 3,
     "checkpoint_every": 25,
-    "skip_hosts": ["news.google.com"]
+    "skip_hosts": ["news.google.com"],
+    "max_runtime_s": 1800
   },
   "extract": {
     "timeout_s": 10,

@@ -39,7 +39,7 @@ The manifest holds the outcome of the last run:
 - `run_at`
 - `credentials`: `keys` or `anonymous`
 - `lookups`, `saves`
-- `stop_reason`: `complete`, `cap_reached` or `rate_limited`
+- `stop_reason`: `complete`, `cap_reached`, `rate_limited` or `time_budget` (the `max_runtime_s` wall-clock budget ran out; added 2026-10-02)
 - `stop_at_url`
 - `counts_by_status`
 - `resolvable`: URLs that are not `unresolved_redirect`

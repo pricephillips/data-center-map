@@ -86,7 +86,7 @@ HISTORY_CAP = 60
 DEFAULTS = {"max_lookups": 400, "max_saves": 150, "cdx_sleep_s": 1.0,
             "save_sleep_s": 6.0, "backoff_s": [10, 30, 90], "timeout_s": 30,
             "recheck_after_days": 1, "max_attempts": 3, "checkpoint_every": 25,
-            "skip_hosts": ["news.google.com"]}
+            "skip_hosts": ["news.google.com"], "max_runtime_s": 1800}
 
 URL_RE = re.compile(r"https?://[^\s'\"}\],;|]+")
 LIMIT_BODY = re.compile(r"(too many|rate limit|daily (capture )?limit|try again later)", re.I)
@@ -278,8 +278,15 @@ def plan_queue(urls: list[str], rows: dict[str, dict], cfg: dict,
 def run(http=urllib_http, feed_csv: str = FEED_CSV, out_csv: str = OUT_CSV,
         manifest: str = MANIFEST, cfg: dict | None = None, sleep=time.sleep,
         env=None, today: dt.date | None = None, dry_run: bool = False,
-        now: str | None = None) -> dict:
+        now: str | None = None, clock=time.monotonic) -> dict:
     cfg = {**DEFAULTS, **(cfg or load_config())}
+    # Wall-clock budget. The lookup and save caps bound the number of calls,
+    # not their duration: at 30 s timeouts and 10/30/90 s backoff a slow
+    # Internet Archive day ran every scheduled job into source-archive.yml's
+    # 45-minute timeout (four of four runs cancelled, 2026-09-29 to 10-02), and
+    # a cancelled job never reaches its commit step. Stopping here, between
+    # URLs, leaves time to write the state and commit it.
+    deadline = clock() + float(cfg["max_runtime_s"])
     today = today or dt.date.today()
     urls = cited_urls(feed_csv)
     rows = load_rows(out_csv)
@@ -301,6 +308,9 @@ def run(http=urllib_http, feed_csv: str = FEED_CSV, out_csv: str = OUT_CSV,
         for u in queue:
             if client.lookups >= int(cfg["max_lookups"]):
                 stop_reason, stop_at = "cap_reached", u
+                break
+            if clock() >= deadline:
+                stop_reason, stop_at = "time_budget", u
                 break
             prior = rows.get(u) or {**{k: "" for k in FIELDS}, "url": u,
                                     "method": "none", "attempts": "0"}
@@ -539,6 +549,16 @@ def selftest() -> int:
     check("max_lookups caps the batch and records where it stopped",
           capped["lookups"] == 2 and capped["stop_reason"] == "cap_reached"
           and capped["stop_at_url"] == "https://ex3.com/c")
+    state["calls"].clear()
+    ticks = iter(range(0, 10_000, 100))          # each clock() call advances 100 s
+    timed = run(http=http, feed_csv=feed, out_csv=os.path.join(td3, "t.csv"),
+                manifest=os.path.join(td3, "t.json"),
+                cfg=dict(cfg, max_runtime_s=250), sleep=slept.append, env={}, today=day1,
+                clock=lambda: next(ticks))
+    check("max_runtime_s stops between URLs, records where, and still writes state",
+          timed["stop_reason"] == "time_budget" and timed["lookups"] == 2
+          and timed["stop_at_url"] == "https://ex3.com/c"
+          and os.path.exists(os.path.join(td3, "t.csv")))
     state["calls"].clear()
     dry = run(http=http, feed_csv=feed, out_csv=os.path.join(td3, "none.csv"),
               manifest=os.path.join(td3, "none.json"), cfg=cfg, env={}, today=day1,
