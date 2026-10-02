@@ -8,10 +8,11 @@ name: Render plates
 # route picks the runner and wgpu backend of the probe leg that won (see
 # specs/013-terrain-plates/research.md, R4). preview renders at reduced
 # samples and labels the output "preview" in the filename and sidecar. The
-# default is full quality: the Spalding print render took 35.7 minutes on a
-# 4-vCPU lavapipe machine (research R4), inside the 60-minute budget. Switch
-# the default to preview if a runner measurement (plate-probe full_leg) ever
-# exceeds it.
+# default is full quality: on route B the Spalding print render took 57.6
+# minutes on the runner (plate-probe run 37061768374, research R4), inside the
+# 60-minute budget but with little margin, so one full plate fits per
+# dispatch; use preview=true for several. Route D (macos-14 Metal) rendered
+# the same plate in 4.9 minutes and is the faster choice when Price prefers it.
 #
 # workflow_dispatch only.
 

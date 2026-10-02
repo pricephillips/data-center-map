@@ -35,7 +35,7 @@
 - [x] T016 [US4] Legs B and C reproduced locally on Ubuntu 24.04 with Mesa; rule applied; full print render measured on leg B (research R4)
 - [x] T017 [US4] `.github/workflows/render-plates.yml` (workflow_dispatch only, artifacts only)
 - [x] T018 [US4] Self-hosted runner recorded as an option only (research R5); not set up
-- [ ] T019 [US4] Dispatch `plate-probe.yml` after merge (with `full_leg` = the winning leg) and update research R4 with the runner results (Price)
+- [x] T019 [US4] Dispatched `plate-probe.yml` (runs 37059805730, 37061768374, 37061771545); route `ci:B` confirmed, A fails on WARP, full renders B 57.6 min and D 4.9 min recorded in research R4; probe job timeout fixed for the `full_leg` job
 - [ ] T020 [US4] Only if every leg fails on the dispatch: build the local-render fallback (`scripts/render_plates_local.sh`, `scripts/plate_freshness.py --selftest`, `configs/plates/<id>.lock.json`, a pipeline.yml freshness step)
 
 ## Phase 6: User Story 5, timeline animation (P3)

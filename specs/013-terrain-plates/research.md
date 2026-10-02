@@ -76,45 +76,70 @@ applies the rule with `scripts/render_terrain_plate.py --probe-decide`
 (luminance standard deviation above 4) inside its timeout wins; none means the
 local-render fallback.
 
-The workflow cannot be dispatched from this session (it is not on the default
-branch and nothing may be pushed), so legs B and C were reproduced locally on
-Ubuntu 24.04, the `ubuntu-latest` image, after installing the same Mesa
-packages the legs install:
+### Runner results (2026-10-02)
 
-| Leg | Runner | Adapter reported | 512x512 render | Luminance std | Result |
-|---|---|---|---|---|---|
-| A | windows-latest, DX12 | not run (needs dispatch) | | | pending |
-| B | ubuntu, Vulkan | `llvmpipe (LLVM 20.1.2, 256 bits)`, Vulkan, Cpu, driver llvmpipe (Mesa lavapipe), software_fallback true | 5.2 s render, 6.2 s total | 21.9 | pass |
-| C | ubuntu, GL | `llvmpipe (LLVM 20.1.2, 256 bits)`, Gl, Cpu, software_fallback true | 7.8 s render, 8.4 s total | 23.5 | pass |
-| D | macos-14, Metal | not run (needs dispatch) | | | pending |
+Probe [run 37059805730](https://github.com/pricephillips/data-center-map/actions/runs/37059805730)
+on `main`, 512x512, the adapter each leg reported through `device_probe()`:
 
-**Decision recorded (automatic rule over the available records):** route
-`ci:B`. Provisional only in one respect: if leg A passes on the first real
-dispatch, the rule's A-first preference makes A the route, and
-`render-plates.yml` takes the leg as its `route` input, so that is an input
-change, not a code change. Either way a leg passes, so the fallback route
-(local renders plus `plate_freshness.py` lock files) is not built; it remains
-specified in spec US4 for the case where a real dispatch fails every leg.
+| Leg | Runner | Adapter reported | 512x512 probe | Result |
+|---|---|---|---|---|
+| A | windows-latest, DX12 | `Microsoft Basic Render Driver` (WARP) | 117 s, then error | **fail**: `RuntimeError: [Render] Render error: terrain PT ReSTIR reuse chain produced no valid reservoirs for a sun-lit scene` |
+| B | ubuntu-latest, Vulkan | `llvmpipe (LLVM 20.1.2, 256 bits)`, Cpu, Mesa 25.2.8 lavapipe, software_fallback true | 8.75 s | pass |
+| C | ubuntu-latest, GL | `llvmpipe (LLVM 20.1.2, 256 bits)`, Gl, Cpu, software_fallback true | 8.84 s | pass |
+| D | macos-14, Metal | `Apple Paravirtual device`, IntegratedGpu, software_fallback **false** | 7.01 s | pass |
 
-**Full print render on leg B (local, 4 vCPU, lavapipe).** 3000x2000 plate,
-2933x1637 map, spp 2, 64 to 1,024 frames:
+**Decision (the automatic rule, `decide` job):** route **`ci:B`**. A fails, so
+B is the first passing leg in A, B, C, D order. The local-render fallback
+(`render_plates_local.sh`, `plate_freshness.py`, lock files) stays unbuilt;
+it remains specified in US4 for the case where every leg fails.
+
+That run's full-render timing was lost: the probe job's own 10-minute limit
+cancelled the full print render step at 9.6 minutes, despite the step's
+70-minute limit. The job limit is now 80 minutes for the `full_leg` job only
+(other legs keep 10). The full renders were then re-measured from the branch
+carrying that fix:
+
+| Leg | Run | Full print render (3000x2000 plate, 2933x1637 map, spp 2, 64 to 1,024 frames, threshold 1e-3) |
+|---|---|---|
+| B | [37061768374](https://github.com/pricephillips/data-center-map/actions/runs/37061768374) | converged, **3,455 s render, 3,458 s total (57.6 minutes)**, luminance std 25.7 |
+| D | [37061771545](https://github.com/pricephillips/data-center-map/actions/runs/37061771545) | converged, **293 s render, 294 s total (4.9 minutes)**, luminance std 27.5 |
+
+What this means for `render-plates.yml`:
+
+- **Route B fits, barely.** The full print render on B finishes inside 60
+  minutes, so under the US4 rule `render-plates.yml` keeps full quality as its
+  default. The margin is about 2.4 minutes for one county plate, and the
+  runner was 61 percent slower than the local 4-vCPU measurement below. A
+  second config, or a slightly larger area, will not fit in one job (its
+  limit is 75 minutes). Render several plates with `preview=true`, or one
+  plate per dispatch.
+- **Leg D is the faster route by a factor of about 12.** The macos-14 runner
+  exposes a paravirtualized Apple GPU to Metal (not a software fallback), and
+  it renders the full plate in under 5 minutes. The rule's A, B, C, D order
+  put B first because the spec expected the Mac leg to be the least certain.
+  Switching CI to D is a decision for Price, not something the rule does on
+  its own: macOS minutes cost more than Linux minutes on GitHub's billing for
+  private repositories (this repository is public, so standard runners are
+  free either way), and D is a virtual GPU whose behavior may change with
+  the runner image. To use it today, dispatch `render-plates.yml` with
+  `route=D`; no code change is needed.
+- **WARP is not usable** for this renderer in forge3d 1.40.1: the ReSTIR pass
+  gets no valid reservoirs on the Basic Render Driver. Recheck on a forge3d
+  upgrade.
+
+### Earlier local measurements (Ubuntu 24.04 container, 4 vCPU)
+
+Before the workflow could be dispatched, legs B and C were reproduced locally
+with the same Mesa packages: B 5.2 s and C 7.8 s at 512x512, both passing. The
+local full print render on lavapipe also settled the sample settings:
 
 - With `variance_threshold` 2e-4 the render did not converge in 512 frames
   (variance 8.97e-4) and forge3d refused to return it after 8.3 minutes.
   forge3d's own default threshold, 1e-3, is now the plate default.
 - With 1e-3 and 512 frames, one tile still ended at 1.11e-3 (refused after
   16.5 minutes). `max_frames` is now 1,024.
-- With 1e-3 and up to 1,024 frames: converged, **2,142 s render, 2,145 s
-  total (35.7 minutes)**, luminance std 25.7. This is the measured full print
-  render on leg B, inside the 60-minute budget with about 40 percent headroom.
-- Reduced-sample preview (32 frames, spp 1), same size: 79 s render, 81 s
-  total.
-
-GitHub's standard Linux runner also has 4 vCPUs, so these times are the
-expected order on leg B; the dispatch input `full_leg` re-measures on the
-runner itself. Since a full print render fits inside 60 minutes,
-`render-plates.yml` renders full quality by default; `preview=true` is
-available and labels files and sidecars `preview`.
+- With 1e-3 and up to 1,024 frames: converged in 2,142 s (35.7 minutes).
+- Reduced-sample preview (32 frames, spp 1), same size: 79 s render.
 
 ## R5. Self-hosted runner on Price's Mac (option only, not set up)
 
@@ -131,5 +156,7 @@ from forks. If Price decides to use one later, the safeguards are:
    keychain or credentials.
 5. Repository setting "Require approval for all outside collaborators" kept on.
 
-Leg D (macos-14, Metal) would tell whether a GitHub-hosted Mac exposes its
-virtual GPU, which would make the self-hosted option unnecessary for Metal.
+Leg D answered the open question: the GitHub-hosted macos-14 runner exposes
+its paravirtualized GPU to Metal and renders the full plate in 4.9 minutes
+(R4). A Metal route therefore exists without a self-hosted runner, which
+removes the main reason to consider one.
