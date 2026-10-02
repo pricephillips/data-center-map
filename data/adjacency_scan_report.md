@@ -15,7 +15,7 @@ Adjacency is a search prompt, never evidence. Nothing in this queue is a finding
 - Priority 4, background: 618
 - Cross-state candidates (the Walker/Hamilton shape): 239
 - Small-jurisdiction candidates (population under 100,000): 951
-- Candidates with no automated agenda route: 1130
+- Candidates with no automated agenda route: 1129
 
 Small jurisdiction is a detection-difficulty tier, not a risk factor. Population stands in for whether a county has a newsroom that ingestion can see; it never enters a model.
 
@@ -61,7 +61,7 @@ Small jurisdiction is a detection-difficulty tier, not a risk factor. Population
 | 1 | WI | Wood County | 1 | Marathon County, WI (2026-08-25) | 38 | 1 | 0 | yes | ambiguous |
 | 1 | PA | Clinton County | 1 | Union County, PA (2026-08-21) | 42 | 1 | 0 | yes | ambiguous |
 | 1 | PA | Mifflin County | 1 | Union County, PA (2026-08-21) | 42 | 1 | 1 | yes | none |
-| 1 | NC | Guilford County | 1 | Alamance County, NC (2026-08-17) | 46 | 1 | 2 | no | unprobed |
+| 1 | NC | Guilford County | 1 | Alamance County, NC (2026-08-17) | 46 | 1 | 2 | no | legistar |
 | 1 | FL | Highlands County | 1 | DeSoto County, FL (2026-07-28) | 66 | 1 | 0 | no | none |
 
 ## Priorities 1 to 3 by state
