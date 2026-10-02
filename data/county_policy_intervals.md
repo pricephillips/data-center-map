@@ -26,11 +26,11 @@ Per-county interval on the enacted-restriction probability, cross Venn-Abers ove
 
 | statistic | value |
 | :-- | --: |
-| median interval width | 0.0955 |
-| p90 interval width | 0.1437 |
+| median interval width | 0.0957 |
+| p90 interval width | 0.1392 |
 | max interval width | 0.7027 |
-| counties with width over 0.10 | 1151 |
-| median width, counties with an enacted restriction | 0.1053 |
+| counties with width over 0.10 | 1107 |
+| median width, counties with an enacted restriction | 0.1014 |
 
 A wide interval is the model saying it does not know, which is information: those counties are where the enacted-restriction evidence is thinnest relative to profile. Any external use quotes the interval, never the point alone.
 
@@ -40,9 +40,9 @@ A wide interval is the model saying it does not know, which is information: thos
 
 | label | counties | share |
 | :-- | --: | --: |
-| `none_supported` | 2672 | 85.0% |
+| `none_supported` | 2671 | 85.0% |
 | `enacted_supported` | 5 | 0.2% |
-| `indeterminate` | 467 | 14.9% |
+| `indeterminate` | 468 | 14.9% |
 | `atypical` | 0 | 0.0% |
 
 - Empirical marginal coverage: 0.900 (nominal 0.90)
@@ -53,10 +53,10 @@ A wide interval is the model saying it does not know, which is information: thos
 
 | label | counties | share |
 | :-- | --: | --: |
-| `none_supported` | 2885 | 91.8% |
+| `none_supported` | 2886 | 91.8% |
 | `enacted_supported` | 18 | 0.6% |
 | `indeterminate` | 0 | 0.0% |
-| `atypical` | 241 | 7.7% |
+| `atypical` | 240 | 7.6% |
 
 - Empirical marginal coverage: 0.804 (nominal 0.80)
 - Coverage on counties WITH an enacted restriction: 0.035
