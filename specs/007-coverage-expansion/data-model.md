@@ -25,13 +25,13 @@ State transitions:
 | document_url | The row key: one row per linked document. |
 | sha256 | The content hash of the PDF bytes. It is the text-cache key, so two URLs serving the same PDF are read (and OCR'd) once. |
 | jurisdiction, state | From the feed row. |
-| text_source | `text_layer`, `ocr`, `ocr_unavailable`, `ocr_error`, `fetch_error`, `extractor_unavailable`, `too_large` or `not_pdf`. |
+| text_source | `text_layer`, `ocr`, `html`, `ocr_unavailable`, `ocr_error`, `fetch_error`, `extractor_unavailable`, `too_large` or `not_pdf`. `html` is an agenda served as a web page (Granicus `AgendaViewer.php`), indexed from its visible text when it has at least 400 non-space characters. |
 | pages | The page count, from pdfminer.six. |
 | text_chars | Non-space characters of the cached text. |
 | keyword_hits | The total number of matches of the fixed term list. |
 | matched_terms | The distinct terms matched, joined with `; `. |
 | processed_at | UTC ISO date. |
-| resolved_url | Set when `document_url` returned an HTML landing page, as CivicPlus `AgendaCenter/PreviousVersions/<id>` does. Holds the one same-host document link that was followed (agenda links before minutes), `none` when the page had no document link, or the link plus why it failed. A `not_pdf` row with a blank value predates this column and is retried once. |
+| resolved_url | Set when `document_url` returned an HTML page. One of: the same-host document link that was followed (CivicPlus `ViewFile`, Granicus `MetaViewer.php` or a `.pdf`; agenda links before minutes); `page` when the page itself was indexed as `html`; `no_document` when it had neither; or the link plus why it failed. A `not_pdf` row whose value is blank (written before landing pages were followed) or `none` (written before HTML pages were read) is retried once, including rows the feed has since dropped. |
 
 Rows with `ocr_unavailable`, `fetch_error` or `extractor_unavailable` are
 retried on the next run. Every other status is final for that URL. The text itself is kept
