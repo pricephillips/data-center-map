@@ -2,10 +2,11 @@ name: Workflow Lint
 
 # Lints every workflow on change (spec 004, US2).
 #   actionlint  BLOCKING. Syntax, expressions, and shellcheck on run: blocks.
-#   zizmor      REPORT-ONLY. Security audit; findings go to the job summary.
-#               The high-severity findings were fixed when this was added
-#               (template injection, unpinned actions, workflow_run); the
-#               remaining medium ones (artipacked) are listed, not blocking.
+#   zizmor      Security audit. Every finding goes to the job summary;
+#               high severity BLOCKS (since 2026-10-02). The high findings
+#               were fixed when this was added (template injection, unpinned
+#               actions, workflow_run); medium ones (artipacked) are listed,
+#               not blocking.
 
 on:
   push:
@@ -34,13 +35,12 @@ jobs:
   zizmor:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    continue-on-error: true
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
-      - name: zizmor (report-only)
+      - name: zizmor (report-only, all severities)
         run: |
           uvx zizmor --offline --format plain .github/workflows > zizmor.txt || true
           {
@@ -49,3 +49,9 @@ jobs:
             cat zizmor.txt
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+      # High severity blocks. The pinning and template-injection fixes landed
+      # with spec 004, and report-only let two unpinned actions back in
+      # (fetch-census-geo-ref.yml, 2026-10-02). Medium findings (artipacked)
+      # stay report-only.
+      - name: zizmor (BLOCKING on high severity)
+        run: uvx zizmor --offline --min-severity high .github/workflows
