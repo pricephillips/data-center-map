@@ -312,7 +312,12 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 0
-- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+- Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 89
+  - candidate docket (tax increment): United States v. Additional Rights with respect to an existing easement and right-of-way over land in Sumner County, TN, M.D. Tenn. (2007-06-18)
+  - candidate docket (tax increment): National Association for the Advancement of Colored People v. Reeves, S.D. Miss. (2023-04-21)
+  - candidate docket (tax increment): United States v. An Easement and Right-Of-Way Over 2.49 Acres of Land, More or Less, In Sumner County, Tennessee, M.D. Tenn. (2011-04-01)
+  - candidate docket (tax increment): Specialty Retail Shops Holding Corp. and Pamida Transportation, LLC, Bankr. D. Neb. (2019-01-16)
+  - candidate docket (tax increment): Wisconsin & Milwaukee Hotel LLC, Bankr. E.D. Wis. (2024-04-09)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Grant, 
@@ -826,7 +831,7 @@ Proxy score 4. Local meeting activity on file for the county. A 1 is never assig
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 2
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
-  - local meeting: Fri, 02 Oct 2026 09:36:56 -0700 Cochise County Opioid Settlement Advisory Committee Meeting (civicplus_rss)
+  - local meeting: Fri, 02 Oct 2026 13:04:12 -0700 Cochise County Opioid Settlement Advisory Committee Meeting (civicplus_rss)
   - local meeting: Thu, 01 Oct 2026 08:36:47 -0700 Special JPA Board Meeting (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
@@ -1790,9 +1795,13 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 1
+- Local meeting items on file: 8
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
-  - local meeting: Sat, 19 Sep 2026 09:37:41 -0500 General Administration Committee (civicplus_rss)
+  - local meeting: Fri, 02 Oct 2026 16:49:48 -0500 Board of Commissioners Meeting (civicplus_rss)
+  - local meeting: Fri, 02 Oct 2026 16:47:02 -0500 Board of Commissioners Meeting (civicplus_rss)
+  - local meeting: Fri, 02 Oct 2026 16:45:13 -0500 Board of Commissioners Meeting (civicplus_rss)
+  - local meeting: Fri, 02 Oct 2026 16:42:06 -0500 Board of Commissioners Meeting (civicplus_rss)
+  - local meeting: Fri, 02 Oct 2026 16:39:13 -0500 Board of Commissioners 12PM Public Hearing (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Habersham County, GA
@@ -3442,11 +3451,16 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Boyle County, KY
 
-Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 0
+- Local meeting items on file: 9
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Mon, 28 Sep 2026 16:40:38 -0500 Fiscal Court Regular Meeting Agenda (PDF) (civicplus_rss)
+  - local meeting: Mon, 28 Sep 2026 16:39:54 -0500 Fiscal Court Regular Meeting Agenda (PDF) (civicplus_rss)
+  - local meeting: Mon, 28 Sep 2026 16:39:34 -0500 Fiscal Court Regular Meeting Agenda (PDF) (civicplus_rss)
+  - local meeting: Mon, 28 Sep 2026 16:39:06 -0500 Fiscal Court Regular Meeting Agenda (PDF) (civicplus_rss)
+  - local meeting: Mon, 28 Sep 2026 16:38:41 -0500 Fiscal Court Regular Meeting Agenda (PDF) (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Breckinridge County, KY
@@ -3793,8 +3807,10 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 1
+- Local meeting items on file: 3
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Fri, 02 Oct 2026 16:10:10 -0500 Agenda of the October 6, 2026 County Commissioners Meeting (civicplus_rss)
+  - local meeting: Fri, 02 Oct 2026 16:00:18 -0500 10/9/2026 Board Meeting (civicplus_rss)
   - local meeting: Thu, 01 Oct 2026 12:04:59 -0500 Planning Commission Public Comprehensive Plan Outreach Agenda October 1, 2026 (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
@@ -4343,7 +4359,7 @@ Proxy score 4. Local meeting activity on file for the county. A 1 is never assig
 Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 9
+- Local meeting items on file: 8
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
   - local meeting: Fri, 02 Oct 2026 09:43:03 -0600 Carver City Council Meeting - October 5, 2026 (civicplus_rss)
   - local meeting: Fri, 02 Oct 2026 09:19:52 -0600 Carver City Council - Work Session - October 5, 2026 (civicplus_rss)
@@ -4553,14 +4569,15 @@ Proxy score 2. A local tax-incentive record for the county is already flagged as
 Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 5
+- Local meeting items on file: 6
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Fri, 02 Oct 2026 15:39:45 -0600 Public Notice 10-06-2026
+Cass County Commissioners Bob Huston and Jeff Fletcher will attend the 2026 MACCTO Conference in Springfield, Missouri. (civicplus_rss)
   - local meeting: Fri, 02 Oct 2026 08:52:16 -0600 Commission Meeting Agenda & Packet 10-07-2026 at 12:00 PM (civicplus_rss)
   - local meeting: Wed, 30 Sep 2026 13:24:12 -0600 Commission Meeting Agenda & Packet 09.30.2026 at 12:00 PM (civicplus_rss)
   - local meeting: Mon, 28 Sep 2026 11:55:29 -0600 Work Session 10.01.2026 at 8:30 AM
 The Cass County Commission will hold a work session with Building Codes and Zoning Director Valerie McCubbin and Robert Schumacher regarding septic matters. (civicplus_rss)
   - local meeting: Wed, 23 Sep 2026 15:08:22 -0600 Commission Meeting Agenda & Packet 09.23.2026 (civicplus_rss)
-  - local meeting: Tue, 22 Sep 2026 08:31:55 -0600 Closed Work Session 09.23.2026 at 9:00 AM (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Cedar County, MO
@@ -4993,11 +5010,11 @@ Proxy score 4. Local meeting activity on file for the county. A 1 is never assig
 - Local tax-incentive records on file: 0
 - Local meeting items on file: 7
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Fri, 02 Oct 2026 16:04:28 -0500 October 8, 2026 Durham City Council Work Session (civicplus_rss)
   - local meeting: Fri, 02 Oct 2026 05:51:16 -0500 October 5, 2026 Durham City Council Meeting (civicplus_rss)
   - local meeting: Thu, 01 Oct 2026 16:53:20 -0500 Durham Environmental Affairs Board Meeting Agenda - October 7, 2026 (civicplus_rss)
   - local meeting: Wed, 30 Sep 2026 13:58:44 -0500 Joint City-County Planning Committee Meeting Agenda - October 7, 2026 (civicplus_rss)
   - local meeting: Wed, 30 Sep 2026 10:41:42 -0500 Durham Planning Commission Meeting Agenda - October 13, 2026 (civicplus_rss)
-  - local meeting: Thu, 24 Sep 2026 14:06:51 -0500 Durham Board of Adjustment Meeting Agenda - September 22, 2026 (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Edgecombe County, NC
@@ -7234,13 +7251,13 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 14
+- Local meeting items on file: 15
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Fri, 02 Oct 2026 15:16:59 -0600 Election Commission (civicplus_rss)
   - local meeting: Fri, 02 Oct 2026 11:01:29 -0600 Board of Zoning Appeals (civicplus_rss)
   - local meeting: Fri, 02 Oct 2026 10:44:16 -0600 Planning Commission (civicplus_rss)
   - local meeting: Fri, 02 Oct 2026 08:42:09 -0600 Capital Outlay Committee Meeting (civicplus_rss)
   - local meeting: Fri, 02 Oct 2026 08:38:11 -0600 Capital Outlay Committee Meeting (civicplus_rss)
-  - local meeting: Fri, 25 Sep 2026 11:30:47 -0600 Budget & Finance Committee (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Cumberland County, TN
@@ -7696,15 +7713,14 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 11
+- Local meeting items on file: 12
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Fri, 02 Oct 2026 14:58:05 -0600 Zoning Board of Adjustment-8:30 AM (civicplus_rss)
   - local meeting: Thu, 01 Oct 2026 15:26:51 -0600 Community Development & Services Board Regular Meeting (civicplus_rss)
   - local meeting: Thu, 01 Oct 2026 13:44:17 -0600 Board Bylaws and Policies Committee of the Electric Utility Board - 9:30 AM (civicplus_rss)
   - local meeting: Wed, 30 Sep 2026 15:31:16 -0600 Appointments Advisory Board - 11:30 AM (civicplus_rss)
   - local meeting: Fri, 25 Sep 2026 11:03:24 -0600 Building Board of Appeals 2:00 PM
 Start time of this meeting has changed for just this meeting. (civicplus_rss)
-  - local meeting: Fri, 25 Sep 2026 10:54:57 -0600 Building Board of Appeals
-Meeting time has been adjusted for this meeting to 2:00p.m. (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Lubbock County, TX
@@ -7712,15 +7728,14 @@ Meeting time has been adjusted for this meeting to 2:00p.m. (civicplus_rss)
 Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 11
+- Local meeting items on file: 12
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
+  - local meeting: Fri, 02 Oct 2026 14:58:05 -0600 Zoning Board of Adjustment-8:30 AM (civicplus_rss)
   - local meeting: Thu, 01 Oct 2026 15:26:51 -0600 Community Development & Services Board Regular Meeting (civicplus_rss)
   - local meeting: Thu, 01 Oct 2026 13:44:17 -0600 Board Bylaws and Policies Committee of the Electric Utility Board - 9:30 AM (civicplus_rss)
   - local meeting: Wed, 30 Sep 2026 15:31:16 -0600 Appointments Advisory Board - 11:30 AM (civicplus_rss)
   - local meeting: Fri, 25 Sep 2026 11:03:24 -0600 Building Board of Appeals 2:00 PM
 Start time of this meeting has changed for just this meeting. (civicplus_rss)
-  - local meeting: Fri, 25 Sep 2026 10:54:57 -0600 Building Board of Appeals
-Meeting time has been adjusted for this meeting to 2:00p.m. (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Marshall, TX
@@ -8912,12 +8927,11 @@ Proxy score 5. No local incentive-adjacent record and no local meeting activity 
 
 ### Incentive execution risk proxy: Berkeley County, WV
 
-Proxy score 4. Local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
+Proxy score 5. No local incentive-adjacent record and no local meeting activity on file for the county. A 1 is never assigned automatically; see module docstring.
 
 - Local tax-incentive records on file: 0
-- Local meeting items on file: 1
+- Local meeting items on file: 0
 - Candidate dispute docket hits (unscored research leads, not scoped to in-state courts): 0
-  - local meeting: Fri, 18 Sep 2026 15:11:54 -0500 Berkeley County Emergency Ambulance Authority Meeting September 24, 2026 (civicplus_rss)
 - This proxy reads local meeting activity and candidate court dockets only. Local EDO posture, staff recommendation, and community-relations context are not covered and must be researched separately.
 
 ### Incentive execution risk proxy: Logan County, WV
