@@ -230,6 +230,13 @@ def http_get(url, headers=None, timeout=300, retries=3) -> bytes:
                 return resp.read()
         except urllib.error.HTTPError as exc:
             last = f"HTTP {exc.code}"
+            try:
+                body = exc.read(300).decode("utf-8", "replace")
+            except Exception:
+                body = ""
+            if body.strip():
+                # The server's reason (Dataverse explains a 400 in its body).
+                last += ": " + " ".join(body.split())[:200]
             if exc.code in (400, 401, 403, 404):
                 break
         except (urllib.error.URLError, TimeoutError, ConnectionError) as exc:
@@ -1053,6 +1060,22 @@ def read_delimited(raw: bytes) -> list:
     return list(csv.DictReader(io.StringIO(text), delimiter="\t" if head.count("\t") > head.count(",") else ","))
 
 
+def dataverse_download_urls(base: str, df: dict) -> list:
+    """Download URLs for one Dataverse file, best first.
+
+    ?format=original exists only for files Dataverse ingested as tabular data
+    (their metadata carries originalFileFormat). For a file stored as uploaded,
+    such as a large CSV it did not ingest, the same request is an HTTP 400:
+    the first live MEDSL pull (2026-10-02, run 37060473808) failed exactly so.
+    So the plain download is always the fallback, and the only URL when no
+    original exists.
+    """
+    plain = f"{base}/api/access/datafile/{df['id']}"
+    if df.get("originalFileFormat"):
+        return [f"{plain}?format=original", plain]
+    return [plain]
+
+
 def dataverse_file(cfg) -> tuple[bytes, dict]:
     base = cfg["dataverse"].rstrip("/")
     meta = json.loads(http_get(f"{base}/api/datasets/:persistentId/?persistentId={cfg['doi']}"))
@@ -1066,7 +1089,7 @@ def dataverse_file(cfg) -> tuple[bytes, dict]:
             break
     if pick is None:
         raise SourceError(f"no file matching {cfg['file_match']!r} in {cfg['doi']}")
-    raw = http_get(f"{base}/api/access/datafile/{pick['id']}?format=original")
+    raw, _ = first_ok(dataverse_download_urls(base, pick))
     lic = ver.get("license")
     lic_name = lic.get("name", "") if isinstance(lic, dict) else str(lic or "")
     lic_uri = lic.get("uri", "") if isinstance(lic, dict) else ""
@@ -1464,6 +1487,12 @@ def selftest() -> int:
             check("county_votes.json written LF, compact", b"\r" not in open(vj, "rb").read())
     finally:
         gl["VOTES_JSON"], gl["VOTES_LEGACY_JSON"] = saved_v
+
+    u = dataverse_download_urls("https://dv", {"id": 7, "originalFileFormat": "text/csv"})
+    check("an ingested Dataverse file tries format=original, then the plain download",
+          u == ["https://dv/api/access/datafile/7?format=original", "https://dv/api/access/datafile/7"])
+    check("a file stored as uploaded uses only the plain download",
+          dataverse_download_urls("https://dv", {"id": 7}) == ["https://dv/api/access/datafile/7"])
 
     import inspect
     src_code = inspect.getsource(dataverse_file)
