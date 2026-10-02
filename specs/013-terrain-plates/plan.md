@@ -25,7 +25,7 @@ freshness step) is specified in US4 but not built, because its precondition
 **Storage**: `.cache/dem/<key>.npz` (gitignored); `outputs/plates/` (gitignored); configs in `configs/plates/`
 **Testing**: `--selftest` with a mocked render (no GPU, no network): config validation, overlay filtering, vocabulary, composition, cache, decision rule
 **Target Platform**: Price's Mac (Metal) and GitHub-hosted runners through a software wgpu adapter
-**Performance Goals**: a county plate in under three minutes with a warm cache (SC-001 is for Price's Mac with Metal; on 4-vCPU lavapipe a preview takes 81 s and a full print render 35.7 min, research R4)
+**Performance Goals**: a county plate in under three minutes with a warm cache (SC-001 is for Price's Mac with Metal; on GitHub runners a full print render takes 57.6 min on route B, lavapipe, and 4.9 min on leg D, paravirtual Metal; research R4)
 **Constraints**: no Pro APIs; inputs from committed files and the config only; LF; no em-dashes; title states the finding
 **Scale/Scope**: one fixture plate (Spalding, FIPS 13255); configs added per engagement
 

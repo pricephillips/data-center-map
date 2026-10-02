@@ -91,7 +91,10 @@ jobs:
             os: macos-14
             backend: metal
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
+    # 10 minutes per leg (spec 013 US4); the probe step itself is capped at 8.
+    # The full_leg job needs room for the full print render step (70), or the
+    # job limit cancels it first (run 37059805730 lost its timing that way).
+    timeout-minutes: ${{ inputs.full_leg == matrix.leg && 80 || 10 }}
     continue-on-error: true
     defaults:
       run:
