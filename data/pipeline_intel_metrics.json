@@ -1,5 +1,5 @@
 {
- "_generated": "2026-10-02",
+ "_generated": "2026-10-03",
  "_note": "Descriptive shares with their denominators. Decided means a terminal lifecycle outcome (blocked_confirmed, restricted_conditional, advanced_confirmed); block rates are observed among those, not effects. Estimated MW is an acreage-based range for projects reporting no capacity and is never added into reported totals.",
  "totals": {
   "projects": 464,
@@ -1077,9 +1077,9 @@
   {
    "screen_tier": "Low",
    "projects": 167,
-   "mw_reported": 52614,
-   "mw_reported_n": 79,
-   "mw_est_unreported": 34211,
+   "mw_reported": 50614,
+   "mw_reported_n": 78,
+   "mw_est_unreported": 35185,
    "phase_pending": 99,
    "phase_advancing": 49,
    "phase_blocked": 19,
@@ -1094,9 +1094,9 @@
   {
    "screen_tier": "Guarded",
    "projects": 162,
-   "mw_reported": 35908,
-   "mw_reported_n": 66,
-   "mw_est_unreported": 45962,
+   "mw_reported": 37908,
+   "mw_reported_n": 67,
+   "mw_est_unreported": 44988,
    "phase_pending": 102,
    "phase_advancing": 39,
    "phase_blocked": 21,
@@ -1320,14 +1320,13 @@
  "county_risk": {
   "projects_by_restriction_decile": {
    "2": 1,
-   "3": 1,
-   "4": 2,
-   "5": 5,
+   "4": 1,
+   "5": 7,
    "6": 9,
    "7": 16,
-   "8": 26,
-   "9": 72,
-   "10": 331
+   "8": 23,
+   "9": 74,
+   "10": 332
   },
   "projects_in_top3_deciles": 429,
   "mw_in_top3_deciles": 105920
@@ -1335,8 +1334,8 @@
  "corroboration": {
   "distribution": {
    "1": 56,
-   "2": 193,
-   "3": 184,
+   "2": 194,
+   "3": 183,
    "4": 31
   },
   "single_source_projects": 56,
@@ -1344,7 +1343,7 @@
    "tracker": 464,
    "local_record": 224,
    "cited_sources": 373,
-   "news": 25,
+   "news": 24,
    "colocated_generation": 6,
    "federal_air_permit": 26
   }
@@ -1913,8 +1912,8 @@
   ]
  },
  "queues": {
-  "news_new_candidates": 1037,
-  "news_possible_matches": 35,
+  "news_new_candidates": 1060,
+  "news_possible_matches": 34,
   "air_permits_unmatched": 184,
   "air_permits_matched": 32
  }
