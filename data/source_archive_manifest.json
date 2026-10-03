@@ -1,22 +1,22 @@
 {
-  "run_at": "2026-10-02T21:21:27Z",
+  "run_at": "2026-10-03T15:15:47Z",
   "credentials": "keys",
   "cited_urls": 5714,
-  "lookups": 53,
-  "saves": 7,
-  "availability_fallbacks": 34,
+  "lookups": 43,
+  "saves": 18,
+  "availability_fallbacks": 27,
   "stop_reason": "time_budget",
-  "stop_at_url": "https://arkansasadvocate.com/2025/12/12/fear-of-missing-out-on-data-center-boom-leads-arkansas-officials-to-ignore-hard-questions/",
+  "stop_at_url": "https://baxtel.com/data-center/amazon-sunbury-ohio",
   "counts_by_status": {
-    "archived": 56,
-    "requested": 0,
-    "not_archived": 52,
+    "archived": 81,
+    "requested": 3,
+    "not_archived": 67,
     "unresolved_redirect": 0,
     "failed": 0
   },
-  "resolvable": 108,
-  "archived": 56,
-  "coverage": 0.5185,
+  "resolvable": 151,
+  "archived": 81,
+  "coverage": 0.5364,
   "history": [
     {
       "run_at": "2026-10-02T20:13:01Z",
@@ -30,6 +30,13 @@
       "archived": 56,
       "resolvable": 108,
       "coverage": 0.5185,
+      "stop_reason": "time_budget"
+    },
+    {
+      "run_at": "2026-10-03T15:15:47Z",
+      "archived": 81,
+      "resolvable": 151,
+      "coverage": 0.5364,
       "stop_reason": "time_budget"
     }
   ]
